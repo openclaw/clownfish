@@ -31,6 +31,14 @@ Run locally without calling Codex:
 npm run worker -- jobs/openclaw/cluster-001.md --mode plan --dry-run
 ```
 
+Apply a reviewed execute result:
+
+```bash
+CLOWNFISH_ALLOW_EXECUTE=1 npm run apply-result -- jobs/openclaw/cluster-001.md --latest
+```
+
+`apply-result` is the only path that mutates GitHub. It re-fetches the target issue/PR, verifies `target_updated_at`, skips maintainer-authored items, posts an idempotent close comment, then closes only duplicate, superseded, or fixed-by-candidate actions.
+
 Dispatch one worker:
 
 ```bash
@@ -71,5 +79,7 @@ Optional:
 - workflow input `mode=execute`
 - job frontmatter `mode: execute`
 - `CLOWNFISH_ALLOW_EXECUTE=1`
+
+In execute mode Codex still returns JSON only. Projectclownfish applies safe closures deterministically from that JSON, using the ClawSweeper-style live-state and idempotency checks.
 
 Start with `plan` over a batch of clusters. Promote only boring, obvious work to `execute`.

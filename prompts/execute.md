@@ -1,24 +1,27 @@
 # Execute Mode
 
-Execute only the actions that are explicitly allowed by the job.
+Execute mode still returns structured JSON first. Do not mutate GitHub directly.
 
-Before each mutation:
+The runner applies safe closure actions after your JSON passes validation. Your job is to classify the cluster and emit auditable actions that the deterministic GitHub applicator can replay.
 
-1. re-fetch live state;
-2. check if the action already happened;
-3. build an idempotency key;
-4. perform the smallest safe mutation;
-5. record the before/after state.
+For each target action, include:
 
-Allowed mutation commands may include:
+- `target`: issue/PR ref like `#123`
+- `action`: one of `keep_canonical`, `keep_related`, `keep_independent`, `merge_candidate`, `fix_needed`, `needs_human`, `close_duplicate`, `close_superseded`, or `close_fixed_by_candidate`
+- `classification`: one of `canonical`, `duplicate`, `related`, `superseded`, `independent`, `fixed_by_candidate`, or `needs_human`
+- `target_kind`: `issue` or `pull_request`
+- `target_updated_at`: the live GitHub `updatedAt`/`updated_at` value you fetched for the target
+- `canonical`, `duplicate_of`, or `candidate_fix` when the close depends on another issue/PR
+- `comment`: the exact close comment you recommend, preserving contributor credit and linking the canonical or candidate fix
+- `idempotency_key`: stable key such as `projectclownfish:<cluster_id>:<target>:<action>:<canonical-or-fix>`
+- `evidence`: short concrete evidence strings
 
-- `gh issue comment`
-- `gh issue close`
-- `gh issue edit --add-label`
-- `gh pr comment`
-- `gh pr close`
-- `gh pr merge`
+The applicator only auto-closes:
 
-Never force-push, rewrite contributor branches, or bypass failing checks unless the job explicitly says so and the policy allows it.
+- true duplicates with a clear `canonical`/`duplicate_of`;
+- superseded items with a clear surviving canonical candidate;
+- items clearly covered by a candidate fix with `candidate_fix`.
 
-Return structured JSON only.
+Everything else should be `planned` as non-mutating or escalated as `needs_human`.
+
+Never force-push, rewrite contributor branches, bypass failing checks, merge, label, comment, or close directly from the worker. Return structured JSON only.

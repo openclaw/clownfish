@@ -4,6 +4,7 @@ Only close when:
 
 - the item is open;
 - it is a true duplicate or superseded by a clear canonical item;
+- it is clearly covered by a candidate fix that should own validation and follow-up;
 - a clear comment has been posted first;
 - the comment preserves credit and gives a reopen path;
 - the action is allowed by the job frontmatter.
@@ -24,3 +25,5 @@ Never close:
 - active maintainer discussion;
 - assigned work in progress;
 - contributor PR with useful code that should be merged or credited.
+
+Auto-closure payloads must include `target_updated_at`. The applicator will re-fetch live GitHub state and skip the close if the target changed after review.

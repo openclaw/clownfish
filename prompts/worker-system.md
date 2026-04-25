@@ -23,7 +23,7 @@ Before action:
 Execution guard:
 
 - In `plan` mode, do not mutate GitHub.
-- In `execute` mode, mutate only if the job allows the action and the evidence is clear.
+- In `execute` mode, do not mutate GitHub directly; emit structured actions for the applicator.
 - If any safety condition is not met, return `needs_human`.
 
 Final answer must match `schemas/codex-result.schema.json`.

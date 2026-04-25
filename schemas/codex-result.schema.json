@@ -31,13 +31,65 @@
             "type": "string"
           },
           "action": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "keep_canonical",
+              "keep_related",
+              "keep_independent",
+              "merge_candidate",
+              "fix_needed",
+              "needs_human",
+              "close",
+              "close_duplicate",
+              "close_superseded",
+              "close_fixed_by_candidate",
+              "label",
+              "comment"
+            ]
           },
           "status": {
             "enum": ["planned", "executed", "skipped", "blocked", "failed"]
           },
           "idempotency_key": {
             "type": "string"
+          },
+          "classification": {
+            "enum": [
+              "canonical",
+              "duplicate",
+              "related",
+              "superseded",
+              "independent",
+              "fixed_by_candidate",
+              "needs_human"
+            ]
+          },
+          "target_kind": {
+            "enum": ["issue", "pull_request"]
+          },
+          "target_updated_at": {
+            "type": "string"
+          },
+          "canonical": {
+            "type": "string",
+            "pattern": "^#?[0-9]+$"
+          },
+          "duplicate_of": {
+            "type": "string",
+            "pattern": "^#?[0-9]+$"
+          },
+          "candidate_fix": {
+            "type": "string",
+            "pattern": "^#?[0-9]+$"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": ["string", "object"]
+            }
           },
           "reason": {
             "type": "string"
