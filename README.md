@@ -1,91 +1,91 @@
-# projectclownfish
+# ProjectClownfish
 
-Private cluster-ops control repo for farming GitHub issue/PR dedupe work to Codex workers.
+ProjectClownfish is a conservative OpenClaw maintainer tool for one-cluster issue and PR cleanup.
 
-The repo stays deliberately small:
+It takes a curated GitHub issue/PR cluster, asks a Codex worker to classify the items, and applies only narrow, auditable cleanup actions when the evidence is strong.
 
-- Markdown cluster job files are the control plane.
-- GitHub Actions or Blacksmith runners are the compute plane.
-- Codex workers use repo-local prompts and skills.
-- Results land as artifacts and structured JSON.
+Allowed automated close reasons:
 
-## Quick Start
+- duplicate of a clear canonical thread
+- superseded by a clear canonical thread
+- fixed by a specific candidate fix
 
-Create a job:
+Everything else stays open or is escalated for maintainer review.
 
-```bash
-cp jobs/openclaw/cluster-example.md jobs/openclaw/cluster-001.md
-$EDITOR jobs/openclaw/cluster-001.md
-```
+## Status
 
-Validate and render locally:
+ProjectClownfish is intentionally smaller than ClawSweeper. ClawSweeper scans the whole OpenClaw backlog on a cadence; ProjectClownfish handles targeted clusters that were already grouped by a human, ghcrawl, or another dedupe tool.
 
-```bash
-npm run validate:job -- jobs/openclaw/cluster-001.md
-npm run render -- jobs/openclaw/cluster-001.md --mode plan
-npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
-```
+The default workflow is proposal-first. It does not comment or close unless a job is explicitly promoted and the deterministic applicator confirms live GitHub state has not changed.
 
-Run locally without calling Codex:
+## How It Works
 
-```bash
-npm run worker -- jobs/openclaw/cluster-001.md --mode plan --dry-run
-```
+Each cluster job:
 
-Apply a reviewed execute result:
+1. Starts from one markdown job file under `jobs/`.
+2. Hydrates the listed issue/PR refs and first-hop linked refs.
+3. Builds a cluster plan and fix artifact for autonomous jobs.
+4. Runs Codex with repo-local policy prompts and JSON output schema.
+5. Writes structured run artifacts under `.projectclownfish/runs/`.
+6. Applies only safe close/comment actions through `scripts/apply-result.mjs`.
 
-```bash
-CLOWNFISH_ALLOW_EXECUTE=1 npm run apply-result -- jobs/openclaw/cluster-001.md --latest
-```
+Codex does not receive a GitHub write token. The worker can inspect GitHub state, but it returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks maintainer-authored items, writes an idempotent close comment, and closes only supported duplicate/superseded/fixed-by-candidate actions.
 
-`apply-result` is the only path that mutates GitHub. It re-fetches the target issue/PR, verifies `target_updated_at`, skips maintainer-authored items, posts an idempotent close comment, then closes only duplicate, superseded, or fixed-by-candidate actions.
-
-Dispatch one worker:
-
-```bash
-gh workflow run cluster-worker.yml \
-  -f job=jobs/openclaw/cluster-001.md \
-  -f mode=plan \
-  -f runner=ubuntu-latest
-```
-
-ClawSweeper parity uses `ubuntu-latest` and Node 24. Blacksmith is optional, not the default. If you intentionally want a non-parity hosted runner, pass its label:
-
-```bash
-gh workflow run cluster-worker.yml \
-  -f job=jobs/openclaw/cluster-001.md \
-  -f mode=plan \
-  -f runner=blacksmith-4vcpu-ubuntu-2404
-```
-
-The workflow queues duplicate runs for the same job path and mode instead of running them concurrently.
-
-## Secrets
-
-Required for real worker runs:
-
-- `CLOWNFISH_READ_GH_TOKEN`: read-only GitHub token for worker planning and Codex `gh` inspection.
-- `CLOWNFISH_GH_TOKEN`: write GitHub token used only by `apply-result` for reviewed close/comment actions.
-- `OPENAI_API_KEY`: OpenAI API key for Codex CLI when the runner does not already have auth.
-- `CODEX_API_KEY`: same key for `codex exec` auth. The workflow falls back to `OPENAI_API_KEY` when this is unset, but setting both matches Codex CI behavior.
-
-Optional:
-
-- `CLOWNFISH_ALLOWED_OWNER`: defaults to `openclaw`.
-- `CLOWNFISH_ALLOW_EXECUTE`: set to `1` only for execute jobs.
+Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24 and `ubuntu-latest` for ClawSweeper parity; other hosted runners are opt-in.
 
 ## Modes
 
-`plan` produces action recommendations only.
+`plan` produces recommendations only.
 
-`execute` and `autonomous` are gated by all of these:
+`execute` can apply reviewed safe close actions from structured JSON.
 
-- workflow input `mode=execute` or `mode=autonomous`
-- job frontmatter with the same mode
-- `CLOWNFISH_ALLOW_EXECUTE=1`
+`autonomous` adds live cluster preflight and fix-artifact generation. It may recommend a canonical fix path, but direct mutation still goes through the applicator.
 
-In execute and autonomous mode Codex still returns JSON only. Projectclownfish applies safe closures deterministically from that JSON, using the ClawSweeper-style live-state and idempotency checks.
+Any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should become `needs_human`.
 
-`autonomous` also builds a live cluster preflight and fix artifact. It may recommend canonical fixes, merge paths, and post-merge closeouts, but direct GitHub mutations still flow through `apply-result`.
+## Local Run
 
-Start with `plan` over a batch of clusters. Promote boring, obvious closeout work to `execute`; use `autonomous` for clusters where duplicate closeout and canonical fix planning should happen together.
+Requires Node 24.
+
+Validate jobs:
+
+```bash
+npm run validate
+```
+
+Render a prompt:
+
+```bash
+npm run render -- jobs/openclaw/cluster-example.md --mode plan
+```
+
+Dry-run a worker without calling Codex:
+
+```bash
+npm run worker -- jobs/openclaw/cluster-example.md --mode plan --dry-run
+```
+
+Build an offline autonomous artifact:
+
+```bash
+npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
+```
+
+## Checks
+
+```bash
+npm run validate
+for f in scripts/*.mjs; do node --check "$f" || exit 1; done
+git diff --check
+```
+
+## GitHub Actions Setup
+
+The workflow needs:
+
+- Codex/OpenAI authentication for model execution
+- a read-only GitHub token for worker inspection
+- a separate write-scoped GitHub token for the deterministic applicator
+- an execution gate that defaults off
+
+Keep exact secret names, token scopes, and execution-window procedures in private operations docs or repository settings notes. Do not put token values or live operational credentials in job files.
