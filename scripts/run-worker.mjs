@@ -51,9 +51,21 @@ const resultPath = path.join(runDir, "result.json");
 const transcriptPath = path.join(runDir, "codex.jsonl");
 const promptContext = {};
 
-if (mode === "autonomous") {
+if (!dryRun) {
   const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir];
-  if (dryRun) plannerArgs.push("--offline");
+  const planner = spawnSync(process.execPath, plannerArgs, {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    env: process.env,
+  });
+  if (planner.status !== 0) {
+    console.error(planner.stderr || planner.stdout);
+    process.exit(planner.status ?? 1);
+  }
+  promptContext.clusterPlanPath = path.join(runDir, "cluster-plan.json");
+  promptContext.fixArtifactPath = path.join(runDir, "fix-artifact.json");
+} else if (mode === "autonomous") {
+  const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir, "--offline"];
   const planner = spawnSync(process.execPath, plannerArgs, {
     cwd: repoRoot(),
     encoding: "utf8",

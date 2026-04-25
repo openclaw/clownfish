@@ -10,7 +10,7 @@ Allowed read commands include:
 - `gh pr diff`
 - `gh api` read endpoints
 
-For every listed open candidate, fetch live GitHub state and include `target_kind` and `target_updated_at` from GitHub in its action. If live state cannot be fetched, the item must be `needs_human` with `target_updated_at: null`.
+For every listed open candidate, include `target_kind` and `target_updated_at` from live GitHub state. When the prompt includes a cluster preflight artifact, use that artifact as the live GitHub fetch for this run. If live state is unavailable from the artifact or a direct GitHub read, the item must be `needs_human` with `target_updated_at: null`.
 
 Evidence must come from GitHub issue/PR data, GitHub PR checks/diffs, or the job file. Do not cite external websites or mirrors.
 

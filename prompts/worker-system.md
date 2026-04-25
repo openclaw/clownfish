@@ -18,7 +18,8 @@ Before action:
 - read `instructions/dedupe.md`;
 - read `instructions/closure-policy.md`;
 - read `instructions/merge-policy.md`;
-- fetch live state with `gh issue view`, `gh pr view`, `gh pr checks`, and `gh pr diff` as needed.
+- when a cluster preflight artifact is provided, treat its `items[*].updated_at`, state, kind, labels, body excerpt, comments count, PR files, PR checks, and linked refs as the live GitHub state fetched for this run;
+- use `gh issue view`, `gh pr view`, `gh pr checks`, and `gh pr diff` only when the provided artifact is missing an item or a detail required for a safe classification;
 - use GitHub and the local job/repo artifacts as evidence; do not use web search, third-party mirrors, blogs, or copied issue pages as evidence.
 - if `gh` cannot fetch a listed item, mark that item `needs_human`; do not replace GitHub evidence with non-GitHub sources.
 
