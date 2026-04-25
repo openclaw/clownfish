@@ -11,7 +11,7 @@ For each target action, include:
 - `classification`: one of `canonical`, `duplicate`, `related`, `superseded`, `independent`, `fixed_by_candidate`, or `needs_human`
 - `target_kind`: `issue` or `pull_request`
 - `target_updated_at`: the live GitHub `updatedAt`/`updated_at` value you fetched for the target
-- `canonical`, `duplicate_of`, or `candidate_fix` when the close depends on another issue/PR
+- `canonical`, `duplicate_of`, or `candidate_fix` when the close depends on another issue/PR; use an issue/PR ref like `#123`, never a date, year, bare unrelated number, or prose-only link
 - `comment`: the exact close comment you recommend, preserving contributor credit and linking the canonical or candidate fix
 - `idempotency_key`: stable key such as `projectclownfish:<cluster_id>:<target>:<action>:<canonical-or-fix>`
 - `evidence`: short concrete evidence strings

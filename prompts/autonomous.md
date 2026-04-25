@@ -26,6 +26,7 @@ Instant close actions:
 
 - Emit `close_duplicate`, `close_superseded`, or `close_fixed_by_candidate` only for high-confidence covered items.
 - Include `target_updated_at`, `target_kind`, `canonical` or `candidate_fix`, contributor-credit preserving `comment`, evidence, and a stable `idempotency_key`.
+- In action fields, `canonical`, `duplicate_of`, and `candidate_fix` must be explicit refs like `#61741`. Do not put a year, timestamp fragment, unrelated number, or only a prose URL in those fields.
 - Leave independent or unclear reports open as `keep_independent`, `keep_related`, or `needs_human`.
 
 Fix artifact actions:

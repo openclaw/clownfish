@@ -79,6 +79,16 @@ const report = {
   actions: [],
 };
 
+const allowedRefs = new Set(
+  [
+    ...(job.frontmatter.cluster_refs ?? []),
+    ...(job.frontmatter.canonical ?? []),
+    ...(job.frontmatter.candidates ?? []),
+  ]
+    .map((ref) => normalizeIssueRef(ref, result.repo))
+    .filter(Boolean),
+);
+
 for (const action of result.actions ?? []) {
   report.actions.push(applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }));
 }
@@ -107,11 +117,14 @@ function findLatestResultPath() {
 }
 
 function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
-  const target = normalizeIssueRef(action.target);
+  const target = normalizeIssueRef(action.target, result.repo);
   const actionName = String(action.action ?? "");
   const classification = normalizeClassification(action);
-  const canonical = normalizeIssueRef(action.canonical ?? action.duplicate_of);
-  const candidateFix = normalizeIssueRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
+  const canonical = normalizeIssueRef(action.canonical ?? action.duplicate_of, result.repo);
+  const candidateFix = normalizeIssueRef(
+    action.candidate_fix ?? action.fixed_by ?? action.fix_candidate,
+    result.repo,
+  );
   const idempotencyKey =
     typeof action.idempotency_key === "string" && action.idempotency_key.trim()
       ? action.idempotency_key.trim()
@@ -145,8 +158,14 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   if ((classification === "duplicate" || classification === "superseded") && !canonical) {
     return { ...base, status: "blocked", reason: "closure requires canonical or duplicate_of" };
   }
+  if (canonical && !allowedRefs.has(canonical)) {
+    return { ...base, status: "blocked", reason: "canonical is not listed in job refs" };
+  }
   if (classification === "fixed_by_candidate" && !candidateFix) {
     return { ...base, status: "blocked", reason: "closure requires candidate_fix" };
+  }
+  if (candidateFix && !allowedRefs.has(candidateFix)) {
+    return { ...base, status: "blocked", reason: "candidate fix is not listed in job refs" };
   }
   if (canonical === target || candidateFix === target) {
     return { ...base, status: "blocked", reason: "target cannot close against itself" };
@@ -224,9 +243,15 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   };
 }
 
-function normalizeIssueRef(value) {
-  const match = String(value ?? "").match(/^#?(\d+)$/);
-  return match ? Number(match[1]) : 0;
+function normalizeIssueRef(value, expectedRepo = "") {
+  const text = String(value ?? "").trim();
+  const shorthand = text.match(/^#?(\d+)$/);
+  if (shorthand) return Number(shorthand[1]);
+
+  const url = text.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/(?:issues|pull)\/(\d+)(?:[/?#].*)?$/);
+  if (!url) return 0;
+  if (expectedRepo && url[1].toLowerCase() !== expectedRepo.toLowerCase()) return 0;
+  return Number(url[2]);
 }
 
 function normalizeClassification(action) {

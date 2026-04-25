@@ -66,7 +66,7 @@ function reviewResult(resultPath) {
   const plan = readSiblingJson(runDir, "cluster-plan.json");
   const failures = [];
   const warnings = [];
-  const itemByRef = new Map((plan?.items ?? []).map((item) => [item.ref, item]));
+  const itemByRef = buildItemMap(plan, result.repo);
   const actionCounts = {};
 
   if (!Array.isArray(result.actions)) failures.push("result.actions must be an array");
@@ -107,8 +107,20 @@ function reviewResult(resultPath) {
       if (!item) failures.push(`${target} close action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} close action targets ${item.state} item`);
       if (action.status !== "planned") failures.push(`${target} close action status must be planned`);
-      if (!action.canonical && !action.duplicate_of && !action.candidate_fix) {
+      const canonicalRef = normalizeRef(action.canonical ?? action.duplicate_of);
+      const candidateRef = normalizeRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
+      if (!canonicalRef && !candidateRef) {
         failures.push(`${target} close action missing canonical/duplicate/candidate target`);
+      }
+      if (canonicalRef) {
+        const canonicalItem = itemByRef.get(canonicalRef);
+        if (!canonicalItem) failures.push(`${target} close action canonical ${canonicalRef} missing preflight item`);
+        if (canonicalRef === normalizeRef(target)) failures.push(`${target} close action canonical points at itself`);
+      }
+      if (candidateRef) {
+        const candidateItem = itemByRef.get(candidateRef);
+        if (!candidateItem) failures.push(`${target} close action candidate ${candidateRef} missing preflight item`);
+        if (candidateRef === normalizeRef(target)) failures.push(`${target} close action candidate points at itself`);
       }
     }
   }
@@ -147,6 +159,19 @@ function readSiblingJson(runDir, filename) {
   return null;
 }
 
+function buildItemMap(plan, repo) {
+  const items = plan?.item_matrix ?? plan?.items ?? [];
+  const out = new Map();
+  for (const item of items) {
+    const ref = normalizeRef(item.ref ?? item.target ?? item.url);
+    if (!ref) continue;
+    out.set(ref, item);
+    out.set(`https://github.com/${repo}/issues/${ref.slice(1)}`, item);
+    out.set(`https://github.com/${repo}/pull/${ref.slice(1)}`, item);
+  }
+  return out;
+}
+
 function evidenceHasExternalUrl(evidence) {
   return evidence.some((item) => {
     const text = typeof item === "string" ? item : JSON.stringify(item);
@@ -156,8 +181,9 @@ function evidenceHasExternalUrl(evidence) {
 }
 
 function normalizeRef(ref) {
-  const match = String(ref).match(/#?(\d+)/);
-  return match ? `#${match[1]}` : String(ref);
+  const match = String(ref).match(/(?:issues|pull)\/(\d+)\b|^#?(\d+)$/);
+  if (!match) return "";
+  return `#${match[1] ?? match[2]}`;
 }
 
 function relative(filePath) {
