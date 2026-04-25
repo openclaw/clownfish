@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Projectclownfish worker result",
+  "type": "object",
+  "required": ["status", "repo", "cluster_id", "mode", "summary", "actions"],
+  "additionalProperties": true,
+  "properties": {
+    "status": {
+      "enum": ["planned", "executed", "needs_human", "blocked", "failed"]
+    },
+    "repo": {
+      "type": "string"
+    },
+    "cluster_id": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": ["plan", "execute"]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "action", "status", "idempotency_key"],
+        "additionalProperties": true,
+        "properties": {
+          "target": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "status": {
+            "enum": ["planned", "executed", "skipped", "blocked", "failed"]
+          },
+          "idempotency_key": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "needs_human": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

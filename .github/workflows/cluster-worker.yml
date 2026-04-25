@@ -1,0 +1,83 @@
+name: cluster worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Job markdown path, for example jobs/openclaw/cluster-001.md"
+        required: true
+        type: string
+      mode:
+        description: "Worker mode"
+        required: true
+        default: plan
+        type: choice
+        options:
+          - plan
+          - execute
+      runner:
+        description: "Runner label, e.g. ubuntu-latest or a Blacksmith label"
+        required: true
+        default: ubuntu-latest
+        type: string
+      model:
+        description: "Codex model"
+        required: true
+        default: gpt-5.4
+        type: string
+      codex_bypass:
+        description: "Use Codex bypass mode; only for externally sandboxed runners"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  cluster:
+    runs-on: ${{ inputs.runner }}
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
+      CLOWNFISH_ALLOW_EXECUTE: ${{ inputs.mode == 'execute' && vars.CLOWNFISH_ALLOW_EXECUTE || '0' }}
+      CLOWNFISH_CODEX_BYPASS: ${{ inputs.codex_bypass && '1' || '0' }}
+      CLOWNFISH_MODEL: ${{ inputs.model }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify GitHub token
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "CLOWNFISH_GH_TOKEN is required"
+            exit 1
+          fi
+          gh auth status
+
+      - name: Install Codex CLI
+        run: |
+          if ! command -v codex >/dev/null 2>&1; then
+            npm install -g @openai/codex@latest
+          fi
+          codex --version
+
+      - name: Validate job
+        run: npm run validate:job -- "${{ inputs.job }}"
+
+      - name: Run worker
+        run: npm run worker -- "${{ inputs.job }}" --mode "${{ inputs.mode }}"
+
+      - name: Upload worker artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: projectclownfish-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .projectclownfish/runs/**
+          if-no-files-found: warn

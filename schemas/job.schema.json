@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Projectclownfish cluster job",
+  "type": "object",
+  "required": ["repo", "cluster_id", "mode", "allowed_actions", "candidates"],
+  "additionalProperties": true,
+  "properties": {
+    "repo": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "cluster_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": ["plan", "execute"]
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "enum": ["comment", "label", "close", "merge", "fix", "raise_pr"]
+      }
+    },
+    "blocked_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "require_human_for": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "canonical": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^#?[0-9]+$"
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^#?[0-9]+$"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
