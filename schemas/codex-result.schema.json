@@ -15,7 +15,7 @@
       "type": "string"
     },
     "mode": {
-      "enum": ["plan", "execute"]
+      "enum": ["plan", "execute", "autonomous"]
     },
     "summary": {
       "type": "string"
@@ -37,7 +37,11 @@
               "keep_related",
               "keep_independent",
               "merge_candidate",
+              "merge_canonical",
               "fix_needed",
+              "build_fix_artifact",
+              "open_fix_pr",
+              "post_merge_close",
               "needs_human",
               "close",
               "close_duplicate",
@@ -102,6 +106,18 @@
       "items": {
         "type": "string"
       }
+    },
+    "canonical": {
+      "type": "string"
+    },
+    "canonical_issue": {
+      "type": "string"
+    },
+    "canonical_pr": {
+      "type": "string"
+    },
+    "fix_artifact": {
+      "type": "object"
     }
   }
 }

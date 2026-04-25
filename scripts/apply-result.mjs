@@ -40,8 +40,8 @@ if (errors.length > 0) {
 
 assertAllowedOwner(job.frontmatter.repo, process.env.CLOWNFISH_ALLOWED_OWNER);
 
-if (job.frontmatter.mode !== "execute") {
-  throw new Error("refusing apply: job frontmatter mode is not execute");
+if (!["execute", "autonomous"].includes(job.frontmatter.mode)) {
+  throw new Error("refusing apply: job frontmatter mode is not execute or autonomous");
 }
 if (process.env.CLOWNFISH_ALLOW_EXECUTE !== "1") {
   throw new Error("refusing apply: CLOWNFISH_ALLOW_EXECUTE must be 1");
@@ -63,8 +63,11 @@ if (result.cluster_id !== job.frontmatter.cluster_id) {
     `result cluster ${result.cluster_id} does not match job cluster ${job.frontmatter.cluster_id}`,
   );
 }
-if (result.mode !== "execute") {
+if (!["execute", "autonomous"].includes(result.mode)) {
   throw new Error(`refusing apply: result mode is ${result.mode}`);
+}
+if (result.mode !== job.frontmatter.mode) {
+  throw new Error(`refusing apply: result mode ${result.mode} does not match job mode ${job.frontmatter.mode}`);
 }
 
 const report = {

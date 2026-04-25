@@ -86,10 +86,17 @@ export function validateJob(job) {
   if (typeof fm.repo === "string" && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(fm.repo)) {
     errors.push("repo must be owner/repo");
   }
-  if (fm.mode && !["plan", "execute"].includes(fm.mode)) {
-    errors.push("mode must be plan or execute");
+  if (fm.mode && !["plan", "execute", "autonomous"].includes(fm.mode)) {
+    errors.push("mode must be plan, execute, or autonomous");
   }
-  for (const key of ["allowed_actions", "blocked_actions", "require_human_for", "canonical", "candidates"]) {
+  for (const key of [
+    "allowed_actions",
+    "blocked_actions",
+    "require_human_for",
+    "canonical",
+    "candidates",
+    "cluster_refs",
+  ]) {
     if (fm[key] !== undefined && !Array.isArray(fm[key])) {
       errors.push(`${key} must be a list`);
     }
@@ -102,6 +109,26 @@ export function validateJob(job) {
   for (const ref of [...(fm.canonical ?? []), ...(fm.candidates ?? [])]) {
     if (!/^#?[0-9]+$/.test(String(ref))) {
       errors.push(`candidate refs must look like #123: ${ref}`);
+    }
+  }
+  for (const ref of fm.cluster_refs ?? []) {
+    if (!isGithubRef(ref)) {
+      errors.push(`cluster_refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
+    }
+  }
+  for (const key of [
+    "allow_instant_close",
+    "allow_fix_pr",
+    "allow_merge",
+    "allow_post_merge_close",
+  ]) {
+    if (fm[key] !== undefined && typeof fm[key] !== "boolean") {
+      errors.push(`${key} must be true or false`);
+    }
+  }
+  for (const key of ["canonical_hint", "target_checkout"]) {
+    if (fm[key] !== undefined && typeof fm[key] !== "string") {
+      errors.push(`${key} must be a string`);
     }
   }
 
@@ -120,10 +147,15 @@ function requireArray(errors, object, key) {
   }
 }
 
-export function renderPrompt(job, requestedMode) {
+export function renderPrompt(job, requestedMode, context = {}) {
   const mode = requestedMode ?? job.frontmatter.mode;
-  const modePrompt = mode === "execute" ? "prompts/execute.md" : "prompts/plan-only.md";
-  return [
+  const modePrompt =
+    mode === "autonomous"
+      ? "prompts/autonomous.md"
+      : mode === "execute"
+        ? "prompts/execute.md"
+        : "prompts/plan-only.md";
+  const parts = [
     readText("prompts/worker-system.md"),
     readText(modePrompt),
     "## Dedupe policy",
@@ -136,9 +168,28 @@ export function renderPrompt(job, requestedMode) {
     "```md",
     job.raw.trim(),
     "```",
+  ];
+
+  for (const [title, filePath] of [
+    ["Cluster preflight artifact", context.clusterPlanPath],
+    ["Fix artifact", context.fixArtifactPath],
+  ]) {
+    if (!filePath) continue;
+    const absolute = path.resolve(filePath);
+    parts.push(`## ${title}`, `Path: \`${path.relative(repoRoot(), absolute)}\``, "```json", fs.readFileSync(absolute, "utf8").trim(), "```");
+  }
+
+  parts.push(
     "## Required final output",
     "Return JSON matching `schemas/codex-result.schema.json` and nothing else.",
-  ].join("\n\n");
+  );
+
+  return parts.join("\n\n");
+}
+
+function isGithubRef(value) {
+  const text = String(value ?? "");
+  return /^#?[0-9]+$/.test(text) || /^https:\/\/github\.com\/[^/]+\/[^/]+\/(?:issues|pull)\/[0-9]+/.test(text);
 }
 
 export function parseArgs(argv) {

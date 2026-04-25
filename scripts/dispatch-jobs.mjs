@@ -11,7 +11,7 @@ const workflow = args.workflow ?? "cluster-worker.yml";
 const files = args._;
 
 if (files.length === 0) {
-  console.error("usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute] [--runner label]");
+  console.error("usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label]");
   process.exit(2);
 }
 

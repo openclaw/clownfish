@@ -15,6 +15,7 @@ on:
         options:
           - plan
           - execute
+          - autonomous
       runner:
         description: "Runner label, e.g. ubuntu-latest or a Blacksmith label"
         required: true
@@ -52,7 +53,7 @@ jobs:
       GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
-      CLOWNFISH_ALLOW_EXECUTE: ${{ inputs.mode == 'execute' && vars.CLOWNFISH_ALLOW_EXECUTE || '0' }}
+      CLOWNFISH_ALLOW_EXECUTE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_EXECUTE || '0' }}
       CLOWNFISH_CODEX_BYPASS: ${{ inputs.codex_bypass && '1' || '0' }}
       CLOWNFISH_MODEL: ${{ inputs.model }}
     steps:
@@ -89,7 +90,7 @@ jobs:
           npm run worker -- "${args[@]}"
 
       - name: Apply safe closure actions
-        if: ${{ inputs.mode == 'execute' && !inputs.dry_run }}
+        if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
         run: npm run apply-result -- "${{ inputs.job }}" --latest
 
       - name: Upload worker artifacts

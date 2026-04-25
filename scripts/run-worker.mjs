@@ -19,11 +19,11 @@ const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_DRY_RUN === "1")
 const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4";
 
 if (!jobPath) {
-  console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute [--dry-run]");
+  console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute|autonomous [--dry-run]");
   process.exit(2);
 }
-if (!["plan", "execute"].includes(mode)) {
-  console.error("mode must be plan or execute");
+if (!["plan", "execute", "autonomous"].includes(mode)) {
+  console.error("mode must be plan, execute, or autonomous");
   process.exit(2);
 }
 
@@ -36,12 +36,12 @@ if (errors.length > 0) {
 
 assertAllowedOwner(job.frontmatter.repo, process.env.CLOWNFISH_ALLOWED_OWNER);
 
-if (mode === "execute") {
-  if (job.frontmatter.mode !== "execute") {
-    throw new Error("refusing execute: job frontmatter mode is not execute");
+if ((mode === "execute" || mode === "autonomous") && !dryRun) {
+  if (job.frontmatter.mode !== mode) {
+    throw new Error(`refusing ${mode}: job frontmatter mode is not ${mode}`);
   }
   if (process.env.CLOWNFISH_ALLOW_EXECUTE !== "1") {
-    throw new Error("refusing execute: CLOWNFISH_ALLOW_EXECUTE must be 1");
+    throw new Error(`refusing ${mode}: CLOWNFISH_ALLOW_EXECUTE must be 1`);
   }
 }
 
@@ -49,7 +49,25 @@ const runDir = makeRunDir(job, mode);
 const promptPath = path.join(runDir, "prompt.md");
 const resultPath = path.join(runDir, "result.json");
 const transcriptPath = path.join(runDir, "codex.jsonl");
-const prompt = renderPrompt(job, mode);
+const promptContext = {};
+
+if (mode === "autonomous") {
+  const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir];
+  if (dryRun) plannerArgs.push("--offline");
+  const planner = spawnSync(process.execPath, plannerArgs, {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    env: process.env,
+  });
+  if (planner.status !== 0) {
+    console.error(planner.stderr || planner.stdout);
+    process.exit(planner.status ?? 1);
+  }
+  promptContext.clusterPlanPath = path.join(runDir, "cluster-plan.json");
+  promptContext.fixArtifactPath = path.join(runDir, "fix-artifact.json");
+}
+
+const prompt = renderPrompt(job, mode, promptContext);
 
 fs.writeFileSync(promptPath, prompt);
 

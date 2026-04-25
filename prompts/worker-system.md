@@ -24,6 +24,7 @@ Execution guard:
 
 - In `plan` mode, do not mutate GitHub.
 - In `execute` mode, do not mutate GitHub directly; emit structured actions for the applicator.
+- In `autonomous` mode, do not mutate GitHub directly; emit structured actions and fix artifacts for Projectclownfish scripts to apply.
 - If any safety condition is not met, return `needs_human`.
 
 Final answer must match `schemas/codex-result.schema.json`.

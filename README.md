@@ -23,6 +23,7 @@ Validate and render locally:
 ```bash
 npm run validate:job -- jobs/openclaw/cluster-001.md
 npm run render -- jobs/openclaw/cluster-001.md --mode plan
+npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
 ```
 
 Run locally without calling Codex:
@@ -74,12 +75,14 @@ Optional:
 
 `plan` produces action recommendations only.
 
-`execute` is gated by all of these:
+`execute` and `autonomous` are gated by all of these:
 
-- workflow input `mode=execute`
-- job frontmatter `mode: execute`
+- workflow input `mode=execute` or `mode=autonomous`
+- job frontmatter with the same mode
 - `CLOWNFISH_ALLOW_EXECUTE=1`
 
-In execute mode Codex still returns JSON only. Projectclownfish applies safe closures deterministically from that JSON, using the ClawSweeper-style live-state and idempotency checks.
+In execute and autonomous mode Codex still returns JSON only. Projectclownfish applies safe closures deterministically from that JSON, using the ClawSweeper-style live-state and idempotency checks.
 
-Start with `plan` over a batch of clusters. Promote only boring, obvious work to `execute`.
+`autonomous` also builds a live cluster preflight and fix artifact. It may recommend canonical fixes, merge paths, and post-merge closeouts, but direct GitHub mutations still flow through `apply-result`.
+
+Start with `plan` over a batch of clusters. Promote boring, obvious closeout work to `execute`; use `autonomous` for clusters where duplicate closeout and canonical fix planning should happen together.

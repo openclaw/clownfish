@@ -4,7 +4,7 @@ projectclownfish farms one GitHub issue/PR cluster to one isolated Codex worker.
 
 ## Hard Rules
 
-- Default to `plan`; do not execute GitHub mutations unless the job says `mode: execute` and `CLOWNFISH_ALLOW_EXECUTE=1`.
+- Default to `plan`; do not execute GitHub mutations unless the job says `mode: execute` or `mode: autonomous` and `CLOWNFISH_ALLOW_EXECUTE=1`.
 - Re-fetch live GitHub state before any close, label, comment, merge, or fix action.
 - If canonical choice is unclear, checks are failing, a PR has conflicts, or the cluster changed materially, stop with `needs_human`.
 - Never print tokens, secrets, or full environment dumps.

@@ -16,9 +16,9 @@
    ```
 
 4. Review artifacts from GitHub Actions.
-5. Change selected jobs to `mode: execute`.
+5. Change selected jobs to `mode: execute` or `mode: autonomous`.
 6. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
-7. Dispatch execute jobs for reviewed clusters only. Execute workers still return JSON; `apply-result` performs the GitHub mutations afterward.
+7. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
 8. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
 
 ## Auto-Closure
@@ -28,6 +28,7 @@
 It only applies closure actions when all of these are true:
 
 - the job and result are both `mode: execute`;
+- or the job and result are both `mode: autonomous`;
 - `CLOWNFISH_ALLOW_EXECUTE=1`;
 - the job allows both `comment` and `close`;
 - the action is `close_duplicate`, `close_superseded`, or `close_fixed_by_candidate`;
@@ -36,6 +37,17 @@ It only applies closure actions when all of these are true:
 - the target is open and not maintainer-authored.
 
 The applicator writes an idempotency marker into the close comment before closing. Re-runs skip already-applied comments/closures instead of posting twice.
+
+## Autonomous Flow
+
+`npm run build-fix-artifact -- <job.md>` hydrates the job refs, linked refs, current `main`, PR files, commits, and checks, then writes:
+
+- `cluster-plan.json`: live cluster inventory and canonical candidates;
+- `fix-artifact.json`: drive plan, gates, permissions, and per-item matrix.
+
+Autonomous workers receive those artifacts in the prompt. They can emit instant close actions for high-confidence duplicate/superseded/fixed-by-candidate items, and they can emit `build_fix_artifact` when a canonical fix PR is needed.
+
+They still must not mutate GitHub directly. Missing checkout, failing checks, conflicts, unclear canonical choice, or stale item state means `needs_human`.
 
 ## Runner Strategy
 
@@ -62,7 +74,7 @@ Do not put tokens in job files.
 
 ## Promotion Rules
 
-Promote from `plan` to `execute` only when:
+Promote from `plan` to `execute` or `autonomous` only when:
 
 - the canonical item is clear;
 - no unique reports are being closed;
