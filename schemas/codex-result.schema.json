@@ -2,7 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Projectclownfish worker result",
   "type": "object",
-  "required": ["status", "repo", "cluster_id", "mode", "summary", "actions"],
+  "required": [
+    "status",
+    "repo",
+    "cluster_id",
+    "mode",
+    "summary",
+    "actions",
+    "needs_human",
+    "canonical",
+    "canonical_issue",
+    "canonical_pr",
+    "fix_artifact"
+  ],
   "additionalProperties": false,
   "properties": {
     "status": {
@@ -24,7 +36,21 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["target", "action", "status", "idempotency_key"],
+        "required": [
+          "target",
+          "action",
+          "status",
+          "idempotency_key",
+          "classification",
+          "target_kind",
+          "target_updated_at",
+          "canonical",
+          "duplicate_of",
+          "candidate_fix",
+          "comment",
+          "evidence",
+          "reason"
+        ],
         "additionalProperties": false,
         "properties": {
           "target": {
@@ -58,6 +84,7 @@
             "type": "string"
           },
           "classification": {
+            "type": ["string", "null"],
             "enum": [
               "canonical",
               "duplicate",
@@ -65,29 +92,31 @@
               "superseded",
               "independent",
               "fixed_by_candidate",
-              "needs_human"
+              "needs_human",
+              null
             ]
           },
           "target_kind": {
-            "enum": ["issue", "pull_request"]
+            "type": ["string", "null"],
+            "enum": ["issue", "pull_request", null]
           },
           "target_updated_at": {
-            "type": "string"
+            "type": ["string", "null"]
           },
           "canonical": {
-            "type": "string",
+            "type": ["string", "null"],
             "pattern": "^#?[0-9]+$"
           },
           "duplicate_of": {
-            "type": "string",
+            "type": ["string", "null"],
             "pattern": "^#?[0-9]+$"
           },
           "candidate_fix": {
-            "type": "string",
+            "type": ["string", "null"],
             "pattern": "^#?[0-9]+$"
           },
           "comment": {
-            "type": "string"
+            "type": ["string", "null"]
           },
           "evidence": {
             "type": "array",
@@ -98,6 +127,7 @@
                 },
                 {
                   "type": "object",
+                  "required": ["label", "detail", "file", "line", "command", "sha"],
                   "additionalProperties": false,
                   "properties": {
                     "label": {
@@ -124,7 +154,7 @@
             }
           },
           "reason": {
-            "type": "string"
+            "type": ["string", "null"]
           }
         }
       }
@@ -136,61 +166,79 @@
       }
     },
     "canonical": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "canonical_issue": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "canonical_pr": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "fix_artifact": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "summary": {
-          "type": "string"
+      "anyOf": [
+        {
+          "type": "null"
         },
-        "affected_surfaces": {
-          "type": "array",
-          "items": {
-            "type": "string"
+        {
+          "type": "object",
+          "required": [
+            "summary",
+            "affected_surfaces",
+            "likely_files",
+            "linked_refs",
+            "validation_commands",
+            "changelog_required",
+            "credit_notes",
+            "pr_title",
+            "pr_body"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "summary": {
+              "type": "string"
+            },
+            "affected_surfaces": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "likely_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "linked_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "validation_commands": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "changelog_required": {
+              "type": "boolean"
+            },
+            "credit_notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pr_title": {
+              "type": "string"
+            },
+            "pr_body": {
+              "type": "string"
+            }
           }
-        },
-        "likely_files": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "linked_refs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "validation_commands": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "changelog_required": {
-          "type": "boolean"
-        },
-        "credit_notes": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "pr_title": {
-          "type": "string"
-        },
-        "pr_body": {
-          "type": "string"
         }
-      }
+      ]
     }
   }
 }
