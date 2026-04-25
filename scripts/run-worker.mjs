@@ -96,6 +96,7 @@ const codexArgs = [
   path.join(repoRoot(), "schemas", "codex-result.schema.json"),
   "--output-last-message",
   resultPath,
+  "--ephemeral",
   "--json",
 ];
 

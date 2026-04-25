@@ -80,8 +80,7 @@ jobs:
         run: |
           test -n "${OPENAI_API_KEY:-}"
           test -n "${CODEX_API_KEY:-}"
-          printenv OPENAI_API_KEY | codex login --with-api-key
-          codex login status
+          printenv OPENAI_API_KEY | codex login --with-api-key >/dev/null
 
       - name: Validate job
         run: npm run validate:job -- "${{ inputs.job }}"
