@@ -88,13 +88,19 @@ jobs:
       - name: Run worker
         env:
           GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN }}
-          CLOWNFISH_CODEX_GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN }}
         run: |
           args=("${{ inputs.job }}" --mode "${{ inputs.mode }}")
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             args+=(--dry-run)
           fi
           npm run worker -- "${args[@]}"
+
+      - name: Review worker result
+        if: always()
+        run: |
+          if find .projectclownfish/runs -name result.json -print -quit | grep -q .; then
+            npm run review-results -- .projectclownfish/runs
+          fi
 
       - name: Apply safe closure actions
         if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}

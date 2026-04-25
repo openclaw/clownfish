@@ -31,11 +31,12 @@ Each cluster job:
 1. Starts from one markdown job file under `jobs/`.
 2. Hydrates the listed issue/PR refs and first-hop linked refs.
 3. Builds a cluster plan and fix artifact for autonomous jobs.
-4. Runs Codex with repo-local policy prompts and JSON output schema.
+4. Runs Codex with repo-local policy prompts and JSON output schema in a read-only sandbox.
 5. Writes structured run artifacts under `.projectclownfish/runs/`.
-6. Applies only safe close/comment actions through `scripts/apply-result.mjs`.
+6. Reviews the worker artifact with deterministic safety checks.
+7. Applies only safe close/comment actions through `scripts/apply-result.mjs`.
 
-Codex does not receive a GitHub write token. The worker can inspect GitHub state, but it returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks maintainer-authored items, writes an idempotent close comment, and closes only supported duplicate/superseded/fixed-by-candidate actions.
+Codex does not receive a GitHub token. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks maintainer-authored items, writes an idempotent close comment, and closes only supported duplicate/superseded/fixed-by-candidate actions.
 
 Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24 and `ubuntu-latest` for ClawSweeper parity; other hosted runners are opt-in.
 
@@ -82,6 +83,7 @@ npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
 ```bash
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done
+npm run review-results -- .projectclownfish/runs
 git diff --check
 ```
 

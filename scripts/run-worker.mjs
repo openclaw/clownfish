@@ -104,6 +104,10 @@ const codexArgs = [
   repoRoot(),
   "--model",
   model,
+  "--sandbox",
+  "read-only",
+  "-c",
+  'approval_policy="never"',
   "--output-schema",
   path.join(repoRoot(), "schemas", "codex-result.schema.json"),
   "--output-last-message",
@@ -111,8 +115,6 @@ const codexArgs = [
   "--ephemeral",
   "--json",
 ];
-
-codexArgs.push("--full-auto");
 
 codexArgs.push("-");
 
@@ -139,8 +141,6 @@ function codexEnv() {
   delete env.GITHUB_TOKEN;
   delete env.CLOWNFISH_GH_TOKEN;
   delete env.CLOWNFISH_READ_GH_TOKEN;
-  if (process.env.CLOWNFISH_CODEX_GH_TOKEN) {
-    env.GH_TOKEN = process.env.CLOWNFISH_CODEX_GH_TOKEN;
-  }
+  delete env.CLOWNFISH_CODEX_GH_TOKEN;
   return env;
 }

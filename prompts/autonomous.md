@@ -35,6 +35,8 @@ Fix artifact actions:
 Merge and post-merge close:
 
 - Recommend `merge_canonical` only when checks, review state, conflicts, changelog, and validation are clean.
+- Before recommending a merge, review actionable PR comments, address required changes or state why they are blocked, prefer a narrower refactor over broad churn, and rebase against current `main` when the branch is stale.
+- After a canonical PR lands, reclassify duplicate closeout against the landed PR or commit instead of assuming the pre-merge plan is still valid.
 - Recommend `post_merge_close` only after a canonical fix is merged or already present on current `main`.
 - Preserve contributor credit in all closeout comments.
 

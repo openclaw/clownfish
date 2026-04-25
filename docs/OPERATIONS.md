@@ -16,10 +16,11 @@
    ```
 
 4. Review artifacts from GitHub Actions.
-5. Change selected jobs to `mode: execute` or `mode: autonomous`.
-6. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
-7. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
-8. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
+5. Require `npm run review-results -- <artifact-dir>` to pass before promotion.
+6. Change selected jobs to `mode: execute` or `mode: autonomous`.
+7. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
+8. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
+9. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
 
 ## Auto-Closure
 
@@ -49,6 +50,8 @@ Autonomous workers receive those artifacts in the prompt. They can emit instant 
 
 They still must not mutate GitHub directly. Missing checkout, failing checks, conflicts, unclear canonical choice, or stale item state means `needs_human`.
 
+When a canonical PR exists, autonomous follow-through must not skip the maintainer loop. The required path is: review current PR state, inspect actionable review comments, address findings or mark them blocked, rebase/refactor to the narrowest safe change, run targeted validation, confirm changelog/credit, then only recommend merge after checks and review state are clean. After the PR lands, rerun duplicate classification against the landed PR/commit before recommending closeout.
+
 ## Runner Strategy
 
 Use `ubuntu-latest` for ClawSweeper parity and correctness smoke tests.
@@ -61,6 +64,8 @@ npm run dispatch -- jobs/openclaw/cluster-*.md --mode plan --runner blacksmith-4
 
 The workflow uses Node 24 and logs Codex in with `OPENAI_API_KEY`, while also passing `CODEX_API_KEY` to `codex exec`. Set `CODEX_API_KEY` to the same value unless you intentionally separate CI auth.
 
+Codex runs in a read-only sandbox and receives no GitHub token. GitHub read access is scoped to deterministic preflight scripts; write access is scoped only to `apply-result`.
+
 Runs for the same job path and mode share a concurrency group. Different cluster jobs can still run in parallel.
 
 Live preflight hydrates job-provided refs by default and records linked refs without expanding them. Set `CLOWNFISH_MAX_LINKED_REFS` above `0` only for small clusters that need first-hop context. Set `CLOWNFISH_HYDRATE_COMMENTS=1` only when comment bodies are necessary evidence; normal scale runs use issue/PR metadata, body excerpts, PR files, and PR checks.
@@ -71,18 +76,19 @@ Prefer a fine-grained token or GitHub App token.
 
 Minimum useful permissions depend on action tier:
 
-- `CLOWNFISH_READ_GH_TOKEN`: metadata, issues read, pull requests read, contents read
+- `CLOWNFISH_READ_GH_TOKEN`: metadata, issues read, pull requests read, contents read; do not use a broad PAT here
 - `CLOWNFISH_GH_TOKEN`: issues write, pull requests write
 - merge: contents write and pull requests write
 - fix PRs: contents write
 
-Do not put tokens in job files. Codex receives only the read token; the write token is scoped to the deterministic apply step.
+Do not put tokens in job files. Codex receives no GitHub token; the read token is scoped to preflight, and the write token is scoped to the deterministic apply step.
 
 ## Promotion Rules
 
 Promote from `plan` to `execute` or `autonomous` only when:
 
 - the canonical item is clear;
+- `npm run review-results` passes for the exact artifact;
 - no unique reports are being closed;
 - comments preserve contributor credit;
 - idempotency keys are present;
