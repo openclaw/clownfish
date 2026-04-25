@@ -1,0 +1,165 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143799-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24937679258",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24937679258",
+  "head_sha": "71faa495f89c028a67e9031c6b9e43359a89ecaa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-143799-autonomous-smoke.md",
+  "published_at": "2026-04-25T23:09:32.087Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/61741",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/61741",
+  "canonical_pr": null,
+  "summary": "Using the provided preflight artifact as live GitHub state, #61917 is closed and #61741 is the best surviving open canonical for the late exec/subagent-output crash family. I planned duplicate closeouts for generic crash reports #65285 and #69920, kept #65983 open as a related orphan-process follow-up, and escalated #62754/#63220 because the artifact does not safely prove whether their abort/timeout run-state corruption reports are duplicates or a separate upstream pi-agent-core track.",
+  "actions": [
+    {
+      "target": "#61741",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Best surviving open issue for the cluster's late exec/subagent output race and gateway crash symptom."
+    },
+    {
+      "target": "#62754",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ambiguous whether this is a true duplicate of the exec/subagent crash family or a separate upstream pi-agent-core abort/timeout issue; unsafe to auto-close."
+    },
+    {
+      "target": "#63220",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Abort/timeout subfamily is not safe for autonomous dedupe from the provided evidence alone."
+    },
+    {
+      "target": "#65285",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate with no unique remaining work."
+    },
+    {
+      "target": "#65983",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Same area and likely related lifecycle bug, but distinct scope with unique remaining work."
+    },
+    {
+      "target": "#69920",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of the surviving open canonical issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "close_duplicate": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "apply_counts": {
+    "skipped": 4,
+    "executed": 2
+  },
+  "needs_human": [
+    "Decide whether #62754 and #63220 intentionally track a separate pi-agent-core abort/timeout bug or whether one should supersede the other; the provided artifact does not safely justify auto-closing either.",
+    "If maintainers want fixed-by-candidate or post-merge closeout against #62821, re-fetch explicit merge state on current main first; the provided artifact proves a closed PR with passing checks, but not merge state on main."
+  ],
+  "apply_actions": [
+    {
+      "target": "#61741",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#61741:keep_canonical:2026-04-10T17:28:15Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#62754",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#62754:needs_human:2026-04-07T23:23:32Z",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#63220",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#63220:needs_human:2026-04-08T15:26:22Z",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#65285",
+      "action": "close_duplicate",
+      "status": "executed",
+      "classification": "duplicate",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#65285:close_duplicate:#61741:2026-04-12T16:11:09Z",
+      "reason": "duplicate of the canonical thread",
+      "live_state": "closed",
+      "live_updated_at": "2026-04-12T16:11:09Z"
+    },
+    {
+      "target": "#65983",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#65983:keep_related:#61741:2026-04-13T14:27:17Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#69920",
+      "action": "close_duplicate",
+      "status": "executed",
+      "classification": "duplicate",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143799-autonomous-smoke:#69920:close_duplicate:#61741:2026-04-22T01:29:17Z",
+      "reason": "duplicate of the canonical thread",
+      "live_state": "closed",
+      "live_updated_at": "2026-04-22T01:29:17Z"
+    }
+  ]
+}

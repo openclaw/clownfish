@@ -1,0 +1,188 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143821-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24939012932",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24939012932",
+  "head_sha": "7db1f986bd485f7b71752bc77e40097172d6b6ef",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-143821-autonomous-smoke.md",
+  "published_at": "2026-04-25T23:09:32.154Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/58443",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/58443",
+  "canonical_pr": null,
+  "summary": "Using the embedded cluster preflight artifact as live GitHub state, #59951 is already closed. #58443 is the strongest surviving umbrella for generic inbound duplicate injection, but the live cluster still contains distinct open subpaths (#46674 polling-offset/restart replay, #61222 group-session duplication, #69303 error-path replay, #64606 outbound duplicate send, #53895 outbound retry queue). No close/comment/label action is high-confidence from the provided evidence.",
+  "actions": [
+    {
+      "target": "#58443",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Keep #58443 open as the current umbrella issue for generic inbound duplicate injection, but do not use it for automatic closeout of narrower surviving reports."
+    },
+    {
+      "target": "#46674",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Older open Telegram polling/restart replay report may be its own canonical path; do not collapse it under #58443 without maintainer confirmation."
+    },
+    {
+      "target": "#61222",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Keep open as a related Telegram group-session report with unique reproduction detail; not safe to close as a duplicate."
+    },
+    {
+      "target": "#69303",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Open error-path replay issue may be the correct canonical for provider-failure duplicates; do not auto-route or close around it without human review."
+    },
+    {
+      "target": "#64606",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Keep open as related retry/idempotency work; not a safe duplicate of the inbound cluster umbrella."
+    },
+    {
+      "target": "#53895",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent outbound reliability issue; leave open and outside this duplicate-inbound cleanup."
+    },
+    {
+      "target": "#59951",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "reason": "Historical representative only; already closed, so it cannot anchor new closure actions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2,
+    "skipped": 1
+  },
+  "apply_counts": {
+    "skipped": 7
+  },
+  "needs_human": [
+    "Representative #59951 was already closed in live state on 2026-04-25T13:21:06Z, so the job's hinted canonical is obsolete.",
+    "#58443 is the best surviving umbrella, but open refs #46674, #61222, and #69303 still describe materially different inbound-duplication paths; auto-closing them under #58443 would ignore unique reproductions and suspected root causes.",
+    "Open candidate #64606 is outbound duplicate-send behavior and #53895 is outbound retry-queue work, so this cluster likely needs follow-up split jobs rather than further autonomous closeout."
+  ],
+  "apply_actions": [
+    {
+      "target": "#58443",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#58443:keep_canonical:2026-04-22T19:46:32Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#46674",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#46674:needs_human:2026-03-25T18:45:59Z",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#61222",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#61222:keep_related:2026-04-05T11:38:58Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#69303",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#69303:needs_human:2026-04-23T18:40:45Z",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#64606",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#64606:keep_related:2026-04-11T03:11:40Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#53895",
+      "action": "keep_independent",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#53895:keep_independent:2026-04-23T20:05:10Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#59951",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#58443",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143821-autonomous-smoke:#59951:keep_closed:2026-04-25T13:21:06Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

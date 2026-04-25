@@ -1,0 +1,335 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143814-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24939007967",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24939007967",
+  "head_sha": "7db1f986bd485f7b71752bc77e40097172d6b6ef",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-143814-autonomous-smoke.md",
+  "published_at": "2026-04-25T23:09:32.137Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/63816",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/63816",
+  "canonical_pr": null,
+  "summary": "Selected #63816 as the surviving open canonical for the narrow 2026.4.9 WhatsApp `--media` false-success cluster. One open issue (#64750) is a safe planned duplicate close against that canonical, but #61970 and #63169 stay open because their earlier-version/video/group-chat paths are not clean instant-close duplicates from the provided evidence. Closed PRs #64394 and #66117 remain historical evidence only; no landed fix on current `main` is proven here.",
+  "actions": [
+    {
+      "target": "#63816",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Best surviving open issue for the current WhatsApp outbound-media false-success cluster."
+    },
+    {
+      "target": "#64750",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of the surviving canonical; no unique remaining work beyond #63816."
+    },
+    {
+      "target": "#63169",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Likely same symptom family, but the earlier 2026.4.8 group-chat path is not a clean instant-close duplicate from the provided evidence."
+    },
+    {
+      "target": "#61970",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Same area and symptom family, but the earlier 2026.4.5 video-specific path could still involve distinct work."
+    },
+    {
+      "target": "#59174",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent inbound/reference-parsing bug, outside this outbound-media cluster."
+    },
+    {
+      "target": "#64132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Already closed historical representative; do not emit a new close action."
+    },
+    {
+      "target": "#66090",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; historical evidence only."
+    },
+    {
+      "target": "#65451",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "reason": "Already closed related report with a restart-specific reproduction path."
+    },
+    {
+      "target": "#60315",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed related issue; not the same root cause because the CLI path works in the reporter's repro."
+    },
+    {
+      "target": "#62214",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical root-cause evidence for an earlier regression in the same area."
+    },
+    {
+      "target": "#62399",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed earlier regression analysis; useful context, not an action target."
+    },
+    {
+      "target": "#64394",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical fix attempt only; not safe to claim a landed fix from the provided evidence."
+    },
+    {
+      "target": "#66117",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical fix attempt only; not safe to claim a landed fix from the provided evidence."
+    },
+    {
+      "target": "#4362",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent historical issue; unrelated to WhatsApp media attachment drops."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "keep_closed": 9
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 9
+  },
+  "apply_counts": {
+    "skipped": 13,
+    "executed": 1
+  },
+  "needs_human": [
+    "#61970 stays open because its 2026.4.5 video-specific path may overlap the media-drop regression family or a separate media-type/path issue.",
+    "#63169 stays open because its 2026.4.8 group-chat reproduction is likely related but not a clean instant-close duplicate from the provided evidence.",
+    "No landed fix on current main is proven from the provided artifacts; closed PRs #64394 and #66117 remain historical evidence only."
+  ],
+  "apply_actions": [
+    {
+      "target": "#63816",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#63816|keep_canonical|2026-04-11T12:06:26Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#64750",
+      "action": "close_duplicate",
+      "status": "executed",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#64750|close_duplicate|#63816|2026-04-11T10:25:09Z",
+      "reason": "duplicate of the canonical thread",
+      "live_state": "closed",
+      "live_updated_at": "2026-04-11T10:25:09Z"
+    },
+    {
+      "target": "#63169",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#63169|keep_related|#63816|2026-04-09T19:03:55Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#61970",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#61970|keep_related|#63816|2026-04-07T01:42:36Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#59174",
+      "action": "keep_independent",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#59174|keep_independent|2026-04-01T17:33:05Z",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#64132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#64132|keep_closed|duplicate|#63816|2026-04-25T15:57:56Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#66090",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#66090|keep_closed|duplicate|#63816|2026-04-25T17:35:26Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#65451",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#63816",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#65451|keep_closed|related|2026-04-25T17:18:02Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#60315",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#60315|keep_closed|related|2026-04-25T13:34:28Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#62214",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#62214|keep_closed|related|2026-04-14T04:20:27Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#62399",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#62399|keep_closed|related|2026-04-13T04:27:48Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#64394",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#64394|keep_closed|related|2026-04-12T15:58:41Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#66117",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#66117|keep_closed|related|2026-04-25T17:35:47Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#4362",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143814-autonomous-smoke|#4362|keep_closed|independent|2026-03-04T04:07:51Z",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

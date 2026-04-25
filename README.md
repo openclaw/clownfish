@@ -24,6 +24,49 @@ Cluster discovery currently comes from [vincentkoc/ghcrawl](https://github.com/v
 
 The default workflow is proposal-first. It does not comment or close unless a job is explicitly promoted and the deterministic applicator confirms live GitHub state has not changed.
 
+## Dashboard
+
+Last dashboard update: Apr 25, 2026, 23:09 UTC
+
+<!-- projectclownfish-dashboard:start -->
+| Metric | Count |
+| --- | ---: |
+| Cluster reports | 27 |
+| Published runs | 30 |
+| Successful runs | 24 |
+| Failed runs | 6 |
+| Cancelled runs | 0 |
+| Executed close actions | 16 |
+| Blocked apply actions | 1 |
+| Skipped apply actions | 289 |
+| Needs-human entries | 79 |
+
+Recent cluster runs:
+
+| Cluster | Workflow | Worker | Executed | Blocked | Needs human | Run |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| [ghcrawl-143821-autonomous-smoke](results/openclaw/ghcrawl-143821-autonomous-smoke.md) | success | needs_human | 0 | 0 | 3 | [24939012932](https://github.com/openclaw/projectclownfish/actions/runs/24939012932) |
+| [ghcrawl-143820-autonomous-smoke](results/openclaw/ghcrawl-143820-autonomous-smoke.md) | success | planned | 0 | 0 | 0 | [24939012263](https://github.com/openclaw/projectclownfish/actions/runs/24939012263) |
+| [ghcrawl-143819-autonomous-smoke](results/openclaw/ghcrawl-143819-autonomous-smoke.md) | success | planned | 5 | 0 | 0 | [24939011554](https://github.com/openclaw/projectclownfish/actions/runs/24939011554) |
+| [ghcrawl-143818-autonomous-smoke](results/openclaw/ghcrawl-143818-autonomous-smoke.md) | success | needs_human | 0 | 1 | 3 | [24939010877](https://github.com/openclaw/projectclownfish/actions/runs/24939010877) |
+| [ghcrawl-143817-autonomous-smoke](results/openclaw/ghcrawl-143817-autonomous-smoke.md) | success | needs_human | 0 | 0 | 5 | [24939010238](https://github.com/openclaw/projectclownfish/actions/runs/24939010238) |
+| [ghcrawl-143816-autonomous-smoke](results/openclaw/ghcrawl-143816-autonomous-smoke.md) | success | needs_human | 4 | 0 | 4 | [24939009401](https://github.com/openclaw/projectclownfish/actions/runs/24939009401) |
+| [ghcrawl-143815-autonomous-smoke](results/openclaw/ghcrawl-143815-autonomous-smoke.md) | success | planned | 2 | 0 | 0 | [24939008778](https://github.com/openclaw/projectclownfish/actions/runs/24939008778) |
+| [ghcrawl-143814-autonomous-smoke](results/openclaw/ghcrawl-143814-autonomous-smoke.md) | success | needs_human | 1 | 0 | 3 | [24939007967](https://github.com/openclaw/projectclownfish/actions/runs/24939007967) |
+| [ghcrawl-143813-autonomous-smoke](results/openclaw/ghcrawl-143813-autonomous-smoke.md) | success | needs_human | 0 | 0 | 4 | [24939007176](https://github.com/openclaw/projectclownfish/actions/runs/24939007176) |
+| [ghcrawl-143811-autonomous-smoke](results/openclaw/ghcrawl-143811-autonomous-smoke.md) | failure | planned | 0 | 0 | 0 | [24939006288](https://github.com/openclaw/projectclownfish/actions/runs/24939006288) |
+| [ghcrawl-143810-autonomous-smoke](results/openclaw/ghcrawl-143810-autonomous-smoke.md) | failure | needs_human | 0 | 0 | 6 | [24939005515](https://github.com/openclaw/projectclownfish/actions/runs/24939005515) |
+| [ghcrawl-143809-autonomous-smoke](results/openclaw/ghcrawl-143809-autonomous-smoke.md) | success | needs_human | 0 | 0 | 4 | [24939004802](https://github.com/openclaw/projectclownfish/actions/runs/24939004802) |
+| [ghcrawl-143808-autonomous-smoke](results/openclaw/ghcrawl-143808-autonomous-smoke.md) | success | needs_human | 0 | 0 | 4 | [24939004182](https://github.com/openclaw/projectclownfish/actions/runs/24939004182) |
+| [ghcrawl-143807-autonomous-smoke](results/openclaw/ghcrawl-143807-autonomous-smoke.md) | success | needs_human | 0 | 0 | 4 | [24939003369](https://github.com/openclaw/projectclownfish/actions/runs/24939003369) |
+| [ghcrawl-143806-autonomous-smoke](results/openclaw/ghcrawl-143806-autonomous-smoke.md) | success | needs_human | 0 | 0 | 3 | [24939002551](https://github.com/openclaw/projectclownfish/actions/runs/24939002551) |
+| [ghcrawl-143805-autonomous-smoke](results/openclaw/ghcrawl-143805-autonomous-smoke.md) | success | planned | 1 | 0 | 2 | [24939001644](https://github.com/openclaw/projectclownfish/actions/runs/24939001644) |
+| [ghcrawl-143804-autonomous-smoke](results/openclaw/ghcrawl-143804-autonomous-smoke.md) | success | needs_human | 1 | 0 | 3 | [24939000666](https://github.com/openclaw/projectclownfish/actions/runs/24939000666) |
+| [ghcrawl-143803-autonomous-smoke](results/openclaw/ghcrawl-143803-autonomous-smoke.md) | success | needs_human | 0 | 0 | 3 | [24938999617](https://github.com/openclaw/projectclownfish/actions/runs/24938999617) |
+| [ghcrawl-143801-autonomous-smoke](results/openclaw/ghcrawl-143801-autonomous-smoke.md) | failure | needs_human | 0 | 0 | 6 | [24938998594](https://github.com/openclaw/projectclownfish/actions/runs/24938998594) |
+| [ghcrawl-143795-autonomous-smoke](results/openclaw/ghcrawl-143795-autonomous-smoke.md) | success | needs_human | 0 | 0 | 6 | [24938997703](https://github.com/openclaw/projectclownfish/actions/runs/24938997703) |
+<!-- projectclownfish-dashboard:end -->
+
 ## How It Works
 
 Each cluster job:
@@ -35,10 +78,13 @@ Each cluster job:
 5. Writes structured run artifacts under `.projectclownfish/runs/`.
 6. Reviews the worker artifact with deterministic safety checks.
 7. Applies only safe close/comment actions through `scripts/apply-result.mjs`.
+8. Publishes a sanitized result ledger back to this repo under `results/`, `closed/`, `apply-report.json`, and this README dashboard.
 
 Codex does not receive a GitHub token. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks maintainer-authored items, writes an idempotent close comment, and closes only supported duplicate/superseded/fixed-by-candidate actions.
 
 Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24 and `ubuntu-latest` for ClawSweeper parity; other hosted runners are opt-in.
+
+Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions. The committed ledger keeps only the cluster summary, run URL, action counts, apply outcomes, closed targets, and needs-human entries.
 
 ## Modes
 
@@ -86,6 +132,7 @@ npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done
 npm run review-results -- .projectclownfish/runs
+npm run publish-result -- .projectclownfish/runs
 git diff --check
 ```
 

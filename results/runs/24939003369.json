@@ -1,0 +1,378 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143807-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24939003369",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24939003369",
+  "head_sha": "7db1f986bd485f7b71752bc77e40097172d6b6ef",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-143807-autonomous-smoke.md",
+  "published_at": "2026-04-25T23:09:32.120Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Closed representative #48144 no longer maps to a single live canonical path. The hydrated set spans separate input-history, WebUI/TUI /model-subcommand, nodes-list, and cache-token follow-up families, and the overlapping candidates do not support any high-confidence comment/label/close actions in autonomous mode.",
+  "actions": [
+    {
+      "target": "#48144",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical representative only; the live cluster no longer yields a single safe successor."
+    },
+    {
+      "target": "#38702",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Best surviving thread for the input-history family."
+    },
+    {
+      "target": "#38709",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct input-history family, not the representative context-token family, and not safe canonical material for autonomous routing here."
+    },
+    {
+      "target": "#46894",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical issue for the WebUI local /model-subcommand bug."
+    },
+    {
+      "target": "#46895",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Likely supersede exists, but autonomous supersede/closeout is unsafe because the overlapping replacement path is not clean enough."
+    },
+    {
+      "target": "#47069",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Probably the best WebUI candidate in its subfamily, but still not safe enough for autonomous supersede or close decisions."
+    },
+    {
+      "target": "#50847",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical issue for the nodes-list consistency family."
+    },
+    {
+      "target": "#50871",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "reason": "Overlapping candidate with failing CI and non-minimal diff."
+    },
+    {
+      "target": "#50970",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "reason": "Promising candidate, but failing CI and overlapping open PRs block autonomous canonical selection."
+    },
+    {
+      "target": "#51027",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful mixed PR, but not a safe autonomous canonical for either subfamily."
+    },
+    {
+      "target": "#51051",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "reason": "Overlapping nodes fix with unrelated churn and incomplete validation evidence."
+    },
+    {
+      "target": "#51053",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "reason": "Overlapping candidate without enough live validation evidence."
+    },
+    {
+      "target": "#51126",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical evidence only; no close action is valid on an already-closed issue."
+    },
+    {
+      "target": "#51270",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical path for the closed #51126 family is unclear."
+    },
+    {
+      "target": "#65772",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "reason": "Promising nodes candidate, but failing CI and overlapping open PRs block autonomous routing."
+    },
+    {
+      "target": "#68557",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related follow-up with distinct remaining scope; not a safe duplicate of the closed representative."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 3,
+    "keep_independent": 1,
+    "needs_human": 9,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 5,
+    "blocked": 9
+  },
+  "apply_counts": {
+    "skipped": 16
+  },
+  "needs_human": [
+    "No single live canonical replaces closed representative #48144; the hydrated set spans independent input-history, /model-subcommand, nodes-list, and cache-token follow-up families.",
+    "The nodes-list PRs #50871, #50970, #51027, #51051, #51053, and #65772 contain overlapping useful work, but some fail CI, some expose only label-job visibility, and #51027 mixes CLI and gateway changes; maintainer canonical selection or a combine plan is required.",
+    "The WebUI /model pair #46895 and #47069 overlaps in the same files, but #47069 still shows failing CI and the artifact does not include the bot-review comment bodies required for autonomous supersede or closeout.",
+    "The TUI/gateway /model path remains ambiguous because #51270 is open while linked issue #51126 is already closed, and the artifact does not prove the landed canonical path."
+  ],
+  "apply_actions": [
+    {
+      "target": "#48144",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#48144|keep_closed|2026-04-25",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#38702",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#38702|keep_canonical|2026-04-25",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#38709",
+      "action": "keep_independent",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#38709|keep_independent|2026-04-25",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#46894",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#46894|keep_canonical|2026-04-25",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#46895",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#46895|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#47069",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#47069|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#50847",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#50847|keep_canonical|2026-04-25",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#50871",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#50871|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#50970",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#50970|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51027",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#51027|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51051",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#51051|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51053",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#51053|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51126",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#51126|keep_closed|2026-04-25",
+      "reason": "action status is skipped",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51270",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#51270|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#65772",
+      "action": "needs_human",
+      "status": "skipped",
+      "classification": "needs_human",
+      "canonical": "#50847",
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#65772|needs_human|2026-04-25",
+      "reason": "action status is blocked",
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#68557",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "idempotency_key": "ghcrawl-143807-autonomous-smoke|#68557|keep_related|2026-04-25",
+      "reason": "action is not an auto-closure action",
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

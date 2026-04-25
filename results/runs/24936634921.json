@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar",
+  "mode": "plan",
+  "run_id": "24936634921",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24936634921",
+  "head_sha": "26aea6dfd2d7f0535f43131bbfd4c1d5d934edbb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar.md",
+  "published_at": "2026-04-25T23:09:32.077Z",
+  "canonical": "#69594",
+  "canonical_issue": "#69594",
+  "canonical_pr": null,
+  "summary": "Using the provided preflight artifact as live GitHub state, closed representative #41129 should be replaced by open issue #69594 as the live canonical for the false-success/no-delivery family. The remaining candidates split into related channel-resolution, outbound-context, failure-alert, and duplicate-posting families; #57601 stays independent, while #62777 and #64831 need human triage because they combine multiple or under-specified root causes.",
+  "actions": [
+    {
+      "target": "#46899",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related context in the same cron-delivery area, but do not fold into the false-success canonical."
+    },
+    {
+      "target": "#57491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; retain only as related channel-resolution evidence."
+    },
+    {
+      "target": "#57601",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent; it should not be treated as part of the false-success duplicate family."
+    },
+    {
+      "target": "#57867",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related delivery-context history; do not use it as the canonical replacement."
+    },
+    {
+      "target": "#60845",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related context for notification-path regressions."
+    },
+    {
+      "target": "#60921",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related channel-resolution history only."
+    },
+    {
+      "target": "#62777",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs human triage because the issue bundles multiple root causes and cannot be safely classified into one dedupe path."
+    },
+    {
+      "target": "#64751",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep related pending separate investigation of error-marking behavior."
+    },
+    {
+      "target": "#64831",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs human triage because it is an umbrella reliability report spanning multiple non-equivalent failures."
+    },
+    {
+      "target": "#67196",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related duplicate-posting context rather than collapsing it into the false-success canonical."
+    },
+    {
+      "target": "#67602",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related channel-resolution context."
+    },
+    {
+      "target": "#69594",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69594",
+      "candidate_fix": null,
+      "reason": "Best open replacement for closed representative #41129 and the clearest live canonical for the false-success/no-delivery family."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 8,
+    "keep_independent": 1,
+    "needs_human": 2,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "blocked": 2
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "#62777 mixes failureAlert suppression with channel-prefix stripping, so it does not reduce cleanly to one canonical family from the provided artifact.",
+    "#64831 is a broad reliability umbrella with multiple unrelated symptoms and an explicitly insufficient grounded repro path."
+  ],
+  "apply_actions": []
+}
