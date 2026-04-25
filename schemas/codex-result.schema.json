@@ -3,7 +3,7 @@
   "title": "Projectclownfish worker result",
   "type": "object",
   "required": ["status", "repo", "cluster_id", "mode", "summary", "actions"],
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
     "status": {
       "enum": ["planned", "executed", "needs_human", "blocked", "failed"]
@@ -25,7 +25,7 @@
       "items": {
         "type": "object",
         "required": ["target", "action", "status", "idempotency_key"],
-        "additionalProperties": true,
+        "additionalProperties": false,
         "properties": {
           "target": {
             "type": "string"
@@ -92,7 +92,35 @@
           "evidence": {
             "type": "array",
             "items": {
-              "type": ["string", "object"]
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "type": ["string", "null"]
+                    },
+                    "line": {
+                      "type": ["integer", "null"]
+                    },
+                    "command": {
+                      "type": ["string", "null"]
+                    },
+                    "sha": {
+                      "type": ["string", "null"]
+                    }
+                  }
+                }
+              ]
             }
           },
           "reason": {
@@ -117,7 +145,52 @@
       "type": "string"
     },
     "fix_artifact": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "affected_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "likely_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "linked_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation_commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changelog_required": {
+          "type": "boolean"
+        },
+        "credit_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pr_title": {
+          "type": "string"
+        },
+        "pr_body": {
+          "type": "string"
+        }
+      }
     }
   }
 }
