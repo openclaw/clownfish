@@ -99,11 +99,7 @@ const codexArgs = [
   "--json",
 ];
 
-if (process.env.CLOWNFISH_CODEX_BYPASS === "1") {
-  codexArgs.push("--dangerously-bypass-approvals-and-sandbox");
-} else {
-  codexArgs.push("--full-auto");
-}
+codexArgs.push("--full-auto");
 
 codexArgs.push("-");
 
@@ -111,7 +107,7 @@ const child = spawnSync("codex", codexArgs, {
   cwd: repoRoot(),
   input: prompt,
   encoding: "utf8",
-  env: process.env,
+  env: codexEnv(),
 });
 
 fs.writeFileSync(transcriptPath, child.stdout ?? "");
@@ -123,3 +119,15 @@ if (child.status !== 0) {
 }
 
 console.log(`result: ${path.relative(repoRoot(), resultPath)}`);
+
+function codexEnv() {
+  const env = { ...process.env };
+  delete env.GH_TOKEN;
+  delete env.GITHUB_TOKEN;
+  delete env.CLOWNFISH_GH_TOKEN;
+  delete env.CLOWNFISH_READ_GH_TOKEN;
+  if (process.env.CLOWNFISH_CODEX_GH_TOKEN) {
+    env.GH_TOKEN = process.env.CLOWNFISH_CODEX_GH_TOKEN;
+  }
+  return env;
+}

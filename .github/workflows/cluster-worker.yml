@@ -26,11 +26,6 @@ on:
         required: true
         default: gpt-5.4
         type: string
-      codex_bypass:
-        description: "Use Codex bypass mode; only for externally sandboxed runners"
-        required: true
-        default: false
-        type: boolean
       dry_run:
         description: "Render prompt and write a dry result without invoking Codex"
         required: true
@@ -39,8 +34,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 concurrency:
   group: projectclownfish-${{ inputs.job }}-${{ inputs.mode }}
@@ -54,12 +47,10 @@ jobs:
     runs-on: ${{ inputs.runner }}
     timeout-minutes: 90
     env:
-      GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
       CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
       CLOWNFISH_ALLOW_EXECUTE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_EXECUTE || '0' }}
-      CLOWNFISH_CODEX_BYPASS: ${{ inputs.codex_bypass && '1' || '0' }}
       CLOWNFISH_MODEL: ${{ inputs.model }}
     steps:
       - uses: actions/checkout@v4
@@ -68,10 +59,12 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Verify GitHub token
+      - name: Verify GitHub read token
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN }}
         run: |
           if [ -z "${GH_TOKEN:-}" ]; then
-            echo "CLOWNFISH_GH_TOKEN is required"
+            echo "CLOWNFISH_READ_GH_TOKEN is required"
             exit 1
           fi
           gh auth status
@@ -94,6 +87,9 @@ jobs:
         run: npm run validate:job -- "${{ inputs.job }}"
 
       - name: Run worker
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN }}
+          CLOWNFISH_CODEX_GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN }}
         run: |
           args=("${{ inputs.job }}" --mode "${{ inputs.mode }}")
           if [ "${{ inputs.dry_run }}" = "true" ]; then
@@ -103,6 +99,8 @@ jobs:
 
       - name: Apply safe closure actions
         if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
         run: npm run apply-result -- "${{ inputs.job }}" --latest
 
       - name: Upload worker artifacts

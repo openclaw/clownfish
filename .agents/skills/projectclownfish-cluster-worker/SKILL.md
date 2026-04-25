@@ -1,6 +1,6 @@
 ---
 name: projectclownfish-cluster-worker
-description: Use when running or reviewing a projectclownfish cluster job that farms one GitHub issue/PR dedupe cluster to an isolated Codex worker for plan or execute mode.
+description: Use when running or reviewing a projectclownfish cluster job that farms one GitHub issue/PR dedupe cluster to an isolated Codex worker for plan, execute, or autonomous mode.
 ---
 
 # projectclownfish Cluster Worker
@@ -17,7 +17,7 @@ Use this skill for one cluster job at a time.
    - `instructions/merge-policy.md`
 4. Fetch live state with `gh` before making any recommendation.
 5. In `plan` mode, do not mutate GitHub.
-6. In `execute` mode, mutate only when the job allows it and evidence is clear.
+6. In `execute` or `autonomous` mode, do not mutate GitHub directly. Emit structured actions; `scripts/apply-result.mjs` is the only mutation path.
 7. Emit final JSON matching `schemas/codex-result.schema.json`.
 
 ## Safety Rails
@@ -40,13 +40,10 @@ gh pr checks NUMBER --repo OWNER/REPO
 gh pr diff NUMBER --repo OWNER/REPO
 ```
 
-Mutate only in execute mode:
+Do not run mutating `gh` commands from the worker. The deterministic applicator re-fetches state, posts the close comment, and closes only safe duplicate/superseded/fixed-by-candidate actions.
+
+Local applicator entrypoint:
 
 ```bash
-gh issue comment NUMBER --repo OWNER/REPO --body-file comment.md
-gh issue close NUMBER --repo OWNER/REPO --reason "not planned"
-gh issue edit NUMBER --repo OWNER/REPO --add-label duplicate
-gh pr comment NUMBER --repo OWNER/REPO --body-file comment.md
-gh pr close NUMBER --repo OWNER/REPO --comment "Superseded by #CANONICAL."
-gh pr merge NUMBER --repo OWNER/REPO --squash --delete-branch
+CLOWNFISH_ALLOW_EXECUTE=1 npm run apply-result -- jobs/openclaw/cluster-001.md --latest
 ```

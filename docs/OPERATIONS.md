@@ -51,9 +51,9 @@ They still must not mutate GitHub directly. Missing checkout, failing checks, co
 
 ## Runner Strategy
 
-Use `ubuntu-latest` for correctness smoke tests.
+Use `ubuntu-latest` for ClawSweeper parity and correctness smoke tests.
 
-Use Blacksmith labels for bulk planning/execution once the workflow is stable:
+Use Blacksmith labels only when you intentionally want a non-parity hosted runner for bulk planning/execution:
 
 ```bash
 npm run dispatch -- jobs/openclaw/cluster-*.md --mode plan --runner blacksmith-4vcpu-ubuntu-2404
@@ -69,12 +69,12 @@ Prefer a fine-grained token or GitHub App token.
 
 Minimum useful permissions depend on action tier:
 
-- plan: metadata, issues read, pull requests read, contents read
-- closure: issues write, pull requests write
+- `CLOWNFISH_READ_GH_TOKEN`: metadata, issues read, pull requests read, contents read
+- `CLOWNFISH_GH_TOKEN`: issues write, pull requests write
 - merge: contents write and pull requests write
 - fix PRs: contents write
 
-Do not put tokens in job files.
+Do not put tokens in job files. Codex receives only the read token; the write token is scoped to the deterministic apply step.
 
 ## Promotion Rules
 

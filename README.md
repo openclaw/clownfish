@@ -49,7 +49,7 @@ gh workflow run cluster-worker.yml \
   -f runner=ubuntu-latest
 ```
 
-Use a Blacksmith runner by passing its runner label:
+ClawSweeper parity uses `ubuntu-latest` and Node 24. Blacksmith is optional, not the default. If you intentionally want a non-parity hosted runner, pass its label:
 
 ```bash
 gh workflow run cluster-worker.yml \
@@ -64,7 +64,8 @@ The workflow queues duplicate runs for the same job path and mode instead of run
 
 Required for real worker runs:
 
-- `CLOWNFISH_GH_TOKEN`: GitHub token with the narrowest possible repo scope.
+- `CLOWNFISH_READ_GH_TOKEN`: read-only GitHub token for worker planning and Codex `gh` inspection.
+- `CLOWNFISH_GH_TOKEN`: write GitHub token used only by `apply-result` for reviewed close/comment actions.
 - `OPENAI_API_KEY`: OpenAI API key for Codex CLI when the runner does not already have auth.
 - `CODEX_API_KEY`: same key for `codex exec` auth. The workflow falls back to `OPENAI_API_KEY` when this is unset, but setting both matches Codex CI behavior.
 
@@ -72,7 +73,6 @@ Optional:
 
 - `CLOWNFISH_ALLOWED_OWNER`: defaults to `openclaw`.
 - `CLOWNFISH_ALLOW_EXECUTE`: set to `1` only for execute jobs.
-- `CLOWNFISH_CODEX_BYPASS`: set to `1` only for externally sandboxed runners.
 
 ## Modes
 
