@@ -30,6 +30,11 @@ on:
         required: true
         default: false
         type: boolean
+      dry_run:
+        description: "Render prompt and write a dry result without invoking Codex"
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -71,7 +76,12 @@ jobs:
         run: npm run validate:job -- "${{ inputs.job }}"
 
       - name: Run worker
-        run: npm run worker -- "${{ inputs.job }}" --mode "${{ inputs.mode }}"
+        run: |
+          args=("${{ inputs.job }}" --mode "${{ inputs.mode }}")
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            args+=(--dry-run)
+          fi
+          npm run worker -- "${args[@]}"
 
       - name: Upload worker artifacts
         if: always()
