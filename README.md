@@ -46,28 +46,28 @@ Last dashboard update: Apr 26, 2026, 22:52 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 95 latest cluster reports. Run attempts are tracked as audit history only.
+Scope: 96 latest cluster reports. Run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 95 | 100% |
-| Clean completed clusters | 49 | 51.6% |
-| Needs-human clusters | 30 | 31.6% |
-| Latest successful clusters | 94 | 98.9% |
-| Latest failed clusters | 1 | 1.1% |
+| Latest clusters reviewed | 96 | 100% |
+| Clean completed clusters | 50 | 52.1% |
+| Needs-human clusters | 30 | 31.3% |
+| Latest successful clusters | 95 | 99.0% |
+| Latest failed clusters | 1 | 1.0% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 207 | audit |
-| Distinct PRs touched | 428 | 100% |
-| Open PRs tracked | 255 | 59.6% |
-| Closed unmerged PRs tracked | 145 | 33.9% |
-| Completed close actions | 22 | 15.4% |
+| Run attempts archived | 208 | audit |
+| Distinct PRs touched | 432 | 100% |
+| Open PRs tracked | 257 | 59.5% |
+| Closed unmerged PRs tracked | 147 | 34.0% |
+| Completed close actions | 22 | 15.2% |
 | Completed merge actions | 3 | 2.1% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 34 | 23.8% |
-| Skipped mutation attempts | 84 | 58.7% |
+| Blocked mutation attempts | 34 | 23.4% |
+| Skipped mutation attempts | 86 | 59.3% |
 
 ### Latest ProjectClownfish Closures
 
