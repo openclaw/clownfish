@@ -26,6 +26,9 @@ const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0
 const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT === "1";
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
 const installTargetDeps = process.env.CLOWNFISH_INSTALL_TARGET_DEPS !== "0";
+const allowBroadFixArtifacts = process.env.CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS === "1";
+const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
+const maxAutonomousFixSurfaces = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_SURFACES ?? 4));
 const strictTargetValidation =
   process.env.CLOWNFISH_STRICT_TARGET_VALIDATION === "1" ||
   String(process.env.CLOWNFISH_TARGET_VALIDATION_MODE ?? "changed-only") === "strict";
@@ -135,6 +138,20 @@ if (securityBlock) {
     repair_strategy: fixArtifact.repair_strategy,
     reason: securityBlock.reason,
     evidence: securityBlock.evidence,
+  });
+  writeReport(report, resultPath);
+  process.exit(0);
+}
+const scopeBlock = validateAutonomousFixScope(fixArtifact);
+if (scopeBlock) {
+  report.status = "blocked";
+  report.reason = scopeBlock.reason;
+  report.actions.push({
+    action: "execute_fix",
+    status: "blocked",
+    repair_strategy: fixArtifact.repair_strategy,
+    reason: scopeBlock.reason,
+    evidence: scopeBlock.evidence,
   });
   writeReport(report, resultPath);
   process.exit(0);
@@ -1209,6 +1226,45 @@ function validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActi
   }
 
   return null;
+}
+
+function validateAutonomousFixScope(fixArtifact) {
+  if (allowBroadFixArtifacts) return null;
+
+  const likelyFiles = fixArtifact.likely_files ?? [];
+  const affectedSurfaces = fixArtifact.affected_surfaces ?? [];
+  const text = [
+    fixArtifact.pr_title,
+    fixArtifact.summary,
+    fixArtifact.pr_body,
+    ...affectedSurfaces,
+    ...likelyFiles,
+  ].join("\n");
+  const featureSignal =
+    /\bfeat(?:\(|:)|\bfeature\b|add(?:s|ing)?\s+(?:a |an )?(?:new |explicit )?|new config|configuration surface|public .*docs?|schema/i.test(
+      text,
+    );
+  const crossesDocs = likelyFiles.some((file) => /^docs\//.test(String(file)));
+  const crossesConfig = likelyFiles.some((file) => /\bconfig\b|schema|labels|help/i.test(String(file)));
+  const crossesTests = likelyFiles.some((file) => /\.test\.[cm]?[jt]s$|\.spec\.[cm]?[jt]s$/i.test(String(file)));
+  const crossesCore = likelyFiles.some((file) => /^src\//.test(String(file)));
+  const crossSurfaceCount = [crossesDocs, crossesConfig, crossesTests, crossesCore].filter(Boolean).length;
+  const tooManyFiles = likelyFiles.length > maxAutonomousFixFiles;
+  const tooManySurfaces = affectedSurfaces.length > maxAutonomousFixSurfaces;
+
+  if (!featureSignal || (!tooManyFiles && !tooManySurfaces && crossSurfaceCount < 3)) return null;
+
+  return {
+    reason:
+      "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+    evidence: [
+      `pr_title=${fixArtifact.pr_title}`,
+      `likely_files=${likelyFiles.length}/${maxAutonomousFixFiles}`,
+      `affected_surfaces=${affectedSurfaces.length}/${maxAutonomousFixSurfaces}`,
+      `cross_surface_count=${crossSurfaceCount}`,
+      `sample_files=${likelyFiles.slice(0, 8).join(", ")}`,
+    ],
+  };
 }
 
 function readSiblingJson(resultPath, name) {

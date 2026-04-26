@@ -410,6 +410,7 @@ function buildFixArtifact(plan, job) {
       "show canonical URL or explain needs_human",
       "use canonical/duplicate_of/candidate_fix refs only when those refs are hydrated preflight items; unhydrated PR refs found in comments belong in evidence or fix_artifact until hydrated",
       "include targeted tests and changelog plan for fix artifacts",
+      "do not plan executable fix PRs for broad feature/config/docs rewrites; split them into narrower follow-up jobs or mark implementation blocked with exact sub-scopes",
       "if replacing a contributor PR, include source PR credit and the exact close comment that says ProjectClownfish will preserve attribution",
       "include full GitHub URLs in closure rationale",
     ],

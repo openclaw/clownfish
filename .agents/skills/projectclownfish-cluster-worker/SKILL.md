@@ -109,6 +109,7 @@ Current autonomy posture:
 - Use `needs_human` only for the exact maintainer decision still unresolved after hydrated evidence is reviewed.
 - Worker results must use one action per issue/PR ref. Never emit comma-separated action targets; related follow-up subclusters should be one `keep_related` action per ref or one cluster-scoped `fix_needed` action.
 - Close-action `canonical`, `duplicate_of`, and `candidate_fix` refs must come from hydrated preflight items. If a PR is only mentioned in comments or previous ProjectClownfish notes, keep it as evidence/fix-artifact context until a refreshed plan hydrates it.
+- Broad feature/config/docs rewrites are not autonomous executor work. If a fix artifact crosses many implementation, config/schema, docs, and test surfaces, split it into narrower follow-up jobs or let `execute-fix-artifact` block it. Override only with `CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1`.
 
 After tuning, run:
 
