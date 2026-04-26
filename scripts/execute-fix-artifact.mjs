@@ -562,6 +562,7 @@ function runCodexWritePreflight() {
       summaryPath,
       "--ephemeral",
       "--json",
+      "--skip-git-repo-check",
       "-",
     ],
     {
