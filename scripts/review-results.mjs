@@ -186,7 +186,9 @@ function reviewResult(resultPath) {
       if (candidateRef) {
         const candidateItem = itemByRef.get(candidateRef);
         if (!candidateItem) failures.push(`${target} close action candidate ${candidateRef} missing preflight item`);
-        if (candidateRef === normalizeRef(target)) failures.push(`${target} close action candidate points at itself`);
+        if (candidateRef === normalizeRef(target) && !isBlockedReplacementSourceCloseout(action, result)) {
+          failures.push(`${target} close action candidate points at itself`);
+        }
       }
     }
     if (FIX_ACTIONS.has(name)) {
@@ -315,6 +317,21 @@ function validateMergePreflight(mergePreflight, mergeActions, failures) {
       failures.push(`${target} merge_preflight.codex_review.evidence must mention /review or Codex review`);
     }
   }
+}
+
+function isBlockedReplacementSourceCloseout(action, result) {
+  if (action.action !== "close_superseded" || action.status !== "blocked") return false;
+  if (result.fix_artifact?.repair_strategy !== "replace_uneditable_branch") return false;
+  const target = normalizeRef(action.target);
+  if (!target) return false;
+  const sourceRefs = new Set((result.fix_artifact.source_prs ?? []).map(normalizeRef).filter(Boolean));
+  if (!sourceRefs.has(target)) return false;
+  return (result.actions ?? []).some(
+    (candidate) =>
+      candidate.action === "open_fix_pr" &&
+      candidate.status === "planned" &&
+      normalizeRef(candidate.candidate_fix) === target,
+  );
 }
 
 function validateFixArtifact(fixArtifact, failures) {
