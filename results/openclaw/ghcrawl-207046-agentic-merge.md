@@ -7,11 +7,14 @@ run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24969058743"
 head_sha: "0e4564f671623de117a9abb4813b36a385aecd45"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T23:20:12.917Z"
+published_at: "2026-04-26T23:37:39.893Z"
 canonical: "https://github.com/openclaw/openclaw/issues/59743"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/59743"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/59795"
 actions_total: 7
+fix_executed: 0
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 2
@@ -39,10 +42,20 @@ Hydrated state shows #59743 is the live canonical bug report and #59795 is the b
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 7 |
+| Fix executed | 0 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 2 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "check:changed" not found Did you mean "pnpm test:changed"? |
+| execute_fix | blocked |  |  | Codex /review did not pass after 2 attempt(s): Merge blocked: the current diff still does not fully scope media dedupe to the origin-matching messaging-tool target. Local changed-surface validation passes, but the behavior gap is in the changed code and is not covered by the added tests. |
 
 ## Apply Actions
 

@@ -43,15 +43,18 @@ function publishResult(resultPath) {
   const result = readJson(resultPath);
   const applyReport = readSiblingJson(runDir, "apply-report.json") ?? { actions: [] };
   const postFlightReport = readSiblingJson(runDir, "post-flight-report.json") ?? { actions: [] };
+  const fixReport = readSiblingJson(runDir, "fix-execution-report.json") ?? { actions: [] };
   const clusterPlan = readSiblingJson(runDir, "cluster-plan.json");
   const runId = String(args["run-id"] ?? inferRunId(resultPath) ?? "");
   const metadata = runId ? metadataByRunId.get(runId) : undefined;
+  const previousRecord = runId ? readExistingRunRecord(runId) : null;
   const runUrl =
     String(args["run-url"] ?? metadata?.url ?? "") ||
+    previousRecord?.run_url ||
     (runId ? `https://github.com/openclaw/projectclownfish/actions/runs/${runId}` : null);
-  const headSha = String(args["head-sha"] ?? metadata?.headSha ?? metadata?.head_sha ?? "");
-  const workflowConclusion = String(args.conclusion ?? metadata?.conclusion ?? "");
-  const workflowStatus = String(metadata?.status ?? "");
+  const headSha = String(args["head-sha"] ?? metadata?.headSha ?? metadata?.head_sha ?? previousRecord?.head_sha ?? "");
+  const workflowConclusion = String(args.conclusion ?? metadata?.conclusion ?? previousRecord?.workflow_conclusion ?? "");
+  const workflowStatus = String(metadata?.status ?? previousRecord?.workflow_status ?? "");
   const repo = String(result.repo ?? "unknown/unknown");
   const owner = repo.split("/")[0] || "unknown";
   const clusterId = String(result.cluster_id ?? path.basename(runDir));
@@ -59,6 +62,7 @@ function publishResult(resultPath) {
     ...(applyReport.actions ?? []),
     ...(postFlightReport.actions ?? []).filter(isPostFlightMergeAction).map(postFlightMergeToApplyAction),
   ].filter(isApplicatorAction);
+  const fixActions = (fixReport.actions ?? []).map(sanitizeFixAction);
   const report = {
     repo,
     cluster_id: clusterId,
@@ -68,8 +72,8 @@ function publishResult(resultPath) {
     head_sha: headSha || null,
     workflow_conclusion: workflowConclusion || null,
     workflow_status: workflowStatus || null,
-    workflow_created_at: metadata?.createdAt ?? metadata?.created_at ?? null,
-    workflow_updated_at: metadata?.updatedAt ?? metadata?.updated_at ?? null,
+    workflow_created_at: metadata?.createdAt ?? metadata?.created_at ?? previousRecord?.workflow_created_at ?? null,
+    workflow_updated_at: metadata?.updatedAt ?? metadata?.updated_at ?? previousRecord?.workflow_updated_at ?? null,
     result_status: result.status ?? null,
     source_job: clusterPlan?.source_job ?? null,
     published_at: new Date().toISOString(),
@@ -80,8 +84,10 @@ function publishResult(resultPath) {
     actions: summarizeActions(result.actions),
     action_counts: countBy(result.actions ?? [], (action) => String(action.action ?? "unknown")),
     action_status_counts: countBy(result.actions ?? [], (action) => String(action.status ?? "unknown")),
+    fix_counts: countBy(fixActions, (action) => String(action.status ?? "unknown")),
     apply_counts: countBy(applyActions, (action) => String(action.status ?? "unknown")),
     needs_human: Array.isArray(result.needs_human) ? result.needs_human : [],
+    fix_actions: fixActions,
     apply_actions: applyActions.map(sanitizeApplyAction),
   };
 
@@ -104,6 +110,7 @@ function publishResult(resultPath) {
     run_id: report.run_id,
     result_status: report.result_status,
     workflow_conclusion: report.workflow_conclusion,
+    fix_counts: report.fix_counts,
     apply_counts: report.apply_counts,
   };
 }
@@ -121,6 +128,9 @@ function renderClusterReport(report) {
       (action) =>
         `| ${action.target || ""} | ${action.action || ""} | ${action.status || ""} | ${action.classification || ""} | ${action.reason || ""} |`,
     )
+    .join("\n");
+  const fixActions = (report.fix_actions ?? [])
+    .map((action) => `| ${action.action || ""} | ${action.status || ""} | ${action.target || action.pr || ""} | ${action.branch || ""} | ${action.reason || ""} |`)
     .join("\n");
   const needsHuman =
     report.needs_human.length > 0
@@ -140,6 +150,9 @@ canonical: ${quote(report.canonical)}
 canonical_issue: ${quote(report.canonical_issue)}
 canonical_pr: ${quote(report.canonical_pr)}
 actions_total: ${report.actions.length}
+fix_executed: ${report.fix_counts.executed ?? 0}
+fix_failed: ${report.fix_counts.failed ?? 0}
+fix_blocked: ${report.fix_counts.blocked ?? 0}
 apply_executed: ${report.apply_counts.executed ?? 0}
 apply_blocked: ${report.apply_counts.blocked ?? 0}
 apply_skipped: ${report.apply_counts.skipped ?? 0}
@@ -167,10 +180,19 @@ ${report.summary || "_No summary emitted._"}
 | Metric | Count |
 | --- | ---: |
 | Worker actions | ${report.actions.length} |
+| Fix executed | ${report.fix_counts.executed ?? 0} |
+| Fix failed | ${report.fix_counts.failed ?? 0} |
+| Fix blocked | ${report.fix_counts.blocked ?? 0} |
 | Applied executions | ${report.apply_counts.executed ?? 0} |
 | Apply blocked | ${report.apply_counts.blocked ?? 0} |
 | Apply skipped | ${report.apply_counts.skipped ?? 0} |
 | Needs human | ${report.needs_human.length} |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+${fixActions || "| _None_ |  |  |  |  |"}
 
 ## Apply Actions
 
@@ -226,6 +248,10 @@ function updateDashboard() {
   const latestApplyRows = latestByCluster.flatMap((record) =>
     (record.apply_actions ?? []).filter(isApplicatorAction).map((action) => ({ record, action })),
   );
+  const latestFixRows = latestByCluster.flatMap((record) =>
+    (record.fix_actions ?? []).map((action) => ({ record, action })),
+  );
+  const fixRows = records.flatMap((record) => (record.fix_actions ?? []).map((action) => ({ record, action })));
   const applyRows = uniqueActionRows(
     records.flatMap((record) =>
       (record.apply_actions ?? []).filter(isApplicatorAction).map((action) => ({ record, action })),
@@ -238,16 +264,20 @@ function updateDashboard() {
   const blockedRows = applyRows.filter((row) => row.action.status === "blocked");
   const skippedRows = applyRows.filter((row) => row.action.status === "skipped");
   const latestBlockedRows = latestApplyRows.filter((row) => row.action.status === "blocked");
+  const latestFailedFixRows = latestFixRows.filter((row) => ["blocked", "failed"].includes(String(row.action.status ?? "")));
   const needsHumanRows = latestByCluster.filter((record) => (record.needs_human ?? []).length > 0);
   const cleanClusters = latestByCluster.filter(
     (record) =>
       record.workflow_conclusion === "success" &&
       (record.needs_human ?? []).length === 0 &&
+      (record.fix_actions ?? []).every((action) => !["blocked", "failed"].includes(action.status)) &&
       (record.apply_actions ?? []).every((action) => !["blocked", "failed"].includes(action.status)),
   );
   const workflowState =
     latestByCluster.some((record) => record.workflow_conclusion === "failure")
       ? "Failed clusters need inspection"
+      : latestFailedFixRows.length > 0
+        ? "Fix execution needs repair"
       : latestBlockedRows.length > 0
         ? "Blocked actions need triage"
         : needsHumanRows.length > 0
@@ -281,6 +311,11 @@ function updateDashboard() {
     ),
     blocked: blockedRows.length,
     skipped: skippedRows.length,
+    fixAttempts: fixRows.length,
+    fixExecuted: countRows(fixRows, (row) => row.action.status === "executed"),
+    fixFailed: countRows(fixRows, (row) => row.action.status === "failed"),
+    fixBlocked: countRows(fixRows, (row) => row.action.status === "blocked"),
+    latestFixProblemClusters: new Set(latestFailedFixRows.map((row) => row.record.cluster_id)).size,
     needsHumanClusters: needsHumanRows.length,
     mutationAttempts: mutationRows.length,
     duplicateCloses,
@@ -307,6 +342,11 @@ ${renderMetricRow("Latest successful clusters", totals.success, percent(totals.s
 ${renderMetricRow("Latest failed clusters", totals.failure, percent(totals.failure, totals.clusters))}
 ${renderMetricRow("Latest cancelled clusters", totals.cancelled, percent(totals.cancelled, totals.clusters))}
 ${renderMetricRow("Run attempts archived", totals.runs, "audit")}
+${renderMetricRow("Fix action attempts", totals.fixAttempts, "audit")}
+${renderMetricRow("Fix actions executed", totals.fixExecuted, percent(totals.fixExecuted, totals.fixAttempts))}
+${renderMetricRow("Fix actions failed", totals.fixFailed, percent(totals.fixFailed, totals.fixAttempts))}
+${renderMetricRow("Fix actions blocked", totals.fixBlocked, percent(totals.fixBlocked, totals.fixAttempts))}
+${renderMetricRow("Latest clusters with fix failures", totals.latestFixProblemClusters, percent(totals.latestFixProblemClusters, totals.clusters))}
 ${renderMetricRow("Distinct PRs touched", totals.trackedPrs, "100%")}
 ${renderMetricRow("Open PRs tracked", totals.openTrackedPrs, percent(totals.openTrackedPrs, totals.trackedPrs))}
 ${renderMetricRow(
@@ -373,6 +413,12 @@ function readRunRecords() {
     .sort((left, right) => String(left.run_id ?? "").localeCompare(String(right.run_id ?? "")));
 }
 
+function readExistingRunRecord(runId) {
+  const filePath = path.join(repoRoot(), "results", "runs", `${runId}.json`);
+  if (!fs.existsSync(filePath)) return null;
+  return readJson(filePath);
+}
+
 function readArchivedClusters() {
   const filePath = path.join(repoRoot(), "results", "archived-clusters.json");
   if (!fs.existsSync(filePath)) return new Set();
@@ -404,7 +450,39 @@ function findResultPaths(inputPath) {
       out.push(candidate);
     }
   }
-  return out.sort();
+  return preferFinalResultPaths(out);
+}
+
+function preferFinalResultPaths(paths) {
+  const byRunAndCluster = new Map();
+  for (const resultPath of paths.sort()) {
+    const runId = inferRunId(resultPath);
+    const clusterId = readResultClusterId(resultPath);
+    const key = runId && clusterId ? `${runId}:${clusterId}` : resultPath;
+    const previous = byRunAndCluster.get(key);
+    if (!previous || resultPathScore(resultPath) > resultPathScore(previous)) {
+      byRunAndCluster.set(key, resultPath);
+    }
+  }
+  return [...byRunAndCluster.values()].sort();
+}
+
+function resultPathScore(resultPath) {
+  const runDir = path.dirname(resultPath);
+  let score = 0;
+  if (fs.existsSync(path.join(runDir, "fix-execution-report.json"))) score += 8;
+  if (fs.existsSync(path.join(runDir, "post-flight-report.json"))) score += 4;
+  if (fs.existsSync(path.join(runDir, "apply-report.json"))) score += 2;
+  if (!resultPath.includes("projectclownfish-worker-")) score += 1;
+  return score;
+}
+
+function readResultClusterId(resultPath) {
+  try {
+    return String(readJson(resultPath).cluster_id ?? "");
+  } catch {
+    return "";
+  }
 }
 
 function readJson(filePath) {
@@ -431,7 +509,7 @@ function readRunMetadata(filePath) {
 }
 
 function inferRunId(filePath) {
-  const match = String(filePath).match(/projectclownfish-(\d+)-\d+/);
+  const match = String(filePath).match(/projectclownfish(?:-worker)?-(\d+)-\d+/);
   return match?.[1] ?? null;
 }
 
@@ -462,6 +540,22 @@ function sanitizeApplyAction(action) {
     merge_commit_sha: action.merge_commit_sha ?? null,
     live_state: action.live_state ?? null,
     live_updated_at: action.live_updated_at ?? null,
+  };
+}
+
+function sanitizeFixAction(action) {
+  return {
+    action: action.action ?? null,
+    status: action.status ?? null,
+    target: action.target ?? null,
+    pr: action.pr ?? action.pr_url ?? null,
+    branch: action.branch ?? action.head_branch ?? null,
+    source_action: action.source_action ?? null,
+    source_status: action.source_status ?? null,
+    repair_strategy: action.repair_strategy ?? null,
+    reason: action.reason ?? null,
+    title: action.title ?? null,
+    url: action.url ?? action.pr_url ?? null,
   };
 }
 

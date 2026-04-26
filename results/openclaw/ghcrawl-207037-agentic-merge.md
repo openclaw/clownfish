@@ -7,11 +7,14 @@ run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24969054739"
 head_sha: "0e4564f671623de117a9abb4813b36a385aecd45"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T23:03:22.964Z"
+published_at: "2026-04-26T23:37:39.886Z"
 canonical: "https://github.com/openclaw/openclaw/pull/40953"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/40953"
 actions_total: 5
+fix_executed: 0
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 1
@@ -39,10 +42,20 @@ Hydrated preflight shows no security-sensitive refs. #40953 is the best canonica
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 5 |
+| Fix executed | 0 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 1 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "check:changed" not found Did you mean "pnpm check:docs"? |
+| execute_fix | blocked |  |  | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"019dcc05-f2f1-7580-8e86-d863b5d77a8d"} {"type":"turn.started"} {"type":"item.started","item":{"id":"item_0","type":"command_execution","command":"/bin/bash -lc \"pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g 'docs/**' | sed -n '1,80p'\"","aggregated_output":"","exit_code":null,"status":"in_progress"}} {"type":"item.completed","item":{"id":"item_0","type":"command_execution","command":"/bin/bash -lc \"pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g 'docs/**' | sed -n '1,80p'\"","aggregated_output":"/tmp/projectclownfish-fix-ZY70z9/openclaw-openclaw-replacement-1777244122389\nscripts/AGENTS.md\nqa/convex-credential-broker/package.json\nAGENTS.md\ndocs/pi-dev.md\ndocs/channels/tlon.md\ndocs/channels/twitch.md\ndocs/channels/channel-routin...; stderr=empty |
 
 ## Apply Actions
 

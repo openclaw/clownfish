@@ -6,12 +6,12 @@
   "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969058051",
   "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
   "workflow_conclusion": "success",
-  "workflow_status": null,
-  "workflow_created_at": null,
-  "workflow_updated_at": null,
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-26T22:49:57Z",
+  "workflow_updated_at": "2026-04-26T23:06:12Z",
   "result_status": "planned",
   "source_job": "jobs/openclaw/ghcrawl-207045-agentic-merge.md",
-  "published_at": "2026-04-26T23:06:21.306Z",
+  "published_at": "2026-04-26T23:37:39.891Z",
   "canonical": "https://github.com/openclaw/openclaw/pull/44319",
   "canonical_issue": null,
   "canonical_pr": "https://github.com/openclaw/openclaw/pull/44319",
@@ -92,7 +92,39 @@
     "planned": 6,
     "skipped": 1
   },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
   "apply_counts": {},
   "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command \"check:changed\" not found Did you mean \"pnpm test:changed\"?",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/agents/pi-embedded-runner-extraparams.test.ts: core test [check:changed] src/agents/pi-embedded-runner/extra-params.ts: core production [check:changed] test targets=298 [check:changed] conflict markers [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] lint core [check:changed] runtime import cycles [check:changed] webhook body guard [check:changed] pairing store guard [check:changed] pairing account guard [check:changed] tests changed [test] starting test/vitest/vitest.unit-fast.config.ts [test] starting test/vitest/vitest.unit.config.ts [test] starting test/vitest/vitest.contracts-plugin.config.ts [test] starting test/vitest/vitest.gateway.config.ts \u001b[90mstderr\u001b[2m | src/gateway/server.roles-allowlist-update.test.ts\u001b[2m > \u001b[22m\u001b[2mgateway node command allowlist\u001b[2m > \u001b[22m\u001b[2mrejects reconnect metadata spoof for paired node devices \u001b[22m\u001b[39mgateway connect failed: GatewayClientRequestError: device metadata change pending approval (requestId: c76ca5c4-f751-4316-a1e6-e3a4abc9301b) [test] starting test/vitest/vitest.hooks.config.ts [test] starting test/vitest/vitest.infra.config.ts [...",
+      "title": null,
+      "url": null
+    }
+  ],
   "apply_actions": []
 }

@@ -7,11 +7,14 @@ run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24969058051"
 head_sha: "0e4564f671623de117a9abb4813b36a385aecd45"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T23:06:21.306Z"
+published_at: "2026-04-26T23:37:39.891Z"
 canonical: "https://github.com/openclaw/openclaw/pull/44319"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/44319"
 actions_total: 7
+fix_executed: 0
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -39,10 +42,20 @@ Hydrated state shows this ghcrawl cluster is over-broad: #44319 is the canonical
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 7 |
+| Fix executed | 0 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "check:changed" not found Did you mean "pnpm test:changed"? |
+| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/agents/pi-embedded-runner-extraparams.test.ts: core test [check:changed] src/agents/pi-embedded-runner/extra-params.ts: core production [check:changed] test targets=298 [check:changed] conflict markers [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] lint core [check:changed] runtime import cycles [check:changed] webhook body guard [check:changed] pairing store guard [check:changed] pairing account guard [check:changed] tests changed [test] starting test/vitest/vitest.unit-fast.config.ts [test] starting test/vitest/vitest.unit.config.ts [test] starting test/vitest/vitest.contracts-plugin.config.ts [test] starting test/vitest/vitest.gateway.config.ts [90mstderr[2m | src/gateway/server.roles-allowlist-update.test.ts[2m > [22m[2mgateway node command allowlist[2m > [22m[2mrejects reconnect metadata spoof for paired node devices [22m[39mgateway connect failed: GatewayClientRequestError: device metadata change pending approval (requestId: c76ca5c4-f751-4316-a1e6-e3a4abc9301b) [test] starting test/vitest/vitest.hooks.config.ts [test] starting test/vitest/vitest.infra.config.ts [... |
 
 ## Apply Actions
 

@@ -6,12 +6,12 @@
   "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969058743",
   "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
   "workflow_conclusion": "success",
-  "workflow_status": null,
-  "workflow_created_at": null,
-  "workflow_updated_at": null,
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-26T22:49:59Z",
+  "workflow_updated_at": "2026-04-26T23:20:03Z",
   "result_status": "planned",
   "source_job": "jobs/openclaw/ghcrawl-207046-agentic-merge.md",
-  "published_at": "2026-04-26T23:20:12.917Z",
+  "published_at": "2026-04-26T23:37:39.893Z",
   "canonical": "https://github.com/openclaw/openclaw/issues/59743",
   "canonical_issue": "https://github.com/openclaw/openclaw/issues/59743",
   "canonical_pr": "https://github.com/openclaw/openclaw/pull/59795",
@@ -92,10 +92,42 @@
     "planned": 5,
     "blocked": 2
   },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
   "apply_counts": {
     "skipped": 2
   },
   "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command \"check:changed\" not found Did you mean \"pnpm test:changed\"?",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Merge blocked: the current diff still does not fully scope media dedupe to the origin-matching messaging-tool target. Local changed-surface validation passes, but the behavior gap is in the changed code and is not covered by the added tests.",
+      "title": null,
+      "url": null
+    }
+  ],
   "apply_actions": [
     {
       "target": "#59752",
