@@ -154,7 +154,12 @@ console.log(
 );
 
 function hydrateItem(repo, number) {
-  const issue = ghJson(["api", `repos/${repo}/issues/${number}`]);
+  let issue;
+  try {
+    issue = ghJson(["api", `repos/${repo}/issues/${number}`]);
+  } catch (error) {
+    return unavailableItem(repo, number, error);
+  }
   const comments = HYDRATE_COMMENTS ? ghPaged(`repos/${repo}/issues/${number}/comments`) : [];
   const pullRequest = issue.pull_request ? ghJson(["api", `repos/${repo}/pulls/${number}`]) : null;
   const files = pullRequest ? ghPaged(`repos/${repo}/pulls/${number}/files`) : [];
@@ -243,6 +248,31 @@ function hydrateItem(repo, number) {
   };
 }
 
+function unavailableItem(repo, number, error) {
+  const reason = firstLine(error?.stderr || error?.message || String(error));
+  return {
+    repo,
+    number,
+    ref: `#${number}`,
+    kind: "unknown",
+    state: "unavailable",
+    title: `unavailable ref #${number}`,
+    html_url: `https://github.com/${repo}/issues/${number}`,
+    author: null,
+    author_association: null,
+    labels: [],
+    created_at: null,
+    updated_at: null,
+    closed_at: null,
+    body: "",
+    body_excerpt: reason || "GitHub ref could not be hydrated.",
+    comments_count: 0,
+    comments: [],
+    pull_request: null,
+    hydration_error: reason || "GitHub ref could not be hydrated.",
+  };
+}
+
 function summarizeItem(item, job) {
   return {
     repo: item.repo,
@@ -258,6 +288,7 @@ function summarizeItem(item, job) {
     created_at: item.created_at,
     updated_at: item.updated_at,
     closed_at: item.closed_at,
+    hydration_error: item.hydration_error ?? null,
     body_excerpt: item.body_excerpt,
     security_sensitive: itemSecuritySensitive(item),
     comments_count: item.comments_count ?? item.comments.length,

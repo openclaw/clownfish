@@ -128,7 +128,8 @@ function reviewResult(resultPath) {
     if (action.status === "executed") {
       failures.push(`${target} action status must not be executed; only the applicator records execution`);
     }
-    if (result.mode === "plan" && MUTATING_ACTIONS.has(name) && action.status !== "planned") {
+    const blockedMergeCandidate = MERGE_ACTIONS.has(name) && action.status === "blocked";
+    if (result.mode === "plan" && MUTATING_ACTIONS.has(name) && action.status !== "planned" && !blockedMergeCandidate) {
       failures.push(`${target} mutating recommendation is not planned-only`);
     }
     if (CLOSE_ACTIONS.has(name)) {
@@ -177,15 +178,18 @@ function reviewResult(resultPath) {
       if (item && item.state !== "open") failures.push(`${target} merge action targets ${item.state} item`);
       if (item && item.kind !== "pull_request") failures.push(`${target} merge action target is ${item.kind}`);
       if (action.target_kind !== "pull_request") failures.push(`${target} merge action requires pull_request target_kind`);
-      if (action.status !== "planned") failures.push(`${target} merge action status must be planned`);
+      if (action.status !== "planned" && action.status !== "blocked") {
+        failures.push(`${target} merge action status must be planned or blocked`);
+      }
     }
   }
 
   if (fixActions.length > 0) {
     validateFixArtifact(result.fix_artifact, failures);
   }
-  if (mergeActions.length > 0) {
-    validateMergePreflight(result.merge_preflight, mergeActions, failures);
+  const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
+  if (plannedMergeActions.length > 0) {
+    validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
   }
 
   if (result.canonical) {
