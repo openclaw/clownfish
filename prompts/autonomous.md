@@ -25,7 +25,7 @@ Before drive mode:
    - new fix PR needed because the bug is real and no viable PR exists.
 7. For each useful open contributor PR, choose the repair path before merge or close:
    - if `pull_request.maintainer_can_modify` is true and the diff is narrow enough, plan to update that PR branch, address review/bot findings, rebase, run checks, then emit `merge_canonical` only after it is clean;
-   - if `maintainer_can_modify` is false, the branch is unsafe, or the PR contains broad/unrelated churn, do not merge it. Emit a replacement `build_fix_artifact` / `open_fix_pr` plan that preserves the contributor's credit in `credit_notes`, PR body, and changelog plan;
+  - if `maintainer_can_modify` is false, the branch is unsafe, or the PR contains broad/unrelated churn, do not merge it. Emit a replacement `build_fix_artifact` / `open_fix_pr` plan that preserves the contributor's credit in `credit_notes`, PR body, and changelog plan. Put every original contributor PR in `fix_artifact.source_prs` as a full `https://github.com/<owner>/<repo>/pull/<number>` URL;
    - when replacing a useful contributor PR, emit a `close_superseded` comment that says ProjectClownfish cannot safely update that branch, will carry the narrow fix forward separately, and will credit the contributor by username and PR URL.
 8. Do not emit closure actions until the canonical path is explicit. If the cluster is over-broad, split it into subfamilies in the action matrix and use `keep_related`/`keep_independent` for clear non-targets instead of making the whole result `needs_human`.
 9. When `require_fix_before_close` blocks an otherwise-clear duplicate/superseded closeout, use `status: "blocked"` and say the close is blocked on the canonical fix path or fix PR. Do not use different vague wording.
@@ -43,7 +43,7 @@ Low-signal PR cleanup:
 Instant close actions:
 
 - Emit `close_duplicate`, `close_superseded`, `close_fixed_by_candidate`, or `close_low_signal` only for high-confidence covered items.
-- Emit close actions with `status: "planned"` only. Do not use `executed`; execution is recorded by the applicator after it posts the comment and closes the item.
+- Emit close actions with `status: "planned"` unless `require_fix_before_close` blocks the close. In that fix-first case, use `status: "blocked"` and explicitly mention the canonical fix path, replacement fix, or fix PR in `reason`, `comment`, or `evidence`. Do not use `executed`; execution is recorded by the applicator after it posts the comment and closes the item.
 - Never emit close actions for targets whose live state is closed. If a closed target needs to appear in the matrix, use `keep_closed` with `status: "skipped"`.
 - Include `target_updated_at`, `target_kind`, `canonical` or `candidate_fix`, contributor-credit preserving `comment`, evidence, and a stable `idempotency_key`.
 - In action fields, `canonical`, `duplicate_of`, and `candidate_fix` must be explicit refs like `#61741`. Do not put a year, timestamp fragment, unrelated number, or only a prose URL in those fields.
@@ -56,7 +56,7 @@ Fix artifact actions:
 - Provider support gaps, missing model capability routing, and ordinary feature gaps reported as bugs should become a fix artifact when the artifact shows expected behavior and the patch can stay narrow.
 - `validation_commands` must be executable commands using the target repo's package manager. For `openclaw/openclaw`, prefer focused `pnpm test:serial <path-or-filter...>` or `pnpm -s vitest run <files>` plus `pnpm check:changed`; do not emit `npm run validate` because that script does not exist there. Put manual browser checks and prose test plans in `pr_body`, `credit_notes`, or action evidence, not in `validation_commands`.
 - The `build_fix_artifact` action must include affected surfaces, likely files, linked issues/PRs, validation commands, changelog requirement, credit notes, and a PR title/body plan.
-- If replacing a contributor PR, `fix_artifact.credit_notes` must name the original author and PR URL, `pr_body` must explain the borrowed/credited idea, and `changelog_required` should be true when the resulting fix is user-facing.
+- If replacing a contributor PR, `fix_artifact.source_prs` must include the original full PR URL, `fix_artifact.credit_notes` must name the original author and PR URL when known, `pr_body` must explain the borrowed/credited idea, and `changelog_required` should be true when the resulting fix is user-facing.
 - The fix plan must be narrow: list only the files expected to change, focused tests, review-bot findings to address, and the exact branch/PR that could not be updated if applicable.
 - If a target checkout is unavailable or unsafe, do not pretend to patch. Return the artifact and mark only implementation as blocked; keep classification decisions non-mutating when possible.
 
