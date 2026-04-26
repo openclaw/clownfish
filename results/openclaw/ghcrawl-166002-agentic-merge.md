@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-166002-agentic-merge"
 mode: "autonomous"
-run_id: "24947859634"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24947859634"
-head_sha: "43d96e8f84d5f66f270ea7e7ca7220dc196492a6"
+run_id: "24951170340"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24951170340"
+head_sha: "1c2b50546310a7bf795122f8ecd5e9631af76299"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T04:28:22.198Z"
-canonical: "https://github.com/openclaw/openclaw/issues/65184"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/65184"
+published_at: "2026-04-26T07:46:10.481Z"
+canonical: "https://github.com/openclaw/openclaw/issues/44417"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/44417"
 canonical_pr: null
-actions_total: 9
+actions_total: 14
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,23 +22,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24947859634](https://github.com/openclaw/projectclownfish/actions/runs/24947859634)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24951170340](https://github.com/openclaw/projectclownfish/actions/runs/24951170340)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/65184
+Canonical: https://github.com/openclaw/openclaw/issues/44417
 
 ## Summary
 
-Kept #65184 as the live canonical issue. No new close or merge actions are safe in this autonomous pass: `require_fix_before_close` blocks further duplicate closeout until a fix exists, #42051 is a related but broken PR with unresolved bot findings and a failing `check` job, and #52293 must be quarantined as security-sensitive. The remaining open issues split into related false-unavailable variants (#39673, #44417, #63561), a same-family but not yet proven-identical root/systemd variant (#54517), and an independent node-service-name bug (#68287).
+Hydrated live state split this cluster into subfamilies. The missing-unit install race is already closed on current main under #65184, while the remaining live work is the false-unavailable/systemd-user fallback path best tracked by #44417, with #39673 and #63561 kept open as related follow-ups. Security-sensitive PR #52293 is quarantined, and the only remaining blocked step is opening a replacement fix PR because this run has no writable checkout.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 9 |
+| Worker actions | 14 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,15 +54,20 @@ Kept #65184 as the live canonical issue. No new close or merge actions are safe 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65184 | fix_needed | planned | canonical | Real live canonical bug; closeout of other items must wait for an actual fix path because `require_fix_before_close` is enabled. |
-| #65184 | build_fix_artifact | planned | canonical | No merge-ready canonical PR exists, so emit a narrow new-fix artifact instead of closing related items. |
-| #52293 | route_security | planned | security_sensitive | Quarantine only this PR and keep it out of canonical/merge/fix decisions for the non-security cluster. |
-| #42051 | keep_related | planned | related | Useful contributor context for later repair or credit, but not merge-ready and not strong enough to replace #65184 as the canonical path. |
-| #39673 | keep_related | planned | related | Keep open as a distinct current-main bus-unavailable variant in the same Linux gateway/systemd family. |
-| #44417 | keep_related | planned | related | Keep open as a related sudo-user detection issue rather than deduping it into the canonical enable-path bug. |
-| #54517 | keep_related | planned | related | Same symptom family, but the hydrated record does not prove an exact duplicate of #65184 strongly enough to close it in this run. |
-| #63561 | keep_related | planned | related | Keep open as a related detection/status bug until a distinct fix or dedupe proof exists. |
-| #68287 | keep_independent | planned | independent | Independent bug with a different service name and product surface; it should be handled outside this cluster's canonical path. |
+| #44417 | keep_canonical | planned | canonical | Best surviving open tracker for the remaining sudo-user/systemd false-unavailable bug; no safe close or merge path is available from the hydrated live state. |
+| #44417 | fix_needed | planned | canonical | Emit a narrow fix path instead of closing or merging from ambiguous historical context. |
+| #44417 | build_fix_artifact | planned | canonical | Produce a narrow replacement fix plan for automation to apply later. |
+| #44417 | open_fix_pr | blocked | canonical | Implementation is blocked by missing writable checkout, not by maintainer judgment. |
+| #39673 | keep_related | planned | related | Related Linux/systemd-user availability report, but not a safe duplicate or post-merge close target from the hydrated evidence. |
+| #63561 | keep_related | planned | related | Keep open as a related follow-up until a replacement fix validates both status and install paths. |
+| #52293 | route_security | planned | security_sensitive | Security-sensitive linked PR is out of scope for ordinary duplicate/fix triage and must be routed to central security handling. |
+| #65184 | keep_closed | skipped | canonical | Historical canonical for the missing-unit subfamily; already closed and cannot receive a new close action. |
+| #54429 | keep_closed | skipped | duplicate | Already closed as duplicate of the missing-unit canonical; mention only as historical evidence. |
+| #42025 | keep_closed | skipped | superseded | Already closed; no new mutation is valid for this target. |
+| #44070 | keep_closed | skipped | fixed_by_candidate | Historical closure only; this run separately routes #52293 through security quarantine. |
+| #54517 | keep_closed | skipped | related | Already closed against current main; not a live close target for this run. |
+| #57188 | keep_closed | skipped | independent | Already closed as a separate update-path regression; keep as closed historical context only. |
+| #68287 | keep_closed | skipped | independent | Already closed as an independent node-service bug, not a target for new closeout. |
 
 ## Needs Human
 
