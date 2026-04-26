@@ -339,7 +339,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     };
   }
 
-  run("git", ["push", "--force-with-lease", "origin", `HEAD:${branch}`], { cwd: targetDir });
+  pushRecoverableBranch({ targetDir, branch });
   const bodyPath = path.join(workRoot, "replacement-pr-body.md");
   fs.writeFileSync(bodyPath, body);
   const prUrl =
@@ -1582,12 +1582,18 @@ function isAncestor({ targetDir, ancestor, descendant }) {
 }
 
 function remoteBranchExists({ targetDir, branch }) {
-  const child = spawnSync("git", ["ls-remote", "--exit-code", "--heads", "origin", branch], {
+  return Boolean(remoteBranchSha({ targetDir, branch }));
+}
+
+function remoteBranchSha({ targetDir, branch }) {
+  const child = spawnSync("git", ["ls-remote", "--heads", "origin", branch], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
   });
-  return child.status === 0;
+  if (child.status !== 0) return "";
+  const [sha] = child.stdout.trim().split(/\s+/);
+  return /^[0-9a-f]{40}$/.test(sha ?? "") ? sha : "";
 }
 
 function branchHasBaseDiff({ targetDir, baseBranch }) {
@@ -1602,7 +1608,12 @@ function commitCheckpointIfNeeded({ targetDir, message }) {
 }
 
 function pushRecoverableBranch({ targetDir, branch }) {
-  run("git", ["push", "--force-with-lease", "origin", `HEAD:${branch}`], { cwd: targetDir });
+  const remoteSha = remoteBranchSha({ targetDir, branch });
+  const args = remoteSha
+    ? ["push", `--force-with-lease=refs/heads/${branch}:${remoteSha}`, "origin", `HEAD:${branch}`]
+    : ["push", "origin", `HEAD:${branch}`];
+  run("git", args, { cwd: targetDir });
+  run("git", ["fetch", "origin", `${branch}:refs/remotes/origin/${branch}`], { cwd: targetDir });
 }
 
 function findOpenPullRequestForBranch(branch, cwd) {
