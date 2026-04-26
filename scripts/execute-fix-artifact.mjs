@@ -179,7 +179,8 @@ try {
         status: "failed",
         reason: error.message,
       });
-      outcome = executeReplacementBranch({ fixArtifact, targetDir, supersedeSources: true, fallbackReason: error.message });
+      const fallbackTargetDir = prepareFallbackReplacementCheckout(targetDir);
+      outcome = executeReplacementBranch({ fixArtifact, targetDir: fallbackTargetDir, supersedeSources: true, fallbackReason: error.message });
     }
   } else {
     outcome = executeReplacementBranch({
@@ -304,6 +305,13 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
     merge_preflight: prep.merge_preflight,
     review_threads: threadResolution,
   };
+}
+
+function prepareFallbackReplacementCheckout(sourceTargetDir) {
+  const fallbackTargetDir = path.join(workRoot, `${path.basename(sourceTargetDir)}-replacement-${Date.now()}`);
+  ensureTargetCheckout(result.repo, fallbackTargetDir);
+  setupGitIdentity(fallbackTargetDir);
+  return fallbackTargetDir;
 }
 
 function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fallbackReason }) {
