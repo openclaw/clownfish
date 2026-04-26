@@ -20,6 +20,11 @@ const codexTimeoutMs = Number(process.env.CLOWNFISH_FIX_CODEX_TIMEOUT_MS ?? 45 *
 const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 3));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
+const codexWriteSandbox = String(process.env.CLOWNFISH_CODEX_WRITE_SANDBOX ?? "workspace-write");
+const codexWriteNetworkAccess = parseBooleanEnv(
+  process.env.CLOWNFISH_CODEX_WRITE_NETWORK_ACCESS,
+  process.env.GITHUB_ACTIONS === "true",
+);
 
 if (!jobPath) {
   console.error("usage: node scripts/execute-fix-artifact.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -304,7 +309,8 @@ function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallba
         "--model",
         model,
         "--sandbox",
-        "workspace-write",
+        codexWriteSandbox,
+        ...codexWriteSandboxConfigArgs(),
         "-c",
         'approval_policy="never"',
         "--output-last-message",
@@ -372,6 +378,7 @@ function buildFixPrompt({
     "- resolve actionable human review comments, bot comments, and requested changes named in the artifact;",
     "- prepare the PR so it can pass the ProjectClownfish merge_preflight gate;",
     "- do not commit, push, open PRs, close PRs, or call gh;",
+    "- do not inspect or print environment variables, credentials, tokens, or secrets;",
     "- do not change auth, approval, sandbox, or trust-boundary semantics unless the artifact explicitly asks for that boundary change;",
     "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary;",
     "- before returning, verify `git status --porcelain` would show changed files.",
@@ -496,6 +503,18 @@ function compactText(value, maxLength) {
   return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
 }
 
+function codexWriteSandboxConfigArgs() {
+  if (codexWriteSandbox !== "workspace-write") return [];
+  return ["-c", `sandbox_workspace_write.network_access=${codexWriteNetworkAccess ? "true" : "false"}`];
+}
+
+function parseBooleanEnv(value, fallback) {
+  if (value == null || value === "") return fallback;
+  if (/^(1|true|yes|on)$/i.test(String(value))) return true;
+  if (/^(0|false|no|off)$/i.test(String(value))) return false;
+  return fallback;
+}
+
 function validateAndReviewLoop({ fixArtifact, targetDir, mode }) {
   let lastReview = null;
   for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
@@ -598,7 +617,8 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
       "--model",
       model,
       "--sandbox",
-      "workspace-write",
+      codexWriteSandbox,
+      ...codexWriteSandboxConfigArgs(),
       "-c",
       'approval_policy="never"',
       "--output-last-message",
