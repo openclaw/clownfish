@@ -21,8 +21,9 @@ const fromGhcrawl = Boolean(args["from-ghcrawl"] || args.all);
 const limit = numberArg("limit", 40);
 const minSize = numberArg("min-size", 2);
 let clusterIds = args._.map((value) => Number(value)).filter(Boolean);
+const selectingFromGhcrawl = clusterIds.length === 0 && fromGhcrawl;
 
-if (clusterIds.length === 0 && fromGhcrawl) {
+if (selectingFromGhcrawl) {
   clusterIds = selectClusterIds();
 }
 
@@ -38,8 +39,10 @@ if (!["plan", "execute", "autonomous"].includes(mode)) {
 fs.mkdirSync(outDir, { recursive: true });
 
 const existingClusterIds = skipExisting ? existingGhcrawlClusterIds(outDir) : new Set();
+let createdCount = 0;
 
 for (const clusterId of clusterIds) {
+  if (selectingFromGhcrawl && createdCount >= limit) break;
   if (existingClusterIds.has(clusterId)) {
     console.error(`skip existing cluster: ${clusterId}`);
     continue;
@@ -178,6 +181,7 @@ for (const clusterId of clusterIds) {
   ].join("\n");
 
   fs.writeFileSync(filePath, markdown);
+  createdCount += 1;
   console.log(path.relative(repoRoot(), filePath));
 }
 
@@ -190,7 +194,6 @@ function selectClusterIds() {
     where c.closed_at_local is null
       and c.member_count >= ${sqlNumber(minSize)}
     order by c.member_count desc, c.id asc
-    limit ${sqlNumber(limit)}
   `).map((row) => Number(row.id)).filter(Boolean);
 }
 
