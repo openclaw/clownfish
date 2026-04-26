@@ -6,7 +6,8 @@ projectclownfish farms one GitHub issue/PR cluster to one isolated Codex worker.
 
 - Default to `plan`; do not execute GitHub mutations unless the job says `mode: execute` or `mode: autonomous` and `CLOWNFISH_ALLOW_EXECUTE=1`.
 - Re-fetch live GitHub state before any close, label, comment, merge, or fix action.
-- If canonical choice is unclear, checks are failing, a PR has conflicts, or the cluster changed materially, stop with `needs_human`.
+- If canonical choice is unclear or the cluster changed materially, stop with `needs_human`.
+- Checks or conflicts block only the affected mutation. For ProjectClownfish replacement branches, rebase/refactor narrowly onto current `origin/main` and let the executor repair recoverable conflicts before escalating.
 - Never print tokens, secrets, or full environment dumps.
 - Every mutation needs an idempotency key and must be recorded in the result artifact.
 - Preserve contributor credit. Comment before closing, and explain the canonical path.

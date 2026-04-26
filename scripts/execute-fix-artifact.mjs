@@ -21,6 +21,7 @@ const codexPreflightTimeoutMs = Number(process.env.CLOWNFISH_FIX_PREFLIGHT_TIMEO
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 3));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
+const maxRebaseAttempts = Math.max(1, Number(process.env.CLOWNFISH_REBASE_REPAIR_ATTEMPTS ?? 2));
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
 const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT === "1";
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
@@ -205,7 +206,7 @@ report.actions.push(outcome);
 writeReport(report, resultPath);
 
 function isBlockedFixError(error) {
-  return /Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|\/review) failed|validation command failed/i.test(
+  return /Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed/i.test(
     String(error?.message ?? error),
   );
 }
@@ -319,7 +320,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   run("git", ["fetch", "origin", baseBranch], { cwd: targetDir });
   const branch = replacementBranchName(result.cluster_id);
   const branchState = checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch });
-  if (branchState.resumed) rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch });
+  if (branchState.resumed) rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
   prepareTargetToolchain(targetDir);
 
   if (!dryRun) ghAuthSetupGit(targetDir);
@@ -531,6 +532,7 @@ function buildFixPrompt({
     "- make the narrowest code change that satisfies the fix artifact;",
     "- start by inspecting the repository paths below with rg/git ls-files/sed;",
     "- if likely_files are stale, missing, or glob-like, discover the real nearby files and edit those;",
+    "- if the branch is stale or conflicts with current main, you may narrowly refactor/rebase touched implementation and tests to match current main;",
     "- preserve contributor credit in changelog/docs when the fix is user-facing;",
     "- address review-bot concerns named in the artifact;",
     "- resolve actionable human review comments, bot comments, and requested changes named in the artifact;",
@@ -1631,7 +1633,7 @@ function checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch })
   return { resumed: false, branch };
 }
 
-function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch }) {
+function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact }) {
   const baseRef = `origin/${baseBranch}`;
   if (!branchHasBaseDiff({ targetDir, baseBranch })) return;
   if (isAncestor({ targetDir, ancestor: baseRef, descendant: "HEAD" })) return;
@@ -1641,9 +1643,129 @@ function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch }) {
   try {
     run("git", ["rebase", baseRef], { cwd: targetDir });
   } catch (error) {
-    spawnSync("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env, encoding: "utf8" });
-    throw new Error(`resumed branch ${branch} could not rebase onto ${baseRef}: ${compactText(error.message, 1200)}`);
+    try {
+      resolveRecoverableRebaseConflicts({
+        targetDir,
+        branch,
+        baseRef,
+        fixArtifact,
+        initialError: error.message,
+      });
+    } catch (repairError) {
+      spawnSync("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env, encoding: "utf8" });
+      throw new Error(
+        `resumed branch ${branch} could not rebase onto ${baseRef}: ${compactText(repairError.message, 1200)}`,
+      );
+    }
   }
+}
+
+function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArtifact, initialError }) {
+  let lastError = initialError;
+  for (let attempt = 1; attempt <= maxRebaseAttempts; attempt += 1) {
+    const prompt = buildRebaseConflictPrompt({
+      targetDir,
+      branch,
+      baseRef,
+      fixArtifact,
+      attempt,
+      lastError,
+    });
+    const summaryPath = path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.md`);
+    const child = spawnSync(
+      "codex",
+      [
+        "exec",
+        "--cd",
+        targetDir,
+        "--model",
+        model,
+        "--sandbox",
+        codexWriteSandbox,
+        ...codexWriteSandboxConfigArgs(),
+        "-c",
+        'approval_policy="never"',
+        "-c",
+        `model_reasoning_effort=${JSON.stringify(codexReasoningEffort)}`,
+        "--output-last-message",
+        summaryPath,
+        "--ephemeral",
+        "--json",
+        "-",
+      ],
+      {
+        cwd: targetDir,
+        input: prompt,
+        encoding: "utf8",
+        env: codexEnv(),
+        timeout: codexTimeoutMs,
+      },
+    );
+    fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.jsonl`), child.stdout ?? "");
+    if (child.stderr) {
+      fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.stderr.log`), child.stderr);
+    }
+    if (child.error?.code === "ETIMEDOUT") {
+      throw new Error(`Codex rebase-fix worker timed out after ${codexTimeoutMs}ms`);
+    }
+    if (child.status !== 0) {
+      throw new Error(child.stderr || child.stdout || "Codex rebase-fix worker failed");
+    }
+
+    run("git", ["add", "--all"], { cwd: targetDir });
+    const continued = spawnSync("git", ["rebase", "--continue"], {
+      cwd: targetDir,
+      env: { ...process.env, GIT_EDITOR: "true", EDITOR: "true" },
+      encoding: "utf8",
+    });
+    if (continued.status === 0) return;
+    lastError = `${continued.stderr ?? ""}\n${continued.stdout ?? ""}`.trim();
+  }
+  throw new Error(`Codex could not repair rebase conflicts after ${maxRebaseAttempts} attempt(s): ${compactText(lastError, 1200)}`);
+}
+
+function buildRebaseConflictPrompt({ targetDir, branch, baseRef, fixArtifact, attempt, lastError }) {
+  return [
+    "You are resolving a ProjectClownfish rebase conflict in the target repository.",
+    "",
+    "Rules:",
+    "- inspect `git status --short`, conflicted files, and nearby current-main code before editing;",
+    "- resolve every conflict marker and preserve the narrow ProjectClownfish fix intent;",
+    "- you may refactor touched implementation/tests when current main moved or renamed the code;",
+    "- prefer current main structure over stale branch structure;",
+    "- keep contributor credit/changelog entries from the fix artifact when still applicable;",
+    "- do not commit, push, open PRs, close PRs, call gh, or run `git rebase --continue`; ProjectClownfish handles that after your edits;",
+    "- do not inspect or print environment variables, credentials, tokens, or secrets;",
+    "- before returning, ensure no conflict markers remain.",
+    "",
+    `Branch: ${branch}`,
+    `Rebase target: ${baseRef}`,
+    `Rebase repair attempt: ${attempt} of ${maxRebaseAttempts}`,
+    "",
+    "Current git status:",
+    "```text",
+    safeGitStatus(targetDir),
+    "```",
+    "",
+    "Previous rebase error:",
+    "```text",
+    compactText(lastError, 4000),
+    "```",
+    "",
+    "Fix artifact:",
+    "```json",
+    JSON.stringify(fixArtifact, null, 2),
+    "```",
+  ].join("\n");
+}
+
+function safeGitStatus(targetDir) {
+  const child = spawnSync("git", ["status", "--short"], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  return child.status === 0 ? child.stdout.trim() || "(clean)" : `${child.stderr ?? ""}\n${child.stdout ?? ""}`.trim();
 }
 
 function isAncestor({ targetDir, ancestor, descendant }) {
