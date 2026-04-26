@@ -54,12 +54,23 @@ jobs:
       CLOWNFISH_MAX_LINKED_REFS: ${{ vars.CLOWNFISH_MAX_LINKED_REFS || '20' }}
       CLOWNFISH_MAX_REVIEW_COMMENTS_PER_PR: ${{ vars.CLOWNFISH_MAX_REVIEW_COMMENTS_PER_PR || '50' }}
       CLOWNFISH_MODEL: ${{ inputs.model }}
+      CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
     steps:
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v5
         with:
           node-version: "24"
+
+      - name: Cache Codex CLI and npm downloads
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.npm
+            ~/.projectclownfish/codex
+          key: ${{ runner.os }}-node24-codex-${{ env.CODEX_CLI_VERSION }}-v1
+          restore-keys: |
+            ${{ runner.os }}-node24-codex-
 
       - name: Verify GitHub read token
         env:
@@ -73,8 +84,14 @@ jobs:
 
       - name: Install Codex CLI
         run: |
-          if ! command -v codex >/dev/null 2>&1; then
-            npm install -g @openai/codex@latest
+          set -euo pipefail
+          npm config set prefix "$HOME/.projectclownfish/codex"
+          npm config set cache "$HOME/.npm"
+          echo "$HOME/.projectclownfish/codex/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.projectclownfish/codex/bin:$PATH"
+
+          if ! command -v codex >/dev/null 2>&1 || ! codex --version | grep -Fq "$CODEX_CLI_VERSION"; then
+            npm install -g "@openai/codex@$CODEX_CLI_VERSION" --prefer-offline --no-audit --no-fund
           fi
           codex --version
 
