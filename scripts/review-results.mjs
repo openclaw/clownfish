@@ -220,12 +220,13 @@ function reviewResult(resultPath) {
     const canonical = itemByRef.get(canonicalRef);
     if (!canonical) warnings.push(`canonical ${result.canonical} was not in preflight`);
     if (canonical && canonical.state !== "open") {
-      const usedByCloseAction = closeActions.some((action) => {
+      const usedByUnsafeCloseAction = closeActions.some((action) => {
         const actionCanonical = normalizeRef(action.canonical ?? action.duplicate_of);
         const actionCandidate = normalizeRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
-        return actionCanonical === canonicalRef || actionCandidate === canonicalRef;
+        if (actionCanonical !== canonicalRef && actionCandidate !== canonicalRef) return false;
+        return !allowsHistoricalCanonicalForCloseout(action);
       });
-      if (usedByCloseAction) {
+      if (usedByUnsafeCloseAction) {
         failures.push(`canonical ${result.canonical} is ${canonical.state}`);
       } else {
         warnings.push(`canonical ${result.canonical} is ${canonical.state}; treating as historical evidence only`);
@@ -333,6 +334,18 @@ function isBlockedReplacementSourceCloseout(action, result) {
       candidate.status === "planned" &&
       normalizeRef(candidate.candidate_fix) === target,
   );
+}
+
+function allowsHistoricalCanonicalForCloseout(action) {
+  const name = String(action.action ?? "");
+  if (!["close_fixed_by_candidate", "post_merge_close"].includes(name)) return false;
+  if (action.status !== "planned") return false;
+  const classification = String(action.classification ?? "");
+  if (classification && classification !== "fixed_by_candidate") return false;
+  const candidateRef = normalizeRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
+  if (!candidateRef) return false;
+  const evidenceText = [action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
+  return /\b(fixed|implemented|merged|landed|current main|already present|closeout)\b/i.test(evidenceText);
 }
 
 function validateFixArtifact(fixArtifact, failures) {
