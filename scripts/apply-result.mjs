@@ -367,6 +367,16 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
+  const mergePreflightBlock = validateMergePreflight({ result, target });
+  if (mergePreflightBlock) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: mergePreflightBlock,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+    };
+  }
 
   if (dryRun) {
     return {
@@ -414,11 +424,98 @@ function validateMergePolicy({ job, action }) {
   return "";
 }
 
+function validateMergePreflight({ result, target }) {
+  const preflight = findMergePreflight(result, target);
+  if (!preflight) return "merge requires merge_preflight entry";
+  if (preflight.security_status !== "cleared") return "security preflight is not cleared";
+  if (!Array.isArray(preflight.security_evidence) || preflight.security_evidence.length === 0) {
+    return "security preflight evidence is missing";
+  }
+  if (preflight.comments_status !== "resolved") return "review comments are not resolved";
+  if (!Array.isArray(preflight.comments_evidence) || preflight.comments_evidence.length === 0) {
+    return "review comments resolution evidence is missing";
+  }
+  if (preflight.bot_comments_status !== "resolved") return "review-bot comments are not resolved";
+  if (!Array.isArray(preflight.bot_comments_evidence) || preflight.bot_comments_evidence.length === 0) {
+    return "review-bot comment resolution evidence is missing";
+  }
+  if (!Array.isArray(preflight.validation_commands) || preflight.validation_commands.length === 0) {
+    return "merge validation commands are missing";
+  }
+  const codexReview = preflight.codex_review;
+  if (!codexReview || codexReview.command !== "/review") return "Codex /review preflight is missing";
+  if (!["passed", "clean"].includes(codexReview.status)) return `Codex /review status is ${codexReview.status || "missing"}`;
+  if (codexReview.findings_addressed !== true) return "Codex /review findings are not addressed";
+  if (!Array.isArray(codexReview.evidence) || codexReview.evidence.length === 0) {
+    return "Codex /review evidence is missing";
+  }
+  const unresolvedThreadBlock = validateResolvedReviewThreads(result.repo, target);
+  if (unresolvedThreadBlock) return unresolvedThreadBlock;
+  return "";
+}
+
+function findMergePreflight(result, target) {
+  const expected = `#${target}`;
+  for (const item of result.merge_preflight ?? []) {
+    if (normalizeIssueRef(item?.target, result.repo) === target || String(item?.target ?? "") === expected) {
+      return item;
+    }
+  }
+  return null;
+}
+
 function validateMergedCandidateFix(repo, candidateFix) {
   if (!candidateFix) return "post-merge close requires candidate_fix";
   const candidate = fetchPullRequest(repo, candidateFix);
   if (!candidate.merged_at) return "candidate fix is not merged";
   return "";
+}
+
+function validateResolvedReviewThreads(repo, target) {
+  const [owner, name] = repo.split("/");
+  const query = `
+    query($owner: String!, $name: String!, $number: Int!) {
+      repository(owner: $owner, name: $name) {
+        pullRequest(number: $number) {
+          reviewThreads(first: 100) {
+            pageInfo { hasNextPage }
+            nodes {
+              isResolved
+              path
+              line
+              comments(first: 1) {
+                nodes {
+                  url
+                  author { login }
+                  body
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+  const data = ghJson([
+    "api",
+    "graphql",
+    "-f",
+    `owner=${owner}`,
+    "-f",
+    `name=${name}`,
+    "-F",
+    `number=${target}`,
+    "-f",
+    `query=${query}`,
+  ]);
+  const threads = data?.repository?.pullRequest?.reviewThreads;
+  if (threads?.pageInfo?.hasNextPage) return "too many review threads to prove resolved";
+  const unresolved = (threads?.nodes ?? []).filter((thread) => thread && !thread.isResolved);
+  if (unresolved.length === 0) return "";
+  const examples = unresolved
+    .slice(0, 3)
+    .map((thread) => thread.comments?.nodes?.[0]?.url ?? `${thread.path}:${thread.line ?? "?"}`);
+  return `unresolved review threads remain: ${examples.join(", ")}`;
 }
 
 function validateReplacementCloseout({ result, actionName, target }) {

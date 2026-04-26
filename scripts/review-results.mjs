@@ -100,6 +100,7 @@ function reviewResult(resultPath) {
 
   const closeActions = [];
   const fixActions = [];
+  const mergeActions = [];
   for (const action of actions) {
     const name = String(action.action ?? "");
     actionCounts[name] = (actionCounts[name] ?? 0) + 1;
@@ -171,6 +172,7 @@ function reviewResult(resultPath) {
       fixActions.push(action);
     }
     if (MERGE_ACTIONS.has(name)) {
+      mergeActions.push(action);
       if (!item) failures.push(`${target} merge action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} merge action targets ${item.state} item`);
       if (item && item.kind !== "pull_request") failures.push(`${target} merge action target is ${item.kind}`);
@@ -181,6 +183,9 @@ function reviewResult(resultPath) {
 
   if (fixActions.length > 0) {
     validateFixArtifact(result.fix_artifact, failures);
+  }
+  if (mergeActions.length > 0) {
+    validateMergePreflight(result.merge_preflight, mergeActions, failures);
   }
 
   if (result.canonical) {
@@ -215,6 +220,64 @@ function reviewResult(resultPath) {
     failures,
     warnings,
   };
+}
+
+function validateMergePreflight(mergePreflight, mergeActions, failures) {
+  if (!Array.isArray(mergePreflight)) {
+    failures.push("merge action requires merge_preflight");
+    return;
+  }
+  const preflightByTarget = new Map();
+  for (const item of mergePreflight) {
+    const target = normalizeRef(item?.target);
+    if (target) preflightByTarget.set(target, item);
+  }
+  for (const action of mergeActions) {
+    const target = normalizeRef(action.target);
+    const preflight = preflightByTarget.get(target);
+    if (!preflight) {
+      failures.push(`${target} merge action missing merge_preflight entry`);
+      continue;
+    }
+    if (preflight.security_status !== "cleared") {
+      failures.push(`${target} merge_preflight.security_status must be cleared`);
+    }
+    if (preflight.comments_status !== "resolved") {
+      failures.push(`${target} merge_preflight.comments_status must be resolved`);
+    }
+    if (preflight.bot_comments_status !== "resolved") {
+      failures.push(`${target} merge_preflight.bot_comments_status must be resolved`);
+    }
+    for (const key of [
+      "security_evidence",
+      "comments_evidence",
+      "bot_comments_evidence",
+      "validation_commands",
+    ]) {
+      if (!Array.isArray(preflight[key]) || preflight[key].length === 0) {
+        failures.push(`${target} merge_preflight.${key} must be a non-empty list`);
+      }
+    }
+    const codexReview = preflight.codex_review;
+    if (!codexReview || typeof codexReview !== "object") {
+      failures.push(`${target} merge_preflight.codex_review is required`);
+      continue;
+    }
+    if (codexReview.command !== "/review") {
+      failures.push(`${target} merge_preflight.codex_review.command must be /review`);
+    }
+    if (!["passed", "clean"].includes(codexReview.status)) {
+      failures.push(`${target} merge_preflight.codex_review.status must be passed or clean`);
+    }
+    if (codexReview.findings_addressed !== true) {
+      failures.push(`${target} merge_preflight.codex_review.findings_addressed must be true`);
+    }
+    if (!Array.isArray(codexReview.evidence) || codexReview.evidence.length === 0) {
+      failures.push(`${target} merge_preflight.codex_review.evidence must be a non-empty list`);
+    } else if (!codexReview.evidence.some((entry) => /\/review|codex review/i.test(String(entry)))) {
+      failures.push(`${target} merge_preflight.codex_review.evidence must mention /review or Codex review`);
+    }
+  }
 }
 
 function validateFixArtifact(fixArtifact, failures) {

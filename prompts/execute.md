@@ -28,4 +28,6 @@ The applicator only auto-closes:
 Everything else should be `planned` as non-mutating or escalated as `needs_human`. Do not use `executed`; Projectclownfish records execution only after the applicator safely replays a planned mutation.
 Already-closed refs are non-mutating evidence only. Use `keep_closed` with `status: "skipped"` if they must appear in the action matrix.
 
+Merge actions require `merge_preflight` for the target. Before recommending a merge, prove security-sensitive issues are cleared, all actionable comments and review threads are resolved, Greptile/Codex/Asile/CodeRabbit/Copilot and similar bot findings are addressed or proven non-actionable, Codex `/review` has passed, every review finding is addressed, and validation commands are clean. Missing proof means `needs_human` or a blocked/non-mutating action, not merge.
+
 Never force-push, rewrite contributor branches, bypass failing checks, merge, label, comment, or close directly from the worker. Return structured JSON only.

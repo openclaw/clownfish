@@ -177,6 +177,91 @@
     "canonical_pr": {
       "type": ["string", "null"]
     },
+    "merge_preflight": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target",
+          "security_status",
+          "security_evidence",
+          "comments_status",
+          "comments_evidence",
+          "bot_comments_status",
+          "bot_comments_evidence",
+          "codex_review",
+          "validation_commands"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "target": {
+            "type": "string",
+            "pattern": "^#?[0-9]+$"
+          },
+          "security_status": {
+            "type": "string",
+            "enum": ["cleared"]
+          },
+          "security_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "comments_status": {
+            "type": "string",
+            "enum": ["resolved"]
+          },
+          "comments_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bot_comments_status": {
+            "type": "string",
+            "enum": ["resolved"]
+          },
+          "bot_comments_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "codex_review": {
+            "type": "object",
+            "required": ["command", "status", "findings_addressed", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "command": {
+                "type": "string",
+                "const": "/review"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["passed", "clean"]
+              },
+              "findings_addressed": {
+                "type": "boolean",
+                "const": true
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "validation_commands": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "fix_artifact": {
       "anyOf": [
         {

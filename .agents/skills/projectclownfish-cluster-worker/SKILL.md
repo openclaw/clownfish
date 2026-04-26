@@ -13,7 +13,7 @@ Use this skill for ProjectClownfish operations in this repo. It is not just a on
 - Do not dispatch a broad write-mode batch if the last canary failed, has unreviewed artifacts, or any stale pre-fix run is still active.
 - Treat GitHub Actions repository variables as captured at workflow start. Resetting `CLOWNFISH_ALLOW_EXECUTE` does not revoke already-started runs.
 - If a stale run was started with old guardrails and write mode enabled, cancel it before scaling.
-- Codex workers never mutate GitHub directly. They emit JSON; `scripts/apply-result.mjs` is the only mutation path.
+- Codex workers never mutate GitHub directly. They emit JSON; `scripts/execute-fix-artifact.mjs` owns guarded fix PR execution and `scripts/apply-result.mjs` owns guarded close/merge replay.
 - Only the applicator may record `executed`. Worker output containing `executed` is a bug.
 - Closed historical refs are evidence only. They must not receive `close_*` actions.
 - Security-sensitive clusters do not belong in ProjectClownfish. Skip vulnerability, advisory, CVE/GHSA, leaked secret, credential/token/API-key, plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, exploitability, or sensitive-data exposure clusters and route them to central OpenClaw security handling.
@@ -92,6 +92,7 @@ Current autonomy posture:
 - Hydrate comments and PR review comments by default before model execution.
 - Hydrate cluster refs and bounded first-hop linked refs so closed representative drift can often be resolved without human review.
 - Treat failing checks as a merge/fixed-by-candidate blocker, not a reason to stop classifying the whole cluster.
+- Treat missing `merge_preflight` as a hard merge blocker. Merge preflight must prove security clearance, resolved human comments, resolved review-bot comments, passed Codex `/review`, addressed findings, and validation commands.
 - Prefer `keep_related`, `keep_independent`, `keep_closed`, `fix_needed`, and subcluster notes over blanket `needs_human`.
 - Use `needs_human` only for the exact maintainer decision still unresolved after hydrated evidence is reviewed.
 
@@ -242,6 +243,7 @@ Say "safe to ramp" only when all are true:
 - no worker result uses `executed`;
 - no close action targets a closed item;
 - applicator executed only planned duplicate/superseded/fixed-by-candidate close actions or guarded clean merge actions;
+- every merge action had passing `merge_preflight`, and live GitHub review threads were resolved before merge;
 - useful contributor PRs were either repaired when maintainer-editable or have a replacement fix artifact with source PR credit before superseded closeout;
 - `CLOWNFISH_ALLOW_EXECUTE` is back to `0`;
 - `CLOWNFISH_ALLOW_FIX_PR` is back to `0`;

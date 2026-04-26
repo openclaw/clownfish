@@ -57,9 +57,11 @@ Fix artifact actions:
 
 Merge and post-merge close:
 
-- Recommend `merge_canonical` only when checks, review state, conflicts, changelog, and validation are clean and the job permits merge. Failing checks block merge/fixed-by-candidate closeout, but they do not automatically block `keep_related`, `keep_independent`, or `fix_needed`.
+- Recommend `merge_canonical` only when security-sensitive concerns are cleared, all actionable PR comments and review threads are resolved, checks, review state, conflicts, changelog, and validation are clean, and the job permits merge. Failing checks block merge/fixed-by-candidate closeout, but they do not automatically block `keep_related`, `keep_independent`, or `fix_needed`.
 - Before recommending a merge, review actionable PR comments, address required changes or state why they are blocked, prefer a narrower refactor over broad churn, and rebase against current `main` when the branch is stale.
 - Bot review comments count as required review comments. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar automated reviewer findings must be addressed, proven non-actionable, or escalated.
+- Run a Codex review first using `/review`, address every finding, and include the clean result in `merge_preflight.codex_review`. Do not recommend merge from a stale or missing Codex review.
+- For every merge action, include `merge_preflight` for that target proving `security_status: "cleared"`, `comments_status: "resolved"`, `bot_comments_status: "resolved"`, a passed `/review`, addressed findings, validation commands, and concrete evidence.
 - After a canonical PR lands, reclassify duplicate closeout against the landed PR or commit instead of assuming the pre-merge plan is still valid.
 - Recommend `post_merge_close` only after a canonical fix is merged or already present on current `main`.
 - Preserve contributor credit in all closeout comments.
@@ -68,6 +70,7 @@ Required result shape:
 
 - `canonical`, `canonical_issue`, or `canonical_pr` with full URL when known.
 - Per-item action matrix in `actions`.
+- `merge_preflight` object for every merge action.
 - Evidence and command/result summary in action evidence.
 - `fix_artifact` object when a fix path is needed.
 - `needs_human` entries only for decisions that remain ambiguous after using the hydrated artifact. Missing permissions or failing checks should usually become blocked/non-mutating actions with exact evidence, not blanket cluster escalation.

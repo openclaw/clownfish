@@ -65,7 +65,9 @@ Autonomous workers receive those artifacts in the prompt. They can emit instant 
 
 They still must not mutate GitHub directly. Missing checkout, failing checks, conflicts, unclear canonical choice, or stale item state means `needs_human`.
 
-When a canonical PR exists, autonomous follow-through must not skip the maintainer loop. The required path is: review current PR state, inspect actionable review comments, inspect review-bot comments from Greptile, Codex, Asile, CodeRabbit, Copilot, and similar reviewers, address findings or mark them blocked, rebase/refactor to the narrowest safe change, run targeted validation, confirm changelog/credit, then only recommend merge after checks and review state are clean. After the PR lands, rerun duplicate classification against the landed PR/commit before recommending closeout.
+When a canonical PR exists, autonomous follow-through must not skip the maintainer loop. The required path is: review current PR state, clear security-sensitive concerns, inspect actionable review comments, inspect review-bot comments from Greptile, Codex, Asile, CodeRabbit, Copilot, and similar reviewers, address findings or mark them blocked, run Codex `/review`, address every Codex review finding, rebase/refactor to the narrowest safe change, run targeted validation, confirm changelog/credit, then only recommend merge after checks and review state are clean. After the PR lands, rerun duplicate classification against the landed PR/commit before recommending closeout.
+
+Every merge action must carry `merge_preflight`. Missing security clearance, unresolved human or bot comments, missing/failed Codex `/review`, unaddressed findings, or missing validation commands blocks merge. The applicator also checks live GitHub review threads immediately before squash merge.
 
 ## Runner Strategy
 
@@ -108,4 +110,5 @@ Promote from `plan` to `execute` or `autonomous` only when:
 - comments preserve contributor credit;
 - idempotency keys are present;
 - `target_updated_at` was fetched from live GitHub state;
+- merge actions include passing `merge_preflight` with security clearance, resolved comments, resolved bot comments, passed Codex `/review`, addressed findings, and validation commands;
 - high-risk work is marked `needs_human`.

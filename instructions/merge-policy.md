@@ -4,9 +4,11 @@ Merging is higher risk than closure. Prefer non-mutating classification unless t
 
 Safe-ish merge candidate:
 
+- security-sensitive concerns have been explicitly cleared;
 - tests pass or maintainer explicitly accepts risk;
-- actionable review comments have been addressed or explicitly blocked;
+- actionable review comments and review threads have been addressed or explicitly blocked;
 - automated review bot comments have been addressed or explicitly blocked, including Greptile, Codex, Asile, CodeRabbit, Copilot, and similar reviewers;
+- Codex `/review` has run before merge, passed cleanly, and every finding is addressed;
 - branch is current with `main` or has been rebased/refreshed;
 - no conflicts;
 - small focused diff;
@@ -18,6 +20,10 @@ If merge is unsafe, keep classifying. Failing checks, stale branches, broad diff
 or unresolved review comments block merge and fixed-by-candidate closeout, but
 they do not require whole-cluster `needs_human`. Use `keep_related`,
 `keep_independent`, `superseded`, or `fix_needed` when that decision is clear.
+
+Every merge action must include `merge_preflight` proving security clearance,
+resolved comments, resolved bot comments, passed Codex `/review`, addressed
+review findings, and validation commands. Missing proof blocks merge.
 
 For multiple PRs:
 

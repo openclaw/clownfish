@@ -353,7 +353,7 @@ function buildFixArtifact(plan, job) {
           : "Worker may identify canonical fixes but must not plan a fix PR.",
       merge:
         job.frontmatter.allow_merge === true
-          ? "Worker may recommend merge_canonical only after checks, review state, review-bot comments, conflicts, and changelog are clean."
+          ? "Worker may recommend merge_canonical only after security is cleared, comments/review-bot findings are resolved, Codex /review has passed and findings are addressed, checks/review state/conflicts/changelog are clean, and merge_preflight is populated."
           : "Merge recommendations must stay non-mutating.",
       post_merge_close:
         job.frontmatter.allow_post_merge_close === true
@@ -367,6 +367,7 @@ function buildFixArtifact(plan, job) {
       "hydrate every provided and linked item before classification",
       "fetch Greptile, Codex, Asile, CodeRabbit, Copilot, and similar review-bot comments for every canonical or candidate PR",
       "address each actionable review-bot finding or mark the item needs_human with the unresolved blocker",
+      "before any merge recommendation, include merge_preflight proving security clearance, resolved comments, resolved bot comments, passed Codex /review, addressed review findings, and validation commands",
       "show canonical URL or explain needs_human",
       "include targeted tests and changelog plan for fix artifacts",
       "if replacing a contributor PR, include source PR credit and the exact close comment that says ProjectClownfish will preserve attribution",
