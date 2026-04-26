@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165992-agentic-merge"
 mode: "autonomous"
-run_id: "24946558493"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24946558493"
-head_sha: "31f153a47dca02dd784156ba246a0d9568c5e9bc"
+run_id: "24947178021"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24947178021"
+head_sha: "cc7e2b9deb213893d18c0bcca95afccd476be4c1"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T03:04:10.495Z"
+published_at: "2026-04-26T03:41:58.913Z"
 canonical: "https://github.com/openclaw/openclaw/issues/41985"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/41985"
 canonical_pr: null
 actions_total: 14
-apply_executed: 5
+apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
@@ -22,7 +22,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24946558493](https://github.com/openclaw/projectclownfish/actions/runs/24946558493)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24947178021](https://github.com/openclaw/projectclownfish/actions/runs/24947178021)
 
 Workflow conclusion: success
 
@@ -32,14 +32,14 @@ Canonical: https://github.com/openclaw/openclaw/issues/41985
 
 ## Summary
 
-Kept #41985 as the live canonical issue for the remaining non-image Control UI/WebChat attachment gap. Planned duplicate closeouts only for generic same-scope reports with no distinct remaining work, kept broader UX, download, format-specific, and technical root-cause reports open as related, and attached a narrow new-fix artifact because the hydrated cluster has no PRs and current main still leaves non-image attachments image-only end-to-end.
+Live maintainer comments and already-closed duplicate issues keep #41985 as the canonical tracker for the remaining non-image Control UI/WebChat attachment gap. The remaining open cluster items stay open as related follow-ups because they preserve broader UX scope or narrower implementation detail, and the worker emits a narrow fix artifact instead of planning more duplicate closes.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 14 |
-| Applied executions | 5 |
+| Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -48,30 +48,26 @@ Kept #41985 as the live canonical issue for the remaining non-image Control UI/W
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41992 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
-| #43242 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
-| #56298 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
-| #63094 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
-| #67622 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41985 | keep_canonical | planned | canonical | This is the safest surviving user-facing tracker for the unresolved non-image upload gap. |
-| #30389 | keep_related | planned | related | It overlaps the file-upload family but still has unique remaining work outside the canonical issue. |
-| #30759 | keep_related | planned | related | Its format-specific acceptance scope is useful follow-up detail even though the generic upload gap belongs under #41985. |
-| #41992 | close_duplicate | planned | duplicate | High-confidence duplicate of the canonical generic file-upload issue. |
-| #43242 | close_duplicate | planned | duplicate | Same surface, same root cause, and no unique remaining work beyond the canonical issue. |
-| #47933 | keep_related | planned | related | Safe to keep open as related because it carries a distinct download follow-up. |
-| #48700 | keep_related | planned | related | Safer to keep as a related format-specific acceptance thread than collapse it into the canonical issue. |
-| #56298 | close_duplicate | planned | duplicate | After removing already-fixed image-only scope, the remaining ask is the same canonical non-image upload problem. |
-| #63094 | close_duplicate | planned | duplicate | Same user-visible failure and same root cause as the canonical issue. |
-| #67622 | close_duplicate | planned | duplicate | Generic same-scope duplicate of the canonical file-upload tracker. |
-| #69185 | keep_related | planned | related | Keep open as related technical scope rather than losing detailed acceptance and configuration guidance. |
-| #69447 | keep_related | planned | related | Retain the technical diagnostic thread as related evidence for the eventual fix. |
-| #41985 | fix_needed | planned | canonical | The bug/feature gap remains real on current main and needs a new fix path. |
-| #41985 | build_fix_artifact | planned | canonical | Prepare a new-fix PR plan for the canonical issue without pretending to patch from an unavailable checkout. |
+| #41985 | fix_needed | planned | canonical | The canonical issue is still open and the remaining non-image attachment gap is still real on current main. |
+| #41985 | build_fix_artifact | planned | canonical | A narrow replacement fix plan is needed before more duplicate cleanup. |
+| #41985 | open_fix_pr | blocked | canonical | This autonomous run can return a repair plan, but it cannot open the replacement fix PR without a checkout or hydrated contributor branch. |
+| #30389 | keep_related | planned | related | This is a broader umbrella request in the same family, not a clean duplicate of the canonical attachment issue. |
+| #30759 | keep_related | planned | related | This is a narrower document-ingestion follow-up with unique format semantics, not a safe duplicate closeout target. |
+| #47933 | keep_related | planned | related | This stays open as a related follow-up because it includes download/generated-file behavior beyond the canonical upload gap. |
+| #48700 | keep_related | planned | related | This is in the same attachment family, but it preserves specific Office-document scope and is safer to keep open until a concrete fix PR exists. |
+| #69185 | keep_related | planned | related | This stays open as a related technical follow-up for arbitrary-file uploads, staging, and configuration knobs. |
+| #69447 | keep_related | planned | related | This stays open as a related technical root-cause issue rather than being folded away as a duplicate. |
+| #41992 | keep_closed | skipped | duplicate | Already closed in live state; historical duplicate evidence only. |
+| #43242 | keep_closed | skipped | duplicate | Already closed in live state; historical duplicate evidence only. |
+| #56298 | keep_closed | skipped | duplicate | Already closed in live state; historical duplicate evidence only. |
+| #63094 | keep_closed | skipped | duplicate | Already closed in live state; historical duplicate evidence only. |
+| #67622 | keep_closed | skipped | duplicate | Already closed in live state; historical duplicate evidence only. |
 
 ## Needs Human
 
