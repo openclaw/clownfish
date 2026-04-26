@@ -17,6 +17,7 @@ const allowFixPr = Boolean(args["allow-fix-pr"]);
 const allowPostMergeClose = Boolean(args["allow-post-merge-close"] || allowMerge);
 const skipExisting = args["skip-existing"] !== "false";
 const skipSecurity = args["include-security"] !== true && args["skip-security"] !== "false";
+const skipFeatureRequests = args["include-feature-requests"] !== true && args["skip-feature-requests"] !== "false";
 const fromGhcrawl = Boolean(args["from-ghcrawl"] || args.all);
 const limit = numberArg("limit", 40);
 const minSize = numberArg("min-size", 2);
@@ -101,6 +102,10 @@ for (const clusterId of clusterIds) {
   if (securitySensitive && skipSecurity) {
     const refs = securitySensitiveMembers.map((member) => `#${member.number}`).join(", ");
     console.error(`skip security-sensitive cluster: ${clusterId} ${members[0].representative_title ?? ""} (${refs})`);
+    continue;
+  }
+  if (skipFeatureRequests && isProductFeatureRequest(members[0].representative_title)) {
+    console.error(`skip product feature-request cluster: ${clusterId} ${members[0].representative_title ?? ""}`);
     continue;
   }
 
@@ -243,6 +248,10 @@ function safeJson(value) {
   } catch {
     return [];
   }
+}
+
+function isProductFeatureRequest(title) {
+  return /^\s*\[?\s*feature(?:\s+(?:request|proposal))?\b/i.test(String(title ?? ""));
 }
 
 function existingGhcrawlClusterIds(dir) {
