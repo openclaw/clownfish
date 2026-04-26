@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143804-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24947174389",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24947174389",
+  "head_sha": "cc7e2b9deb213893d18c0bcca95afccd476be4c1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-143804-autonomous-smoke.md",
+  "published_at": "2026-04-26T03:29:01.111Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/68508",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/68508",
+  "canonical_pr": null,
+  "summary": "Used the hydrated cluster artifact as live GitHub state. #68508 remains the best live canonical issue for the Control UI async exec/system-event transcript leak family, with #70373 already closed into it on 2026-04-25. The remaining open candidates split into exact async-exec duplicates, broader heartbeat/runtime-context related reports, and one heartbeat-visibility request superseded by closed issue #66343. No mutating closeout is emitted in this pass because linked PR #50818 is flagged security-sensitive and is outside ProjectClownfish scope. Likely follow-up clusters remain around the broader role:user transcript-shape family (#66496) and async completion routing (#52305).",
+  "actions": [
+    {
+      "target": "#68508",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Still-open canonical issue for the user-visible async exec/system-event transcript leak family."
+    },
+    {
+      "target": "#55049",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Broad same-family symptom, but not precise enough for a high-confidence duplicate close."
+    },
+    {
+      "target": "#58287",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Keep open as a related heartbeat-triggered subfamily rather than forcing it under the narrower async-exec canonical."
+    },
+    {
+      "target": "#61433",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Overlaps the same leakage family but carries broader announce/runtime-context scope than #68508."
+    },
+    {
+      "target": "#62418",
+      "action": "keep_related",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of #68508, but this pass stays non-mutating because the hydrated cluster includes security-sensitive PR #50818."
+    },
+    {
+      "target": "#65131",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broader UX request than the current bug canonical; keep open as related."
+    },
+    {
+      "target": "#65994",
+      "action": "keep_related",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of #68508, but no autonomous close is emitted while the cluster remains non-mutating."
+    },
+    {
+      "target": "#66814",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Keep open as related because it spans multiple leakage triggers beyond the narrower canonical."
+    },
+    {
+      "target": "#67238",
+      "action": "keep_related",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#66343",
+      "candidate_fix": null,
+      "reason": "Heartbeat-visibility request appears superseded by #66343; left non-mutating in this pass."
+    },
+    {
+      "target": "#67267",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Same family, but the feedback-loop / repeated-response angle adds broader behavior beyond the canonical transcript leak."
+    },
+    {
+      "target": "#67364",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "Keep open as related heartbeat/role:user transcript-shape work."
+    },
+    {
+      "target": "#70732",
+      "action": "keep_related",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#68508",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of #68508, but no close is emitted in this non-mutating pass."
+    },
+    {
+      "target": "#50818",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route #50818 and any dependent merge/fix decision to central OpenClaw security triage."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 11,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 5
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "#50818 is flagged security-sensitive by the hydrated artifact; central OpenClaw security triage must own any fix, merge, or routing decision that depends on it."
+  ],
+  "apply_actions": []
+}
