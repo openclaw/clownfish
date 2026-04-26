@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165991-agentic-merge"
 mode: "autonomous"
-run_id: "24964232778"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24964232778"
-head_sha: "38f70877c94ad408c7816548e9dafe09a3dd4328"
+run_id: "24965156955"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24965156955"
+head_sha: "27c2c310692398fc86d262abfd33e1b06e631178"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T18:56:04.755Z"
+published_at: "2026-04-26T19:33:50.761Z"
 canonical: "https://github.com/openclaw/openclaw/issues/66875"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/66875"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/66997"
-actions_total: 17
+actions_total: 18
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,7 +22,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24964232778](https://github.com/openclaw/projectclownfish/actions/runs/24964232778)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24965156955](https://github.com/openclaw/projectclownfish/actions/runs/24965156955)
 
 Workflow conclusion: success
 
@@ -32,13 +32,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/66875
 
 ## Summary
 
-Autonomous classification completed from hydrated preflight state. Former representative #66597 is already closed; the remaining live canonical for the unresolved WebChat reload/streaming race family is #66875. Most flicker-only reports are already closed as implemented by current main / merged PR #66997. #51497 is related but not a duplicate because it alleges persisted session record/token-accounting divergence rather than the optimistic-render/history-reload race. Security-sensitive linked refs #1 and #3 are quarantined only, with no mutation planned.
+Autonomous classification only. No GitHub mutations are performed by the worker. The original representative #66597 is now closed as implemented; the landed canonical fix path for the optimistic user-message flicker family is merged PR #66997 on current main. Open issue #66875 remains the best surviving canonical discussion for any remaining chat-history reload/duplicate-bubble race symptoms. Open issue #51497 is not a duplicate of the flicker race because it reports persisted session/token-accounting divergence rather than transient UI reconciliation.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 17 |
+| Worker actions | 18 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,23 +54,24 @@ Autonomous classification completed from hydrated preflight state. Former repres
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #1 | route_security | planned | security_sensitive | Route exact security-sensitive linked PR to central OpenClaw security handling; continue unrelated non-security classification. |
-| #3 | route_security | planned | security_sensitive | Route exact security-sensitive linked issue to central OpenClaw security handling without blocking ordinary WebChat triage. |
-| #44491 | keep_closed | skipped | related | Already closed broad related issue; closed refs must not receive closure actions. |
-| #49777 | keep_closed | skipped | related | Already closed related history-rendering issue; no mutation planned. |
-| #51497 | keep_related | planned | related | Same WebChat/session area but materially different root cause and data-loss scope, so it should remain open as related rather than be closed as a duplicate. |
-| #66176 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #66274 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #66597 | keep_closed | skipped | fixed_by_candidate | Former representative is already closed; choose #66875 as the remaining live canonical issue. |
-| #66598 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #66762 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #66875 | keep_canonical | planned | canonical | Best surviving live canonical issue for unresolved WebChat race symptoms after former representative #66597 closed. |
-| #67028 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #67081 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #67412 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| #67582 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the merged current-main fix path; no closure action allowed. |
-| cluster:ghcrawl-165991-agentic-merge | fix_needed | planned |  | A narrow follow-up fix artifact is needed for the unresolved canonical #66875 streaming/reconciliation race; implementation is delegated to ProjectClownfish fix execution. |
-| cluster:ghcrawl-165991-agentic-merge | build_fix_artifact | planned |  | Build a narrow credited fix plan for the remaining open canonical issue. |
+| #1 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish backlog cleanup scope. |
+| #3 | route_security | planned | security_sensitive | Security-sensitive linked ref is routed to central OpenClaw security handling. |
+| #44491 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main. |
+| #49777 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main. |
+| #51497 | keep_independent | planned | independent | Different root cause and validation surface; leave open for separate persistence/session-loss triage. |
+| #66176 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #66274 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #66597 | keep_closed | skipped | fixed_by_candidate | Representative is obsolete because it is already closed as implemented. |
+| #66598 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #66762 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #66875 | keep_canonical | planned | canonical | Best surviving open canonical discussion for residual chat reload/streaming reconciliation symptoms; do not close until the remaining unique symptom is resolved or disproven. |
+| #67028 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #67081 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #67412 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #67582 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the landed flicker fix path. |
+| #66997 | keep_canonical | planned | canonical | Landed canonical fix for the duplicate flicker family; no merge action needed because it is already merged. |
+| #67037 | keep_closed | skipped | superseded | Already closed as superseded/implemented by current main; preserve contributor credit as historical evidence. |
+| #67271 | keep_closed | skipped | related | Closed related PR with broad unrelated churn; no mutation. |
 
 ## Needs Human
 
