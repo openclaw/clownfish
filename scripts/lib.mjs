@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 
 const SECURITY_SIGNAL_PATTERN =
   /\b(vulnerabilit(?:y|ies)|cve-\d+|ghsa|advisory|exploit|ssrf|xss|csrf|rce|(?:sql|command|code|prompt)\s*injection|auth(?:entication)?\s*bypass|privilege\s+escalation|sensitive\s+data|security\s+(?:issue|bug|fix|patch|advisory|triage|review)|(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token).{0,80}(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text)|(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text).{0,80}(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token))\b/i;
@@ -8,6 +9,36 @@ const PROMPT_STRING_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_STRING_MAX_C
 
 export function repoRoot() {
   return path.resolve(import.meta.dirname, "..");
+}
+
+export function currentProjectRepo() {
+  return (
+    process.env.CLOWNFISH_REPO ||
+    process.env.GITHUB_REPOSITORY ||
+    repoFromOriginRemote() ||
+    "openclaw/projectclownfish"
+  );
+}
+
+export function githubActionsRunUrl(runId) {
+  return `https://github.com/${currentProjectRepo()}/actions/runs/${runId}`;
+}
+
+function repoFromOriginRemote() {
+  try {
+    const remote = execFileSync("git", ["config", "--get", "remote.origin.url"], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    const sshMatch = remote.match(/^git@github\.com:([^/]+\/[^/.]+)(?:\.git)?$/);
+    if (sshMatch) return sshMatch[1];
+    const httpsMatch = remote.match(/^https:\/\/github\.com\/([^/]+\/[^/.]+)(?:\.git)?$/);
+    if (httpsMatch) return httpsMatch[1];
+  } catch {
+    return null;
+  }
+  return null;
 }
 
 export function readText(relativePath) {

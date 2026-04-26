@@ -2,7 +2,7 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { parseArgs, repoRoot } from "./lib.mjs";
+import { githubActionsRunUrl, parseArgs, repoRoot } from "./lib.mjs";
 
 const DASHBOARD_START = "<!-- projectclownfish-dashboard:start -->";
 const DASHBOARD_END = "<!-- projectclownfish-dashboard:end -->";
@@ -51,7 +51,7 @@ function publishResult(resultPath) {
   const runUrl =
     String(args["run-url"] ?? metadata?.url ?? "") ||
     previousRecord?.run_url ||
-    (runId ? `https://github.com/openclaw/projectclownfish/actions/runs/${runId}` : null);
+    (runId ? githubActionsRunUrl(runId) : null);
   const headSha = String(args["head-sha"] ?? metadata?.headSha ?? metadata?.head_sha ?? previousRecord?.head_sha ?? "");
   const workflowConclusion = String(args.conclusion ?? metadata?.conclusion ?? previousRecord?.workflow_conclusion ?? "");
   const workflowStatus = String(metadata?.status ?? previousRecord?.workflow_status ?? "");

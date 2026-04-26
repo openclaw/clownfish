@@ -1,8 +1,8 @@
 <img width="1584" height="672" alt="image" src="https://github.com/user-attachments/assets/ba1571d9-785e-47df-92b6-ce90681ca8e4" />
 
-# 🐠 Project Clownfish
+# 🐠 Clownfish
 
-ProjectClownfish is a conservative OpenClaw maintainer tool for one-cluster issue and PR cleanup.
+Clownfish is a conservative OpenClaw maintainer tool for one-cluster issue and PR cleanup.
 
 It takes a curated GitHub issue/PR cluster, asks a Codex worker to classify the items, and applies only narrow, auditable cleanup actions when the evidence is strong. This compliments the pre-pass work on [clawsweeper](https://github.com/openclaw/clawsweeper) and act as the second-pass intent based cluster resolution.
 
@@ -22,7 +22,7 @@ anything with active maintainer signal.
 
 Everything else stays open or is escalated for maintainer review.
 
-Security-sensitive reports are deliberately out of scope. ProjectClownfish
+Security-sensitive reports are deliberately out of scope. Clownfish
 routes those refs to central OpenClaw security handling and keeps processing
 unrelated ordinary bugs, provider gaps, and duplicate cleanup in the same
 cluster. It follows OpenClaw `SECURITY.md`: trusted-operator exec behavior,
@@ -31,7 +31,7 @@ vulnerabilities unless there is a real trust-boundary bypass.
 
 ## Status
 
-ProjectClownfish is intentionally smaller than ClawSweeper. ClawSweeper scans the whole OpenClaw backlog on a cadence; ProjectClownfish handles targeted clusters that were already grouped by a human, ghcrawl, or another dedupe tool.
+Clownfish is intentionally smaller than ClawSweeper. ClawSweeper scans the whole OpenClaw backlog on a cadence; Clownfish handles targeted clusters that were already grouped by a human, ghcrawl, or another dedupe tool.
 
 Cluster discovery currently comes from [vincentkoc/ghcrawl](https://github.com/vincentkoc/ghcrawl). That repository is expected to migrate into the OpenClaw organization soon.
 

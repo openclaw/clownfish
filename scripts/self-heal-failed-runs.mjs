@@ -2,9 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
-import { parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { currentProjectRepo, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
-const DEFAULT_REPO = "openclaw/projectclownfish";
+const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
 const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
