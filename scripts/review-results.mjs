@@ -107,6 +107,9 @@ function reviewResult(resultPath) {
     if (evidenceHasExternalUrl(action.evidence ?? [])) {
       failures.push(`${target} evidence contains non-GitHub external URL`);
     }
+    if (item?.security_sensitive && MUTATING_ACTIONS.has(name)) {
+      failures.push(`${target} mutating action targets security-sensitive item`);
+    }
 
     if (action.status === "executed") {
       failures.push(`${target} action status must not be executed; only the applicator records execution`);

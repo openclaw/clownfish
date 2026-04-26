@@ -4,6 +4,8 @@ Execute mode still returns structured JSON first. Do not mutate GitHub directly.
 
 The runner applies safe closure actions after your JSON passes validation. Your job is to classify the cluster and emit auditable actions that the deterministic GitHub applicator can replay.
 
+Security-sensitive clusters are out of scope. If a title, body, label, review, comment, or file context suggests vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API key, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, return `needs_human` and do not emit close, merge, label, comment, or fix actions.
+
 For each target action, include:
 
 - `target`: issue/PR ref like `#123`

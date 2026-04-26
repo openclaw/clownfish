@@ -3,19 +3,28 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { parseArgs, repoRoot } from "./lib.mjs";
+import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
-const clusterIds = args._.map((value) => Number(value)).filter(Boolean);
 const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "ghcrawl", "ghcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0])));
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);
+const skipExisting = args["skip-existing"] !== "false";
+const skipSecurity = args["include-security"] !== true && args["skip-security"] !== "false";
+const fromGhcrawl = Boolean(args["from-ghcrawl"] || args.all);
+const limit = numberArg("limit", 40);
+const minSize = numberArg("min-size", 2);
+let clusterIds = args._.map((value) => Number(value)).filter(Boolean);
+
+if (clusterIds.length === 0 && fromGhcrawl) {
+  clusterIds = selectClusterIds();
+}
 
 if (clusterIds.length === 0) {
-  console.error("usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close]");
+  console.error("usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--from-ghcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close]");
   process.exit(2);
 }
 if (!["plan", "execute", "autonomous"].includes(mode)) {
@@ -25,7 +34,14 @@ if (!["plan", "execute", "autonomous"].includes(mode)) {
 
 fs.mkdirSync(outDir, { recursive: true });
 
+const existingClusterIds = skipExisting ? existingGhcrawlClusterIds(outDir) : new Set();
+
 for (const clusterId of clusterIds) {
+  if (existingClusterIds.has(clusterId)) {
+    console.error(`skip existing cluster: ${clusterId}`);
+    continue;
+  }
+
   const members = sqliteJson(`
     select
       c.id as cluster_id,
@@ -41,6 +57,8 @@ for (const clusterId of clusterIds) {
       t.kind,
       t.state,
       t.title,
+      t.body,
+      t.labels_json,
       t.updated_at
     from clusters c
     join cluster_members cm on cm.cluster_id = c.id
@@ -52,6 +70,14 @@ for (const clusterId of clusterIds) {
 
   if (members.length === 0) {
     console.error(`cluster not found: ${clusterId}`);
+    continue;
+  }
+
+  const securitySensitive = members.some((member) =>
+    hasSecuritySignalText(member.title, member.body, safeJson(member.labels_json)),
+  );
+  if (securitySensitive && skipSecurity) {
+    console.error(`skip security-sensitive cluster: ${clusterId} ${members[0].representative_title ?? ""}`);
     continue;
   }
 
@@ -88,6 +114,7 @@ for (const clusterId of clusterIds) {
     "  - merge",
     "  - fix",
     "require_human_for:",
+    "  - security_sensitive",
     "  - failing_checks",
     "  - conflicting_prs",
     "  - unclear_canonical",
@@ -98,6 +125,8 @@ for (const clusterId of clusterIds) {
     ...yamlList(openMembers.map((member) => `#${member.number}`)),
     "cluster_refs:",
     ...yamlList(members.map((member) => `#${member.number}`)),
+    "security_policy: central_security_only",
+    `security_sensitive: ${securitySensitive ? "true" : "false"}`,
     ...(mode === "autonomous" || mode === "execute"
       ? [
           `allow_instant_close: ${allowInstantClose ? "true" : "false"}`,
@@ -147,6 +176,19 @@ for (const clusterId of clusterIds) {
   console.log(path.relative(repoRoot(), filePath));
 }
 
+function selectClusterIds() {
+  return sqliteJson(`
+    select
+      c.id,
+      c.member_count
+    from clusters c
+    where c.closed_at_local is null
+      and c.member_count >= ${sqlNumber(minSize)}
+    order by c.member_count desc, c.id asc
+    limit ${sqlNumber(limit)}
+  `).map((row) => Number(row.id)).filter(Boolean);
+}
+
 function sqliteJson(sql) {
   const output = execFileSync("sqlite3", ["-json", dbPath, sql], {
     cwd: repoRoot(),
@@ -156,11 +198,37 @@ function sqliteJson(sql) {
   return JSON.parse(output || "[]");
 }
 
+function numberArg(name, fallback) {
+  const value = Number(args[name] ?? fallback);
+  if (!Number.isInteger(value) || value < 1) throw new Error(`--${name} must be a positive integer`);
+  return value;
+}
+
 function sqlNumber(value) {
   if (!Number.isSafeInteger(value)) {
     throw new Error(`unsafe cluster id: ${value}`);
   }
   return String(value);
+}
+
+function safeJson(value) {
+  try {
+    return JSON.parse(value || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function existingGhcrawlClusterIds(dir) {
+  if (!fs.existsSync(dir)) return new Set();
+  const ids = new Set();
+  for (const entry of fs.readdirSync(dir, { recursive: true })) {
+    const file = path.join(dir, String(entry));
+    if (!file.endsWith(".md") || !fs.statSync(file).isFile()) continue;
+    const text = fs.readFileSync(file, "utf8");
+    for (const match of text.matchAll(/\bghcrawl-(\d+)\b/g)) ids.add(Number(match[1]));
+  }
+  return ids;
 }
 
 function yamlList(values) {

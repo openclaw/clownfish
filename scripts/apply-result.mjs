@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { assertAllowedOwner, hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
 const MAINTAINER_AUTHOR_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 const CLOSE_ACTIONS = new Set([
@@ -180,6 +180,14 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   const live = fetchIssue(result.repo, target);
   const kind = live.pull_request ? "pull_request" : "issue";
   const authorAssociation = normalizeAuthorAssociation(live.author_association);
+  if (hasSecuritySignal(live)) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "security-sensitive target requires central security triage",
+      live_state: live.state,
+    };
+  }
   if (MAINTAINER_AUTHOR_ASSOCIATIONS.has(authorAssociation)) {
     return {
       ...base,
@@ -396,10 +404,7 @@ function validateLowSignalLiveState(repo, target, live, kind) {
 }
 
 function hasSecuritySignal(issue) {
-  const text = [issue.title, issue.body, ...(issue.labels ?? []).map((label) => label.name ?? label)]
-    .join("\n")
-    .toLowerCase();
-  return /\b(security|vulnerability|secret|credential|cve|ghsa)\b/.test(text);
+  return hasSecuritySignalText(issue.title, issue.body, issue.labels ?? []);
 }
 
 function fetchIssue(repo, number) {

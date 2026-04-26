@@ -95,6 +95,8 @@ needed.
 
 - Security reports or security-sensitive code that should go through the
   security triage path.
+- Security-sensitive PRs are not low-signal cleanup. Route them to central
+  OpenClaw security handling instead of ProjectClownfish.
 - A green PR with a focused bug fix and clear reproduction.
 - A PR with recent maintainer review, assignment, or active author follow-up.
 - A unique bug report with reproduction detail, even if noisy.

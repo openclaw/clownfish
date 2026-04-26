@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { parseArgs, repoRoot } from "./lib.mjs";
+import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
@@ -96,7 +96,7 @@ function scoreCandidate(row) {
 
   if (isMaintainerAssociated(raw.author_association)) blockers.push(`author association is ${raw.author_association}`);
   if (assignees.length > 0) blockers.push("assigned PR");
-  if (hasSecuritySignal(title, body, labels)) blockers.push("security-sensitive text or labels");
+  if (hasSecuritySignalText(title, body, labels)) blockers.push("security-sensitive text or labels");
 
   addSignal(signals, blankTemplateSignal(body), "blank_template");
   addSignal(signals, docsOnlySignal(title, files), "docs_only");
@@ -163,6 +163,8 @@ function writeJob(batch, index) {
     ...yamlList(batch.map((candidate) => candidate.ref)),
     "cluster_refs:",
     ...yamlList(batch.map((candidate) => candidate.ref)),
+    "security_policy: central_security_only",
+    "security_sensitive: false",
     "allow_instant_close: false",
     "allow_low_signal_pr_close: true",
     "allow_fix_pr: false",
@@ -283,11 +285,6 @@ function isDocsPath(file) {
 
 function isTestPath(file) {
   return /(\.test\.|\.spec\.|__tests__|^test\/|^test-fixtures\/)/.test(file);
-}
-
-function hasSecuritySignal(title, body, labels) {
-  const text = [title, body, ...labels.map((label) => label.name ?? label)].join("\n").toLowerCase();
-  return /\b(security|vulnerability|secret|credential|cve|ghsa)\b/.test(text);
 }
 
 function isMaintainerAssociated(value) {

@@ -3,24 +3,37 @@
 ## Batch Flow
 
 1. Create or export cluster job markdown files under `jobs/<repo>/`.
-2. Run local validation:
+2. Exclude security-sensitive clusters before staging. ProjectClownfish does not handle vulnerability, advisory, CVE/GHSA, leaked secret, credential/token exposure, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive-data exposure work.
+3. Run local validation:
 
    ```bash
    npm run validate
    ```
 
-3. Dispatch plan jobs:
+4. Dispatch plan jobs:
 
    ```bash
    npm run dispatch -- jobs/openclaw/cluster-001.md jobs/openclaw/cluster-002.md --mode plan
    ```
 
-4. Review artifacts from GitHub Actions.
-5. Require `npm run review-results -- <artifact-dir>` to pass before promotion.
-6. Change selected jobs to `mode: execute` or `mode: autonomous`.
-7. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
-8. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
-9. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
+5. Review artifacts from GitHub Actions.
+6. Require `npm run review-results -- <artifact-dir>` to pass before promotion.
+7. Change selected jobs to `mode: execute` or `mode: autonomous`.
+8. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
+9. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
+10. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
+
+## Security Boundary
+
+Security-sensitive work is centrally managed outside ProjectClownfish. The importer skips those clusters by default, the job schema rejects `security_sensitive: true`, the planner marks any hydrated security-sensitive item, `review-results` fails mutating recommendations against those items, and `apply-result` blocks live targets with security-sensitive labels/title/body.
+
+Use the central OpenClaw security path for:
+
+- vulnerability reports, advisories, CVEs, GHSAs, exploitability, or security-class injection bugs;
+- leaked secrets, credentials, tokens, API keys, private keys, plaintext secret storage, or sensitive-data exposure;
+- SSRF, XSS, CSRF, RCE, auth-token leakage, or similar security-class bugs.
+
+This boundary is intentionally conservative. If a cluster is borderline, do not stage it here.
 
 ## Auto-Closure
 
@@ -36,6 +49,7 @@ It only applies closure actions when all of these are true:
 - the action includes a canonical/candidate fix ref and live `target_updated_at`;
 - GitHub still reports the same `updated_at`;
 - the target is open and not maintainer-authored.
+- the target is not security-sensitive.
 
 The applicator writes an idempotency marker into the close comment before closing. Re-runs skip already-applied comments/closures instead of posting twice.
 

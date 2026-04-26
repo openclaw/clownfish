@@ -4,6 +4,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import {
   assertAllowedOwner,
+  hasSecuritySignalText,
   makeRunDir,
   parseArgs,
   parseJob,
@@ -89,6 +90,7 @@ while (pending.length > 0) {
 }
 
 const itemList = [...items.values()].sort((left, right) => left.number - right.number);
+const securitySensitiveItems = itemList.filter((item) => itemSecuritySensitive(item));
 const plan = {
   repo: job.frontmatter.repo,
   cluster_id: job.frontmatter.cluster_id,
@@ -98,6 +100,13 @@ const plan = {
   generated_at: new Date().toISOString(),
   offline,
   main: branch,
+  security_boundary: {
+    policy: job.frontmatter.security_policy ?? "central_security_only",
+    security_sensitive_items: securitySensitiveItems.map((item) => item.ref),
+    action: securitySensitiveItems.length > 0
+      ? "No ProjectClownfish mutation is allowed; route to central OpenClaw security handling."
+      : "No security-sensitive signal detected in hydrated job refs.",
+  },
   scope: {
     seed_refs: seedRefs.map(formatNormalizedRef),
     linked_refs: [...linkedRefs.values()].map(formatNormalizedRef).sort(),
@@ -117,6 +126,7 @@ const plan = {
   canonical_candidates: canonicalCandidates(itemList, job),
   safety_gates: [
     "re-fetch live state before every close/comment/label/merge/fix action",
+    "security-sensitive clusters are out of scope and must route to central OpenClaw security handling",
     "closed context refs are evidence only; do not emit closure actions for already-closed refs",
     "stop with needs_human when canonical choice is unclear",
     "stop with needs_human when checks fail, conflicts exist, or cluster state changes",
@@ -247,6 +257,7 @@ function summarizeItem(item, job) {
     updated_at: item.updated_at,
     closed_at: item.closed_at,
     body_excerpt: item.body_excerpt,
+    security_sensitive: itemSecuritySensitive(item),
     comments_count: item.comments_count ?? item.comments.length,
     comments_hydrated: item.comments.length,
     comments_truncated: Math.max(0, item.comments.length - MAX_COMMENTS_PER_ITEM),
@@ -320,6 +331,7 @@ function buildFixArtifact(plan, job) {
       kind: item.kind,
       state: item.state,
       updated_at: item.updated_at,
+      security_sensitive: item.security_sensitive,
       hint: item.classification_hint,
     })),
     drive_plan: {
@@ -345,6 +357,7 @@ function buildFixArtifact(plan, job) {
           : "Post-merge closure disabled by job frontmatter.",
     },
     required_validation: [
+      "stop and route security-sensitive clusters to central OpenClaw security handling",
       "prove current main behavior before fix, merge, fixed-by-candidate, or post-merge closeout actions",
       "for pure issue-dedupe closeout, prove the canonical issue and duplicate targets are live and current",
       "hydrate every provided and linked item before classification",
@@ -373,6 +386,7 @@ function canonicalCandidates(items, job) {
 }
 
 function classificationHint(item, job) {
+  if (itemSecuritySensitive(item)) return "security_sensitive_central_triage";
   const canonicalNumbers = new Set((job.frontmatter.canonical ?? []).map((ref) => normalizeRef(job.frontmatter.repo, ref).number));
   if (canonicalNumbers.has(item.number)) return "canonical_hint";
   if (item.state !== "open") return "already_closed";
@@ -382,6 +396,16 @@ function classificationHint(item, job) {
   if (item.kind === "pull_request" && item.pull_request?.draft === false) return "open_pr_candidate";
   if (item.kind === "pull_request") return "draft_pr_candidate";
   return "open_issue_candidate";
+}
+
+function itemSecuritySensitive(item) {
+  return hasSecuritySignalText(
+    item.title,
+    item.body,
+    item.labels,
+    item.comments.map((comment) => comment.body),
+    item.pull_request?.files?.map((file) => file.filename),
+  );
 }
 
 function extractLinkedRefs(defaultRepo, item) {

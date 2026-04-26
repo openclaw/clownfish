@@ -16,6 +16,7 @@ Use this skill for ProjectClownfish operations in this repo. It is not just a on
 - Codex workers never mutate GitHub directly. They emit JSON; `scripts/apply-result.mjs` is the only mutation path.
 - Only the applicator may record `executed`. Worker output containing `executed` is a bug.
 - Closed historical refs are evidence only. They must not receive `close_*` actions.
+- Security-sensitive clusters do not belong in ProjectClownfish. Skip vulnerability, advisory, CVE/GHSA, leaked secret, credential/token/API-key, plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, exploitability, or sensitive-data exposure clusters and route them to central OpenClaw security handling.
 
 ## Recovery Check
 
@@ -135,12 +136,14 @@ rg -o 'ghcrawl-[0-9]+' jobs/openclaw -g '*.md' |
 Pick the largest active clusters not already imported, then generate autonomous job files:
 
 ```bash
-node scripts/import-ghcrawl-clusters.mjs ID1 ID2 ID3 \
+node scripts/import-ghcrawl-clusters.mjs --from-ghcrawl --limit 40 \
   --repo openclaw/openclaw \
   --mode autonomous \
   --suffix autonomous-smoke \
   --allow-instant-close
 ```
+
+The importer skips existing ghcrawl IDs and security-sensitive clusters by default. Use explicit IDs only when you have inspected them first; do not pass `--include-security`.
 
 Validate before committing:
 

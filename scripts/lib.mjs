@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
+const SECURITY_SIGNAL_PATTERN =
+  /\b(vulnerabilit(?:y|ies)|cve-\d+|ghsa|advisory|exploit|ssrf|xss|csrf|rce|(?:sql|command|code|prompt)\s*injection|auth(?:entication)?\s*bypass|privilege\s+escalation|sensitive\s+data|security\s+(?:issue|bug|fix|patch|advisory|triage|review)|(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token).{0,80}(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text)|(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text).{0,80}(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token))\b/i;
+
 export function repoRoot() {
   return path.resolve(import.meta.dirname, "..");
 }
@@ -122,15 +125,19 @@ export function validateJob(job) {
     "allow_fix_pr",
     "allow_merge",
     "allow_post_merge_close",
+    "security_sensitive",
   ]) {
     if (fm[key] !== undefined && typeof fm[key] !== "boolean") {
       errors.push(`${key} must be true or false`);
     }
   }
-  for (const key of ["canonical_hint", "target_checkout", "triage_policy"]) {
+  for (const key of ["canonical_hint", "target_checkout", "triage_policy", "security_policy"]) {
     if (fm[key] !== undefined && typeof fm[key] !== "string") {
       errors.push(`${key} must be a string`);
     }
+  }
+  if (fm.security_sensitive === true) {
+    errors.push("security_sensitive jobs are out of scope for ProjectClownfish; route them to central security triage");
   }
 
   return errors;
@@ -159,6 +166,8 @@ export function renderPrompt(job, requestedMode, context = {}) {
   const parts = [
     readText("prompts/worker-system.md"),
     readText(modePrompt),
+    "## Security boundary",
+    readText("instructions/security-boundary.md"),
     "## Dedupe policy",
     readText("instructions/dedupe.md"),
     "## Closure policy",
@@ -189,6 +198,19 @@ export function renderPrompt(job, requestedMode, context = {}) {
   );
 
   return parts.join("\n\n");
+}
+
+export function hasSecuritySignalText(...values) {
+  const text = values.flatMap(flattenSecurityText).join("\n");
+  return SECURITY_SIGNAL_PATTERN.test(text);
+}
+
+function flattenSecurityText(value) {
+  if (Array.isArray(value)) return value.flatMap(flattenSecurityText);
+  if (value && typeof value === "object") {
+    return Object.values(value).flatMap(flattenSecurityText);
+  }
+  return [String(value ?? "")];
 }
 
 function isGithubRef(value) {

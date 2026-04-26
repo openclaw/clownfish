@@ -22,6 +22,13 @@ anything with active maintainer signal.
 
 Everything else stays open or is escalated for maintainer review.
 
+Security-sensitive clusters are deliberately out of scope. Anything that smells
+like a vulnerability, advisory, leaked secret, credential/token exposure,
+plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, or sensitive-data
+exposure is skipped at import time and routed to central OpenClaw security
+handling. ProjectClownfish is a backlog cleanup tool, not a security triage
+queue.
+
 ## Status
 
 ProjectClownfish is intentionally smaller than ClawSweeper. ClawSweeper scans the whole OpenClaw backlog on a cadence; ProjectClownfish handles targeted clusters that were already grouped by a human, ghcrawl, or another dedupe tool.
@@ -115,6 +122,10 @@ npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
 
 # Stage low-signal PR sweep jobs from local ghcrawl data.
 npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort stale
+
+# Stage the next largest active ghcrawl clusters, skipping already-imported and
+# security-sensitive clusters by default.
+npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close
 
 # Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal

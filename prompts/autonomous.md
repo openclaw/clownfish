@@ -6,6 +6,7 @@ Scope:
 
 - Start only from refs in the job file and refs linked from those item bodies, comments, review threads, closing refs, commits, or PR descriptions.
 - Do not run broad GitHub search unless the job explicitly says so.
+- If any hydrated item is security-sensitive, stop ProjectClownfish handling for that item or cluster and route to central OpenClaw security triage. Do not emit mutating actions.
 - Use the provided cluster preflight artifact and fix artifact as your starting inventory. It should include hydrated issue comments, PR review summaries, inline PR review comments, check state, merge state, touched files, and linked refs.
 - Treat closed context refs as evidence, not targets. Do not emit close actions for them.
 - If the cluster changed materially since preflight, block only the affected mutation. Keep classifying other items when the artifact is still current enough for non-mutating decisions.

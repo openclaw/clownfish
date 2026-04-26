@@ -22,6 +22,8 @@ Evidence order:
 
 Do not close based on title similarity alone.
 
+Security-sensitive reports and PRs are not dedupe-cleanup work. If any item looks like a vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API key, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, route it to central OpenClaw security handling and do not recommend ProjectClownfish mutation.
+
 Do not use `needs_human` as a synonym for "not closable." If an item is clearly
 related, independent, already closed, or a plausible follow-up fix, emit
 `keep_related`, `keep_independent`, `keep_closed`, or `fix_needed` with evidence.

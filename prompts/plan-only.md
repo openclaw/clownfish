@@ -12,6 +12,12 @@ reserve `needs_human` for the specific unresolved decision.
 
 Evidence must come from GitHub issue/PR data, GitHub PR checks/diffs, or the job file. Do not cite external websites or mirrors.
 
+Security-sensitive clusters are read-only and out of scope for ProjectClownfish.
+If any item appears related to vulnerabilities, advisories, CVEs/GHSAs, leaked
+secrets, credentials, tokens, API keys, plaintext secret storage, exploitability,
+security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, route it to central
+OpenClaw security triage with `needs_human` and no mutating recommendation.
+
 For each item, decide one action:
 
 - keep canonical
