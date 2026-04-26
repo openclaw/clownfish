@@ -1,0 +1,177 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207038-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969055460",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969055460",
+  "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207038-agentic-merge.md",
+  "published_at": "2026-04-26T23:12:09.035Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/42009",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42009",
+  "summary": "Classified the hydrated cluster without GitHub mutations. #42009 remains the canonical open PR for the explicit --agent + --to bug. #56453/#56370 and #64108/#63992 are related default-agent session-key subfamilies, not safe duplicate closeouts yet. #64108 needs repair before merge/close because its latest Codex review still has an unresolved P2 finding and its required `check` job failed. #30654 is security-sensitive and is quarantined only.",
+  "actions": [
+    {
+      "target": "#30654",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be routed to central OpenClaw security handling and not handled by ProjectClownfish mutation."
+    },
+    {
+      "target": "#42009",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42009",
+      "candidate_fix": "#42009",
+      "reason": "Best surviving canonical for the explicit --agent + --to root cause, but not merge-recommended without fresh merge preflight."
+    },
+    {
+      "target": "#56370",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#56453",
+      "candidate_fix": "#56453",
+      "reason": "Covered by open PR #56453, but closure is blocked until the canonical fix path lands."
+    },
+    {
+      "target": "#56453",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42009",
+      "candidate_fix": null,
+      "reason": "Related default-agent session-routing PR should remain open; not safe to close or merge in this cluster pass."
+    },
+    {
+      "target": "#60614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical issue is evidence only and must not receive close actions."
+    },
+    {
+      "target": "#60621",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR is evidence only and must not receive close actions."
+    },
+    {
+      "target": "#63992",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#64108",
+      "candidate_fix": "#64108",
+      "reason": "Covered by open PR #64108, but closeout is blocked on the canonical fix path becoming clean and landed."
+    },
+    {
+      "target": "#64108",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42009",
+      "candidate_fix": null,
+      "reason": "Related default-agent regression PR should remain open and be repaired before any merge or issue closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-207038-agentic-merge",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#64108",
+      "candidate_fix": "#64108",
+      "reason": "Build a narrow repair artifact for #64108 instead of merging or closing dependent items now."
+    },
+    {
+      "target": "cluster:ghcrawl-207038-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#64108",
+      "candidate_fix": "#64108",
+      "reason": "A repair artifact is needed because #64108 is useful but not merge-ready."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 2,
+    "keep_related": 2,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "blocked": 2,
+    "skipped": 2
+  },
+  "apply_counts": {
+    "skipped": 2,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#56370",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#56453",
+      "candidate_fix": "#56453",
+      "title": null,
+      "idempotency_key": "openclaw/openclaw:ghcrawl-207038-agentic-merge:#56370:close_fixed_by_candidate:block-on-56453:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#63992",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#64108",
+      "candidate_fix": "#64108",
+      "title": null,
+      "idempotency_key": "openclaw/openclaw:ghcrawl-207038-agentic-merge:#63992:close_fixed_by_candidate:block-on-64108:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72414",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(agent): preserve default-agent session routing compatibility",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

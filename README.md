@@ -41,33 +41,33 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 26, 2026, 23:11 UTC
+Last dashboard update: Apr 26, 2026, 23:12 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 104 latest cluster reports. Run attempts are tracked as audit history only.
+Scope: 105 latest cluster reports. Run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 104 | 100% |
-| Clean completed clusters | 54 | 51.9% |
-| Needs-human clusters | 30 | 28.8% |
-| Latest successful clusters | 103 | 99.0% |
+| Latest clusters reviewed | 105 | 100% |
+| Clean completed clusters | 54 | 51.4% |
+| Needs-human clusters | 30 | 28.6% |
+| Latest successful clusters | 104 | 99.0% |
 | Latest failed clusters | 1 | 1.0% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 217 | audit |
-| Distinct PRs touched | 464 | 100% |
-| Open PRs tracked | 279 | 60.1% |
-| Closed unmerged PRs tracked | 156 | 33.6% |
-| Completed close actions | 22 | 13.8% |
+| Run attempts archived | 218 | audit |
+| Distinct PRs touched | 470 | 100% |
+| Open PRs tracked | 282 | 60.0% |
+| Closed unmerged PRs tracked | 158 | 33.6% |
+| Completed close actions | 22 | 13.6% |
 | Completed merge actions | 4 | 2.5% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 39 | 24.5% |
-| Skipped mutation attempts | 94 | 59.1% |
+| Blocked mutation attempts | 40 | 24.7% |
+| Skipped mutation attempts | 96 | 59.3% |
 
 ### Latest ProjectClownfish Closures
 
