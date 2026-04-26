@@ -17,7 +17,7 @@ const jobPath = args._[0];
 const mode = args.mode ?? "plan";
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_DRY_RUN === "1");
 const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4";
-const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 10 * 60 * 1000);
+const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 15 * 60 * 1000);
 
 if (!jobPath) {
   console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute|autonomous [--dry-run]");
@@ -131,14 +131,16 @@ fs.writeFileSync(transcriptPath, child.stdout ?? "");
 if (child.stderr) fs.writeFileSync(path.join(runDir, "codex.stderr.log"), child.stderr);
 
 if (child.error?.code === "ETIMEDOUT") {
-  writeFailureResult(`Codex worker timed out after ${codexTimeoutMs}ms`);
+  writeBlockedResult(`Codex worker timed out after ${codexTimeoutMs}ms`);
   console.error(`Codex worker timed out after ${codexTimeoutMs}ms`);
-  process.exit(124);
+  process.exit(0);
 }
 
 if (child.status !== 0) {
-  console.error(child.stderr || child.stdout);
-  process.exit(child.status ?? 1);
+  const detail = child.stderr || child.stdout || `Codex worker exited ${child.status}`;
+  writeBlockedResult(detail.trim());
+  console.error(detail);
+  process.exit(0);
 }
 
 console.log(`result: ${path.relative(repoRoot(), resultPath)}`);
@@ -153,10 +155,10 @@ function codexEnv() {
   return env;
 }
 
-function writeFailureResult(summary) {
+function writeBlockedResult(summary) {
   if (fs.existsSync(resultPath)) return;
   const result = {
-    status: "failed",
+    status: "blocked",
     repo: job.frontmatter.repo,
     cluster_id: job.frontmatter.cluster_id,
     mode,
