@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207033-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969051668",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969051668",
+  "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-207033-agentic-merge.md",
+  "published_at": "2026-04-26T22:51:59.340Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated state shows four open Feishu health/status PRs with overlapping useful work and no merge-ready canonical. No close, merge, label, or comment mutation is safe. Human maintainer input is needed to choose whether to repair #41940, base a replacement on #53533, or create a credited combined fix from the overlapping PRs.",
+  "actions": [
+    {
+      "target": "#39487",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related contributor PR, but not merge-ready and not safe to close before a canonical fix path exists."
+    },
+    {
+      "target": "#39489",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related useful implementation, but canonical/merge path remains unclear."
+    },
+    {
+      "target": "#41940",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical hint is obsolete as a merge path; human must select repair vs replacement/combined fix path."
+    },
+    {
+      "target": "#53533",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful related source PR, but unresolved bot finding and broader diff prevent autonomous canonical selection."
+    },
+    {
+      "target": "cluster:ghcrawl-207033-agentic-merge",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow Feishu status fix is still plausible, but execution should wait for maintainer canonical/combine decision."
+    },
+    {
+      "target": "cluster:ghcrawl-207033-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Prepare a bounded repair plan, but mark implementation strategy as needs_human because the cluster has conflicting useful contributor PRs."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical implementation path among #39487, #39489, #41940, and #53533. #41940 is the representative but not merge-ready and has an unresolved P1; #53533 is more complete but broader and still misses gateway startup wiring; #39487/#39489 are smaller but incomplete against the current health contract."
+  ],
+  "apply_actions": []
+}
