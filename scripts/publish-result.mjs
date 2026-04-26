@@ -251,7 +251,9 @@ function updateDashboard() {
   const latestFixRows = latestByCluster.flatMap((record) =>
     (record.fix_actions ?? []).map((action) => ({ record, action })),
   );
-  const fixRows = records.flatMap((record) => (record.fix_actions ?? []).map((action) => ({ record, action })));
+  const fixRows = uniqueFixRows(
+    records.flatMap((record) => (record.fix_actions ?? []).map((action) => ({ record, action }))),
+  );
   const applyRows = uniqueActionRows(
     records.flatMap((record) =>
       (record.apply_actions ?? []).filter(isApplicatorAction).map((action) => ({ record, action })),
@@ -773,13 +775,12 @@ function uniqueActionRows(rows) {
       record.repo,
       action.target,
       action.action,
-      action.status,
       action.idempotency_key,
       action.canonical,
       action.candidate_fix,
     ].join(":");
     const previous = byKey.get(key);
-    if (!previous || String(record.published_at ?? "").localeCompare(String((previous.record ?? previous).published_at ?? "")) > 0) {
+    if (!previous || preferActionRow(row, previous)) {
       byKey.set(key, row);
     }
   }
@@ -791,21 +792,72 @@ function uniquePlainActionRows(rows) {
   for (const row of rows) {
     const key = [
       row.repo,
-      row.run_id,
       row.cluster_id,
       row.target,
       row.action,
-      row.status,
       row.idempotency_key,
       row.canonical,
       row.candidate_fix,
     ].join(":");
     const previous = byKey.get(key);
-    if (!previous || String(row.published_at ?? "").localeCompare(String(previous.published_at ?? "")) > 0) {
+    if (!previous || preferActionRow(row, previous)) {
       byKey.set(key, row);
     }
   }
   return [...byKey.values()];
+}
+
+function uniqueFixRows(rows) {
+  const byKey = new Map();
+  for (const row of rows) {
+    const record = row.record ?? row;
+    const action = row.action ?? row;
+    const key = [
+      record.repo,
+      record.cluster_id,
+      action.action,
+      action.target,
+      action.pr,
+      action.branch,
+      action.repair_strategy,
+      action.source_action,
+    ].join(":");
+    const previous = byKey.get(key);
+    if (!previous || preferActionRow(row, previous)) {
+      byKey.set(key, row);
+    }
+  }
+  return [...byKey.values()];
+}
+
+function preferActionRow(candidate, previous) {
+  const candidateRecord = candidate.record ?? candidate;
+  const previousRecord = previous.record ?? previous;
+  const candidateAction = candidate.action ?? candidate;
+  const previousAction = previous.action ?? previous;
+  const candidateRank = actionStatusRank(candidateAction.status);
+  const previousRank = actionStatusRank(previousAction.status);
+  if (candidateRank !== previousRank) return candidateRank > previousRank;
+  return String(candidateRecord.published_at ?? "").localeCompare(String(previousRecord.published_at ?? "")) > 0;
+}
+
+function actionStatusRank(status) {
+  switch (status) {
+    case "executed":
+      return 6;
+    case "merged":
+      return 6;
+    case "failed":
+      return 5;
+    case "blocked":
+      return 4;
+    case "skipped":
+      return 3;
+    case "planned":
+      return 2;
+    default:
+      return 1;
+  }
 }
 
 function githubPullInfo(rows) {
