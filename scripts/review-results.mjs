@@ -153,7 +153,9 @@ function reviewResult(resultPath) {
       closeActions.push(action);
       if (!item) failures.push(`${target} close action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} close action targets ${item.state} item`);
-      if (action.status !== "planned") failures.push(`${target} close action status must be planned`);
+      if (action.status !== "planned" && !isFixFirstBlockedCloseAction(action)) {
+        failures.push(`${target} close action status must be planned or fix-first blocked`);
+      }
       const canonicalRef = normalizeRef(action.canonical ?? action.duplicate_of);
       const candidateRef = normalizeRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
       if (name === "close_low_signal") {
@@ -247,6 +249,13 @@ function isClusterScopedFixAction(action, result) {
   const name = String(action.action ?? "");
   const target = String(action.target ?? "");
   return FIX_ACTIONS.has(name) && target === `cluster:${result.cluster_id}`;
+}
+
+function isFixFirstBlockedCloseAction(action) {
+  if (action.status !== "blocked") return false;
+  return /fix[- ]first|requires? a fix|requires? ProjectClownfish fix|fix PR|merged canonical fix/i.test(
+    String(action.reason ?? ""),
+  );
 }
 
 function validateMergePreflight(mergePreflight, mergeActions, failures) {
