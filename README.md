@@ -90,15 +90,11 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 
 ## Modes
 
-`plan` produces recommendations only.
-
-`execute` can apply reviewed safe close actions from structured JSON.
-
-`autonomous` adds live cluster preflight and fix-artifact generation. It may recommend a canonical fix path, but direct mutation still goes through the applicator.
-
-Any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should become `needs_human`.
-
-Autonomous PR work must also clear automated reviewer feedback. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bot comments must be addressed, proven non-actionable, or escalated before any merge or post-merge closeout recommendation.
+- `plan`: produces recommendations only.
+- `execute`: can apply reviewed safe close actions from structured JSON.
+- `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend a canonical fix path, but direct mutation still goes through the applicator.
+- `needs_human`: any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should land here.
+- Automated reviewer feedback must be cleared during autonomous PR work. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bot comments must be addressed, proven non-actionable, or escalated before any merge or post-merge closeout recommendation.
 
 ## Local Run
 
