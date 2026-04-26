@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207050-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969061386",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969061386",
+  "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207050-agentic-merge.md",
+  "published_at": "2026-04-26T23:05:11.966Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/57374",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/57374",
+  "summary": "Classified the hydrated open PR cluster. #48472 is quarantined as security-sensitive. #57374 remains the best non-security canonical path for the gateway restart probe-auth bug, but it is not merge-ready because the latest Codex review has an unresolved P2 finding and checks are red. A narrow repair fix artifact is needed before merge or closeout. #59439 is superseded by that canonical path but closeout is blocked until the canonical fix lands. #50662 remains related but not closable because it contains an additional independent rate-limit fallback rotation change.",
+  "actions": [
+    {
+      "target": "#48472",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must route to central OpenClaw security handling; continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#57374",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#57374",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and maintainer_can_modify=true, but unresolved latest bot review and red checks block merge; repair the contributor branch narrowly before merge."
+    },
+    {
+      "target": "#50662",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#57374",
+      "candidate_fix": null,
+      "reason": "Related but not a true duplicate because it carries an independent agent failover behavior change; keep open for separate review/follow-up rather than close in this gateway restart cluster."
+    },
+    {
+      "target": "#59439",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#57374",
+      "candidate_fix": null,
+      "reason": "Superseded by broader canonical #57374, but closeout is blocked on the canonical fix path being repaired and landed."
+    },
+    {
+      "target": "cluster:ghcrawl-207050-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#57374",
+      "candidate_fix": null,
+      "reason": "Build a narrow repair artifact for the canonical contributor PR before any merge or superseded closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "fix_needed": 1,
+    "keep_related": 1,
+    "close_superseded": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#59439",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#57374",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-207050-agentic-merge:#59439:close-superseded-by-57374:2026-04-26T22-50-30Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72405",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(gateway): keep restart probe auth local",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
