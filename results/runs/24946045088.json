@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-166014-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24946045088",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24946045088",
+  "head_sha": "56bccb0db44200da8fc6f4a81252127a5c0e77d5",
+  "workflow_conclusion": "failure",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-166014-agentic-merge.md",
+  "published_at": "2026-04-26T02:33:05.395Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/54155",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54155",
+  "canonical_pr": null,
+  "summary": "Kept #54155 as the live umbrella issue for the session-accumulation memory family. No instant close or merge action is safe: #45718, #51977, and #55334 still carry unique fix surface, #57699, #62717, and #66886 remain related but unresolved, and #69977 plus #70717 look like a newer startup/plugin-loading regression that should stay out of this dedupe pass. Planned a narrow fix artifact for the session-store metadata-bloat path; opening the actual fix PR is blocked in this run because the provided artifact has no target checkout.",
+  "actions": [
+    {
+      "target": "#54155",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Keep the umbrella issue open and plan a targeted follow-up; the cluster still contains unresolved memory-growth reports and no live canonical PR."
+    },
+    {
+      "target": "#54155",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Produce a narrow new-fix-PR plan for the remaining session-store metadata-bloat path behind the #54155 umbrella."
+    },
+    {
+      "target": "#54155",
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked in this run because no checkout or branch context was provided for raising the follow-up PR."
+    },
+    {
+      "target": "#45718",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Same session-accumulation family as #54155, but it retains unique code-level work and should stay open as related."
+    },
+    {
+      "target": "#51977",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Keep open as a concrete sub-bug inside the #54155 family; the prompt-persistence path is still useful implementation guidance."
+    },
+    {
+      "target": "#55334",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Related to the #54155 umbrella, but not safely covered enough for duplicate or fixed-by-candidate closure."
+    },
+    {
+      "target": "#57699",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Keep open as related; it likely belongs to the same broad memory family but may need a separate canonical rooted in the session-store clone/cache path."
+    },
+    {
+      "target": "#62717",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Keep open as related; the symptom matches the family, but the root cause is not proven identical enough for dedupe."
+    },
+    {
+      "target": "#66886",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54155",
+      "candidate_fix": null,
+      "reason": "Keep open as related corroboration rather than force a duplicate close on low-specificity evidence."
+    },
+    {
+      "target": "#69977",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Treat as a separate live regression and keep it out of canonical duplicate handling for #54155."
+    },
+    {
+      "target": "#70717",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate startup/plugin-loading regression path with active contributor work; do not fold it into the #54155 dedupe path."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "keep_related": 6,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Decide whether #69977 and #70717 should be split into a separate startup/plugin-loading regression cluster; the current artifact shows they should stay out of #54155 duplicate handling, but it does not hydrate the draft PR mentioned in #70717.",
+    "Decide whether the structuredClone/session-store cache path in linked open issue #45438 should become the explicit follow-up canonical for #57699 and possibly #62717; the current artifact shows overlap, but not enough proof for autonomous duplicate closure against #45438."
+  ],
+  "apply_actions": []
+}
