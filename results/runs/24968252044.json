@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-199240-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24968252044",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24968252044",
+  "head_sha": "7d4cb531a8aefe63df69f7cc78f50c73fe08de4d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-199240-agentic-merge.md",
+  "published_at": "2026-04-26T22:21:11.634Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/65481",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/65480",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/65481",
+  "summary": "Classified the hydrated QMD memory cluster without direct GitHub mutation. #65481 is the best current canonical PR for the --mask collection-pattern regression, but it is not merge-ready because the artifact has only label checks and no clean Codex /review or full validation. #63678 is scoped to security routing only. Other open PRs are related or superseded follow-up work and should remain open until the canonical repair path lands.",
+  "actions": [
+    {
+      "target": "#63678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of ProjectClownfish mutation scope and must route to central OpenClaw security triage."
+    },
+    {
+      "target": "#65481",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65481",
+      "candidate_fix": "#65481",
+      "reason": "Best canonical path is to repair/refresh the maintainer-modifiable contributor PR #65481, validate it, run Codex /review, then merge only after preflight is clean."
+    },
+    {
+      "target": "#65480",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65481",
+      "candidate_fix": "#65481",
+      "reason": "Covered by canonical PR #65481, but keep open until the canonical repair path is merged."
+    },
+    {
+      "target": "#66259",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#65481",
+      "candidate_fix": "#65481",
+      "reason": "Superseded by the narrower #65481 canonical path; do not close yet because require_fix_before_close blocks closeout until the canonical fix lands."
+    },
+    {
+      "target": "#65547",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65481",
+      "candidate_fix": null,
+      "reason": "Related memory-core test coverage, but not a duplicate or merge candidate for this cluster."
+    },
+    {
+      "target": "#65914",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65481",
+      "candidate_fix": null,
+      "reason": "Useful related PR with unresolved bot review feedback; keep open for its own repair/merge path."
+    },
+    {
+      "target": "#67805",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65481",
+      "candidate_fix": null,
+      "reason": "Related but independent memory-core search fallback work; keep open for a separate merge decision."
+    },
+    {
+      "target": "#68590",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65481",
+      "candidate_fix": null,
+      "reason": "Related memory-core repair PR with unresolved bot findings; keep open and do not merge in this cluster."
+    },
+    {
+      "target": "#63652",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related QMD memory status issue; keep open because its candidate PR is quarantined and it is outside the #65481 canonical family."
+    },
+    {
+      "target": "cluster:ghcrawl-199240-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#65481",
+      "candidate_fix": "#65481",
+      "reason": "Build a repair artifact for the canonical PR path before merge or any closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 7,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "apply_actions": []
+}
