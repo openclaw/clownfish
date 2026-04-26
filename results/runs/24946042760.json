@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-166009-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24946042760",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24946042760",
+  "head_sha": "56bccb0db44200da8fc6f4a81252127a5c0e77d5",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/ghcrawl-166009-agentic-merge.md",
+  "published_at": "2026-04-26T02:19:57.417Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/41255",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41199",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/41255",
+  "summary": "Classification is complete, but automated cleanup is blocked. #41255 remains the best canonical PR for the broad `sessions_send` mixed-selector bug tracked by #41199; #39551, #56203, #59324, and #64846 are related variants, while #47255, #55983, and #59477 belong to separate subfamilies. No mutating action is safe from this artifact because #41255 is not merge-ready in live state and #57483 is tied to security-sensitive #57447.",
+  "actions": [
+    {
+      "target": "#41255",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41255",
+      "candidate_fix": null,
+      "reason": "Keep #41255 as the canonical open PR for the broad mixed `sessionKey` + `label` rejection bug, but do not recommend merge or closeout from this artifact."
+    },
+    {
+      "target": "#39551",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41255",
+      "candidate_fix": null,
+      "reason": "Parallel implementation of the #41255 bug family with useful extra coverage; keep open as related rather than auto-close."
+    },
+    {
+      "target": "#47255",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate feature work in the same tool area; it should not be deduped into the canonical mixed-selector bug family."
+    },
+    {
+      "target": "#55983",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related sessions-access work, but a different root cause and merge path from the canonical `sessionKey`/`label` family."
+    },
+    {
+      "target": "#56203",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41255",
+      "candidate_fix": null,
+      "reason": "Overlapping implementation of the canonical bug family with extra test work; keep open as related instead of auto-closing it."
+    },
+    {
+      "target": "#57483",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route #57483/#57447 to central OpenClaw security handling; ProjectClownfish should not recommend close, merge, label, or fix actions here."
+    },
+    {
+      "target": "#59324",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41255",
+      "candidate_fix": null,
+      "reason": "Parallel fix variant for the canonical bug family; keep open as related because it is broader than the minimal canonical path and not safe to auto-close from this artifact."
+    },
+    {
+      "target": "#59477",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate sandbox/a2a follow-on in the same area; do not merge or auto-close it from the mixed-selector cluster."
+    },
+    {
+      "target": "#64846",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41255",
+      "candidate_fix": null,
+      "reason": "Useful narrow follow-on for the equal-value duplication symptom, but not the canonical fix for the broader mixed-selector rejection bug."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 6,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Security boundary: #57483 is linked to hydrated security-sensitive issue #57447, so that subfamily must route to central OpenClaw security handling and receive no ProjectClownfish mutation."
+  ],
+  "apply_actions": []
+}
