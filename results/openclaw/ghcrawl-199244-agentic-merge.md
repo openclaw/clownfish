@@ -2,19 +2,19 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-199244-agentic-merge"
 mode: "autonomous"
-run_id: "24968252932"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24968252932"
-head_sha: "ca0a88e67e5debd868d492727ed94b15a8da7f88"
-workflow_conclusion: "failure"
+run_id: "24968369359"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24968369359"
+head_sha: "b954276a96b0bf4d3aab29f455f9666a10d9dd27"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T22:10:20.841Z"
+published_at: "2026-04-26T22:27:20.618Z"
 canonical: "https://github.com/openclaw/openclaw/pull/38776"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/38776"
-actions_total: 13
-apply_executed: 0
+actions_total: 14
+apply_executed: 1
 apply_blocked: 0
-apply_skipped: 0
+apply_skipped: 3
 needs_human_count: 0
 ---
 
@@ -22,9 +22,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24968252932](https://github.com/openclaw/projectclownfish/actions/runs/24968252932)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24968369359](https://github.com/openclaw/projectclownfish/actions/runs/24968369359)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -32,41 +32,45 @@ Canonical: https://github.com/openclaw/openclaw/pull/38776
 
 ## Summary
 
-Classified the Feishu interactive-card parsing cluster from the hydrated preflight artifact. #38776 is the narrowest repairable canonical PR path, but it is not merge-ready because review-bot findings remain unresolved and full checks include failures; emit a repair fix artifact instead of merge or close. Broad overlapping PRs #42218 and #45936 are superseded but fix-first closure is blocked until the canonical repair lands. Direct inbound-card work (#41609/#56795) and post-format fallback work (#60380/#60383) remain related follow-up subfamilies.
+Hydrated artifact shows no security-sensitive refs. #38776 is the best repairable canonical path for the narrow Feishu interactive-card parser gap, but it is not merge-ready because review-bot findings remain actionable and the fix-artifact check list includes failing check/check-additional. No merge or close is planned until the canonical repair path is updated and validated.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 13 |
-| Applied executions | 0 |
+| Worker actions | 14 |
+| Applied executions | 1 |
 | Apply blocked | 0 |
-| Apply skipped | 0 |
+| Apply skipped | 3 |
 | Needs human | 0 |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #42218 | close_superseded | skipped | superseded | action status is blocked |
+| #45936 | close_superseded | skipped | superseded | action status is blocked |
+| #60383 | close_superseded | skipped | superseded | action status is blocked |
+| #72397 | merge_canonical | executed | fix_pr | merged by ProjectClownfish post-flight |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #32023 | keep_closed | skipped | duplicate | Already closed; no closure action is valid. |
-| #32712 | keep_closed | skipped | duplicate | Already closed; no closure action is valid. |
-| #38776 | keep_canonical | planned | canonical | Best repairable canonical path, but not merge-ready without branch repair, validation, and fresh Codex review. |
-| #39339 | keep_closed | skipped | related | Already closed; no closure or merge action is valid. |
-| #41609 | keep_related | planned | related | Related follow-up subfamily; do not close as a duplicate of the quoted-card canonical repair. |
-| #42218 | close_superseded | blocked | superseded | Superseded by the narrower repairable #38776 path, but closure is blocked on the canonical fix landing. |
-| #45936 | close_superseded | blocked | superseded | Superseded by narrower canonical repair path, but broad code delta and fix-first policy block closure now. |
-| #48281 | keep_closed | skipped | related | Already closed; no closure action is valid. |
-| #55466 | keep_closed | skipped | related | Already closed; no closure or merge action is valid. |
-| #56795 | keep_related | planned | related | Related useful PR with unique scope and unresolved review feedback; keep open for its own review path. |
-| #60380 | keep_related | planned | related | Related post-format fallback subcase; keep open until #60383 or a later canonical fix lands and validates it. |
-| #60383 | keep_related | planned | related | Useful related PR, but failing checks and unresolved review-bot finding block merge or fixed-by-candidate closeout. |
-| cluster:ghcrawl-199244-agentic-merge | build_fix_artifact | planned |  | A narrow branch repair is needed before any merge or fix-first closure can be planned. |
+| #38776 | keep_canonical | planned | canonical | Best repairable canonical contributor PR, but not merge-ready. |
+| #42218 | close_superseded | blocked | superseded | Blocked on canonical fix path #38776 being repaired and landed. |
+| #45936 | close_superseded | blocked | superseded | Blocked on canonical fix path #38776 being repaired and landed. |
+| #56795 | keep_related | planned | related | Related but not the same narrow root cause as #38776. |
+| #60380 | keep_related | planned | related | Related fallback-format bug; keep open until the canonical repair proves coverage. |
+| #60383 | close_superseded | blocked | superseded | Useful related PR, but failing checks and bot P1 block merge or fixed-by-candidate closeout. |
+| #41609 | keep_related | planned | related | Related open tracking issue for broader inbound-card parsing. |
+| #32023 | keep_closed | skipped | superseded | Already closed. |
+| #32712 | keep_closed | skipped | superseded | Already closed. |
+| #39339 | keep_closed | skipped | superseded | Already closed. |
+| #48281 | keep_closed | skipped | superseded | Already closed. |
+| #55466 | keep_closed | skipped | related | Already closed. |
+| cluster:ghcrawl-199244-agentic-merge | fix_needed | planned |  | Build a narrow repair artifact before any merge or closeout. |
+| cluster:ghcrawl-199244-agentic-merge | build_fix_artifact | planned |  | Canonical path requires branch repair and validation. |
 
 ## Needs Human
 
