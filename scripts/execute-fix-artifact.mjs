@@ -1126,17 +1126,29 @@ function prepareTargetToolchain(cwd) {
   );
   run("corepack", ["enable"], { cwd, env: validationEnv });
   run("corepack", ["prepare", packageManager, "--activate"], { cwd, env: validationEnv });
-  run(
-    "pnpm",
-    [
-      "install",
-      "--frozen-lockfile",
-      "--prefer-offline",
-      "--config.engine-strict=false",
-      "--config.enable-pre-post-scripts=true",
-    ],
-    { cwd, env: validationEnv },
-  );
+  const installArgs = [
+    "install",
+    "--frozen-lockfile",
+    "--prefer-offline",
+    "--config.engine-strict=false",
+    "--config.enable-pre-post-scripts=true",
+  ];
+  try {
+    run("pnpm", installArgs, { cwd, env: validationEnv });
+  } catch (error) {
+    if (!/ERR_PNPM_OUTDATED_LOCKFILE/i.test(String(error.message))) throw error;
+    run("pnpm", installArgs.map((arg) => (arg === "--frozen-lockfile" ? "--no-frozen-lockfile" : arg)), {
+      cwd,
+      env: validationEnv,
+    });
+    restoreTargetLockfile(cwd);
+  }
+}
+
+function restoreTargetLockfile(cwd) {
+  const lockfile = "pnpm-lock.yaml";
+  if (!fs.existsSync(path.join(cwd, lockfile))) return;
+  run("git", ["checkout", "--", lockfile], { cwd });
 }
 
 function setupGitIdentity(cwd) {
