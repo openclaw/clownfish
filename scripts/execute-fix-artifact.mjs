@@ -246,23 +246,34 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
 function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fallbackReason }) {
   const baseBranch = String(process.env.CLOWNFISH_FIX_BASE_BRANCH ?? DEFAULT_BASE_BRANCH);
   run("git", ["fetch", "origin", baseBranch], { cwd: targetDir });
-  const branch = safeBranchName(`projectclownfish/${result.cluster_id}-fix`);
-  run("git", ["checkout", "-B", branch, `origin/${baseBranch}`], { cwd: targetDir });
+  const branch = replacementBranchName(result.cluster_id);
+  const branchState = checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch });
 
-  const prep = editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode: "replacement", fallbackReason });
+  if (!dryRun) ghAuthSetupGit(targetDir);
+  const prep = editValidatePrepareMerge({
+    fixArtifact,
+    targetDir,
+    branch,
+    mode: "replacement",
+    fallbackReason,
+    baseBranch,
+    allowExistingChanges: branchState.resumed && branchHasBaseDiff({ targetDir, baseBranch }),
+    pushCheckpoint: dryRun ? null : () => pushRecoverableBranch({ targetDir, branch }),
+  });
   const body = replacementPrBody(fixArtifact, fallbackReason);
   if (dryRun) {
     return {
       action: "open_fix_pr",
       status: "planned",
       branch,
+      resumed_branch: branchState.resumed,
       commit: prep.commit,
+      checkpoint_commits: prep.checkpoint_commits,
       merge_preflight: prep.merge_preflight,
       supersede_sources: supersedeSources ? fixArtifact.source_prs ?? [] : [],
     };
   }
 
-  ghAuthSetupGit(targetDir);
   run("git", ["push", "--force-with-lease", "origin", `HEAD:${branch}`], { cwd: targetDir });
   const bodyPath = path.join(workRoot, "replacement-pr-body.md");
   fs.writeFileSync(bodyPath, body);
@@ -303,82 +314,127 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     status: "opened",
     pr_url: prUrl,
     branch,
+    resumed_branch: branchState.resumed,
     commit: prep.commit,
+    checkpoint_commits: prep.checkpoint_commits,
     merge_preflight: prep.merge_preflight,
     review_threads: threadResolution,
     superseded_sources: supersedeSources ? fixArtifact.source_prs ?? [] : [],
   };
 }
 
-function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallbackReason }) {
-  let producedChanges = false;
+function editValidatePrepareMerge({
+  fixArtifact,
+  targetDir,
+  branch,
+  mode,
+  fallbackReason,
+  baseBranch = DEFAULT_BASE_BRANCH,
+  allowExistingChanges = false,
+  pushCheckpoint = null,
+}) {
+  let producedChanges = allowExistingChanges;
   let previousSummary = "";
+  const checkpointCommits = [];
   const repositoryContext = buildRepositoryContext({ fixArtifact, targetDir });
-  for (let attempt = 1; attempt <= maxEditAttempts; attempt += 1) {
-    const prompt = buildFixPrompt({
-      fixArtifact,
-      branch,
-      mode,
-      fallbackReason,
-      attempt,
-      previousNoDiff: attempt > 1,
-      previousSummary,
-      repositoryContext,
-    });
-    const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
-    const codexResult = spawnSync(
-      "codex",
-      [
-        "exec",
-        "--cd",
-        targetDir,
-        "--model",
-        model,
-        "--sandbox",
-        codexWriteSandbox,
-        ...codexWriteSandboxConfigArgs(),
-        "-c",
-        'approval_policy="never"',
-        "-c",
-        `model_reasoning_effort=${JSON.stringify(codexReasoningEffort)}`,
-        "--output-last-message",
-        summaryPath,
-        "--ephemeral",
-        "--json",
-        "-",
-      ],
-      {
-        cwd: targetDir,
-        input: prompt,
-        encoding: "utf8",
-        env: codexEnv(),
-        timeout: codexTimeoutMs,
-      },
-    );
-    fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.jsonl`), codexResult.stdout ?? "");
-    if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.stderr.log`), codexResult.stderr);
-    if (codexResult.error?.code === "ETIMEDOUT") {
-      throw new Error(`Codex fix worker timed out after ${codexTimeoutMs}ms`);
-    }
-    if (codexResult.status !== 0) {
-      throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
-    }
+  if (!producedChanges) {
+    for (let attempt = 1; attempt <= maxEditAttempts; attempt += 1) {
+      const prompt = buildFixPrompt({
+        fixArtifact,
+        branch,
+        mode,
+        fallbackReason,
+        attempt,
+        previousNoDiff: attempt > 1,
+        previousSummary,
+        repositoryContext,
+      });
+      const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
+      const codexResult = spawnSync(
+        "codex",
+        [
+          "exec",
+          "--cd",
+          targetDir,
+          "--model",
+          model,
+          "--sandbox",
+          codexWriteSandbox,
+          ...codexWriteSandboxConfigArgs(),
+          "-c",
+          'approval_policy="never"',
+          "-c",
+          `model_reasoning_effort=${JSON.stringify(codexReasoningEffort)}`,
+          "--output-last-message",
+          summaryPath,
+          "--ephemeral",
+          "--json",
+          "-",
+        ],
+        {
+          cwd: targetDir,
+          input: prompt,
+          encoding: "utf8",
+          env: codexEnv(),
+          timeout: codexTimeoutMs,
+        },
+      );
+      fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.jsonl`), codexResult.stdout ?? "");
+      if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.stderr.log`), codexResult.stderr);
+      if (codexResult.error?.code === "ETIMEDOUT") {
+        throw new Error(`Codex fix worker timed out after ${codexTimeoutMs}ms`);
+      }
+      if (codexResult.status !== 0) {
+        throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
+      }
 
-    producedChanges = Boolean(run("git", ["status", "--porcelain"], { cwd: targetDir }).trim());
-    if (producedChanges) break;
-    previousSummary = readTextIfExists(summaryPath).trim();
+      producedChanges = Boolean(run("git", ["status", "--porcelain"], { cwd: targetDir }).trim());
+      if (producedChanges) break;
+      previousSummary = readTextIfExists(summaryPath).trim();
+    }
   }
   if (!producedChanges) {
     const suffix = previousSummary ? ` Last Codex summary: ${compactText(previousSummary, 360)}` : "";
     throw new Error(`Codex produced no target repo changes after ${maxEditAttempts} edit attempt(s).${suffix}`);
   }
 
-  const codexReview = validateAndReviewLoop({ fixArtifact, targetDir, mode });
-  run("git", ["add", "--all"], { cwd: targetDir });
-  run("git", ["commit", "-m", fixArtifact.pr_title], { cwd: targetDir });
+  const firstCheckpoint = commitCheckpointIfNeeded({
+    targetDir,
+    message: fixArtifact.pr_title,
+  });
+  if (firstCheckpoint) {
+    checkpointCommits.push(firstCheckpoint);
+    pushCheckpoint?.();
+  }
+
+  const codexReview = validateAndReviewLoop({
+    fixArtifact,
+    targetDir,
+    mode,
+    baseBranch,
+    onReviewFix: (attempt) => {
+      const checkpoint = commitCheckpointIfNeeded({
+        targetDir,
+        message: `fix(clownfish): address review for ${result.cluster_id} (${attempt})`,
+      });
+      if (checkpoint) {
+        checkpointCommits.push(checkpoint);
+        pushCheckpoint?.();
+      }
+    },
+  });
+  const finalCheckpoint = commitCheckpointIfNeeded({
+    targetDir,
+    message: `fix(clownfish): finalize ${result.cluster_id}`,
+  });
+  if (finalCheckpoint) {
+    checkpointCommits.push(finalCheckpoint);
+    pushCheckpoint?.();
+  }
   const commit = run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
   return {
     commit,
+    checkpoint_commits: checkpointCommits,
     merge_preflight: buildMergePreflight({ fixArtifact, codexReview }),
   };
 }
@@ -406,6 +462,7 @@ function buildFixPrompt({
     "- resolve actionable human review comments, bot comments, and requested changes named in the artifact;",
     "- prepare the PR so it can pass the ProjectClownfish merge_preflight gate;",
     "- do not commit, push, open PRs, close PRs, or call gh;",
+    "- ProjectClownfish will checkpoint and push your edits to the recovery branch after you return;",
     "- do not inspect or print environment variables, credentials, tokens, or secrets;",
     "- do not change auth, approval, sandbox, or trust-boundary semantics unless the artifact explicitly asks for that boundary change;",
     "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary;",
@@ -690,15 +747,16 @@ function parseBooleanEnv(value, fallback) {
   return fallback;
 }
 
-function validateAndReviewLoop({ fixArtifact, targetDir, mode }) {
+function validateAndReviewLoop({ fixArtifact, targetDir, mode, baseBranch = DEFAULT_BASE_BRANCH, onReviewFix = null }) {
   let lastReview = null;
   for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
-    runAllowedValidationCommands(fixArtifact.validation_commands, targetDir);
-    run("git", ["diff", "--check"], { cwd: targetDir });
-    lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt });
+    runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
+    runDiffCheck({ targetDir, baseBranch });
+    lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch });
     if (isCleanCodexReview(lastReview)) return lastReview;
     if (attempt === maxReviewAttempts) break;
     runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
+    onReviewFix?.(attempt);
   }
   const summary =
     lastReview?.summary ??
@@ -706,13 +764,18 @@ function validateAndReviewLoop({ fixArtifact, targetDir, mode }) {
   throw new Error(`Codex /review did not pass after ${maxReviewAttempts} attempt(s): ${summary}`);
 }
 
-function runCodexReview({ fixArtifact, targetDir, mode, attempt }) {
+function runDiffCheck({ targetDir, baseBranch }) {
+  run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir });
+  run("git", ["diff", "--check"], { cwd: targetDir });
+}
+
+function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DEFAULT_BASE_BRANCH }) {
   const outputPath = path.join(workRoot, `${mode}-codex-review-${attempt}.json`);
   const schemaPath = codexReviewSchemaPath();
   const prompt = [
     "/review",
     "",
-    "Review the current uncommitted ProjectClownfish fix diff before it can be merged.",
+    `Review the current ProjectClownfish fix branch diff against origin/${baseBranch} before it can be merged.`,
     "",
     "Required checks:",
     "- security-sensitive issues are resolved or absent;",
@@ -1014,9 +1077,9 @@ function setupGitIdentity(cwd) {
   run("git", ["config", "user.email", process.env.CLOWNFISH_GIT_USER_EMAIL ?? "projectclownfish@users.noreply.github.com"], { cwd });
 }
 
-function runAllowedValidationCommands(commands, cwd) {
+function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   for (const command of commands) {
-    const resolvedCommands = resolveAllowedValidationCommands(command, cwd);
+    const resolvedCommands = resolveAllowedValidationCommands(command, cwd, baseBranch);
     for (const parts of resolvedCommands) {
       try {
         run(parts[0], parts.slice(1), { cwd });
@@ -1027,7 +1090,7 @@ function runAllowedValidationCommands(commands, cwd) {
   }
 }
 
-function resolveAllowedValidationCommands(command, cwd) {
+function resolveAllowedValidationCommands(command, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   const parts = parseAllowedValidationCommand(command);
   if (parts[0] === "npm" && parts[1] === "run" && parts[2] === "validate") {
     const scripts = readPackageScriptSet(cwd);
@@ -1038,16 +1101,16 @@ function resolveAllowedValidationCommands(command, cwd) {
   if (parts[0] === "pnpm") {
     const commandStart = parts[1] === "-s" || parts[1] === "--silent" ? 2 : 1;
     if (parts[commandStart] === "vitest" && parts[commandStart + 1] === "run") {
-      return normalizePathValidationCommand(["pnpm", "test:serial", ...parts.slice(commandStart + 2)], cwd);
+      return normalizePathValidationCommand(["pnpm", "test:serial", ...parts.slice(commandStart + 2)], cwd, baseBranch);
     }
     if (parts[1] === "test" || parts[1] === "test:serial") {
-      return normalizePathValidationCommand(parts, cwd);
+      return normalizePathValidationCommand(parts, cwd, baseBranch);
     }
   }
   return [parts];
 }
 
-function normalizePathValidationCommand(parts, cwd) {
+function normalizePathValidationCommand(parts, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   const pathArgStart = 2;
   const pathArgs = parts.slice(pathArgStart).filter(looksLikePathArgument);
   if (pathArgs.length === 0) return [parts];
@@ -1064,7 +1127,7 @@ function normalizePathValidationCommand(parts, cwd) {
     return [[...parts.slice(0, pathArgStart), ...uniqueStrings(normalized)]];
   }
 
-  const changedTests = changedTestFiles(cwd);
+  const changedTests = changedTestFiles(cwd, baseBranch);
   if (changedTests.length > 0) {
     return [["pnpm", "test:serial", ...changedTests]];
   }
@@ -1099,17 +1162,23 @@ function candidateRepoPaths(filePath, cwd) {
   return uniqueStrings(out);
 }
 
-function changedTestFiles(cwd) {
-  return gitChangedFiles(cwd).filter((file) => isTestFile(file) && fs.existsSync(path.join(cwd, file)));
+function changedTestFiles(cwd, baseBranch = DEFAULT_BASE_BRANCH) {
+  return gitChangedFiles(cwd, baseBranch).filter((file) => isTestFile(file) && fs.existsSync(path.join(cwd, file)));
 }
 
-function gitChangedFiles(cwd) {
-  return run("git", ["status", "--porcelain"], { cwd })
+function gitChangedFiles(cwd, baseBranch = DEFAULT_BASE_BRANCH) {
+  const baseRef = `origin/${baseBranch}`;
+  const committed = run("git", ["diff", "--name-only", `${baseRef}...HEAD`], { cwd })
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const uncommitted = run("git", ["status", "--porcelain"], { cwd })
     .split("\n")
     .map((line) => line.trim())
     .map((line) => line.replace(/^.. /, ""))
     .map((line) => line.split(" -> ").pop())
     .filter(Boolean);
+  return uniqueStrings([...committed, ...uncommitted]);
 }
 
 function gitLsFiles(cwd) {
@@ -1277,6 +1346,44 @@ function resolveReviewThread(threadId, cwd) {
     }
   `;
   run("gh", ["api", "graphql", "-f", `threadId=${threadId}`, "-f", `query=${mutation}`], { cwd, env: ghEnv() });
+}
+
+function replacementBranchName(clusterId) {
+  return safeBranchName(`clownfish/${clusterId}`);
+}
+
+function checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch }) {
+  if (remoteBranchExists({ targetDir, branch })) {
+    run("git", ["fetch", "origin", `${branch}:refs/remotes/origin/${branch}`], { cwd: targetDir });
+    run("git", ["checkout", "-B", branch, `origin/${branch}`], { cwd: targetDir });
+    return { resumed: true, branch };
+  }
+  run("git", ["checkout", "-B", branch, `origin/${baseBranch}`], { cwd: targetDir });
+  return { resumed: false, branch };
+}
+
+function remoteBranchExists({ targetDir, branch }) {
+  const child = spawnSync("git", ["ls-remote", "--exit-code", "--heads", "origin", branch], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  return child.status === 0;
+}
+
+function branchHasBaseDiff({ targetDir, baseBranch }) {
+  return Boolean(run("git", ["diff", "--name-only", `origin/${baseBranch}...HEAD`], { cwd: targetDir }).trim());
+}
+
+function commitCheckpointIfNeeded({ targetDir, message }) {
+  if (!run("git", ["status", "--porcelain"], { cwd: targetDir }).trim()) return "";
+  run("git", ["add", "--all"], { cwd: targetDir });
+  run("git", ["commit", "-m", message], { cwd: targetDir });
+  return run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
+}
+
+function pushRecoverableBranch({ targetDir, branch }) {
+  run("git", ["push", "--force-with-lease", "origin", `HEAD:${branch}`], { cwd: targetDir });
 }
 
 function findOpenPullRequestForBranch(branch, cwd) {
