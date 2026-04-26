@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 26, 2026, 01:27 UTC
+Last dashboard update: Apr 26, 2026, 01:36 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Blocked actions need triage
@@ -62,6 +62,7 @@ Scope: 32 latest cluster reports. Run attempts are tracked as audit history only
 | Open PRs tracked | 86 | 76.8% |
 | Closed unmerged PRs tracked | 20 | 17.9% |
 | Completed close actions | 16 | 88.9% |
+| Completed merge actions | 0 | 0.0% |
 | Duplicate closes | 16 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
@@ -114,10 +115,10 @@ Each cluster job:
 4. Runs Codex with repo-local policy prompts and JSON output schema in a read-only sandbox.
 5. Writes structured run artifacts under `.projectclownfish/runs/`.
 6. Reviews the worker artifact with deterministic safety checks.
-7. Applies only safe close/comment actions through `scripts/apply-result.mjs`.
+7. Applies guarded close/comment and explicit merge actions through `scripts/apply-result.mjs`.
 8. Publishes a sanitized result ledger back to this repo under `results/`, `closed/`, `apply-report.json`, and this README dashboard.
 
-Codex does not receive a GitHub token. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks maintainer-authored items, writes an idempotent close comment, and closes only supported duplicate/superseded/fixed-by-candidate actions.
+Codex does not receive a GitHub token. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks unsafe closeouts, writes idempotent close comments, closes supported duplicate/superseded/fixed-by-candidate actions, and can squash-merge explicitly allowed clean PR actions.
 
 Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24 and `ubuntu-latest` for ClawSweeper parity; other hosted runners are opt-in.
 
@@ -126,8 +127,8 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 ## Modes
 
 - `plan`: produces recommendations only.
-- `execute`: can apply reviewed safe close actions from structured JSON.
-- `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend a canonical fix path, but direct mutation still goes through the applicator.
+- `execute`: can apply reviewed safe close and explicit clean merge actions from structured JSON.
+- `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend and drive a canonical fix path, but direct mutation still goes through the applicator.
 - `needs_human`: any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should land here.
 - Automated reviewer feedback must be cleared during autonomous PR work. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bot comments must be addressed, proven non-actionable, or escalated before any merge or post-merge closeout recommendation.
 
@@ -153,7 +154,7 @@ npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort 
 
 # Stage the next largest active ghcrawl clusters, skipping already-imported and
 # security-sensitive clusters by default.
-npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close
+npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-post-merge-close
 
 # Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal

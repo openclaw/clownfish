@@ -12,8 +12,12 @@ const CLOSE_ACTIONS = new Set([
   "close_superseded",
   "close_fixed_by_candidate",
   "close_low_signal",
+  "post_merge_close",
 ]);
+const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
 const CLOSE_CLASSIFICATIONS = new Set(["duplicate", "superseded", "fixed_by_candidate", "low_signal"]);
+const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
+const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 
 const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
@@ -47,13 +51,6 @@ if (!["execute", "autonomous"].includes(job.frontmatter.mode)) {
 if (process.env.CLOWNFISH_ALLOW_EXECUTE !== "1") {
   throw new Error("refusing apply: CLOWNFISH_ALLOW_EXECUTE must be 1");
 }
-if (!job.frontmatter.allowed_actions.includes("close")) {
-  throw new Error("refusing apply: job does not allow close");
-}
-if (!job.frontmatter.allowed_actions.includes("comment")) {
-  throw new Error("refusing apply: job does not allow comment");
-}
-
 const resultPath = resultPathArg ? path.resolve(resultPathArg) : findLatestResultPath();
 const result = JSON.parse(fs.readFileSync(resultPath, "utf8"));
 if (result.repo !== job.frontmatter.repo) {
@@ -144,15 +141,41 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   if (action.status !== "planned") {
     return { ...base, status: "skipped", reason: `action status is ${action.status}` };
   }
-  if (!CLOSE_ACTIONS.has(actionName)) {
-    return { ...base, status: "skipped", reason: "action is not an auto-closure action" };
+  if (MERGE_ACTIONS.has(actionName)) {
+    return applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, target, base });
   }
+  if (!CLOSE_ACTIONS.has(actionName)) {
+    return { ...base, status: "skipped", reason: "action is not an applicator action" };
+  }
+
+  return applyCloseAction({ job, result, action, dryRun, allowMissingUpdatedAt, target, base, actionName, classification, canonical, candidateFix, idempotencyKey });
+}
+
+function applyCloseAction({
+  job,
+  result,
+  action,
+  dryRun,
+  allowMissingUpdatedAt,
+  target,
+  base,
+  actionName,
+  classification,
+  canonical,
+  candidateFix,
+  idempotencyKey,
+}) {
+  const closePolicyBlock = validateClosePolicy({ job, actionName });
+  if (closePolicyBlock) return { ...base, status: "blocked", reason: closePolicyBlock };
   if (!CLOSE_CLASSIFICATIONS.has(classification)) {
     return {
       ...base,
       status: "blocked",
       reason: "auto-closure requires duplicate, superseded, fixed_by_candidate, or low_signal classification",
     };
+  }
+  if (actionName === "post_merge_close" && job.frontmatter.allow_post_merge_close !== true) {
+    return { ...base, status: "blocked", reason: "post-merge close requires allow_post_merge_close: true" };
   }
   if (!job.frontmatter.candidates.map(normalizeIssueRef).includes(target)) {
     return { ...base, status: "blocked", reason: "target is not listed in job candidates" };
@@ -172,6 +195,10 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   }
   if (candidateFix && !allowedRefs.has(candidateFix)) {
     return { ...base, status: "blocked", reason: "candidate fix is not listed in job refs" };
+  }
+  if (actionName === "post_merge_close") {
+    const candidateBlock = validateMergedCandidateFix(result.repo, candidateFix);
+    if (candidateBlock) return { ...base, status: "blocked", reason: candidateBlock };
   }
   if (canonical === target || candidateFix === target) {
     return { ...base, status: "blocked", reason: "target cannot close against itself" };
@@ -269,8 +296,166 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
   };
 }
 
+function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, target, base }) {
+  const policyBlock = validateMergePolicy({ job, action });
+  if (policyBlock) return { ...base, status: "blocked", reason: policyBlock };
+  if (!allowedRefs.has(target)) {
+    return { ...base, status: "blocked", reason: "merge target is not listed in job refs" };
+  }
+  if (action.target_kind !== "pull_request") {
+    return { ...base, status: "blocked", reason: "merge action requires pull_request target_kind" };
+  }
+
+  const live = fetchIssue(result.repo, target);
+  if (!live.pull_request) {
+    return { ...base, status: "blocked", reason: "merge target is not a pull request", live_state: live.state };
+  }
+  if (hasSecuritySignal(live)) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "security-sensitive target requires central security triage",
+      live_state: live.state,
+    };
+  }
+
+  const expectedUpdatedAt = action.target_updated_at ?? action.live_updated_at;
+  if (!expectedUpdatedAt && !allowMissingUpdatedAt) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "missing target_updated_at; rerun the worker against live GitHub state",
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+    };
+  }
+  if (expectedUpdatedAt && expectedUpdatedAt !== live.updated_at) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "target changed since worker review",
+      expected_updated_at: expectedUpdatedAt,
+      live_updated_at: live.updated_at,
+      live_state: live.state,
+    };
+  }
+
+  const pullRequest = fetchPullRequest(result.repo, target);
+  const view = fetchPullRequestView(result.repo, target);
+  const mergedAt = pullRequest.merged_at ?? view.mergedAt ?? null;
+  if (mergedAt) {
+    return {
+      ...base,
+      status: "executed",
+      reason: "already merged",
+      live_state: "merged",
+      live_updated_at: live.updated_at,
+      merged_at: mergedAt,
+      merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+    };
+  }
+
+  const mergeBlock = validateMergeablePullRequest({ pullRequest, view });
+  if (mergeBlock) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: mergeBlock,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+    };
+  }
+
+  if (dryRun) {
+    return {
+      ...base,
+      status: "planned",
+      reason: "dry run",
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      merge_method: "squash",
+    };
+  }
+
+  ghWithRetry(["pr", "merge", String(target), "--repo", result.repo, "--squash"]);
+  const merged = fetchPullRequest(result.repo, target);
+  return {
+    ...base,
+    status: "executed",
+    reason: "merged by projectclownfish",
+    live_state: "merged",
+    live_updated_at: live.updated_at,
+    merged_at: merged.merged_at ?? null,
+    merge_commit_sha: merged.merge_commit_sha ?? null,
+    merge_method: "squash",
+  };
+}
+
+function validateClosePolicy({ job, actionName }) {
+  if (!job.frontmatter.allowed_actions.includes("close")) return "job does not allow close";
+  if (!job.frontmatter.allowed_actions.includes("comment")) return "job does not allow close comments";
+  if ((job.frontmatter.blocked_actions ?? []).includes("close")) return "close is blocked by job frontmatter";
+  if ((job.frontmatter.blocked_actions ?? []).includes("comment")) return "comment is blocked by job frontmatter";
+  if (!["close_low_signal", "post_merge_close"].includes(actionName) && job.frontmatter.allow_instant_close !== true) {
+    return "instant close requires allow_instant_close: true";
+  }
+  return "";
+}
+
+function validateMergePolicy({ job, action }) {
+  if (!job.frontmatter.allowed_actions.includes("merge")) return "job does not allow merge";
+  if ((job.frontmatter.blocked_actions ?? []).includes("merge")) return "merge is blocked by job frontmatter";
+  if (job.frontmatter.allow_merge !== true) return "merge requires allow_merge: true";
+  if (!["merge_candidate", "merge_canonical"].includes(String(action.action ?? ""))) {
+    return "unsupported merge action";
+  }
+  return "";
+}
+
+function validateMergedCandidateFix(repo, candidateFix) {
+  if (!candidateFix) return "post-merge close requires candidate_fix";
+  const candidate = fetchPullRequest(repo, candidateFix);
+  if (!candidate.merged_at) return "candidate fix is not merged";
+  return "";
+}
+
+function validateMergeablePullRequest({ pullRequest, view }) {
+  if (pullRequest.state !== "open") return `pull request is ${pullRequest.state}`;
+  if (pullRequest.draft || view.isDraft) return "pull request is draft";
+  if (String(view.baseRefName ?? pullRequest.base?.ref ?? "") !== "main") return "pull request base is not main";
+  if (view.mergeable !== "MERGEABLE") return `mergeable state is ${view.mergeable || "unknown"}`;
+  if (!CLEAN_MERGE_STATES.has(String(view.mergeStateStatus ?? ""))) {
+    return `merge state status is ${view.mergeStateStatus || "unknown"}`;
+  }
+  if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(view.reviewDecision ?? ""))) {
+    return `review decision is ${view.reviewDecision}`;
+  }
+  const checkBlock = validateStatusChecks(view.statusCheckRollup ?? []);
+  if (checkBlock) return checkBlock;
+  return "";
+}
+
+function validateStatusChecks(checks) {
+  if (!Array.isArray(checks) || checks.length === 0) return "no PR checks found";
+  const blockers = [];
+  for (const check of checks) {
+    const name = check.name ?? check.context ?? "unknown check";
+    const status = String(check.status ?? check.state ?? "").toUpperCase();
+    const conclusion = String(check.conclusion ?? "").toUpperCase();
+    if (status && !["COMPLETED", "SUCCESS"].includes(status)) {
+      blockers.push(`${name}: ${status}`);
+      continue;
+    }
+    if (conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion)) {
+      blockers.push(`${name}: ${conclusion}`);
+    }
+  }
+  if (blockers.length > 0) return `checks are not clean: ${blockers.slice(0, 5).join(", ")}`;
+  return "";
+}
+
 function isApplicatorAction(action) {
-  return CLOSE_ACTIONS.has(String(action?.action ?? ""));
+  return CLOSE_ACTIONS.has(String(action?.action ?? "")) || MERGE_ACTIONS.has(String(action?.action ?? ""));
 }
 
 function normalizeIssueRef(value, expectedRepo = "") {
@@ -294,6 +479,7 @@ function normalizeClassification(action) {
   if (action.action === "close_low_signal") return "low_signal";
   if (action.action === "close_superseded") return "superseded";
   if (action.action === "close_duplicate") return "duplicate";
+  if (action.action === "post_merge_close") return "fixed_by_candidate";
   return raw;
 }
 
@@ -413,6 +599,31 @@ function fetchIssue(repo, number) {
 
 function fetchPullRequest(repo, number) {
   return ghJson(["api", `repos/${repo}/pulls/${number}`]);
+}
+
+function fetchPullRequestView(repo, number) {
+  return ghJson([
+    "pr",
+    "view",
+    String(number),
+    "--repo",
+    repo,
+    "--json",
+    [
+      "baseRefName",
+      "isDraft",
+      "mergeable",
+      "mergeCommit",
+      "mergeStateStatus",
+      "mergedAt",
+      "reviewDecision",
+      "state",
+      "statusCheckRollup",
+      "title",
+      "updatedAt",
+      "url",
+    ].join(","),
+  ]);
 }
 
 function findExistingComment(repo, number, marker, body) {

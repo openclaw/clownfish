@@ -9,8 +9,9 @@ const CLOSE_ACTIONS = new Set([
   "close_superseded",
   "close_fixed_by_candidate",
   "close_low_signal",
-  "close_low_signal",
+  "post_merge_close",
 ]);
+const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
 const MUTATING_ACTIONS = new Set([
   "close",
   "close_duplicate",
@@ -144,6 +145,13 @@ function reviewResult(resultPath) {
         if (!candidateItem) failures.push(`${target} close action candidate ${candidateRef} missing preflight item`);
         if (candidateRef === normalizeRef(target)) failures.push(`${target} close action candidate points at itself`);
       }
+    }
+    if (MERGE_ACTIONS.has(name)) {
+      if (!item) failures.push(`${target} merge action missing preflight item`);
+      if (item && item.state !== "open") failures.push(`${target} merge action targets ${item.state} item`);
+      if (item && item.kind !== "pull_request") failures.push(`${target} merge action target is ${item.kind}`);
+      if (action.target_kind !== "pull_request") failures.push(`${target} merge action requires pull_request target_kind`);
+      if (action.status !== "planned") failures.push(`${target} merge action status must be planned`);
     }
   }
 

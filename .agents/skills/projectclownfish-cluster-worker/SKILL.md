@@ -140,7 +140,9 @@ node scripts/import-ghcrawl-clusters.mjs --from-ghcrawl --limit 40 \
   --repo openclaw/openclaw \
   --mode autonomous \
   --suffix autonomous-smoke \
-  --allow-instant-close
+  --allow-instant-close \
+  --allow-merge \
+  --allow-post-merge-close
 ```
 
 The importer skips existing ghcrawl IDs and security-sensitive clusters by default. Use explicit IDs only when you have inspected them first; do not pass `--include-security`.
@@ -234,7 +236,7 @@ Say "safe to ramp" only when all are true:
 - latest canaries run on the current SHA;
 - no worker result uses `executed`;
 - no close action targets a closed item;
-- applicator executed only planned duplicate/superseded/fixed-by-candidate close actions;
+- applicator executed only planned duplicate/superseded/fixed-by-candidate close actions or guarded clean merge actions;
 - `CLOWNFISH_ALLOW_EXECUTE` is back to `0`;
 - active runs are expected and on the intended SHA;
 - artifacts are downloaded or easy to retrieve by run URL.

@@ -7,7 +7,7 @@ run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24939004182"
 head_sha: "7db1f986bd485f7b71752bc77e40097172d6b6ef"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-04-26T01:27:46.246Z"
+published_at: "2026-04-26T01:36:05.624Z"
 canonical: "https://github.com/openclaw/openclaw/issues/66875"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/66875"
 canonical_pr: null

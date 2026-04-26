@@ -12,6 +12,7 @@ const CLOSE_APPLICATOR_ACTIONS = new Set([
   "close_superseded",
   "close_fixed_by_candidate",
   "close_low_signal",
+  "post_merge_close",
 ]);
 const MERGE_APPLICATOR_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
 const APPLICATOR_ACTIONS = new Set([...CLOSE_APPLICATOR_ACTIONS, ...MERGE_APPLICATOR_ACTIONS]);
@@ -224,6 +225,7 @@ function updateDashboard() {
   );
   const executedRows = applyRows.filter((row) => row.action.status === "executed");
   const closedRows = executedRows.filter((row) => CLOSE_APPLICATOR_ACTIONS.has(String(row.action.action ?? "")));
+  const mergedRows = executedRows.filter((row) => MERGE_APPLICATOR_ACTIONS.has(String(row.action.action ?? "")));
   const closureRows = hydrateClosureRows(closedRows).sort(sortNewestClosureRowFirst);
   const projectClownfishMergedRows = trackedPrRows.filter((row) => row.projectClownfishMerged);
   const blockedRows = applyRows.filter((row) => row.action.status === "blocked");
@@ -262,6 +264,7 @@ function updateDashboard() {
     cancelled: latestByCluster.filter((record) => record.workflow_conclusion === "cancelled").length,
     cleanClusters: cleanClusters.length,
     closed: closedRows.length,
+    merged: mergedRows.length,
     trackedPrs: trackedPrRows.length,
     trackedMergedPrs: projectClownfishMergedRows.length,
     openTrackedPrs: countRows(trackedPrRows, (row) => row.state === "open"),
@@ -309,6 +312,7 @@ ${renderMetricRow(
   percent(totals.closedUnmergedTrackedPrs, totals.trackedPrs),
 )}
 ${renderMetricRow("Completed close actions", totals.closed, percent(totals.closed, totals.mutationAttempts))}
+${renderMetricRow("Completed merge actions", totals.merged, percent(totals.merged, totals.mutationAttempts))}
 ${renderMetricRow("Duplicate closes", totals.duplicateCloses, percent(totals.duplicateCloses, totals.closed))}
 ${renderMetricRow("Superseded closes", totals.supersededCloses, percent(totals.supersededCloses, totals.closed))}
 ${renderMetricRow(
