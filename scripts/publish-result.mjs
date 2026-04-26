@@ -216,7 +216,7 @@ function updateDashboard() {
   );
   const executedRows = applyRows.filter((row) => row.action.status === "executed");
   const closedRows = executedRows.filter((row) => CLOSE_APPLICATOR_ACTIONS.has(String(row.action.action ?? "")));
-  const mergedPrRows = trackedPrRows.filter((row) => row.merged);
+  const projectClownfishMergedRows = trackedPrRows.filter((row) => row.projectClownfishMerged);
   const blockedRows = applyRows.filter((row) => row.action.status === "blocked");
   const skippedRows = applyRows.filter((row) => row.action.status === "skipped");
   const needsHumanRows = latestByCluster.filter((record) => (record.needs_human ?? []).length > 0);
@@ -253,7 +253,7 @@ function updateDashboard() {
     cleanClusters: cleanClusters.length,
     closed: closedRows.length,
     trackedPrs: trackedPrRows.length,
-    mergedPrs: mergedPrRows.length,
+    projectClownfishMergedPrs: projectClownfishMergedRows.length,
     openTrackedPrs: countRows(trackedPrRows, (row) => row.state === "open"),
     closedUnmergedTrackedPrs: countRows(
       trackedPrRows,
@@ -287,7 +287,11 @@ ${renderMetricRow("Latest failed clusters", totals.failure, percent(totals.failu
 ${renderMetricRow("Latest cancelled clusters", totals.cancelled, percent(totals.cancelled, totals.clusters))}
 ${renderMetricRow("Run attempts archived", totals.runs, "audit")}
 ${renderMetricRow("Distinct PRs touched", totals.trackedPrs, "100%")}
-${renderMetricRow("Merged PRs", totals.mergedPrs, percent(totals.mergedPrs, totals.trackedPrs))}
+${renderMetricRow(
+  "ProjectClownfish merged PRs",
+  totals.projectClownfishMergedPrs,
+  percent(totals.projectClownfishMergedPrs, totals.trackedPrs),
+)}
 ${renderMetricRow("Open PRs tracked", totals.openTrackedPrs, percent(totals.openTrackedPrs, totals.trackedPrs))}
 ${renderMetricRow(
   "Closed unmerged PRs tracked",
@@ -306,11 +310,11 @@ ${renderMetricRow("Low-signal PR closes", totals.lowSignalCloses, percent(totals
 ${renderMetricRow("Blocked mutation attempts", totals.blocked, percent(totals.blocked, totals.mutationAttempts))}
 ${renderMetricRow("Skipped mutation attempts", totals.skipped, percent(totals.skipped, totals.mutationAttempts))}
 
-### Recent Merges
+### Recent ProjectClownfish Merges
 
 | PR | Title | Merged | Cluster | Report | Run |
 | --- | --- | --- | --- | --- | --- |
-${renderRecentMergeRows(mergedPrRows.slice(0, 25))}
+${renderRecentMergeRows(projectClownfishMergedRows.slice(0, 25))}
 ${DASHBOARD_END}`;
 
   let updated;
@@ -455,7 +459,7 @@ function renderRecentMergeRows(rows) {
       [
         markdownTableLink(`#${row.number}`, row.url),
         tableCell(row.title),
-        tableCell(row.merged_at ? formatTimestamp(row.merged_at) : "merged"),
+        tableCell(row.projectClownfishMergedAt ? formatTimestamp(row.projectClownfishMergedAt) : "executed"),
         markdownTableLink(row.record.cluster_id, clusterReportPath(row.record)),
         markdownTableLink("report", clusterReportPath(row.record)),
         markdownTableLink(row.record.run_id || "run", row.record.run_url),
@@ -471,15 +475,12 @@ function buildTrackedPrRows(records) {
     addTrackedPrRef(byPull, record, record.canonical_pr, { source: "canonical_pr", explicitPull: true });
     addTrackedPrRef(byPull, record, record.canonical, { source: "canonical", explicitPull: isPullUrl(record.canonical) });
 
-    for (const action of [...(record.actions ?? []), ...(record.apply_actions ?? [])]) {
-      const actionName = String(action.action ?? "");
+    for (const action of record.actions ?? []) {
       const title = action.title ?? action.target_title ?? action.pr_title ?? null;
       addTrackedPrRef(byPull, record, action.target, {
         source: "target",
         explicitPull: false,
         title,
-        assumedMerged: MERGE_APPLICATOR_ACTIONS.has(actionName) && action.status === "executed",
-        merged_at: action.merged_at ?? null,
       });
       addTrackedPrRef(byPull, record, action.canonical, {
         source: "canonical",
@@ -488,6 +489,32 @@ function buildTrackedPrRows(records) {
       });
       addTrackedPrRef(byPull, record, action.candidate_fix, {
         source: "candidate_fix",
+        explicitPull: isPullUrl(action.candidate_fix),
+        title,
+      });
+    }
+
+    for (const action of record.apply_actions ?? []) {
+      const actionName = String(action.action ?? "");
+      const title = action.title ?? action.target_title ?? action.pr_title ?? null;
+      const projectClownfishMerged =
+        MERGE_APPLICATOR_ACTIONS.has(actionName) && action.status === "executed";
+      addTrackedPrRef(byPull, record, action.target, {
+        source: "apply_target",
+        explicitPull: false,
+        title,
+        assumedMerged: projectClownfishMerged,
+        projectClownfishMerged,
+        projectClownfishMergedAt: action.merged_at ?? null,
+        merged_at: projectClownfishMerged ? action.merged_at ?? null : null,
+      });
+      addTrackedPrRef(byPull, record, action.canonical, {
+        source: "apply_canonical",
+        explicitPull: isPullUrl(action.canonical),
+        title,
+      });
+      addTrackedPrRef(byPull, record, action.candidate_fix, {
+        source: "apply_candidate_fix",
         explicitPull: isPullUrl(action.candidate_fix),
         title,
       });
@@ -507,6 +534,8 @@ function addTrackedPrRef(byPull, record, value, options = {}) {
     title: options.title ?? null,
     assumedMerged: Boolean(options.assumedMerged),
     merged_at: options.merged_at ?? null,
+    projectClownfishMerged: Boolean(options.projectClownfishMerged),
+    projectClownfishMergedAt: options.projectClownfishMergedAt ?? null,
     sources: new Set([options.source ?? "ref"]),
     explicitPull: Boolean(options.explicitPull),
   });
@@ -529,6 +558,8 @@ function mergeTrackedPrRows(primary, secondary) {
     title: primary.title ?? secondary.title ?? null,
     assumedMerged: Boolean(primary.assumedMerged || secondary.assumedMerged),
     merged_at: primary.merged_at ?? secondary.merged_at ?? null,
+    projectClownfishMerged: Boolean(primary.projectClownfishMerged || secondary.projectClownfishMerged),
+    projectClownfishMergedAt: primary.projectClownfishMergedAt ?? secondary.projectClownfishMergedAt ?? null,
     sources: new Set([...(primary.sources ?? []), ...(secondary.sources ?? [])]),
     explicitPull: Boolean(primary.explicitPull || secondary.explicitPull),
   };
@@ -546,7 +577,8 @@ function hydrateTrackedPrRows(rows) {
     .map((row) => {
       const info = infoByPull.get(`${row.repo}#${row.number}`);
       if (!info && !row.explicitPull) return null;
-      const merged = Boolean(row.assumedMerged || row.merged_at || info?.merged);
+      const projectClownfishMerged = Boolean(row.projectClownfishMerged);
+      const merged = Boolean(projectClownfishMerged || row.merged_at || info?.merged);
       const state = merged ? "merged" : normalizePullState(info?.state) ?? "tracked";
       return {
         ...row,
@@ -555,6 +587,8 @@ function hydrateTrackedPrRows(rows) {
         state,
         merged,
         merged_at: row.merged_at ?? info?.merged_at ?? null,
+        projectClownfishMerged,
+        projectClownfishMergedAt: row.projectClownfishMergedAt ?? row.merged_at ?? null,
       };
     })
     .filter(Boolean);

@@ -34,7 +34,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 26, 2026, 00:48 UTC
+Last dashboard update: Apr 26, 2026, 00:55 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Blocked actions need triage
@@ -51,7 +51,7 @@ Scope: 27 latest cluster reports. Run attempts are tracked as audit history only
 | Latest cancelled clusters | 0 | 0.0% |
 | Run attempts archived | 34 | audit |
 | Distinct PRs touched | 110 | 100% |
-| Merged PRs | 6 | 5.5% |
+| ProjectClownfish merged PRs | 0 | 0.0% |
 | Open PRs tracked | 86 | 78.2% |
 | Closed unmerged PRs tracked | 18 | 16.4% |
 | Completed close actions | 16 | 88.9% |
@@ -62,16 +62,11 @@ Scope: 27 latest cluster reports. Run attempts are tracked as audit history only
 | Blocked mutation attempts | 2 | 11.1% |
 | Skipped mutation attempts | 0 | 0.0% |
 
-### Recent Merges
+### Recent ProjectClownfish Merges
 
 | PR | Title | Merged | Cluster | Report | Run |
 | --- | --- | --- | --- | --- | --- |
-| [#67023](https://github.com/openclaw/openclaw/pull/67023) | fix(memory-core): prevent dreaming-narrative session leaks (#66358) | Apr 20, 2026, 22:41 UTC | [ghcrawl-143819-autonomous-smoke](results/openclaw/ghcrawl-143819-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143819-autonomous-smoke.md) | [24939011554](https://github.com/openclaw/projectclownfish/actions/runs/24939011554) |
-| [#66997](https://github.com/openclaw/openclaw/pull/66997) | fix(ui): skip chat history reload during active sends to prevent mess… | Apr 15, 2026, 08:56 UTC | [ghcrawl-143808-autonomous-smoke](results/openclaw/ghcrawl-143808-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143808-autonomous-smoke.md) | [24939004182](https://github.com/openclaw/projectclownfish/actions/runs/24939004182) |
-| [#65427](https://github.com/openclaw/openclaw/pull/65427) | refactor(whatsapp): centralize account connection lifecycle | Apr 12, 2026, 18:24 UTC | [ghcrawl-143793-autonomous-smoke](results/openclaw/ghcrawl-143793-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143793-autonomous-smoke.md) | [24937904802](https://github.com/openclaw/projectclownfish/actions/runs/24937904802) |
-| [#64394](https://github.com/openclaw/openclaw/pull/64394) | Fix WhatsApp media sends when mediaUrl is empty but mediaUrls is populated | Apr 12, 2026, 15:58 UTC | [ghcrawl-143814-autonomous-smoke](results/openclaw/ghcrawl-143814-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143814-autonomous-smoke.md) | [24939007967](https://github.com/openclaw/projectclownfish/actions/runs/24939007967) |
-| [#64713](https://github.com/openclaw/openclaw/pull/64713) | fix(auth): stop forcing unsupported Codex OAuth scopes | Apr 11, 2026, 09:08 UTC | [ghcrawl-143811-autonomous-smoke](results/openclaw/ghcrawl-143811-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143811-autonomous-smoke.md) | [24943076135](https://github.com/openclaw/projectclownfish/actions/runs/24943076135) |
-| [#62312](https://github.com/openclaw/openclaw/pull/62312) | fix(gateway): stop SSRF guard rejecting operator-configured proxy hostnames | Apr 7, 2026, 19:22 UTC | [ghcrawl-143805-autonomous-smoke](results/openclaw/ghcrawl-143805-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143805-autonomous-smoke.md) | [24939001644](https://github.com/openclaw/projectclownfish/actions/runs/24939001644) |
+| _None yet_ |  |  |  |  |  |
 <!-- projectclownfish-dashboard:end -->
 
 ## How It Works
