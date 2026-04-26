@@ -12,6 +12,7 @@ const CLOSE_ACTIONS = new Set([
   "post_merge_close",
 ]);
 const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
+const ROUTE_SECURITY_ACTIONS = new Set(["route_security"]);
 const FIX_REPAIR_STRATEGIES = new Set([
   "repair_contributor_branch",
   "replace_uneditable_branch",
@@ -123,6 +124,20 @@ function reviewResult(resultPath) {
     }
     if (item?.security_sensitive && MUTATING_ACTIONS.has(name)) {
       failures.push(`${target} mutating action targets security-sensitive item`);
+    }
+    if (ROUTE_SECURITY_ACTIONS.has(name)) {
+      if (action.classification !== "security_sensitive") {
+        failures.push(`${target} route_security action must use security_sensitive classification`);
+      }
+      if (action.status !== "skipped" && action.status !== "planned") {
+        failures.push(`${target} route_security action status must be skipped or planned`);
+      }
+      if (item && item.security_sensitive !== true) {
+        warnings.push(`${target} route_security target was not marked security_sensitive in preflight`);
+      }
+    }
+    if (name === "needs_human" && /security-sensitive|security boundary|central .*security|security triage/i.test(String(action.reason ?? ""))) {
+      failures.push(`${target} security routing must use route_security instead of needs_human`);
     }
 
     if (action.status === "executed") {

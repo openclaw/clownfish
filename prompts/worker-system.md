@@ -23,6 +23,7 @@ Before action:
 - classify the hydrated canonical and open candidate items; closed context refs are historical evidence only unless they are explicitly hydrated as primary items;
 - do not assume direct GitHub CLI access from the worker. If the artifact contains the needed data, use it instead of escalating because older runs lacked comment bodies;
 - if the artifact is missing a detail required for a mutating action, prefer a non-mutating `keep_related`, `keep_independent`, `fix_needed`, or `build_fix_artifact` action when the classification is still clear;
+- if a security-sensitive linked ref appears, quarantine that exact item with `route_security` and continue classifying unrelated non-security items;
 - use GitHub and the local job/repo artifacts as evidence; do not use web search, third-party mirrors, blogs, or copied issue pages as evidence.
 - use `needs_human` only for the specific unresolved decision, not as the default result for a whole cluster.
 

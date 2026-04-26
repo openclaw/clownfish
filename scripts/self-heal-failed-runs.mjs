@@ -65,6 +65,7 @@ const attempts = candidates.map((candidate) => ({
 try {
   if (openExecuteWindow) {
     setExecuteGate("1");
+    setFixGate("1");
     executeWindowOpened = true;
   } else {
     assertExecuteGateOpenIfNeeded(candidates);
@@ -104,6 +105,7 @@ try {
 } finally {
   if (executeWindowOpened) {
     setExecuteGate("0");
+    setFixGate("0");
   }
 }
 
@@ -187,6 +189,12 @@ function assertExecuteGateOpenIfNeeded(candidates) {
       "refusing write-mode self-heal: CLOWNFISH_ALLOW_EXECUTE is not 1; rerun with --open-execute-window or open the gate manually",
     );
   }
+  const fixCurrent = readFixGate();
+  if (fixCurrent !== "1") {
+    throw new Error(
+      "refusing write-mode self-heal: CLOWNFISH_ALLOW_FIX_PR is not 1; rerun with --open-execute-window or open both gates manually",
+    );
+  }
 }
 
 function readRunRecords() {
@@ -241,6 +249,11 @@ function readExecuteGate() {
   return variables.find((variable) => variable.name === "CLOWNFISH_ALLOW_EXECUTE")?.value ?? "";
 }
 
+function readFixGate() {
+  const variables = ghJson(["variable", "list", "--repo", repo, "--json", "name,value"]);
+  return variables.find((variable) => variable.name === "CLOWNFISH_ALLOW_FIX_PR")?.value ?? "";
+}
+
 function setExecuteGate(value) {
   execFileSync("gh", ["variable", "set", "CLOWNFISH_ALLOW_EXECUTE", "--repo", repo, "--body", value], {
     cwd: repoRoot(),
@@ -248,6 +261,15 @@ function setExecuteGate(value) {
     stdio: ["ignore", "pipe", "pipe"],
   });
   console.log(`CLOWNFISH_ALLOW_EXECUTE=${value}`);
+}
+
+function setFixGate(value) {
+  execFileSync("gh", ["variable", "set", "CLOWNFISH_ALLOW_FIX_PR", "--repo", repo, "--body", value], {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  console.log(`CLOWNFISH_ALLOW_FIX_PR=${value}`);
 }
 
 function currentHeadSha() {

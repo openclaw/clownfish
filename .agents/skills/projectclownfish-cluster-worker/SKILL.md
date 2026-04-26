@@ -16,7 +16,7 @@ Use this skill for ProjectClownfish operations in this repo. It is not just a on
 - Codex workers never mutate GitHub directly. They emit JSON; `scripts/execute-fix-artifact.mjs` owns guarded fix PR execution and `scripts/apply-result.mjs` owns guarded close/merge replay.
 - Only the applicator may record `executed`. Worker output containing `executed` is a bug.
 - Closed historical refs are evidence only. They must not receive `close_*` actions.
-- Security-sensitive clusters do not belong in ProjectClownfish. Skip vulnerability, advisory, CVE/GHSA, leaked secret, credential/token/API-key, plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, exploitability, or sensitive-data exposure clusters and route them to central OpenClaw security handling.
+- Security-sensitive refs do not belong in ProjectClownfish mutation. Quarantine vulnerability, advisory, CVE/GHSA, leaked secret, credential/token/API-key, plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, exploitability, or sensitive-data exposure refs with `route_security`, and keep unrelated non-security work moving.
 
 ## Recovery Check
 
@@ -92,9 +92,10 @@ Current autonomy posture:
 - Hydrate comments and PR review comments by default before model execution.
 - Hydrate cluster refs and bounded first-hop linked refs so closed representative drift can often be resolved without human review.
 - Treat failing checks as a merge/fixed-by-candidate blocker, not a reason to stop classifying the whole cluster.
+- Treat security-sensitive refs as scoped quarantine. Emit/expect `route_security` for that ref only; keep processing unrelated non-security duplicates, bugs, provider gaps, and fix artifacts.
 - Treat missing `merge_preflight` as a hard merge blocker. Merge preflight must prove security clearance, resolved human comments, resolved review-bot comments, passed Codex `/review`, addressed findings, and validation commands.
 - Let `execute-fix-artifact` run the agentic merge-prep loop for fix PRs: edit, validate, Codex `/review`, address findings, revalidate, then resolve review threads when `CLOWNFISH_RESOLVE_REVIEW_THREADS=1`.
-- Prefer `keep_related`, `keep_independent`, `keep_closed`, `fix_needed`, and subcluster notes over blanket `needs_human`.
+- Prefer `keep_related`, `keep_independent`, `keep_closed`, `fix_needed`, `route_security`, and subcluster notes over blanket `needs_human`.
 - Use `needs_human` only for the exact maintainer decision still unresolved after hydrated evidence is reviewed.
 
 After tuning, run:
@@ -152,7 +153,7 @@ node scripts/import-ghcrawl-clusters.mjs --from-ghcrawl --limit 40 \
   --allow-post-merge-close
 ```
 
-The importer skips existing ghcrawl IDs and security-sensitive clusters by default. Use explicit IDs only when you have inspected them first; do not pass `--include-security`.
+The importer skips existing ghcrawl IDs and fully security-sensitive clusters by default. Mixed clusters are allowed so the worker can route security refs and continue ordinary bug/dedupe work.
 
 Validate before committing:
 
@@ -194,6 +195,17 @@ gh variable set CLOWNFISH_ALLOW_FIX_PR --repo openclaw/projectclownfish --body 0
 ```
 
 Important: after dispatch, already-started runs keep the write gate they captured. If a new bug is found, cancel those runs.
+
+Single-job requeue after calibration:
+
+```bash
+npm run requeue -- 24947178021
+npm run requeue -- 24947178021 --execute --open-execute-window --runner ubuntu-latest
+```
+
+Use a run id when you want to replay the same source job from an artifact, or a
+job path when you already know the file. The script opens both mutation gates for
+live execute/autonomous requeues and closes them after the queued run starts.
 
 For plan-only scaling, keep write gate off and dispatch with `--mode plan` or `--dry-run` where appropriate.
 

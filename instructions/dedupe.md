@@ -22,12 +22,28 @@ Evidence order:
 
 Do not close based on title similarity alone.
 
-Security-sensitive reports and PRs are not dedupe-cleanup work. If any item looks like a vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API key, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, route it to central OpenClaw security handling and do not recommend ProjectClownfish mutation.
+Security-sensitive reports and PRs are not dedupe-cleanup work. If an item looks
+like a vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API
+key, plaintext secret storage, exploitability, security-class injection,
+SSRF/XSS/CSRF/RCE, or sensitive data exposure, emit `route_security` for that
+item and keep processing unrelated non-security items. Do not use one
+security-linked ref as a blanket reason to avoid duplicate closeout, fix
+artifact creation, or single-item review for ordinary bugs.
+
+OpenClaw `SECURITY.md` treats trusted-operator exec behavior, provider gaps,
+feature gaps, and hardening-only parity drift as non-security unless the report
+demonstrates a boundary bypass. Small bug fixes in exec-adjacent code are
+allowed when they do not redefine auth, approval, sandbox, or trust boundaries.
 
 Do not use `needs_human` as a synonym for "not closable." If an item is clearly
 related, independent, already closed, or a plausible follow-up fix, emit
 `keep_related`, `keep_independent`, `keep_closed`, or `fix_needed` with evidence.
 Use `needs_human` only for the unresolved decision point.
+
+If an item is not a true duplicate, decide the single item instead of escalating
+the whole cluster: keep it related/independent, build a narrow fix artifact if it
+is a real bug with no viable PR, or use `needs_human` only for product-intent
+questions that remain after checking the hydrated artifact.
 
 Failing checks block merge and fixed-by-candidate closeout. They do not block
 non-mutating classification, subcluster splitting, or a fix artifact.

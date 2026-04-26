@@ -22,12 +22,12 @@ anything with active maintainer signal.
 
 Everything else stays open or is escalated for maintainer review.
 
-Security-sensitive clusters are deliberately out of scope. Anything that smells
-like a vulnerability, advisory, leaked secret, credential/token exposure,
-plaintext secret storage, SSRF/XSS/CSRF/RCE, security-class injection, or sensitive-data
-exposure is skipped at import time and routed to central OpenClaw security
-handling. ProjectClownfish is a backlog cleanup tool, not a security triage
-queue.
+Security-sensitive reports are deliberately out of scope. ProjectClownfish
+routes those refs to central OpenClaw security handling and keeps processing
+unrelated ordinary bugs, provider gaps, and duplicate cleanup in the same
+cluster. It follows OpenClaw `SECURITY.md`: trusted-operator exec behavior,
+provider gaps, feature gaps, and hardening-only parity drift are not treated as
+vulnerabilities unless there is a real trust-boundary bypass.
 
 ## Status
 
@@ -124,7 +124,8 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 - `plan`: produces recommendations only.
 - `execute`: can apply reviewed safe close and explicit clean merge actions from structured JSON.
 - `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend and drive a canonical fix path; direct mutation still goes through the fix executor and applicator gates.
-- `needs_human`: any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should land here.
+- `route_security`: quarantines true security-sensitive refs without poisoning unrelated cluster work.
+- `needs_human`: only product-direction, trust-boundary, canonical-choice, merge-path, or contributor-credit decisions that remain unclear after the hydrated artifact and single-item review/check/decide pass.
 - Automated reviewer feedback must be cleared during autonomous PR work. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bot comments must be addressed, proven non-actionable, or escalated before any merge or post-merge closeout recommendation.
 - Merge preflight: no PR can merge until security issues are cleared, comments are resolved, Codex `/review` has passed, findings are addressed, and focused validation is clean.
 - Repair ladder: make the useful contributor PR mergeable when its branch is maintainer-editable; otherwise replace it with a narrow credited fix PR plan, close/supersede the uneditable PR only after that replacement path is explicit, and carry contributor credit into the PR body and changelog plan.
@@ -150,11 +151,20 @@ npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
 npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort stale
 
 # Stage the next largest active ghcrawl clusters, skipping already-imported and
-# security-sensitive clusters by default.
+# fully security-sensitive clusters by default. Mixed clusters can route security
+# refs while continuing ordinary bug/dedupe work.
 npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-fix-pr --allow-post-merge-close
 
 # Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal
+
+# Resolve a job from a run id or job path and show the requeue plan.
+npm run requeue -- 24947178021
+
+# Requeue one reviewed job/run into the live queue. This briefly opens both
+# write gates when the job is execute/autonomous, waits for the run to start,
+# then closes the gates.
+npm run requeue -- 24947178021 --execute --open-execute-window --runner ubuntu-latest
 
 # Execute a reviewed fix artifact locally. Requires both execution gates and a write token.
 CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/openclaw/cluster-example.md --latest --dry-run

@@ -17,6 +17,7 @@ const latest = Boolean(args.latest);
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_FIX_DRY_RUN === "1");
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4");
 const codexTimeoutMs = Number(process.env.CLOWNFISH_FIX_CODEX_TIMEOUT_MS ?? 45 * 60 * 1000);
+const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 2));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
 
@@ -100,14 +101,16 @@ if (NON_EXECUTABLE_REPAIR_STRATEGIES.has(repairStrategy)) {
 }
 
 const fixArtifact = validateFixArtifact(result.fix_artifact);
-if (hasSecuritySignalText(job.raw, result.summary, fixArtifact, plannedFixActions)) {
+const securityBlock = validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActions });
+if (securityBlock) {
   report.status = "skipped";
-  report.reason = "security-sensitive signal detected";
+  report.reason = securityBlock.reason;
   report.actions.push({
     action: "execute_fix",
     status: "skipped",
     repair_strategy: fixArtifact.repair_strategy,
-    reason: "security-sensitive signals are routed to central security handling; closure actions may still apply their own gates",
+    reason: securityBlock.reason,
+    evidence: securityBlock.evidence,
   });
   writeReport(report, resultPath);
   process.exit(0);
@@ -277,45 +280,58 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
 }
 
 function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallbackReason }) {
-  const prompt = buildFixPrompt({ fixArtifact, branch, mode, fallbackReason });
-  const summaryPath = path.join(workRoot, `${mode}-codex-summary.md`);
-  const codexResult = spawnSync(
-    "codex",
-    [
-      "exec",
-      "--cd",
-      targetDir,
-      "--model",
-      model,
-      "--sandbox",
-      "workspace-write",
-      "-c",
-      'approval_policy="never"',
-      "--output-last-message",
-      summaryPath,
-      "--ephemeral",
-      "--json",
-      "-",
-    ],
-    {
-      cwd: targetDir,
-      input: prompt,
-      encoding: "utf8",
-      env: codexEnv(),
-      timeout: codexTimeoutMs,
-    },
-  );
-  fs.writeFileSync(path.join(workRoot, `${mode}-codex.jsonl`), codexResult.stdout ?? "");
-  if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex.stderr.log`), codexResult.stderr);
-  if (codexResult.error?.code === "ETIMEDOUT") {
-    throw new Error(`Codex fix worker timed out after ${codexTimeoutMs}ms`);
-  }
-  if (codexResult.status !== 0) {
-    throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
-  }
+  let producedChanges = false;
+  for (let attempt = 1; attempt <= maxEditAttempts; attempt += 1) {
+    const prompt = buildFixPrompt({
+      fixArtifact,
+      branch,
+      mode,
+      fallbackReason,
+      attempt,
+      previousNoDiff: attempt > 1,
+    });
+    const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
+    const codexResult = spawnSync(
+      "codex",
+      [
+        "exec",
+        "--cd",
+        targetDir,
+        "--model",
+        model,
+        "--sandbox",
+        "workspace-write",
+        "-c",
+        'approval_policy="never"',
+        "--output-last-message",
+        summaryPath,
+        "--ephemeral",
+        "--json",
+        "-",
+      ],
+      {
+        cwd: targetDir,
+        input: prompt,
+        encoding: "utf8",
+        env: codexEnv(),
+        timeout: codexTimeoutMs,
+      },
+    );
+    fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.jsonl`), codexResult.stdout ?? "");
+    if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.stderr.log`), codexResult.stderr);
+    if (codexResult.error?.code === "ETIMEDOUT") {
+      throw new Error(`Codex fix worker timed out after ${codexTimeoutMs}ms`);
+    }
+    if (codexResult.status !== 0) {
+      throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
+    }
 
-  const status = run("git", ["status", "--porcelain"], { cwd: targetDir }).trim();
-  if (!status) throw new Error("Codex produced no target repo changes");
+    producedChanges = Boolean(run("git", ["status", "--porcelain"], { cwd: targetDir }).trim());
+    if (producedChanges) break;
+  }
+  if (!producedChanges) {
+    throw new Error(`Codex produced no target repo changes after ${maxEditAttempts} edit attempt(s)`);
+  }
 
   const codexReview = validateAndReviewLoop({ fixArtifact, targetDir, mode });
   run("git", ["add", "--all"], { cwd: targetDir });
@@ -327,7 +343,7 @@ function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallba
   };
 }
 
-function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason }) {
+function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason, attempt, previousNoDiff }) {
   return [
     "You are editing the target repository for ProjectClownfish.",
     "",
@@ -339,10 +355,15 @@ function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason }) {
     "- resolve actionable human review comments, bot comments, and requested changes named in the artifact;",
     "- prepare the PR so it can pass the ProjectClownfish merge_preflight gate;",
     "- do not commit, push, open PRs, close PRs, or call gh;",
-    "- do not touch security-sensitive code unless the artifact explicitly proves this is non-security work.",
+    "- do not change auth, approval, sandbox, or trust-boundary semantics unless the artifact explicitly asks for that boundary change;",
+    "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary.",
     "",
     `Mode: ${mode}`,
     `Branch: ${branch}`,
+    `Edit attempt: ${attempt ?? 1} of ${maxEditAttempts}`,
+    previousNoDiff
+      ? "Previous attempt produced no target repo diff. This time make the smallest concrete code/test change that satisfies the artifact; do not return analysis only."
+      : "",
     fallbackReason ? `Fallback reason: ${fallbackReason}` : "",
     "",
     "Fix artifact:",
@@ -489,7 +510,7 @@ function buildMergePreflight({ fixArtifact, codexReview }) {
   return {
     target: null,
     security_status: "cleared",
-    security_evidence: ["ProjectClownfish security signal scan found no security-sensitive cluster or fix artifact signals."],
+    security_evidence: ["ProjectClownfish scoped security scan found no security-sensitive fix target, source PR, or fix artifact scope."],
     comments_status: "resolved",
     comments_evidence: ["Agentic fix pass addressed human PR/review comments named in the fix artifact."],
     bot_comments_status: "resolved",
@@ -582,6 +603,77 @@ function validateFixArtifact(fixArtifact) {
     throw new Error("repair/replacement fix_artifact must list source_prs");
   }
   return fixArtifact;
+}
+
+function validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActions }) {
+  if (job.frontmatter.security_sensitive === true) {
+    return {
+      reason: "job is marked security_sensitive; route to central security handling",
+      evidence: ["job.frontmatter.security_sensitive=true"],
+    };
+  }
+
+  const clusterPlan = readSiblingJson(resultPath, "cluster-plan.json");
+  const securityRefs = new Set(
+    (clusterPlan?.security_boundary?.security_sensitive_items ?? [])
+      .map(normalizeLocalRef)
+      .filter(Boolean),
+  );
+
+  for (const action of plannedFixActions) {
+    const target = normalizeLocalRef(action.target);
+    if (target && securityRefs.has(target)) {
+      return {
+        reason: `fix action targets security-sensitive ref ${target}`,
+        evidence: [`${target} appears in cluster-plan.security_boundary.security_sensitive_items`],
+      };
+    }
+  }
+
+  for (const source of fixArtifact.source_prs ?? []) {
+    const sourceRef = normalizeLocalRef(source);
+    if (sourceRef && securityRefs.has(sourceRef)) {
+      return {
+        reason: `fix artifact source PR ${sourceRef} is security-sensitive`,
+        evidence: [`${sourceRef} appears in cluster-plan.security_boundary.security_sensitive_items`],
+      };
+    }
+  }
+
+  const fixSecurityText = {
+    summary: fixArtifact.summary,
+    affected_surfaces: fixArtifact.affected_surfaces,
+    likely_files: fixArtifact.likely_files,
+    validation_commands: fixArtifact.validation_commands,
+    pr_title: fixArtifact.pr_title,
+    pr_body: fixArtifact.pr_body,
+    credit_notes: fixArtifact.credit_notes,
+    branch_update_blockers: fixArtifact.branch_update_blockers,
+  };
+  if (hasSecuritySignalText(fixSecurityText)) {
+    return {
+      reason: "fix artifact scope itself contains security-sensitive signals",
+      evidence: ["security scan matched fix_artifact summary/title/body/files/validation scope"],
+    };
+  }
+
+  return null;
+}
+
+function readSiblingJson(resultPath, name) {
+  const file = path.join(path.dirname(resultPath), name);
+  if (!fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function normalizeLocalRef(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return "";
+  const githubMatch = text.match(/github\.com\/[^/\s]+\/[^/\s]+\/(?:issues|pull)\/(\d+)/i);
+  if (githubMatch) return `#${githubMatch[1]}`;
+  const hashMatch = text.match(/^#?(\d+)$/);
+  if (hashMatch) return `#${hashMatch[1]}`;
+  return "";
 }
 
 function ensureTargetCheckout(repo, targetDir) {

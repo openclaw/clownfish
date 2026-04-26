@@ -6,7 +6,7 @@ Scope:
 
 - Start only from refs in the job file and refs linked from those item bodies, comments, review threads, closing refs, commits, or PR descriptions.
 - Do not run broad GitHub search unless the job explicitly says so.
-- If any hydrated item is security-sensitive, stop ProjectClownfish handling for that item or cluster and route to central OpenClaw security triage. Do not emit mutating actions.
+- If any hydrated item is security-sensitive, quarantine that item with `route_security` and route it to central OpenClaw security triage. Do not mutate that item. Continue classifying unrelated non-security items, duplicate pairs, provider gaps, and ordinary bugs.
 - Use the provided cluster preflight artifact and fix artifact as your starting inventory. It should include hydrated issue comments, PR review summaries, inline PR review comments, check state, merge state, touched files, and linked refs.
 - Treat closed context refs as evidence, not targets. Do not emit close actions for them.
 - If the cluster changed materially since preflight, block only the affected mutation. Keep classifying other items when the artifact is still current enough for non-mutating decisions.
@@ -28,6 +28,7 @@ Before drive mode:
    - if `maintainer_can_modify` is false, the branch is unsafe, or the PR contains broad/unrelated churn, do not merge it. Emit a replacement `build_fix_artifact` / `open_fix_pr` plan that preserves the contributor's credit in `credit_notes`, PR body, and changelog plan;
    - when replacing a useful contributor PR, emit a `close_superseded` comment that says ProjectClownfish cannot safely update that branch, will carry the narrow fix forward separately, and will credit the contributor by username and PR URL.
 8. Do not emit closure actions until the canonical path is explicit. If the cluster is over-broad, split it into subfamilies in the action matrix and use `keep_related`/`keep_independent` for clear non-targets instead of making the whole result `needs_human`.
+9. If an item is not a true duplicate, run a single-item review/check/decide path: keep it related or independent when that is clear, emit a narrow fix artifact when it is a real bug or provider gap with no viable PR, and use `needs_human` only for product-direction or trust-boundary decisions that remain after checking the artifact.
 
 Low-signal PR cleanup:
 
@@ -46,10 +47,13 @@ Instant close actions:
 - Include `target_updated_at`, `target_kind`, `canonical` or `candidate_fix`, contributor-credit preserving `comment`, evidence, and a stable `idempotency_key`.
 - In action fields, `canonical`, `duplicate_of`, and `candidate_fix` must be explicit refs like `#61741`. Do not put a year, timestamp fragment, unrelated number, or only a prose URL in those fields.
 - Leave independent or related reports open as `keep_independent` or `keep_related`. Use `needs_human` only when choosing among viable canonical paths, merge paths, or contributor-credit tradeoffs requires maintainer judgment.
+- Do not suppress duplicate closeout only because another linked ref is security-sensitive. `route_security` the security ref and close only unrelated non-security duplicates that satisfy all closure gates.
 
 Fix artifact actions:
 
 - If no viable canonical PR exists and the bug still appears real from the artifact, emit `fix_needed` plus `build_fix_artifact` even when the current job cannot open the fix PR. Do not escalate solely because `allow_fix_pr` is false.
+- Provider support gaps, missing model capability routing, and ordinary feature gaps reported as bugs should become a fix artifact when the artifact shows expected behavior and the patch can stay narrow.
+- `validation_commands` must be executable commands using `pnpm`, `npm`, `node`, or `git`. Put manual browser checks and prose test plans in `pr_body`, `credit_notes`, or action evidence, not in `validation_commands`.
 - The `build_fix_artifact` action must include affected surfaces, likely files, linked issues/PRs, validation commands, changelog requirement, credit notes, and a PR title/body plan.
 - If replacing a contributor PR, `fix_artifact.credit_notes` must name the original author and PR URL, `pr_body` must explain the borrowed/credited idea, and `changelog_required` should be true when the resulting fix is user-facing.
 - The fix plan must be narrow: list only the files expected to change, focused tests, review-bot findings to address, and the exact branch/PR that could not be updated if applicable.

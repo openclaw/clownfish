@@ -104,7 +104,7 @@ const plan = {
     policy: job.frontmatter.security_policy ?? "central_security_only",
     security_sensitive_items: securitySensitiveItems.map((item) => item.ref),
     action: securitySensitiveItems.length > 0
-      ? "No ProjectClownfish mutation is allowed; route to central OpenClaw security handling."
+      ? "Quarantine only listed security-sensitive refs with route_security; continue non-security classification and narrow bug/fix work."
       : "No security-sensitive signal detected in hydrated job refs.",
   },
   scope: {
@@ -126,10 +126,10 @@ const plan = {
   canonical_candidates: canonicalCandidates(itemList, job),
   safety_gates: [
     "re-fetch live state before every close/comment/label/merge/fix action",
-    "security-sensitive clusters are out of scope and must route to central OpenClaw security handling",
+    "security-sensitive refs are out of scope and must route to central OpenClaw security handling without poisoning unrelated items",
     "closed context refs are evidence only; do not emit closure actions for already-closed refs",
-    "stop with needs_human when canonical choice is unclear",
-    "stop with needs_human when checks fail, conflicts exist, or cluster state changes",
+    "use needs_human only for the specific unresolved maintainer or product decision",
+    "checks, conflicts, or changed state block only the affected merge/fixed-by-candidate mutation",
     "preserve contributor credit in every closeout comment",
   ],
 };
@@ -397,10 +397,12 @@ function buildFixArtifact(plan, job) {
           : "Close actions may run independently when their own safety gates pass.",
     },
     required_validation: [
-      "stop and route security-sensitive clusters to central OpenClaw security handling",
+      "route security-sensitive refs with route_security and keep processing unrelated non-security items",
+      "use OpenClaw SECURITY.md posture: trusted-operator exec behavior, provider gaps, feature gaps, and hardening-only parity drift are not vulnerabilities without a boundary bypass",
       "prove current main behavior before fix, merge, fixed-by-candidate, or post-merge closeout actions",
       "for pure issue-dedupe closeout, prove the canonical issue and duplicate targets are live and current",
       "hydrate every provided and linked item before classification",
+      "if an item is not a true duplicate, run a single-item review/check/decide path before needs_human",
       "fetch Greptile, Codex, Asile, CodeRabbit, Copilot, and similar review-bot comments for every canonical or candidate PR",
       "address each actionable review-bot finding or mark the item needs_human with the unresolved blocker",
       "before any merge recommendation, include merge_preflight proving security clearance, resolved comments, resolved bot comments, passed Codex /review, addressed review findings, and validation commands",
@@ -428,7 +430,7 @@ function canonicalCandidates(items, job) {
 }
 
 function classificationHint(item, job) {
-  if (itemSecuritySensitive(item)) return "security_sensitive_central_triage";
+  if (itemSecuritySensitive(item)) return "security_sensitive_route_only";
   const canonicalNumbers = new Set((job.frontmatter.canonical ?? []).map((ref) => normalizeRef(job.frontmatter.repo, ref).number));
   if (canonicalNumbers.has(item.number)) return "canonical_hint";
   if (item.state !== "open") return "already_closed";

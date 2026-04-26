@@ -79,10 +79,14 @@ for (const clusterId of clusterIds) {
     continue;
   }
 
-  const securitySensitive = members.some((member) =>
+  const securitySensitiveMembers = members.filter((member) =>
     hasSecuritySignalText(member.title, member.body, safeJson(member.labels_json)),
   );
-  if (securitySensitive && skipSecurity) {
+  const securitySensitive = securitySensitiveMembers.length > 0;
+  const nonSecurityOpenMembers = members.filter(
+    (member) => member.state === "open" && !securitySensitiveMembers.includes(member),
+  );
+  if (securitySensitive && nonSecurityOpenMembers.length === 0 && skipSecurity) {
     console.error(`skip security-sensitive cluster: ${clusterId} ${members[0].representative_title ?? ""}`);
     continue;
   }
@@ -134,7 +138,7 @@ for (const clusterId of clusterIds) {
     "cluster_refs:",
     ...yamlList(members.map((member) => `#${member.number}`)),
     "security_policy: central_security_only",
-    `security_sensitive: ${securitySensitive ? "true" : "false"}`,
+    "security_sensitive: false",
     ...(mode === "autonomous" || mode === "execute"
       ? [
           `allow_instant_close: ${allowInstantClose ? "true" : "false"}`,
@@ -145,7 +149,7 @@ for (const clusterId of clusterIds) {
         ]
       : []),
     `canonical_hint: ${quoteYaml(canonicalHint(representative))}`,
-    `notes: ${quoteYaml(`Generated from ghcrawl run cluster ${clusterId} on ${new Date().toISOString().slice(0, 10)}.`)}`,
+    `notes: ${quoteYaml(jobNotes(clusterId, securitySensitiveMembers))}`,
     "---",
     "",
     `# GHCrawl Cluster ${clusterId}`,
@@ -262,6 +266,12 @@ function goalText(mode) {
     return "Classify the open candidate issues and PRs in read-only plan mode. Do not close anything. If the representative is closed, report whether another open item should become the live canonical. If the cluster contains multiple root causes, split them in the action matrix instead of forcing a single duplicate family.";
   }
   return "Run one live autonomous classification pass. Classify open candidates only, verify live GitHub state, choose the current canonical issue or PR if the representative is obsolete, and emit only high-confidence planned close/comment/label actions. Closed context refs are evidence only and must not receive close actions.";
+}
+
+function jobNotes(clusterId, securitySensitiveMembers) {
+  const base = `Generated from ghcrawl run cluster ${clusterId} on ${new Date().toISOString().slice(0, 10)}.`;
+  if (securitySensitiveMembers.length === 0) return base;
+  return `${base} Security-sensitive refs ${securitySensitiveMembers.map((member) => `#${member.number}`).join(", ")} must be routed with route_security and must not block unrelated non-security work.`;
 }
 
 function bulletList(members) {

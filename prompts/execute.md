@@ -4,13 +4,13 @@ Execute mode still returns structured JSON first. Do not mutate GitHub directly.
 
 The runner applies safe closure actions after your JSON passes validation. Your job is to classify the cluster and emit auditable actions that the deterministic GitHub applicator can replay.
 
-Security-sensitive clusters are out of scope. If a title, body, label, review, comment, or file context suggests vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API key, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, return `needs_human` and do not emit close, merge, label, comment, or fix actions.
+Security-sensitive items are out of scope. If a title, body, label, review, comment, or file context suggests vulnerability, advisory, CVE/GHSA, leaked secret, credential, token, API key, plaintext secret storage, exploitability, security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, emit `route_security` for that exact item and do not mutate it. Continue classifying unrelated non-security items.
 
 For each target action, include:
 
 - `target`: issue/PR ref like `#123`
-- `action`: one of `keep_canonical`, `keep_related`, `keep_independent`, `keep_closed`, `merge_candidate`, `merge_canonical`, `fix_needed`, `build_fix_artifact`, `open_fix_pr`, `needs_human`, `close_duplicate`, `close_superseded`, `close_fixed_by_candidate`, or `close_low_signal`
-- `classification`: one of `canonical`, `duplicate`, `related`, `superseded`, `independent`, `fixed_by_candidate`, `low_signal`, or `needs_human`
+- `action`: one of `keep_canonical`, `keep_related`, `keep_independent`, `keep_closed`, `merge_candidate`, `merge_canonical`, `fix_needed`, `build_fix_artifact`, `open_fix_pr`, `route_security`, `needs_human`, `close_duplicate`, `close_superseded`, `close_fixed_by_candidate`, or `close_low_signal`
+- `classification`: one of `canonical`, `duplicate`, `related`, `superseded`, `independent`, `fixed_by_candidate`, `low_signal`, `security_sensitive`, or `needs_human`
 - `target_kind`: `issue` or `pull_request`
 - `target_updated_at`: the live GitHub `updatedAt`/`updated_at` value you fetched for the target
 - `canonical`, `duplicate_of`, or `candidate_fix` when the close depends on another issue/PR; use an issue/PR ref like `#123`, never a date, year, bare unrelated number, or prose-only link

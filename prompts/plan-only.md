@@ -12,11 +12,12 @@ reserve `needs_human` for the specific unresolved decision.
 
 Evidence must come from GitHub issue/PR data, GitHub PR checks/diffs, or the job file. Do not cite external websites or mirrors.
 
-Security-sensitive clusters are read-only and out of scope for ProjectClownfish.
-If any item appears related to vulnerabilities, advisories, CVEs/GHSAs, leaked
+Security-sensitive items are read-only and out of scope for ProjectClownfish.
+If an item appears related to vulnerabilities, advisories, CVEs/GHSAs, leaked
 secrets, credentials, tokens, API keys, plaintext secret storage, exploitability,
-security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, route it to central
-OpenClaw security triage with `needs_human` and no mutating recommendation.
+security-class injection, SSRF/XSS/CSRF/RCE, or sensitive data exposure, emit
+`route_security` for that item and continue classifying unrelated non-security
+items.
 
 For each item, decide one action:
 
@@ -30,6 +31,7 @@ For each item, decide one action:
 - keep closed
 - merge candidate
 - fix needed
+- route security
 - needs human
 
 Use closure actions only for targets that are open in live GitHub state. If a listed candidate is already closed, do not emit `close_duplicate`, `close_superseded`, `close_fixed_by_candidate`, or `close_low_signal`; use `keep_closed` with `status: "skipped"` and evidence that it is already closed.
