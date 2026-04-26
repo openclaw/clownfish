@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143799-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24947173658",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24947173658",
+  "head_sha": "cc7e2b9deb213893d18c0bcca95afccd476be4c1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-143799-autonomous-smoke.md",
+  "published_at": "2026-04-26T03:29:45.632Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/61741",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/61741",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/61627",
+  "summary": "Hydrated linked refs #43518, #62069, #62821, and #63842 trip the security boundary, so no GitHub mutations are safe from this worker. For non-mutating classification, #61741 is the best surviving open canonical issue for the unresolved lifecycle-cleanup/orphan-process family, while merged PR #61627 remains the historical fix path for the already-closed pure late exec/PTY update crash reports.",
+  "actions": [
+    {
+      "target": "#61741",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Best surviving open canonical for the unresolved post-run cleanup / stale-listener family; broader than the already-shipped pure late exec/PTY update crash fix."
+    },
+    {
+      "target": "#61627",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#61627",
+      "candidate_fix": null,
+      "reason": "Historical landed PR for the resolved pure late exec/PTY update crash subfamily; not a merge target because it is already closed."
+    },
+    {
+      "target": "#62754",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Same abort/timeout family as #61741, but keep open because the compacted artifact is insufficient for high-confidence duplicate closure and cluster mutations are blocked by security policy."
+    },
+    {
+      "target": "#63220",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Related unresolved abort/state-corruption report; keep open under the #61741 family."
+    },
+    {
+      "target": "#65983",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Related lifecycle-cleanup/orphan-process report; keep open because its scope extends beyond the shipped late-update crash fix."
+    },
+    {
+      "target": "#61917",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#61741",
+      "candidate_fix": null,
+      "reason": "Closed representative is obsolete as the cluster canonical; keep it closed and route unresolved follow-up scope through #61741."
+    },
+    {
+      "target": "#65285",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#61627",
+      "reason": "Already closed in live state; treat as historical fixed-by-candidate evidence only."
+    },
+    {
+      "target": "#69920",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#61627",
+      "reason": "Already closed in live state; treat as historical fixed-by-candidate evidence only."
+    },
+    {
+      "target": "#43518",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref; ProjectClownfish must route it to central security triage and not mutate."
+    },
+    {
+      "target": "#62069",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref; ProjectClownfish must route it to central security triage and not mutate."
+    },
+    {
+      "target": "#62821",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; ProjectClownfish must route it to central security triage and not mutate."
+    },
+    {
+      "target": "#63842",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; ProjectClownfish must route it to central security triage and not mutate."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "keep_related": 3,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 4,
+    "blocked": 4
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Security boundary triggered: hydrated refs #43518, #62069, #62821, and #63842 are marked security-sensitive in the cluster artifact, which explicitly says \"No ProjectClownfish mutation is allowed; route to central OpenClaw security handling.\""
+  ],
+  "apply_actions": []
+}
