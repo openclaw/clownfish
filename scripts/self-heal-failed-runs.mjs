@@ -12,6 +12,7 @@ const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? DEFAULT_REPO);
 const workflow = String(args.workflow ?? DEFAULT_WORKFLOW);
 const runner = String(args.runner ?? "ubuntu-latest");
+const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const maxJobs = Number(args["max-jobs"] ?? args.limit ?? 5);
 const execute = Boolean(args.execute);
 const openExecuteWindow = Boolean(args["open-execute-window"] || args.live);
@@ -28,6 +29,7 @@ const summary = {
   repo,
   workflow,
   runner,
+  model,
   max_jobs: maxJobs,
   candidates: candidates.map((candidate) => summarizeCandidate(candidate)),
 };
@@ -55,6 +57,7 @@ const attempts = candidates.map((candidate) => ({
   source_job: candidate.source_job,
   mode: candidate.mode,
   runner,
+  model,
   workflow,
   repo,
   dispatched_at: new Date().toISOString(),
@@ -156,6 +159,8 @@ function dispatchCandidate(candidate) {
       `mode=${candidate.mode}`,
       "-f",
       `runner=${runner}`,
+      "-f",
+      `model=${model}`,
     ],
     { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
   );

@@ -16,8 +16,8 @@ const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
 const mode = args.mode ?? "plan";
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_DRY_RUN === "1");
-const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4";
-const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 15 * 60 * 1000);
+const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5";
+const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 30 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 
 if (!jobPath) {

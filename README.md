@@ -193,6 +193,8 @@ The workflow needs:
 - a separate write-scoped GitHub token for the deterministic applicator
 - execution gates that default off: `CLOWNFISH_ALLOW_EXECUTE` for all mutations and `CLOWNFISH_ALLOW_FIX_PR` for branch repair/replacement PRs
 - optional `CLOWNFISH_CODEX_CLI_VERSION` variable to pin and refresh the cached Codex CLI
+- optional `CLOWNFISH_MODEL` override for dispatch scripts; default Codex model is `gpt-5.5`
+- optional `CLOWNFISH_CODEX_TIMEOUT_MS` and `CLOWNFISH_FIX_CODEX_TIMEOUT_MS` variables; both default to 30 minutes
 - optional `CLOWNFISH_CODEX_REVIEW_ATTEMPTS` and `CLOWNFISH_RESOLVE_REVIEW_THREADS` variables for agentic merge-prep review loops
 
 Keep exact secret names, token scopes, and execution-window procedures in private operations docs or repository settings notes. Do not put token values or live operational credentials in job files.

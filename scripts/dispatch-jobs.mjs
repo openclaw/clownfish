@@ -8,10 +8,13 @@ const args = parseArgs(process.argv.slice(2));
 const mode = args.mode ?? "plan";
 const runner = args.runner ?? "ubuntu-latest";
 const workflow = args.workflow ?? "cluster-worker.yml";
+const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const files = args._;
 
 if (files.length === 0) {
-  console.error("usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label]");
+  console.error(
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label] [--model model]",
+  );
   process.exit(2);
 }
 
@@ -35,7 +38,7 @@ for (const file of files) {
 
   const result = spawnSync(
     "gh",
-    ["workflow", "run", workflow, "-f", `job=${relative}`, "-f", `mode=${mode}`, "-f", `runner=${runner}`],
+    ["workflow", "run", workflow, "-f", `job=${relative}`, "-f", `mode=${mode}`, "-f", `runner=${runner}`, "-f", `model=${model}`],
     { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
   );
   if (result.status !== 0) {

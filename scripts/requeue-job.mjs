@@ -13,6 +13,7 @@ const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? DEFAULT_REPO);
 const workflow = String(args.workflow ?? DEFAULT_WORKFLOW);
 const runner = String(args.runner ?? "ubuntu-latest");
+const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const execute = Boolean(args.execute || args.live);
 const openExecuteWindow = Boolean(args["open-execute-window"] || args.live);
 const requestedMode = typeof args.mode === "string" ? args.mode : null;
@@ -23,7 +24,9 @@ const resolved = requestedRunId
   : { source_job: args._[0], mode: requestedMode };
 
 if (!resolved.source_job) {
-  console.error("usage: node scripts/requeue-job.mjs <job.md|run-id> [--mode plan|execute|autonomous] [--execute] [--open-execute-window] [--runner label]");
+  console.error(
+    "usage: node scripts/requeue-job.mjs <job.md|run-id> [--mode plan|execute|autonomous] [--execute] [--open-execute-window] [--runner label] [--model model]",
+  );
   process.exit(2);
 }
 
@@ -48,6 +51,7 @@ const summary = {
   source_job: job.relativePath,
   mode,
   runner,
+  model,
 };
 
 if (!execute) {
@@ -128,7 +132,21 @@ function findFirstFile(root, basename) {
 function dispatchJob(jobPath, mode) {
   const result = spawnSync(
     "gh",
-    ["workflow", "run", workflow, "--repo", repo, "-f", `job=${jobPath}`, "-f", `mode=${mode}`, "-f", `runner=${runner}`],
+    [
+      "workflow",
+      "run",
+      workflow,
+      "--repo",
+      repo,
+      "-f",
+      `job=${jobPath}`,
+      "-f",
+      `mode=${mode}`,
+      "-f",
+      `runner=${runner}`,
+      "-f",
+      `model=${model}`,
+    ],
     { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
   );
   if (result.status !== 0) {
