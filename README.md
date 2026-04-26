@@ -115,10 +115,11 @@ Each cluster job:
 4. Runs Codex with repo-local policy prompts and JSON output schema in a read-only sandbox.
 5. Writes structured run artifacts under `.projectclownfish/runs/`.
 6. Reviews the worker artifact with deterministic safety checks.
-7. Applies guarded close/comment and explicit merge actions through `scripts/apply-result.mjs`.
-8. Publishes a sanitized result ledger back to this repo under `results/`, `closed/`, `apply-report.json`, and this README dashboard.
+7. Executes credited fix artifacts through `scripts/execute-fix-artifact.mjs` when the fix gate is open: repair a maintainer-editable contributor branch first, otherwise raise a narrow replacement PR and close the uneditable source PR after the replacement push succeeds.
+8. Applies guarded close/comment and explicit merge actions through `scripts/apply-result.mjs`.
+9. Publishes a sanitized result ledger back to this repo under `results/`, `closed/`, `apply-report.json`, and this README dashboard.
 
-Codex does not receive a GitHub token. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. The applicator re-fetches the target item, checks `updated_at`, blocks unsafe closeouts, writes idempotent close comments, closes supported duplicate/superseded/fixed-by-candidate actions, and can squash-merge explicitly allowed clean PR actions.
+Codex does not receive a GitHub token during classification. The runner preflights GitHub state before model execution, then Codex receives those artifacts and returns JSON only. When a reviewed fix artifact is executed, Codex gets a temporary target checkout without GitHub credentials; the deterministic executor owns commit, push, PR creation, and source-PR closeout. The applicator re-fetches the target item, checks `updated_at`, blocks unsafe closeouts, writes idempotent close comments, closes supported duplicate/superseded/fixed-by-candidate actions, and can squash-merge explicitly allowed clean PR actions.
 
 Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24 and `ubuntu-latest` for ClawSweeper parity; other hosted runners are opt-in.
 
@@ -128,9 +129,10 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 
 - `plan`: produces recommendations only.
 - `execute`: can apply reviewed safe close and explicit clean merge actions from structured JSON.
-- `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend and drive a canonical fix path, but direct mutation still goes through the applicator.
+- `autonomous`: adds live cluster preflight and fix-artifact generation. It may recommend and drive a canonical fix path; direct mutation still goes through the fix executor and applicator gates.
 - `needs_human`: any unclear canonical choice, stale cluster state, failing checks, conflict, broad fix, or independent report should land here.
 - Automated reviewer feedback must be cleared during autonomous PR work. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bot comments must be addressed, proven non-actionable, or escalated before any merge or post-merge closeout recommendation.
+- Repair ladder: make the useful contributor PR mergeable when its branch is maintainer-editable; otherwise replace it with a narrow credited fix PR plan, close/supersede the uneditable PR only after that replacement path is explicit, and carry contributor credit into the PR body and changelog plan.
 
 ## Local Run
 
@@ -154,10 +156,13 @@ npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort 
 
 # Stage the next largest active ghcrawl clusters, skipping already-imported and
 # security-sensitive clusters by default.
-npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-post-merge-close
+npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-fix-pr --allow-post-merge-close
 
 # Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal
+
+# Execute a reviewed fix artifact locally. Requires both execution gates and a write token.
+CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/openclaw/cluster-example.md --latest --dry-run
 
 # Retry failed jobs once. This briefly opens the execution gate, waits for the
 # dispatched workers to start, records the self-heal ledger, and closes the gate.
@@ -181,7 +186,7 @@ The workflow needs:
 - Codex/OpenAI authentication for model execution
 - a read-only GitHub token for worker inspection
 - a separate write-scoped GitHub token for the deterministic applicator
-- an execution gate that defaults off
+- execution gates that default off: `CLOWNFISH_ALLOW_EXECUTE` for all mutations and `CLOWNFISH_ALLOW_FIX_PR` for branch repair/replacement PRs
 - optional `CLOWNFISH_CODEX_CLI_VERSION` variable to pin and refresh the cached Codex CLI
 
 Keep exact secret names, token scopes, and execution-window procedures in private operations docs or repository settings notes. Do not put token values or live operational credentials in job files.

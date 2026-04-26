@@ -199,7 +199,9 @@ function hydrateItem(repo, number) {
           base_ref: pullRequest.base?.ref,
           head_ref: pullRequest.head?.ref,
           head_repo: pullRequest.head?.repo?.full_name,
+          head_repo_owner: pullRequest.head?.repo?.owner?.login,
           head_sha: pullRequest.head?.sha,
+          maintainer_can_modify: pullRequest.maintainer_can_modify,
           requested_reviewers: (pullRequest.requested_reviewers ?? []).map((reviewer) => reviewer.login).filter(Boolean),
           requested_teams: (pullRequest.requested_teams ?? []).map((team) => team.slug ?? team.name).filter(Boolean),
           additions: pullRequest.additions,
@@ -282,7 +284,9 @@ function summarizeItem(item, job) {
           base_ref: item.pull_request.base_ref,
           head_ref: item.pull_request.head_ref,
           head_repo: item.pull_request.head_repo,
+          head_repo_owner: item.pull_request.head_repo_owner,
           head_sha: item.pull_request.head_sha,
+          maintainer_can_modify: item.pull_request.maintainer_can_modify,
           requested_reviewers: item.pull_request.requested_reviewers,
           requested_teams: item.pull_request.requested_teams,
           changed_files: item.pull_request.changed_files,
@@ -345,7 +349,7 @@ function buildFixArtifact(plan, job) {
           : "Disabled by job frontmatter.",
       canonical_fix:
         job.frontmatter.allow_fix_pr === true
-          ? "If no viable canonical PR exists and the bug still reproduces, emit fix_needed plus a build_fix_artifact action with files, tests, changelog, and PR plan."
+          ? "If no viable canonical PR exists, first repair a useful contributor PR when maintainer_can_modify is true. If it is false or unsafe, emit fix_needed plus build_fix_artifact/open_fix_pr with narrow files, tests, changelog, and credit plan."
           : "Worker may identify canonical fixes but must not plan a fix PR.",
       merge:
         job.frontmatter.allow_merge === true
@@ -365,6 +369,7 @@ function buildFixArtifact(plan, job) {
       "address each actionable review-bot finding or mark the item needs_human with the unresolved blocker",
       "show canonical URL or explain needs_human",
       "include targeted tests and changelog plan for fix artifacts",
+      "if replacing a contributor PR, include source PR credit and the exact close comment that says ProjectClownfish will preserve attribution",
       "include full GitHub URLs in closure rationale",
     ],
   };

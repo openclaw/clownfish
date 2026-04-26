@@ -20,8 +20,9 @@
 6. Require `npm run review-results -- <artifact-dir>` to pass before promotion.
 7. Change selected jobs to `mode: execute` or `mode: autonomous`.
 8. Set repo variable `CLOWNFISH_ALLOW_EXECUTE=1` only for the execution window.
-9. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `apply-result` performs safe GitHub mutations afterward.
-10. Reset `CLOWNFISH_ALLOW_EXECUTE=0`.
+9. Set `CLOWNFISH_ALLOW_FIX_PR=1` only when reviewed fix artifacts are allowed to repair branches or open credited replacement PRs.
+10. Dispatch execute/autonomous jobs for reviewed clusters only. Workers still return JSON; `execute-fix-artifact` owns branch repair/replacement PR creation, and `apply-result` performs remaining safe GitHub mutations afterward.
+11. Reset `CLOWNFISH_ALLOW_EXECUTE=0` and `CLOWNFISH_ALLOW_FIX_PR=0`.
 
 ## Security Boundary
 
@@ -78,7 +79,7 @@ npm run dispatch -- jobs/openclaw/cluster-*.md --mode plan --runner blacksmith-4
 
 The workflow uses Node 24 and logs Codex in with `OPENAI_API_KEY`, while also passing `CODEX_API_KEY` to `codex exec`. Set `CODEX_API_KEY` to the same value unless you intentionally separate CI auth.
 
-Codex runs in a read-only sandbox and receives no GitHub token. GitHub read access is scoped to deterministic preflight scripts; write access is scoped only to `apply-result`.
+Codex runs in a read-only sandbox for classification and receives no GitHub token. GitHub read access is scoped to deterministic preflight scripts. For reviewed fix artifacts, `execute-fix-artifact` gives Codex a temporary target checkout without GitHub credentials, then the deterministic executor commits, pushes, opens the replacement PR, and closes uneditable source PRs only after the replacement exists. Remaining write access is scoped to `apply-result`.
 
 Runs for the same job path and mode share a concurrency group. Different cluster jobs can still run in parallel.
 
@@ -93,7 +94,7 @@ Minimum useful permissions depend on action tier:
 - `CLOWNFISH_READ_GH_TOKEN`: metadata, issues read, pull requests read, contents read; do not use a broad PAT here
 - `CLOWNFISH_GH_TOKEN`: issues write, pull requests write
 - merge: contents write and pull requests write
-- fix PRs: contents write
+- fix PRs: contents write, pull requests write, issues write
 
 Do not put tokens in job files. Codex receives no GitHub token; the read token is scoped to preflight, and the write token is scoped to the deterministic apply step.
 

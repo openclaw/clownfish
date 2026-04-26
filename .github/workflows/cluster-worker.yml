@@ -48,6 +48,7 @@ jobs:
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
       CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
       CLOWNFISH_ALLOW_EXECUTE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_EXECUTE || '0' }}
+      CLOWNFISH_ALLOW_FIX_PR: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_FIX_PR || '0' }}
       CLOWNFISH_HYDRATE_CLUSTER_REFS: ${{ vars.CLOWNFISH_HYDRATE_CLUSTER_REFS || '1' }}
       CLOWNFISH_HYDRATE_COMMENTS: ${{ vars.CLOWNFISH_HYDRATE_COMMENTS || '1' }}
       CLOWNFISH_MAX_COMMENTS_PER_ITEM: ${{ vars.CLOWNFISH_MAX_COMMENTS_PER_ITEM || '30' }}
@@ -120,6 +121,12 @@ jobs:
           if find .projectclownfish/runs -name result.json -print -quit | grep -q .; then
             npm run review-results -- .projectclownfish/runs
           fi
+
+      - name: Execute credited fix artifact
+        if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run && vars.CLOWNFISH_ALLOW_FIX_PR == '1' }}
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
+        run: npm run execute-fix -- "${{ inputs.job }}" --latest
 
       - name: Apply safe closure actions
         if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}

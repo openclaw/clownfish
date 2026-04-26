@@ -27,4 +27,11 @@ Never close:
 - assigned work in progress;
 - contributor PR with useful code that should be merged or credited.
 
+Useful contributor PR replacement exception:
+
+- close or supersede the PR only after the run has a concrete replacement fix plan or PR path;
+- the close comment must say why ProjectClownfish cannot safely update or land the branch;
+- the comment must name the replacement path and state that the contributor will be credited;
+- the fix artifact must include the contributor username, original PR URL, validation plan, and changelog attribution when the fix is user-facing.
+
 Auto-closure payloads must include `target_updated_at`. The applicator will re-fetch live GitHub state and skip the close if the target changed after review.

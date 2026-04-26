@@ -12,6 +12,13 @@ const CLOSE_ACTIONS = new Set([
   "post_merge_close",
 ]);
 const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
+const FIX_REPAIR_STRATEGIES = new Set([
+  "repair_contributor_branch",
+  "replace_uneditable_branch",
+  "new_fix_pr",
+  "already_fixed_on_main",
+  "needs_human",
+]);
 const MUTATING_ACTIONS = new Set([
   "close",
   "close_duplicate",
@@ -81,13 +88,18 @@ function reviewResult(resultPath) {
   if (!result.repo) failures.push("result.repo is required");
   if (!result.cluster_id) failures.push("result.cluster_id is required");
   if (!result.mode) failures.push("result.mode is required");
-  if (!plan) failures.push("missing cluster-plan.json preflight artifact");
+  const actions = Array.isArray(result.actions) ? result.actions : [];
+  if (!plan && actions.length > 0) {
+    failures.push("missing cluster-plan.json preflight artifact");
+  } else if (!plan) {
+    warnings.push("missing cluster-plan.json preflight artifact for actionless result");
+  }
   if (result.status === "executed") {
     failures.push("worker result status must not be executed; only the applicator records execution");
   }
 
-  const actions = Array.isArray(result.actions) ? result.actions : [];
   const closeActions = [];
+  const fixActions = [];
   for (const action of actions) {
     const name = String(action.action ?? "");
     actionCounts[name] = (actionCounts[name] ?? 0) + 1;
@@ -135,6 +147,15 @@ function reviewResult(resultPath) {
       } else if (!canonicalRef && !candidateRef) {
         failures.push(`${target} close action missing canonical/duplicate/candidate target`);
       }
+      if (
+        item?.kind === "pull_request" &&
+        ["close_superseded", "close_fixed_by_candidate", "post_merge_close"].includes(name)
+      ) {
+        const comment = String(action.comment ?? "");
+        if (!/\bcredit|attribut|thanks @|thank you @|source PR\b/i.test(comment)) {
+          failures.push(`${target} PR closeout comment must preserve contributor credit`);
+        }
+      }
       if (canonicalRef) {
         const canonicalItem = itemByRef.get(canonicalRef);
         if (!canonicalItem) failures.push(`${target} close action canonical ${canonicalRef} missing preflight item`);
@@ -146,6 +167,9 @@ function reviewResult(resultPath) {
         if (candidateRef === normalizeRef(target)) failures.push(`${target} close action candidate points at itself`);
       }
     }
+    if (["fix_needed", "build_fix_artifact", "open_fix_pr"].includes(name)) {
+      fixActions.push(action);
+    }
     if (MERGE_ACTIONS.has(name)) {
       if (!item) failures.push(`${target} merge action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} merge action targets ${item.state} item`);
@@ -153,6 +177,10 @@ function reviewResult(resultPath) {
       if (action.target_kind !== "pull_request") failures.push(`${target} merge action requires pull_request target_kind`);
       if (action.status !== "planned") failures.push(`${target} merge action status must be planned`);
     }
+  }
+
+  if (fixActions.length > 0) {
+    validateFixArtifact(result.fix_artifact, failures);
   }
 
   if (result.canonical) {
@@ -187,6 +215,41 @@ function reviewResult(resultPath) {
     failures,
     warnings,
   };
+}
+
+function validateFixArtifact(fixArtifact, failures) {
+  if (!fixArtifact || typeof fixArtifact !== "object") {
+    failures.push("fix action requires fix_artifact");
+    return;
+  }
+  for (const key of ["summary", "pr_title", "pr_body"]) {
+    if (typeof fixArtifact[key] !== "string" || fixArtifact[key].trim() === "") {
+      failures.push(`fix_artifact.${key} is required`);
+    }
+  }
+  for (const key of ["affected_surfaces", "likely_files", "linked_refs", "validation_commands", "credit_notes"]) {
+    if (!Array.isArray(fixArtifact[key]) || fixArtifact[key].length === 0) {
+      failures.push(`fix_artifact.${key} must be a non-empty list`);
+    }
+  }
+  if (typeof fixArtifact.changelog_required !== "boolean") {
+    failures.push("fix_artifact.changelog_required must be boolean");
+  }
+  if (!FIX_REPAIR_STRATEGIES.has(fixArtifact.repair_strategy)) {
+    failures.push("fix_artifact.repair_strategy is required");
+  }
+  if (fixArtifact.repair_strategy === "replace_uneditable_branch") {
+    if (!Array.isArray(fixArtifact.source_prs) || fixArtifact.source_prs.length === 0) {
+      failures.push("replacement fix artifact must list source_prs");
+    }
+    if (!Array.isArray(fixArtifact.branch_update_blockers) || fixArtifact.branch_update_blockers.length === 0) {
+      failures.push("replacement fix artifact must list branch_update_blockers");
+    }
+    const creditText = [...(fixArtifact.credit_notes ?? []), fixArtifact.pr_body ?? ""].join("\n");
+    if (!/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/\d+/.test(creditText)) {
+      failures.push("replacement fix artifact credit must include original PR URL");
+    }
+  }
 }
 
 function readSiblingJson(runDir, filename) {

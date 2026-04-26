@@ -13,6 +13,7 @@ const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);
 const allowMerge = Boolean(args["allow-merge"]);
+const allowFixPr = Boolean(args["allow-fix-pr"]);
 const allowPostMergeClose = Boolean(args["allow-post-merge-close"] || allowMerge);
 const skipExisting = args["skip-existing"] !== "false";
 const skipSecurity = args["include-security"] !== true && args["skip-security"] !== "false";
@@ -26,7 +27,7 @@ if (clusterIds.length === 0 && fromGhcrawl) {
 }
 
 if (clusterIds.length === 0) {
-  console.error("usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--from-ghcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge] [--allow-post-merge-close]");
+  console.error("usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--from-ghcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge] [--allow-fix-pr] [--allow-post-merge-close]");
   process.exit(2);
 }
 if (!["plan", "execute", "autonomous"].includes(mode)) {
@@ -111,11 +112,12 @@ for (const clusterId of clusterIds) {
     "  - label",
     "  - close",
     ...(allowMerge ? ["  - merge"] : []),
+    ...(allowFixPr ? ["  - fix", "  - raise_pr"] : []),
     "blocked_actions:",
     "  - force_push",
     "  - bypass_checks",
     ...(allowMerge ? [] : ["  - merge"]),
-    "  - fix",
+    ...(allowFixPr ? [] : ["  - fix"]),
     "require_human_for:",
     "  - security_sensitive",
     "  - failing_checks",
@@ -133,7 +135,7 @@ for (const clusterId of clusterIds) {
     ...(mode === "autonomous" || mode === "execute"
       ? [
           `allow_instant_close: ${allowInstantClose ? "true" : "false"}`,
-          "allow_fix_pr: false",
+          `allow_fix_pr: ${allowFixPr ? "true" : "false"}`,
           `allow_merge: ${allowMerge ? "true" : "false"}`,
           `allow_post_merge_close: ${allowPostMergeClose ? "true" : "false"}`,
         ]

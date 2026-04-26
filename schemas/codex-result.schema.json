@@ -238,6 +238,28 @@
             },
             "pr_body": {
               "type": "string"
+            },
+            "source_prs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "repair_strategy": {
+              "type": "string",
+              "enum": [
+                "repair_contributor_branch",
+                "replace_uneditable_branch",
+                "new_fix_pr",
+                "already_fixed_on_main",
+                "needs_human"
+              ]
+            },
+            "branch_update_blockers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

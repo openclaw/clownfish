@@ -61,6 +61,9 @@ find /tmp/projectclownfish-check-RUN_ID -name result.json -print -quit |
 
 find /tmp/projectclownfish-check-RUN_ID -name apply-report.json -print -quit |
   xargs jq '{totals:{executed:([.actions[]? | select(.status=="executed")]|length),blocked:([.actions[]? | select(.status=="blocked")]|length),skipped:([.actions[]? | select(.status=="skipped")]|length),planned:([.actions[]? | select(.status=="planned")]|length)}}'
+
+find /tmp/projectclownfish-check-RUN_ID -name fix-execution-report.json -print -quit |
+  xargs jq '{status,actions}'
 ```
 
 If review fails, inspect the failure class before doing anything else:
@@ -79,6 +82,7 @@ Use repo scripts and prompts as the control plane:
 - `instructions/low-signal-prs.md`: opt-in manual backlog cleanup policy for random docs churn, blank-template PRs, test-only spam, third-party capability PRs that belong on ClawHub, risky infra drive-bys, and dirty branches.
 - `scripts/review-results.mjs`: deterministic artifact gate.
 - `scripts/plan-cluster.mjs`: what gets hydrated into the prompt.
+- `scripts/execute-fix-artifact.mjs`: deterministic branch repair/replacement PR gate.
 - `scripts/apply-result.mjs`: deterministic mutation gate.
 - `scripts/import-ghcrawl-low-signal-prs.mjs`: local ghcrawl open-PR scanner for opt-in low-signal cleanup jobs.
 - `.github/workflows/cluster-worker.yml`: runner behavior and env capture.
@@ -142,6 +146,7 @@ node scripts/import-ghcrawl-clusters.mjs --from-ghcrawl --limit 40 \
   --suffix autonomous-smoke \
   --allow-instant-close \
   --allow-merge \
+  --allow-fix-pr \
   --allow-post-merge-close
 ```
 
@@ -237,7 +242,9 @@ Say "safe to ramp" only when all are true:
 - no worker result uses `executed`;
 - no close action targets a closed item;
 - applicator executed only planned duplicate/superseded/fixed-by-candidate close actions or guarded clean merge actions;
+- useful contributor PRs were either repaired when maintainer-editable or have a replacement fix artifact with source PR credit before superseded closeout;
 - `CLOWNFISH_ALLOW_EXECUTE` is back to `0`;
+- `CLOWNFISH_ALLOW_FIX_PR` is back to `0`;
 - active runs are expected and on the intended SHA;
 - artifacts are downloaded or easy to retrieve by run URL.
 

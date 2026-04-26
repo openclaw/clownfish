@@ -23,7 +23,11 @@ Before drive mode:
    - already merged PR/commit on `main`;
    - open PR that is mergeable or repairable;
    - new fix PR needed because the bug is real and no viable PR exists.
-7. Do not emit closure actions until the canonical path is explicit. If the cluster is over-broad, split it into subfamilies in the action matrix and use `keep_related`/`keep_independent` for clear non-targets instead of making the whole result `needs_human`.
+7. For each useful open contributor PR, choose the repair path before merge or close:
+   - if `pull_request.maintainer_can_modify` is true and the diff is narrow enough, plan to update that PR branch, address review/bot findings, rebase, run checks, then emit `merge_canonical` only after it is clean;
+   - if `maintainer_can_modify` is false, the branch is unsafe, or the PR contains broad/unrelated churn, do not merge it. Emit a replacement `build_fix_artifact` / `open_fix_pr` plan that preserves the contributor's credit in `credit_notes`, PR body, and changelog plan;
+   - when replacing a useful contributor PR, emit a `close_superseded` comment that says ProjectClownfish cannot safely update that branch, will carry the narrow fix forward separately, and will credit the contributor by username and PR URL.
+8. Do not emit closure actions until the canonical path is explicit. If the cluster is over-broad, split it into subfamilies in the action matrix and use `keep_related`/`keep_independent` for clear non-targets instead of making the whole result `needs_human`.
 
 Low-signal PR cleanup:
 
@@ -47,6 +51,8 @@ Fix artifact actions:
 
 - If no viable canonical PR exists and the bug still appears real from the artifact, emit `fix_needed` plus `build_fix_artifact` even when the current job cannot open the fix PR. Do not escalate solely because `allow_fix_pr` is false.
 - The `build_fix_artifact` action must include affected surfaces, likely files, linked issues/PRs, validation commands, changelog requirement, credit notes, and a PR title/body plan.
+- If replacing a contributor PR, `fix_artifact.credit_notes` must name the original author and PR URL, `pr_body` must explain the borrowed/credited idea, and `changelog_required` should be true when the resulting fix is user-facing.
+- The fix plan must be narrow: list only the files expected to change, focused tests, review-bot findings to address, and the exact branch/PR that could not be updated if applicable.
 - If a target checkout is unavailable or unsafe, do not pretend to patch. Return the artifact and mark only implementation as blocked; keep classification decisions non-mutating when possible.
 
 Merge and post-merge close:

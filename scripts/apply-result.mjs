@@ -203,6 +203,8 @@ function applyCloseAction({
   if (canonical === target || candidateFix === target) {
     return { ...base, status: "blocked", reason: "target cannot close against itself" };
   }
+  const replacementCloseoutBlock = validateReplacementCloseout({ result, actionName, target });
+  if (replacementCloseoutBlock) return { ...base, status: "blocked", reason: replacementCloseoutBlock };
 
   const live = fetchIssue(result.repo, target);
   const kind = live.pull_request ? "pull_request" : "issue";
@@ -417,6 +419,15 @@ function validateMergedCandidateFix(repo, candidateFix) {
   const candidate = fetchPullRequest(repo, candidateFix);
   if (!candidate.merged_at) return "candidate fix is not merged";
   return "";
+}
+
+function validateReplacementCloseout({ result, actionName, target }) {
+  if (!["close_superseded", "close_fixed_by_candidate", "post_merge_close"].includes(actionName)) return "";
+  const fixArtifact = result.fix_artifact;
+  if (fixArtifact?.repair_strategy !== "replace_uneditable_branch") return "";
+  const sourceTargets = new Set((fixArtifact.source_prs ?? []).map((ref) => normalizeIssueRef(ref, result.repo)));
+  if (!sourceTargets.has(target)) return "";
+  return "replacement PR closeout is handled by execute-fix after the replacement branch is pushed";
 }
 
 function validateMergeablePullRequest({ pullRequest, view }) {

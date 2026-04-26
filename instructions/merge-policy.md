@@ -29,8 +29,10 @@ For multiple PRs:
 For fix work:
 
 - only create a fix PR when the job allows `fix` or `raise_pr`;
+- first try to make the best useful contributor PR landable when `maintainer_can_modify` is true: address review and bot findings, narrow the diff, rebase, validate, then merge if clean;
+- if `maintainer_can_modify` is false or the branch cannot be safely repaired, do not force it. Close/supersede only after creating a replacement fix plan that credits the contributor and original PR URL;
 - keep the patch tiny;
 - refactor only when it makes the fix narrower or removes review blockers;
 - inspect review-bot findings before final validation and include the addressed/blocked result in evidence;
 - run the repo's narrow tests;
-- include links to the cluster and canonical issue.
+- include links to the cluster, canonical issue, source PR, and credited author in the replacement PR body and changelog plan.
