@@ -223,7 +223,6 @@ function updateDashboard() {
       (record.needs_human ?? []).length === 0 &&
       (record.apply_actions ?? []).every((action) => !["blocked", "failed"].includes(action.status)),
   );
-  const workerActions = latestByCluster.flatMap((record) => record.actions ?? []);
   const workflowState =
     latestByCluster.some((record) => record.workflow_conclusion === "failure")
       ? "Failed clusters need inspection"
@@ -250,31 +249,21 @@ function updateDashboard() {
 Last dashboard update: ${formatTimestamp(new Date().toISOString())}
 
 ${DASHBOARD_START}
-### Workflow Status
-
-Updated: ${formatTimestamp(new Date().toISOString())}
-
 State: ${workflowState}
 
-Scope: ${totals.clusters} latest cluster reports from ${totals.runs} run attempts. Dashboard totals use the latest report per cluster, not every retry.
-
-### Cluster Health
+Scope: ${totals.clusters} latest cluster reports. Run attempts are tracked as audit history only.
 
 | Metric | Count |
 | --- | ---: |
+| Latest clusters reviewed | ${totals.clusters} |
+| Clean completed clusters | ${totals.cleanClusters} |
+| Needs-human clusters | ${totals.needsHumanClusters} |
 | Latest successful clusters | ${totals.success} |
 | Latest failed clusters | ${totals.failure} |
 | Latest cancelled clusters | ${totals.cancelled} |
-| Clean completed clusters | ${totals.cleanClusters} |
-| Needs-human clusters | ${totals.needsHumanClusters} |
 | Run attempts archived | ${totals.runs} |
-
-### Action Outcomes
-
-| Metric | Count |
-| --- | ---: |
-| Completed close actions | ${totals.closed} |
 | Merged PRs | ${totals.merged} |
+| Completed close actions | ${totals.closed} |
 | Duplicate closes | ${countRows(closedRows, (row) => row.action.classification === "duplicate")} |
 | Superseded closes | ${countRows(closedRows, (row) => row.action.classification === "superseded")} |
 | Fixed-by-candidate closes | ${countRows(closedRows, (row) => row.action.classification === "fixed_by_candidate")} |
@@ -282,43 +271,11 @@ Scope: ${totals.clusters} latest cluster reports from ${totals.runs} run attempt
 | Blocked mutation attempts | ${totals.blocked} |
 | Skipped mutation attempts | ${totals.skipped} |
 
-### Worker Decision Breakdown
+### Recent Merges
 
-| Decision | Count |
-| --- | ---: |
-${renderCountRows(countBy(workerActions, (action) => String(action.action ?? "unknown")), [
-  "close_duplicate",
-  "close_superseded",
-  "close_fixed_by_candidate",
-  "close_low_signal",
-  "merge_candidate",
-  "merge_canonical",
-  "fix_needed",
-  "build_fix_artifact",
-  "needs_human",
-  "keep_canonical",
-  "keep_related",
-  "keep_independent",
-  "keep_closed",
-])}
-
-### Completed Close/Merge Ledger
-
-| Target | Outcome | Cluster | Reason | Run |
+| PR | Title | Cluster | Report | Run |
 | --- | --- | --- | --- | --- |
-${renderActionLedger([...closedRows, ...mergedRows].slice(0, 25))}
-
-### Blocked Actions
-
-| Target | Action | Cluster | Reason | Run |
-| --- | --- | --- | --- | --- |
-${renderBlockedRows(blockedRows.slice(0, 20))}
-
-### Needs Human Clusters
-
-| Cluster | Reason | Run |
-| --- | --- | --- |
-${renderNeedsHumanRows(needsHumanRows.slice(0, 20))}
+${renderRecentMergeRows(mergedRows.slice(0, 25))}
 ${DASHBOARD_END}`;
 
   let updated;
@@ -434,8 +391,11 @@ function sanitizeApplyAction(action) {
     classification: action.classification ?? null,
     canonical: action.canonical ?? null,
     candidate_fix: action.candidate_fix ?? null,
+    title: action.title ?? action.target_title ?? action.pr_title ?? null,
     idempotency_key: action.idempotency_key ?? null,
     reason: action.reason ?? null,
+    merged_at: action.merged_at ?? null,
+    merge_commit_sha: action.merge_commit_sha ?? null,
     live_state: action.live_state ?? null,
     live_updated_at: action.live_updated_at ?? null,
   };
@@ -453,27 +413,15 @@ function countRows(rows, predicate) {
   return rows.filter(predicate).length;
 }
 
-function renderCountRows(counts, preferredOrder) {
-  const keys = [
-    ...preferredOrder.filter((key) => counts[key]),
-    ...Object.keys(counts)
-      .filter((key) => !preferredOrder.includes(key))
-      .sort(),
-  ];
-  return keys.length > 0
-    ? keys.map((key) => `| ${formatActionLabel(key)} | ${counts[key]} |`).join("\n")
-    : "| _None_ | 0 |";
-}
-
-function renderActionLedger(rows) {
-  if (rows.length === 0) return "| _None_ |  |  |  |  |";
+function renderRecentMergeRows(rows) {
+  if (rows.length === 0) return "| _None yet_ |  |  |  |  |";
   return rows
     .map(({ record, action }) =>
       [
-        markdownTableLink(action.target ?? "", githubItemUrl(record.repo, action.target)),
-        formatActionLabel(action.action),
+        markdownTableLink(action.target ?? "", githubPullUrl(record.repo, action.target)),
+        tableCell(mergeTitle(action)),
         markdownTableLink(record.cluster_id, clusterReportPath(record)),
-        tableCell(action.reason || closeReasonFromAction(action)),
+        markdownTableLink("report", clusterReportPath(record)),
         markdownTableLink(record.run_id || "run", record.run_url),
       ].join(" | "),
     )
@@ -481,61 +429,20 @@ function renderActionLedger(rows) {
     .join("\n");
 }
 
-function renderBlockedRows(rows) {
-  if (rows.length === 0) return "| _None_ |  |  |  |  |";
-  return rows
-    .map(({ record, action }) =>
-      [
-        markdownTableLink(action.target ?? "", githubItemUrl(record.repo, action.target)),
-        formatActionLabel(action.action),
-        markdownTableLink(record.cluster_id, clusterReportPath(record)),
-        tableCell(action.reason || "blocked"),
-        markdownTableLink(record.run_id || "run", record.run_url),
-      ].join(" | "),
-    )
-    .map((row) => `| ${row} |`)
-    .join("\n");
-}
-
-function renderNeedsHumanRows(records) {
-  if (records.length === 0) return "| _None_ |  |  |";
-  return records
-    .map((record) =>
-      [
-        markdownTableLink(record.cluster_id, clusterReportPath(record)),
-        tableCell(firstNeedsHumanReason(record)),
-        markdownTableLink(record.run_id || "run", record.run_url),
-      ].join(" | "),
-    )
-    .map((row) => `| ${row} |`)
-    .join("\n");
-}
-
-function firstNeedsHumanReason(record) {
-  const first = record.needs_human?.[0];
-  if (first) return truncate(first, 140);
-  return truncate(record.summary || "needs human review", 140);
-}
-
-function closeReasonFromAction(action) {
-  if (action.classification === "duplicate") return "duplicate close";
-  if (action.classification === "superseded") return "superseded close";
-  if (action.classification === "fixed_by_candidate") return "fixed by candidate";
-  if (action.classification === "low_signal") return "low-signal PR cleanup";
-  return "completed";
-}
-
-function formatActionLabel(value) {
-  const text = String(value ?? "")
-    .replaceAll("_", " ")
-    .replace(/\bpr\b/gi, "PR");
-  return text ? text[0].toUpperCase() + text.slice(1) : "Unknown";
-}
-
-function githubItemUrl(repo, ref) {
+function githubPullUrl(repo, ref) {
   const number = String(ref ?? "").replace(/^#/, "");
   if (!/^\d+$/.test(number) || !repo) return "";
-  return `https://github.com/${repo}/issues/${number}`;
+  return `https://github.com/${repo}/pull/${number}`;
+}
+
+function mergeTitle(action) {
+  return (
+    action.title ??
+    action.target_title ??
+    action.pr_title ??
+    action.reason ??
+    "merged PR"
+  );
 }
 
 function clusterReportPath(record) {
