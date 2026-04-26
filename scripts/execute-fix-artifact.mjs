@@ -1016,24 +1016,120 @@ function setupGitIdentity(cwd) {
 
 function runAllowedValidationCommands(commands, cwd) {
   for (const command of commands) {
-    const parts = resolveAllowedValidationCommand(command, cwd);
-    try {
-      run(parts[0], parts.slice(1), { cwd });
-    } catch (error) {
-      throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);
+    const resolvedCommands = resolveAllowedValidationCommands(command, cwd);
+    for (const parts of resolvedCommands) {
+      try {
+        run(parts[0], parts.slice(1), { cwd });
+      } catch (error) {
+        throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);
+      }
     }
   }
 }
 
-function resolveAllowedValidationCommand(command, cwd) {
+function resolveAllowedValidationCommands(command, cwd) {
   const parts = parseAllowedValidationCommand(command);
   if (parts[0] === "npm" && parts[1] === "run" && parts[2] === "validate") {
     const scripts = readPackageScriptSet(cwd);
     if (!scripts.has("validate") && scripts.has("check:changed")) {
-      return ["pnpm", "check:changed"];
+      return [["pnpm", "check:changed"]];
     }
   }
-  return parts;
+  if (parts[0] === "pnpm") {
+    const commandStart = parts[1] === "-s" || parts[1] === "--silent" ? 2 : 1;
+    if (parts[commandStart] === "vitest" && parts[commandStart + 1] === "run") {
+      return normalizePathValidationCommand(["pnpm", "test:serial", ...parts.slice(commandStart + 2)], cwd);
+    }
+    if (parts[1] === "test" || parts[1] === "test:serial") {
+      return normalizePathValidationCommand(parts, cwd);
+    }
+  }
+  return [parts];
+}
+
+function normalizePathValidationCommand(parts, cwd) {
+  const pathArgStart = 2;
+  const pathArgs = parts.slice(pathArgStart).filter(looksLikePathArgument);
+  if (pathArgs.length === 0) return [parts];
+
+  const normalized = [];
+  const missing = [];
+  for (const arg of pathArgs) {
+    const mapped = resolveRepoPathArgument(arg, cwd);
+    if (mapped) normalized.push(mapped);
+    else missing.push(arg);
+  }
+
+  if (missing.length === 0) {
+    return [[...parts.slice(0, pathArgStart), ...uniqueStrings(normalized)]];
+  }
+
+  const changedTests = changedTestFiles(cwd);
+  if (changedTests.length > 0) {
+    return [["pnpm", "test:serial", ...changedTests]];
+  }
+
+  const scripts = readPackageScriptSet(cwd);
+  if (scripts.has("check:changed")) {
+    return [["pnpm", "check:changed"]];
+  }
+
+  return [[...parts.slice(0, pathArgStart), ...uniqueStrings(normalized)]];
+}
+
+function resolveRepoPathArgument(arg, cwd) {
+  const clean = String(arg ?? "").trim();
+  if (!clean || clean.startsWith("-")) return clean;
+  if (fs.existsSync(path.join(cwd, clean))) return clean;
+
+  const candidates = candidateRepoPaths(clean, cwd).filter((candidate) => fs.existsSync(path.join(cwd, candidate)));
+  return candidates[0] ?? "";
+}
+
+function candidateRepoPaths(filePath, cwd) {
+  const out = [];
+  if (filePath.startsWith("src/web/")) {
+    out.push(`extensions/whatsapp/src/${filePath.slice("src/web/".length)}`);
+  }
+  const basename = path.basename(filePath);
+  if (basename) {
+    const files = gitLsFiles(cwd);
+    out.push(...files.filter((file) => path.basename(file) === basename));
+  }
+  return uniqueStrings(out);
+}
+
+function changedTestFiles(cwd) {
+  return gitChangedFiles(cwd).filter((file) => isTestFile(file) && fs.existsSync(path.join(cwd, file)));
+}
+
+function gitChangedFiles(cwd) {
+  return run("git", ["status", "--porcelain"], { cwd })
+    .split("\n")
+    .map((line) => line.trim())
+    .map((line) => line.replace(/^.. /, ""))
+    .map((line) => line.split(" -> ").pop())
+    .filter(Boolean);
+}
+
+function gitLsFiles(cwd) {
+  return run("git", ["ls-files"], { cwd })
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function looksLikePathArgument(value) {
+  const text = String(value ?? "");
+  return !text.startsWith("-") && (text.includes("/") || /\.(?:[cm]?[jt]sx?|json|md|yml|yaml)$/.test(text));
+}
+
+function isTestFile(value) {
+  return /(?:^|\/)[^/]*(?:test|spec|e2e)\.[cm]?[jt]sx?$/.test(String(value));
+}
+
+function uniqueStrings(values) {
+  return [...new Set(values.filter(Boolean))];
 }
 
 function parseAllowedValidationCommand(command) {
