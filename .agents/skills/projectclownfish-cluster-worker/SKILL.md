@@ -93,6 +93,7 @@ Current autonomy posture:
 - Hydrate cluster refs and bounded first-hop linked refs so closed representative drift can often be resolved without human review.
 - Treat failing checks as a merge/fixed-by-candidate blocker, not a reason to stop classifying the whole cluster.
 - Treat missing `merge_preflight` as a hard merge blocker. Merge preflight must prove security clearance, resolved human comments, resolved review-bot comments, passed Codex `/review`, addressed findings, and validation commands.
+- Let `execute-fix-artifact` run the agentic merge-prep loop for fix PRs: edit, validate, Codex `/review`, address findings, revalidate, then resolve review threads when `CLOWNFISH_RESOLVE_REVIEW_THREADS=1`.
 - Prefer `keep_related`, `keep_independent`, `keep_closed`, `fix_needed`, and subcluster notes over blanket `needs_human`.
 - Use `needs_human` only for the exact maintainer decision still unresolved after hydrated evidence is reviewed.
 

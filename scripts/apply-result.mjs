@@ -508,7 +508,7 @@ function validateResolvedReviewThreads(repo, target) {
     "-f",
     `query=${query}`,
   ]);
-  const threads = data?.repository?.pullRequest?.reviewThreads;
+  const threads = data?.data?.repository?.pullRequest?.reviewThreads;
   if (threads?.pageInfo?.hasNextPage) return "too many review threads to prove resolved";
   const unresolved = (threads?.nodes ?? []).filter((thread) => thread && !thread.isResolved);
   if (unresolved.length === 0) return "";
