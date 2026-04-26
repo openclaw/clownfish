@@ -253,7 +253,7 @@ function isClusterScopedFixAction(action, result) {
 
 function isFixFirstBlockedCloseAction(action) {
   if (action.status !== "blocked") return false;
-  return /fix[- ]first|requires? a fix|requires? ProjectClownfish fix|fix PR|merged canonical fix/i.test(
+  return /fix[- ]first|requires? a fix|requires? ProjectClownfish fix|fix PR|fix path|canonical fix path|merged canonical fix/i.test(
     String(action.reason ?? ""),
   );
 }

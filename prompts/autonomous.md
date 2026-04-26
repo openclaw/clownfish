@@ -28,7 +28,8 @@ Before drive mode:
    - if `maintainer_can_modify` is false, the branch is unsafe, or the PR contains broad/unrelated churn, do not merge it. Emit a replacement `build_fix_artifact` / `open_fix_pr` plan that preserves the contributor's credit in `credit_notes`, PR body, and changelog plan;
    - when replacing a useful contributor PR, emit a `close_superseded` comment that says ProjectClownfish cannot safely update that branch, will carry the narrow fix forward separately, and will credit the contributor by username and PR URL.
 8. Do not emit closure actions until the canonical path is explicit. If the cluster is over-broad, split it into subfamilies in the action matrix and use `keep_related`/`keep_independent` for clear non-targets instead of making the whole result `needs_human`.
-9. If an item is not a true duplicate, run a single-item review/check/decide path: keep it related or independent when that is clear, emit a narrow fix artifact when it is a real bug or provider gap with no viable PR, and use `needs_human` only for product-direction or trust-boundary decisions that remain after checking the artifact.
+9. When `require_fix_before_close` blocks an otherwise-clear duplicate/superseded closeout, use `status: "blocked"` and say the close is blocked on the canonical fix path or fix PR. Do not use different vague wording.
+10. If an item is not a true duplicate, run a single-item review/check/decide path: keep it related or independent when that is clear, emit a narrow fix artifact when it is a real bug or provider gap with no viable PR, and use `needs_human` only for product-direction or trust-boundary decisions that remain after checking the artifact.
 
 Low-signal PR cleanup:
 
