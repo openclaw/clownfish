@@ -16,6 +16,7 @@ const CLOSE_APPLICATOR_ACTIONS = new Set([
 ]);
 const MERGE_APPLICATOR_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
 const APPLICATOR_ACTIONS = new Set([...CLOSE_APPLICATOR_ACTIONS, ...MERGE_APPLICATOR_ACTIONS]);
+const POST_FLIGHT_MERGE_ACTIONS = new Set(["finalize_fix_pr"]);
 const PR_INFO_CACHE = new Map();
 const ISSUE_INFO_CACHE = new Map();
 
@@ -40,6 +41,7 @@ function publishResult(resultPath) {
   const runDir = path.dirname(resultPath);
   const result = readJson(resultPath);
   const applyReport = readSiblingJson(runDir, "apply-report.json") ?? { actions: [] };
+  const postFlightReport = readSiblingJson(runDir, "post-flight-report.json") ?? { actions: [] };
   const clusterPlan = readSiblingJson(runDir, "cluster-plan.json");
   const runId = String(args["run-id"] ?? inferRunId(resultPath) ?? "");
   const metadata = runId ? metadataByRunId.get(runId) : undefined;
@@ -52,7 +54,10 @@ function publishResult(resultPath) {
   const repo = String(result.repo ?? "unknown/unknown");
   const owner = repo.split("/")[0] || "unknown";
   const clusterId = String(result.cluster_id ?? path.basename(runDir));
-  const applyActions = (applyReport.actions ?? []).filter(isApplicatorAction);
+  const applyActions = [
+    ...(applyReport.actions ?? []),
+    ...(postFlightReport.actions ?? []).filter(isPostFlightMergeAction).map(postFlightMergeToApplyAction),
+  ].filter(isApplicatorAction);
   const report = {
     repo,
     cluster_id: clusterId,
@@ -449,6 +454,25 @@ function sanitizeApplyAction(action) {
 
 function isApplicatorAction(action) {
   return APPLICATOR_ACTIONS.has(String(action?.action ?? ""));
+}
+
+function isPostFlightMergeAction(action) {
+  return POST_FLIGHT_MERGE_ACTIONS.has(String(action?.action ?? "")) && action?.pr;
+}
+
+function postFlightMergeToApplyAction(action) {
+  return {
+    target: action.pr,
+    action: "merge_canonical",
+    status: action.status,
+    classification: "fix_pr",
+    title: action.title ?? null,
+    reason: action.reason ?? null,
+    merged_at: action.merged_at ?? null,
+    merge_commit_sha: action.merge_commit_sha ?? null,
+    live_state: action.status === "executed" ? "merged" : null,
+    live_updated_at: null,
+  };
 }
 
 function sortNewestRecordFirst(left, right) {

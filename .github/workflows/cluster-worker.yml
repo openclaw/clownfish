@@ -181,6 +181,7 @@ jobs:
       CLOWNFISH_RESOLVE_REVIEW_THREADS: ${{ vars.CLOWNFISH_RESOLVE_REVIEW_THREADS || '1' }}
       CLOWNFISH_MODEL: ${{ inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
       CLOWNFISH_TARGET_VALIDATION_MODE: ${{ vars.CLOWNFISH_TARGET_VALIDATION_MODE || 'changed-only' }}
+      CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS: ${{ vars.CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS || 'auto-response,Labeler,Stale' }}
       CLOWNFISH_GIT_USER_NAME: ${{ vars.CLOWNFISH_GIT_USER_NAME || 'projectclownfish' }}
       CLOWNFISH_GIT_USER_EMAIL: ${{ vars.CLOWNFISH_GIT_USER_EMAIL || 'projectclownfish@users.noreply.github.com' }}
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
@@ -241,6 +242,18 @@ jobs:
         run: npm run execute-fix -- "${{ inputs.job }}" --latest
 
       - name: Apply safe closure actions
+        if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
+        run: npm run apply-result -- "${{ inputs.job }}" --latest
+
+      - name: Post-flight finalize fix PRs
+        if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
+        run: npm run post-flight -- "${{ inputs.job }}" --latest
+
+      - name: Apply post-flight closeouts
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
           GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}

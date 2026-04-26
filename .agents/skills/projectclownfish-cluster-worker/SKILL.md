@@ -84,6 +84,7 @@ Use repo scripts and prompts as the control plane:
 - `scripts/plan-cluster.mjs`: what gets hydrated into the prompt.
 - `scripts/execute-fix-artifact.mjs`: deterministic branch repair/replacement PR gate.
 - `scripts/apply-result.mjs`: deterministic mutation gate.
+- `scripts/post-flight.mjs`: deterministic post-execution finalizer for ProjectClownfish fix PRs and post-merge closeouts.
 - `scripts/import-ghcrawl-low-signal-prs.mjs`: local ghcrawl open-PR scanner for opt-in low-signal cleanup jobs.
 - `.github/workflows/cluster-worker.yml`: runner behavior and env capture.
 
@@ -102,6 +103,7 @@ Current autonomy posture:
 - Useful but uneditable or unsafe source PRs are replacement candidates, not human blockers. When a canonical PR is draft, stale, unmergeable, has `maintainer_can_modify=false`, or has broad unrelated churn, emit or execute `replace_uneditable_branch` with full source PR credit instead of waiting for a maintainer decision.
 - Fix execution should provide Codex actual repo-discovery context before editing; repeated "no target repo changes" means tune `scripts/execute-fix-artifact.mjs` before replaying more jobs. GitHub Actions may block Codex bwrap write/review sandboxes, so write-mode and review execution default to `danger-full-access` there after tokens are stripped from the Codex environment. A Codex write preflight must fail fast before the expensive repair loop if sandbox/auth/write access is broken; do not wait through multi-attempt edits to discover startup failures. Keep canary execution bounded: default worker timeout is 30 minutes, fix Codex timeout is 30 minutes, preflight timeout is 2 minutes, Codex model is `gpt-5.5`, and Codex reasoning effort is `medium`. Worker timeout/failure and exhausted `/review` attempts must write blocked artifacts and keep the workflow reporting path alive. Fix executor runs must copy Codex debug logs into the run artifact so timeout failures are inspectable.
 - Match OpenClaw's CI fast lane for fix validation. Use `blacksmith-4vcpu-ubuntu-2404` for cluster planning/review and `blacksmith-16vcpu-ubuntu-2404` for fix/apply execution. The executor sets `OPENCLAW_LOCAL_CHECK=0` and treats `pnpm check:changed` plus diff checks as the default hard gate. It normalizes target validation commands to `pnpm check:changed` unless `CLOWNFISH_TARGET_VALIDATION_MODE=strict` or `CLOWNFISH_STRICT_TARGET_VALIDATION=1` is explicitly set, so unrelated flaky main CI and broad suites do not block narrow ProjectClownfish fixes.
+- After fix execution, run post-flight finalization before the final closeout replay. Post-flight may merge only ProjectClownfish-opened/pushed fix PRs, only after merge preflight, security clearance, resolved review threads, and non-ignored checks are clean. Default ignored checks are `auto-response`, `Labeler`, and `Stale`; configure `CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS` rather than broadening the hard gate in code.
 - Prefer `keep_related`, `keep_independent`, `keep_closed`, `fix_needed`, `route_security`, and subcluster notes over blanket `needs_human`.
 - Use `needs_human` only for the exact maintainer decision still unresolved after hydrated evidence is reviewed.
 - Worker results must use one action per issue/PR ref. Never emit comma-separated action targets; related follow-up subclusters should be one `keep_related` action per ref or one cluster-scoped `fix_needed` action.
@@ -112,6 +114,7 @@ After tuning, run:
 node --check scripts/plan-cluster.mjs
 node --check scripts/import-ghcrawl-clusters.mjs
 node --check scripts/run-worker.mjs
+node --check scripts/post-flight.mjs
 npm run validate
 git diff --check
 ```
