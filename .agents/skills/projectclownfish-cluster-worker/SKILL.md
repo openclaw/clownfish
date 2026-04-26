@@ -184,11 +184,13 @@ Canary dispatch:
 
 ```bash
 gh variable set CLOWNFISH_ALLOW_EXECUTE --repo openclaw/projectclownfish --body 1
+gh variable set CLOWNFISH_ALLOW_FIX_PR --repo openclaw/projectclownfish --body 1
 npm run dispatch -- \
   jobs/openclaw/ghcrawl-ID1-autonomous-smoke.md \
   jobs/openclaw/ghcrawl-ID2-autonomous-smoke.md \
   --mode autonomous --runner ubuntu-latest
 gh variable set CLOWNFISH_ALLOW_EXECUTE --repo openclaw/projectclownfish --body 0
+gh variable set CLOWNFISH_ALLOW_FIX_PR --repo openclaw/projectclownfish --body 0
 ```
 
 Important: after dispatch, already-started runs keep the write gate they captured. If a new bug is found, cancel those runs.
