@@ -1,0 +1,218 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-165984-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24951659886",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24951659886",
+  "head_sha": "6415dec173e0f2859db51958e43ea7fb9bdb2d3c",
+  "workflow_conclusion": "cancelled",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-165984-agentic-merge.md",
+  "published_at": "2026-04-26T08:11:37.084Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/53698",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/53698",
+  "canonical_pr": null,
+  "summary": "Using the provided preflight artifact as live state, #53698 remains the best canonical item for the narrow still-open bug: the WhatsApp web idle watchdog/message timeout is hardcoded at 30 minutes and not configurable on current main (295bcde7b82cf31e4dc1d14c110a288b4c60575a). No merge-ready canonical PR exists: #63939 is open but failing checks, #71466 is draft with skipped validation, and #67816 is security-sensitive and out of scope. I kept broader WhatsApp stability reports open as related or independent, blocked duplicate closeout for the two clearest duplicates because require_fix_before_close is set, routed the linked security-sensitive PR, and emitted a narrow fix artifact/open-fix plan for a fresh replacement PR.",
+  "actions": [
+    {
+      "target": "#53698",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical for the still-open idle-timeout configurability bug."
+    },
+    {
+      "target": "#53698",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Bug remains real on current main and needs a fresh narrow fix path."
+    },
+    {
+      "target": "#53698",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Replacement fix path is clearer than trying to merge current candidate PRs from incomplete/failing state."
+    },
+    {
+      "target": "#53698",
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Implementation/open-PR step is blocked by unavailable writable checkout, not by classification ambiguity."
+    },
+    {
+      "target": "#65215",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Clear duplicate, but closeout is blocked until the fix-first gate is satisfied."
+    },
+    {
+      "target": "#70678",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Clear duplicate of the canonical idle-watchdog bug, but closeout is blocked by the fix-first policy."
+    },
+    {
+      "target": "#45474",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Overlaps the same stability area but carries broader auth/listener failure modes beyond the canonical timeout-config bug."
+    },
+    {
+      "target": "#48390",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Same family, but not narrow enough to collapse into the canonical config-only bug without a landed fix path."
+    },
+    {
+      "target": "#49305",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Broader logout/recovery bug in the same subsystem, not a pure duplicate of the idle-timeout issue."
+    },
+    {
+      "target": "#58481",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Separate platform/network bug; should stay out of this canonical closeout path."
+    },
+    {
+      "target": "#61788",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Startup/network timeout issue is distinct from the canonical idle-watchdog bug."
+    },
+    {
+      "target": "#63855",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Related silent-delivery failure in the same area, but not a clean duplicate of the configurable-timeout request."
+    },
+    {
+      "target": "#64296",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Distinct connection-open failure; not part of the canonical closeout path."
+    },
+    {
+      "target": "#66920",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Same operational neighborhood, different remaining scope."
+    },
+    {
+      "target": "#67986",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Likely follow-up cluster in the same subsystem, but not the same root cause."
+    },
+    {
+      "target": "#70463",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Distinct health-monitor race regression; should stay open independently."
+    },
+    {
+      "target": "#70856",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": null,
+      "reason": "Related WhatsApp stability issue with overlapping symptoms, but not a safe duplicate."
+    },
+    {
+      "target": "#63939",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": "#63939",
+      "reason": "Useful candidate/source PR, but not merge-ready and not safe as the canonical path in this run."
+    },
+    {
+      "target": "#71466",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53698",
+      "candidate_fix": "#71466",
+      "reason": "Relevant draft fix direction, but still too incomplete to use as canonical or to close issues against."
+    },
+    {
+      "target": "#67816",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out-of-scope security-sensitive PR; quarantine only this item and continue non-security classification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "close_duplicate": 2,
+    "keep_related": 8,
+    "keep_independent": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 17,
+    "blocked": 3
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "apply_actions": []
+}
