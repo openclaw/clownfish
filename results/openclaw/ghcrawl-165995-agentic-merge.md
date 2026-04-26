@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165995-agentic-merge"
 mode: "autonomous"
-run_id: "24965157685"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24965157685"
-head_sha: "27c2c310692398fc86d262abfd33e1b06e631178"
+run_id: "24965340589"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24965340589"
+head_sha: "1237dd5a9ac04c546e75b6d5e6513deacdfc6c7b"
 workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-04-26T19:34:54.756Z"
-canonical: "https://github.com/openclaw/openclaw/issues/43556"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/43556"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/72331"
-actions_total: 22
+published_at: "2026-04-26T19:48:26.646Z"
+canonical: "Replacement fix path for the runtime=subagent ACP-only-field failure; PR #72331 is mentioned in hydrated maintainer comments but was not hydrated, so action fields leave candidate_fix null until re-planned."
+canonical_issue: null
+canonical_pr: null
+actions_total: 18
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,23 +22,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24965157685](https://github.com/openclaw/projectclownfish/actions/runs/24965157685)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24965340589](https://github.com/openclaw/projectclownfish/actions/runs/24965340589)
 
 Workflow conclusion: failure
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/43556
+Canonical: Replacement fix path for the runtime=subagent ACP-only-field failure; PR #72331 is mentioned in hydrated maintainer comments but was not hydrated, so action fields leave candidate_fix null until re-planned.
 
 ## Summary
 
-Representative #59390 is already closed. The best surviving canonical issue is #43556 for the sessions_spawn runtime=subagent ACP-only streamTo failure family. A replacement fix path is referenced as #72331 from ProjectClownfish comments on closed source PRs #65282 and #68397, but no merge is recommended because #72331 was not hydrated in this artifact and no merge preflight is available. Planned duplicate closeout is limited to open issues with the same root failure; broader schema-filtering and schema-description work stays open as related.
+Hydrated state shows the original representative #59390 is already closed. The immediate runtime=subagent ACP-only-field failure is real and best covered by the narrow replacement-fix path derived from #65282 and #68397; #72331 is mentioned in hydrated maintainer comments but was not hydrated as an item, so it is evidence only and cannot be used as candidate_fix for closeout. Open duplicate closeouts are blocked on hydration of the canonical fix PR or an equivalent merged fix. #69170 is related schema-hint work, not the canonical behavior fix, and is dirty/failing checks.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 22 |
+| Worker actions | 18 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,28 +54,24 @@ Representative #59390 is already closed. The best surviving canonical issue is #
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #43556 | keep_canonical | planned | canonical | Best surviving open issue for the immediate runtime=subagent ACP-only streamTo hard-failure family. |
-| #56326 | close_duplicate | planned | duplicate | Duplicate closeout is high confidence and tied to the open canonical issue #43556 plus replacement fix path #72331. |
-| #61724 | close_duplicate | planned | duplicate | Same root cause and same expected runtime tolerance as #43556; unique version details are useful evidence but do not require a separate issue. |
-| #64714 | close_duplicate | planned | duplicate | Duplicate of the canonical hard-failure report. |
-| #67248 | close_duplicate | planned | duplicate | Version-specific reproduction is covered by the canonical issue and replacement fix path. |
-| #63120 | keep_related | planned | related | Related schema-contract issue rather than a clean duplicate closeout while #69170 remains open and failing checks. |
-| #59225 | keep_related | planned | related | Related broader design work; not a duplicate of the narrow runtime tolerance bug. |
-| #69170 | keep_related | blocked | related | Keep open as related; merge is blocked by failing checks and missing merge preflight. |
-| #47115 | keep_closed | skipped | superseded | Historical closed source PR evidence only. |
-| #53016 | keep_closed | skipped | duplicate | Already closed duplicate evidence only. |
-| #53370 | keep_closed | skipped | duplicate | Already closed; no mutation allowed. |
-| #55483 | keep_closed | skipped | superseded | Closed historical source PR; useful idea carried forward by replacement path. |
-| #56193 | keep_closed | skipped | duplicate | Already closed duplicate evidence only. |
-| #59390 | keep_closed | skipped | duplicate | Closed representative; evidence only. |
-| #60965 | keep_closed | skipped | duplicate | Already closed duplicate evidence only. |
-| #65282 | keep_closed | skipped | superseded | Closed source PR superseded by replacement path. |
-| #66719 | keep_closed | skipped | related | Closed related schema-provider context only. |
-| #68275 | keep_closed | skipped | duplicate | Already closed duplicate evidence only. |
-| #68397 | keep_closed | skipped | superseded | Closed useful source PR superseded by replacement path. |
-| #69166 | keep_closed | skipped | related | Closed related schema-hint issue evidence only. |
-| #69203 | keep_closed | skipped | superseded | Closed duplicate PR evidence only. |
-| cluster:ghcrawl-165995-agentic-merge | build_fix_artifact | planned |  | A canonical replacement fix path exists but needs hydration and normal merge preflight before merge or post-merge closeout. |
+| cluster:ghcrawl-165995-agentic-merge | fix_needed | planned |  | Canonical fix path exists only as an unhydrated replacement PR reference in comments; keep fix work explicit and block duplicate closeout until the replacement PR is hydrated or merged. |
+| cluster:ghcrawl-165995-agentic-merge | build_fix_artifact | planned |  | A fix artifact is appropriate because the bug remains real from the artifact and no viable hydrated open canonical PR is available for automated merge. |
+| #43556 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #53370 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #56193 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #56326 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #59390 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #60965 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #61724 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #63120 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #64714 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #67248 | close_superseded | blocked | fixed_by_candidate | Close is blocked on the canonical fix path or fix PR hydration. |
+| #68275 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #69166 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #65282 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions; use this PR as credited source evidence for the replacement artifact. |
+| #68397 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions; use this PR as credited source evidence for the replacement artifact. |
+| #69170 | keep_related | planned | related | Related schema-hint subcluster; failing checks and dirty state block merge, but the classification is clear. |
+| #59225 | keep_related | planned | related | Related follow-up scope, not a duplicate close target for the immediate sessions_spawn hard-failure fix. |
 
 ## Needs Human
 
