@@ -1,0 +1,155 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-166010-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24946043420",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24946043420",
+  "head_sha": "56bccb0db44200da8fc6f4a81252127a5c0e77d5",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/ghcrawl-166010-agentic-merge.md",
+  "published_at": "2026-04-26T02:18:55.124Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/37706",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/37706",
+  "canonical_pr": null,
+  "summary": "Using the hydrated preflight artifact as live state, #37706 is the clearest surviving canonical issue for the Feishu `@_all` false-positive. #39568/#39569 are independent reply-routing work, #49770 is blocked by the security boundary, and the remaining PRs stay open as related because the cluster does not contain a single merge-ready canonical PR.",
+  "actions": [
+    {
+      "target": "#37706",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "Open issue #37706 is the best live canonical tracker for the raw `@_all` false-positive while PR direction remains unresolved."
+    },
+    {
+      "target": "#39568",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#39568 is a different Feishu reply/thread bug and should not be deduped into this `@all` cluster."
+    },
+    {
+      "target": "#39569",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#39569 belongs to a separate Feishu reply-handling bug family and is out of scope for this cluster."
+    },
+    {
+      "target": "#49761",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#49761 is related to the same root bug, but it bakes in one specific opt-in behavior choice and should stay separate from the canonical bug tracker."
+    },
+    {
+      "target": "#44256",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#44256 is a useful related candidate fix, but it is not merge-ready and cannot be promoted to canonical without maintainer choice and clean validation."
+    },
+    {
+      "target": "#49767",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#49767 is a related config-oriented candidate, but it is not safe to treat as canonical while review findings and behavior direction remain unresolved."
+    },
+    {
+      "target": "#49770",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security boundary: route #49770 to central OpenClaw security triage and do not process it further in this cluster."
+    },
+    {
+      "target": "#50144",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#50144 stays open only as related context because its config approach still has unresolved correctness and validation blockers."
+    },
+    {
+      "target": "#50394",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#50394 is related overlapping work, but there is insufficient evidence to elevate it over the other open minimal-fix candidates."
+    },
+    {
+      "target": "#50801",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#50801 remains related overlapping work and should stay open until maintainers choose a canonical landing path."
+    },
+    {
+      "target": "#58867",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#58867 is related config work, but unresolved review findings and failing validation block canonical treatment."
+    },
+    {
+      "target": "#59401",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#59401 is a related feature-request thread that should remain separate from the canonical root-bug issue."
+    },
+    {
+      "target": "#59422",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#37706",
+      "candidate_fix": null,
+      "reason": "#59422 is related feature work with unresolved correctness bugs and failing validation, so it cannot serve as the canonical path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_independent": 2,
+    "keep_related": 9,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 12,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Route #49770 to central OpenClaw security handling because the hydrated artifact marks it security-sensitive after CWE-807/security discussion; ProjectClownfish must not mutate or close it.",
+    "Maintainer decision is still required on behavior direction for the root bug: ship the minimal default-ignore-`@all` behavior tracked by #37706 and minimal PRs (#44256/#50394/#50801), or intentionally add an opt-in/ignore configuration surface (#49767/#50144/#58867/#59422/#59401).",
+    "No canonical PR is merge-ready from the hydrated artifact: #44256 has failing checks, #49767 still has unresolved bot-review findings and incomplete validation evidence, and the later variants also carry P1 findings and/or failing checks."
+  ],
+  "apply_actions": []
+}
