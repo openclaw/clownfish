@@ -147,7 +147,7 @@ jobs:
 
       - name: Upload worker transfer artifacts
         if: ${{ always() && (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: projectclownfish-worker-${{ github.run_id }}-${{ github.run_attempt }}
           path: .projectclownfish/runs
@@ -155,7 +155,7 @@ jobs:
 
       - name: Upload final worker artifacts
         if: ${{ always() && (!((inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run) || failure() || cancelled()) }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: projectclownfish-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -225,7 +225,7 @@ jobs:
           printenv OPENAI_API_KEY | codex login --with-api-key >/dev/null
 
       - name: Download worker artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: projectclownfish-worker-${{ github.run_id }}-${{ github.run_attempt }}
           path: .projectclownfish/runs
@@ -248,7 +248,7 @@ jobs:
 
       - name: Upload final worker artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: projectclownfish-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
