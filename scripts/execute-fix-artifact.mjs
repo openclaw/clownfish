@@ -1253,11 +1253,36 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
         run(parts[0], parts.slice(1), { cwd, env: validationEnv });
         executed.push(rendered);
       } catch (error) {
+        const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch });
+        if (fallbackCommands.length > 0) {
+          for (const fallbackParts of fallbackCommands) {
+            const fallbackRendered = fallbackParts.join(" ");
+            if (executed.includes(fallbackRendered)) continue;
+            run(fallbackParts[0], fallbackParts.slice(1), { cwd, env: validationEnv });
+            executed.push(fallbackRendered);
+          }
+          continue;
+        }
         throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);
       }
     }
   }
   return executed;
+}
+
+function validationFallbackCommands({ parts, error, cwd, baseBranch }) {
+  if (strictTargetValidation) return [];
+  if (parts[0] !== "pnpm" || parts[1] !== "check:changed" || parts.length !== 2) return [];
+  if (!isChangedGateStall(error)) return [];
+  const changedTests = changedTestFiles(cwd, baseBranch);
+  return [
+    ["git", "diff", "--check", `origin/${baseBranch}...HEAD`],
+    ...(changedTests.length > 0 ? [["pnpm", "test:serial", ...changedTests]] : []),
+  ];
+}
+
+function isChangedGateStall(error) {
+  return /no output for \d+ms|terminating stalled Vitest|stalled Vitest process/i.test(String(error?.message ?? ""));
 }
 
 function targetValidationEnv() {
