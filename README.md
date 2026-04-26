@@ -34,7 +34,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 26, 2026, 00:12 UTC
+Last dashboard update: Apr 26, 2026, 00:24 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Blocked actions need triage
@@ -50,7 +50,10 @@ Scope: 27 latest cluster reports. Run attempts are tracked as audit history only
 | Latest failed clusters | 0 |
 | Latest cancelled clusters | 0 |
 | Run attempts archived | 34 |
-| Merged PRs | 0 |
+| Canonical/fix PRs tracked | 8 |
+| Merged PRs | 1 |
+| Open PRs tracked | 5 |
+| Closed unmerged PRs tracked | 2 |
 | Completed close actions | 16 |
 | Duplicate closes | 16 |
 | Superseded closes | 0 |
@@ -61,9 +64,9 @@ Scope: 27 latest cluster reports. Run attempts are tracked as audit history only
 
 ### Recent Merges
 
-| PR | Title | Cluster | Report | Run |
-| --- | --- | --- | --- | --- |
-| _None yet_ |  |  |  |  |
+| PR | Title | Merged | Cluster | Report | Run |
+| --- | --- | --- | --- | --- | --- |
+| [#64713](https://github.com/openclaw/openclaw/pull/64713) | fix(auth): stop forcing unsupported Codex OAuth scopes | Apr 11, 2026, 09:08 UTC | [ghcrawl-143811-autonomous-smoke](results/openclaw/ghcrawl-143811-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143811-autonomous-smoke.md) | [24943076135](https://github.com/openclaw/projectclownfish/actions/runs/24943076135) |
 <!-- projectclownfish-dashboard:end -->
 
 ## How It Works

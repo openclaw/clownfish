@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, repoRoot } from "./lib.mjs";
@@ -14,6 +15,7 @@ const CLOSE_APPLICATOR_ACTIONS = new Set([
 ]);
 const MERGE_APPLICATOR_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
 const APPLICATOR_ACTIONS = new Set([...CLOSE_APPLICATOR_ACTIONS, ...MERGE_APPLICATOR_ACTIONS]);
+const PR_INFO_CACHE = new Map();
 
 const args = parseArgs(process.argv.slice(2));
 const inputs = args._.length > 0 ? args._ : [path.join(repoRoot(), ".projectclownfish", "runs")];
@@ -208,12 +210,13 @@ function updateDashboard() {
   const readme = fs.readFileSync(readmePath, "utf8");
   const records = readRunRecords();
   const latestByCluster = latestClusterRecords(records).sort(sortNewestRecordFirst);
+  const trackedPrRows = buildTrackedPrRows(records);
   const applyRows = latestByCluster.flatMap((record) =>
     (record.apply_actions ?? []).filter(isApplicatorAction).map((action) => ({ record, action })),
   );
   const executedRows = applyRows.filter((row) => row.action.status === "executed");
   const closedRows = executedRows.filter((row) => CLOSE_APPLICATOR_ACTIONS.has(String(row.action.action ?? "")));
-  const mergedRows = executedRows.filter((row) => MERGE_APPLICATOR_ACTIONS.has(String(row.action.action ?? "")));
+  const mergedPrRows = trackedPrRows.filter((row) => row.merged);
   const blockedRows = applyRows.filter((row) => row.action.status === "blocked");
   const skippedRows = applyRows.filter((row) => row.action.status === "skipped");
   const needsHumanRows = latestByCluster.filter((record) => (record.needs_human ?? []).length > 0);
@@ -239,7 +242,13 @@ function updateDashboard() {
     cancelled: latestByCluster.filter((record) => record.workflow_conclusion === "cancelled").length,
     cleanClusters: cleanClusters.length,
     closed: closedRows.length,
-    merged: mergedRows.length,
+    trackedPrs: trackedPrRows.length,
+    mergedPrs: mergedPrRows.length,
+    openTrackedPrs: countRows(trackedPrRows, (row) => row.state === "open"),
+    closedUnmergedTrackedPrs: countRows(
+      trackedPrRows,
+      (row) => row.state === "closed" && !row.merged,
+    ),
     blocked: blockedRows.length,
     skipped: skippedRows.length,
     needsHumanClusters: needsHumanRows.length,
@@ -262,7 +271,10 @@ Scope: ${totals.clusters} latest cluster reports. Run attempts are tracked as au
 | Latest failed clusters | ${totals.failure} |
 | Latest cancelled clusters | ${totals.cancelled} |
 | Run attempts archived | ${totals.runs} |
-| Merged PRs | ${totals.merged} |
+| Canonical/fix PRs tracked | ${totals.trackedPrs} |
+| Merged PRs | ${totals.mergedPrs} |
+| Open PRs tracked | ${totals.openTrackedPrs} |
+| Closed unmerged PRs tracked | ${totals.closedUnmergedTrackedPrs} |
 | Completed close actions | ${totals.closed} |
 | Duplicate closes | ${countRows(closedRows, (row) => row.action.classification === "duplicate")} |
 | Superseded closes | ${countRows(closedRows, (row) => row.action.classification === "superseded")} |
@@ -273,9 +285,9 @@ Scope: ${totals.clusters} latest cluster reports. Run attempts are tracked as au
 
 ### Recent Merges
 
-| PR | Title | Cluster | Report | Run |
-| --- | --- | --- | --- | --- |
-${renderRecentMergeRows(mergedRows.slice(0, 25))}
+| PR | Title | Merged | Cluster | Report | Run |
+| --- | --- | --- | --- | --- | --- |
+${renderRecentMergeRows(mergedPrRows.slice(0, 25))}
 ${DASHBOARD_END}`;
 
   let updated;
@@ -414,35 +426,140 @@ function countRows(rows, predicate) {
 }
 
 function renderRecentMergeRows(rows) {
-  if (rows.length === 0) return "| _None yet_ |  |  |  |  |";
+  if (rows.length === 0) return "| _None yet_ |  |  |  |  |  |";
   return rows
-    .map(({ record, action }) =>
+    .map((row) =>
       [
-        markdownTableLink(action.target ?? "", githubPullUrl(record.repo, action.target)),
-        tableCell(mergeTitle(action)),
-        markdownTableLink(record.cluster_id, clusterReportPath(record)),
-        markdownTableLink("report", clusterReportPath(record)),
-        markdownTableLink(record.run_id || "run", record.run_url),
+        markdownTableLink(`#${row.number}`, row.url),
+        tableCell(row.title),
+        tableCell(row.merged_at ? formatTimestamp(row.merged_at) : "merged"),
+        markdownTableLink(row.record.cluster_id, clusterReportPath(row.record)),
+        markdownTableLink("report", clusterReportPath(row.record)),
+        markdownTableLink(row.record.run_id || "run", row.record.run_url),
       ].join(" | "),
     )
     .map((row) => `| ${row} |`)
     .join("\n");
 }
 
+function buildTrackedPrRows(records) {
+  const byPull = new Map();
+  for (const record of records) {
+    const canonical = parseGithubPullRef(record.repo, record.canonical_pr);
+    if (canonical) {
+      addTrackedPrRow(byPull, {
+        record,
+        repo: canonical.repo,
+        number: canonical.number,
+        title: null,
+        assumedMerged: false,
+        merged_at: null,
+        source: "canonical_pr",
+      });
+    }
+
+    for (const action of record.apply_actions ?? []) {
+      if (!MERGE_APPLICATOR_ACTIONS.has(String(action.action ?? ""))) continue;
+      const pull =
+        parseGithubPullRef(record.repo, action.target) ??
+        parseGithubPullRef(record.repo, action.candidate_fix) ??
+        parseGithubPullRef(record.repo, action.canonical);
+      if (!pull) continue;
+      addTrackedPrRow(byPull, {
+        record,
+        repo: pull.repo,
+        number: pull.number,
+        title: action.title ?? action.target_title ?? action.pr_title ?? null,
+        assumedMerged: action.status === "executed",
+        merged_at: action.merged_at ?? null,
+        source: "merge_action",
+      });
+    }
+  }
+
+  return [...byPull.values()].map(hydrateTrackedPrRow).sort(sortNewestPrRowFirst);
+}
+
+function addTrackedPrRow(byPull, row) {
+  const key = `${row.repo}#${row.number}`;
+  const previous = byPull.get(key);
+  if (!previous || preferTrackedPrRow(row, previous)) {
+    byPull.set(key, row);
+  }
+}
+
+function preferTrackedPrRow(candidate, current) {
+  if (candidate.assumedMerged && !current.assumedMerged) return true;
+  if (!candidate.assumedMerged && current.assumedMerged) return false;
+  return String(candidate.record.published_at ?? "").localeCompare(String(current.record.published_at ?? "")) > 0;
+}
+
+function hydrateTrackedPrRow(row) {
+  const info = githubPullInfo(row.repo, row.number);
+  const merged = Boolean(row.assumedMerged || row.merged_at || info?.merged);
+  const state = merged ? "merged" : info?.state ?? "tracked";
+  return {
+    ...row,
+    title: row.title ?? info?.title ?? `PR #${row.number}`,
+    url: info?.html_url ?? githubPullUrl(row.repo, row.number),
+    state,
+    merged,
+    merged_at: row.merged_at ?? info?.merged_at ?? null,
+  };
+}
+
+function sortNewestPrRowFirst(left, right) {
+  return String(right.merged_at ?? right.record.published_at ?? "").localeCompare(
+    String(left.merged_at ?? left.record.published_at ?? ""),
+  );
+}
+
+function githubPullInfo(repo, number) {
+  if (!repo || !number) return null;
+  const key = `${repo}#${number}`;
+  if (PR_INFO_CACHE.has(key)) return PR_INFO_CACHE.get(key);
+  try {
+    const env = { ...process.env };
+    if (!env.GH_TOKEN && env.CLOWNFISH_READ_GH_TOKEN) env.GH_TOKEN = env.CLOWNFISH_READ_GH_TOKEN;
+    if (!env.GH_TOKEN && env.GITHUB_TOKEN) env.GH_TOKEN = env.GITHUB_TOKEN;
+    const body = execFileSync("gh", ["api", `repos/${repo}/pulls/${number}`], {
+      encoding: "utf8",
+      env,
+      maxBuffer: 1024 * 1024,
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    const info = JSON.parse(body);
+    const normalized = {
+      html_url: info.html_url ?? githubPullUrl(repo, number),
+      merged: Boolean(info.merged),
+      merged_at: info.merged_at ?? null,
+      state: info.state ?? null,
+      title: info.title ?? null,
+    };
+    PR_INFO_CACHE.set(key, normalized);
+    return normalized;
+  } catch {
+    PR_INFO_CACHE.set(key, null);
+    return null;
+  }
+}
+
+function parseGithubPullRef(defaultRepo, value) {
+  const text = String(value ?? "").trim();
+  if (!text) return null;
+  let match = text.match(/^#?(\d+)$/);
+  if (match && defaultRepo) return { repo: defaultRepo, number: match[1] };
+  match = text.match(/^([^/\s]+\/[^#\s]+)#(\d+)$/);
+  if (match) return { repo: match[1], number: match[2] };
+  match = text.match(/github\.com\/([^/\s]+)\/([^/\s]+)\/pull\/(\d+)/);
+  if (match) return { repo: `${match[1]}/${match[2]}`, number: match[3] };
+  return null;
+}
+
 function githubPullUrl(repo, ref) {
   const number = String(ref ?? "").replace(/^#/, "");
   if (!/^\d+$/.test(number) || !repo) return "";
   return `https://github.com/${repo}/pull/${number}`;
-}
-
-function mergeTitle(action) {
-  return (
-    action.title ??
-    action.target_title ??
-    action.pr_title ??
-    action.reason ??
-    "merged PR"
-  );
 }
 
 function clusterReportPath(record) {

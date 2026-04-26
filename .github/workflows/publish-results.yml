@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   actions: read
+  pull-requests: read
 
 concurrency:
   group: projectclownfish-publish-results
@@ -38,6 +39,7 @@ jobs:
 
       - name: Publish and commit result ledger
         env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || github.token }}
           RUN_ID: ${{ github.event.workflow_run.id }}
           RUN_URL: ${{ github.event.workflow_run.html_url }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
