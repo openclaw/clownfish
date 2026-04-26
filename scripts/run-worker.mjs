@@ -17,7 +17,7 @@ const jobPath = args._[0];
 const mode = args.mode ?? "plan";
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_DRY_RUN === "1");
 const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4";
-const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 30 * 60 * 1000);
+const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 10 * 60 * 1000);
 
 if (!jobPath) {
   console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute|autonomous [--dry-run]");
