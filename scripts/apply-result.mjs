@@ -195,13 +195,14 @@ function applyCloseAction({
   if ((classification === "duplicate" || classification === "superseded") && !canonical) {
     return { ...base, status: "blocked", reason: "closure requires canonical or duplicate_of" };
   }
-  if (canonical && !allowedRefs.has(canonical)) {
+  const isPostMergeFixedClose = actionName === "post_merge_close" && classification === "fixed_by_candidate";
+  if (canonical && !allowedRefs.has(canonical) && !isPostMergeFixedClose) {
     return { ...base, status: "blocked", reason: "canonical is not listed in job refs" };
   }
   if (classification === "fixed_by_candidate" && !candidateFix) {
     return { ...base, status: "blocked", reason: "closure requires candidate_fix" };
   }
-  if (candidateFix && !allowedRefs.has(candidateFix)) {
+  if (candidateFix && !allowedRefs.has(candidateFix) && !isPostMergeFixedClose) {
     return { ...base, status: "blocked", reason: "candidate fix is not listed in job refs" };
   }
   if (actionName === "post_merge_close") {

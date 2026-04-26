@@ -911,6 +911,11 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
   if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex /review timed out after ${codexTimeoutMs}ms`);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex /review failed");
   if (!fs.existsSync(outputPath)) {
+    const fallbackReview = extractCodexReviewFromJsonl(child.stdout);
+    if (fallbackReview) {
+      fs.writeFileSync(outputPath, `${JSON.stringify(fallbackReview, null, 2)}\n`);
+      return fallbackReview;
+    }
     const stdout = compactText(child.stdout, 800);
     const stderr = compactText(child.stderr, 800);
     throw new Error(
@@ -922,6 +927,42 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
   } catch (error) {
     throw new Error(`Codex /review failed: invalid structured output in ${path.basename(outputPath)}: ${error.message}`);
   }
+}
+
+function extractCodexReviewFromJsonl(stdout) {
+  const candidates = [];
+  for (const line of String(stdout ?? "").split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    let event;
+    try {
+      event = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    const text = event?.item?.type === "agent_message" ? event.item.text : undefined;
+    if (typeof text === "string" && text.trim().startsWith("{")) candidates.push(text.trim());
+  }
+  for (const text of candidates.reverse()) {
+    try {
+      const parsed = JSON.parse(text);
+      if (isCodexReview(parsed)) return parsed;
+    } catch {
+      // Keep scanning older candidate messages.
+    }
+  }
+  return null;
+}
+
+function isCodexReview(value) {
+  return (
+    value &&
+    typeof value === "object" &&
+    typeof value.status === "string" &&
+    typeof value.summary === "string" &&
+    Array.isArray(value.findings) &&
+    typeof value.findings_addressed === "boolean" &&
+    Array.isArray(value.evidence)
+  );
 }
 
 function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
