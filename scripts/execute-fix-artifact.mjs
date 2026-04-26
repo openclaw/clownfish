@@ -192,7 +192,7 @@ report.actions.push(outcome);
 writeReport(report, resultPath);
 
 function isBlockedFixError(error) {
-  return /Codex produced no target repo changes|Codex (?:fix worker|review-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|\/review) failed/i.test(
+  return /Codex produced no target repo changes|Codex (?:fix worker|review-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|\/review) failed|validation command failed/i.test(
     String(error?.message ?? error),
   );
 }
@@ -1016,9 +1016,24 @@ function setupGitIdentity(cwd) {
 
 function runAllowedValidationCommands(commands, cwd) {
   for (const command of commands) {
-    const parts = parseAllowedValidationCommand(command);
-    run(parts[0], parts.slice(1), { cwd });
+    const parts = resolveAllowedValidationCommand(command, cwd);
+    try {
+      run(parts[0], parts.slice(1), { cwd });
+    } catch (error) {
+      throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);
+    }
   }
+}
+
+function resolveAllowedValidationCommand(command, cwd) {
+  const parts = parseAllowedValidationCommand(command);
+  if (parts[0] === "npm" && parts[1] === "run" && parts[2] === "validate") {
+    const scripts = readPackageScriptSet(cwd);
+    if (!scripts.has("validate") && scripts.has("check:changed")) {
+      return ["pnpm", "check:changed"];
+    }
+  }
+  return parts;
 }
 
 function parseAllowedValidationCommand(command) {
@@ -1032,6 +1047,17 @@ function parseAllowedValidationCommand(command) {
     throw new Error(`unsupported validation command: ${text}`);
   }
   return parts;
+}
+
+function readPackageScriptSet(cwd) {
+  const packagePath = path.join(cwd, "package.json");
+  if (!fs.existsSync(packagePath)) return new Set();
+  try {
+    const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+    return new Set(Object.keys(pkg.scripts ?? {}));
+  } catch {
+    return new Set();
+  }
 }
 
 function firstSourcePullRequest(fixArtifact) {

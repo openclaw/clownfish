@@ -53,7 +53,7 @@ Fix artifact actions:
 
 - If no viable canonical PR exists and the bug still appears real from the artifact, emit `fix_needed` plus `build_fix_artifact` even when the current job cannot open the fix PR. Do not escalate solely because `allow_fix_pr` is false.
 - Provider support gaps, missing model capability routing, and ordinary feature gaps reported as bugs should become a fix artifact when the artifact shows expected behavior and the patch can stay narrow.
-- `validation_commands` must be executable commands using `pnpm`, `npm`, `node`, or `git`. Put manual browser checks and prose test plans in `pr_body`, `credit_notes`, or action evidence, not in `validation_commands`.
+- `validation_commands` must be executable commands using the target repo's package manager. For `openclaw/openclaw`, prefer focused `pnpm test:serial <path-or-filter...>` or `pnpm -s vitest run <files>` plus `pnpm check:changed`; do not emit `npm run validate` because that script does not exist there. Put manual browser checks and prose test plans in `pr_body`, `credit_notes`, or action evidence, not in `validation_commands`.
 - The `build_fix_artifact` action must include affected surfaces, likely files, linked issues/PRs, validation commands, changelog requirement, credit notes, and a PR title/body plan.
 - If replacing a contributor PR, `fix_artifact.credit_notes` must name the original author and PR URL, `pr_body` must explain the borrowed/credited idea, and `changelog_required` should be true when the resulting fix is user-facing.
 - The fix plan must be narrow: list only the files expected to change, focused tests, review-bot findings to address, and the exact branch/PR that could not be updated if applicable.
