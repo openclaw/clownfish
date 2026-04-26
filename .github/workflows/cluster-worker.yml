@@ -125,7 +125,7 @@ jobs:
           fi
 
       - name: Execute credited fix artifact
-        if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run && vars.CLOWNFISH_ALLOW_FIX_PR == '1' }}
+        if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && vars.CLOWNFISH_ALLOW_FIX_PR == '1' }}
         env:
           GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
         run: npm run execute-fix -- "${{ inputs.job }}" --latest
