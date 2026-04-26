@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165986-agentic-merge"
 mode: "autonomous"
-run_id: "24952412715"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24952412715"
-head_sha: "f5c4e1950557f765a49dfa2b7481399dab602891"
-workflow_conclusion: "failure"
+run_id: "24962128122"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24962128122"
+head_sha: "0a093014e04049c913f3bb009311325943e11e03"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T09:04:35.903Z"
-canonical: "https://github.com/openclaw/openclaw/issues/19929"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/19929"
+published_at: "2026-04-26T17:03:16.129Z"
+canonical: "https://github.com/openclaw/openclaw/issues/58004"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/58004"
 canonical_pr: null
-actions_total: 20
+actions_total: 14
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,23 +22,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24952412715](https://github.com/openclaw/projectclownfish/actions/runs/24952412715)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24962128122](https://github.com/openclaw/projectclownfish/actions/runs/24962128122)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/19929
+Canonical: https://github.com/openclaw/openclaw/issues/58004
 
 ## Summary
 
-Autonomous classification completed from the hydrated preflight artifact. The original representative #58004 is already closed as implemented, so #19929 is the best live canonical for the remaining same-agent group/channel/thread session-sharing subfamily. No GitHub mutations were performed. No merge is recommended because there is no open clean canonical PR; #50875 is related but not a canonical fix for this cluster and has unresolved/accepted-deferral bot findings. A narrow replacement fix artifact is planned, crediting prior work in #20078.
+Representative #58004 is already closed as implemented for direct-message cross-surface continuity. Remaining open non-security items are related but not true duplicates of #58004 because they cover group/channel/thread binding, cross-agent shared channel history, live surface sync, or unresolved plugin-hook work. No close, merge, or fix action is safe in this run; #19929 is security-sensitive and routed to central security handling.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 20 |
+| Worker actions | 14 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,26 +54,20 @@ Autonomous classification completed from the hydrated preflight artifact. The or
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #19929 | keep_canonical | planned | canonical | Use #19929 as the live canonical for the channel/group/thread session grouping subfamily. |
-| #19929 | fix_needed | planned | canonical | A new narrow fix PR is needed before any fix-first closeout of related issues. |
-| #19929 | build_fix_artifact | planned | canonical | Prepare a replacement fix plan that preserves contributor credit. |
-| #19929 | open_fix_pr | blocked | canonical | Implementation is blocked only on unavailable target checkout; classification and fix artifact are still complete. |
-| #14850 | keep_related | planned | related | Keep open as related design input for the canonical channel/group session-sharing work. |
-| #51805 | keep_related | planned | related | Related same-agent continuity request with unique group-to-DM privacy semantics; do not close as duplicate. |
-| #51691 | keep_related | planned | related | Same continuity problem family, but scope is broader and not safely closable under #19929. |
-| #46514 | keep_independent | planned | independent | Independent follow-up cluster; leave open. |
-| #11665 | keep_independent | planned | independent | Independent fix-needed follow-up; not closed or absorbed into this cluster's canonical path. |
-| #50875 | keep_related | planned | related | Related identity-routing PR, not a canonical fix for this cluster and not merge-ready under merge policy. |
-| #52504 | route_security | planned | security_sensitive | Route to central OpenClaw security handling; no ProjectClownfish mutation. |
-| #20078 | keep_closed | skipped | superseded | Closed context only; preserve credit in replacement fix artifact. |
-| #39049 | keep_closed | skipped | related | Closed historical context; no action. |
-| #40986 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
-| #57977 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
-| #58004 | keep_closed | skipped | fixed_by_candidate | Representative is obsolete for live canonical selection; no closure action allowed. |
-| #59355 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
-| #59585 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
-| #60255 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
-| #68628 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #14850 | keep_related | planned | related | Related follow-up scope, not a true duplicate of the closed direct-message canonical. |
+| #19929 | route_security | planned | security_sensitive | Quarantine this item to central OpenClaw security handling; continue unrelated non-security classification. |
+| #40986 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
+| #46514 | keep_related | planned | related | Related multi-agent/channel-history scope with unique root cause. |
+| #50875 | keep_related | planned | related | Useful adjacent PR but not a canonical fix for this cluster and not merge-ready. |
+| #51691 | keep_related | planned | related | Related but broader live-sync/product scope. |
+| #51805 | keep_related | planned | related | Related group/DM merge design scope with unique requirements. |
+| #52504 | route_security | planned | security_sensitive | Quarantine security-sensitive context item without mutating it. |
+| #57977 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
+| #58004 | keep_closed | skipped | canonical | Closed canonical for the direct-message continuity subfamily. |
+| #59355 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
+| #59585 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
+| #60255 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
+| #68628 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no mutation allowed. |
 
 ## Needs Human
 
