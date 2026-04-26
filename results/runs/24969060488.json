@@ -1,0 +1,165 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207048-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969060488",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969060488",
+  "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207048-agentic-merge.md",
+  "published_at": "2026-04-26T23:10:04.157Z",
+  "canonical": "split: #45674 for wsConfig/PingInterval constructor fix; #68865 for application-level reconnect/backoff repair",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/68865",
+  "summary": "Hydrated state shows no security-sensitive refs. The cluster splits into two Feishu WebSocket subfamilies: #45674 is the narrow canonical PR for the missing wsConfig/PingInterval constructor fix, while #68865 is the best repairable canonical PR for application-level reconnect/backoff. #55619 is obsolete as a merge path because it uses global WSClient prototype mutation, has unresolved Codex P1 review findings, and has failing checks. No merge is recommended because required merge preflight and clean review-bot state are missing.",
+  "actions": [
+    {
+      "target": "#45674",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45674",
+      "candidate_fix": "#45674",
+      "reason": "Best surviving canonical for the wsConfig/PingInterval constructor crash subfamily, but not merge-ready without required merge preflight."
+    },
+    {
+      "target": "#46472",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#45674",
+      "candidate_fix": "#45674",
+      "reason": "Clear duplicate implementation of #45674, but closure is blocked by require_fix_before_close and failing checks."
+    },
+    {
+      "target": "#55619",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#68865",
+      "candidate_fix": null,
+      "reason": "Useful contributor investigation, but the branch is unsafe for automated merge and should be superseded only after a credited repair/replacement path exists."
+    },
+    {
+      "target": "#68865",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68865",
+      "candidate_fix": "#68865",
+      "reason": "Best repairable canonical PR for the application-level reconnect/backoff subfamily, but not merge-ready until the P1 review finding is addressed and merge preflight is rerun."
+    },
+    {
+      "target": "#42354",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45674",
+      "candidate_fix": "#45674",
+      "reason": "Related to the #45674 wsConfig root cause, but not safe to close because the issue contains additional domain/plugin configuration evidence."
+    },
+    {
+      "target": "#55532",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68865",
+      "candidate_fix": "#68865",
+      "reason": "Related but not a true duplicate because it includes a distinct token-cache failure mode."
+    },
+    {
+      "target": "#68766",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68865",
+      "candidate_fix": "#68865",
+      "reason": "Clearly belongs to the #68865 subfamily, but fixed-by-candidate closeout is blocked until #68865 is repaired and landed."
+    },
+    {
+      "target": "cluster:ghcrawl-207048-agentic-merge",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A fix artifact is needed to repair the contributor path before merge or closeout actions can proceed."
+    },
+    {
+      "target": "cluster:ghcrawl-207048-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Build a narrow, credited repair artifact for the Feishu WebSocket reconnect and wsConfig fixes."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "close_superseded": 2,
+    "keep_related": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "blocked": 2
+  },
+  "apply_counts": {
+    "skipped": 2,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#46472",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#45674",
+      "candidate_fix": "#45674",
+      "title": null,
+      "idempotency_key": "ghcrawl-207048-agentic-merge:#46472:close_superseded:blocked-on-45674",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#55619",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#68865",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-207048-agentic-merge:#55619:close_superseded:blocked-on-replacement",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72411",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(feishu): repair WebSocket reconnect and heartbeat config",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
