@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 26, 2026, 03:04 UTC
+Last dashboard update: Apr 26, 2026, 03:05 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -51,28 +51,29 @@ Scope: 57 latest cluster reports. Run attempts are tracked as audit history only
 | Metric | Count | Rate |
 | --- | ---: | ---: |
 | Latest clusters reviewed | 57 | 100% |
-| Clean completed clusters | 13 | 22.8% |
-| Needs-human clusters | 43 | 75.4% |
-| Latest successful clusters | 47 | 82.5% |
-| Latest failed clusters | 10 | 17.5% |
+| Clean completed clusters | 14 | 24.6% |
+| Needs-human clusters | 42 | 73.7% |
+| Latest successful clusters | 48 | 84.2% |
+| Latest failed clusters | 9 | 15.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 76 | audit |
+| Run attempts archived | 77 | audit |
 | Distinct PRs touched | 222 | 100% |
 | Open PRs tracked | 193 | 86.9% |
 | Closed unmerged PRs tracked | 23 | 10.4% |
-| Completed close actions | 21 | 58.3% |
+| Completed close actions | 22 | 59.5% |
 | Completed merge actions | 0 | 0.0% |
-| Duplicate closes | 21 | 100.0% |
+| Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 15 | 41.7% |
+| Blocked mutation attempts | 15 | 40.5% |
 | Skipped mutation attempts | 0 | 0.0% |
 
 ### Latest ProjectClownfish Closures
 
 | Target | Type | Title | Closed | Action | Cluster | Report | Run |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [#54429](https://github.com/openclaw/openclaw/issues/54429) | issue | Gateway Service Installation Failure: Missing systemd Service File | Apr 26, 2026, 03:04 UTC | close_duplicate | [ghcrawl-166002-agentic-merge](results/openclaw/ghcrawl-166002-agentic-merge.md) | [report](results/openclaw/ghcrawl-166002-agentic-merge.md) | [24946559138](https://github.com/openclaw/projectclownfish/actions/runs/24946559138) |
 | [#67622](https://github.com/openclaw/openclaw/issues/67622) | issue | [Feature Request] Support file/image upload in browser Control UI (webchat) | Apr 26, 2026, 03:03 UTC | close_duplicate | [ghcrawl-165992-agentic-merge](results/openclaw/ghcrawl-165992-agentic-merge.md) | [report](results/openclaw/ghcrawl-165992-agentic-merge.md) | [24946558493](https://github.com/openclaw/projectclownfish/actions/runs/24946558493) |
 | [#63094](https://github.com/openclaw/openclaw/issues/63094) | issue | [Feature Request] WebChat/Control UI support file upload | Apr 26, 2026, 03:03 UTC | close_duplicate | [ghcrawl-165992-agentic-merge](results/openclaw/ghcrawl-165992-agentic-merge.md) | [report](results/openclaw/ghcrawl-165992-agentic-merge.md) | [24946558493](https://github.com/openclaw/projectclownfish/actions/runs/24946558493) |
 | [#56298](https://github.com/openclaw/openclaw/issues/56298) | issue | [Feature Request] Webchat supports image/attachment upload in UI | Apr 26, 2026, 03:03 UTC | close_duplicate | [ghcrawl-165992-agentic-merge](results/openclaw/ghcrawl-165992-agentic-merge.md) | [report](results/openclaw/ghcrawl-165992-agentic-merge.md) | [24946558493](https://github.com/openclaw/projectclownfish/actions/runs/24946558493) |

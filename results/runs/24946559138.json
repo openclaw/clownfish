@@ -1,0 +1,174 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-166002-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24946559138",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24946559138",
+  "head_sha": "5373d81db833c20e902b48950afd542774c7e585",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-166002-agentic-merge.md",
+  "published_at": "2026-04-26T03:04:54.771Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/65184",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/65184",
+  "canonical_pr": null,
+  "summary": "Kept #65184 as the live canonical for the `Unit file openclaw-gateway.service does not exist` gateway install family, planned a narrow new-fix artifact because the hydrated cluster has no PR path, closed only #54429 as a high-confidence duplicate, kept the bus/session-detection reports open as related, and left #68287 independent because it is a separate node-service unit-name bug.",
+  "actions": [
+    {
+      "target": "#65184",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical for the gateway install path that writes the user unit but still fails at activation with `Unit file openclaw-gateway.service does not exist`."
+    },
+    {
+      "target": "#65184",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "No open PR or merged fix in the hydrated cluster covers #65184; a new narrow fix path is required."
+    },
+    {
+      "target": "#65184",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Return a narrow fix artifact for the canonical issue so the applicator can open a fresh PR later."
+    },
+    {
+      "target": "#65184",
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked in this worker because no target checkout is available; return the fix artifact only."
+    },
+    {
+      "target": "#54429",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "High-confidence duplicate of the clearer live canonical issue with no distinct remaining work."
+    },
+    {
+      "target": "#42025",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Same symptom family, but the Amazon Linux onboarding context is distinct enough that auto-closing would be unsafe."
+    },
+    {
+      "target": "#39673",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Linux/systemd install failure, but it remains a separate user-bus-availability bug and should stay open."
+    },
+    {
+      "target": "#44070",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct daemon-reload/session-transport failure; not safely closable into the canonical unit-file issue."
+    },
+    {
+      "target": "#44417",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate `sudo -u` / permission-denied detection bug; keep open as related."
+    },
+    {
+      "target": "#54517",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Overlapping unit-file failure family, but the follow-up technical claim is distinct enough that it should remain open."
+    },
+    {
+      "target": "#63561",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "False-unavailable while the service is already active remains an open related report, not a safe duplicate close."
+    },
+    {
+      "target": "#68287",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent node-service bug that should remain open for a separate follow-up cluster."
+    },
+    {
+      "target": "#57188",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live state; retained only as context evidence and not a mutation target."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "close_duplicate": 1,
+    "keep_related": 6,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#54429",
+      "action": "close_duplicate",
+      "status": "executed",
+      "classification": "duplicate",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-166002-agentic-merge:#54429:close_duplicate:#65184:v1",
+      "reason": "duplicate of the canonical thread",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-03-25T11:08:36Z"
+    }
+  ]
+}
