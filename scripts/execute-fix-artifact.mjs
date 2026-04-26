@@ -17,7 +17,7 @@ const latest = Boolean(args.latest);
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_FIX_DRY_RUN === "1");
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.4");
 const codexTimeoutMs = Number(process.env.CLOWNFISH_FIX_CODEX_TIMEOUT_MS ?? 45 * 60 * 1000);
-const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 2));
+const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 3));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
 
@@ -281,6 +281,8 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
 
 function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallbackReason }) {
   let producedChanges = false;
+  let previousSummary = "";
+  const repositoryContext = buildRepositoryContext({ fixArtifact, targetDir });
   for (let attempt = 1; attempt <= maxEditAttempts; attempt += 1) {
     const prompt = buildFixPrompt({
       fixArtifact,
@@ -289,6 +291,8 @@ function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallba
       fallbackReason,
       attempt,
       previousNoDiff: attempt > 1,
+      previousSummary,
+      repositoryContext,
     });
     const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
     const codexResult = spawnSync(
@@ -328,9 +332,11 @@ function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallba
 
     producedChanges = Boolean(run("git", ["status", "--porcelain"], { cwd: targetDir }).trim());
     if (producedChanges) break;
+    previousSummary = readTextIfExists(summaryPath).trim();
   }
   if (!producedChanges) {
-    throw new Error(`Codex produced no target repo changes after ${maxEditAttempts} edit attempt(s)`);
+    const suffix = previousSummary ? ` Last Codex summary: ${compactText(previousSummary, 360)}` : "";
+    throw new Error(`Codex produced no target repo changes after ${maxEditAttempts} edit attempt(s).${suffix}`);
   }
 
   const codexReview = validateAndReviewLoop({ fixArtifact, targetDir, mode });
@@ -343,20 +349,32 @@ function editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode, fallba
   };
 }
 
-function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason, attempt, previousNoDiff }) {
+function buildFixPrompt({
+  fixArtifact,
+  branch,
+  mode,
+  fallbackReason,
+  attempt,
+  previousNoDiff,
+  previousSummary,
+  repositoryContext,
+}) {
   return [
     "You are editing the target repository for ProjectClownfish.",
     "",
     "Rules:",
+    "- this is a writable checkout; make concrete file edits before returning;",
     "- make the narrowest code change that satisfies the fix artifact;",
-    "- stay inside likely_files unless the repo proves a nearby support file/test is required;",
+    "- start by inspecting the repository paths below with rg/git ls-files/sed;",
+    "- if likely_files are stale, missing, or glob-like, discover the real nearby files and edit those;",
     "- preserve contributor credit in changelog/docs when the fix is user-facing;",
     "- address review-bot concerns named in the artifact;",
     "- resolve actionable human review comments, bot comments, and requested changes named in the artifact;",
     "- prepare the PR so it can pass the ProjectClownfish merge_preflight gate;",
     "- do not commit, push, open PRs, close PRs, or call gh;",
     "- do not change auth, approval, sandbox, or trust-boundary semantics unless the artifact explicitly asks for that boundary change;",
-    "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary.",
+    "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary;",
+    "- before returning, verify `git status --porcelain` would show changed files.",
     "",
     `Mode: ${mode}`,
     `Branch: ${branch}`,
@@ -364,7 +382,13 @@ function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason, attempt, pr
     previousNoDiff
       ? "Previous attempt produced no target repo diff. This time make the smallest concrete code/test change that satisfies the artifact; do not return analysis only."
       : "",
+    previousSummary ? `Previous no-diff summary: ${compactText(previousSummary, 1200)}` : "",
     fallbackReason ? `Fallback reason: ${fallbackReason}` : "",
+    "",
+    "Repository discovery context:",
+    "```text",
+    repositoryContext,
+    "```",
     "",
     "Fix artifact:",
     "```json",
@@ -373,6 +397,103 @@ function buildFixPrompt({ fixArtifact, branch, mode, fallbackReason, attempt, pr
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function buildRepositoryContext({ fixArtifact, targetDir }) {
+  const files = run("git", ["ls-files"], { cwd: targetDir })
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const candidates = scoreRepositoryFiles({ files, fixArtifact })
+    .slice(0, 80)
+    .map((entry) => `${entry.file} (${entry.score})`);
+  const packageScripts = readPackageScripts(targetDir);
+  return [
+    `candidate_files (${candidates.length}):`,
+    ...(candidates.length > 0 ? candidates : ["none matched; use rg across the repo to find the real implementation files"]),
+    "",
+    `validation_commands: ${(fixArtifact.validation_commands ?? []).join(" ; ")}`,
+    `package_scripts: ${packageScripts.join(", ") || "none"}`,
+  ].join("\n");
+}
+
+function scoreRepositoryFiles({ files, fixArtifact }) {
+  const likelyFiles = (fixArtifact.likely_files ?? []).map((entry) => String(entry).trim()).filter(Boolean);
+  const exactLikely = new Set(likelyFiles.filter((entry) => !entry.includes("*")));
+  const literalHints = likelyFiles.map(literalPathHint).filter((entry) => entry.length >= 4);
+  const tokens = discoveryTokens(fixArtifact);
+  const out = [];
+  for (const file of files) {
+    const lower = file.toLowerCase();
+    let score = 0;
+    if (exactLikely.has(file)) score += 100;
+    for (const hint of literalHints) {
+      if (lower.includes(hint)) score += 15;
+    }
+    for (const token of tokens) {
+      if (lower.includes(token)) score += 3;
+    }
+    if (/\.(test|spec)\.[cm]?[jt]sx?$/i.test(file)) score += 2;
+    if (/\.(ts|tsx|js|jsx|mjs|cjs|md|mdx|json)$/i.test(file)) score += 1;
+    if (score > 0) out.push({ file, score });
+  }
+  out.sort((left, right) => right.score - left.score || left.file.localeCompare(right.file));
+  return out;
+}
+
+function literalPathHint(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/\*\*?.*$/, "")
+    .replace(/\/+$/, "");
+}
+
+function discoveryTokens(fixArtifact) {
+  const common = new Set([
+    "support",
+    "supported",
+    "current",
+    "existing",
+    "validation",
+    "commands",
+    "summary",
+    "scope",
+    "error",
+    "errors",
+  ]);
+  const text = [
+    fixArtifact.summary,
+    fixArtifact.pr_title,
+    fixArtifact.pr_body,
+    ...(fixArtifact.affected_surfaces ?? []),
+    ...(fixArtifact.likely_files ?? []),
+  ].join("\n");
+  const tokens = new Set();
+  for (const match of text.toLowerCase().matchAll(/[a-z][a-z0-9_-]{3,}/g)) {
+    const token = match[0].replace(/[-_]/g, "");
+    if (token.length >= 4 && !common.has(token)) tokens.add(token);
+  }
+  return [...tokens].slice(0, 80);
+}
+
+function readPackageScripts(targetDir) {
+  const packagePath = path.join(targetDir, "package.json");
+  if (!fs.existsSync(packagePath)) return [];
+  try {
+    const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+    return Object.keys(pkg.scripts ?? {}).sort().slice(0, 80);
+  } catch {
+    return [];
+  }
+}
+
+function readTextIfExists(filePath) {
+  return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
+}
+
+function compactText(value, maxLength) {
+  const text = String(value ?? "").replace(/\s+/g, " ").trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
 }
 
 function validateAndReviewLoop({ fixArtifact, targetDir, mode }) {
