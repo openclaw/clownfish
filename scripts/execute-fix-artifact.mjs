@@ -25,6 +25,9 @@ const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0
 const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT === "1";
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
 const installTargetDeps = process.env.CLOWNFISH_INSTALL_TARGET_DEPS !== "0";
+const strictTargetValidation =
+  process.env.CLOWNFISH_STRICT_TARGET_VALIDATION === "1" ||
+  String(process.env.CLOWNFISH_TARGET_VALIDATION_MODE ?? "changed-only") === "strict";
 const defaultCodexWriteSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "workspace-write";
 const codexWriteSandbox = String(process.env.CLOWNFISH_CODEX_WRITE_SANDBOX ?? defaultCodexWriteSandbox);
 const defaultCodexReviewSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "read-only";
@@ -764,10 +767,12 @@ function parseBooleanEnv(value, fallback) {
 
 function validateAndReviewLoop({ fixArtifact, targetDir, mode, baseBranch = DEFAULT_BASE_BRANCH, onReviewFix = null }) {
   let lastReview = null;
+  let validationCommands = [];
   for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
-    runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
+    validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
     runDiffCheck({ targetDir, baseBranch });
-    lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch });
+    lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch, validationCommands });
+    lastReview.validation_commands_run = validationCommands;
     if (isCleanCodexReview(lastReview)) return lastReview;
     if (attempt === maxReviewAttempts) break;
     runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
@@ -784,7 +789,7 @@ function runDiffCheck({ targetDir, baseBranch }) {
   run("git", ["diff", "--check"], { cwd: targetDir });
 }
 
-function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DEFAULT_BASE_BRANCH }) {
+function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DEFAULT_BASE_BRANCH, validationCommands = [] }) {
   const outputPath = path.join(workRoot, `${mode}-codex-review-${attempt}.json`);
   const schemaPath = codexReviewSchemaPath();
   const prompt = [
@@ -797,7 +802,15 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
     "- human PR/review comments from the artifact are addressed;",
     "- review-bot comments from Greptile, Codex, Asile, CodeRabbit, Copilot, and similar bots are addressed;",
     "- code is narrow, safe, and merge-ready;",
-    "- validation commands are sufficient.",
+    "- validation commands are sufficient for the changed surface.",
+    "",
+    "Validation policy:",
+    "- `pnpm check:changed` plus git diff checks is sufficient local proof for OpenClaw changed-surface fixes;",
+    "- do not require full CI, full test suites, e2e/live/docker lanes, or unrelated flaky main checks to pass;",
+    "- block only when the changed-lane proof fails or the current diff plausibly caused the failure.",
+    "",
+    `Validation commands actually run: ${validationCommands.join("; ") || "none"}`,
+    `Original artifact validation commands: ${(fixArtifact.validation_commands ?? []).join("; ")}`,
     "",
     "Return JSON only. If anything blocks merge, include actionable findings.",
     "",
@@ -906,6 +919,9 @@ function isCleanCodexReview(review) {
 }
 
 function buildMergePreflight({ fixArtifact, codexReview }) {
+  const validationCommands = codexReview.validation_commands_run?.length
+    ? codexReview.validation_commands_run
+    : fixArtifact.validation_commands;
   return {
     target: null,
     security_status: "cleared",
@@ -922,7 +938,7 @@ function buildMergePreflight({ fixArtifact, codexReview }) {
         ? codexReview.evidence
         : [`Codex /review passed after agentic fix loop: ${codexReview.summary ?? "clean"}`],
     },
-    validation_commands: fixArtifact.validation_commands,
+    validation_commands: validationCommands,
   };
 }
 
@@ -1130,16 +1146,21 @@ function setupGitIdentity(cwd) {
 
 function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   const validationEnv = targetValidationEnv();
+  const executed = [];
   for (const command of commands) {
     const resolvedCommands = resolveAllowedValidationCommands(command, cwd, baseBranch);
     for (const parts of resolvedCommands) {
+      const rendered = parts.join(" ");
+      if (executed.includes(rendered)) continue;
       try {
         run(parts[0], parts.slice(1), { cwd, env: validationEnv });
+        executed.push(rendered);
       } catch (error) {
         throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);
       }
     }
   }
+  return executed;
 }
 
 function targetValidationEnv() {
@@ -1152,8 +1173,11 @@ function targetValidationEnv() {
 
 function resolveAllowedValidationCommands(command, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   const parts = parseAllowedValidationCommand(command);
+  const scripts = readPackageScriptSet(cwd);
+  if (!strictTargetValidation && scripts.has("check:changed")) {
+    return [["pnpm", "check:changed"]];
+  }
   if (parts[0] === "npm" && parts[1] === "run" && parts[2] === "validate") {
-    const scripts = readPackageScriptSet(cwd);
     if (!scripts.has("validate") && scripts.has("check:changed")) {
       return [["pnpm", "check:changed"]];
     }
