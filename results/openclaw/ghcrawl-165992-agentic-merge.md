@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165992-agentic-merge"
 mode: "autonomous"
-run_id: "24946286642"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24946286642"
-head_sha: "ee69c4d548d49371436383ab0781ed7138b9e5c0"
-workflow_conclusion: "failure"
+run_id: "24946558493"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24946558493"
+head_sha: "31f153a47dca02dd784156ba246a0d9568c5e9bc"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T02:42:13.238Z"
+published_at: "2026-04-26T03:04:10.495Z"
 canonical: "https://github.com/openclaw/openclaw/issues/41985"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/41985"
 canonical_pr: null
-actions_total: 19
-apply_executed: 0
+actions_total: 14
+apply_executed: 5
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
@@ -22,9 +22,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24946286642](https://github.com/openclaw/projectclownfish/actions/runs/24946286642)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24946558493](https://github.com/openclaw/projectclownfish/actions/runs/24946558493)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -32,14 +32,14 @@ Canonical: https://github.com/openclaw/openclaw/issues/41985
 
 ## Summary
 
-Selected #41985 as the live canonical tracker for the still-unresolved non-image WebChat/Control UI upload gap. Planned duplicate closeout only for the narrowest high-confidence duplicates (#41992, #30759, #48700), kept broader or recently maintainer-kept siblings open as related, and emitted a narrow fix artifact because current main is still image-only end to end and no hydrated PR exists. Opening a fix PR is blocked in this run because the artifact provides no target checkout.
+Kept #41985 as the live canonical issue for the remaining non-image Control UI/WebChat attachment gap. Planned duplicate closeouts only for generic same-scope reports with no distinct remaining work, kept broader UX, download, format-specific, and technical root-cause reports open as related, and attached a narrow new-fix artifact because the hydrated cluster has no PRs and current main still leaves non-image attachments image-only end-to-end.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 19 |
-| Applied executions | 0 |
+| Worker actions | 14 |
+| Applied executions | 5 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -48,31 +48,30 @@ Selected #41985 as the live canonical tracker for the still-unresolved non-image
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #41992 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
+| #43242 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
+| #56298 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
+| #63094 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
+| #67622 | close_duplicate | executed | duplicate | duplicate of the canonical thread |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41985 | keep_canonical | planned | canonical | Best surviving live tracker for the unresolved non-image WebChat/Control UI upload gap. |
-| #36440 | keep_closed | skipped | related | Already-closed image-upload precursor; keep as historical evidence only. |
-| #51045 | keep_closed | skipped | related | Already-closed image-only bugfix; keep as historical evidence only. |
-| #30389 | keep_related | planned | related | Broader WebChat UX umbrella with unique model-picker and capability-menu scope. |
-| #30759 | close_duplicate | planned | duplicate | Narrow document-upload subset of the canonical generic non-image upload request. |
-| #41992 | close_duplicate | planned | duplicate | Near-identical same-reporter duplicate of the canonical issue. |
-| #43242 | keep_related | planned | related | Same family as the canonical issue, but recent maintainer keep-open intent makes conservative non-mutation safer. |
-| #47933 | keep_related | planned | related | Overlapping upload request with additional download behavior not cleanly covered by the canonical issue. |
-| #48700 | close_duplicate | planned | duplicate | Office-document subset of the canonical non-image upload request with no distinct remaining work. |
-| #56298 | keep_related | planned | related | Same attachment family, but recent maintainer keep-open intent and mixed image-plus-file scope make conservative non-mutation safer. |
-| #56344 | keep_related | planned | related | Same family, but its referenced implementation path is not hydrated and cannot support a safe closeout decision. |
-| #63094 | keep_related | planned | related | Related report on the same gap, framed as a broken button after partial rollout, with fresh maintainer keep-open intent. |
-| #67622 | keep_related | planned | related | Same upload family with extra workflow emphasis and fresh maintainer keep-open intent. |
-| #69185 | keep_related | planned | related | Implementation-focused follow-up with broader arbitrary-file and configuration scope than the canonical issue. |
-| #69447 | keep_related | planned | related | High-value implementation and root-cause evidence for the same gap; keep open as related technical context. |
-| #70438 | keep_related | planned | related | Configuration/design follow-up for the same product area, not a pure duplicate of the canonical request. |
-| #41985 | fix_needed | planned | canonical | The bug/feature gap is still real on main and there is no viable canonical PR to merge or repair. |
-| #41985 | build_fix_artifact | planned | canonical | A new fix PR is the explicit canonical path, and the bounded implementation plan can be generated from the artifact. |
-| #41985 | open_fix_pr | blocked | canonical | Implementation is blocked by missing target checkout, even though the new-fix-PR path is otherwise clear. |
+| #41985 | keep_canonical | planned | canonical | This is the safest surviving user-facing tracker for the unresolved non-image upload gap. |
+| #30389 | keep_related | planned | related | It overlaps the file-upload family but still has unique remaining work outside the canonical issue. |
+| #30759 | keep_related | planned | related | Its format-specific acceptance scope is useful follow-up detail even though the generic upload gap belongs under #41985. |
+| #41992 | close_duplicate | planned | duplicate | High-confidence duplicate of the canonical generic file-upload issue. |
+| #43242 | close_duplicate | planned | duplicate | Same surface, same root cause, and no unique remaining work beyond the canonical issue. |
+| #47933 | keep_related | planned | related | Safe to keep open as related because it carries a distinct download follow-up. |
+| #48700 | keep_related | planned | related | Safer to keep as a related format-specific acceptance thread than collapse it into the canonical issue. |
+| #56298 | close_duplicate | planned | duplicate | After removing already-fixed image-only scope, the remaining ask is the same canonical non-image upload problem. |
+| #63094 | close_duplicate | planned | duplicate | Same user-visible failure and same root cause as the canonical issue. |
+| #67622 | close_duplicate | planned | duplicate | Generic same-scope duplicate of the canonical file-upload tracker. |
+| #69185 | keep_related | planned | related | Keep open as related technical scope rather than losing detailed acceptance and configuration guidance. |
+| #69447 | keep_related | planned | related | Retain the technical diagnostic thread as related evidence for the eventual fix. |
+| #41985 | fix_needed | planned | canonical | The bug/feature gap remains real on current main and needs a new fix path. |
+| #41985 | build_fix_artifact | planned | canonical | Prepare a new-fix PR plan for the canonical issue without pretending to patch from an unavailable checkout. |
 
 ## Needs Human
 
