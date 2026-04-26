@@ -839,7 +839,9 @@ function shouldRetryGh(error) {
   return (
     message.includes("was submitted too quickly") ||
     message.includes("secondary rate") ||
-    message.includes("API rate limit exceeded")
+    message.includes("API rate limit exceeded") ||
+    message.includes("Base branch was modified") ||
+    message.includes("Head branch was modified")
   );
 }
 
