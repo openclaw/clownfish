@@ -101,45 +101,27 @@ Autonomous PR work must also clear automated reviewer feedback. Greptile, Codex,
 
 Requires Node 24.
 
-Validate jobs:
-
 ```bash
+# Validate all job files.
 npm run validate
-```
 
-Render a prompt:
-
-```bash
+# Render a plan-mode prompt without running Codex.
 npm run render -- jobs/openclaw/cluster-example.md --mode plan
-```
 
-Dry-run a worker without calling Codex:
-
-```bash
+# Dry-run a worker without calling Codex.
 npm run worker -- jobs/openclaw/cluster-example.md --mode plan --dry-run
-```
 
-Build an offline autonomous artifact:
-
-```bash
+# Build an offline autonomous cluster/fix artifact.
 npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
-```
 
-Stage low-signal PR sweep jobs from local ghcrawl data:
-
-```bash
+# Stage low-signal PR sweep jobs from local ghcrawl data.
 npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort stale
-```
 
-Find the latest failed cluster jobs that have not already been superseded by a later success:
-
-```bash
+# Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal
-```
 
-Retry those failed jobs once. This briefly opens the execution gate, waits for the dispatched workers to start, records the self-heal ledger, and closes the gate again:
-
-```bash
+# Retry failed jobs once. This briefly opens the execution gate, waits for the
+# dispatched workers to start, records the self-heal ledger, and closes the gate.
 npm run self-heal -- --execute --open-execute-window --max-jobs 5 --runner ubuntu-latest
 ```
 
