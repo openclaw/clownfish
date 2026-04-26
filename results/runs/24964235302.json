@@ -1,0 +1,163 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-165997-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24964235302",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24964235302",
+  "head_sha": "38f70877c94ad408c7816548e9dafe09a3dd4328",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-165997-agentic-merge.md",
+  "published_at": "2026-04-26T18:58:11.989Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39392",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39392",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/39401",
+  "summary": "Hydrated state shows no security-sensitive items. The original representative #46275 is already closed and superseded, so the live canonical for the agent-switch stale model bug is open issue #39392 with repairable contributor PR #39401 as the narrow fix path. No merge is recommended because #39401 has failing/unknown checks and no fresh Codex /review merge preflight. The cluster also contains related but distinct reload and page-load select subfamilies that should stay open or be handled by follow-up work.",
+  "actions": [
+    {
+      "target": "#39392",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39392",
+      "candidate_fix": "#39401",
+      "reason": "Best live canonical for the agent-switch stale model selection bug; keep open until a clean fix lands."
+    },
+    {
+      "target": "#39401",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39392",
+      "candidate_fix": "#39401",
+      "reason": "Useful contributor PR, but not merge-ready; repair, rebase, run pnpm check:changed, and run /review before any merge."
+    },
+    {
+      "target": "cluster:ghcrawl-165997-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39392",
+      "candidate_fix": "#39401",
+      "reason": "Build a repair plan for the narrow agent-switch stale model fix before closing duplicates or merging anything."
+    },
+    {
+      "target": "#39495",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39392",
+      "candidate_fix": "#39401",
+      "reason": "Already closed historical duplicate; no mutation allowed."
+    },
+    {
+      "target": "#40352",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40352",
+      "candidate_fix": null,
+      "reason": "Related Control UI stale-state family, but distinct reload root cause and should remain open for a separate fix path."
+    },
+    {
+      "target": "#40441",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40352",
+      "candidate_fix": "#40441",
+      "reason": "Related reload fix candidate, but blocked for merge by actionable bot review and failing checks; keep open for separate repair."
+    },
+    {
+      "target": "#40443",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40352",
+      "candidate_fix": "#40443",
+      "reason": "Related but over-broad reload subfamily candidate; do not merge or close in this cluster."
+    },
+    {
+      "target": "#43013",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#52948",
+      "candidate_fix": "#52948",
+      "reason": "The close is blocked on the canonical fix path or fix PR #52948 landing or a replacement fix PR opening."
+    },
+    {
+      "target": "#46275",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39392",
+      "candidate_fix": "#39401",
+      "reason": "Original representative is obsolete and closed; use it only as historical evidence."
+    },
+    {
+      "target": "#52948",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52948",
+      "candidate_fix": "#52948",
+      "reason": "Best visible page-load select subfamily candidate, but keep separate from the #39392 agent-switch canonical path."
+    },
+    {
+      "target": "#54724",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39392",
+      "candidate_fix": "#54724",
+      "reason": "Useful related work, but too broad for this cluster's narrow agent-switch repair path; keep open for a separate credited follow-up or replacement decision."
+    },
+    {
+      "target": "#70633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52948",
+      "candidate_fix": "#52948",
+      "reason": "Already closed historical duplicate for the page-load select subfamily."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 3,
+    "keep_related": 5,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 3,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#43013",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52948",
+      "candidate_fix": "#52948",
+      "title": null,
+      "idempotency_key": "ghcrawl-165997-agentic-merge:#43013:close_superseded_by_52948:2026-03-24T20:16:16Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
