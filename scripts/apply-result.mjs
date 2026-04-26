@@ -173,7 +173,7 @@ function applyCloseAction({
 }) {
   const closePolicyBlock = validateClosePolicy({ job, actionName });
   if (closePolicyBlock) return { ...base, status: "blocked", reason: closePolicyBlock };
-  const fixFirstBlock = validateFixFirstClose({ job, result, actionName });
+  const fixFirstBlock = validateFixFirstClose({ job, result, actionName, classification, candidateFix });
   if (fixFirstBlock) return { ...base, status: "blocked", reason: fixFirstBlock };
   if (!CLOSE_CLASSIFICATIONS.has(classification)) {
     return {
@@ -423,7 +423,7 @@ function validateClosePolicy({ job, actionName }) {
   return "";
 }
 
-function validateFixFirstClose({ job, result, actionName }) {
+function validateFixFirstClose({ job, result, actionName, classification, candidateFix }) {
   if (job.frontmatter.require_fix_before_close !== true) return "";
   if (["close_low_signal", "post_merge_close"].includes(actionName)) return "";
 
@@ -431,6 +431,10 @@ function validateFixFirstClose({ job, result, actionName }) {
     (entry) => MERGE_ACTIONS.has(entry.action) && entry.status === "executed",
   );
   if (priorMerge) return "";
+
+  if (classification === "fixed_by_candidate" && candidateFix && isMergedCandidateFix(result.repo, candidateFix)) {
+    return "";
+  }
 
   const fixReport = readFixExecutionReport(result);
   const fixLanded = (fixReport?.actions ?? []).some((entry) =>
@@ -440,6 +444,14 @@ function validateFixFirstClose({ job, result, actionName }) {
   if (fixLanded) return "";
 
   return "close requires ProjectClownfish fix PR opened/pushed or merge executed first";
+}
+
+function isMergedCandidateFix(repo, candidateFix) {
+  try {
+    return validateMergedCandidateFix(repo, candidateFix) === "";
+  } catch {
+    return false;
+  }
 }
 
 function validateMergePolicy({ job, action }) {
