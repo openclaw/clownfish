@@ -2,47 +2,47 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165982-agentic-merge"
 mode: "autonomous"
-run_id: "24946284153"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24946284153"
-head_sha: "ee69c4d548d49371436383ab0781ed7138b9e5c0"
-workflow_conclusion: "failure"
-result_status: "planned"
-published_at: "2026-04-26T02:46:04.434Z"
-canonical: "https://github.com/openclaw/openclaw/issues/45222"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/45222"
+run_id: "24947180231"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24947180231"
+head_sha: "cc7e2b9deb213893d18c0bcca95afccd476be4c1"
+workflow_conclusion: "success"
+result_status: "needs_human"
+published_at: "2026-04-26T03:31:34.512Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
-actions_total: 38
+actions_total: 36
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 3
 ---
 
 # ghcrawl-165982-agentic-merge
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24946284153](https://github.com/openclaw/projectclownfish/actions/runs/24946284153)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24947180231](https://github.com/openclaw/projectclownfish/actions/runs/24947180231)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
-Canonical: https://github.com/openclaw/openclaw/issues/45222
+Canonical: unknown
 
 ## Summary
 
-Kept #45222 as the live canonical for the loopback WebSocket handshake regression, left other gateway/health/restart reports open as related or independent subfamilies, routed security-flagged PRs #47222 and #63651 to central OpenClaw security handling, and produced a narrow fix artifact because later handshake reports remain open and no viable canonical PR is available.
+Representative issue #45222 is already closed, the live cluster splits across several subfamilies (#49758 telemetry mismatch, #52487 Windows scheduled-task restart, #57971 LaunchAgent plist permissions, #69056 Windows SIGUSR1 handling), and security-sensitive PRs #47222/#63651 block autonomous cleanup. Emitting only non-mutating keep_* classifications and central-security routing.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 38 |
+| Worker actions | 36 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 3 |
 
 ## Apply Actions
 
@@ -54,46 +54,45 @@ Kept #45222 as the live canonical for the loopback WebSocket handshake regressio
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45222 | keep_canonical | planned | canonical | #45222 remains the best live canonical for the loopback WebSocket handshake family. |
-| #45222 | fix_needed | planned | canonical | The handshake regression still appears real on current main and needs a new narrow fix path. |
-| #45222 | build_fix_artifact | planned | canonical | Build a new narrow fix artifact because no writable checkout or viable canonical PR is available in this worker. |
-| #44354 | keep_independent | planned | independent | Do not dedupe this into #45222. |
-| #44518 | keep_independent | planned | independent | This older launchd restart PR is not a safe canonical path for the current cluster and should stay out of the #45222 dedupe track. |
-| #46494 | keep_independent | planned | independent | Keep this open as a separate health-state family. |
-| #46869 | keep_independent | planned | independent | Separate Windows restart work should remain open outside the #45222 handshake dedupe path. |
-| #47222 | needs_human | blocked | needs_human | Route #47222 and its linked systemd SIGTERM issue family to central OpenClaw security handling; do not merge, close, comment, or relabel from this worker. |
-| #48360 | keep_related | planned | related | Same symptom family as #45222, but keep open because duplicate closure would rely on title-level matching. |
-| #48766 | keep_independent | planned | independent | Root cause is too broad to dedupe into the handshake canonical. |
-| #49180 | keep_related | planned | related | Related false-negative reporting path, but not safe to auto-close from the compact artifact. |
-| #49758 | keep_related | planned | related | Keep open because the report crosses handshake and stale channel-state paths. |
-| #51016 | keep_related | planned | related | Same handshake/probe symptom family, but keep open because the compact artifact does not justify duplicate closure. |
-| #51357 | keep_related | planned | related | Keep related to the canonical handshake tracker. |
-| #51469 | keep_related | planned | related | Unique reproduction detail makes this related, not safely closable as a duplicate. |
-| #51679 | keep_related | planned | related | Same regression family, but keep open because the compact artifact is not enough for duplicate closeout. |
-| #52336 | keep_related | planned | related | Keep related; this is a later still-open manifestation of the handshake/closed false-negative family. |
-| #52487 | keep_independent | planned | independent | Keep this separate Windows restart PR open outside the #45222 dedupe path. |
-| #53168 | keep_related | planned | related | Related to the handshake family, but not safely closable as a pure duplicate. |
-| #53877 | keep_related | planned | related | Unique platform detail makes this related, not a safe duplicate closeout. |
-| #56284 | keep_independent | planned | independent | Keep this separate Windows restart/state-loss family open. |
-| #57967 | keep_related | planned | fixed_by_candidate | Keep the issue open behind candidate PR #57971 until that branch is review-clean and landed. |
-| #57971 | keep_independent | planned | independent | Keep this PR open outside the #45222 handshake dedupe path; no merge recommendation from this pass. |
-| #59287 | keep_related | planned | related | Keep this open with the Telegram health-state family; the compact artifact is not enough for duplicate closure. |
-| #59333 | keep_closed | skipped |  | Historical evidence only; no ProjectClownfish close action is valid. |
-| #61554 | keep_closed | skipped |  | Historical evidence only; no ProjectClownfish close action is valid. |
-| #63491 | keep_independent | planned | independent | Keep this Windows restart-health issue open outside the #45222 handshake family. |
-| #63651 | needs_human | blocked | needs_human | Route #63651 to central OpenClaw security handling. |
-| #64201 | keep_independent | planned | independent | Keep this crash-loop report open as an independent issue. |
-| #64476 | keep_related | planned | related | Related transport symptom family, but unique platform/version detail blocks duplicate closure. |
-| #66735 | keep_independent | planned | independent | Keep this separate systemd restart PR open outside the #45222 dedupe path. |
-| #67416 | keep_closed | skipped |  | Historical evidence only; no ProjectClownfish close action is valid. |
-| #67544 | keep_closed | skipped |  | Historical evidence only; no ProjectClownfish close action is valid. |
-| #68493 | keep_independent | planned | independent | Keep this issue independent from the #45222 handshake tracker. |
-| #68853 | keep_independent | planned | independent | Keep open outside the handshake cluster; no merge recommendation from this pass. |
-| #68944 | keep_related | planned | related | Keep related to the canonical handshake tracker. |
-| #69056 | keep_independent | planned | independent | Keep this separate Windows restart PR open outside the #45222 dedupe path. |
-| #69057 | keep_related | planned | fixed_by_candidate | Keep the issue open behind candidate PR #69056 until that PR is fully review-cleared and landed. |
+| #44354 | keep_related | planned | related | Keep open as a related telemetry-mismatch report. |
+| #44518 | keep_related | planned | related | Keep open as a related macOS restart PR; autonomous merge/closeout is blocked. |
+| #45222 | keep_closed | skipped | canonical | Historical canonical only; no action is valid on an already-closed ref. |
+| #46494 | keep_related | planned | related | Keep open as a related telemetry-mismatch report. |
+| #46869 | keep_related | planned | related | Keep open as a related Windows restart PR; autonomous merge/closeout is blocked. |
+| #47222 | needs_human | blocked | needs_human | Security-sensitive PR; ProjectClownfish must not merge, close, comment on, or otherwise triage it here. |
+| #48360 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #48766 | keep_related | planned | related | Keep open as a related restart umbrella report. |
+| #49180 | keep_related | planned | related | Keep open as a related telemetry/probe regression. |
+| #49758 | keep_canonical | planned | canonical | Keep as the open canonical issue for the telemetry-mismatch subfamily. |
+| #51016 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #51357 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #51469 | keep_related | planned | related | Keep open as a related handshake-timeout report. |
+| #51679 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #52336 | keep_related | planned | related | Keep open as a related transport-symptom report. |
+| #52487 | keep_canonical | planned | canonical | Keep as the canonical PR for the Windows scheduled-task restart-race subfamily. |
+| #53168 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #53877 | keep_related | planned | related | Keep open as a related probe/transport report. |
+| #56284 | keep_related | planned | related | Keep open as a related Windows restart report. |
+| #57967 | keep_related | planned | fixed_by_candidate | Keep open behind the current candidate fix PR. |
+| #57971 | keep_canonical | planned | canonical | Keep as the canonical PR for the LaunchAgent plist-permissions subfamily. |
+| #59287 | keep_related | planned | related | Keep open as a related telemetry-mismatch report. |
+| #59333 | keep_closed | skipped | related | Already closed; no further action is valid. |
+| #61554 | keep_closed | skipped | duplicate | Already closed historical duplicate; no further action is valid. |
+| #63491 | keep_related | planned | related | Keep open as a related Windows restart/health report. |
+| #63651 | needs_human | blocked | needs_human | Security-sensitive PR; ProjectClownfish must not merge, close, comment on, or otherwise triage it here. |
+| #64201 | keep_related | planned | related | Keep open as a related but distinct loopback-failure report. |
+| #64476 | keep_related | planned | related | Keep open as a related Windows transport/restart report. |
+| #66735 | keep_related | planned | related | Keep open as a related systemd restart PR pending human/security direction. |
+| #67416 | keep_closed | skipped | related | Already closed; no further action is valid. |
+| #67544 | keep_closed | skipped | related | Already closed; no further action is valid. |
+| #68493 | keep_related | planned | related | Keep open as a related Windows restart/race report. |
+| #68853 | keep_related | planned | related | Keep open as a related restart-signal PR; no autonomous canonical/merge choice is safe. |
+| #68944 | keep_related | planned | related | Keep open as a related handshake/transport report. |
+| #69056 | keep_canonical | planned | canonical | Keep as the canonical PR for the Windows SIGUSR1/ERR_UNKNOWN_SIGNAL subfamily. |
+| #69057 | keep_related | planned | fixed_by_candidate | Keep open behind the current candidate fix PR. |
 
 ## Needs Human
 
-- Security boundary: #47222 and its linked issue family must route to central OpenClaw security handling because the preflight artifact marks #47222 security_sensitive and includes security-analysis review.
-- Security boundary: #63651 must route to central OpenClaw security handling because the preflight artifact marks the PR security_sensitive.
+- Security boundary: hydrated PR #47222 is flagged security-sensitive in the artifact and must be routed to central OpenClaw security handling instead of ProjectClownfish.
+- Security boundary: hydrated PR #63651 is flagged security-sensitive in the artifact and must be routed to central OpenClaw security handling instead of ProjectClownfish.
+- No single live cluster canonical remains after representative #45222 was closed on 2026-04-26; the remaining open refs split across handshake/transport, telemetry-mismatch, Windows restart, LaunchAgent-permissions, and systemd-restart subfamilies and should be handled as separate follow-up clusters.
