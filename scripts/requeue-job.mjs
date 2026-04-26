@@ -63,17 +63,16 @@ if (!execute) {
   process.exit(0);
 }
 
-let gatesOpened = false;
+const gateRestores = [];
 const headSha = currentHeadSha();
 const dispatchStartedAt = new Date(Date.now() - 5000).toISOString();
 
 try {
   if (openExecuteWindow && ["execute", "autonomous"].includes(mode)) {
-    setGate("CLOWNFISH_ALLOW_EXECUTE", "1");
+    openGate("CLOWNFISH_ALLOW_EXECUTE");
     if (job.frontmatter.allow_fix_pr === true || job.frontmatter.allowed_actions.includes("fix")) {
-      setGate("CLOWNFISH_ALLOW_FIX_PR", "1");
+      openGate("CLOWNFISH_ALLOW_FIX_PR");
     }
-    gatesOpened = true;
   }
 
   assertGateOpenIfNeeded(mode);
@@ -90,9 +89,8 @@ try {
   }));
   console.log(JSON.stringify(summary, null, 2));
 } finally {
-  if (gatesOpened) {
-    setGate("CLOWNFISH_ALLOW_EXECUTE", "0");
-    setGate("CLOWNFISH_ALLOW_FIX_PR", "0");
+  for (const gate of gateRestores.reverse()) {
+    setGate(gate.name, gate.previous || "1");
   }
 }
 
@@ -201,6 +199,12 @@ function listClusterRuns() {
 function readGate(name) {
   const variables = ghJson(["variable", "list", "--repo", repo, "--json", "name,value"]);
   return variables.find((variable) => variable.name === name)?.value ?? "";
+}
+
+function openGate(name) {
+  const previous = readGate(name);
+  gateRestores.push({ name, previous });
+  if (previous !== "1") setGate(name, "1");
 }
 
 function setGate(name, value) {

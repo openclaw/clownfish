@@ -49,7 +49,7 @@ if (!execute) {
   process.exit(0);
 }
 
-let executeWindowOpened = false;
+const gateRestores = [];
 const dispatchStartedAt = new Date(Date.now() - 5000).toISOString();
 const headSha = currentHeadSha();
 const ledger = readSelfHealLedger();
@@ -72,9 +72,8 @@ const attempts = candidates.map((candidate) => ({
 
 try {
   if (openExecuteWindow) {
-    setExecuteGate("1");
-    setFixGate("1");
-    executeWindowOpened = true;
+    openGate("CLOWNFISH_ALLOW_EXECUTE");
+    openGate("CLOWNFISH_ALLOW_FIX_PR");
   } else {
     assertExecuteGateOpenIfNeeded(candidates);
   }
@@ -111,9 +110,8 @@ try {
   summary.observed_runs = attempts[0]?.observed_runs ?? [];
   console.log(JSON.stringify(summary, null, 2));
 } finally {
-  if (executeWindowOpened) {
-    setExecuteGate("0");
-    setFixGate("0");
+  for (const gate of gateRestores.reverse()) {
+    setGate(gate.name, gate.previous || "1");
   }
 }
 
@@ -266,22 +264,32 @@ function readFixGate() {
   return variables.find((variable) => variable.name === "CLOWNFISH_ALLOW_FIX_PR")?.value ?? "";
 }
 
+function openGate(name) {
+  const previous = readGate(name);
+  gateRestores.push({ name, previous });
+  if (previous !== "1") setGate(name, "1");
+}
+
+function readGate(name) {
+  const variables = ghJson(["variable", "list", "--repo", repo, "--json", "name,value"]);
+  return variables.find((variable) => variable.name === name)?.value ?? "";
+}
+
 function setExecuteGate(value) {
-  execFileSync("gh", ["variable", "set", "CLOWNFISH_ALLOW_EXECUTE", "--repo", repo, "--body", value], {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  console.log(`CLOWNFISH_ALLOW_EXECUTE=${value}`);
+  setGate("CLOWNFISH_ALLOW_EXECUTE", value);
 }
 
 function setFixGate(value) {
-  execFileSync("gh", ["variable", "set", "CLOWNFISH_ALLOW_FIX_PR", "--repo", repo, "--body", value], {
+  setGate("CLOWNFISH_ALLOW_FIX_PR", value);
+}
+
+function setGate(name, value) {
+  execFileSync("gh", ["variable", "set", name, "--repo", repo, "--body", value], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   });
-  console.log(`CLOWNFISH_ALLOW_FIX_PR=${value}`);
+  console.log(`${name}=${value}`);
 }
 
 function currentHeadSha() {

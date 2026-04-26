@@ -197,7 +197,7 @@ The workflow needs:
 - Codex/OpenAI authentication for model execution
 - a read-only GitHub token for worker inspection
 - a separate write-scoped GitHub token for the deterministic applicator
-- execution gates that default off: `CLOWNFISH_ALLOW_EXECUTE` for all mutations and `CLOWNFISH_ALLOW_FIX_PR` for branch repair/replacement PRs
+- execution gates that default on for execute/autonomous jobs: set `CLOWNFISH_ALLOW_EXECUTE=0` or `CLOWNFISH_ALLOW_FIX_PR=0` only when intentionally pausing live work
 - optional `CLOWNFISH_CODEX_CLI_VERSION` variable to pin and refresh the cached Codex CLI
 - optional `CLOWNFISH_MODEL` override for dispatch scripts; default Codex model is `gpt-5.5`
 - optional `CLOWNFISH_CODEX_TIMEOUT_MS` and `CLOWNFISH_FIX_CODEX_TIMEOUT_MS` variables; both default to 30 minutes

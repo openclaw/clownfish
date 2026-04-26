@@ -9,7 +9,7 @@ Use this skill for ProjectClownfish operations in this repo. It is not just a on
 
 ## Hard Stance
 
-- Default to safe read/plan posture. `CLOWNFISH_ALLOW_EXECUTE=0` is the resting state.
+- Execute/autonomous gates default on for live ProjectClownfish work. Set `CLOWNFISH_ALLOW_EXECUTE=0` or `CLOWNFISH_ALLOW_FIX_PR=0` only when intentionally pausing mutations.
 - Do not dispatch a broad write-mode batch if the last canary failed, has unreviewed artifacts, or any stale pre-fix run is still active.
 - Treat GitHub Actions repository variables as captured at workflow start. Resetting `CLOWNFISH_ALLOW_EXECUTE` does not revoke already-started runs.
 - If a stale run was started with old guardrails and write mode enabled, cancel it before scaling.
@@ -183,7 +183,7 @@ git push origin main
 Do not jump straight to 20 write-mode jobs. Sequence:
 
 1. Ensure no stale active runs on old SHAs.
-2. Ensure `CLOWNFISH_ALLOW_EXECUTE=0`.
+2. Ensure `CLOWNFISH_ALLOW_EXECUTE=1` and `CLOWNFISH_ALLOW_FIX_PR=1` unless the operator intentionally paused live work.
 3. Dispatch 2-3 canaries on the latest pushed SHA.
 4. Review artifacts and applicator reports.
 5. Only then dispatch a wider batch.
@@ -191,16 +191,12 @@ Do not jump straight to 20 write-mode jobs. Sequence:
 Canary dispatch:
 
 ```bash
-gh variable set CLOWNFISH_ALLOW_EXECUTE --repo openclaw/projectclownfish --body 1
-gh variable set CLOWNFISH_ALLOW_FIX_PR --repo openclaw/projectclownfish --body 1
 npm run dispatch -- \
   jobs/openclaw/ghcrawl-ID1-autonomous-smoke.md \
   jobs/openclaw/ghcrawl-ID2-autonomous-smoke.md \
   --mode autonomous \
   --runner blacksmith-4vcpu-ubuntu-2404 \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
-gh variable set CLOWNFISH_ALLOW_EXECUTE --repo openclaw/projectclownfish --body 0
-gh variable set CLOWNFISH_ALLOW_FIX_PR --repo openclaw/projectclownfish --body 0
 ```
 
 Important: after dispatch, already-started runs keep the write gate they captured. If a new bug is found, cancel those runs.
@@ -259,7 +255,7 @@ npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 ```
 
-The local live path temporarily sets `CLOWNFISH_ALLOW_EXECUTE=1`, dispatches the retry jobs, waits until the new runs have started, records the ledger, and resets `CLOWNFISH_ALLOW_EXECUTE=0`.
+The local live path temporarily opens gates only when needed, dispatches the retry jobs, waits until the new runs have started, records the ledger, and restores the prior gate values.
 
 If using the manual `self-heal failed clusters` workflow, keep it dry-run by default. For execute mode, open the execution gate before triggering it or it should fail before dispatching write-mode jobs.
 
@@ -273,8 +269,7 @@ Say "safe to ramp" only when all are true:
 - applicator executed only planned duplicate/superseded/fixed-by-candidate close actions or guarded clean merge actions;
 - every merge action had passing `merge_preflight`, and live GitHub review threads were resolved before merge;
 - useful contributor PRs were either repaired when maintainer-editable or have a replacement fix artifact with source PR credit before superseded closeout;
-- `CLOWNFISH_ALLOW_EXECUTE` is back to `0`;
-- `CLOWNFISH_ALLOW_FIX_PR` is back to `0`;
+- `CLOWNFISH_ALLOW_EXECUTE` and `CLOWNFISH_ALLOW_FIX_PR` are back to their intended default values;
 - active runs are expected and on the intended SHA;
 - artifacts are downloaded or easy to retrieve by run URL.
 
