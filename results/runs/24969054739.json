@@ -1,0 +1,97 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207037-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969054739",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969054739",
+  "head_sha": "0e4564f671623de117a9abb4813b36a385aecd45",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207037-agentic-merge.md",
+  "published_at": "2026-04-26T23:03:22.964Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/40953",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/40953",
+  "summary": "Hydrated preflight shows no security-sensitive refs. #40953 is the best canonical PR for the gateway-facing CLI timeout validation family, but it is not merge-ready because checks are failing and there is no clean current Codex /review merge preflight. #54646 overlaps that timeout-validation family and should remain blocked from closure until the canonical repair lands. #56796 and #60661 are related gateway-agent timeout/fallback bugs with distinct root causes, not duplicates of the timeout-input validation fix.",
+  "actions": [
+    {
+      "target": "#40953",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40953",
+      "candidate_fix": "#40953",
+      "reason": "Canonical PR selected, but only as a repair target; merge_canonical is blocked until checks, mergeability, review comments, bot findings, and Codex /review are clean."
+    },
+    {
+      "target": "#54646",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#40953",
+      "candidate_fix": null,
+      "reason": "Superseded classification is clear for the gateway-rpc timeout-validation overlap, but closeout must wait for the canonical fix path to land."
+    },
+    {
+      "target": "#56796",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40953",
+      "candidate_fix": null,
+      "reason": "Related follow-up PR with a distinct root cause; do not close or merge in the timeout-input validation cluster."
+    },
+    {
+      "target": "#60661",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40953",
+      "candidate_fix": null,
+      "reason": "Related follow-up PR with distinct accepted-timeout behavior and unresolved P0/P1 bot findings; keep open for its own repair path."
+    },
+    {
+      "target": "cluster:ghcrawl-207037-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#40953",
+      "candidate_fix": "#40953",
+      "reason": "A fix artifact is needed to make the canonical contributor PR merge-ready; direct merge is blocked by failing checks and missing merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#54646",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#40953",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-207037-agentic-merge:#54646:close-superseded-blocked-on-40953:2026-03-25T22:29:08Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
