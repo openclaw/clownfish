@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-166002-agentic-merge"
 mode: "autonomous"
-run_id: "24951170340"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24951170340"
-head_sha: "1c2b50546310a7bf795122f8ecd5e9631af76299"
+run_id: "24951663323"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24951663323"
+head_sha: "6415dec173e0f2859db51958e43ea7fb9bdb2d3c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T07:46:10.481Z"
-canonical: "https://github.com/openclaw/openclaw/issues/44417"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/44417"
+published_at: "2026-04-26T07:59:30.579Z"
+canonical: "https://github.com/openclaw/openclaw/issues/65184"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/65184"
 canonical_pr: null
-actions_total: 14
+actions_total: 12
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,23 +22,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24951170340](https://github.com/openclaw/projectclownfish/actions/runs/24951170340)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24951663323](https://github.com/openclaw/projectclownfish/actions/runs/24951663323)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/44417
+Canonical: https://github.com/openclaw/openclaw/issues/65184
 
 ## Summary
 
-Hydrated live state split this cluster into subfamilies. The missing-unit install race is already closed on current main under #65184, while the remaining live work is the false-unavailable/systemd-user fallback path best tracked by #44417, with #39673 and #63561 kept open as related follow-ups. Security-sensitive PR #52293 is quarantined, and the only remaining blocked step is opening a replacement fix PR because this run has no writable checkout.
+Representative #65184 is no longer an open canonical issue; it is now the closed canonical path for the migrated-root missing-unit subfamily and is marked fixed on `main` by the maintainer comment referencing commit `e4e69c5bc6`. The remaining open issues in this cluster (#39673, #44417, #63561) are still in the same gateway/systemd area but are not high-confidence duplicates of #65184, so they should stay open as related follow-up work. Linked PR #52293 is explicitly security-sensitive in the preflight artifact and is quarantined out of backlog cleanup.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 14 |
+| Worker actions | 12 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,20 +54,18 @@ Hydrated live state split this cluster into subfamilies. The missing-unit instal
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #44417 | keep_canonical | planned | canonical | Best surviving open tracker for the remaining sudo-user/systemd false-unavailable bug; no safe close or merge path is available from the hydrated live state. |
-| #44417 | fix_needed | planned | canonical | Emit a narrow fix path instead of closing or merging from ambiguous historical context. |
-| #44417 | build_fix_artifact | planned | canonical | Produce a narrow replacement fix plan for automation to apply later. |
-| #44417 | open_fix_pr | blocked | canonical | Implementation is blocked by missing writable checkout, not by maintainer judgment. |
-| #39673 | keep_related | planned | related | Related Linux/systemd-user availability report, but not a safe duplicate or post-merge close target from the hydrated evidence. |
-| #63561 | keep_related | planned | related | Keep open as a related follow-up until a replacement fix validates both status and install paths. |
-| #52293 | route_security | planned | security_sensitive | Security-sensitive linked PR is out of scope for ordinary duplicate/fix triage and must be routed to central security handling. |
-| #65184 | keep_closed | skipped | canonical | Historical canonical for the missing-unit subfamily; already closed and cannot receive a new close action. |
-| #54429 | keep_closed | skipped | duplicate | Already closed as duplicate of the missing-unit canonical; mention only as historical evidence. |
-| #42025 | keep_closed | skipped | superseded | Already closed; no new mutation is valid for this target. |
-| #44070 | keep_closed | skipped | fixed_by_candidate | Historical closure only; this run separately routes #52293 through security quarantine. |
-| #54517 | keep_closed | skipped | related | Already closed against current main; not a live close target for this run. |
-| #57188 | keep_closed | skipped | independent | Already closed as a separate update-path regression; keep as closed historical context only. |
-| #68287 | keep_closed | skipped | independent | Already closed as an independent node-service bug, not a target for new closeout. |
+| #65184 | keep_closed | skipped | canonical | Closed canonical path for the migrated-root systemd-user missing-unit race; retain only as historical canonical evidence. |
+| #39673 | keep_related | planned | related | Same subsystem, different failure family from #65184; leave open for separate validation against the broader user-bus-unavailable path. |
+| #44417 | keep_related | planned | related | Related Linux/systemd install bug, but not a duplicate of #65184 and not covered by a viable hydrated canonical PR here. |
+| #63561 | keep_related | planned | related | Keep open as related follow-up; not safe to close under #65184 and not high-confidence duplicate of #44417 from the provided hydration alone. |
+| #52293 | route_security | planned | security_sensitive | Security-sensitive linked PR must be quarantined to central security handling and must not be used as a dedupe or merge path for ordinary backlog cleanup. |
+| #54429 | keep_closed | skipped | duplicate | Already closed duplicate; no further action. |
+| #42025 | keep_closed | skipped | related | Closed item in the same area but not the same root cause as #65184. |
+| #42051 | keep_closed | skipped | superseded | Closed broken PR with unresolved review blockers; not a viable canonical merge path. |
+| #44070 | keep_closed | skipped | related | Already closed related report; distinct failure family and no action should be taken through the quarantined PR. |
+| #54517 | keep_closed | skipped | related | Closed related issue; no additional mutation. |
+| #57188 | keep_closed | skipped | related | Historical related issue only. |
+| #68287 | keep_closed | skipped | independent | Different product path and root cause; keep independent from the gateway-install canonical family. |
 
 ## Needs Human
 
