@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207039-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24969138648",
+  "run_url": "https://github.com/openclaw/projectclownfish/actions/runs/24969138648",
+  "head_sha": "954e3ac4580f330255b90e541b805287d2731ff4",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207039-agentic-merge.md",
+  "published_at": "2026-04-26T23:04:48.906Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/42099",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/42099",
+  "canonical_pr": null,
+  "summary": "Classified the duplicate plugin-id warning cluster without GitHub mutations. The surviving canonical path is the open root issue #42099 plus a replacement ProjectClownfish fix derived from #42192, because #42192 is useful but cannot be safely repaired in place and has unresolved bot findings. #48673 and #58796 remain related follow-ups rather than merge/close targets; #45900 is already closed.",
+  "actions": [
+    {
+      "target": "#42099",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "Use #42099 as the live canonical issue while ProjectClownfish prepares a replacement fix path."
+    },
+    {
+      "target": "#42192",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "Blocked by require_fix_before_close until the credited replacement fix PR exists; do not close a useful contributor PR before preserving the fix and attribution."
+    },
+    {
+      "target": "#45900",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "Historical closed context only; no mutation is valid for an already-closed PR."
+    },
+    {
+      "target": "#48673",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "Related plugin duplicate-warning work, but not a high-confidence duplicate closure or merge target because checks fail and the scope differs from the #42099/#42192 cross-origin warning path."
+    },
+    {
+      "target": "#58796",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "Related but too broad and review-blocked for this narrow cluster; keep open as a separate follow-up rather than merging or closing."
+    },
+    {
+      "target": "cluster:ghcrawl-207039-agentic-merge",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "A narrow credited replacement fix is needed before closing or superseding useful open contributor PRs."
+    },
+    {
+      "target": "cluster:ghcrawl-207039-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "reason": "ProjectClownfish should create a narrow replacement fix artifact rather than attempting to merge or mutate the uneditable contributor branch."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_closed": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "apply_actions": [
+    {
+      "target": "#42192",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#42099",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-207039-agentic-merge:#42192:close_superseded:2026-03-24T20:16:20Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72409",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(plugins): suppress false duplicate-id warnings across origins",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
