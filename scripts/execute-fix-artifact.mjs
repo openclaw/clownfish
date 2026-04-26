@@ -1663,7 +1663,35 @@ function remoteBranchSha({ targetDir, branch }) {
 }
 
 function branchHasBaseDiff({ targetDir, baseBranch }) {
-  return Boolean(run("git", ["diff", "--name-only", `origin/${baseBranch}...HEAD`], { cwd: targetDir }).trim());
+  const range = `origin/${baseBranch}...HEAD`;
+  const first = spawnSync("git", ["diff", "--name-only", range], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (first.status === 0) return Boolean(first.stdout.trim());
+  const detail = `${first.stderr ?? ""}\n${first.stdout ?? ""}`;
+  if (!/no merge base/i.test(detail)) throw new Error(detail.trim());
+
+  fetchDeeperHistory({ targetDir, baseBranch });
+  const retry = spawnSync("git", ["diff", "--name-only", range], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (retry.status === 0) return Boolean(retry.stdout.trim());
+  const retryDetail = `${retry.stderr ?? ""}\n${retry.stdout ?? ""}`;
+  if (/no merge base/i.test(retryDetail)) return true;
+  throw new Error(retryDetail.trim());
+}
+
+function fetchDeeperHistory({ targetDir, baseBranch }) {
+  if (fs.existsSync(path.join(targetDir, ".git", "shallow"))) {
+    run("git", ["fetch", "--unshallow", "origin"], { cwd: targetDir });
+  } else {
+    run("git", ["fetch", "--deepen=1000", "origin"], { cwd: targetDir });
+  }
+  run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
 }
 
 function commitCheckpointIfNeeded({ targetDir, message }) {
