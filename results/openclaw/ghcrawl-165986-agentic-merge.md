@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165986-agentic-merge"
 mode: "autonomous"
-run_id: "24951936220"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24951936220"
-head_sha: "487226d9b0003de3bec820fddf63fdc7cb2ab87d"
-workflow_conclusion: "success"
+run_id: "24952412715"
+run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24952412715"
+head_sha: "f5c4e1950557f765a49dfa2b7481399dab602891"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-04-26T08:24:46.098Z"
+published_at: "2026-04-26T09:04:35.903Z"
 canonical: "https://github.com/openclaw/openclaw/issues/19929"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/19929"
 canonical_pr: null
-actions_total: 19
+actions_total: 20
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,9 +22,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24951936220](https://github.com/openclaw/projectclownfish/actions/runs/24951936220)
+Run: [https://github.com/openclaw/projectclownfish/actions/runs/24952412715](https://github.com/openclaw/projectclownfish/actions/runs/24952412715)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
@@ -32,13 +32,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/19929
 
 ## Summary
 
-Cluster split into mixed subfamilies. `#58004` is a closed historical representative for already-shipped direct-message continuity, but it is obsolete as the live canonical for remaining open work. `#19929` is the best surviving canonical issue for unresolved opt-in shared sessions across non-direct group/channel/thread chats. `#7524`, `#14850`, `#51691`, and `#51805` stay open as related but non-duplicate requests with distinct scope; `#11665` and `#46514` stay open as independent. No close or merge actions are emitted because the live cluster is over-broad, `require_fix_before_close` is enabled, and the only prior PR (`#20078`) is closed/unmerged with a failing check and no safe maintainer update path. `#52504` is quarantined with `route_security` exactly as directed by the hydrated security boundary artifact. A narrow fix path is needed for `#19929`, so this result emits `fix_needed` plus `build_fix_artifact` only.
+Autonomous classification completed from the hydrated preflight artifact. The original representative #58004 is already closed as implemented, so #19929 is the best live canonical for the remaining same-agent group/channel/thread session-sharing subfamily. No GitHub mutations were performed. No merge is recommended because there is no open clean canonical PR; #50875 is related but not a canonical fix for this cluster and has unresolved/accepted-deferral bot findings. A narrow replacement fix artifact is planned, crediting prior work in #20078.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 19 |
+| Worker actions | 20 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,25 +54,26 @@ Cluster split into mixed subfamilies. `#58004` is a closed historical representa
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #19929 | keep_canonical | planned | canonical | Best surviving canonical for unresolved non-direct shared-session routing. |
-| #19929 | fix_needed | planned | canonical | Real unresolved feature gap with no viable open PR. |
-| #19929 | build_fix_artifact | planned | canonical | Prepare a narrow replacement fix plan that preserves contributor credit without pretending to patch from this worker. |
-| #7524 | keep_related | planned | related | Same family, but a focused request with unique scope that should stay open. |
-| #14850 | keep_related | planned | related | Related unresolved route-binding variant; not safe to close as a duplicate. |
-| #51691 | keep_related | planned | related | Adjacent continuity UX request with unique remaining work. |
-| #51805 | keep_related | planned | related | Related group-to-DM continuity request with distinct design constraints. |
-| #11665 | keep_independent | planned | independent | Different subsystem and fix path; should not be deduped into this cluster's canonical issue. |
-| #46514 | keep_independent | planned | independent | Different product problem; leave open independently. |
-| #20078 | keep_closed | skipped | related | Historical prior art only; no mutation valid on an already closed PR. |
-| #40986 | keep_closed | skipped | independent | Already closed on a different implementation path; not a live target in this cluster. |
-| #52504 | route_security | planned | security_sensitive | Exact-item security quarantine required by the hydrated artifact. |
-| #52683 | keep_closed | skipped | independent | Already closed independently on plugin-scope grounds. |
-| #57977 | keep_closed | skipped | fixed_by_candidate | Historical implemented direct-DM continuity closeout; no further action valid. |
-| #58004 | keep_closed | skipped | related | Historical representative only; already closed and not a mutation target. |
-| #59355 | keep_closed | skipped | fixed_by_candidate | Historical implemented direct-DM continuity closeout; no further action valid. |
-| #59585 | keep_closed | skipped | independent | Already closed independently on bootstrap/identity behavior. |
-| #60255 | keep_closed | skipped | fixed_by_candidate | Historical implemented direct-DM continuity closeout; no further action valid. |
-| #68628 | keep_closed | skipped | fixed_by_candidate | Historical implemented direct-DM continuity closeout; no further action valid. |
+| #19929 | keep_canonical | planned | canonical | Use #19929 as the live canonical for the channel/group/thread session grouping subfamily. |
+| #19929 | fix_needed | planned | canonical | A new narrow fix PR is needed before any fix-first closeout of related issues. |
+| #19929 | build_fix_artifact | planned | canonical | Prepare a replacement fix plan that preserves contributor credit. |
+| #19929 | open_fix_pr | blocked | canonical | Implementation is blocked only on unavailable target checkout; classification and fix artifact are still complete. |
+| #14850 | keep_related | planned | related | Keep open as related design input for the canonical channel/group session-sharing work. |
+| #51805 | keep_related | planned | related | Related same-agent continuity request with unique group-to-DM privacy semantics; do not close as duplicate. |
+| #51691 | keep_related | planned | related | Same continuity problem family, but scope is broader and not safely closable under #19929. |
+| #46514 | keep_independent | planned | independent | Independent follow-up cluster; leave open. |
+| #11665 | keep_independent | planned | independent | Independent fix-needed follow-up; not closed or absorbed into this cluster's canonical path. |
+| #50875 | keep_related | planned | related | Related identity-routing PR, not a canonical fix for this cluster and not merge-ready under merge policy. |
+| #52504 | route_security | planned | security_sensitive | Route to central OpenClaw security handling; no ProjectClownfish mutation. |
+| #20078 | keep_closed | skipped | superseded | Closed context only; preserve credit in replacement fix artifact. |
+| #39049 | keep_closed | skipped | related | Closed historical context; no action. |
+| #40986 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #57977 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #58004 | keep_closed | skipped | fixed_by_candidate | Representative is obsolete for live canonical selection; no closure action allowed. |
+| #59355 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #59585 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #60255 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
+| #68628 | keep_closed | skipped | fixed_by_candidate | Already closed; no closure action allowed. |
 
 ## Needs Human
 
