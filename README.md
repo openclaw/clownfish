@@ -46,20 +46,20 @@ Last dashboard update: Apr 26, 2026, 22:07 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 70 latest cluster reports. Run attempts are tracked as audit history only.
+Scope: 71 latest cluster reports. Run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 70 | 100% |
-| Clean completed clusters | 30 | 42.9% |
-| Needs-human clusters | 29 | 41.4% |
-| Latest successful clusters | 68 | 97.1% |
+| Latest clusters reviewed | 71 | 100% |
+| Clean completed clusters | 30 | 42.3% |
+| Needs-human clusters | 29 | 40.8% |
+| Latest successful clusters | 68 | 95.8% |
 | Latest failed clusters | 1 | 1.4% |
-| Latest cancelled clusters | 1 | 1.4% |
-| Run attempts archived | 178 | audit |
-| Distinct PRs touched | 314 | 100% |
-| Open PRs tracked | 176 | 56.1% |
-| Closed unmerged PRs tracked | 117 | 37.3% |
+| Latest cancelled clusters | 2 | 2.8% |
+| Run attempts archived | 179 | audit |
+| Distinct PRs touched | 318 | 100% |
+| Open PRs tracked | 179 | 56.3% |
+| Closed unmerged PRs tracked | 118 | 37.1% |
 | Completed close actions | 22 | 21.4% |
 | Completed merge actions | 1 | 1.0% |
 | Duplicate closes | 22 | 100.0% |
