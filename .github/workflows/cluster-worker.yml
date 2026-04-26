@@ -40,6 +40,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 concurrency:
   group: projectclownfish-${{ inputs.job }}-${{ inputs.mode }}
   cancel-in-progress: false
@@ -177,6 +180,8 @@ jobs:
       CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS || '120000' }}
       CLOWNFISH_RESOLVE_REVIEW_THREADS: ${{ vars.CLOWNFISH_RESOLVE_REVIEW_THREADS || '1' }}
       CLOWNFISH_MODEL: ${{ inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
+      CLOWNFISH_GIT_USER_NAME: ${{ vars.CLOWNFISH_GIT_USER_NAME || 'projectclownfish' }}
+      CLOWNFISH_GIT_USER_EMAIL: ${{ vars.CLOWNFISH_GIT_USER_EMAIL || 'projectclownfish@users.noreply.github.com' }}
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
       OPENCLAW_LOCAL_CHECK: "0"
     steps:
