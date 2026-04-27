@@ -18,6 +18,8 @@ const mode = args.mode ?? "plan";
 const dryRun = Boolean(args["dry-run"] || process.env.CLOWNFISH_DRY_RUN === "1");
 const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5";
 const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 30 * 60 * 1000);
+const resultRepairAttempts = Math.max(0, Number(process.env.CLOWNFISH_RESULT_REPAIR_ATTEMPTS ?? 1));
+const resultRepairTimeoutMs = Number(process.env.CLOWNFISH_RESULT_REPAIR_TIMEOUT_MS ?? 10 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 
 if (!jobPath) {
@@ -100,38 +102,13 @@ if (dryRun) {
   process.exit(0);
 }
 
-const codexArgs = [
-  "exec",
-  "--cd",
-  repoRoot(),
-  "--model",
-  model,
-  "--sandbox",
-  "read-only",
-  "-c",
-  'approval_policy="never"',
-  "-c",
-  `model_reasoning_effort=${JSON.stringify(codexReasoningEffort)}`,
-  "--output-schema",
-  path.join(repoRoot(), "schemas", "codex-result.schema.json"),
-  "--output-last-message",
-  resultPath,
-  "--ephemeral",
-  "--json",
-];
-
-codexArgs.push("-");
-
-const child = spawnSync("codex", codexArgs, {
-  cwd: repoRoot(),
+const child = runCodex({
   input: prompt,
-  encoding: "utf8",
-  env: codexEnv(),
-  timeout: codexTimeoutMs,
+  outputPath: resultPath,
+  transcriptPath,
+  stderrPath: path.join(runDir, "codex.stderr.log"),
+  timeoutMs: codexTimeoutMs,
 });
-
-fs.writeFileSync(transcriptPath, child.stdout ?? "");
-if (child.stderr) fs.writeFileSync(path.join(runDir, "codex.stderr.log"), child.stderr);
 
 if (child.error?.code === "ETIMEDOUT") {
   writeBlockedResult(`Codex worker timed out after ${codexTimeoutMs}ms`);
@@ -146,7 +123,102 @@ if (child.status !== 0) {
   process.exit(0);
 }
 
+repairResultIfNeeded();
+
 console.log(`result: ${path.relative(repoRoot(), resultPath)}`);
+
+function runCodex({ input, outputPath, transcriptPath: codexTranscriptPath, stderrPath, timeoutMs }) {
+  const codexArgs = [
+    "exec",
+    "--cd",
+    repoRoot(),
+    "--model",
+    model,
+    "--sandbox",
+    "read-only",
+    "-c",
+    'approval_policy="never"',
+    "-c",
+    `model_reasoning_effort=${JSON.stringify(codexReasoningEffort)}`,
+    "--output-schema",
+    path.join(repoRoot(), "schemas", "codex-result.schema.json"),
+    "--output-last-message",
+    outputPath,
+    "--ephemeral",
+    "--json",
+    "-",
+  ];
+
+  const child = spawnSync("codex", codexArgs, {
+    cwd: repoRoot(),
+    input,
+    encoding: "utf8",
+    env: codexEnv(),
+    timeout: timeoutMs,
+  });
+
+  fs.writeFileSync(codexTranscriptPath, child.stdout ?? "");
+  if (child.stderr) fs.writeFileSync(stderrPath, child.stderr);
+  return child;
+}
+
+function repairResultIfNeeded() {
+  for (let attempt = 1; attempt <= resultRepairAttempts; attempt += 1) {
+    const review = reviewResult();
+    if (review.status === 0) return;
+    fs.writeFileSync(path.join(runDir, `review-results-failed-${attempt}.json`), review.stdout || review.stderr || "");
+    if (!fs.existsSync(resultPath)) return;
+
+    const beforePath = path.join(runDir, `result.before-repair-${attempt}.json`);
+    fs.copyFileSync(resultPath, beforePath);
+    const repairPrompt = [
+      "You are repairing a ProjectClownfish structured JSON result that failed deterministic validation.",
+      "",
+      "Do not mutate GitHub. Do not change the job scope. Return a complete replacement JSON result only.",
+      "Fix the validation failures with the narrowest safe changes. If a PR closeout comment is missing contributor credit, update that action comment to explicitly preserve credit, including wording such as `credit`, `attribution`, `thanks @user`, or `source PR`, and keep the canonical/fix links intact.",
+      "If a validator failure reveals that an action is not safely repairable from the provided artifacts, downgrade only that action to a non-mutating `keep_related`, `keep_independent`, blocked fix-first action, or `needs_human` with exact evidence.",
+      "",
+      "## Validator output",
+      "```json",
+      (review.stdout || review.stderr || "").trim(),
+      "```",
+      "",
+      "## Current result JSON",
+      "```json",
+      fs.readFileSync(beforePath, "utf8").trim(),
+      "```",
+      "",
+      "## Original worker prompt",
+      "```md",
+      prompt,
+      "```",
+    ].join("\n");
+
+    const repair = runCodex({
+      input: repairPrompt,
+      outputPath: resultPath,
+      transcriptPath: path.join(runDir, `codex-repair-${attempt}.jsonl`),
+      stderrPath: path.join(runDir, `codex-repair-${attempt}.stderr.log`),
+      timeoutMs: resultRepairTimeoutMs,
+    });
+    if (repair.error?.code === "ETIMEDOUT") {
+      console.error(`Codex result repair timed out after ${resultRepairTimeoutMs}ms`);
+      return;
+    }
+    if (repair.status !== 0) {
+      console.error(repair.stderr || repair.stdout || `Codex result repair exited ${repair.status}`);
+      return;
+    }
+  }
+}
+
+function reviewResult() {
+  return spawnSync(process.execPath, ["scripts/review-results.mjs", runDir], {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    env: process.env,
+  });
+}
 
 function codexEnv() {
   const env = { ...process.env };
