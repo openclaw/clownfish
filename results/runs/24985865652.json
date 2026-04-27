@@ -1,0 +1,162 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156629-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24985865652",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24985865652",
+  "head_sha": "a357d4628713c59472019d207d99949bc4b4ad8e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156629-autonomous-smoke.md",
+  "published_at": "2026-04-27T09:08:17.794Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72660",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48771",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72660",
+  "summary": "Autonomous classification found #72660 is the calibrated canonical PR for the Windows restart policy-close fix, but it is not merge-ready because review-bot/security-analysis findings and failing checks remain unresolved. #48771 remains the canonical issue for that narrow bug, #63491 is related broader Windows restart/state drift, and #69056 is a separate related SIGUSR1 Windows restart PR.",
+  "actions": [
+    {
+      "target": "#48766",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "Already closed; retained as historical duplicate evidence only."
+    },
+    {
+      "target": "#48771",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48771",
+      "candidate_fix": "#72660",
+      "reason": "Canonical issue remains open until the calibrated fix PR is repaired, reviewed, validated, and merged."
+    },
+    {
+      "target": "#49865",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this security-sensitive item; it does not block unrelated Windows restart classification."
+    },
+    {
+      "target": "#63491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48771",
+      "candidate_fix": "#72660",
+      "reason": "Related broader Windows restart/state-drift report, not a true duplicate of the narrow #48771/#72660 fix path."
+    },
+    {
+      "target": "#64476",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented; historical context only."
+    },
+    {
+      "target": "#67416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; related evidence for the Windows restart family only."
+    },
+    {
+      "target": "#69056",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "Separate Windows restart root cause; keep open for its own review/merge path."
+    },
+    {
+      "target": "#69057",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#69056",
+      "reason": "Already closed as superseded by #69056; historical context only."
+    },
+    {
+      "target": "#72660",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48771",
+      "candidate_fix": "#72660",
+      "reason": "Repair the calibrated canonical PR branch, address review findings, rebase if needed, run /review and pnpm check:changed, then merge only after deterministic gates pass."
+    },
+    {
+      "target": "cluster:ghcrawl-156629-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#48771",
+      "candidate_fix": "#72660",
+      "reason": "Maintainer-calibrated canonical PR needs repair_contributor_branch work before merge."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 6
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/72660",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#72660",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): tighten Windows restart policy-close health checks",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
