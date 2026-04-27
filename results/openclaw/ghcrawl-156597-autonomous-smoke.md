@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156597-autonomous-smoke"
 mode: "autonomous"
-run_id: "24978950754"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24978950754"
-head_sha: "29400ea714d617de4455a11f0aa59ca745bf6cda"
+run_id: "24979700828"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24979700828"
+head_sha: "8806d2971f220668a5fdb92adf8595525bd6678b"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T05:58:28.199Z"
+published_at: "2026-04-27T06:31:13.523Z"
 canonical: "https://github.com/openclaw/openclaw/issues/39673"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/39673"
 canonical_pr: null
-actions_total: 12
+actions_total: 13
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
-apply_executed: 0
+apply_executed: 1
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24978950754](https://github.com/openclaw/clownfish/actions/runs/24978950754)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24979700828](https://github.com/openclaw/clownfish/actions/runs/24979700828)
 
 Workflow conclusion: success
 
@@ -35,17 +35,17 @@ Canonical: https://github.com/openclaw/openclaw/issues/39673
 
 ## Summary
 
-Classified the hydrated cluster without GitHub mutation. #39673 remains the best open canonical for the remaining Linux gateway install user-systemd bus/unavailable failure. #52293 is quarantined as security-sensitive. Closed refs are evidence only. The remaining open non-security issues are related but not safe duplicate closeouts before the canonical fix path lands, so a narrow fix artifact is needed for the #39673 install-path remediation gap.
+Classified the hydrated cluster without direct GitHub mutation. #39673 remains the live canonical issue for unrecovered Linux gateway install user-systemd bus failures. No merge is safe: the only open PR in the hydrated family, #52293, is security-sensitive and has failing checks, so it is routed to central security handling. A narrow replacement/new fix artifact is needed for #39673 and related install detection/hinting gaps; already-closed refs are kept closed and open adjacent reports remain open.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 12 |
+| Worker actions | 13 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 0 |
+| Applied executions | 1 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -54,30 +54,31 @@ Classified the hydrated cluster without GitHub mutation. #39673 remains the best
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | skipped |  |  | fix artifact scope itself contains security-sensitive signals |
+| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72617 | clownfish/ghcrawl-156597-autonomous-smoke |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #72617 | merge_canonical | executed | fix_pr | merged by ProjectClownfish post-flight |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39673 | keep_canonical | planned | canonical | Best surviving open canonical for the remaining install-path systemd user-bus failure family. |
-| #42025 | keep_closed | skipped | superseded | Already closed; retain as historical related/superseded context only. |
-| #44070 | keep_closed | skipped | fixed_by_candidate | Already closed; the linked candidate is quarantined separately. |
-| #44417 | keep_related | planned | related | Related systemd-user detection/install failure, but unique sudo/root/container scope details remain. |
-| #52293 | route_security | planned | security_sensitive | Security-sensitive linked PR must be routed to central OpenClaw security handling and not mutated by ProjectClownfish. |
-| #54429 | keep_closed | skipped | duplicate | Already closed duplicate context; no mutation allowed. |
-| #54517 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented/stale against current main. |
-| #62764 | keep_related | planned | related | Related gateway/systemd work, but distinct doctor --fix/system-unit ownership root cause. |
-| #63561 | keep_related | planned | related | Adjacent user-systemd detection failure; not a high-confidence duplicate or fixed-by-candidate closeout. |
-| #65184 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on main; retain as narrower fixed context. |
-| cluster:ghcrawl-156597-autonomous-smoke | fix_needed | planned |  | A narrow new fix path is needed for the Linux gateway install systemd-user unavailable remediation gap. |
-| cluster:ghcrawl-156597-autonomous-smoke | build_fix_artifact | planned |  | Build a narrow credited fix artifact for executor-owned implementation. |
+| #39673 | keep_canonical | planned | canonical | #39673 is still the best live canonical issue for the remaining gateway install bus-unavailable failure family. |
+| #42025 | keep_closed | skipped | superseded | Already-closed refs must not receive close actions. |
+| #44070 | keep_closed | skipped | fixed_by_candidate | Already-closed refs must not receive close actions; linked security-sensitive PR is routed separately. |
+| #44417 | keep_related | planned | related | Related open issue with unique environment and root-cause details; keep open and let the fix path validate coverage. |
+| #54429 | keep_closed | skipped | duplicate | Already-closed refs must not receive close actions. |
+| #54517 | keep_closed | skipped | fixed_by_candidate | Already-closed refs must not receive close actions. |
+| #62764 | keep_independent | planned | independent | Different command surface and ownership model; do not close or merge under this gateway-install cluster. |
+| #63561 | keep_related | planned | related | Related but not a pure duplicate; keep open until the canonical fix path proves coverage. |
+| #65184 | keep_closed | skipped | fixed_by_candidate | Already-closed refs must not receive close actions. |
+| #52293 | route_security | planned | security_sensitive | Route only #52293 to central OpenClaw security handling; do not merge, close, comment, or use it as a candidate fix in ProjectClownfish. |
+| #62763 | keep_related | planned | related | Keep as related follow-up context for the #62764 doctor --fix subcluster. |
+| cluster:ghcrawl-156597-autonomous-smoke | fix_needed | planned |  | A narrow fix artifact is needed because the bug is real, current main is not proven fixed for #39673, and no safe canonical PR exists. |
+| cluster:ghcrawl-156597-autonomous-smoke | build_fix_artifact | planned |  | Prepare a ProjectClownfish replacement/new fix PR plan for the open canonical issue and related install-detection reports. |
 
 ## Needs Human
 
