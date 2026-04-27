@@ -1,0 +1,142 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156663-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023032430",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023032430",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156663-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:43:59.037Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Autonomous classification only; no GitHub mutations performed. #41461 is quarantined by the preflight security boundary. #44319, #45395, #46607, and #67843 are unrelated implementation PRs in the same touched files/agents area and are not duplicates of the Anthropic OAuth canonical hint. No merge or close is recommended because available PRs either fail security/merge gates, are draft/failing, have unresolved bot findings, or belong to separate issue families.",
+  "actions": [
+    {
+      "target": "#41461",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for ProjectClownfish backlog cleanup; route exact ref to central OpenClaw security handling."
+    },
+    {
+      "target": "#41444",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Anthropic OAuth issue remains open; closure is blocked because the paired implementation is quarantined and no safe canonical fix path is explicit."
+    },
+    {
+      "target": "#44319",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different bug family; keep open as independent rather than duplicate/superseded."
+    },
+    {
+      "target": "#45395",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different provider/tool-call behavior; keep open as independent."
+    },
+    {
+      "target": "#46607",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although the preflight matrix did not flag #46607 itself, hydrated review evidence raises an explicit sandbox/path-exposure concern; quarantine this exact PR and do not mutate it through ProjectClownfish."
+    },
+    {
+      "target": "#67843",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate useful contributor PR that appears repairable, but not merge-ready until the P1 Codex review finding is addressed and a fresh /review plus validation are completed."
+    },
+    {
+      "target": "#65909",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the broader tracker for the Codex web_search family; #67843 can address a narrow subproblem after repair/validation."
+    },
+    {
+      "target": "cluster:ghcrawl-156663-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Emit an executable narrow repair artifact for the useful related PR rather than merging with unresolved bot review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 2,
+    "keep_independent": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/67843",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#67843",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix: pass directories to provider stream wrappers",
+      "idempotency_key": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-04-27T22:43:39Z",
+      "merge_commit_sha": "482ff924ef637886e8513201240d8b9e0f064b19",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
