@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260427T0530-04",
+  "mode": "autonomous",
+  "run_id": "24978254907",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24978254907",
+  "head_sha": "ef3a582bffe2ffa57be653d2945931140635f43a",
+  "workflow_conclusion": "failure",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260427T0530-04.md",
+  "published_at": "2026-04-27T05:34:23.786Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Reviewed the five listed open pull requests under the low-signal PR policy using the hydrated preflight artifact. No close_low_signal actions are safe: #63330 is security-sensitive and must be routed to central security handling; #61203 and #62542 need maintainer judgment rather than low-signal closure; #64179 and #65692 should be kept open as focused, green implementation candidates.",
+  "actions": [
+    {
+      "target": "#62542",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not boringly low-signal under the policy because it is a concrete provider/config feature with author follow-up and review findings that require technical correctness judgment."
+    },
+    {
+      "target": "#64179",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear non-close: this is a focused green implementation candidate, not a low-signal cleanup target."
+    },
+    {
+      "target": "#63330",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only #63330 and route it to central OpenClaw security handling; do not close, merge, label, comment, or fix through ProjectClownfish."
+    },
+    {
+      "target": "#61203",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not close automatically because the PR has green validation and active author follow-up; owner judgment is needed on whether this Docker/runtime change belongs in core."
+    },
+    {
+      "target": "#65692",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear non-close: green focused implementation candidate with a recent keep-open review signal."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#62542: maintainer/product judgment needed for core provider retry configuration and unresolved technical-review confidence; active author follow-up blocks low-signal closure.",
+    "#61203: owner judgment needed for broad Docker/runtime infrastructure changes because the PR is green and has active author follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
