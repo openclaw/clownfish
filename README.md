@@ -46,34 +46,34 @@ Last dashboard update: Apr 27, 2026, 22:44 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 168 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 169 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 168 | 100% |
+| Latest clusters reviewed | 169 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 77 | 45.8% |
-| Needs-human clusters | 44 | 26.2% |
-| Latest successful clusters | 166 | 98.8% |
+| Clean completed clusters | 77 | 45.6% |
+| Needs-human clusters | 44 | 26.0% |
+| Latest successful clusters | 167 | 98.8% |
 | Latest failed clusters | 2 | 1.2% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 379 | audit |
-| Fix action attempts | 93 | audit |
+| Run attempts archived | 380 | audit |
+| Fix action attempts | 94 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 23 | 24.7% |
-| Fix actions blocked | 25 | 26.9% |
-| Latest clusters with fix failures | 21 | 12.5% |
-| Distinct PRs touched | 669 | 100% |
-| Open PRs tracked | 311 | 46.5% |
-| Closed unmerged PRs tracked | 293 | 43.8% |
+| Fix actions failed | 23 | 24.5% |
+| Fix actions blocked | 25 | 26.6% |
+| Latest clusters with fix failures | 21 | 12.4% |
+| Distinct PRs touched | 677 | 100% |
+| Open PRs tracked | 315 | 46.5% |
+| Closed unmerged PRs tracked | 296 | 43.7% |
 | Completed close actions | 22 | 5.9% |
 | Completed merge actions | 15 | 4.0% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 112 | 29.9% |
-| Skipped mutation attempts | 225 | 60.2% |
+| Blocked mutation attempts | 113 | 30.1% |
+| Skipped mutation attempts | 225 | 60.0% |
 
 ### Latest ProjectClownfish Closures
 
