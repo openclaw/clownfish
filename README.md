@@ -179,6 +179,9 @@ npm run requeue -- 24947178021 --execute --open-execute-window \
 # Execute a reviewed fix artifact locally. Requires both execution gates and a write token.
 CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/openclaw/cluster-example.md --latest --dry-run
 
+# Rebuild the open Clownfish PR finalization report without mutating GitHub.
+npm run finalize-open-prs -- --write-report
+
 # Retry failed jobs once. This briefly opens the execution gate, waits for the
 # dispatched workers to start, records the self-heal ledger, and closes the gate.
 npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
