@@ -46,34 +46,34 @@ Last dashboard update: Apr 27, 2026, 06:12 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 132 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 133 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 132 | 100% |
+| Latest clusters reviewed | 133 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 66 | 50.0% |
-| Needs-human clusters | 39 | 29.5% |
-| Latest successful clusters | 130 | 98.5% |
+| Clean completed clusters | 66 | 49.6% |
+| Needs-human clusters | 39 | 29.3% |
+| Latest successful clusters | 131 | 98.5% |
 | Latest failed clusters | 2 | 1.5% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 273 | audit |
-| Fix action attempts | 37 | audit |
+| Run attempts archived | 274 | audit |
+| Fix action attempts | 39 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 10 | 27.0% |
-| Fix actions blocked | 6 | 16.2% |
-| Latest clusters with fix failures | 8 | 6.1% |
-| Distinct PRs touched | 583 | 100% |
-| Open PRs tracked | 321 | 55.1% |
-| Closed unmerged PRs tracked | 220 | 37.7% |
+| Fix actions failed | 11 | 28.2% |
+| Fix actions blocked | 7 | 17.9% |
+| Latest clusters with fix failures | 9 | 6.8% |
+| Distinct PRs touched | 588 | 100% |
+| Open PRs tracked | 323 | 54.9% |
+| Closed unmerged PRs tracked | 223 | 37.9% |
 | Completed close actions | 22 | 9.4% |
 | Completed merge actions | 8 | 3.4% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 54 | 23.1% |
-| Skipped mutation attempts | 150 | 64.1% |
+| Blocked mutation attempts | 54 | 23.0% |
+| Skipped mutation attempts | 151 | 64.3% |
 
 ### Latest ProjectClownfish Closures
 

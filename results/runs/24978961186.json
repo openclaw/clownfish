@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207042-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24978961186",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24978961186",
+  "head_sha": "29400ea714d617de4455a11f0aa59ca745bf6cda",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-207042-agentic-merge.md",
+  "published_at": "2026-04-27T06:12:28.502Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/59344",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/59319",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59344",
+  "summary": "Classified the hydrated cluster without GitHub mutations. The original representative #57587 is closed and obsolete. The live non-security canonical path for the duplicate bootstrap-context injection family is #59344, but it is not merge-ready until the Codex review finding about workspace-relative path resolution is repaired and revalidated. The cache-refresh replacement #72406 is security-sensitive and must be routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#43901",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; historical evidence only."
+    },
+    {
+      "target": "#57587",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Representative is obsolete because it is closed and its dedupe site was rejected as not matching live behavior."
+    },
+    {
+      "target": "#59344",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59344",
+      "candidate_fix": null,
+      "reason": "Canonical non-security path, but requires branch repair and a fresh clean review before merge."
+    },
+    {
+      "target": "#64871",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and superseded by a separate replacement path; historical evidence only."
+    },
+    {
+      "target": "#59319",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#59344",
+      "candidate_fix": "#59344",
+      "reason": "Blocked on canonical fix path #59344 landing or an equivalent fixed PR."
+    },
+    {
+      "target": "#72406",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR routed to central OpenClaw security handling; unrelated non-security classifications continue."
+    },
+    {
+      "target": "cluster:ghcrawl-207042-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#59344",
+      "candidate_fix": "#59344",
+      "reason": "Canonical PR needs branch repair before merge consideration."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "route_security": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command \"check:changed\" not found Did you mean \"pnpm test:changed\"?",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Not merge-ready. The local changed-surface gate is green, and the #59344 Greptile/Codex path-normalization comments are addressed, but the current branch is also the open #72406 head and includes the cache-refresh/security-sensitive diff that the artifact explicitly says must not be routed through this fix. Aisle security findings on that current PR remain unresolved.",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#59319",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#59344",
+      "candidate_fix": "#59344",
+      "title": null,
+      "idempotency_key": "ghcrawl-207042-agentic-merge:#59319:close_fixed_by_candidate:#59344:blocked:2026-04-27T05-57-19Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
