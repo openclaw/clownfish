@@ -2,53 +2,53 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156586-autonomous-smoke"
 mode: "autonomous"
-run_id: "24981380433"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24981380433"
-head_sha: "e0fb289dbbb528ad94fac3d2036800e925923c24"
-workflow_conclusion: "success"
+run_id: "24982554957"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24982554957"
+head_sha: "64b08445e255b22babdbfd48320457951faa2507"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-04-27T07:11:38.677Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-04-27T07:42:34.473Z"
+canonical: "https://github.com/openclaw/openclaw/issues/46647"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/46647"
 canonical_pr: null
-actions_total: 19
+actions_total: 20
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # ghcrawl-156586-autonomous-smoke
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24981380433](https://github.com/openclaw/clownfish/actions/runs/24981380433)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24982554957](https://github.com/openclaw/clownfish/actions/runs/24982554957)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: https://github.com/openclaw/openclaw/issues/46647
 
 ## Summary
 
-Live preflight shows the original representative #47362 is already closed and the cluster is over-broad across several independent system-prompt/slack/skills/context subfamilies. No GitHub mutation or merge is safe from this worker: security-sensitive open refs are routed to central security, closed refs are kept closed, useful open PRs remain open for their own review/merge paths, and non-security issues remain open until a non-quarantined fix lands.
+Hydrated state shows the original representative #47362 is already closed and superseded by a replacement Slack fix path, while #46647 remains the open non-security canonical issue for the Slack inline-button/final-update bug family. The opened replacement PR #72626 is security-sensitive in the artifact, so it is quarantined for central security handling and no merge, closeout, or post-merge action is planned. Other open prompt PRs in this over-broad cluster are independent or security-routed; already-closed refs are kept closed/skipped. Unavailable ref #39020 returned 404 and is isolated as needs_human because no live kind or updated_at can be safely proven from the artifact.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 19 |
+| Worker actions | 20 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,26 +66,27 @@ Live preflight shows the original representative #47362 is already closed and th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #8813 | route_security | planned | security_sensitive | Security-sensitive linked issue must be quarantined to central OpenClaw security handling. |
-| #10841 | keep_closed | skipped | security_sensitive | Already closed; no close/comment/label action is valid. |
-| #14310 | keep_closed | skipped | superseded | Already closed historical context; no action needed. |
-| #14432 | keep_canonical | planned | canonical | Best live canonical for the background sub-agent prompt-guidance subfamily, but not merge-ready under ProjectClownfish merge policy. |
-| #32466 | keep_closed | skipped | related | Already closed; no mutation is valid. |
-| #45062 | route_security | planned | security_sensitive | Open security-sensitive PR must be quarantined; do not merge, close, or repair via ProjectClownfish. |
-| #46647 | keep_related | planned | related | Real Slack bug report remains open until a non-quarantined fix is merged or central security clears the replacement path. |
-| #47362 | keep_closed | skipped | superseded | Original representative is obsolete and already closed; no close action is valid. |
-| #47668 | keep_related | planned | related | Related to #70605 but not a pure duplicate or closeout target. |
-| #52727 | keep_independent | planned | independent | Separate skill-precedence feature; not part of the Slack canonical path. |
-| #56951 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no mutation is valid. |
-| #56955 | keep_closed | skipped | superseded | Already closed/superseded historical contributor PR; no close action is valid. |
-| #57247 | keep_independent | planned | independent | Separate prompt feature with unresolved checks/review findings; keep open outside this cluster. |
-| #60017 | keep_closed | skipped | fixed_by_candidate | Already closed; no mutation is valid. |
-| #62953 | keep_closed | skipped | security_sensitive | Closed security-sensitive historical PR; no ProjectClownfish mutation is valid. |
-| #63940 | route_security | planned | security_sensitive | Open security-sensitive PR must be routed to central security handling. |
-| #65777 | keep_canonical | planned | canonical | Best live canonical for the IDENTITY-defaults prompt subfamily, but merge policy still requires mergeability and /review proof. |
-| #70605 | keep_canonical | planned | canonical | Best live canonical for the strikethrough sanitization subfamily, but not merge-ready under merge policy. |
-| #72626 | route_security | planned | security_sensitive | Security-sensitive replacement PR must be quarantined to central security handling before any Slack closeout or merge. |
+| #46647 | keep_canonical | planned | canonical | Best live non-security canonical issue for the Slack inline-button/final-update family. |
+| #72626 | route_security | planned | security_sensitive | Quarantine exact security-sensitive replacement PR; do not merge, comment, close, label, or open a fix against it from this worker. |
+| #47362 | keep_closed | skipped | superseded | Already closed; historical source PR evidence only. |
+| #56951 | keep_closed | skipped | fixed_by_candidate | Already closed; no worker mutation allowed. |
+| #56955 | keep_closed | skipped | superseded | Already closed and superseded by the current Slack presentation-contract replacement path. |
+| #45062 | route_security | planned | security_sensitive | Route exact security-sensitive PR to central security handling. |
+| #63940 | route_security | planned | security_sensitive | Route exact security-sensitive PR to central security handling. |
+| #65777 | route_security | planned | security_sensitive | Route exact security-sensitive PR to central security handling. |
+| #8813 | route_security | planned | security_sensitive | Route exact security-sensitive linked issue to central security handling. |
+| #14432 | keep_independent | planned | independent | Independent prompt-guidance PR; no close or merge action in this Slack cluster. |
+| #52727 | keep_independent | planned | independent | Independent feature PR with its own review/check blockers. |
+| #57247 | keep_independent | planned | independent | Independent prompt feature PR; not a duplicate or replacement for the Slack issue. |
+| #70605 | keep_independent | planned | independent | Independent bugfix PR belonging to the #47668 context accumulation family. |
+| #47668 | keep_independent | planned | independent | Independent issue family with its own candidate PR #70605. |
+| #14310 | keep_closed | skipped | independent | Already closed independent PR. |
+| #32466 | keep_closed | skipped | independent | Already closed independent issue. |
+| #10841 | keep_closed | skipped | security_sensitive | Already closed linked security-sensitive issue; no ProjectClownfish mutation. |
+| #60017 | keep_closed | skipped | independent | Already closed independent reminder-scheduling PR. |
+| #62953 | keep_closed | skipped | security_sensitive | Already closed linked security-sensitive PR. |
+| #39020 | needs_human | planned | needs_human | Unavailable linked ref requires human follow-up or refreshed hydration before any per-item classification. |
 
 ## Needs Human
 
-- none
+- #39020 returned gh: Not Found (HTTP 404) with kind unknown, state unavailable, and updated_at null; no safe per-item classification is possible from the provided artifacts.
