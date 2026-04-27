@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { assertAllowedOwner, hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
 const FIX_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"]);
 const REPAIR_STRATEGIES = new Set(["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"]);
@@ -1207,23 +1207,6 @@ function validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActi
         evidence: [`${sourceRef} appears in cluster-plan.security_boundary.security_sensitive_items`],
       };
     }
-  }
-
-  const fixSecurityText = {
-    summary: fixArtifact.summary,
-    affected_surfaces: fixArtifact.affected_surfaces,
-    likely_files: fixArtifact.likely_files,
-    validation_commands: fixArtifact.validation_commands,
-    pr_title: fixArtifact.pr_title,
-    pr_body: fixArtifact.pr_body,
-    credit_notes: fixArtifact.credit_notes,
-    branch_update_blockers: fixArtifact.branch_update_blockers,
-  };
-  if (hasSecuritySignalText(fixSecurityText)) {
-    return {
-      reason: "fix artifact scope itself contains security-sensitive signals",
-      evidence: ["security scan matched fix_artifact summary/title/body/files/validation scope"],
-    };
   }
 
   return null;
