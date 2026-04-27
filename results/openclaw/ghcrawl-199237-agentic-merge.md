@@ -2,88 +2,86 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-199237-agentic-merge"
 mode: "autonomous"
-run_id: "24978963754"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24978963754"
-head_sha: "29400ea714d617de4455a11f0aa59ca745bf6cda"
+run_id: "24979715195"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24979715195"
+head_sha: "8806d2971f220668a5fdb92adf8595525bd6678b"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-04-27T06:07:38.448Z"
+result_status: "needs_human"
+published_at: "2026-04-27T06:24:12.948Z"
 canonical: "https://github.com/openclaw/openclaw/pull/54374"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/54374"
-actions_total: 14
+actions_total: 13
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 4
-apply_skipped: 0
-needs_human_count: 0
+apply_blocked: 0
+apply_skipped: 3
+needs_human_count: 1
 ---
 
 # ghcrawl-199237-agentic-merge
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24978963754](https://github.com/openclaw/clownfish/actions/runs/24978963754)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24979715195](https://github.com/openclaw/clownfish/actions/runs/24979715195)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: https://github.com/openclaw/openclaw/pull/54374
 
 ## Summary
 
-Classified the hydrated cluster as three subfamilies: #54374 remains the open canonical candidate for gateway pre-tool duplicate text but is not merge-ready without fresh /review and resolved bot-review proof; #46985, #47377, and #47399 are superseded WebChat UI PRs for already-closed #47188; repeated-character stream merge work remains real but should be handled by a narrow credited replacement path while #72400 is quarantined to central security handling.
+Hydrated state shows an over-broad streaming cluster with three subfamilies: WebChat duplicate bubbles, gateway pre-tool duplicated text, and repeated-character stream merge loss. #54374 remains the best non-security canonical for the gateway pre-tool duplicate-text family, but merge is blocked by missing clean merge preflight and incomplete review-bot proof. #72400 is security-sensitive due an Aisle security finding and is quarantined only for central security handling. No GitHub mutations are executed by this worker.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 14 |
+| Worker actions | 13 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 4 |
-| Apply skipped | 0 |
-| Needs human | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 3 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72400 | clownfish/ghcrawl-199237-agentic-merge |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46985 | close_superseded | blocked | superseded | canonical is not listed in job refs |
-| #47377 | close_superseded | blocked | superseded | canonical is not listed in job refs |
-| #47399 | close_superseded | blocked | superseded | canonical is not listed in job refs |
-| #72400 | merge_canonical | blocked | fix_pr | mergeable state is CONFLICTING |
+| #46985 | close_superseded | skipped | superseded | action status is blocked |
+| #47377 | close_superseded | skipped | superseded | action status is blocked |
+| #47399 | close_superseded | skipped | superseded | action status is blocked |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42588 | keep_closed | skipped | independent | Closed linked context only; no mutation is valid. |
-| #46985 | close_superseded | planned | superseded | Superseded by the already-resolved WebChat #47188 path; closure is high confidence and preserves contributor credit. |
-| #47188 | keep_closed | skipped | fixed_by_candidate | Closed issue is evidence for superseding old WebChat PRs; no close action is valid. |
-| #47224 | keep_closed | skipped | independent | Closed linked context only; no mutation is valid. |
-| #47344 | keep_closed | skipped | superseded | Closed historical WebChat PR; no close action is valid. |
-| #47377 | close_superseded | planned | superseded | Superseded by the already-resolved WebChat #47188 path; not merge-ready and no unique remaining work is evident. |
-| #47399 | close_superseded | planned | superseded | Superseded by the already-resolved WebChat #47188 path and unsafe to merge as-is. |
-| #54374 | keep_canonical | planned | canonical | Best canonical for the gateway pre-tool duplication subfamily, but merge is blocked until branch repair, fresh Codex /review, and resolved bot-review proof exist. |
-| #60063 | keep_related | planned | related | Related streaming duplication work that should remain open for a focused review/merge-prep subcluster rather than be closed here. |
-| #63769 | fix_needed | planned | related | Real non-security bug remains, but the available open replacement PR is security-quarantined and #63994 needs a narrow credited replacement path. |
-| #63994 | fix_needed | planned | superseded | Useful contributor work should be replaced by a narrow credited fix artifact rather than merged as-is. |
-| #65457 | keep_closed | skipped | superseded | Already closed; no close action is valid. Its useful diagnosis is preserved in the replacement fix artifact credit notes. |
-| #72400 | route_security | planned | security_sensitive | Quarantine exact security-sensitive PR to central OpenClaw security handling; do not close, merge, label, comment, or use it as a ProjectClownfish fix target. |
-| cluster:ghcrawl-199237-agentic-merge | build_fix_artifact | planned |  | Build a narrow credited replacement fix for the non-security repeated-character stream merge bug, excluding the quarantined security-sensitive PR. |
+| #42588 | keep_closed | skipped | independent | Already closed linked context; no close action is valid. |
+| #46985 | close_superseded | blocked | superseded | Superseded classification is clear, but require_fix_before_close blocks closure until the canonical fix path lands. |
+| #47188 | keep_closed | skipped | fixed_by_candidate | Already closed linked context; no mutation is valid. |
+| #47224 | keep_closed | skipped | independent | Already closed linked context; no close action is valid. |
+| #47344 | keep_closed | skipped | superseded | Already closed predecessor; no close action is valid. |
+| #47377 | close_superseded | blocked | superseded | Superseded classification is clear, but require_fix_before_close blocks closure until the canonical fix path lands. |
+| #47399 | close_superseded | blocked | superseded | Superseded classification is clear, but require_fix_before_close blocks closure until the canonical fix path lands. |
+| #54374 | keep_canonical | planned | canonical | Best non-security canonical for this subfamily, but not merge-ready in this run. |
+| #60063 | keep_related | planned | related | Keep open as related follow-up; do not merge without clean merge preflight. |
+| #63769 | needs_human | blocked | needs_human | Maintainer/security-triage judgment is needed for whether to continue the repeated-character non-security issue independently while its current implementation candidate is quarantined. |
+| #63994 | keep_closed | skipped | superseded | Already closed; closed refs must not receive close actions. |
+| #65457 | keep_closed | skipped | superseded | Already closed; closed refs must not receive close actions. |
+| #72400 | route_security | planned | security_sensitive | Security-sensitive PR; route only the affected item to central security handling. |
 
 ## Needs Human
 
-- none
+- #63769 needs maintainer/security-triage decision because the open repeated-character issue is non-security in the artifact, but its current replacement implementation candidate #72400 is security-sensitive and quarantined.
