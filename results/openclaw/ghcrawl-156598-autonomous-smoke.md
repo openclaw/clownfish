@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156598-autonomous-smoke"
 mode: "autonomous"
-run_id: "24979276363"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24979276363"
-head_sha: "8e31aae983b7234a42609965f5ffc5696bcab67d"
+run_id: "24979742859"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24979742859"
+head_sha: "8806d2971f220668a5fdb92adf8595525bd6678b"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T06:20:01.944Z"
-canonical: "https://github.com/openclaw/openclaw/pull/72614"
+published_at: "2026-04-27T06:26:40.861Z"
+canonical: null
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/72614"
-actions_total: 13
+canonical_pr: null
+actions_total: 25
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 1
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 6
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,28 +25,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24979276363](https://github.com/openclaw/clownfish/actions/runs/24979276363)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24979742859](https://github.com/openclaw/clownfish/actions/runs/24979742859)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/72614
+Canonical: unknown
 
 ## Summary
 
-Classified the sessions_spawn ACP-only-field cluster from hydrated preflight state. The original representative #68397 is now closed and superseded by the hydrated ProjectClownfish replacement PR #72614, which is the current canonical path but is not merge-ready because checks are failing and a Greptile P2 schema-description finding remains unresolved. Security-sensitive refs #63121 and #72331 are quarantined only for central security triage. No direct GitHub mutations were performed.
+Hydrated artifact shows the original representative #68397 is now closed and superseded by merged replacement PR #72331. Because #72331 is closed after merge, it is treated as the landed candidate fix rather than an open canonical target. Plan post-merge closeout for open duplicate issue reports, supersede redundant open PRs where credit is preserved, quarantine security-sensitive PRs #63121 and #66720, and keep the broader schema-filtering feature work separate.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 13 |
+| Worker actions | 25 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 1 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 6 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,31 +54,48 @@ Classified the sessions_spawn ACP-only-field cluster from hydrated preflight sta
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | blocked |  |  | Codex /review did not pass after 2 attempt(s): Merge is blocked by one stale user-facing docs statement. The code diff is narrow, security-sensitive refs are not mutated, Greptile's P2 schema-description comment is addressed in code, and local validation passed: `pnpm check:changed`, `pnpm -s vitest run src/agents/tools/sessions-spawn-tool.test.ts`, and `git diff --check origin/main...HEAD`. |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
+| #56326 | post_merge_close | blocked | fixed_by_candidate | target is not listed in job candidates |
+| #61724 | post_merge_close | blocked | fixed_by_candidate | target is not listed in job candidates |
+| #63120 | post_merge_close | blocked | fixed_by_candidate | target is not listed in job candidates |
+| #64714 | post_merge_close | blocked | fixed_by_candidate | target is not listed in job candidates |
 | #58686 | close_superseded | blocked | superseded | close requires ProjectClownfish fix PR opened/pushed or merge executed first |
+| #72614 | close_superseded | blocked | superseded | close requires ProjectClownfish fix PR opened/pushed or merge executed first |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72614 | keep_canonical | planned | canonical | Current canonical fix path is explicit but merge is blocked until #72614 is repaired, revalidated, and reviewed. |
-| cluster:ghcrawl-156598-autonomous-smoke | fix_needed | planned |  | Repair #72614 before merge or post-merge closeout. |
-| cluster:ghcrawl-156598-autonomous-smoke | build_fix_artifact | planned |  | Existing canonical replacement PR needs a narrow repair artifact for the deterministic executor. |
-| #58686 | close_superseded | planned | superseded | Useful contributor PR is superseded by the existing credited replacement PR #72614. |
-| #63121 | route_security | planned | security_sensitive | Security-sensitive hydrated item must be routed to central OpenClaw security handling only. |
-| #72331 | route_security | planned | security_sensitive | Security-sensitive hydrated linked PR is out of ProjectClownfish mutation scope. |
-| #66720 | keep_related | planned | related | Related provider-schema design work should stay open separately from the narrow #72614 runtime-subagent fix. |
-| #40102 | keep_closed | skipped | superseded | Already closed historical source PR; evidence only. |
-| #56342 | keep_closed | skipped | superseded | Already closed historical source PR; evidence only. |
-| #64787 | keep_closed | skipped | superseded | Already closed source PR with unrelated review noise; evidence only. |
-| #65282 | keep_closed | skipped | superseded | Already closed source PR superseded by credited replacement #72614. |
-| #68397 | keep_closed | skipped | superseded | Obsolete closed representative; current canonical path is #72614. |
-| #69170 | keep_closed | skipped | related | Already closed related documentation PR; evidence only. |
+| #72331 | keep_closed | skipped | fixed_by_candidate | Merged fix path for this cluster; closed PRs must not be kept as open canonical targets. |
+| #56326 | post_merge_close | planned | fixed_by_candidate | Open duplicate issue is covered by merged candidate PR #72331. |
+| #61724 | post_merge_close | planned | fixed_by_candidate | Open duplicate issue is covered by merged candidate PR #72331. |
+| #63120 | post_merge_close | planned | fixed_by_candidate | Open duplicate issue is covered by merged candidate PR #72331. |
+| #64714 | post_merge_close | planned | fixed_by_candidate | Open duplicate issue is covered by merged candidate PR #72331. |
+| #58686 | close_superseded | planned | superseded | Useful contributor PR is superseded by merged replacement; closeout comment preserves credit. |
+| #72614 | close_superseded | planned | superseded | Redundant ProjectClownfish replacement after #72331 merged. |
+| #63121 | route_security | planned | security_sensitive | Security-sensitive hydrated ref must be routed to central OpenClaw security handling. |
+| #66720 | route_security | planned | security_sensitive | Security-sensitive hydrated ref must be routed to central OpenClaw security handling. |
+| #59225 | keep_related | skipped | related | Related follow-up feature scope, not a duplicate closeout target. |
+| #67276 | keep_independent | skipped | independent | Independent open PR outside this cluster root cause. |
+| #40102 | keep_closed | skipped | superseded | Already closed historical PR. |
+| #56342 | keep_closed | skipped | superseded | Already closed historical PR. |
+| #64787 | keep_closed | skipped | superseded | Already closed historical PR. |
+| #65282 | keep_closed | skipped | superseded | Already closed historical PR credited by merged fix. |
+| #68397 | keep_closed | skipped | superseded | Original representative is obsolete and superseded by merged #72331. |
+| #69170 | keep_closed | skipped | superseded | Already closed historical PR credited by merged fix. |
+| #43556 | keep_closed | skipped | fixed_by_candidate | Already closed issue covered by merged #72331. |
+| #53370 | keep_closed | skipped | fixed_by_candidate | Already closed duplicate issue. |
+| #56193 | keep_closed | skipped | fixed_by_candidate | Already closed duplicate issue. |
+| #59390 | keep_closed | skipped | fixed_by_candidate | Already closed duplicate issue. |
+| #60965 | keep_closed | skipped | fixed_by_candidate | Already closed duplicate issue. |
+| #66719 | keep_closed | skipped | related | Already closed related provider/schema issue; no mutation. |
+| #66228 | keep_closed | skipped | independent | Already closed independent PR. |
+| #67278 | keep_closed | skipped | independent | Already closed independent PR. |
 
 ## Needs Human
 
