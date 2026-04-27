@@ -2,18 +2,18 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156602-autonomous-smoke"
 mode: "autonomous"
-run_id: "24984735658"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24984735658"
-head_sha: "26374cdd2f49f5683850f92c1448eb8af1cfa65f"
+run_id: "24985370069"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24985370069"
+head_sha: "8ffde172f9f9317fcea4f231a536be493c2f7f18"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T08:44:40.556Z"
+published_at: "2026-04-27T08:53:30.792Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72659"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72659"
-actions_total: 19
+actions_total: 16
 fix_executed: 0
-fix_failed: 0
+fix_failed: 1
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 1
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24984735658](https://github.com/openclaw/clownfish/actions/runs/24984735658)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24985370069](https://github.com/openclaw/clownfish/actions/runs/24985370069)
 
 Workflow conclusion: success
 
@@ -35,15 +35,15 @@ Canonical: https://github.com/openclaw/openclaw/pull/72659
 
 ## Summary
 
-Hydrated preflight shows no security-sensitive items. #55186 is closed and obsolete; #72659 is the calibrated canonical ProjectClownfish replacement for the Mattermost DM thread-root bug, but it is not merge-ready because checks include checks-node-core failure and there is no passed Codex /review preflight in the artifact. Plan repair/finalization for #72659, block closeout that depends on the fix landing, and keep unrelated or distinct Mattermost PRs open.
+Hydrated state makes #72659 the current canonical path for the Mattermost DM reply-threading bug. It is maintainer-calibrated and narrow, but it is not merge-ready because the artifact lacks a clean Codex /review preflight and shows failing relevant checks. Emit repair/finalization work for #72659, keep unrelated or broader Mattermost PRs open, and block superseding/closeout until the canonical path is repaired and safe.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 19 |
+| Worker actions | 16 |
 | Fix executed | 0 |
-| Fix failed | 0 |
+| Fix failed | 1 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 1 |
@@ -54,6 +54,7 @@ Hydrated preflight shows no security-sensitive items. #55186 is closed and obsol
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
+| repair_contributor_branch | failed |  |  | source PR #72659 has maintainer_can_modify=false |
 | open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72659 | clownfish/ghcrawl-156602-autonomous-smoke |  |
 
 ## Apply Actions
@@ -62,31 +63,28 @@ Hydrated preflight shows no security-sensitive items. #55186 is closed and obsol
 | --- | --- | --- | --- | --- |
 | #72305 | close_superseded | skipped | superseded | action status is blocked |
 | #59758 | close_fixed_by_candidate | skipped | fixed_by_candidate | action status is blocked |
-| #72659 | merge_canonical | blocked | fix_pr | merge state status is UNSTABLE |
+| #72659 | merge_canonical | blocked | fix_pr | pull request is closed |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72659 | keep_canonical | planned | canonical | #72659 is the current canonical path, but merge must wait for executor repair, validation, and Codex /review. |
-| cluster:ghcrawl-156602-autonomous-smoke | fix_needed | planned |  | Repair #72659 against current main, run pnpm check:changed and Codex /review, then reconsider merge and closeout. |
-| cluster:ghcrawl-156602-autonomous-smoke | build_fix_artifact | planned |  | A fix artifact is needed because the canonical PR exists but still needs repair/review before merge or dependent closeout. |
-| #72305 | close_superseded | blocked | superseded | Close is blocked on the canonical fix path #72659 being repaired and merge-ready. |
-| #59758 | close_fixed_by_candidate | blocked | fixed_by_candidate | Close is blocked on the canonical fix path #72659 being repaired and merged. |
-| #55186 | keep_closed | skipped | superseded | Closed historical source PR; evidence and credit source only. |
-| #60115 | keep_closed | skipped | superseded | Closed historical source PR; evidence and credit source only. |
-| #59791 | keep_closed | skipped | fixed_by_candidate | Already closed. |
-| #59981 | keep_closed | skipped | duplicate | Already closed duplicate context. |
-| #30977 | keep_closed | skipped | related | Closed related context. |
-| #52120 | keep_related | planned | related | Related Mattermost thread-context work, but distinct scope and not safe to close or merge in this cluster. |
-| #52236 | keep_related | planned | related | Related but incomplete draft work; leave open for a separate follow-up path. |
-| #55151 | keep_related | planned | related | Related but not a true duplicate of #72659 and not merge-ready. |
-| #57565 | keep_related | planned | related | Related broader routing work; keep open and out of the narrow #72659 closeout. |
-| #57609 | keep_independent | planned | independent | Independent Mattermost group-policy bug. |
-| #58439 | keep_independent | planned | independent | Independent file-upload bug; do not mutate in this cluster. |
-| #57970 | keep_related | planned | related | Related dependency for broader routing work, not part of the narrow canonical fix. |
-| #45082 | keep_related | planned | related | Related follow-up issue; leave open. |
-| #57607 | keep_independent | planned | independent | Independent issue outside this canonical path. |
+| #72659 | fix_needed | planned | canonical | Calibrated canonical PR needs executor repair/review/validation before merge. |
+| cluster:ghcrawl-156602-autonomous-smoke | build_fix_artifact | planned |  | Build a repair/finalization artifact for #72659. |
+| #72305 | close_superseded | blocked | superseded | Blocked on canonical fix path #72659 becoming safe. |
+| #52120 | keep_related | planned | related | Same Mattermost threading family, different entry point and root cause. |
+| #52236 | keep_related | planned | related | Draft/incomplete related follow-up, not canonical for this cluster. |
+| #55151 | keep_related | planned | related | Related but not a true duplicate of the canonical DM-threading fix. |
+| #55186 | keep_closed | skipped | superseded | Historical closed source PR already superseded by #72659. |
+| #57565 | keep_related | planned | related | Related but broad and not the calibrated canonical fix. |
+| #57609 | keep_independent | planned | independent | Different Mattermost bug family. |
+| #58439 | keep_independent | planned | independent | Different user-visible bug and code path. |
+| #59791 | keep_closed | skipped | fixed_by_candidate | Already closed historical context. |
+| #60115 | keep_closed | skipped | superseded | Historical closed source PR already superseded by #72659. |
+| #57970 | keep_related | planned | related | Related dependency for broader thread-routing work, not a duplicate of #72659. |
+| #45082 | keep_related | planned | related | Same provider area, separate entry point. |
+| #57607 | keep_independent | planned | independent | Different Mattermost bug family. |
+| #59758 | close_fixed_by_candidate | blocked | fixed_by_candidate | Blocked on canonical fix path #72659 being merged or proven present. |
 
 ## Needs Human
 
