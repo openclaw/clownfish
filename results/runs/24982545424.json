@@ -1,0 +1,148 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156617-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24982545424",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24982545424",
+  "head_sha": "64b08445e255b22babdbfd48320457951faa2507",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156617-autonomous-smoke.md",
+  "published_at": "2026-04-27T07:42:09.779Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/63654",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/63654",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the hinted representative #63987 is already closed and cannot be canonical. The surviving non-security canonical is open issue #63654. Open PR #66367 remains related but not merge-ready as an autonomous canonical because it is the broader provider-truth change and still has an actionable Greptile cleanup finding. Linked PR #72664 is hydrated as security-sensitive and must be routed to central security handling only. No close, merge, post-merge close, fix action, or fix PR action is planned from this worker result.",
+  "actions": [
+    {
+      "target": "#63654",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Keep the open issue as the canonical non-security tracking thread while fix paths are blocked or still under product/security review."
+    },
+    {
+      "target": "#63987",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed PRs must not receive close actions; preserve it only as historical source-credit evidence."
+    },
+    {
+      "target": "#66367",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "This PR is related and potentially useful, but it is not an autonomous merge candidate because it encodes a broader product-policy choice and has an unresolved bot cleanup finding."
+    },
+    {
+      "target": "#72664",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this PR to central OpenClaw security handling; do not comment, close, merge, or repair it through ProjectClownfish."
+    },
+    {
+      "target": "cluster:ghcrawl-156617-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Human maintainer/security handling is required to choose between clearing or replacing #72664 and explicitly choosing whether the broader #66367 provider-truth path should proceed."
+    },
+    {
+      "target": "#19054",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; not a mutation target and not part of the same narrow root cause."
+    },
+    {
+      "target": "#64672",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate; no closure action is valid."
+    },
+    {
+      "target": "#66095",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Closed related context only; it is not the same remaining root cause as #63654."
+    },
+    {
+      "target": "#69027",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate; no closure action is valid."
+    },
+    {
+      "target": "#69274",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate; no closure action is valid."
+    },
+    {
+      "target": "#70927",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate; no closure action is valid."
+    },
+    {
+      "target": "#70957",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already-closed superseded PR; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 8,
+    "keep_related": 1,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 8,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Cluster-level fix path requires maintainer/security handling: #72664 is security-sensitive and routed away from ProjectClownfish, while #66367 is a broader provider-truth product-policy PR with an unresolved Greptile cleanup finding."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
