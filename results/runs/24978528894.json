@@ -1,0 +1,121 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260425T2355-03",
+  "mode": "autonomous",
+  "run_id": "24978528894",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24978528894",
+  "head_sha": "52d57e1e9e9b1fa39aeddf60fb448e4f0e3aa8da",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260425T2355-03.md",
+  "published_at": "2026-04-27T05:44:17.659Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Reviewed the hydrated low-signal sweep artifact. No open PR is safe for low-signal closure: #41501 is security-sensitive and must be routed to central security handling; #54685 and #54819 are focused green docs PRs requiring maintainer judgment; #55573 has strong low-signal signals but also a requested secops team and unresolved technical review findings, so closure is not boringly clear. Closed linked/context refs are kept closed only.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical security-sensitive context ref; no ProjectClownfish mutation."
+    },
+    {
+      "target": "#2",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context issue; not a target for this low-signal PR sweep."
+    },
+    {
+      "target": "#3",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical security-sensitive context ref; no ProjectClownfish mutation."
+    },
+    {
+      "target": "#4",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context issue; not a target for this low-signal PR sweep."
+    },
+    {
+      "target": "#41501",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive open PR; quarantine to central OpenClaw security handling and do not close under low-signal cleanup."
+    },
+    {
+      "target": "#42242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this worker run; closed PRs must not receive close_low_signal."
+    },
+    {
+      "target": "#54685",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green docs PR; closure is not boringly clear and needs maintainer decision."
+    },
+    {
+      "target": "#54819",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green docs PR with an unresolved review-bot suggestion; not eligible for low-signal closure."
+    },
+    {
+      "target": "#55573",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although the PR has strong low-signal traits, requested secops review and unresolved technical findings make closure non-boring; maintainer judgment is required."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "route_security": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 1,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#54685: focused green docs PR; low-signal closure is blocked by green checks/focused change and needs maintainer decision.",
+    "#54819: focused green docs PR with an unresolved Greptile P2 suggestion; needs maintainer/editorial judgment.",
+    "#55573: broad risky/dirty PR, but requested secops team and unresolved Codex P1/P2 findings make low-signal closure unsafe without maintainer judgment."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
