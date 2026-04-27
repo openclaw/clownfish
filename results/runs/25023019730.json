@@ -1,0 +1,151 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156651-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023019730",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023019730",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156651-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:51:32.465Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/62392",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/62392",
+  "summary": "Hydrated preflight shows the original issue candidates are already closed, so no close/comment/label actions are valid for them. The remaining live non-security work is linked PR #62392, a narrow Control UI drag/drop missing-MIME fix that is useful but not merge-ready because review-bot findings and relevant failing/cancelled checks remain. Plan is to repair the contributor branch, preserve credit, run focused UI tests plus pnpm check:changed, then let the deterministic executor/applicator handle any later merge or closeout. Security-sensitive linked PR #1 is quarantined only for central security handling.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is outside ProjectClownfish backlog cleanup and belongs in central OpenClaw security handling."
+    },
+    {
+      "target": "#61103",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on current main; no mutation is valid."
+    },
+    {
+      "target": "#61516",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#61103",
+      "candidate_fix": null,
+      "reason": "Already closed as implemented/duplicate-family evidence; no mutation is valid."
+    },
+    {
+      "target": "#62371",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#62392",
+      "candidate_fix": "#62392",
+      "reason": "Already closed as superseded by open PR #62392; no close action is valid."
+    },
+    {
+      "target": "#65281",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#61103",
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on current main; no mutation is valid."
+    },
+    {
+      "target": "#67414",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented; distinct polish/performance details are historical evidence only in this run."
+    },
+    {
+      "target": "#67927",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#61103",
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on current main/release; no mutation is valid."
+    },
+    {
+      "target": "#62392",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62392",
+      "candidate_fix": "#62392",
+      "reason": "Useful contributor PR should be repaired on its existing branch before any merge or post-merge closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156651-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#62392",
+      "candidate_fix": "#62392",
+      "reason": "Build an executable repair plan for the open canonical PR rather than merging or closing while unresolved review comments/checks remain."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 6,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 6
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/62392",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#62392",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(ui): accept dropped images with missing mime types",
+      "idempotency_key": null,
+      "reason": "mergeable state is CONFLICTING",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
