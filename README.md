@@ -46,34 +46,34 @@ Last dashboard update: Apr 27, 2026, 05:30 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 112 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 113 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 112 | 100% |
+| Latest clusters reviewed | 113 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 59 | 52.7% |
-| Needs-human clusters | 32 | 28.6% |
-| Latest successful clusters | 111 | 99.1% |
+| Clean completed clusters | 59 | 52.2% |
+| Needs-human clusters | 32 | 28.3% |
+| Latest successful clusters | 112 | 99.1% |
 | Latest failed clusters | 1 | 0.9% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 237 | audit |
+| Run attempts archived | 238 | audit |
 | Fix action attempts | 14 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 5 | 35.7% |
 | Fix actions blocked | 5 | 35.7% |
-| Latest clusters with fix failures | 6 | 5.4% |
+| Latest clusters with fix failures | 6 | 5.3% |
 | Distinct PRs touched | 514 | 100% |
 | Open PRs tracked | 295 | 57.4% |
 | Closed unmerged PRs tracked | 185 | 36.0% |
-| Completed close actions | 22 | 11.4% |
+| Completed close actions | 22 | 11.3% |
 | Completed merge actions | 4 | 2.1% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 43 | 22.3% |
-| Skipped mutation attempts | 124 | 64.2% |
+| Blocked mutation attempts | 44 | 22.7% |
+| Skipped mutation attempts | 124 | 63.9% |
 
 ### Latest ProjectClownfish Closures
 
