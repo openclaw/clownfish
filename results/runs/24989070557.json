@@ -1,0 +1,214 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156629-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24989070557",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24989070557",
+  "head_sha": "57ff2551e4eb3abb322d03b4926d70309642150d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156629-autonomous-smoke.md",
+  "published_at": "2026-04-27T10:21:23.659Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72660",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48771",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72660",
+  "summary": "Canonical fix path is open PR #72660, but it is not merge-ready because hydrated bot/security review comments remain unresolved and there is no clean Codex /review or pnpm check:changed proof in the artifact. Plan repair of #72660, keep broader related Windows restart items open, quarantine security-sensitive linked refs, and block closeout of #48771 until #72660 lands.",
+  "actions": [
+    {
+      "target": "#72660",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72660",
+      "candidate_fix": "#72660",
+      "reason": "Repair the calibrated canonical PR branch before any merge or issue closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156629-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72660",
+      "candidate_fix": "#72660",
+      "reason": "A fix artifact is required because the canonical PR is useful but not merge-ready."
+    },
+    {
+      "target": "#48771",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72660",
+      "candidate_fix": "#72660",
+      "reason": "Closeout is blocked on merge of canonical fix PR #72660."
+    },
+    {
+      "target": "#63491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72660",
+      "candidate_fix": "#72660",
+      "reason": "Related broader tracking issue should remain open until the wider Windows restart/health symptoms are separated or proven fixed."
+    },
+    {
+      "target": "#69056",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72660",
+      "candidate_fix": null,
+      "reason": "Related Windows restart work, not a duplicate of the #72660 policy-close health-check fix."
+    },
+    {
+      "target": "#51469",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72660",
+      "candidate_fix": null,
+      "reason": "Related follow-up, not covered by the canonical PR."
+    },
+    {
+      "target": "#63691",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent gateway stall issue should not be closed or merged through this Windows restart-health cluster."
+    },
+    {
+      "target": "#48766",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#48771",
+      "candidate_fix": "#72660",
+      "reason": "Already closed refs must not receive close actions."
+    },
+    {
+      "target": "#49865",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#1",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined without mutating it."
+    },
+    {
+      "target": "#41034",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined without mutating it."
+    },
+    {
+      "target": "#64476",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions."
+    },
+    {
+      "target": "#67416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions."
+    },
+    {
+      "target": "#69057",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69056",
+      "candidate_fix": "#69056",
+      "reason": "Already closed refs must not receive close actions."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 3,
+    "keep_independent": 1,
+    "keep_closed": 4,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "blocked": 1,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "branch projectclownfish/repair-ghcrawl-156629-autonomous-smoke-72660 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (5/5) error: could not apply 377f46e65d... fix(cli): tighten Windows restart policy-close health checks hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply 377f46e65d... # fix(cli): tighten Windows restart policy-close health checks [detached HEAD e2de020796] fix(cli): tighten Windows restart policy-close health checks 3 files changed, 38 insertions(+), 8 deletions(-) Auto-merging CHANGELOG.md CONFLICT (content): Merge conflict in CHANGELOG.md Auto-merging src/cli/daemon-cli/restart-health.test.ts Auto-merging src/cli/daemon-cli/restart-health.ts",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "branch projectclownfish/repair-ghcrawl-156629-autonomous-smoke-72660 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (5/5) error: could not apply 377f46e65d... fix(cli): tighten Windows restart policy-close health checks hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply 377f46e65d... # fix(cli): tighten Windows restart policy-close health checks [detached HEAD e2de020796] fix(cli): tighten Windows restart policy-close health checks 3 files changed, 38 insertions(+), 8 deletions(-) Auto-merging CHANGELOG.md CONFLICT (content): Merge conflict in CHANGELOG.md Auto-merging src/cli/daemon-cli/restart-health.test.ts Auto-merging src/cli/daemon-cli/restart-health.ts",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#48771",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72660",
+      "candidate_fix": "#72660",
+      "title": null,
+      "idempotency_key": "ghcrawl-156629-autonomous-smoke:#48771:close_fixed_by_candidate:blocked-on-72660",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
