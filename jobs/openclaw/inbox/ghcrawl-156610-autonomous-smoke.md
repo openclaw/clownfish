@@ -40,6 +40,8 @@ cluster_refs:
   - "#72658"
 security_policy: central_security_only
 security_sensitive: false
+security_override_refs:
+  - "#72658"
 allow_instant_close: true
 allow_fix_pr: true
 allow_merge: true

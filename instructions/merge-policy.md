@@ -30,6 +30,11 @@ address human and review-bot comments, run Codex `/review`, run
 only with concrete proof that the PR is nonsense, crosses a real security or
 privilege boundary, or cannot be repaired inside the job window.
 
+If that calibrated canonical PR is not merge-ready in the worker result, emit
+`fix_needed` and `build_fix_artifact` with `repair_strategy:
+repair_contributor_branch` and the canonical PR URL in `source_prs`. A
+`keep_canonical` note saying the executor should repair it is not executable.
+
 Every merge action must include `merge_preflight` proving security clearance,
 resolved comments, resolved bot comments, passed Codex `/review`, addressed
 review findings, and validation commands. Missing proof blocks merge.

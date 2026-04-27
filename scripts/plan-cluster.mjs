@@ -90,7 +90,7 @@ while (pending.length > 0) {
 }
 
 const itemList = [...items.values()].sort((left, right) => left.number - right.number);
-const securitySensitiveItems = itemList.filter((item) => itemSecuritySensitive(item));
+const securitySensitiveItems = itemList.filter((item) => itemSecuritySensitive(item, job));
 const plan = {
   repo: job.frontmatter.repo,
   cluster_id: job.frontmatter.cluster_id,
@@ -290,7 +290,7 @@ function summarizeItem(item, job) {
     closed_at: item.closed_at,
     hydration_error: item.hydration_error ?? null,
     body_excerpt: item.body_excerpt,
-    security_sensitive: itemSecuritySensitive(item),
+    security_sensitive: itemSecuritySensitive(item, job),
     comments_count: item.comments_count ?? item.comments.length,
     comments_hydrated: item.comments.length,
     comments_truncated: Math.max(0, item.comments.length - MAX_COMMENTS_PER_ITEM),
@@ -433,7 +433,7 @@ function canonicalCandidates(items, job) {
 }
 
 function classificationHint(item, job) {
-  if (itemSecuritySensitive(item)) return "security_sensitive_route_only";
+  if (itemSecuritySensitive(item, job)) return "security_sensitive_route_only";
   const canonicalNumbers = new Set((job.frontmatter.canonical ?? []).map((ref) => normalizeRef(job.frontmatter.repo, ref).number));
   if (canonicalNumbers.has(item.number)) return "canonical_hint";
   if (item.state !== "open") return "already_closed";
@@ -445,7 +445,8 @@ function classificationHint(item, job) {
   return "open_issue_candidate";
 }
 
-function itemSecuritySensitive(item) {
+function itemSecuritySensitive(item, job) {
+  if (securityOverrideRefs(job).has(`#${item.number}`)) return false;
   return hasSecuritySignalText(
     item.title,
     item.body,
@@ -453,6 +454,10 @@ function itemSecuritySensitive(item) {
     item.comments.map((comment) => comment.body),
     item.pull_request?.files?.map((file) => file.filename),
   );
+}
+
+function securityOverrideRefs(job) {
+  return new Set((job.frontmatter.security_override_refs ?? []).map((ref) => `#${String(ref).replace(/^#/, "")}`));
 }
 
 function extractLinkedRefs(defaultRepo, item) {

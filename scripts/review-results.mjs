@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { parseArgs, repoRoot } from "./lib.mjs";
+import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 
 const CLOSE_ACTIONS = new Set([
   "close",
@@ -219,6 +219,14 @@ function reviewResult(resultPath) {
   if (plannedMergeActions.length > 0) {
     validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
   }
+  validateCalibratedPrFinalization({
+    job: readSourceJob(plan),
+    result,
+    itemByRef,
+    fixActions,
+    mergeActions,
+    failures,
+  });
 
   if (result.canonical) {
     const canonicalRef = normalizeRef(result.canonical);
@@ -253,6 +261,24 @@ function reviewResult(resultPath) {
     failures,
     warnings,
   };
+}
+
+function validateCalibratedPrFinalization({ job, result, itemByRef, fixActions, mergeActions, failures }) {
+  if (!Array.isArray(job?.frontmatter?.maintainer_calibration) || job.frontmatter.maintainer_calibration.length === 0) {
+    return;
+  }
+  const canonicalPrRef = normalizeRef(result.canonical_pr ?? result.canonical);
+  if (!canonicalPrRef) return;
+  const canonicalItem = itemByRef.get(canonicalPrRef);
+  if (!canonicalItem || canonicalItem.kind !== "pull_request" || canonicalItem.state !== "open") return;
+  const hasPlannedMerge = mergeActions.some(
+    (action) => normalizeRef(action.target) === canonicalPrRef && action.status === "planned",
+  );
+  const hasPlannedFix = fixActions.some((action) => ["planned"].includes(String(action.status ?? "")));
+  if (hasPlannedMerge || hasPlannedFix) return;
+  failures.push(
+    `${canonicalPrRef} calibrated canonical PR requires either a planned merge action with merge_preflight or a planned fix action with repair_contributor_branch/new_fix_pr fix_artifact`,
+  );
 }
 
 function isClusterScopedAction(action, result) {
@@ -421,6 +447,15 @@ function readSiblingJson(runDir, filename) {
     }
   }
   return null;
+}
+
+function readSourceJob(plan) {
+  if (!plan?.source_job) return null;
+  try {
+    return parseJob(path.join(repoRoot(), plan.source_job));
+  } catch {
+    return null;
+  }
 }
 
 function buildItemMap(plan, repo) {

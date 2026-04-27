@@ -31,3 +31,8 @@ Use `needs_human` only when the unresolved decision is genuinely a maintainer
 judgment call after quarantine. False positives are still cheaper than
 accidentally routing security work through backlog-cleanup automation, but false
 positives should be scoped to the item, not the whole cluster.
+
+If a job explicitly lists `security_override_refs`, those exact refs have a
+maintainer-approved false-positive override. Continue to require normal review,
+validation, and merge gates for them, but do not route them solely because a
+comment, bot review, file path, or label contains security-shaped words.
