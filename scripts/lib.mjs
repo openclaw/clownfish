@@ -324,6 +324,7 @@ export function validateJob(job) {
     "allow_fix_pr",
     "allow_merge",
     "allow_post_merge_close",
+    "allow_broad_fix_artifacts",
     "require_fix_before_close",
     "security_sensitive",
   ]) {

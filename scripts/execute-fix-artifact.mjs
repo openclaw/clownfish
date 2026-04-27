@@ -146,7 +146,7 @@ if (securityBlock) {
   writeReport(report, resultPath);
   process.exit(0);
 }
-const scopeBlock = validateAutonomousFixScope(fixArtifact);
+const scopeBlock = validateAutonomousFixScope({ job, fixArtifact });
 if (scopeBlock) {
   report.status = "blocked";
   report.reason = scopeBlock.reason;
@@ -1296,8 +1296,8 @@ function validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActi
   return null;
 }
 
-function validateAutonomousFixScope(fixArtifact) {
-  if (allowBroadFixArtifacts) return null;
+function validateAutonomousFixScope({ job, fixArtifact }) {
+  if (allowBroadFixArtifacts || job.frontmatter.allow_broad_fix_artifacts === true) return null;
 
   const likelyFiles = fixArtifact.likely_files ?? [];
   const affectedSurfaces = fixArtifact.affected_surfaces ?? [];
@@ -1865,6 +1865,7 @@ function buildRebaseConflictPrompt({ targetDir, branch, baseRef, fixArtifact, at
     "- you may refactor touched implementation/tests when current main moved or renamed the code;",
     "- prefer current main structure over stale branch structure;",
     "- keep contributor credit/changelog entries from the fix artifact when still applicable;",
+    "- for CHANGELOG.md conflicts, keep the current active-version structure, preserve one relevant single-line entry with credit, and remove stale duplicate conflict sides;",
     "- do not commit, push, open PRs, close PRs, call gh, or run `git rebase --continue`; ProjectClownfish handles that after your edits;",
     "- do not inspect or print environment variables, credentials, tokens, or secrets;",
     "- before returning, ensure no conflict markers remain.",

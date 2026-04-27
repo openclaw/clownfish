@@ -54,6 +54,7 @@ allow_instant_close: true
 allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
+allow_broad_fix_artifacts: true
 require_fix_before_close: true
 canonical_hint: "ghcrawl representative #68397 is open; worker must verify it is still the best live canonical."
 notes: "Generated from ghcrawl run cluster 156598 on 2026-04-26."
@@ -62,6 +63,7 @@ maintainer_calibration:
   - "Hydrate follow-up closeout refs #56326, #61724, and #63120; previous closeout blocked only because they were not job candidates."
   - "ACP-only sessions_spawn fields are an ordinary provider/tool-schema bug unless live evidence shows a real auth/session security boundary change."
   - "Rebase, review, fix, run pnpm check:changed, merge if clean, then close high-confidence fixed-by-candidate duplicates."
+  - "2026-04-27 vincentkoc approved the job-scoped broad-fix override for #72614 because this is a provider/tool-schema compatibility bug, not a product feature expansion."
 ---
 
 # GHCrawl Cluster 156598
