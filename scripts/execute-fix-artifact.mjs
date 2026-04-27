@@ -201,6 +201,7 @@ try {
         status: "failed",
         reason: error.message,
       });
+      if (!shouldFallbackToReplacementAfterRepairError(error)) throw error;
       const fallbackTargetDir = prepareFallbackReplacementCheckout(targetDir);
       outcome = executeReplacementBranch({ fixArtifact, targetDir: fallbackTargetDir, supersedeSources: true, fallbackReason: error.message });
     }
@@ -229,6 +230,14 @@ writeReport(report, resultPath);
 function isBlockedFixError(error) {
   return /Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed/i.test(
     String(error?.message ?? error),
+  );
+}
+
+function shouldFallbackToReplacementAfterRepairError(error) {
+  const message = String(error?.message ?? error);
+  if (/validation command failed|Codex |no merge base/i.test(message)) return false;
+  return /maintainer_can_modify=false|missing head repo\/ref|source PR #\d+ is (?:closed|merged)|permission denied|remote rejected|could not push|repository not found|not found/i.test(
+    message,
   );
 }
 
@@ -283,6 +292,7 @@ function shouldPromoteNeedsHumanReplacement(fixArtifact, workerResult) {
 }
 
 function executeRepairBranch({ fixArtifact, targetDir }) {
+  const baseBranch = String(process.env.CLOWNFISH_FIX_BASE_BRANCH ?? DEFAULT_BASE_BRANCH);
   const sourcePr = firstSourcePullRequest(fixArtifact);
   const pull = fetchPullRequest(sourcePr.number);
   if (pull.state !== "open") throw new Error(`source PR #${sourcePr.number} is ${pull.state}`);
@@ -293,11 +303,13 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   }
 
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
+  run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
   run("git", ["fetch", `https://github.com/${pull.head.repo.full_name}.git`, `${pull.head.ref}:${branch}`], { cwd: targetDir });
   run("git", ["checkout", branch], { cwd: targetDir });
+  ensureMergeBaseAvailable({ targetDir, baseBranch });
   prepareTargetToolchain(targetDir);
 
-  const prep = editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode: "repair" });
+  const prep = editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode: "repair", baseBranch });
   prep.merge_preflight.target = `#${sourcePr.number}`;
   if (dryRun) {
     return {
@@ -927,6 +939,7 @@ function validateAndReviewLoop({ fixArtifact, targetDir, mode, baseBranch = DEFA
 }
 
 function runDiffCheck({ targetDir, baseBranch }) {
+  ensureMergeBaseAvailable({ targetDir, baseBranch });
   run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir });
   run("git", ["diff", "--check"], { cwd: targetDir });
 }
@@ -1391,6 +1404,7 @@ function setupGitIdentity(cwd) {
 }
 
 function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
+  ensureMergeBaseAvailable({ targetDir: cwd, baseBranch });
   const validationEnv = targetValidationEnv();
   const executed = [];
   for (const command of commands) {
@@ -1422,6 +1436,10 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
 function validationFallbackCommands({ parts, error, cwd, baseBranch }) {
   if (strictTargetValidation) return [];
   if (parts[0] !== "pnpm" || parts[1] !== "check:changed" || parts.length !== 2) return [];
+  if (/no merge base/i.test(String(error?.message ?? ""))) {
+    ensureMergeBaseAvailable({ targetDir: cwd, baseBranch });
+    return [parts];
+  }
   if (!isChangedGateStall(error)) return [];
   const changedTests = changedTestFiles(cwd, baseBranch);
   return [
@@ -1913,11 +1931,38 @@ function branchHasBaseDiff({ targetDir, baseBranch }) {
   throw new Error(retryDetail.trim());
 }
 
+function ensureMergeBaseAvailable({ targetDir, baseBranch }) {
+  run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
+  const baseRef = `origin/${baseBranch}`;
+  const first = spawnSync("git", ["merge-base", baseRef, "HEAD"], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (first.status === 0 && first.stdout.trim()) return first.stdout.trim();
+
+  fetchDeeperHistory({ targetDir, baseBranch });
+  const retry = spawnSync("git", ["merge-base", baseRef, "HEAD"], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (retry.status === 0 && retry.stdout.trim()) return retry.stdout.trim();
+
+  const detail = `${retry.stderr ?? ""}\n${retry.stdout ?? ""}`.trim();
+  throw new Error(detail || `no merge base between ${baseRef} and HEAD`);
+}
+
 function fetchDeeperHistory({ targetDir, baseBranch }) {
-  if (fs.existsSync(path.join(targetDir, ".git", "shallow"))) {
+  const shallow = spawnSync("git", ["rev-parse", "--is-shallow-repository"], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  }).stdout.trim();
+  if (shallow === "true" || fs.existsSync(path.join(targetDir, ".git", "shallow"))) {
     run("git", ["fetch", "--unshallow", "origin"], { cwd: targetDir });
   } else {
-    run("git", ["fetch", "--deepen=1000", "origin"], { cwd: targetDir });
+    run("git", ["fetch", "origin", "--prune"], { cwd: targetDir });
   }
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
 }
