@@ -86,6 +86,11 @@ const allowedRefs = new Set(
     .map((ref) => normalizeIssueRef(ref, result.repo))
     .filter(Boolean),
 );
+const maintainerCloseRefs = new Set(
+  (job.frontmatter.maintainer_close_refs ?? [])
+    .map((ref) => normalizeIssueRef(ref, result.repo))
+    .filter(Boolean),
+);
 
 for (const action of result.actions ?? []) {
   if (!isApplicatorAction(action)) continue;
@@ -226,7 +231,7 @@ function applyCloseAction({
       live_state: live.state,
     };
   }
-  if (MAINTAINER_AUTHOR_ASSOCIATIONS.has(authorAssociation)) {
+  if (MAINTAINER_AUTHOR_ASSOCIATIONS.has(authorAssociation) && !maintainerCloseRefs.has(target)) {
     return {
       ...base,
       status: "blocked",

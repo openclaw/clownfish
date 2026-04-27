@@ -19,6 +19,7 @@ require_human_for:
 canonical:
   - "#55186"
 candidates:
+  - "#59758"
   - "#52120"
   - "#52236"
   - "#55151"
@@ -31,6 +32,7 @@ candidates:
   - "#72305"
   - "#72659"
 cluster_refs:
+  - "#59758"
   - "#52120"
   - "#52236"
   - "#55151"
@@ -46,6 +48,8 @@ security_policy: central_security_only
 security_sensitive: false
 security_override_refs:
   - "#72659"
+maintainer_close_refs:
+  - "#72305"
 allow_instant_close: true
 allow_fix_pr: true
 allow_merge: true
@@ -58,6 +62,7 @@ maintainer_calibration:
   - "Mattermost DM/thread behavior is an ordinary provider bug unless live evidence shows a real security boundary change."
   - "Treat conflicting state, failing checks, missing review preflight, and #72305 overlap as executor repair/finalization work."
   - "If #72659 is viable, rebase/fix/review/merge it; supersede #72305 only after the canonical path is safe."
+  - "2026-04-27 vincentkoc explicitly approved superseding maintainer-authored overlap PR #72305 after #72659 merges."
 ---
 
 # GHCrawl Cluster 156602
@@ -89,6 +94,7 @@ Closed context refs:
 
 Open candidates:
 
+- #59758 Mattermost DM replies go to new Thread instead of main channel
 - #52120 fix(mattermost): inherit thread context in message tool send action
 - #52236 fix(mattermost): persist threadId in delivery context for all session types
 - #55151 fix(mattermost): use inbound root_id to correct non-root replyToId (closes #30977)

@@ -292,6 +292,7 @@ export function validateJob(job) {
     "canonical",
     "candidates",
     "cluster_refs",
+    "maintainer_close_refs",
   ]) {
     if (fm[key] !== undefined && !Array.isArray(fm[key])) {
       errors.push(`${key} must be a list`);
@@ -310,6 +311,11 @@ export function validateJob(job) {
   for (const ref of fm.cluster_refs ?? []) {
     if (!isGithubRef(ref)) {
       errors.push(`cluster_refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
+    }
+  }
+  for (const ref of fm.maintainer_close_refs ?? []) {
+    if (!isGithubRef(ref)) {
+      errors.push(`maintainer_close_refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
     }
   }
   for (const key of [

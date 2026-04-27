@@ -17,8 +17,9 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#50970"
+  - "#46871"
 candidates:
+  - "#46871"
   - "#46895"
   - "#47069"
   - "#50871"
@@ -31,6 +32,7 @@ candidates:
   - "#65772"
   - "#72619"
 cluster_refs:
+  - "#46871"
   - "#46895"
   - "#47069"
   - "#50871"
@@ -89,6 +91,7 @@ Closed context refs:
 
 Open candidates:
 
+- #46871 Nodes list/status mismatch canonical issue
 - #46895 fix(slash): handle /model status locally[AI-assisted]#46894
 - #47069 fix(ui): treat /model status|list|info as info queries, not model names
 - #50871 CLI: include connected nodes in nodes list
