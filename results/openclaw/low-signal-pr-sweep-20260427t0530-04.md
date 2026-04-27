@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "low-signal-pr-sweep-20260427T0530-04"
 mode: "autonomous"
-run_id: "24978254907"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24978254907"
-head_sha: "ef3a582bffe2ffa57be653d2945931140635f43a"
-workflow_conclusion: "failure"
-result_status: "needs_human"
-published_at: "2026-04-27T05:34:23.786Z"
+run_id: "24978436502"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24978436502"
+head_sha: "dc0849b4d1289248c930aee5bbc6c1b559bdacb7"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-04-27T05:40:24.501Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 5
+actions_total: 8
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 2
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24978254907](https://github.com/openclaw/clownfish/actions/runs/24978254907)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24978436502](https://github.com/openclaw/clownfish/actions/runs/24978436502)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-Reviewed the five listed open pull requests under the low-signal PR policy using the hydrated preflight artifact. No close_low_signal actions are safe: #63330 is security-sensitive and must be routed to central security handling; #61203 and #62542 need maintainer judgment rather than low-signal closure; #64179 and #65692 should be kept open as focused, green implementation candidates.
+Low-signal sweep classified the five listed open PRs using the hydrated preflight artifact. No PR satisfies the boringly-clear low-signal close bar: several have green checks, active or recent author/bot keep-open signal, focused implementation value, or require technical/maintainer judgment. Security-sensitive #63330 is quarantined only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 5 |
+| Worker actions | 8 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,13 +66,16 @@ Reviewed the five listed open pull requests under the low-signal PR policy using
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #62542 | needs_human | blocked | needs_human | Not boringly low-signal under the policy because it is a concrete provider/config feature with author follow-up and review findings that require technical correctness judgment. |
-| #64179 | keep_independent | planned | independent | Clear non-close: this is a focused green implementation candidate, not a low-signal cleanup target. |
-| #63330 | route_security | planned | security_sensitive | Quarantine only #63330 and route it to central OpenClaw security handling; do not close, merge, label, comment, or fix through ProjectClownfish. |
-| #61203 | needs_human | blocked | needs_human | Do not close automatically because the PR has green validation and active author follow-up; owner judgment is needed on whether this Docker/runtime change belongs in core. |
-| #65692 | keep_independent | planned | independent | Clear non-close: green focused implementation candidate with a recent keep-open review signal. |
+| #62542 | needs_human | planned | needs_human | Not boringly clear low-signal; needs maintainer/product judgment on whether this provider retry config belongs in core and whether bot findings are resolved. |
+| #64179 | keep_related | planned | related | Recent keep-open automation and green checks block low-signal close; keep open as related implementation work. |
+| #63330 | route_security | planned | security_sensitive | Security-sensitive item is out of scope for ProjectClownfish low-signal cleanup and must route to central OpenClaw security handling. |
+| #61203 | needs_human | planned | needs_human | Risky infra plus green validation and author follow-up is not a boringly-clear low-signal close; maintainer direction is required. |
+| #65692 | keep_related | planned | related | Green checks plus explicit keep-open bot signal and focused implementation value block low-signal closure. |
+| #60951 | keep_closed | skipped | superseded | Already closed context ref. |
+| #63995 | keep_closed | skipped | superseded | Already closed context ref. |
+| #65250 | keep_closed | skipped | related | Already closed context ref. |
 
 ## Needs Human
 
-- #62542: maintainer/product judgment needed for core provider retry configuration and unresolved technical-review confidence; active author follow-up blocks low-signal closure.
-- #61203: owner judgment needed for broad Docker/runtime infrastructure changes because the PR is green and has active author follow-up.
+- #62542: decide whether per-provider retryOnStatus/retry config belongs in OpenClaw core and whether the review-bot findings are sufficiently resolved despite failing checks.
+- #61203: decide whether the broad Docker/macOS runtime infrastructure direction should proceed despite being a risky infra change; green checks and author follow-up block low-signal closure.
