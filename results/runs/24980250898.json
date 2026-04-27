@@ -1,0 +1,184 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156617-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24980250898",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24980250898",
+  "head_sha": "40a5c7418ff46bf3e60da63dc6e2345c96900f78",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156617-autonomous-smoke.md",
+  "published_at": "2026-04-27T06:56:30.087Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/63654",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/63654",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63987",
+  "summary": "Classified the hydrated Qwen Coding Plan qwen3.6-plus cluster without GitHub mutations. #63654 remains the canonical open issue. #63987 is the repairable contributor PR path but is not merge-ready because bot findings and failing checks remain. #66367 is quarantined to central security handling. Already-closed refs are recorded only as skipped historical context. A narrow repair artifact is planned for #63987.",
+  "actions": [
+    {
+      "target": "#63654",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Canonical issue for the non-security explicit opt-in/image-understanding failure."
+    },
+    {
+      "target": "#63987",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63654",
+      "candidate_fix": "#63987",
+      "reason": "Repair the contributor branch before any merge or duplicate closeout."
+    },
+    {
+      "target": "#66367",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#64672",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#69027",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#69274",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#70927",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#70957",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#63654",
+      "candidate_fix": null,
+      "reason": "Already closed; no close or merge action is valid."
+    },
+    {
+      "target": "#19054",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical linked context only."
+    },
+    {
+      "target": "#66095",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related historical context only, not a live duplicate target."
+    },
+    {
+      "target": "cluster:ghcrawl-156617-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#63654",
+      "candidate_fix": "#63987",
+      "reason": "Prepare a narrow repair of #63987 for the deterministic fix executor."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "route_security": 1,
+    "keep_closed": 7,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 7
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "Found 0 warnings and 0 errors.\nFinished in 897ms on 4 files using 4 threads.\n\n> openclaw@2026.4.10 check /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> pnpm check:no-conflict-markers && pnpm tool-display:check && pnpm check:host-env-policy:swift && pnpm tsgo && node scripts/prepare-extension-package-boundary-artifacts.mjs && pnpm lint && pnpm lint:webhook:no-low-level-body-read && pnpm lint:auth:no-pairing-store-group && pnpm lint:auth:pairing-account-scope\n\n\n> openclaw@2026.4.10 check:no-conflict-markers /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node scripts/check-no-conflict-markers.mjs\n\n\n> openclaw@2026.4.10 tool-display:check /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node --import tsx scripts/tool-display.ts --check\n\ntool-display snapshot is up to date\n\n> openclaw@2026.4.10 check:host-env-policy:swift /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node scripts/generate-host-env-security-policy-swift.mjs --check\n\nOK apps/macos/Sources/OpenClaw/HostEnvSecurityPolicy.generated.swift\n\n> openclaw@2026.4.10 tsgo /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node scripts/run-tsgo.mjs\n\n\n> openclaw@2026.4.10 lint /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node scripts/run-oxlint.mjs\n\nFound 0 warnings and 0 errors.\n\n> openclaw@2026.4.10 lint:webhook:no-low-level-body-read /tmp/projectclownfish-fix-4065D4/openclaw-openclaw\n> node scripts/check-webhook-auth-body-order.mjs\n\nFound forbidden low-level body reads in auth-sensitive webhook handlers:\n- extensions/feishu/src/monitor.transport.ts:193\nUse plugin-sdk webhook guards (`readJsonWebhookBodyOrReject` / `readWebhookBodyOrReject`) with explicit pre-auth/post-auth profiles.\n ELIFECYCLE  Command failed with exit code 1.\n ELIFECYCLE  Command failed with exit code 1.",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/72664",
+      "branch": "clownfish/ghcrawl-156617-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/72664"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#72664",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(qwen): allow explicit qwen3.6-plus on Coding Plan",
+      "idempotency_key": null,
+      "reason": "merge state status is UNSTABLE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
