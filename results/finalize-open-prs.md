@@ -1,19 +1,19 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-04-27T01:51:55.736Z
+Generated: 2026-04-27T02:13:19.040Z
 
 ## Summary
 
 | Metric | Count |
 | --- | ---: |
-| open_prs | 18 |
+| open_prs | 17 |
 | ready_candidates | 0 |
 | security_hold | 0 |
 | needs_rebase | 15 |
 | mergeability_unknown | 0 |
 | needs_checks | 9 |
-| needs_review | 10 |
-| needs_merge_preflight | 18 |
+| needs_review | 9 |
+| needs_merge_preflight | 17 |
 | needs_result_backfill | 2 |
 
 ## Open PRs
@@ -36,5 +36,4 @@ Generated: 2026-04-27T01:51:55.736Z
 | [#72328](https://github.com/openclaw/openclaw/pull/72328) | fix(ui): stabilize agent model selection on switch | ghcrawl-165997-agentic-merge | CONFLICTING | DIRTY | SUCCESS:57 SKIPPED:10 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#72326](https://github.com/openclaw/openclaw/pull/72326) | fix(cron): infer session agentId when omitted | ghcrawl-165998-agentic-merge | CONFLICTING | DIRTY | CANCELLED:1 SUCCESS:59 SKIPPED:10 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#72325](https://github.com/openclaw/openclaw/pull/72325) | fix(ui): stabilize WebChat final reload reconciliation | ghcrawl-165991-agentic-merge | CONFLICTING | DIRTY | CANCELLED:2 SUCCESS:58 SKIPPED:10 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#72324](https://github.com/openclaw/openclaw/pull/72324) | fix(gateway): resolve configured thinking default in session rows | ghcrawl-165990-agentic-merge | MERGEABLE | CLEAN | CANCELLED:2 SUCCESS:59 SKIPPED:10 | unresolved review threads remain, needs_merge_preflight | address unresolved human and review-bot comments, then rerun review |
 | [#72305](https://github.com/openclaw/openclaw/pull/72305) | fix(mattermost): prevent DM replies from creating threads | ghcrawl-166016-agentic-merge | CONFLICTING | DIRTY | CANCELLED:2 SUCCESS:57 SKIPPED:9 FAILURE:2; blockers:2 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-agentic-control-plane:FAILURE; CI / checks-node-core:FAILURE, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
