@@ -45,8 +45,27 @@ export function readText(relativePath) {
   return fs.readFileSync(path.join(repoRoot(), relativePath), "utf8");
 }
 
-export function parseJob(filePath) {
+export function resolveJobPath(filePath) {
   const absolute = path.resolve(filePath);
+  if (fs.existsSync(absolute)) return absolute;
+
+  const normalized = String(filePath).replace(/\\/g, "/");
+  const legacy = normalized.match(/(?:^|\/)jobs\/([^/]+)\/([^/]+\.md)$/);
+  if (legacy && !["inbox", "outbox"].includes(legacy[2])) {
+    for (const candidate of [
+      path.join(repoRoot(), "jobs", legacy[1], "inbox", legacy[2]),
+      path.join(repoRoot(), "jobs", legacy[1], "outbox", "finalized", legacy[2]),
+      path.join(repoRoot(), "jobs", legacy[1], "outbox", "stuck", legacy[2]),
+    ]) {
+      if (fs.existsSync(candidate)) return candidate;
+    }
+  }
+
+  return absolute;
+}
+
+export function parseJob(filePath) {
+  const absolute = resolveJobPath(filePath);
   const raw = fs.readFileSync(absolute, "utf8");
   const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!match) {

@@ -8,7 +8,7 @@ import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "ghcrawl", "ghcrawl.db")));
-const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0])));
+const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);

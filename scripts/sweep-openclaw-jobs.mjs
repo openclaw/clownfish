@@ -5,13 +5,15 @@ import { execFileSync } from "node:child_process";
 import { hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
-const jobsDir = path.resolve(String(args.jobs ?? path.join(repoRoot(), "jobs", "openclaw")));
-const outboxDir = path.resolve(String(args.outbox ?? path.join(jobsDir, "outbox", "finalized")));
+const jobsDir = path.resolve(String(args.jobs ?? path.join(repoRoot(), "jobs", "openclaw", "inbox")));
+const outboxDir = path.resolve(String(args.outbox ?? path.join(repoRoot(), "jobs", "openclaw", "outbox", "finalized")));
+const stuckDir = path.resolve(String(args.stuck ?? path.join(repoRoot(), "jobs", "openclaw", "outbox", "stuck")));
 const reportPath = path.resolve(String(args.report ?? path.join(repoRoot(), "results", "openclaw-job-sweep.json")));
 const live = Boolean(args.live);
 const applyDeleteTests = Boolean(args["apply-delete-tests"]);
 const applyOutbox = Boolean(args["apply-outbox"]);
-const dryRun = !applyDeleteTests && !applyOutbox;
+const applyStuck = Boolean(args["apply-stuck"]);
+const dryRun = !applyDeleteTests && !applyOutbox && !applyStuck;
 
 const records = readRunRecords();
 const latestByCluster = latestClusterRecords(records);
@@ -30,6 +32,7 @@ const report = {
   live,
   jobs_dir: path.relative(repoRoot(), jobsDir),
   outbox_dir: path.relative(repoRoot(), outboxDir),
+  stuck_dir: path.relative(repoRoot(), stuckDir),
   active_cluster_runs: activeRuns,
   totals: {
     jobs: rows.length,
@@ -37,15 +40,15 @@ const report = {
   },
   delete_test_jobs: rows.filter((row) => row.status === "delete_test_job").map(publicRow),
   outbox_jobs: rows.filter((row) => row.status === "move_to_outbox").map(publicRow),
+  stuck_jobs: rows.filter((row) => row.status === "move_to_stuck").map(publicRow),
   requeue_candidates: rows.filter((row) => row.status === "requeue_candidate").map(publicRow),
-  unprocessed_jobs: rows.filter((row) => row.status === "unprocessed").map(publicRow),
   active_jobs: rows.filter((row) => row.status === "active").map(publicRow),
   security_hold_jobs: rows.filter((row) => row.status === "security_hold").map(publicRow),
   keep_jobs: rows.filter((row) => row.status === "keep").map(publicRow),
   invalid_jobs: rows.filter((row) => row.status === "invalid").map(publicRow),
 };
 
-if (applyDeleteTests || applyOutbox) applyActions(rows);
+if (applyDeleteTests || applyOutbox || applyStuck) applyActions(rows);
 
 fs.mkdirSync(path.dirname(reportPath), { recursive: true });
 fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -96,7 +99,7 @@ function classifyJob(jobPath) {
     return { ...row, status: "delete_test_job", reason: "old smoke/test job has a published result and no open clownfish PR" };
   }
   if (!latest) {
-    return { ...row, status: "unprocessed", reason: "no published run record found" };
+    return { ...row, status: "move_to_stuck", reason: "no published run record found" };
   }
   if (needsRequeue(latest)) {
     return { ...row, status: "requeue_candidate", reason: requeueReason(latest) };
@@ -163,6 +166,12 @@ function applyActions(classifiedRows) {
     if (applyOutbox && row.status === "move_to_outbox") {
       fs.mkdirSync(outboxDir, { recursive: true });
       const destination = path.join(outboxDir, path.basename(row.job));
+      fs.renameSync(absolute, destination);
+      row.applied = `moved:${path.relative(repoRoot(), destination)}`;
+    }
+    if (applyStuck && row.status === "move_to_stuck") {
+      fs.mkdirSync(stuckDir, { recursive: true });
+      const destination = path.join(stuckDir, path.basename(row.job));
       fs.renameSync(absolute, destination);
       row.applied = `moved:${path.relative(repoRoot(), destination)}`;
     }
@@ -291,8 +300,8 @@ function writeMarkdownReport(report, filePath) {
   const sections = [
     ["Delete Test Jobs", report.delete_test_jobs],
     ["Move To Outbox", report.outbox_jobs],
+    ["Move To Stuck Queue", report.stuck_jobs],
     ["Requeue Candidates", report.requeue_candidates],
-    ["Unprocessed Jobs", report.unprocessed_jobs],
     ["Active Jobs", report.active_jobs],
     ["Security Hold Jobs", report.security_hold_jobs],
     ["Invalid Jobs", report.invalid_jobs],
@@ -306,8 +315,8 @@ Mode: ${report.status}
 | Jobs | ${report.totals.jobs ?? 0} |
 | Delete test jobs | ${report.totals.delete_test_job ?? 0} |
 | Move to outbox | ${report.totals.move_to_outbox ?? 0} |
+| Move to stuck queue | ${report.totals.move_to_stuck ?? 0} |
 | Requeue candidates | ${report.totals.requeue_candidate ?? 0} |
-| Unprocessed | ${report.totals.unprocessed ?? 0} |
 | Active | ${report.totals.active ?? 0} |
 | Security hold | ${report.totals.security_hold ?? 0} |
 | Invalid | ${report.totals.invalid ?? 0} |

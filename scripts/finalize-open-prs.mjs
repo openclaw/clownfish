@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
+import { hasSecuritySignalText, parseArgs, repoRoot, resolveJobPath } from "./lib.mjs";
 
 const DEFAULT_TARGET_REPO = "openclaw/openclaw";
 const DEFAULT_HEAD_PREFIX = "clownfish/";
@@ -380,8 +380,16 @@ function loadPublishedRecords() {
 }
 
 function existingJobPath(clusterId) {
-  const relative = path.join("jobs", "openclaw", `${clusterId}.md`);
-  return fs.existsSync(path.join(repoRoot(), relative)) ? relative : null;
+  for (const relative of [
+    path.join("jobs", "openclaw", "inbox", `${clusterId}.md`),
+    path.join("jobs", "openclaw", `${clusterId}.md`),
+    path.join("jobs", "openclaw", "outbox", "finalized", `${clusterId}.md`),
+    path.join("jobs", "openclaw", "outbox", "stuck", `${clusterId}.md`),
+  ]) {
+    const resolved = resolveJobPath(relative);
+    if (fs.existsSync(resolved)) return path.relative(repoRoot(), resolved);
+  }
+  return null;
 }
 
 function clusterIdFromBranch(branch) {

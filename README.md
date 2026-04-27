@@ -147,13 +147,13 @@ Requires Node 24.
 npm run validate
 
 # Render a plan-mode prompt without running Codex.
-npm run render -- jobs/openclaw/cluster-example.md --mode plan
+npm run render -- jobs/openclaw/inbox/cluster-example.md --mode plan
 
 # Dry-run a worker without calling Codex.
-npm run worker -- jobs/openclaw/cluster-example.md --mode plan --dry-run
+npm run worker -- jobs/openclaw/inbox/cluster-example.md --mode plan --dry-run
 
 # Build an offline autonomous cluster/fix artifact.
-npm run build-fix-artifact -- jobs/openclaw/autonomous-example.md --offline
+npm run build-fix-artifact -- jobs/openclaw/inbox/autonomous-example.md --offline
 
 # Stage low-signal PR sweep jobs from local ghcrawl data.
 npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort stale
@@ -177,7 +177,7 @@ npm run requeue -- 24947178021 --execute --open-execute-window \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Execute a reviewed fix artifact locally. Requires both execution gates and a write token.
-CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/openclaw/cluster-example.md --latest --dry-run
+CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/openclaw/inbox/cluster-example.md --latest --dry-run
 
 # Rebuild the open Clownfish PR finalization report without mutating GitHub.
 npm run finalize-open-prs -- --write-report
@@ -186,9 +186,16 @@ npm run finalize-open-prs -- --write-report
 # jobs, and requeue candidates without deleting, moving, or dispatching.
 npm run sweep-openclaw-jobs -- --live
 
-# Apply reviewed job hygiene. This deletes old smoke jobs and moves finalized
-# jobs to jobs/openclaw/outbox/finalized; it never dispatches workers.
-npm run sweep-openclaw-jobs -- --live --apply-delete-tests --apply-outbox
+# Apply reviewed job hygiene. This deletes old smoke jobs, moves finalized jobs
+# to jobs/openclaw/outbox/finalized, and parks never-run backlog in
+# jobs/openclaw/outbox/stuck; it never dispatches workers.
+npm run sweep-openclaw-jobs -- --live --apply-delete-tests --apply-outbox --apply-stuck
+
+# Dry-run a small parked-backlog promotion from outbox/stuck back into inbox.
+npm run promote-stuck-jobs -- --limit 20
+
+# Promote a reviewed parked-backlog batch into the active queue.
+npm run promote-stuck-jobs -- --limit 20 --apply
 
 # Dry-run the Clownfish label backfill. This verifies live GitHub state and
 # reports the exact PRs/issues that would receive the "clownfish" label.
