@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207038-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24977043657",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24977043657",
+  "head_sha": "50a0b51ad3e3cfffa74443fc81bf0c842f9747bf",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/ghcrawl-207038-agentic-merge.md",
+  "published_at": "2026-04-27T04:49:07.510Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/42009",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42009",
+  "summary": "Classified the hydrated cluster without direct GitHub mutation. #42009 remains the best canonical open PR for the original --agent + --to bug, but no merge is recommended because merge preflight is incomplete. Default-agent --to/session-key items form a related subfamily: #56370/#56453/#63992 stay open, #64108 is already superseded/closed, and security-sensitive replacement PR #72414 is quarantined. Already-closed refs are not targeted for closure.",
+  "actions": [
+    {
+      "target": "#30654",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated ref must be routed to central OpenClaw security handling, not processed by ProjectClownfish mutation."
+    },
+    {
+      "target": "#42009",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42009",
+      "candidate_fix": null,
+      "reason": "Best canonical for the representative bug, but merge is not recommended until the branch is refreshed/reviewed and merge_preflight is populated."
+    },
+    {
+      "target": "#56370",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42009",
+      "candidate_fix": "#56453",
+      "reason": "Related default-agent routing issue should remain open until a non-security canonical fix lands or security triage resolves #72414."
+    },
+    {
+      "target": "#56453",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42009",
+      "candidate_fix": null,
+      "reason": "Useful related PR, but not the canonical PR for the representative #42009 bug and not merge-preflighted in this run."
+    },
+    {
+      "target": "#60614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive close actions."
+    },
+    {
+      "target": "#60621",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed PR; no close action permitted."
+    },
+    {
+      "target": "#63992",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42009",
+      "candidate_fix": null,
+      "reason": "Keep the issue open while the security-sensitive replacement PR is routed to central security handling."
+    },
+    {
+      "target": "#64108",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by a replacement path; no further closure action is valid."
+    },
+    {
+      "target": "#72414",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be routed to central OpenClaw security handling; continue non-security classification only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
