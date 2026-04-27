@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-199270-agentic-merge"
 mode: "autonomous"
-run_id: "24978966408"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24978966408"
-head_sha: "29400ea714d617de4455a11f0aa59ca745bf6cda"
+run_id: "24979716608"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24979716608"
+head_sha: "8806d2971f220668a5fdb92adf8595525bd6678b"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T06:06:40.572Z"
+published_at: "2026-04-27T06:23:08.917Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72389"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72389"
-actions_total: 8
+actions_total: 7
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24978966408](https://github.com/openclaw/clownfish/actions/runs/24978966408)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24979716608](https://github.com/openclaw/clownfish/actions/runs/24979716608)
 
 Workflow conclusion: success
 
@@ -35,18 +35,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/72389
 
 ## Summary
 
-Canonical path is the already-open ProjectClownfish replacement PR #72389 for #52745, but it is not merge-ready: checks are failing and Greptile has an actionable P2 review finding. No close or merge action is safe in this pass. #69026 is related watchdog UX work, not the same orphan-final stale streaming root cause.
+Using projectclownfish-cluster-worker: the hydrated artifact shows the original representative #52745 is already closed and replaced by #72389. No GitHub mutations are safe to plan yet because the current replacement PR has failing checks and an unresolved Greptile P2 review finding; #69026 is related watchdog UX work, not the same canonical fix.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 8 |
+| Worker actions | 7 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,26 +54,25 @@ Canonical path is the already-open ProjectClownfish replacement PR #72389 for #5
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72389 | clownfish/ghcrawl-199270-agentic-merge |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72389 | merge_canonical | blocked | fix_pr | merge state status is UNSTABLE |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72389 | keep_canonical | blocked | canonical | Open canonical replacement exists but cannot be merged until checks pass and the Greptile pending-history-refresh finding is addressed. |
-| cluster:ghcrawl-199270-agentic-merge | fix_needed | planned | canonical | Repair #72389 before any merge or post-merge closeout. |
-| cluster:ghcrawl-199270-agentic-merge | build_fix_artifact | planned |  | A narrow repair artifact is needed for the existing replacement branch. |
-| #52745 | keep_closed | skipped | superseded | Already closed; historical source PR for replacement #72389. |
-| #59582 | keep_closed | skipped | fixed_by_candidate | Already closed as superseded by merged #60043; no mutation target remains. |
-| #66289 | keep_closed | skipped | superseded | Already closed as overlapping/superseded by current main behavior. |
-| #67302 | keep_closed | skipped | related | Already closed; related TUI status area but not the current canonical repair path. |
-| #69026 | keep_related | planned | related | Keep open as related but independent watchdog UX work; do not merge or close it as part of the orphan-final canonical path. |
+| #52745 | keep_closed | skipped | superseded | Already closed; replacement path is #72389. |
+| #59582 | keep_closed | skipped | superseded | Already closed as superseded by merged gateway fix #60043. |
+| #66289 | keep_closed | skipped | superseded | Already closed; historical overlapping work only. |
+| #67302 | keep_closed | skipped | superseded | Already closed; historical overlapping work only. |
+| #69026 | keep_related | planned | related | Related watchdog UX work with unresolved review feedback; not a duplicate of the canonical orphaned-final fix. |
+| #72389 | fix_needed | blocked | canonical | Canonical replacement PR exists but is not merge-ready because checks fail and an actionable bot review finding remains unresolved. |
+| cluster:ghcrawl-199270-agentic-merge | build_fix_artifact | blocked | canonical | Implementation is blocked in this worker by unavailable target checkout; canonical branch repair remains the correct path. |
 
 ## Needs Human
 
