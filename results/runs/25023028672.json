@@ -1,0 +1,139 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156661-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023028672",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023028672",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156661-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:36:54.506Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/40602",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/40602",
+  "summary": "Classified the hydrated cluster without GitHub mutations. #40602 remains the representative canonical bug-fix PR, but it is not merge-ready because mergeability is unknown, CI has failing buckets, and merge preflight/Codex review proof is missing. Security-sensitive #40697 is quarantined. The remaining Feishu Bitable PRs/issues are related or independent follow-up work, not duplicates of #40602.",
+  "actions": [
+    {
+      "target": "#40602",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40602",
+      "candidate_fix": "#40602",
+      "reason": "Canonical PR is useful and repairable, but not merge-ready."
+    },
+    {
+      "target": "cluster:ghcrawl-156661-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#40602",
+      "candidate_fix": "#40602",
+      "reason": "Canonical bug still appears real on main, but merge gates are not satisfied."
+    },
+    {
+      "target": "cluster:ghcrawl-156661-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#40602",
+      "candidate_fix": "#40602",
+      "reason": "Autonomous mode requires an executable repair plan when the canonical PR is useful but not merge-ready."
+    },
+    {
+      "target": "#40697",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish backlog cleanup scope."
+    },
+    {
+      "target": "#41324",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same plugin area, different user-visible behavior and different unresolved review work."
+    },
+    {
+      "target": "#41368",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Feishu Bitable feature work should remain in a separate follow-up path."
+    },
+    {
+      "target": "#55654",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related follow-up tracker; do not close before a delete_record fix lands."
+    },
+    {
+      "target": "#62187",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different feature surface and unresolved review findings; not part of this canonical cleanup fix."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "route_security": 1,
+    "keep_related": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/feishu/src/bitable.test.ts: extension test [check:changed] extensions/feishu/src/bitable.ts: extension production [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck extensions [check:changed] typecheck extension tests [check:changed] lint extensions [check:changed] summary 477ms ok conflict markers 186ms ok changelog attributions 202ms ok guarded extension wildcard re-exports 196ms ok plugin-sdk wildcard re-exports 1.72s ok typecheck extensions 2.05s ok typecheck extension tests 17.43s failed:1 lint extensions",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/feishu/src/bitable.test.ts: extension test [check:changed] extensions/feishu/src/bitable.ts: extension production [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck extensions [check:changed] typecheck extension tests [check:changed] lint extensions [check:changed] summary 477ms ok conflict markers 186ms ok changelog attributions 202ms ok guarded extension wildcard re-exports 196ms ok plugin-sdk wildcard re-exports 1.72s ok typecheck extensions 2.05s ok typecheck extension tests 17.43s failed:1 lint extensions",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
