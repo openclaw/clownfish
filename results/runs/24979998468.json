@@ -1,0 +1,217 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156597-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24979998468",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24979998468",
+  "head_sha": "83a7148bc5de8d1cf6f53dc784229962ebfcf20a",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156597-autonomous-smoke.md",
+  "published_at": "2026-04-27T06:43:04.963Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/44417",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/44417",
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows the original representative #39673 is now closed, so the best surviving non-security canonical is #44417 for the user-systemd false-unavailable/SUDO_USER failure family. #52293 is explicitly security-sensitive and is quarantined only. No merge is recommended. Closures that depend on the still-unlanded #44417 fix path are blocked by require_fix_before_close; a narrow credited replacement fix artifact is planned because #42051 is closed, uneditable, and review-blocked.",
+  "actions": [
+    {
+      "target": "#39673",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Closed representative cannot remain the live canonical target; classify it as historical duplicate evidence for #44417."
+    },
+    {
+      "target": "#42025",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Already closed; related to the user-systemd install family but not an open mutation target."
+    },
+    {
+      "target": "#44070",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Already closed; transport-endpoint handling is adjacent but the open linked PR is quarantined."
+    },
+    {
+      "target": "#44417",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical issue after #39673 closed."
+    },
+    {
+      "target": "#54429",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; no further action."
+    },
+    {
+      "target": "#54517",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Already closed as implemented/stale against current main; no mutation target."
+    },
+    {
+      "target": "#62763",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62764",
+      "candidate_fix": null,
+      "reason": "Related follow-up from the same doctor --fix run; should not be closed or folded into the gateway install canonical."
+    },
+    {
+      "target": "#62764",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Related systemd ownership bug, not a true duplicate of the gateway install false-unavailable canonical."
+    },
+    {
+      "target": "#63561",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Blocked by require_fix_before_close until a #44417 fix PR exists or lands."
+    },
+    {
+      "target": "#65184",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65184",
+      "candidate_fix": null,
+      "reason": "Already closed as fixed on main."
+    },
+    {
+      "target": "#52293",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must not be closed, merged, labeled, commented on, or used as the ProjectClownfish fix path."
+    },
+    {
+      "target": "cluster:ghcrawl-156597-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "A narrow credited replacement fix is needed for the non-security #44417/#63561 user-systemd false-unavailable failure family."
+    },
+    {
+      "target": "cluster:ghcrawl-156597-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Build a replacement fix plan that the deterministic executor can apply after preparing a target checkout."
+    },
+    {
+      "target": "cluster:ghcrawl-156597-autonomous-smoke",
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked on executor target checkout preparation; classifications and fix artifact remain usable."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 6,
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "close_duplicate": 1,
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "skipped": 6,
+    "planned": 6,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/72655",
+      "branch": "clownfish/ghcrawl-156597-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/72655"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#63561",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#44417",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "projectclownfish:ghcrawl-156597-autonomous-smoke:#63561:close_duplicate:#44417:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72655",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(daemon): handle sudo user-systemd gateway install failures",
+      "idempotency_key": null,
+      "reason": "security-sensitive PR requires central security triage",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
