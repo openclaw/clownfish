@@ -2,32 +2,32 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-165991-agentic-merge"
 mode: "autonomous"
-run_id: "24979722928"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24979722928"
-head_sha: "8806d2971f220668a5fdb92adf8595525bd6678b"
-workflow_conclusion: "failure"
+run_id: "24980392987"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24980392987"
+head_sha: "10c52dcaaf91ba6802be70c6d756cb0498976e55"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T06:34:01.686Z"
+published_at: "2026-04-27T06:43:40.803Z"
 canonical: "https://github.com/openclaw/openclaw/issues/66875"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/66875"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/72325"
-actions_total: 20
+canonical_pr: null
+actions_total: 18
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # ghcrawl-165991-agentic-merge
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24979722928](https://github.com/openclaw/clownfish/actions/runs/24979722928)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24980392987](https://github.com/openclaw/clownfish/actions/runs/24980392987)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -35,20 +35,20 @@ Canonical: https://github.com/openclaw/openclaw/issues/66875
 
 ## Summary
 
-Hydrated state shows the original representative #66597 is already closed. The live canonical issue is #66875 for the remaining WebChat final-event reconciliation race, with open maintainer PR #72325 as the current canonical fix path. No GitHub mutations are executed by the worker. Merge/closeout should wait until #72325 addresses the remaining Greptile P2 note and gets a clean Codex /review; #51497 is a separate persisted-session/token-accounting loss report and should stay open independently.
+Hydrated preflight shows the original representative #66597 is already closed. The surviving non-security canonical issue is #66875 for the remaining WebChat final/session.message reconciliation race. The open implementation PR #72325 is hydrated but security-sensitive due an Aisle security finding, so it is routed to central security triage and no merge, fixed-by-candidate closeout, or post-merge closeout is planned. #51497 is related but not a duplicate because it reports session transcript/token-accounting divergence rather than the UI reload/flicker race.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 20 |
+| Worker actions | 18 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,27 +66,25 @@ Hydrated state shows the original representative #66597 is already closed. The l
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #1 | route_security | planned | security_sensitive | Hydrated linked PR contains security-sensitive handling claims and is outside ProjectClownfish mutation scope. |
-| #3 | route_security | planned | security_sensitive | Hydrated linked issue is marked security-sensitive by preflight and should route to central OpenClaw security handling only. |
-| #44491 | keep_closed | skipped | related | Closed historical evidence only; no closure action is valid for an already-closed issue. |
-| #49777 | keep_closed | skipped | related | Closed historical evidence only; no closure action is valid for an already-closed issue. |
-| #51497 | keep_independent | planned | independent | This is a separate data persistence/token-accounting loss report with unique evidence and should not be closed or routed through the WebChat flicker canonical. |
-| #66176 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #66274 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #66597 | keep_closed | skipped | fixed_by_candidate | The representative is obsolete because it is closed; it remains historical evidence, not the live canonical. |
-| #66598 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #66762 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #66875 | keep_canonical | planned | canonical | This is the best live canonical issue for the remaining WebChat final-event reconciliation race. Closeout is blocked until #72325 or an equivalent fix lands. |
-| #67028 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #67081 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #67412 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #67582 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no worker closeout action is valid. |
-| #66997 | keep_closed | skipped | fixed_by_candidate | Closed merged source fix; retain for credit and evidence only. |
-| #67037 | keep_closed | skipped | superseded | Already closed as superseded/implemented; no worker closeout action is valid. |
-| #67271 | keep_closed | skipped | independent | Closed unrelated/broad PR evidence only; no cluster action. |
-| #72325 | fix_needed | planned | canonical | Canonical PR exists but is not merge-ready until the Greptile P2 finding is addressed or proven non-actionable and Codex /review passes cleanly. |
-| cluster:ghcrawl-165991-agentic-merge | build_fix_artifact | planned | fixed_by_candidate | A concrete canonical fix path exists but needs a small repair/review pass before merge or issue closeout. |
+| #1 | route_security | planned | security_sensitive | Security-sensitive linked ref is quarantined to central OpenClaw security handling. |
+| #3 | route_security | planned | security_sensitive | Security-sensitive linked ref is quarantined to central OpenClaw security handling. |
+| #44491 | keep_closed | skipped | related | Closed historical candidate; no close action is valid. |
+| #49777 | keep_closed | skipped | related | Closed historical candidate; no close action is valid. |
+| #51497 | keep_related | planned | related | Related WebChat/session disappearance report, but not a true duplicate and not safe to close under the #66875 canonical path. |
+| #66176 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #66274 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #66597 | keep_closed | skipped | fixed_by_candidate | Representative drifted closed; use open #66875 as surviving canonical issue. |
+| #66598 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #66762 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #66875 | keep_canonical | planned | canonical | Best surviving non-security canonical issue for the remaining WebChat final reconciliation race. |
+| #66997 | keep_closed | skipped | related | Historical merged partial fix; not a live merge or close target. |
+| #67028 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #67037 | keep_closed | skipped | superseded | Closed contributor PR is historical evidence only and has already been superseded. |
+| #67081 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #67412 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #67582 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action against closed targets. |
+| #72325 | route_security | planned | security_sensitive | Open candidate fix is quarantined to central OpenClaw security handling; no merge, fixed-by-candidate closeout, or post-merge closeout is planned. |
 
 ## Needs Human
 
-- none
+- #72325 requires central OpenClaw security triage because the hydrated Aisle security analysis flagged a Medium UI message integrity risk; ProjectClownfish must not merge or use it for fixed-by-candidate closeout until cleared.
