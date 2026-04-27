@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156671-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023044075",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023044075",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156671-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:40:56.713Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/68853",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/68853",
+  "summary": "Hydrated state shows the original representative #46869 is already closed as implemented. The best current non-security canonical path is repair of open PR #68853 for the SIGUSR1/supervisor-handoff restart path. Security-sensitive PR #63651 is quarantined only for central security handling. #52487 remains related Windows scheduled-task race work with insufficient hydrated merged-fix ref for safe closeout, and #69056 is blocked from closeout until the #68853 repair path lands or is rejected.",
+  "actions": [
+    {
+      "target": "#46869",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#68853",
+      "candidate_fix": null,
+      "reason": "Already closed; retained only as historical evidence because the job canonical hint is obsolete."
+    },
+    {
+      "target": "#52487",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68853",
+      "candidate_fix": null,
+      "reason": "Same Windows restart family, but not the canonical SIGUSR1 fix path and not safely closable without a hydrated merged fix ref."
+    },
+    {
+      "target": "#63651",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Contains security-shaped browser CDP/SSRF policy changes and is explicitly security-sensitive in the hydrated artifact; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#68853",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68853",
+      "candidate_fix": "#68853",
+      "reason": "Repair the contributor branch before any merge: rebase if needed, run Codex /review, verify the bot finding is resolved, run focused tests plus `pnpm check:changed`, and only then merge if clean."
+    },
+    {
+      "target": "#69056",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#68853",
+      "candidate_fix": "#68853",
+      "reason": "Blocked on the canonical fix path #68853; do not close an active contributor PR until the replacement/repair path is explicit and landed."
+    },
+    {
+      "target": "cluster:ghcrawl-156671-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#68853",
+      "candidate_fix": "#68853",
+      "reason": "Create an executable repair plan for the canonical contributor PR branch instead of recommending merge without merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "fix_needed": 1,
+    "close_superseded": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/68853",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#69056",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#68853",
+      "candidate_fix": "#68853",
+      "title": null,
+      "idempotency_key": "ghcrawl-156671-autonomous-smoke:#69056:close_superseded_blocked_on_68853:2026-04-27T16:32:54Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#68853",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(gateway): SIGUSR1 restart fast path that doesn't break Windows schtasks",
+      "idempotency_key": null,
+      "reason": "no PR checks found",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
