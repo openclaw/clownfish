@@ -1,0 +1,199 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156608-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24981378177",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24981378177",
+  "head_sha": "e0fb289dbbb528ad94fac3d2036800e925923c24",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156608-autonomous-smoke.md",
+  "published_at": "2026-04-27T07:12:04.117Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/13175",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/13175",
+  "canonical_pr": null,
+  "summary": "Hydrated state keeps #13175 as the broad canonical Feishu interactive-card/buttons issue. The cluster is over-broad, with separate inbound parsing, outbound message-tool, fallback parsing, and exec-approval card subfamilies. No merge or close action is safe in this run because require_fix_before_close is set, no canonical fix has landed in this run, and useful PRs have failing checks, unresolved bot findings, broad churn, or need narrower repair. #42218 is quarantined as the only security-sensitive ref.",
+  "actions": [
+    {
+      "target": "#13175",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#13175",
+      "candidate_fix": null,
+      "reason": "Best broad canonical for the cluster; keep open."
+    },
+    {
+      "target": "#41607",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#41609",
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#41609",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#13175",
+      "candidate_fix": "#56795",
+      "reason": "Related subfamily with unique inbound parsing scope; keep open."
+    },
+    {
+      "target": "#42218",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be routed to central OpenClaw security handling and not handled by ProjectClownfish mutation."
+    },
+    {
+      "target": "#45936",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41609",
+      "candidate_fix": "#56795",
+      "reason": "Useful but too broad and not merge-ready; keep related instead of closing until a replacement or repaired canonical fix exists."
+    },
+    {
+      "target": "#47891",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#58298",
+      "candidate_fix": null,
+      "reason": "Already closed; replacement PR is unhydrated evidence only."
+    },
+    {
+      "target": "#48281",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#41609",
+      "candidate_fix": "#56795",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#56795",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#41609",
+      "candidate_fix": "#56795",
+      "reason": "Useful contributor PR should be repaired before any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#58298",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#13175",
+      "candidate_fix": null,
+      "reason": "Related provider capability gap with unique outbound-tool scope; keep open."
+    },
+    {
+      "target": "#58983",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#60328",
+      "candidate_fix": "#60328",
+      "reason": "Already closed; #60328 remains the related open implementation path but is not merge-ready."
+    },
+    {
+      "target": "#60328",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#13175",
+      "candidate_fix": "#60328",
+      "reason": "Real related feature path, but failing checks, unresolved bot findings, and broad_code_delta block autonomous merge or repair in this cluster."
+    },
+    {
+      "target": "#60380",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41609",
+      "candidate_fix": "#60383",
+      "reason": "Related narrow bug; keep open until #60383 or another fix is repaired and validated."
+    },
+    {
+      "target": "#60383",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60380",
+      "candidate_fix": "#60383",
+      "reason": "Useful contributor PR should be repaired and revalidated before merge or closeout."
+    },
+    {
+      "target": "#63170",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#60328",
+      "candidate_fix": "#60328",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#69860",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#60328",
+      "candidate_fix": "#60328",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "cluster:ghcrawl-156608-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#13175",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked on splitting the cluster into narrow repair/fix jobs."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 6,
+    "keep_related": 4,
+    "route_security": 1,
+    "fix_needed": 3,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 6,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "skipped": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "skipped",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "needs_human",
+      "reason": "worker marked the fix path as non-executable; closure actions may still apply",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
