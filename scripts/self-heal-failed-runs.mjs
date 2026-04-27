@@ -2,7 +2,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
-import { currentProjectRepo, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import {
+  assertLiveWorkerCapacity,
+  currentProjectRepo,
+  parseArgs,
+  parseJob,
+  readMaxLiveWorkers,
+  repoRoot,
+  validateJob,
+  waitForLiveWorkerCapacity,
+} from "./lib.mjs";
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
@@ -17,6 +26,8 @@ const runner = String(args.runner ?? DEFAULT_RUNNER);
 const executionRunner = String(args["execution-runner"] ?? args.execution_runner ?? DEFAULT_EXECUTION_RUNNER);
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const maxJobs = Number(args["max-jobs"] ?? args.limit ?? 5);
+const maxLiveWorkers = readMaxLiveWorkers(args);
+const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const execute = Boolean(args.execute);
 const openExecuteWindow = Boolean(args["open-execute-window"] || args.live);
 const allowRepeat = Boolean(args["allow-repeat"]);
@@ -35,6 +46,7 @@ const summary = {
   execution_runner: executionRunner,
   model,
   max_jobs: maxJobs,
+  max_live_workers: maxLiveWorkers,
   candidates: candidates.map((candidate) => summarizeCandidate(candidate)),
 };
 
@@ -77,6 +89,10 @@ try {
   } else {
     assertExecuteGateOpenIfNeeded(candidates);
   }
+
+  summary.live_worker_capacity_before_dispatch = waitForCapacity
+    ? waitForLiveWorkerCapacity({ repo, workflow, requested: candidates.length, maxLiveWorkers })
+    : assertLiveWorkerCapacity({ repo, workflow, requested: candidates.length, maxLiveWorkers });
 
   for (let i = 0; i < candidates.length; i += 1) {
     dispatchCandidate(candidates[i]);

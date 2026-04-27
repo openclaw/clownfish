@@ -3,7 +3,16 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
-import { currentProjectRepo, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import {
+  assertLiveWorkerCapacity,
+  currentProjectRepo,
+  parseArgs,
+  parseJob,
+  readMaxLiveWorkers,
+  repoRoot,
+  validateJob,
+  waitForLiveWorkerCapacity,
+} from "./lib.mjs";
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
@@ -17,6 +26,8 @@ const workflow = String(args.workflow ?? DEFAULT_WORKFLOW);
 const runner = String(args.runner ?? DEFAULT_RUNNER);
 const executionRunner = String(args["execution-runner"] ?? args.execution_runner ?? DEFAULT_EXECUTION_RUNNER);
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
+const maxLiveWorkers = readMaxLiveWorkers(args);
+const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const execute = Boolean(args.execute || args.live);
 const openExecuteWindow = Boolean(args["open-execute-window"] || args.live);
 const requestedMode = typeof args.mode === "string" ? args.mode : null;
@@ -28,7 +39,7 @@ const resolved = requestedRunId
 
 if (!resolved.source_job) {
   console.error(
-    "usage: node scripts/requeue-job.mjs <job.md|run-id> [--mode plan|execute|autonomous] [--execute] [--open-execute-window] [--runner label] [--execution-runner label] [--model model]",
+    "usage: node scripts/requeue-job.mjs <job.md|run-id> [--mode plan|execute|autonomous] [--execute] [--open-execute-window] [--runner label] [--execution-runner label] [--model model] [--max-live-workers 50] [--wait-for-capacity]",
   );
   process.exit(2);
 }
@@ -56,6 +67,7 @@ const summary = {
   runner,
   execution_runner: executionRunner,
   model,
+  max_live_workers: maxLiveWorkers,
 };
 
 if (!execute) {
@@ -76,6 +88,9 @@ try {
   }
 
   assertGateOpenIfNeeded(mode);
+  summary.live_worker_capacity_before_dispatch = waitForCapacity
+    ? waitForLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers })
+    : assertLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers });
   dispatchJob(job.relativePath, mode);
   const observedRuns = waitForStartedRuns({ headSha, since: dispatchStartedAt, expectedCount: 1 });
 

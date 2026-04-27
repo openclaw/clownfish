@@ -6,6 +6,10 @@ const SECURITY_SIGNAL_PATTERN =
   /\b(vulnerabilit(?:y|ies)|cve-\d+|ghsa|advisory|exploit|ssrf|xss|csrf|rce|(?:sql|command|code|prompt)\s*injection|auth(?:entication)?\s*bypass|privilege\s+escalation|sensitive\s+data|security\s+(?:issue|bug|fix|patch|advisory|triage|review)|(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token).{0,80}(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text)|(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text).{0,80}(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token))\b/i;
 const PROMPT_ARTIFACT_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_ARTIFACT_MAX_CHARS ?? 320_000);
 const PROMPT_STRING_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_STRING_MAX_CHARS ?? 700);
+const DEFAULT_MAX_LIVE_WORKERS = 50;
+const DEFAULT_CAPACITY_POLL_MS = 30_000;
+const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
+const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];
 
 export function repoRoot() {
   return path.resolve(import.meta.dirname, "..");
@@ -24,6 +28,102 @@ export function githubActionsRunUrl(runId) {
   return `https://github.com/${currentProjectRepo()}/actions/runs/${runId}`;
 }
 
+export function readMaxLiveWorkers(args = {}) {
+  return readPositiveInteger(
+    args["max-live-workers"] ?? args.max_live_workers ?? process.env.CLOWNFISH_MAX_LIVE_WORKERS ?? DEFAULT_MAX_LIVE_WORKERS,
+    "max-live-workers",
+  );
+}
+
+export function liveWorkerCapacity({
+  repo = currentProjectRepo(),
+  workflow = "cluster-worker.yml",
+  requested = 1,
+  maxLiveWorkers = DEFAULT_MAX_LIVE_WORKERS,
+} = {}) {
+  const requestedCount = readNonNegativeInteger(requested, "requested");
+  const max = readPositiveInteger(maxLiveWorkers, "max-live-workers");
+  const activeRuns = listActiveWorkflowRuns({ repo, workflow });
+  return {
+    repo,
+    workflow,
+    active: activeRuns.length,
+    requested: requestedCount,
+    max_live_workers: max,
+    available: Math.max(0, max - activeRuns.length),
+    active_runs: activeRuns,
+  };
+}
+
+export function assertLiveWorkerCapacity(options = {}) {
+  const capacity = liveWorkerCapacity(options);
+  if (capacity.requested > capacity.max_live_workers) {
+    throw new Error(
+      `refusing dispatch: requested ${capacity.requested} ${capacity.workflow} workers exceeds max-live-workers=${capacity.max_live_workers}`,
+    );
+  }
+  if (capacity.active + capacity.requested > capacity.max_live_workers) {
+    throw new Error(
+      `refusing dispatch: ${capacity.active} active ${capacity.workflow} workers + ${capacity.requested} requested would exceed max-live-workers=${capacity.max_live_workers}`,
+    );
+  }
+  return capacity;
+}
+
+export function waitForLiveWorkerCapacity(options = {}) {
+  const requestedCount = readNonNegativeInteger(options.requested ?? 1, "requested");
+  const max = readPositiveInteger(options.maxLiveWorkers ?? DEFAULT_MAX_LIVE_WORKERS, "max-live-workers");
+  if (requestedCount > max) {
+    throw new Error(
+      `refusing dispatch: requested ${requestedCount} ${options.workflow ?? "cluster-worker.yml"} workers exceeds max-live-workers=${max}`,
+    );
+  }
+  const pollMs = readPositiveInteger(
+    options.pollMs ?? process.env.CLOWNFISH_LIVE_WORKER_CAPACITY_POLL_MS ?? DEFAULT_CAPACITY_POLL_MS,
+    "capacity poll ms",
+  );
+  const timeoutMs = readPositiveInteger(
+    options.timeoutMs ?? process.env.CLOWNFISH_LIVE_WORKER_CAPACITY_TIMEOUT_MS ?? DEFAULT_CAPACITY_TIMEOUT_MS,
+    "capacity timeout ms",
+  );
+  const deadline = Date.now() + timeoutMs;
+  let latest = null;
+
+  while (Date.now() <= deadline) {
+    latest = liveWorkerCapacity(options);
+    if (latest.requested <= latest.max_live_workers && latest.active + latest.requested <= latest.max_live_workers) {
+      return latest;
+    }
+    sleepMs(Math.min(pollMs, Math.max(1, deadline - Date.now())));
+  }
+
+  throw new Error(
+    `timed out waiting for ${options.workflow ?? "cluster-worker.yml"} capacity: ${latest?.active ?? "unknown"} active + ${requestedCount} requested exceeds max-live-workers=${max}`,
+  );
+}
+
+export function listActiveWorkflowRuns({ repo = currentProjectRepo(), workflow = "cluster-worker.yml" } = {}) {
+  const runs = [];
+  for (const status of ACTIVE_WORKFLOW_STATUSES) {
+    const workflowRuns = ghJson([
+      "api",
+      "--method",
+      "GET",
+      `repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/runs`,
+      "-f",
+      `status=${status}`,
+      "-f",
+      "per_page=100",
+      "--jq",
+      ".workflow_runs",
+    ]);
+    if (Array.isArray(workflowRuns)) runs.push(...workflowRuns.map((run) => normalizeWorkflowRun(run, status)));
+  }
+  return [...new Map(runs.map((run) => [String(run.databaseId ?? run.id), run])).values()].sort(
+    (left, right) => Date.parse(right.createdAt ?? "") - Date.parse(left.createdAt ?? ""),
+  );
+}
+
 function repoFromOriginRemote() {
   try {
     const remote = execFileSync("git", ["config", "--get", "remote.origin.url"], {
@@ -39,6 +139,47 @@ function repoFromOriginRemote() {
     return null;
   }
   return null;
+}
+
+function ghJson(ghArgs) {
+  const text = execFileSync("gh", ghArgs, {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  return JSON.parse(text || "null");
+}
+
+function normalizeWorkflowRun(run, fallbackStatus) {
+  return {
+    databaseId: run.databaseId ?? run.database_id ?? run.id,
+    status: run.status ?? fallbackStatus,
+    conclusion: run.conclusion ?? null,
+    createdAt: run.createdAt ?? run.created_at ?? null,
+    url: run.url ?? run.html_url ?? null,
+    displayTitle: run.displayTitle ?? run.display_title ?? run.name ?? null,
+  };
+}
+
+function readPositiveInteger(value, name) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 1) {
+    throw new Error(`${name} must be a positive integer`);
+  }
+  return number;
+}
+
+function readNonNegativeInteger(value, name) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 0) {
+    throw new Error(`${name} must be a non-negative integer`);
+  }
+  return number;
+}
+
+function sleepMs(milliseconds) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
 }
 
 export function readText(relativePath) {

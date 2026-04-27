@@ -2,7 +2,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import {
+  assertLiveWorkerCapacity,
+  currentProjectRepo,
+  parseArgs,
+  parseJob,
+  readMaxLiveWorkers,
+  repoRoot,
+  validateJob,
+  waitForLiveWorkerCapacity,
+} from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const defaultRunner = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
@@ -11,17 +20,21 @@ const mode = args.mode ?? "plan";
 const runner = args.runner ?? defaultRunner;
 const executionRunner = args["execution-runner"] ?? args.execution_runner ?? defaultExecutionRunner;
 const workflow = args.workflow ?? "cluster-worker.yml";
+const repo = String(args.repo ?? currentProjectRepo());
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
+const maxLiveWorkers = readMaxLiveWorkers(args);
+const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const files = args._;
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--max-live-workers 50] [--wait-for-capacity]",
   );
   process.exit(2);
 }
 
 let failed = false;
+const jobs = [];
 for (const file of files) {
   const job = parseJob(file);
   const errors = validateJob(job);
@@ -32,12 +45,25 @@ for (const file of files) {
     continue;
   }
 
-  const relative = path.relative(repoRoot(), path.resolve(file));
+  const relative = job.relativePath;
   if (!fs.existsSync(path.join(repoRoot(), relative))) {
     failed = true;
     console.error(`job does not exist inside repo: ${file}`);
     continue;
   }
+  jobs.push(relative);
+}
+
+if (!failed) {
+  const capacityOptions = { repo, workflow, requested: jobs.length, maxLiveWorkers };
+  const capacity = waitForCapacity ? waitForLiveWorkerCapacity(capacityOptions) : assertLiveWorkerCapacity(capacityOptions);
+  console.log(
+    `live worker capacity: ${capacity.active}/${capacity.max_live_workers} active; dispatching ${jobs.length} ${workflow} run(s)`,
+  );
+}
+
+for (const relative of jobs) {
+  if (failed) break;
 
   const result = spawnSync(
     "gh",
@@ -45,6 +71,8 @@ for (const file of files) {
       "workflow",
       "run",
       workflow,
+      "--repo",
+      repo,
       "-f",
       `job=${relative}`,
       "-f",

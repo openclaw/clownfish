@@ -163,6 +163,14 @@ npm run import-low-signal -- --limit 20 --batch-size 5 --mode autonomous --sort 
 # refs while continuing ordinary bug/dedupe work.
 npm run import-ghcrawl -- --from-ghcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-fix-pr --allow-post-merge-close
 
+# Dispatch reviewed jobs. Dispatch, requeue, and self-heal refuse to exceed
+# 50 live cluster-worker runs by default; tune with CLOWNFISH_MAX_LIVE_WORKERS
+# or --max-live-workers.
+CLOWNFISH_MAX_LIVE_WORKERS=50 npm run dispatch -- jobs/openclaw/inbox/cluster-example.md \
+  --mode autonomous \
+  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --execution-runner blacksmith-16vcpu-ubuntu-2404
+
 # Find failed cluster jobs that have not been superseded by a later success.
 npm run self-heal
 
@@ -207,6 +215,7 @@ CLOWNFISH_ALLOW_EXECUTE=1 npm run tag-clownfish -- --live --apply
 # Retry failed jobs once. This briefly opens the execution gate, waits for the
 # dispatched workers to start, records the self-heal ledger, and closes the gate.
 npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
+  --max-live-workers 50 \
   --runner blacksmith-4vcpu-ubuntu-2404 \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 ```
@@ -231,6 +240,7 @@ The workflow needs:
 - execution gates that default on for execute/autonomous jobs: set `CLOWNFISH_ALLOW_EXECUTE=0` or `CLOWNFISH_ALLOW_FIX_PR=0` only when intentionally pausing live work
 - optional `CLOWNFISH_CODEX_CLI_VERSION` variable to pin and refresh the cached Codex CLI
 - optional `CLOWNFISH_MODEL` override for dispatch scripts; default Codex model is `gpt-5.5`
+- optional `CLOWNFISH_MAX_LIVE_WORKERS` variable for dispatch/requeue/self-heal worker fan-out; default is `50`
 - optional `CLOWNFISH_CODEX_TIMEOUT_MS` and `CLOWNFISH_FIX_CODEX_TIMEOUT_MS` variables; both default to 30 minutes
 - optional `CLOWNFISH_CODEX_REVIEW_ATTEMPTS` and `CLOWNFISH_RESOLVE_REVIEW_THREADS` variables for agentic merge-prep review loops
 
