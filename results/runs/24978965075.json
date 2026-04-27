@@ -1,0 +1,235 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-199248-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24978965075",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24978965075",
+  "head_sha": "29400ea714d617de4455a11f0aa59ca745bf6cda",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-199248-agentic-merge.md",
+  "published_at": "2026-04-27T06:11:24.972Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/50519",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/50519",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/56538",
+  "summary": "Hydrated state shows the Windows CJK exec-output bug is real and best tracked by canonical issue #50519 with #56538 as the useful repairable contributor PR path. No merge or closeout is safe now: #56538 still has unresolved Greptile P1 findings, #50586/#50885 are narrower UTF-8/chcp approaches with correctness concerns, closed contributor PRs are historical evidence only, and linked maintainer replacement #72393 is security-sensitive and must be quarantined.",
+  "actions": [
+    {
+      "target": "#39",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unrelated context ref."
+    },
+    {
+      "target": "#43611",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action allowed."
+    },
+    {
+      "target": "#50519",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical issue for the root cause."
+    },
+    {
+      "target": "#50586",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Clear same-root implementation attempt, but closeout is blocked on the canonical fix path."
+    },
+    {
+      "target": "#50885",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Same-root but narrower implementation; closeout is blocked until the canonical fix path exists."
+    },
+    {
+      "target": "#56462",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; no close action allowed."
+    },
+    {
+      "target": "#56538",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Best repairable canonical PR path, but not merge-ready."
+    },
+    {
+      "target": "#64072",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#64661",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Already closed superseded PR; no close action allowed."
+    },
+    {
+      "target": "#64709",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Already closed superseded PR; no close action allowed."
+    },
+    {
+      "target": "#72393",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive open linked PR is quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "cluster:ghcrawl-199248-agentic-merge",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "Build a narrow credited repair artifact for the canonical Windows CJK exec-output fix."
+    },
+    {
+      "target": "cluster:ghcrawl-199248-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "reason": "A fix artifact is required because no viable clean canonical PR can be merged in this pass."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "keep_canonical": 2,
+    "close_superseded": 2,
+    "route_security": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 6,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "skipped": 2,
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #43611 is closed",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/72393",
+      "branch": "clownfish/ghcrawl-199248-agentic-merge",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/72393"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#50586",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-199248-agentic-merge:#50586:close_superseded_blocked:2026-03-24T20:15:44Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#50885",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50519",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-199248-agentic-merge:#50885:close_superseded_blocked:2026-03-24T20:15:42Z",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72393",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(process): decode Windows command output with console codepage awareness",
+      "idempotency_key": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-04-27T06:11:00Z",
+      "merge_commit_sha": "e6d2c9b080058734f6a06e066d4b1a571e621ab6",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
