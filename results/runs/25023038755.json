@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156666-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023038755",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023038755",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156666-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:45:27.479Z",
+  "canonical": "#59681",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59681",
+  "summary": "Classified #59681 as the canonical repairable PR for the sessions_spawn model-alias bug. No merge or close actions are safe yet: the canonical PR has failing checks/unknown mergeability and unresolved bot review findings, while the other open PRs are related but separate model/session-maintenance issues with their own blockers.",
+  "actions": [
+    {
+      "target": "#59681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59681",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and editable but not merge-ready; executor should repair contributor branch, address review findings, rebase/refactor narrowly, run validation, and then re-evaluate for merge."
+    },
+    {
+      "target": "cluster:ghcrawl-156666-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59681",
+      "candidate_fix": null,
+      "reason": "Autonomous mode requires an executable fix artifact for a non-merge-ready canonical PR."
+    },
+    {
+      "target": "#43211",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related model-selection/provider-normalization work, but not a duplicate of #59681 and not safe to merge or close in this cluster."
+    },
+    {
+      "target": "#59932",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related subagent reliability work, but different root cause and blocked by actionable review/check failures."
+    },
+    {
+      "target": "#62100",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider/model-resolution follow-up, not a duplicate of #59681 and not safe to merge or close."
+    },
+    {
+      "target": "#69029",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59681",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/59681",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#59681",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(agents): resolve model aliases in sessions_spawn",
+      "idempotency_key": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-04-27T22:44:57Z",
+      "merge_commit_sha": "323030594efcd7be1473476bf9111bcaeb86a93a",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
