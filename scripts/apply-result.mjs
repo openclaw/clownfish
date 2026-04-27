@@ -432,7 +432,7 @@ function validateFixFirstClose({ job, result, actionName, classification, candid
   );
   if (priorMerge) return "";
 
-  if (classification === "fixed_by_candidate" && candidateFix && isMergedCandidateFix(result.repo, candidateFix)) {
+  if (candidateFix && isMergedCandidateFix(result.repo, candidateFix)) {
     return "";
   }
 
