@@ -52,28 +52,28 @@ Scope: 132 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 132 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 67 | 50.8% |
+| Clean completed clusters | 66 | 50.0% |
 | Needs-human clusters | 39 | 29.5% |
 | Latest successful clusters | 130 | 98.5% |
 | Latest failed clusters | 2 | 1.5% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 270 | audit |
-| Fix action attempts | 32 | audit |
+| Run attempts archived | 271 | audit |
+| Fix action attempts | 34 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 8 | 25.0% |
-| Fix actions blocked | 6 | 18.8% |
-| Latest clusters with fix failures | 6 | 4.5% |
+| Fix actions failed | 9 | 26.5% |
+| Fix actions blocked | 6 | 17.6% |
+| Latest clusters with fix failures | 7 | 5.3% |
 | Distinct PRs touched | 583 | 100% |
 | Open PRs tracked | 324 | 55.6% |
 | Closed unmerged PRs tracked | 219 | 37.6% |
-| Completed close actions | 22 | 9.7% |
+| Completed close actions | 22 | 9.6% |
 | Completed merge actions | 6 | 2.6% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 55 | 24.2% |
-| Skipped mutation attempts | 144 | 63.4% |
+| Blocked mutation attempts | 56 | 24.6% |
+| Skipped mutation attempts | 144 | 63.2% |
 
 ### Latest ProjectClownfish Closures
 

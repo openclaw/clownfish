@@ -1,0 +1,155 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207050-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "24978962437",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24978962437",
+  "head_sha": "29400ea714d617de4455a11f0aa59ca745bf6cda",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-207050-agentic-merge.md",
+  "published_at": "2026-04-27T06:09:13.881Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72405",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72405",
+  "summary": "Hydrated state shows #57374 is no longer the live canonical: ProjectClownfish already opened replacement PR #72405 and closed #57374 with credit. #72405 is the current canonical fix path, but merge is blocked by an unresolved Greptile P2 test-placement review comment, failing checks on the current run, and unhydrated follow-up #72433. #48472 is quarantined as security-sensitive. #59439 is superseded by #72405 with credit preserved. #50662 is related but not a duplicate because it also changes unrelated agent failover rotation behavior.",
+  "actions": [
+    {
+      "target": "#48472",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be routed to central OpenClaw security handling and must not receive ProjectClownfish close, merge, comment, label, or fix mutations."
+    },
+    {
+      "target": "#50662",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72405",
+      "candidate_fix": null,
+      "reason": "Related but not a true duplicate or superseded close candidate because it contains distinct agent failover behavior outside the #72405 gateway restart-auth replacement path."
+    },
+    {
+      "target": "#57374",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72405",
+      "candidate_fix": "#72405",
+      "reason": "Already closed historical canonical candidate; keep as evidence only and use #72405 as the live replacement path."
+    },
+    {
+      "target": "#59439",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#72405",
+      "candidate_fix": "#72405",
+      "reason": "Replacement PR #72405 is the explicit canonical fix path and preserves #59439 contributor credit; #59439 itself has unresolved P1 review blockers."
+    },
+    {
+      "target": "#72405",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72405",
+      "candidate_fix": null,
+      "reason": "Current canonical fix path, but not merge-ready until the Greptile test-placement review finding is repaired or proven non-actionable, checks are clean or scoped, and merge preflight is produced."
+    },
+    {
+      "target": "cluster:ghcrawl-207050-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72405",
+      "candidate_fix": "#72405",
+      "reason": "Emit a narrow repair artifact for the existing canonical replacement PR before any merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "close_superseded": 1,
+    "keep_canonical": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 2
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #57374 is closed",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/72405",
+      "branch": "clownfish/ghcrawl-207050-agentic-merge",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/72405"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#59439",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#72405",
+      "candidate_fix": "#72405",
+      "title": null,
+      "idempotency_key": "ghcrawl-207050-agentic-merge:close_superseded:#59439:2026-04-02T05:17:53Z:#72405",
+      "reason": "canonical is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72405",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(gateway): keep restart probe auth local",
+      "idempotency_key": null,
+      "reason": "merge state status is UNSTABLE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
