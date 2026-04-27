@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156588-autonomous-smoke"
 mode: "autonomous"
-run_id: "24982558861"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24982558861"
-head_sha: "64b08445e255b22babdbfd48320457951faa2507"
+run_id: "24984731618"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24984731618"
+head_sha: "26374cdd2f49f5683850f92c1448eb8af1cfa65f"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T07:55:35.677Z"
+published_at: "2026-04-27T08:38:28.440Z"
 canonical: "https://github.com/openclaw/openclaw/issues/46871"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/46871"
 canonical_pr: null
 actions_total: 21
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 0
+fix_blocked: 1
 apply_executed: 0
-apply_blocked: 1
-apply_skipped: 1
+apply_blocked: 0
+apply_skipped: 0
 needs_human_count: 0
 ---
 
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24982558861](https://github.com/openclaw/clownfish/actions/runs/24982558861)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24984731618](https://github.com/openclaw/clownfish/actions/runs/24984731618)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/46871
 
 ## Summary
 
-Hydrated state shows the original representative #50970 is already closed. The surviving non-security nodes-list canonical is the open issue #46871; no merge is safe because the replacement PR #72619 is security-sensitive and must be quarantined. The open model-command PRs are related but separate subfamilies, and #49989 is independent.
+Hydrated state shows the original representative #50970 is already closed. The surviving non-security canonical path for the nodes list/status mismatch is the open issue #46871. The available open replacement PR #72619 is security-sensitive and must be quarantined, so no merge or fixed-by-candidate closeout is safe. A narrow credited replacement fix artifact is needed for the non-security nodes mismatch. Adjacent /model and WebChat/context refs are kept open or closed according to their own hydrated state, not folded into the nodes canonical path.
 
 ## Impact
 
@@ -44,50 +44,49 @@ Hydrated state shows the original representative #50970 is already closed. The s
 | Worker actions | 21 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
-| Apply skipped | 1 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72619 | clownfish/ghcrawl-156588-autonomous-smoke |  |
+| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/cli/nodes-cli/register.status.ts: core production [check:changed] src/cli/program.nodes-basic.e2e.test.ts: core test [check:changed] conflict markers [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] summary 489ms ok conflict markers 992ms ok typecheck core 1.64s failed:2 typecheck core tests |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #51051 | close_superseded | skipped | superseded | action status is blocked |
-| #72619 | merge_canonical | blocked | fix_pr | merge state status is UNSTABLE |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46871 | keep_canonical | planned | canonical | Best surviving non-security canonical for the nodes list/status source mismatch. |
-| #51051 | close_superseded | blocked | superseded | Superseded by the canonical nodes fix path, but require_fix_before_close blocks closure until a non-security replacement PR exists. |
-| #72619 | route_security | planned | security_sensitive | Route exact security-sensitive PR to central OpenClaw security handling; do not merge, close, comment, or use it as the candidate fix in ProjectClownfish. |
-| cluster:ghcrawl-156588-autonomous-smoke | fix_needed | planned | related | A narrow non-security replacement fix is still needed for #46871 after quarantining #72619. |
-| cluster:ghcrawl-156588-autonomous-smoke | build_fix_artifact | planned |  | No non-security merge-ready canonical PR exists. |
-| #46895 | keep_related | planned | related | Related slash/model-command subfamily; not merge-ready and not part of the nodes canonical path. |
-| #47069 | keep_related | planned | related | Separate WebUI model-command work; keep open for its own cluster rather than closing or merging here. |
-| #46894 | keep_related | planned | related | Related model-command subcluster, not a duplicate of #46871. |
-| #51270 | keep_related | planned | related | Separate TUI model-command subfamily; keep open for a narrower follow-up cluster. |
-| #49989 | keep_independent | planned | independent | Independent linked issue; no action in this cluster. |
-| #50871 | keep_closed | skipped | superseded | Already closed; no close action allowed. |
-| #50970 | keep_closed | skipped | superseded | Representative is obsolete; use #46871 as surviving canonical issue. |
-| #51027 | keep_closed | skipped | superseded | Already closed historical context only. |
-| #51053 | keep_closed | skipped | superseded | Already closed; no close action allowed. |
-| #51536 | keep_closed | skipped | fixed_by_candidate | Closed context-utilization PR, unrelated to the nodes canonical path. |
-| #65772 | keep_closed | skipped | superseded | Already closed source PR; retain as credit evidence for the replacement artifact. |
-| #50847 | keep_closed | skipped | duplicate | Already closed duplicate context. |
-| #51126 | keep_closed | skipped | fixed_by_candidate | Closed model-command issue; related context only. |
-| #51507 | keep_closed | skipped | fixed_by_candidate | Closed context-utilization issue; unrelated to this nodes fix path. |
-| #65706 | keep_closed | skipped | duplicate | Already closed duplicate context. |
-| #71462 | keep_closed | skipped | fixed_by_candidate | Merged historical context only. |
+| #46871 | keep_canonical | planned | canonical | Best surviving non-security canonical for the nodes list/status source-of-truth family. |
+| #46894 | keep_related | planned | related | Adjacent /model slash-command family, not a duplicate of the nodes canonical. |
+| #46895 | keep_related | planned | related | Related to the open WebUI /model issue #46894 but not merge-ready and not part of the nodes canonical path. |
+| #47069 | keep_related | planned | related | Related /model subcluster; keep open for its own review/repair path. |
+| #49989 | keep_independent | planned | independent | Accidental linked context only; not in this cluster's canonical family. |
+| #50847 | keep_closed | skipped | duplicate | Already closed; closed refs are historical evidence only. |
+| #50871 | keep_closed | skipped | superseded | Already closed; preserve as historical credited evidence. |
+| #50970 | keep_closed | skipped | superseded | Representative is obsolete and already closed. |
+| #51027 | keep_closed | skipped | superseded | Already closed and too mixed to be a canonical path. |
+| #51051 | keep_related | planned | related | Related useful work but not viable for automated merge or closeout; replacement fix artifact is needed. |
+| #51053 | keep_closed | skipped | superseded | Already closed; historical evidence only. |
+| #51126 | keep_closed | skipped | fixed_by_candidate | Already closed and outside the nodes canonical path. |
+| #51270 | keep_related | planned | related | Related /model subcluster; keep open for separate triage. |
+| #51507 | keep_closed | skipped | fixed_by_candidate | Already closed unrelated context issue. |
+| #51536 | keep_closed | skipped | superseded | Already closed unrelated context PR. |
+| #65706 | keep_closed | skipped | duplicate | Already closed duplicate evidence. |
+| #65772 | keep_closed | skipped | superseded | Already closed and credited; cannot be re-opened or mutated by this worker. |
+| #71462 | keep_closed | skipped | fixed_by_candidate | Merged unrelated context PR; closed historical evidence only. |
+| #72619 | route_security | planned | security_sensitive | Quarantine exact security-sensitive PR to central OpenClaw security handling; do not comment, close, merge, or open a fix PR for this item. |
+| cluster:ghcrawl-156588-autonomous-smoke | fix_needed | planned | related | No non-security merge-ready canonical PR exists for the nodes mismatch; build a narrow credited replacement artifact. |
+| cluster:ghcrawl-156588-autonomous-smoke | build_fix_artifact | planned |  | Prepare a replacement fix plan for the executor while preserving contributor credit. |
 
 ## Needs Human
 
