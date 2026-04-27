@@ -1,0 +1,219 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156624-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24980259710",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24980259710",
+  "head_sha": "40a5c7418ff46bf3e60da63dc6e2345c96900f78",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156624-autonomous-smoke.md",
+  "published_at": "2026-04-27T06:53:27.157Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/48072",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/48072",
+  "summary": "Classified the Docker EACCES cluster using the hydrated preflight artifact. #48072 remains the best canonical repair path for the named-volume .openclaw ownership bug, but merge and closeout are blocked until the contributor branch is repaired/revalidated. #41624 and #52176 are routed out of ProjectClownfish mutation because the hydrated artifact contains security-sensitive evidence. No GitHub mutations were performed.",
+  "actions": [
+    {
+      "target": "#41624",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact ref to central OpenClaw security handling; continue classifying unrelated non-security Docker items."
+    },
+    {
+      "target": "#47660",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate broad Dockerfile refactor with unresolved bot findings; leave it open outside this EACCES closeout path."
+    },
+    {
+      "target": "#48072",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "reason": "Best canonical repair path, but needs branch repair/revalidation before merge or closeout."
+    },
+    {
+      "target": "#52176",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated review evidence raises security-sensitive supply-chain concerns; route only this PR to central security handling and do not mutate it through ProjectClownfish."
+    },
+    {
+      "target": "#55933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but separate Docker follow-up; keep open and do not close as part of this cluster."
+    },
+    {
+      "target": "#60052",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref; no closure mutation is valid."
+    },
+    {
+      "target": "#43846",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#41624",
+      "candidate_fix": null,
+      "reason": "Closed historical ref; no closure mutation is valid."
+    },
+    {
+      "target": "#59601",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked issue; no closure mutation is valid."
+    },
+    {
+      "target": "#61279",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "reason": "require_fix_before_close blocks issue closeout until the canonical Dockerfile fix path lands."
+    },
+    {
+      "target": "#63959",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "reason": "require_fix_before_close blocks superseding a useful contributor PR until the canonical fix or credited repair is merged."
+    },
+    {
+      "target": "cluster:ghcrawl-156624-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "reason": "A repair artifact is needed before merge or closeout can proceed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 1,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 3,
+    "close_fixed_by_candidate": 1,
+    "close_superseded": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "skipped": 2,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command \"check:changed\" not found Did you mean \"pnpm check:docs\"?",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/72662",
+      "branch": "clownfish/ghcrawl-156624-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/72662"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#61279",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "title": null,
+      "idempotency_key": "ghcrawl-156624-autonomous-smoke:#61279:close_fixed_by_candidate:#48072:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#63959",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48072",
+      "candidate_fix": "#48072",
+      "title": null,
+      "idempotency_key": "ghcrawl-156624-autonomous-smoke:#63959:close_superseded:#48072:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72662",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(docker): repair named-volume state directory ownership",
+      "idempotency_key": null,
+      "reason": "merge state status is UNSTABLE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
