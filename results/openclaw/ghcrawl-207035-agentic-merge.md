@@ -2,47 +2,59 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-207035-agentic-merge"
 mode: "autonomous"
-run_id: "24969137763"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24969137763"
-head_sha: "954e3ac4580f330255b90e541b805287d2731ff4"
+run_id: "24977042053"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24977042053"
+head_sha: "50a0b51ad3e3cfffa74443fc81bf0c842f9747bf"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-04-26T23:17:32.334Z"
-canonical: "https://github.com/openclaw/openclaw/pull/39921"
-canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/39921"
-actions_total: 13
+result_status: "blocked"
+published_at: "2026-04-27T04:49:51.172Z"
+canonical: "https://github.com/openclaw/openclaw/pull/72417"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/42538"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/72417"
+actions_total: 12
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
-apply_skipped: 5
-needs_human_count: 0
+apply_blocked: 0
+apply_skipped: 4
+needs_human_count: 1
 ---
 
 # ghcrawl-207035-agentic-merge
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24969137763](https://github.com/openclaw/projectclownfish/actions/runs/24969137763)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24977042053](https://github.com/openclaw/clownfish/actions/runs/24977042053)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: blocked
 
-Canonical: https://github.com/openclaw/openclaw/pull/39921
+Canonical: https://github.com/openclaw/openclaw/pull/72417
 
 ## Summary
 
-Canonical path is to repair open PR #39921 because it covers the central runtime-backed health behavior and broader Discord startup race, while overlapping PRs are either narrower, failing checks, or have unresolved bot review findings. No merge or closeout is ready: require_fix_before_close blocks duplicate/superseded closure until the canonical fix path is repaired and validated.
+Canonical PR #39921 is already closed and was replaced by #72417, but #72417 is hydrated as security-sensitive due Aisle security findings. Route only #72417 to central security triage. Non-security overlapping PRs are clear superseded/replacement candidates, but their closeout is blocked until the canonical fix path is cleared or replaced by security triage.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 13 |
+| Worker actions | 12 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
-| Apply skipped | 5 |
-| Needs human | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 4 |
+| Needs human | 1 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -51,28 +63,25 @@ Canonical path is to repair open PR #39921 because it covers the central runtime
 | #42586 | close_superseded | skipped | superseded | action status is blocked |
 | #46527 | close_superseded | skipped | superseded | action status is blocked |
 | #52770 | close_superseded | skipped | superseded | action status is blocked |
-| #42538 | close_duplicate | skipped | duplicate | action status is blocked |
 | #46494 | close_duplicate | skipped | duplicate | action status is blocked |
-| #72417 | merge_canonical | blocked | fix_pr | mergeable state is CONFLICTING |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39921 | keep_canonical | planned | canonical | Best canonical repair target, but merge is blocked by failing checks and missing merge preflight. |
-| #42586 | close_superseded | blocked | superseded | Superseded closeout is blocked on the canonical #39921 repair/fix path because require_fix_before_close is true. |
-| #46527 | close_superseded | blocked | superseded | Superseded closeout is blocked on the canonical #39921 repair/fix path; #46527 contributes useful material that must be credited. |
-| #52770 | close_superseded | blocked | superseded | Superseded closeout is blocked on the canonical #39921 repair/fix path; useful guarded-refresh ideas should be credited in the repair. |
-| #42538 | close_duplicate | blocked | duplicate | Duplicate close is blocked on the canonical #39921 repair/fix path. |
-| #46494 | close_duplicate | blocked | duplicate | Duplicate close is blocked on the canonical #39921 repair/fix path. |
-| cluster:ghcrawl-207035-agentic-merge | fix_needed | planned |  | Repair the canonical contributor branch before any merge or closeout. |
-| cluster:ghcrawl-207035-agentic-merge | build_fix_artifact | planned |  | A narrow repair artifact is required before ProjectClownfish can open/merge a fix path or close duplicate/superseded items. |
-| #17105 | keep_closed | skipped | duplicate | Closed historical evidence only. |
-| #20967 | keep_closed | skipped | related | Closed historical evidence only. |
-| #31307 | keep_closed | skipped | related | Closed historical evidence only. |
-| #32689 | keep_closed | skipped | related | Closed historical evidence only. |
-| #42543 | keep_closed | skipped | superseded | Closed historical evidence only. |
+| #72417 | route_security | planned | security_sensitive | Security-sensitive PRs are out of ProjectClownfish mutation scope. |
+| #39921 | keep_closed | skipped | superseded | Historical source PR only; already closed. |
+| #42586 | close_superseded | blocked | superseded | Blocked on canonical fix path #72417 clearing central security review or being replaced. |
+| #46527 | close_superseded | blocked | superseded | Blocked on canonical fix path #72417 clearing central security review or being replaced. |
+| #52770 | close_superseded | blocked | superseded | Blocked on canonical fix path #72417 clearing central security review or being replaced. |
+| #42538 | keep_canonical | planned | canonical | Keep open as the non-security canonical issue thread until the fix path is cleared. |
+| #46494 | close_duplicate | blocked | duplicate | Blocked on canonical fix path #72417 clearing central security review or being replaced. |
+| #17105 | keep_closed | skipped | duplicate | Already closed. |
+| #20967 | keep_closed | skipped | related | Already closed historical context. |
+| #31307 | keep_closed | skipped | related | Already closed related context, not a mutation target. |
+| #32689 | keep_closed | skipped | related | Already closed historical context. |
+| #42543 | keep_closed | skipped | superseded | Already closed and superseded by the replacement path. |
 
 ## Needs Human
 
-- none
+- #72417 must be handled by central OpenClaw security triage before ProjectClownfish can merge it or close non-security PRs/issues as fixed or superseded by it.
