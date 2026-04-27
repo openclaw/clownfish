@@ -286,8 +286,11 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   const sourcePr = firstSourcePullRequest(fixArtifact);
   const pull = fetchPullRequest(sourcePr.number);
   if (pull.state !== "open") throw new Error(`source PR #${sourcePr.number} is ${pull.state}`);
-  if (pull.maintainer_can_modify !== true) throw new Error(`source PR #${sourcePr.number} has maintainer_can_modify=false`);
   if (!pull.head?.repo?.full_name || !pull.head?.ref) throw new Error(`source PR #${sourcePr.number} is missing head repo/ref`);
+  const sameRepoBranch = pull.head.repo.full_name === result.repo;
+  if (pull.maintainer_can_modify !== true && !sameRepoBranch) {
+    throw new Error(`source PR #${sourcePr.number} has maintainer_can_modify=false`);
+  }
 
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
   run("git", ["fetch", `https://github.com/${pull.head.repo.full_name}.git`, `${pull.head.ref}:${branch}`], { cwd: targetDir });
@@ -380,12 +383,15 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
       { cwd: targetDir, env: ghEnv() },
     ).trim();
   const prNumber = pullRequestNumberFromUrl(prUrl);
+  if (prNumber) ensurePullRequestOpen({ number: prNumber, targetDir });
   if (prNumber) prep.merge_preflight.target = `#${prNumber}`;
   const threadResolution = prNumber
     ? prepareReviewThreadsForMerge({ repo: result.repo, number: prNumber, targetDir })
     : { status: "blocked", reason: "replacement PR URL did not include a PR number" };
 
-  const supersededSources = supersedeSources ? supersededReplacementSources(fixArtifact) : [];
+  const supersededSources = supersedeSources
+    ? supersededReplacementSources(fixArtifact).filter((source) => pullRequestNumberFromUrl(source) !== prNumber)
+    : [];
   const supersededSourceActions = [];
   if (supersededSources.length > 0) {
     for (const source of supersededSources) {
@@ -444,6 +450,19 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }
     return { ...base, status: "skipped", reason: "already merged during close" };
   }
   throw new Error(detail || `gh pr close exited ${closed.status}`);
+}
+
+function ensurePullRequestOpen({ number, targetDir }) {
+  const view = fetchSourcePullRequestView({ repo: result.repo, number, targetDir });
+  if (view.mergedAt || view.state === "MERGED") {
+    throw new Error(`replacement PR #${number} is already merged`);
+  }
+  if (view.state === "CLOSED") {
+    run("gh", ["pr", "reopen", String(number), "--repo", result.repo], {
+      cwd: targetDir,
+      env: ghEnv(),
+    });
+  }
 }
 
 function fetchSourcePullRequestView({ repo, number, targetDir }) {
