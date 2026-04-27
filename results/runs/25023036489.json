@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156665-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25023036489",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25023036489",
+  "head_sha": "416b225d73239870f6704a4eeb6d95f026ba00e9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156665-autonomous-smoke.md",
+  "published_at": "2026-04-27T22:43:24.020Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/42482",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42482",
+  "summary": "Classified the hydrated open cron PR candidates. #42482 remains the canonical non-security repair path for the per-attempt AbortController cron fallback bug, but it is not merge-ready and needs contributor-branch repair. #52365 is quarantined as security-sensitive. #43816 and #51024 form a separate stale-lock-threshold subcluster with conflicting useful PRs, so only that decision is routed to human review. #68645 is a related draft for a distinct ledger/wall-clock timeout problem and stays open.",
+  "actions": [
+    {
+      "target": "#42482",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42482",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch before any merge or closeout: drop obsolete deferred-timeout changes already present on main, keep/adapt the per-attempt abort handling, run review and validation, then re-evaluate duplicates."
+    },
+    {
+      "target": "cluster:ghcrawl-156665-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42482",
+      "candidate_fix": null,
+      "reason": "A viable canonical PR exists but is stale and not merge-ready; ProjectClownfish should repair the contributor branch because maintainer_can_modify is true."
+    },
+    {
+      "target": "#43816",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed only for the stale-lock subcluster: choose whether #43816, #51024, or a combined replacement should be the canonical repair path."
+    },
+    {
+      "target": "#51024",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is part of the same conflicting stale-lock PR pair as #43816, so the canonical choice and combination strategy need maintainer review."
+    },
+    {
+      "target": "#52365",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for autonomous backlog cleanup; quarantine this PR only and continue unrelated non-security classification."
+    },
+    {
+      "target": "#68645",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42482",
+      "candidate_fix": null,
+      "reason": "Keep the draft open as related follow-up work in the cron run-lifecycle area; it is not covered by the #42482 repair path."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "needs_human": 2,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical path for the separate stale-lock threshold subcluster covering #43816 and #51024. Both are useful, overlapping, maintainer-editable PRs with unresolved review/check evidence, and neither is the same root cause as #42482."
+  ],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/cron/isolated-agent/run-executor.ts: core production [check:changed] src/cron/service.cron-timeout-abort.test.ts: core test [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] lint core [check:changed] summary 452ms ok conflict markers 181ms ok changelog attributions 198ms ok guarded extension wildcard re-exports 187ms ok plugin-sdk wildcard re-exports 1.02s ok typecheck core 1.47s ok typecheck core tests 15.87s failed:1 lint core",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/cron/isolated-agent/run-executor.ts: core production [check:changed] src/cron/service.cron-timeout-abort.test.ts: core test [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] lint core [check:changed] summary 452ms ok conflict markers 181ms ok changelog attributions 198ms ok guarded extension wildcard re-exports 187ms ok plugin-sdk wildcard re-exports 1.02s ok typecheck core 1.47s ok typecheck core tests 15.87s failed:1 lint core",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
