@@ -1,0 +1,197 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156588-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24987815914",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24987815914",
+  "head_sha": "f677d095c70e025afb42e22cf29ae7b90caccf9c",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156588-autonomous-smoke.md",
+  "published_at": "2026-04-27T09:46:05.321Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72619",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/46871",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72619",
+  "summary": "Hydrated state shows the original representative #50970 is obsolete and already closed. The nodes-list/status family is now fixed by merged PR #72619 against open canonical issue #46871, so the remaining open nodes PR #51051 can be closed as superseded and #46871 can be closed as fixed. The /model WebUI/TUI PRs are related but separate subclusters with unresolved review concerns, so they remain open. No security-sensitive items were detected; #72619 had an explicit false-positive security override and merged with passing checks.",
+  "actions": [
+    {
+      "target": "#72619",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72619",
+      "candidate_fix": null,
+      "reason": "#72619 is the landed canonical fix for the nodes-list/status family."
+    },
+    {
+      "target": "#46871",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#72619",
+      "reason": "The canonical fix has landed, so require_fix_before_close no longer blocks closeout."
+    },
+    {
+      "target": "#51051",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "reason": "The open PR is superseded by an already-merged, narrower canonical fix."
+    },
+    {
+      "target": "#46895",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Related /model WebUI subcluster; not safe to close or merge in the nodes-list cluster."
+    },
+    {
+      "target": "#47069",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Related /model WebUI subcluster with unresolved review concerns; keep open for a separate decision path."
+    },
+    {
+      "target": "#46894",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Related but separate /model WebUI issue family; no closure action in this nodes-list cluster."
+    },
+    {
+      "target": "#51270",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related /model TUI subcluster; keep open for separate repair/merge triage."
+    },
+    {
+      "target": "#49989",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated linked issue is unrelated to this cluster's canonical families."
+    },
+    {
+      "target": "#50871",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "reason": "Historical closed PR evidence only."
+    },
+    {
+      "target": "#50970",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "reason": "Historical closed PR evidence only; no mutation."
+    },
+    {
+      "target": "#51027",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed mixed-scope PR evidence only."
+    },
+    {
+      "target": "#51053",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "reason": "Historical closed PR evidence only."
+    },
+    {
+      "target": "#51536",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#71462",
+      "reason": "Historical closed WebChat context PR; independent from the nodes-list canonical family."
+    },
+    {
+      "target": "#65772",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "reason": "Historical source PR superseded by the landed ProjectClownfish repair."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "close_superseded": 1,
+    "keep_related": 4,
+    "keep_independent": 1,
+    "keep_closed": 6
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 2
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#46871",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#72619",
+      "title": null,
+      "idempotency_key": "ghcrawl-156588-autonomous-smoke:#46871:close_fixed_by_candidate:#72619:2026-03-20T11:12:54Z",
+      "reason": "target is not listed in job candidates",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51051",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#46871",
+      "candidate_fix": "#72619",
+      "title": null,
+      "idempotency_key": "ghcrawl-156588-autonomous-smoke:#51051:close_superseded:#72619:2026-04-03T13:21:54Z",
+      "reason": "canonical is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
