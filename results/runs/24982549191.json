@@ -1,0 +1,162 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156629-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24982549191",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24982549191",
+  "head_sha": "64b08445e255b22babdbfd48320457951faa2507",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156629-autonomous-smoke.md",
+  "published_at": "2026-04-27T07:48:50.624Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/48771",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48771",
+  "canonical_pr": null,
+  "summary": "Classified the Windows gateway restart cluster without GitHub mutations. #48771 is the best live canonical for the specific Windows Scheduled Task restart false-timeout/parser/policy-close bug. #63491 remains related because it mixes that known restart failure with broader cron/session and post-ready HTTP loss symptoms. No merge is recommended: #69056 is a related SIGUSR1 Windows restart PR, but it is not the canonical fix for #48771 and lacks required merge preflight proof in this artifact. A narrow credited fix artifact is needed for #48771, with #48801 preserved as source-credit evidence and unhydrated #72660 treated as evidence only until refreshed planning hydrates it.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#41034",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#49865",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive primary cluster item must be quarantined to central OpenClaw security handling even though it is already closed."
+    },
+    {
+      "target": "#48771",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "Best live canonical issue for the specific Windows Scheduled Task restart false-timeout/parser/policy-close subproblem."
+    },
+    {
+      "target": "#63491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "Related umbrella report with unique remaining scope beyond the #48771 restart health/parser bug."
+    },
+    {
+      "target": "#69056",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related PR, but not the canonical fix for #48771 and not merge-ready under ProjectClownfish merge policy."
+    },
+    {
+      "target": "cluster:ghcrawl-156629-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "A narrow credited fix path is still needed or the run must refresh hydration for the mentioned replacement PR before using it as candidate_fix."
+    },
+    {
+      "target": "cluster:ghcrawl-156629-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "No hydrated viable canonical PR is available for the #48771 fix path."
+    },
+    {
+      "target": "#48766",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#48771",
+      "candidate_fix": null,
+      "reason": "Historical closed duplicate evidence only."
+    },
+    {
+      "target": "#64476",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed fixed issue, not an active target in this run."
+    },
+    {
+      "target": "#67416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed fixed issue, not an active target in this run."
+    },
+    {
+      "target": "#69057",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#69056",
+      "reason": "Historical closed superseded issue, not an active target in this run."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): The current branch only changes `CHANGELOG.md` and `src/cli/daemon-cli/restart-health*`; `src/daemon/schtasks*` is unchanged, so I’m checking whether the schtasks `Last Result` coverage is already present on main before treating that as a gap.",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

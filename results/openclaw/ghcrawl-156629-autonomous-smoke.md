@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156629-autonomous-smoke"
 mode: "autonomous"
-run_id: "24980267246"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24980267246"
-head_sha: "40a5c7418ff46bf3e60da63dc6e2345c96900f78"
+run_id: "24982549191"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24982549191"
+head_sha: "64b08445e255b22babdbfd48320457951faa2507"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T06:52:07.391Z"
-canonical: "https://github.com/openclaw/openclaw/issues/63491"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/63491"
+published_at: "2026-04-27T07:48:50.624Z"
+canonical: "https://github.com/openclaw/openclaw/issues/48771"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/48771"
 canonical_pr: null
-actions_total: 13
+actions_total: 12
 fix_executed: 0
-fix_failed: 1
-fix_blocked: 0
+fix_failed: 0
+fix_blocked: 1
 apply_executed: 0
-apply_blocked: 1
-apply_skipped: 3
+apply_blocked: 0
+apply_skipped: 0
 needs_human_count: 0
 ---
 
@@ -25,64 +25,59 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24980267246](https://github.com/openclaw/clownfish/actions/runs/24980267246)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24982549191](https://github.com/openclaw/clownfish/actions/runs/24982549191)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/63491
+Canonical: https://github.com/openclaw/openclaw/issues/48771
 
 ## Summary
 
-Classified hydrated cluster from preflight artifact. Keep #63491 as the broad canonical issue. Treat #48771 as a duplicate/narrow subcase but block closure until the canonical fix path lands. Route security-sensitive #49865 only. Do not merge #48801 or #69056 now: #48801 has failing checks and actionable bot review findings; #69056 lacks merge-preflight proof in this worker run. Build a narrow repair artifact for #48801 preserving contributor credit.
+Classified the Windows gateway restart cluster without GitHub mutations. #48771 is the best live canonical for the specific Windows Scheduled Task restart false-timeout/parser/policy-close bug. #63491 remains related because it mixes that known restart failure with broader cron/session and post-ready HTTP loss symptoms. No merge is recommended: #69056 is a related SIGUSR1 Windows restart PR, but it is not the canonical fix for #48771 and lacks required merge preflight proof in this artifact. A narrow credited fix artifact is needed for #48771, with #48801 preserved as source-credit evidence and unhydrated #72660 treated as evidence only until refreshed planning hydrates it.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 13 |
+| Worker actions | 12 |
 | Fix executed | 0 |
-| Fix failed | 1 |
-| Fix blocked | 0 |
+| Fix failed | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
-| Apply skipped | 3 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "check:changed" not found Did you mean "pnpm check:docs"? |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72660 | clownfish/ghcrawl-156629-autonomous-smoke |  |
+| execute_fix | blocked |  |  | Codex /review did not pass after 2 attempt(s): The current branch only changes `CHANGELOG.md` and `src/cli/daemon-cli/restart-health*`; `src/daemon/schtasks*` is unchanged, so I’m checking whether the schtasks `Last Result` coverage is already present on main before treating that as a gap. |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48771 | close_duplicate | skipped | duplicate | action status is blocked |
-| #48801 | merge_candidate | skipped | related | action status is blocked |
-| #69056 | merge_candidate | skipped | related | action status is blocked |
-| #72660 | merge_canonical | blocked | fix_pr | merge state status is UNSTABLE |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #63491 | keep_canonical | planned | canonical |  |
-| #48771 | close_duplicate | blocked | duplicate | Blocked by require_fix_before_close: closeout should wait for the canonical fix path for #63491/#48771, most likely a repaired #48801 or replacement fix PR. |
-| #48801 | merge_candidate | blocked | related | Repairable contributor PR, but not merge-ready until bot review findings are fixed, checks pass, and merge preflight including clean Codex /review is present. |
-| cluster:ghcrawl-156629-autonomous-smoke | fix_needed | planned |  | Build a narrow repair plan for #48801 before duplicate closeout. |
-| cluster:ghcrawl-156629-autonomous-smoke | build_fix_artifact | planned |  |  |
-| #69056 | merge_candidate | blocked | related | Do not recommend merge without required merge_preflight proof. Keep as a related candidate for the SIGUSR1 subfamily. |
-| #51469 | keep_related | planned | related |  |
-| #63691 | keep_related | planned | related |  |
-| #49865 | route_security | planned | security_sensitive | Security-sensitive item is outside ProjectClownfish backlog cleanup mutation scope. |
-| #48766 | keep_closed | skipped | duplicate |  |
-| #64476 | keep_closed | skipped | fixed_by_candidate |  |
-| #67416 | keep_closed | skipped | fixed_by_candidate |  |
-| #69057 | keep_closed | skipped | superseded |  |
+| #1 | route_security | planned | security_sensitive | Security-sensitive hydrated linked ref must be quarantined to central OpenClaw security handling. |
+| #41034 | route_security | planned | security_sensitive | Security-sensitive hydrated linked ref must be quarantined to central OpenClaw security handling. |
+| #49865 | route_security | planned | security_sensitive | Security-sensitive primary cluster item must be quarantined to central OpenClaw security handling even though it is already closed. |
+| #48771 | keep_canonical | planned | canonical | Best live canonical issue for the specific Windows Scheduled Task restart false-timeout/parser/policy-close subproblem. |
+| #63491 | keep_related | planned | related | Related umbrella report with unique remaining scope beyond the #48771 restart health/parser bug. |
+| #69056 | keep_related | planned | related | Useful related PR, but not the canonical fix for #48771 and not merge-ready under ProjectClownfish merge policy. |
+| cluster:ghcrawl-156629-autonomous-smoke | fix_needed | planned |  | A narrow credited fix path is still needed or the run must refresh hydration for the mentioned replacement PR before using it as candidate_fix. |
+| cluster:ghcrawl-156629-autonomous-smoke | build_fix_artifact | planned |  | No hydrated viable canonical PR is available for the #48771 fix path. |
+| #48766 | keep_closed | skipped | duplicate | Historical closed duplicate evidence only. |
+| #64476 | keep_closed | skipped | fixed_by_candidate | Historical closed fixed issue, not an active target in this run. |
+| #67416 | keep_closed | skipped | fixed_by_candidate | Historical closed fixed issue, not an active target in this run. |
+| #69057 | keep_closed | skipped | superseded | Historical closed superseded issue, not an active target in this run. |
 
 ## Needs Human
 
