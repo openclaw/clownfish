@@ -46,34 +46,34 @@ Last dashboard update: Apr 27, 2026, 05:42 UTC
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 124 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 125 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 124 | 100% |
+| Latest clusters reviewed | 125 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 64 | 51.6% |
-| Needs-human clusters | 34 | 27.4% |
-| Latest successful clusters | 122 | 98.4% |
+| Clean completed clusters | 64 | 51.2% |
+| Needs-human clusters | 34 | 27.2% |
+| Latest successful clusters | 123 | 98.4% |
 | Latest failed clusters | 2 | 1.6% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 251 | audit |
-| Fix action attempts | 21 | audit |
+| Run attempts archived | 252 | audit |
+| Fix action attempts | 22 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 6 | 28.6% |
-| Fix actions blocked | 5 | 23.8% |
+| Fix actions failed | 6 | 27.3% |
+| Fix actions blocked | 5 | 22.7% |
 | Latest clusters with fix failures | 7 | 5.6% |
-| Distinct PRs touched | 551 | 100% |
-| Open PRs tracked | 309 | 56.1% |
-| Closed unmerged PRs tracked | 203 | 36.8% |
+| Distinct PRs touched | 553 | 100% |
+| Open PRs tracked | 311 | 56.2% |
+| Closed unmerged PRs tracked | 203 | 36.7% |
 | Completed close actions | 22 | 10.6% |
 | Completed merge actions | 6 | 2.9% |
 | Duplicate closes | 22 | 100.0% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 48 | 23.2% |
-| Skipped mutation attempts | 131 | 63.3% |
+| Blocked mutation attempts | 49 | 23.6% |
+| Skipped mutation attempts | 131 | 63.0% |
 
 ### Latest ProjectClownfish Closures
 
