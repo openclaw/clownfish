@@ -260,6 +260,12 @@ jobs:
           GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
         run: npm run apply-result -- "${{ inputs.job }}" --latest
 
+      - name: Tag Clownfish targets
+        if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN }}
+        run: npm run tag-clownfish -- .projectclownfish/runs --apply --live --open-branches false --report .projectclownfish/runs/clownfish-label-report.json
+
       - name: Upload final worker artifacts
         if: always()
         uses: actions/upload-artifact@v7

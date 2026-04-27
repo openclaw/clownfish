@@ -182,6 +182,21 @@ CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/o
 # Rebuild the open Clownfish PR finalization report without mutating GitHub.
 npm run finalize-open-prs -- --write-report
 
+# Dry-run job hygiene: classify old smoke jobs, outbox-ready jobs, unprocessed
+# jobs, and requeue candidates without deleting, moving, or dispatching.
+npm run sweep-openclaw-jobs -- --live
+
+# Apply reviewed job hygiene. This deletes old smoke jobs and moves finalized
+# jobs to jobs/openclaw/outbox/finalized; it never dispatches workers.
+npm run sweep-openclaw-jobs -- --live --apply-delete-tests --apply-outbox
+
+# Dry-run the Clownfish label backfill. This verifies live GitHub state and
+# reports the exact PRs/issues that would receive the "clownfish" label.
+npm run tag-clownfish -- --live
+
+# Apply the label backfill after reviewing the dry-run report.
+CLOWNFISH_ALLOW_EXECUTE=1 npm run tag-clownfish -- --live --apply
+
 # Retry failed jobs once. This briefly opens the execution gate, waits for the
 # dispatched workers to start, records the self-heal ledger, and closes the gate.
 npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
