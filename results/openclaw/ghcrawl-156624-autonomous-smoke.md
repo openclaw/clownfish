@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156624-autonomous-smoke"
 mode: "autonomous"
-run_id: "24985863113"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24985863113"
-head_sha: "a357d4628713c59472019d207d99949bc4b4ad8e"
+run_id: "24987096453"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24987096453"
+head_sha: "3e2fd13363b486f8485ca909bf84ab36ee9ff77c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T09:20:25.425Z"
+published_at: "2026-04-27T09:38:32.699Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72662"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/61279"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72662"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24985863113](https://github.com/openclaw/clownfish/actions/runs/24985863113)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24987096453](https://github.com/openclaw/clownfish/actions/runs/24987096453)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72662
 
 ## Summary
 
-Canonical path is the maintainer-calibrated replacement PR #72662 for the Docker named-volume /home/node/.openclaw EACCES bug. It is not merge-ready because relevant checks are failing and there is no clean Codex /review preflight, so the executable result is to repair #72662, preserve #48072/#63959 credit, and block closeout of covered open refs until that fix path lands. Other Docker PRs in the cluster are distinct subfamilies and should remain open.
+Canonical path is the maintainer replacement PR #72662 for the Docker named-volume state directory ownership bug. It is not merge-ready from the hydrated artifact because relevant checks are failing and no clean Codex /review merge preflight is present, so the executable path is to repair #72662, rerun pnpm check:changed and /review, then merge only after gates pass. Related Docker PRs are left open; closed refs are historical evidence only.
 
 ## Impact
 
@@ -68,18 +68,18 @@ Canonical path is the maintainer-calibrated replacement PR #72662 for the Docker
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72662 | fix_needed | planned | canonical | Repair the calibrated canonical PR before any merge or closeout: rebase/refactor narrowly if needed, resolve failing relevant checks, run /review, address findings, then rerun pnpm check:changed. |
-| cluster:ghcrawl-156624-autonomous-smoke | build_fix_artifact | planned |  | Provide an executable repair plan for ProjectClownfish scripts to finish #72662 rather than merging from incomplete preflight. |
-| #61279 | close_fixed_by_candidate | blocked | fixed_by_candidate | Blocked on #72662 being repaired and merged; current main is not proven fixed. |
-| #63959 | close_superseded | blocked | superseded | Superseded by #72662, but closeout is blocked until the replacement is repaired and merged. |
-| #48072 | keep_closed | skipped | superseded | Already closed; preserve as credited source evidence for #72662. |
-| #41624 | keep_related | planned | related | Same Docker permission area, different root cause and user-visible failure from the named-volume EACCES bug. |
-| #43846 | keep_closed | skipped | duplicate | Already closed duplicate of #41624. |
-| #47660 | keep_independent | planned | independent | Independent broad Dockerfile refactor with unresolved review comments; not part of the #72662 closeout path. |
-| #52176 | keep_independent | planned | independent | Independent Docker feature PR with unresolved review findings; leave open outside this cluster path. |
-| #55933 | keep_related | planned | related | Related Dockerfile follow-up with a distinct root cause; keep open as its own candidate. |
-| #59601 | keep_closed | skipped | fixed_by_candidate | Already closed; historical context only. |
-| #60052 | keep_closed | skipped | fixed_by_candidate | Already closed; historical context only. |
+| #41624 | keep_related | planned | related | Same Docker permission family, different root cause and path from the named-volume state directory bug. |
+| #43846 | keep_closed | skipped | duplicate | Already closed refs must not receive closure actions. |
+| #47660 | keep_independent | planned | independent | Different product direction and broad Dockerfile refactor; not a duplicate or merge candidate for this cluster. |
+| #48072 | keep_closed | skipped | superseded | Already closed source PR; replacement path is hydrated as #72662. |
+| #52176 | keep_independent | planned | independent | Separate feature/support gap with unresolved review findings; keep out of the named-volume fix path. |
+| #55933 | keep_related | planned | related | Same Dockerfile area but distinct build-performance root cause; leave open for a separate follow-up path. |
+| #59601 | keep_closed | skipped | independent | Already closed linked issue with a different root cause. |
+| #60052 | keep_closed | skipped | superseded | Already closed obsolete npm-global permissions PR; not part of the named-volume state directory fix. |
+| #61279 | close_fixed_by_candidate | blocked | fixed_by_candidate | Blocked by require_fix_before_close because #72662 is open and not merge-ready yet. |
+| #63959 | close_superseded | blocked | superseded | Superseded by #72662, but closure is blocked until the canonical replacement fix lands. |
+| #72662 | fix_needed | planned | canonical | Canonical PR is approved for finalization but not merge-ready; repair the branch, rerun pnpm check:changed and /review, then merge only after gates pass. |
+| cluster:ghcrawl-156624-autonomous-smoke | build_fix_artifact | planned | canonical | Autonomous calibrated canonical PR needs executable branch repair before merge. |
 
 ## Needs Human
 

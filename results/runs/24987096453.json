@@ -1,0 +1,213 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156624-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "24987096453",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/24987096453",
+  "head_sha": "3e2fd13363b486f8485ca909bf84ab36ee9ff77c",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156624-autonomous-smoke.md",
+  "published_at": "2026-04-27T09:38:32.699Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72662",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/61279",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72662",
+  "summary": "Canonical path is the maintainer replacement PR #72662 for the Docker named-volume state directory ownership bug. It is not merge-ready from the hydrated artifact because relevant checks are failing and no clean Codex /review merge preflight is present, so the executable path is to repair #72662, rerun pnpm check:changed and /review, then merge only after gates pass. Related Docker PRs are left open; closed refs are historical evidence only.",
+  "actions": [
+    {
+      "target": "#41624",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same Docker permission family, different root cause and path from the named-volume state directory bug."
+    },
+    {
+      "target": "#43846",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#41624",
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive closure actions."
+    },
+    {
+      "target": "#47660",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different product direction and broad Dockerfile refactor; not a duplicate or merge candidate for this cluster."
+    },
+    {
+      "target": "#48072",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72662",
+      "candidate_fix": "#72662",
+      "reason": "Already closed source PR; replacement path is hydrated as #72662."
+    },
+    {
+      "target": "#52176",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate feature/support gap with unresolved review findings; keep out of the named-volume fix path."
+    },
+    {
+      "target": "#55933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same Dockerfile area but distinct build-performance root cause; leave open for a separate follow-up path."
+    },
+    {
+      "target": "#59601",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked issue with a different root cause."
+    },
+    {
+      "target": "#60052",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed obsolete npm-global permissions PR; not part of the named-volume state directory fix."
+    },
+    {
+      "target": "#61279",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72662",
+      "candidate_fix": "#72662",
+      "reason": "Blocked by require_fix_before_close because #72662 is open and not merge-ready yet."
+    },
+    {
+      "target": "#63959",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#72662",
+      "candidate_fix": "#72662",
+      "reason": "Superseded by #72662, but closure is blocked until the canonical replacement fix lands."
+    },
+    {
+      "target": "#72662",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72662",
+      "candidate_fix": null,
+      "reason": "Canonical PR is approved for finalization but not merge-ready; repair the branch, rerun pnpm check:changed and /review, then merge only after gates pass."
+    },
+    {
+      "target": "cluster:ghcrawl-156624-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72662",
+      "candidate_fix": null,
+      "reason": "Autonomous calibrated canonical PR needs executable branch repair before merge."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "close_fixed_by_candidate": 1,
+    "close_superseded": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 2,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/72662",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#61279",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72662",
+      "candidate_fix": "#72662",
+      "title": null,
+      "idempotency_key": "ghcrawl-156624-autonomous-smoke:close-fixed-by-candidate:61279:72662:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#63959",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72662",
+      "candidate_fix": "#72662",
+      "title": null,
+      "idempotency_key": "ghcrawl-156624-autonomous-smoke:close-superseded:63959:72662:v1",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#72662",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(docker): repair named-volume state directory ownership",
+      "idempotency_key": null,
+      "reason": "merge state status is UNSTABLE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
