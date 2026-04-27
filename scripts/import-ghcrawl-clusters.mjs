@@ -12,9 +12,10 @@ const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", rep
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);
-const allowMerge = Boolean(args["allow-merge"]);
-const allowFixPr = Boolean(args["allow-fix-pr"]);
-const allowPostMergeClose = Boolean(args["allow-post-merge-close"] || allowMerge);
+const editEnabledByDefault = mode === "autonomous" || mode === "execute";
+const allowMerge = booleanArg("allow-merge", editEnabledByDefault);
+const allowFixPr = booleanArg("allow-fix-pr", editEnabledByDefault);
+const allowPostMergeClose = booleanArg("allow-post-merge-close", allowMerge || allowFixPr);
 const skipExisting = args["skip-existing"] !== "false";
 const skipSecurity = args["include-security"] !== true && args["skip-security"] !== "false";
 const skipFeatureRequests = args["include-feature-requests"] !== true && args["skip-feature-requests"] !== "false";
@@ -29,7 +30,9 @@ if (selectingFromGhcrawl) {
 }
 
 if (clusterIds.length === 0) {
-  console.error("usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--from-ghcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge] [--allow-fix-pr] [--allow-post-merge-close]");
+  console.error(
+    "usage: node scripts/import-ghcrawl-clusters.mjs <cluster-id> [...] [--from-ghcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+  );
   process.exit(2);
 }
 if (!["plan", "execute", "autonomous"].includes(mode)) {
@@ -233,6 +236,14 @@ function numberArg(name, fallback) {
   const value = Number(args[name] ?? fallback);
   if (!Number.isInteger(value) || value < 1) throw new Error(`--${name} must be a positive integer`);
   return value;
+}
+
+function booleanArg(name, fallback) {
+  const value = args[name];
+  if (value === undefined) return fallback;
+  if (value === true || value === "true") return true;
+  if (value === false || value === "false") return false;
+  throw new Error(`--${name} must be true or false`);
 }
 
 function sqlNumber(value) {

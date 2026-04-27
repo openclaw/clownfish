@@ -6,11 +6,12 @@ allowed_actions:
   - comment
   - label
   - close
+  - merge
+  - fix
+  - raise_pr
 blocked_actions:
   - force_push
   - bypass_checks
-  - merge
-  - fix
 require_human_for:
   - failing_checks
   - conflicting_prs
@@ -54,9 +55,10 @@ cluster_refs:
   - "#64084"
   - "#65153"
 allow_instant_close: true
-allow_fix_pr: false
-allow_merge: false
-allow_post_merge_close: false
+allow_fix_pr: true
+allow_merge: true
+allow_post_merge_close: true
+require_fix_before_close: true
 canonical_hint: "ghcrawl representative #61782 is closed; worker must verify whether an open canonical should replace it."
 notes: "Generated from ghcrawl run cluster 143805 on 2026-04-25."
 ---

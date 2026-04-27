@@ -6,11 +6,12 @@ allowed_actions:
   - comment
   - label
   - close
+  - merge
+  - fix
+  - raise_pr
 blocked_actions:
   - force_push
   - bypass_checks
-  - merge
-  - fix
 require_human_for:
   - security_sensitive
   - failing_checks
@@ -28,9 +29,10 @@ cluster_refs:
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
-allow_fix_pr: false
-allow_merge: false
-allow_post_merge_close: false
+allow_fix_pr: true
+allow_merge: true
+allow_post_merge_close: true
+require_fix_before_close: true
 canonical_hint: "ghcrawl representative #38090 is open; worker must verify it is still the best live canonical."
 notes: "Generated from ghcrawl run cluster 156966 on 2026-04-26."
 ---
