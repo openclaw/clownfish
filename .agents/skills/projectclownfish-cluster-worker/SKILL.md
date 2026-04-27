@@ -34,11 +34,11 @@ test -e node_modules && { ls -ld node_modules; test -L node_modules && echo node
 Then check live workflow state and safety vars:
 
 ```bash
-gh run list --repo openclaw/projectclownfish --workflow cluster-worker.yml --limit 10 \
+gh run list --repo openclaw/clownfish --workflow cluster-worker.yml --limit 10 \
   --json databaseId,headSha,status,conclusion,createdAt,updatedAt,url \
   --jq '.[] | {databaseId,headSha,status,conclusion,createdAt,updatedAt,url}'
 
-gh variable list --repo openclaw/projectclownfish --json name,value \
+gh variable list --repo openclaw/clownfish --json name,value \
   --jq 'map(select(.name|test("^CLOWNFISH_"))) | sort_by(.name) | .[] | {name,value}'
 ```
 
@@ -47,22 +47,22 @@ gh variable list --repo openclaw/projectclownfish --json name,value \
 For every completed run that matters:
 
 ```bash
-rm -rf /tmp/projectclownfish-check-RUN_ID
-mkdir -p /tmp/projectclownfish-check-RUN_ID
-gh run download RUN_ID --repo openclaw/projectclownfish --dir /tmp/projectclownfish-check-RUN_ID
-npm run review-results -- /tmp/projectclownfish-check-RUN_ID
+rm -rf /tmp/clownfish-check-RUN_ID
+mkdir -p /tmp/clownfish-check-RUN_ID
+gh run download RUN_ID --repo openclaw/clownfish --dir /tmp/clownfish-check-RUN_ID
+npm run review-results -- /tmp/clownfish-check-RUN_ID
 ```
 
 Summarize artifacts:
 
 ```bash
-find /tmp/projectclownfish-check-RUN_ID -name result.json -print -quit |
+find /tmp/clownfish-check-RUN_ID -name result.json -print -quit |
   xargs jq '{status,summary,actions_total:(.actions|length),action_counts:(.actions|group_by(.action)|map({action:.[0].action,count:length}))}'
 
-find /tmp/projectclownfish-check-RUN_ID -name apply-report.json -print -quit |
+find /tmp/clownfish-check-RUN_ID -name apply-report.json -print -quit |
   xargs jq '{totals:{executed:([.actions[]? | select(.status=="executed")]|length),blocked:([.actions[]? | select(.status=="blocked")]|length),skipped:([.actions[]? | select(.status=="skipped")]|length),planned:([.actions[]? | select(.status=="planned")]|length)}}'
 
-find /tmp/projectclownfish-check-RUN_ID -name fix-execution-report.json -print -quit |
+find /tmp/clownfish-check-RUN_ID -name fix-execution-report.json -print -quit |
   xargs jq '{status,actions}'
 ```
 
@@ -125,11 +125,11 @@ git diff --check
 Do a narrow planner smoke before committing hydration changes:
 
 ```bash
-rm -rf /tmp/projectclownfish-plan-check
+rm -rf /tmp/clownfish-plan-check
 node scripts/plan-cluster.mjs jobs/openclaw/ghcrawl-143793-autonomous-smoke.md \
-  --offline --run-dir /tmp/projectclownfish-plan-check
+  --offline --run-dir /tmp/clownfish-plan-check
 jq '{items:(.items|length),seed_refs:(.scope.seed_refs|length),context_refs:(.scope.context_refs|length),hydrate_cluster_refs:.scope.hydrate_cluster_refs}' \
-  /tmp/projectclownfish-plan-check/cluster-plan.json
+  /tmp/clownfish-plan-check/cluster-plan.json
 ```
 
 For a needs-human reduction smoke, verify the artifact includes real comment
@@ -137,7 +137,7 @@ and review-comment excerpts:
 
 ```bash
 jq '{items:(.items|length), comment_items:([.items[] | select(.comments_hydrated > 0)] | length), review_comment_prs:([.items[] | select(.pull_request.review_comments_hydrated > 0)] | length)}' \
-  /tmp/projectclownfish-plan-check/cluster-plan.json
+  /tmp/clownfish-plan-check/cluster-plan.json
 ```
 
 ## Generate Batch Jobs

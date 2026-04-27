@@ -16,7 +16,7 @@ export function currentProjectRepo() {
     process.env.CLOWNFISH_REPO ||
     process.env.GITHUB_REPOSITORY ||
     repoFromOriginRemote() ||
-    "openclaw/projectclownfish"
+    "openclaw/clownfish"
   );
 }
 
