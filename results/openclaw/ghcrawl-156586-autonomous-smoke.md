@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156586-autonomous-smoke"
 mode: "autonomous"
-run_id: "24978145396"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24978145396"
-head_sha: "e8d437d9978c397d8d3fb39c23597d4e5c1d98bf"
+run_id: "24981380433"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/24981380433"
+head_sha: "e0fb289dbbb528ad94fac3d2036800e925923c24"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T05:51:32.627Z"
-canonical: "https://github.com/openclaw/openclaw/issues/46647"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/46647"
+published_at: "2026-04-27T07:11:38.677Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
-actions_total: 20
+actions_total: 19
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,28 +25,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24978145396](https://github.com/openclaw/clownfish/actions/runs/24978145396)
+Run: [https://github.com/openclaw/clownfish/actions/runs/24981380433](https://github.com/openclaw/clownfish/actions/runs/24981380433)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/46647
+Canonical: unknown
 
 ## Summary
 
-Representative #47362 is already closed and obsolete. The current Slack canonical path is open issue #46647, which still describes a distinct final-edit Slack blocks delivery bug not covered by #47362. Security-sensitive open refs #45062, #63940, and linked #8813 are quarantined only; unrelated prompt PRs are kept open as independent work. No merge or close actions are merge-ready because required Codex /review merge preflight is missing and several PRs have unresolved bot/check blockers.
+Live preflight shows the original representative #47362 is already closed and the cluster is over-broad across several independent system-prompt/slack/skills/context subfamilies. No GitHub mutation or merge is safe from this worker: security-sensitive open refs are routed to central security, closed refs are kept closed, useful open PRs remain open for their own review/merge paths, and non-security issues remain open until a non-quarantined fix lands.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 20 |
+| Worker actions | 19 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,38 +54,37 @@ Representative #47362 is already closed and obsolete. The current Slack canonica
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72626 | clownfish/ghcrawl-156586-autonomous-smoke |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72626 | merge_canonical | blocked | fix_pr | mergeable state is CONFLICTING |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46647 | keep_canonical | planned | canonical | Use #46647 as the live Slack canonical issue because the job representative is closed and obsolete. |
-| cluster:ghcrawl-156586-autonomous-smoke | fix_needed | planned | canonical | A narrow credited replacement fix is needed for #46647 before any related closeout. |
-| cluster:ghcrawl-156586-autonomous-smoke | build_fix_artifact | planned | canonical | Prepare a narrow Slack delivery fix artifact for the deterministic ProjectClownfish fix executor. |
-| #45062 | route_security | planned | security_sensitive | Quarantine this exact PR to central OpenClaw security handling; do not mutate through ProjectClownfish. |
-| #63940 | route_security | planned | security_sensitive | Quarantine this exact PR to central OpenClaw security handling; do not mutate through ProjectClownfish. |
-| #8813 | route_security | planned | security_sensitive | Quarantine this exact linked issue to central OpenClaw security handling; keep unrelated non-security classification moving. |
-| #14432 | keep_independent | planned | independent | Separate prompt-guidance subfamily; leave open for its own merge path. |
-| #52727 | keep_independent | planned | independent | Independent prompt-policy change with failing checks; not eligible for merge or closeout here. |
-| #57247 | keep_independent | planned | independent | Independent prompt feature with unresolved bot/check blockers; leave open. |
-| #65777 | keep_independent | planned | independent | Independent prompt fix; keep open for its own merge-preflight path. |
-| #70605 | keep_independent | planned | independent | Independent context-sanitization PR; keep open and do not merge in this cluster pass. |
-| #47362 | keep_closed | skipped | superseded | Already closed; historical evidence only. |
-| #56951 | keep_closed | skipped | related | Already closed; no close action may be emitted. |
-| #56955 | keep_closed | skipped | superseded | Already closed; preserve as credit/evidence for the replacement fix artifact. |
-| #60017 | keep_closed | skipped | independent | Already closed and independent. |
-| #14310 | keep_closed | skipped | independent | Closed historical context only. |
-| #32466 | keep_closed | skipped | independent | Closed historical context only. |
-| #10841 | keep_closed | skipped | security_sensitive | Closed security-sensitive context; no ProjectClownfish mutation. |
-| #62953 | keep_closed | skipped | security_sensitive | Closed security-sensitive context; no ProjectClownfish mutation. |
-| #47668 | keep_independent | planned | independent | Independent linked issue; leave open for the #70605 subfamily. |
+| #8813 | route_security | planned | security_sensitive | Security-sensitive linked issue must be quarantined to central OpenClaw security handling. |
+| #10841 | keep_closed | skipped | security_sensitive | Already closed; no close/comment/label action is valid. |
+| #14310 | keep_closed | skipped | superseded | Already closed historical context; no action needed. |
+| #14432 | keep_canonical | planned | canonical | Best live canonical for the background sub-agent prompt-guidance subfamily, but not merge-ready under ProjectClownfish merge policy. |
+| #32466 | keep_closed | skipped | related | Already closed; no mutation is valid. |
+| #45062 | route_security | planned | security_sensitive | Open security-sensitive PR must be quarantined; do not merge, close, or repair via ProjectClownfish. |
+| #46647 | keep_related | planned | related | Real Slack bug report remains open until a non-quarantined fix is merged or central security clears the replacement path. |
+| #47362 | keep_closed | skipped | superseded | Original representative is obsolete and already closed; no close action is valid. |
+| #47668 | keep_related | planned | related | Related to #70605 but not a pure duplicate or closeout target. |
+| #52727 | keep_independent | planned | independent | Separate skill-precedence feature; not part of the Slack canonical path. |
+| #56951 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no mutation is valid. |
+| #56955 | keep_closed | skipped | superseded | Already closed/superseded historical contributor PR; no close action is valid. |
+| #57247 | keep_independent | planned | independent | Separate prompt feature with unresolved checks/review findings; keep open outside this cluster. |
+| #60017 | keep_closed | skipped | fixed_by_candidate | Already closed; no mutation is valid. |
+| #62953 | keep_closed | skipped | security_sensitive | Closed security-sensitive historical PR; no ProjectClownfish mutation is valid. |
+| #63940 | route_security | planned | security_sensitive | Open security-sensitive PR must be routed to central security handling. |
+| #65777 | keep_canonical | planned | canonical | Best live canonical for the IDENTITY-defaults prompt subfamily, but merge policy still requires mergeability and /review proof. |
+| #70605 | keep_canonical | planned | canonical | Best live canonical for the strikethrough sanitization subfamily, but not merge-ready under merge policy. |
+| #72626 | route_security | planned | security_sensitive | Security-sensitive replacement PR must be quarantined to central security handling before any Slack closeout or merge. |
 
 ## Needs Human
 
