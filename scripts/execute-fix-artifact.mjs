@@ -236,7 +236,7 @@ function isBlockedFixError(error) {
 function shouldFallbackToReplacementAfterRepairError(error) {
   const message = String(error?.message ?? error);
   if (/validation command failed|Codex |no merge base/i.test(message)) return false;
-  return /maintainer_can_modify=false|missing head repo\/ref|source PR #\d+ is (?:closed|merged)|permission denied|remote rejected|could not push|repository not found|not found/i.test(
+  return /maintainer_can_modify=false|missing head repo\/ref|source PR #\d+ is (?:closed|merged)|permission denied|permission to [^\s]+ denied|remote rejected|could not push|repository not found|not found/i.test(
     message,
   );
 }
@@ -308,6 +308,10 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
   const rebased = rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
+  if (!sameRepoBranch && !dryRun) {
+    ghAuthSetupGit(targetDir);
+    assertRepairBranchWritable({ targetDir, pull, rebased });
+  }
   prepareTargetToolchain(targetDir);
 
   const prep = editValidatePrepareMerge({ fixArtifact, targetDir, branch, mode: "repair", baseBranch });
@@ -355,6 +359,11 @@ function repairBranchPushArgs({ pull, rebased }) {
     throw new Error(`cannot force-with-lease repair branch ${pull.head.ref}: source head sha is missing`);
   }
   return ["push", `--force-with-lease=refs/heads/${pull.head.ref}:${headSha}`, remote, `HEAD:${pull.head.ref}`];
+}
+
+function assertRepairBranchWritable({ targetDir, pull, rebased }) {
+  const args = repairBranchPushArgs({ pull, rebased });
+  run("git", ["push", "--dry-run", ...args.slice(1)], { cwd: targetDir });
 }
 
 function prepareFallbackReplacementCheckout(sourceTargetDir) {
