@@ -1,0 +1,187 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156739-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25039125475",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25039125475",
+  "head_sha": "866a71962207327a1ba4de2aa40ac326ff0e2ae7",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156739-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:17:10.931Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/62308",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/62308",
+  "summary": "Classified the launchd/App Nap cluster from the hydrated preflight artifact. #62308 remains the non-security canonical ProcessType=Interactive path but is not merge-ready; plan repair of that contributor branch. #58070 and linked #72616 are quarantined to central security handling per the artifact. Duplicate closeout for #58061 is blocked until the canonical fix lands.",
+  "actions": [
+    {
+      "target": "#52270",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#62308",
+      "candidate_fix": null,
+      "reason": "Already closed; historical heartbeat evidence only."
+    },
+    {
+      "target": "#52819",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#62308",
+      "candidate_fix": null,
+      "reason": "Already closed; related heartbeat context only."
+    },
+    {
+      "target": "#54861",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#62308",
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action allowed."
+    },
+    {
+      "target": "#58061",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Clear covered issue, but closeout is blocked on the canonical fix path landing."
+    },
+    {
+      "target": "#58070",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive item must be routed to central security triage."
+    },
+    {
+      "target": "#59710",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different platform and likely different root cause."
+    },
+    {
+      "target": "#62294",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Related evidence for the canonical ProcessType fix, but not safe to close as a full duplicate."
+    },
+    {
+      "target": "#62308",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Useful contributor PR with maintainer_can_modify=true needs executor repair, fresh review, and validation before merge."
+    },
+    {
+      "target": "#66992",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Already closed duplicate context."
+    },
+    {
+      "target": "#72616",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked item is quarantined without poisoning unrelated non-security ProcessType classification."
+    },
+    {
+      "target": "cluster:ghcrawl-156739-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Canonical PR is useful but not merge-ready; autonomous executor needs a concrete repair artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "close_fixed_by_candidate": 1,
+    "route_security": 2,
+    "keep_independent": 1,
+    "keep_related": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "blocked": 1,
+    "planned": 6
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/daemon/launchd-plist.ts: core production [check:changed] src/daemon/launchd.test.ts: core test [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] summary 629ms ok conflict markers 259ms ok changelog attributions 367ms ok guarded extension wildcard re-exports 260ms ok plugin-sdk wildcard re-exports 1.73s ok typecheck core 2.76s failed:2 typecheck core tests",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/daemon/launchd-plist.ts: core production [check:changed] src/daemon/launchd.test.ts: core test [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] typecheck core [check:changed] typecheck core tests [check:changed] summary 629ms ok conflict markers 259ms ok changelog attributions 367ms ok guarded extension wildcard re-exports 260ms ok plugin-sdk wildcard re-exports 1.73s ok typecheck core 2.76s failed:2 typecheck core tests",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#58061",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "title": null,
+      "idempotency_key": "ghcrawl-156739-autonomous-smoke:#58061:close-fixed-by-candidate-blocked:#62308:2026-03-31T02:35:41Z",
+      "reason": "Clear covered issue, but closeout is blocked on the canonical fix path landing.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
