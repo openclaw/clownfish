@@ -236,7 +236,7 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 
 ## GitHub App Auth
 
-Create a GitHub App installed on `openclaw/openclaw` and `openclaw/clownfish`. Give it `Contents: write`, `Issues: write`, `Pull requests: write`, `Checks: read`, and `Commit statuses: read`; leave webhooks disabled. Store the App ID as repository variable `CLOWNFISH_APP_ID` and the downloaded private key PEM as repository secret `CLOWNFISH_APP_PRIVATE_KEY` in `openclaw/clownfish`. The workflows mint per-job tokens with the minimum permission level needed for that job, so classification stays read-only and execution gets write access only after the execution gate opens. Merge remains disabled unless `CLOWNFISH_ALLOW_MERGE=1`.
+Create a GitHub App installed on `openclaw/openclaw` and `openclaw/clownfish`. Give it `Contents: write`, `Issues: write`, and `Pull requests: write`; leave webhooks disabled. Store the App ID as repository variable `CLOWNFISH_APP_ID` and the downloaded private key PEM as repository secret `CLOWNFISH_APP_PRIVATE_KEY` in `openclaw/clownfish`. The workflows mint per-job tokens with the minimum permission level needed for that job, so classification stays read-only and execution gets write access only after the execution gate opens. Merge remains disabled unless `CLOWNFISH_ALLOW_MERGE=1`.
 
 ## Modes
 
