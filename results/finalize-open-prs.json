@@ -3,16 +3,16 @@
   "clownfish_repo": "openclaw/clownfish",
   "head_prefix": "clownfish/",
   "label": "clownfish",
-  "generated_at": "2026-04-28T07:26:48.408Z",
+  "generated_at": "2026-04-28T07:28:30.579Z",
   "count": 10,
   "summary": {
     "open_prs": 10,
     "ready_candidates": 0,
     "security_hold": 5,
-    "needs_rebase": 5,
+    "needs_rebase": 6,
     "mergeability_unknown": 0,
     "needs_checks": 9,
-    "needs_review": 4,
+    "needs_review": 5,
     "needs_merge_preflight": 10,
     "needs_result_backfill": 5
   },
@@ -35,50 +35,57 @@
       "head_sha": "01379e2d44e0ea919710877d60d33a81bcf1c81d",
       "cluster_id": "ghcrawl-156725-autonomous-smoke",
       "job_path": "jobs/openclaw/inbox/ghcrawl-156725-autonomous-smoke.md",
-      "updated_at": "2026-04-28T07:24:23Z",
+      "updated_at": "2026-04-28T07:26:46Z",
       "mergeable": "MERGEABLE",
       "merge_state_status": "UNSTABLE",
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 71,
+        "total": 76,
         "counts": {
+          "FAILURE": 3,
           "CANCELLED": 1,
-          "IN_PROGRESS": 12,
-          "SUCCESS": 48,
+          "SUCCESS": 62,
           "SKIPPED": 9,
-          "FAILURE": 1
+          "IN_PROGRESS": 1
         },
         "blockers": [
-          "Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
-          "CI / build-artifacts:IN_PROGRESS",
-          "CI / checks-fast-contracts-plugins:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-1:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-2:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-5:IN_PROGRESS",
+          "Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE",
           "CI / checks-node-core-fast-support:IN_PROGRESS",
-          "CI / checks-node-core-runtime-infra:IN_PROGRESS",
-          "CI / checks-node-core-runtime-media-ui:IN_PROGRESS",
           "CI / checks-node-agentic-commands:FAILURE",
-          "CI / checks-node-agentic-plugin-sdk:IN_PROGRESS",
-          "CI / checks-node-auto-reply-reply-commands-state-routing:IN_PROGRESS",
-          "Greptile Review:IN_PROGRESS"
+          "CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE"
         ]
       },
       "review_threads": {
-        "status": "clean",
-        "reason": null,
-        "unresolved_count": 0,
-        "examples": []
+        "status": "blocked",
+        "reason": "unresolved review threads remain",
+        "unresolved_count": 1,
+        "examples": [
+          "https://github.com/openclaw/openclaw/pull/73374#discussion_r3152271563"
+        ]
       },
       "review_bots": {
-        "count": 0,
-        "latest": []
+        "count": 2,
+        "latest": [
+          {
+            "source": "comment",
+            "author": "greptile-apps",
+            "url": "https://github.com/openclaw/openclaw/pull/73374#issuecomment-4333186718",
+            "submitted_at": "2026-04-28T07:26:29Z"
+          },
+          {
+            "source": "review",
+            "author": "greptile-apps",
+            "url": null,
+            "submitted_at": "2026-04-28T07:26:37Z"
+          }
+        ]
       },
       "latest_record": null,
       "blockers": [
         "needs_merge_state:UNSTABLE",
-        "needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS; CI / build-artifacts:IN_PROGRESS; CI / checks-fast-contracts-plugins:IN_PROGRESS",
+        "unresolved review threads remain",
+        "needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE; CI / checks-node-core-fast-support:IN_PROGRESS; CI / checks-node-agentic-commands:FAILURE",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
@@ -225,12 +232,12 @@
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 75,
+        "total": 76,
         "counts": {
           "FAILURE": 5,
           "CANCELLED": 1,
           "SUCCESS": 61,
-          "SKIPPED": 8
+          "SKIPPED": 9
         },
         "blockers": [
           "Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE",
@@ -275,8 +282,8 @@
       "cluster_id": "ghcrawl-156695-autonomous-smoke",
       "job_path": "jobs/openclaw/inbox/ghcrawl-156695-autonomous-smoke.md",
       "updated_at": "2026-04-28T07:18:04Z",
-      "mergeable": "MERGEABLE",
-      "merge_state_status": "UNSTABLE",
+      "mergeable": "CONFLICTING",
+      "merge_state_status": "DIRTY",
       "review_decision": "",
       "security_hold": false,
       "checks": {
@@ -321,13 +328,14 @@
       },
       "latest_record": null,
       "blockers": [
-        "needs_merge_state:UNSTABLE",
+        "needs_rebase:CONFLICTING",
+        "needs_merge_state:DIRTY",
         "unresolved review threads remain",
         "needs_checks:CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE; CI / check-test-types:FAILURE; CI / check:FAILURE",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
-      "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
+      "recommended_next_action": "resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review"
     },
     {
       "number": 72664,

@@ -41,28 +41,28 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 28, 2026, 07:27 UTC
+Last dashboard update: Apr 28, 2026, 07:28 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 194 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 195 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 194 | 100% |
+| Latest clusters reviewed | 195 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 90 | 46.4% |
-| Needs-human clusters | 42 | 21.6% |
-| Latest successful clusters | 192 | 99.0% |
+| Clean completed clusters | 90 | 46.2% |
+| Needs-human clusters | 42 | 21.5% |
+| Latest successful clusters | 193 | 99.0% |
 | Latest failed clusters | 2 | 1.0% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 419 | audit |
-| Fix action attempts | 123 | audit |
+| Run attempts archived | 420 | audit |
+| Fix action attempts | 124 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 28 | 22.8% |
-| Fix actions blocked | 31 | 25.2% |
-| Latest clusters with fix failures | 27 | 13.9% |
+| Fix actions failed | 28 | 22.6% |
+| Fix actions blocked | 32 | 25.8% |
+| Latest clusters with fix failures | 28 | 14.4% |
 | Distinct PRs touched | 758 | 100% |
 | Open PRs tracked | 328 | 43.3% |
 | Closed unmerged PRs tracked | 347 | 45.8% |
@@ -79,6 +79,7 @@ Scope: 194 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [ghcrawl-156805-autonomous-smoke](results/openclaw/ghcrawl-156805-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156805-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/telegra... | [report](results/openclaw/ghcrawl-156805-autonomous-smoke.md) | [25039479679](https://github.com/openclaw/clownfish/actions/runs/25039479679) |
 | [ghcrawl-156706-autonomous-smoke](results/openclaw/ghcrawl-156706-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156706-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156706-autonomous-smoke.md) | [25039040776](https://github.com/openclaw/clownfish/actions/runs/25039040776) |
 | [ghcrawl-156683-autonomous-smoke](results/openclaw/ghcrawl-156683-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156683-autonomous-smoke.md | pull request is draft | [report](results/openclaw/ghcrawl-156683-autonomous-smoke.md) | [25038992235](https://github.com/openclaw/clownfish/actions/runs/25038992235) |
 | [ghcrawl-156789-autonomous-smoke](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156789-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClaw... | [report](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | [25039373452](https://github.com/openclaw/clownfish/actions/runs/25039373452) |
@@ -103,12 +104,12 @@ Scope: 194 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156657-autonomous-smoke](results/openclaw/ghcrawl-156657-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156657-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/agents/workspace.load-ext... | [report](results/openclaw/ghcrawl-156657-autonomous-smoke.md) | [25023025041](https://github.com/openclaw/clownfish/actions/runs/25023025041) |
 | [ghcrawl-156671-autonomous-smoke](results/openclaw/ghcrawl-156671-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156671-autonomous-smoke.md | no PR checks found | [report](results/openclaw/ghcrawl-156671-autonomous-smoke.md) | [25023044075](https://github.com/openclaw/clownfish/actions/runs/25023044075) |
 | [ghcrawl-156661-autonomous-smoke](results/openclaw/ghcrawl-156661-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156661-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/feishu/... | [report](results/openclaw/ghcrawl-156661-autonomous-smoke.md) | [25023028672](https://github.com/openclaw/clownfish/actions/runs/25023028672) |
-| [ghcrawl-156667-autonomous-smoke](results/openclaw/ghcrawl-156667-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156667-autonomous-smoke.md | target is not listed in job candidates | [report](results/openclaw/ghcrawl-156667-autonomous-smoke.md) | [25023040628](https://github.com/openclaw/clownfish/actions/runs/25023040628) |
 
 ### Fix Failure Queue
 
 | Cluster | Status | Target | Branch/PR | Reason | Run |
 | --- | --- | --- | --- | --- | --- |
+| [ghcrawl-156805-autonomous-smoke](results/openclaw/ghcrawl-156805-autonomous-smoke.md) | blocked |  |  | validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/telegra... | [25039479679](https://github.com/openclaw/clownfish/actions/runs/25039479679) |
 | [ghcrawl-156789-autonomous-smoke](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | failed |  |  | validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClaw... | [25039373452](https://github.com/openclaw/clownfish/actions/runs/25039373452) |
 | [ghcrawl-156789-autonomous-smoke](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | blocked |  |  | validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClaw... | [25039373452](https://github.com/openclaw/clownfish/actions/runs/25039373452) |
 | [ghcrawl-156782-autonomous-smoke](results/openclaw/ghcrawl-156782-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039337140](https://github.com/openclaw/clownfish/actions/runs/25039337140) |
@@ -133,7 +134,6 @@ Scope: 194 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156622-autonomous-smoke](results/openclaw/ghcrawl-156622-autonomous-smoke.md) | failed |  |  | validation command failed (pnpm check:changed): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "check:changed" not found Did you me... | [24980256758](https://github.com/openclaw/clownfish/actions/runs/24980256758) |
 | [ghcrawl-156622-autonomous-smoke](results/openclaw/ghcrawl-156622-autonomous-smoke.md) | blocked |  |  | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [24980256758](https://github.com/openclaw/clownfish/actions/runs/24980256758) |
 | [ghcrawl-156601-autonomous-smoke](results/openclaw/ghcrawl-156601-autonomous-smoke.md) | blocked |  |  | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [24980228607](https://github.com/openclaw/clownfish/actions/runs/24980228607) |
-| [ghcrawl-156621-autonomous-smoke](results/openclaw/ghcrawl-156621-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [24980255440](https://github.com/openclaw/clownfish/actions/runs/24980255440) |
 
 ### Top Blocked Reasons
 
@@ -159,11 +159,11 @@ Scope: 194 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#73374](https://github.com/openclaw/openclaw/pull/73374) | fix: retry same model on transient fallback errors | ghcrawl-156725-autonomous-smoke | clownfish/ghcrawl-156725-autonomous-smoke | needs_merge_state:UNSTABLE, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS; CI / bu... | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#73374](https://github.com/openclaw/openclaw/pull/73374) | fix: retry same model on transient fallback errors | ghcrawl-156725-autonomous-smoke | clownfish/ghcrawl-156725-autonomous-smoke | needs_merge_state:UNSTABLE, unresolved review threads remain, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against th... | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#73368](https://github.com/openclaw/openclaw/pull/73368) | fix(ui): clear webchat pending state only for completed active run | ghcrawl-156728-autonomous-smoke | clownfish/ghcrawl-156728-autonomous-smoke | needs_merge_state:UNSTABLE, unresolved review threads remain, needs_checks:CI / checks-node-auto-reply-reply-commands-state-routing:FAILU... | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#73365](https://github.com/openclaw/openclaw/pull/73365) | fix: allow steer messages during active non-streaming runs | ghcrawl-156681-autonomous-smoke | clownfish/ghcrawl-156681-autonomous-smoke | needs_merge_state:UNSTABLE, unresolved review threads remain, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against th... | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#73362](https://github.com/openclaw/openclaw/pull/73362) | Fix default sandbox image fallback for python3-dependent mutations | ghcrawl-156718-autonomous-smoke | clownfish/ghcrawl-156718-autonomous-smoke | needs_merge_state:UNSTABLE, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE; CI / checks... | repair failing checks or document unrelated main flake with touched-surface proof |
-| [#73361](https://github.com/openclaw/openclaw/pull/73361) | fix(ui): confirm button-triggered new session resets | ghcrawl-156695-autonomous-smoke | clownfish/ghcrawl-156695-autonomous-smoke | needs_merge_state:UNSTABLE, unresolved review threads remain, needs_checks:CI / checks-node-auto-reply-reply-commands-state-routing:FAILU... | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#73361](https://github.com/openclaw/openclaw/pull/73361) | fix(ui): confirm button-triggered new session resets | ghcrawl-156695-autonomous-smoke | clownfish/ghcrawl-156695-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / checks-node-auto-reply-reply-comma... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#72664](https://github.com/openclaw/openclaw/pull/72664) | fix(qwen): allow explicit qwen3.6-plus on Coding Plan | ghcrawl-156617-autonomous-smoke | clownfish/ghcrawl-156617-autonomous-smoke | security_route, needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | route to central security triage |
 | [#72621](https://github.com/openclaw/openclaw/pull/72621) | fix(whatsapp): recover stale listener after auth conflict churn | ghcrawl-156581-autonomous-smoke | clownfish/ghcrawl-156581-autonomous-smoke | security_route, needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-agentic-agents:FAILURE; CI / checks-node... | route to central security triage |
 | [#72615](https://github.com/openclaw/openclaw/pull/72615) | fix(memory-wiki): route bridge CLI through gateway | ghcrawl-156579-autonomous-smoke | clownfish/ghcrawl-156579-autonomous-smoke | security_route, needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-core-runtime-shared:FAILURE; CI / checks... | route to central security triage |
