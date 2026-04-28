@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156914-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25040098128",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25040098128",
+  "head_sha": "6b7e12844dc688ededad88c8b64d13fabc4b8a1c",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156914-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:44:36.899Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69305",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69305",
+  "summary": "Classified the cluster from the hydrated preflight artifact. #69305 remains the canonical positional-argument zsh completion PR, but it is not merge-ready because mergeability is unknown, CI has failing jobs, and the latest Codex review has an unresolved actionable completion-regression finding. Plan repair of the contributor branch and route the unrelated security-sensitive #64490 to central security handling.",
+  "actions": [
+    {
+      "target": "#64490",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#69305",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69305",
+      "candidate_fix": null,
+      "reason": "#69305 is the best canonical PR, but merge is blocked pending branch repair, review-finding resolution, validation, and merge preflight."
+    },
+    {
+      "target": "cluster:ghcrawl-156914-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69305",
+      "candidate_fix": "#69305",
+      "reason": "Build an executable repair artifact for the canonical contributor PR instead of merging or closing anything first."
+    },
+    {
+      "target": "#69293",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69305",
+      "candidate_fix": "#69305",
+      "reason": "Historical closed issue evidence only; keep consolidated on #69305."
+    },
+    {
+      "target": "#69352",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69305",
+      "candidate_fix": "#69305",
+      "reason": "Closed duplicate/superseded implementation attempt; preserve as credit/evidence for the #69305 repair path."
+    },
+    {
+      "target": "#69509",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69305",
+      "candidate_fix": "#69305",
+      "reason": "Closed duplicate/superseded implementation attempt; no mutation needed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/69305",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#69305",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "CLI: complete positional args in zsh completion",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

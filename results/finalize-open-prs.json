@@ -3,18 +3,18 @@
   "clownfish_repo": "openclaw/clownfish",
   "head_prefix": "clownfish/",
   "label": "clownfish",
-  "generated_at": "2026-04-28T07:44:01.030Z",
-  "count": 14,
+  "generated_at": "2026-04-28T07:46:23.013Z",
+  "count": 15,
   "summary": {
-    "open_prs": 14,
+    "open_prs": 15,
     "ready_candidates": 0,
     "security_hold": 5,
     "needs_rebase": 10,
     "mergeability_unknown": 0,
-    "needs_checks": 13,
+    "needs_checks": 14,
     "needs_review": 6,
-    "needs_merge_preflight": 14,
-    "needs_result_backfill": 9
+    "needs_merge_preflight": 15,
+    "needs_result_backfill": 10
   },
   "dispatch": {
     "enabled": false,
@@ -27,6 +27,62 @@
     "candidates": []
   },
   "prs": [
+    {
+      "number": 73388,
+      "title": "Fix Trinity main-session compatibility mismatch",
+      "url": "https://github.com/openclaw/openclaw/pull/73388",
+      "branch": "clownfish/ghcrawl-156908-autonomous-smoke",
+      "head_sha": "853179feee5cffe8decb3270a4cd7045e1085f97",
+      "cluster_id": "ghcrawl-156908-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/ghcrawl-156908-autonomous-smoke.md",
+      "updated_at": "2026-04-28T07:43:51Z",
+      "mergeable": "MERGEABLE",
+      "merge_state_status": "UNSTABLE",
+      "review_decision": "",
+      "security_hold": false,
+      "checks": {
+        "total": 69,
+        "counts": {
+          "CANCELLED": 2,
+          "SUCCESS": 53,
+          "SKIPPED": 8,
+          "IN_PROGRESS": 6
+        },
+        "blockers": [
+          "CI / build-artifacts:IN_PROGRESS",
+          "CI / checks-fast-contracts-plugins:IN_PROGRESS",
+          "CI / checks-node-extensions-shard-5:IN_PROGRESS",
+          "CI / checks-node-core-fast-support:IN_PROGRESS",
+          "CI / checks-node-agentic-plugin-sdk:IN_PROGRESS",
+          "CI / checks-node-auto-reply-reply-commands-state-routing:IN_PROGRESS"
+        ]
+      },
+      "review_threads": {
+        "status": "clean",
+        "reason": null,
+        "unresolved_count": 0,
+        "examples": []
+      },
+      "review_bots": {
+        "count": 1,
+        "latest": [
+          {
+            "source": "comment",
+            "author": "greptile-apps",
+            "url": "https://github.com/openclaw/openclaw/pull/73388#issuecomment-4333285081",
+            "submitted_at": "2026-04-28T07:43:51Z"
+          }
+        ]
+      },
+      "latest_record": null,
+      "blockers": [
+        "needs_merge_state:UNSTABLE",
+        "needs_checks:CI / build-artifacts:IN_PROGRESS; CI / checks-fast-contracts-plugins:IN_PROGRESS; CI / checks-node-extensions-shard-5:IN_PROGRESS",
+        "needs_merge_preflight",
+        "needs_result_backfill"
+      ],
+      "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
+    },
     {
       "number": 73380,
       "title": "fix(memory): keep pre-compaction flush prompt out of user transcript",
@@ -41,15 +97,16 @@
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 76,
+        "total": 77,
         "counts": {
           "CANCELLED": 4,
           "SUCCESS": 62,
           "SKIPPED": 9,
-          "IN_PROGRESS": 1
+          "FAILURE": 2
         },
         "blockers": [
-          "CI / checks-node-core-fast-support:IN_PROGRESS"
+          "CI / checks-node-core-fast-support:FAILURE",
+          "CI / checks-node-core:FAILURE"
         ]
       },
       "review_threads": {
@@ -72,7 +129,7 @@
       "latest_record": null,
       "blockers": [
         "needs_merge_state:UNSTABLE",
-        "needs_checks:CI / checks-node-core-fast-support:IN_PROGRESS",
+        "needs_checks:CI / checks-node-core-fast-support:FAILURE; CI / checks-node-core:FAILURE",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
@@ -92,17 +149,17 @@
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 78,
+        "total": 79,
         "counts": {
           "CANCELLED": 4,
           "SUCCESS": 63,
           "SKIPPED": 9,
-          "IN_PROGRESS": 1,
-          "FAILURE": 1
+          "FAILURE": 3
         },
         "blockers": [
-          "CI / checks-node-core-fast-support:IN_PROGRESS",
-          "CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE"
+          "CI / checks-node-core-fast-support:FAILURE",
+          "CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE",
+          "CI / checks-node-core:FAILURE"
         ]
       },
       "review_threads": {
@@ -134,7 +191,7 @@
       "blockers": [
         "needs_merge_state:UNSTABLE",
         "unresolved review threads remain",
-        "needs_checks:CI / checks-node-core-fast-support:IN_PROGRESS; CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE",
+        "needs_checks:CI / checks-node-core-fast-support:FAILURE; CI / checks-node-auto-reply-reply-commands-state-routing:FAILURE; CI / checks-node-core:FAILURE",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
@@ -809,58 +866,35 @@
       "recommended_next_action": "route to central security triage"
     },
     {
-      "number": 73388,
-      "title": "Fix Trinity main-session compatibility mismatch",
-      "url": "https://github.com/openclaw/openclaw/pull/73388",
-      "branch": "clownfish/ghcrawl-156908-autonomous-smoke",
-      "head_sha": "853179feee5cffe8decb3270a4cd7045e1085f97",
-      "cluster_id": "ghcrawl-156908-autonomous-smoke",
-      "job_path": "jobs/openclaw/inbox/ghcrawl-156908-autonomous-smoke.md",
-      "updated_at": "2026-04-28T07:43:51Z",
+      "number": 73389,
+      "title": "feat(slack): publish App Home tab views",
+      "url": "https://github.com/openclaw/openclaw/pull/73389",
+      "branch": "clownfish/ghcrawl-156940-autonomous-smoke",
+      "head_sha": "573ae53579337053a5018baf060ddb9025606fe4",
+      "cluster_id": "ghcrawl-156940-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/ghcrawl-156940-autonomous-smoke.md",
+      "updated_at": "2026-04-28T07:46:01Z",
       "mergeable": "MERGEABLE",
       "merge_state_status": "UNSTABLE",
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 67,
+        "total": 73,
         "counts": {
-          "CANCELLED": 2,
-          "SUCCESS": 26,
-          "SKIPPED": 8,
-          "IN_PROGRESS": 31
+          "CANCELLED": 3,
+          "SUCCESS": 53,
+          "SKIPPED": 9,
+          "IN_PROGRESS": 8
         },
         "blockers": [
           "CI / build-artifacts:IN_PROGRESS",
           "CI / checks-fast-contracts-plugins:IN_PROGRESS",
-          "CI / checks-fast-contracts-channels-a:IN_PROGRESS",
-          "CI / checks-fast-contracts-channels-b:IN_PROGRESS",
-          "CI / checks-fast-contracts-channels-c:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-1:IN_PROGRESS",
           "CI / checks-node-extensions-shard-2:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-3:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-4:IN_PROGRESS",
           "CI / checks-node-extensions-shard-5:IN_PROGRESS",
-          "CI / checks-node-extensions-shard-6:IN_PROGRESS",
-          "CI / checks-node-core-fast-support:IN_PROGRESS",
-          "CI / checks-node-core-ui:IN_PROGRESS",
           "CI / checks-node-core-runtime-infra:IN_PROGRESS",
           "CI / checks-node-core-runtime-media-ui:IN_PROGRESS",
-          "CI / checks-node-core-runtime-shared:IN_PROGRESS",
-          "CI / checks-node-agentic-control-plane:IN_PROGRESS",
-          "CI / checks-node-agentic-commands:IN_PROGRESS",
           "CI / checks-node-agentic-plugin-sdk:IN_PROGRESS",
-          "CI / checks-node-agentic-plugins:IN_PROGRESS",
-          "CI / checks-node-auto-reply-reply-agent-runner:IN_PROGRESS",
-          "CI / checks-node-auto-reply-reply-dispatch:IN_PROGRESS",
-          "CI / checks-node-auto-reply-reply-commands-state-routing:IN_PROGRESS",
-          "CI / check-lint:IN_PROGRESS",
-          "CI / check-policy-guards:IN_PROGRESS",
-          "CI / check-additional-boundaries:IN_PROGRESS",
-          "CI / check-additional-extension-channels:IN_PROGRESS",
-          "CI / check-additional-extension-bundled:IN_PROGRESS",
-          "CI / check-additional-extension-package-boundary:IN_PROGRESS",
-          "CI / check-additional-runtime-topology-architecture:IN_PROGRESS",
-          "CI / check-docs:IN_PROGRESS"
+          "CI / checks-node-auto-reply-reply-commands-state-routing:IN_PROGRESS"
         ]
       },
       "review_threads": {
@@ -875,15 +909,15 @@
           {
             "source": "comment",
             "author": "greptile-apps",
-            "url": "https://github.com/openclaw/openclaw/pull/73388#issuecomment-4333285081",
-            "submitted_at": "2026-04-28T07:43:51Z"
+            "url": "https://github.com/openclaw/openclaw/pull/73389#issuecomment-4333297648",
+            "submitted_at": "2026-04-28T07:46:01Z"
           }
         ]
       },
       "latest_record": null,
       "blockers": [
         "needs_merge_state:UNSTABLE",
-        "needs_checks:CI / build-artifacts:IN_PROGRESS; CI / checks-fast-contracts-plugins:IN_PROGRESS; CI / checks-fast-contracts-channels-a:IN_PROGRESS",
+        "needs_checks:CI / build-artifacts:IN_PROGRESS; CI / checks-fast-contracts-plugins:IN_PROGRESS; CI / checks-node-extensions-shard-2:IN_PROGRESS",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
@@ -905,16 +939,15 @@
       "checks": {
         "total": 79,
         "counts": {
+          "FAILURE": 1,
           "CANCELLED": 4,
-          "IN_PROGRESS": 4,
-          "SUCCESS": 62,
-          "SKIPPED": 9
+          "SUCCESS": 64,
+          "SKIPPED": 9,
+          "IN_PROGRESS": 1
         },
         "blockers": [
-          "Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
-          "CI / checks-node-core-fast-support:IN_PROGRESS",
-          "CI / checks-node-agentic-control-plane:IN_PROGRESS",
-          "CI / checks-node-agentic-plugin-sdk:IN_PROGRESS"
+          "Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE",
+          "CI / checks-node-core-fast-support:IN_PROGRESS"
         ]
       },
       "review_threads": {
@@ -937,7 +970,7 @@
       "latest_record": null,
       "blockers": [
         "needs_merge_state:UNSTABLE",
-        "needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS; CI / checks-node-core-fast-support:IN_PROGRESS; CI / checks-node-agentic-control-plane:IN_PROGRESS",
+        "needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE; CI / checks-node-core-fast-support:IN_PROGRESS",
         "needs_merge_preflight",
         "needs_result_backfill"
       ],
