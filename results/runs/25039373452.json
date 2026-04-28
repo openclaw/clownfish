@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156789-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25039373452",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25039373452",
+  "head_sha": "2f79ee158a76686ab5a2d5823222063ef19f41ab",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156789-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:22:02.809Z",
+  "canonical": "#51371",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/51371",
+  "summary": "Chose #51371 as the best canonical repair path because it is the focused one-file WebSocket ping double-resume fix, has addressed Greptile review comments, and avoids #41653's unrelated workflow addition. No merge is recommended yet because mergeability is unknown, Codex /review proof is missing, and current changed-surface validation still needs to run. Security-sensitive linked #1 is quarantined only.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed to central OpenClaw security handling and not used for ProjectClownfish mutation."
+    },
+    {
+      "target": "#51371",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#51371",
+      "candidate_fix": null,
+      "reason": "Best canonical PR for the cluster, but it needs repair/validation before merge."
+    },
+    {
+      "target": "cluster:ghcrawl-156789-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "reason": "A narrow canonical PR exists but is not merge-ready under ProjectClownfish merge policy."
+    },
+    {
+      "target": "cluster:ghcrawl-156789-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "reason": "Structured repair work is needed before any merge or closeout mutation."
+    },
+    {
+      "target": "#41653",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "reason": "require_fix_before_close blocks superseded PR closeout until the canonical fix path is landed or opened as a concrete fix PR."
+    },
+    {
+      "target": "#51311",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "reason": "require_fix_before_close blocks superseded PR closeout until the canonical fix path is landed or opened as a concrete fix PR."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "close_superseded": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 2
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift: app surface [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] lint apps sh: 1: swiftlint: not found [check:changed] summary 446ms ok conflict markers 174ms ok changelog attributions 194ms ok guarded extension wildcard re-exports 193ms ok plugin-sdk wildcard re-exports 338ms failed:1 lint apps",
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift: app surface [check:changed] conflict markers [check:changed] changelog attributions [check:changed] guarded extension wildcard re-exports [check:changed] plugin-sdk wildcard re-exports [check:changed] lint apps sh: 1: swiftlint: not found [check:changed] summary 446ms ok conflict markers 174ms ok changelog attributions 194ms ok guarded extension wildcard re-exports 193ms ok plugin-sdk wildcard re-exports 338ms failed:1 lint apps",
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#41653",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "title": null,
+      "idempotency_key": "ghcrawl-156789-autonomous-smoke:#41653:close_superseded_by:#51371:2026-04-28T07:00:42Z",
+      "reason": "require_fix_before_close blocks superseded PR closeout until the canonical fix path is landed or opened as a concrete fix PR.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#51311",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#51371",
+      "candidate_fix": "#51371",
+      "title": null,
+      "idempotency_key": "ghcrawl-156789-autonomous-smoke:#51311:close_superseded_by:#51371:2026-03-24T20:15:40Z",
+      "reason": "require_fix_before_close blocks superseded PR closeout until the canonical fix path is landed or opened as a concrete fix PR.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
