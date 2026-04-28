@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 28, 2026, 05:23 UTC
+Last dashboard update: Apr 28, 2026, 05:24 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,33 +52,37 @@ Scope: 179 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 179 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 82 | 45.8% |
+| Clean completed clusters | 83 | 46.4% |
 | Needs-human clusters | 43 | 24.0% |
 | Latest successful clusters | 177 | 98.9% |
 | Latest failed clusters | 2 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 400 | audit |
-| Fix action attempts | 109 | audit |
+| Run attempts archived | 401 | audit |
+| Fix action attempts | 110 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 26 | 23.9% |
-| Fix actions blocked | 26 | 23.9% |
+| Fix actions failed | 26 | 23.6% |
+| Fix actions blocked | 26 | 23.6% |
 | Latest clusters with fix failures | 23 | 12.8% |
 | Distinct PRs touched | 713 | 100% |
 | Open PRs tracked | 317 | 44.5% |
 | Closed unmerged PRs tracked | 320 | 44.9% |
-| Completed close actions | 25 | 10.2% |
-| Completed merge actions | 20 | 8.2% |
-| Duplicate closes | 22 | 88.0% |
+| Completed close actions | 29 | 11.8% |
+| Completed merge actions | 21 | 8.6% |
+| Duplicate closes | 22 | 75.9% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 90 | 36.9% |
-| Skipped mutation attempts | 109 | 44.7% |
+| Blocked mutation attempts | 88 | 35.9% |
+| Skipped mutation attempts | 107 | 43.7% |
 
 ### Latest ProjectClownfish Closures
 
 | Target | Type | Title | Closed | Action | Cluster | Report | Run |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [#59431](https://github.com/openclaw/openclaw/pull/59431) | pull_request | fix(feishu): correct Chinese filename encoding in attachments | Apr 28, 2026, 05:23 UTC | close_superseded | [ghcrawl-199239-agentic-merge](results/openclaw/ghcrawl-199239-agentic-merge.md) | [report](results/openclaw/ghcrawl-199239-agentic-merge.md) | [25035231796](https://github.com/openclaw/clownfish/actions/runs/25035231796) |
+| [#59409](https://github.com/openclaw/openclaw/issues/59409) | issue | [Bug]: Feishu plugin: Chinese filenames in attachments display as garbled (Latin-1 encoding issue) | Apr 28, 2026, 05:23 UTC | close_fixed_by_candidate | [ghcrawl-199239-agentic-merge](results/openclaw/ghcrawl-199239-agentic-merge.md) | [report](results/openclaw/ghcrawl-199239-agentic-merge.md) | [25035231796](https://github.com/openclaw/clownfish/actions/runs/25035231796) |
+| [#50435](https://github.com/openclaw/openclaw/pull/50435) | pull_request | fix(feishu): recover Chinese filenames from Latin-1 mojibake in Content-Disposition | Apr 28, 2026, 05:23 UTC | close_superseded | [ghcrawl-199239-agentic-merge](results/openclaw/ghcrawl-199239-agentic-merge.md) | [report](results/openclaw/ghcrawl-199239-agentic-merge.md) | [25035231796](https://github.com/openclaw/clownfish/actions/runs/25035231796) |
+| [#48388](https://github.com/openclaw/openclaw/issues/48388) | issue | [Bug]: Feishu file names with Chinese characters are garbled (UTF-8 encoding issue) | Apr 28, 2026, 05:23 UTC | close_fixed_by_candidate | [ghcrawl-199239-agentic-merge](results/openclaw/ghcrawl-199239-agentic-merge.md) | [report](results/openclaw/ghcrawl-199239-agentic-merge.md) | [25035231796](https://github.com/openclaw/clownfish/actions/runs/25035231796) |
 | [#61016](https://github.com/openclaw/openclaw/pull/61016) | pull_request | fix(media): anchor sanitizeMimeType regex and make case-insensitive per RFC 2045 | Apr 28, 2026, 04:48 UTC | close_superseded | [ghcrawl-156640-autonomous-smoke](results/openclaw/ghcrawl-156640-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-156640-autonomous-smoke.md) | [25034019917](https://github.com/openclaw/clownfish/actions/runs/25034019917) |
 | [#49961](https://github.com/openclaw/openclaw/pull/49961) | pull_request | fix: restore compact JS placeholders in session export template | Apr 28, 2026, 04:36 UTC | close_superseded | [ghcrawl-156664-autonomous-smoke](results/openclaw/ghcrawl-156664-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-156664-autonomous-smoke.md) | [25033552424](https://github.com/openclaw/clownfish/actions/runs/25033552424) |
 | [#49957](https://github.com/openclaw/openclaw/issues/49957) | issue | Bug: Session export HTML is empty due to reformatted JS placeholders in template | Apr 28, 2026, 04:36 UTC | close_duplicate | [ghcrawl-156664-autonomous-smoke](results/openclaw/ghcrawl-156664-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-156664-autonomous-smoke.md) | [25033552424](https://github.com/openclaw/clownfish/actions/runs/25033552424) |
@@ -100,10 +104,6 @@ Scope: 179 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [#50691](https://github.com/openclaw/openclaw/issues/50691) | issue | openclaw status reports missing operator.read while gateway is healthy; gateway probe times out on same loopback endpoint | Apr 25, 2026, 19:46 UTC | close_duplicate | [ghcrawl-143815-autonomous-smoke](results/openclaw/ghcrawl-143815-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143815-autonomous-smoke.md) | [24939008778](https://github.com/openclaw/projectclownfish/actions/runs/24939008778) |
 | [#50541](https://github.com/openclaw/openclaw/issues/50541) | issue | [Bug]: CLI cannot connect to Gateway (missing scope: operator.read) - Downgrade to 2026.3.11 works | Apr 25, 2026, 19:46 UTC | close_duplicate | [ghcrawl-143815-autonomous-smoke](results/openclaw/ghcrawl-143815-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143815-autonomous-smoke.md) | [24939008778](https://github.com/openclaw/projectclownfish/actions/runs/24939008778) |
 | [#70373](https://github.com/openclaw/openclaw/issues/70373) | issue | Control UI shows async exec system events inline as if authored by the user | Apr 25, 2026, 19:45 UTC | close_duplicate | [ghcrawl-143804-autonomous-smoke](results/openclaw/ghcrawl-143804-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143804-autonomous-smoke.md) | [24939000666](https://github.com/openclaw/projectclownfish/actions/runs/24939000666) |
-| [#65153](https://github.com/openclaw/openclaw/issues/65153) | issue | [Bug] Telegram media download blocked - resolves to private IP | Apr 25, 2026, 19:44 UTC | close_duplicate | [ghcrawl-143805-autonomous-smoke](results/openclaw/ghcrawl-143805-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143805-autonomous-smoke.md) | [24939001644](https://github.com/openclaw/projectclownfish/actions/runs/24939001644) |
-| [#64750](https://github.com/openclaw/openclaw/issues/64750) | issue | WhatsApp message.send returns success but drops attachments and delivers text only | Apr 25, 2026, 19:44 UTC | close_duplicate | [ghcrawl-143814-autonomous-smoke](results/openclaw/ghcrawl-143814-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143814-autonomous-smoke.md) | [24939007967](https://github.com/openclaw/projectclownfish/actions/runs/24939007967) |
-| [#69920](https://github.com/openclaw/openclaw/issues/69920) | issue | Unhandled promise rejection: Agent listener invoked outside active run | Apr 25, 2026, 18:35 UTC | close_duplicate | [ghcrawl-143799-autonomous-smoke](results/openclaw/ghcrawl-143799-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143799-autonomous-smoke.md) | [24937679258](https://github.com/openclaw/projectclownfish/actions/runs/24937679258) |
-| [#65285](https://github.com/openclaw/openclaw/issues/65285) | issue | Gateway crashes with "Agent listener invoked outside active run" | Apr 25, 2026, 18:35 UTC | close_duplicate | [ghcrawl-143799-autonomous-smoke](results/openclaw/ghcrawl-143799-autonomous-smoke.md) | [report](results/openclaw/ghcrawl-143799-autonomous-smoke.md) | [24937679258](https://github.com/openclaw/projectclownfish/actions/runs/24937679258) |
 <!-- projectclownfish-dashboard:end -->
 
 ## How It Works
