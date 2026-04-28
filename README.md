@@ -41,44 +41,45 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 28, 2026, 07:34 UTC
+Last dashboard update: Apr 28, 2026, 07:36 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 200 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 201 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 200 | 100% |
+| Latest clusters reviewed | 201 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 91 | 45.5% |
-| Needs-human clusters | 42 | 21.0% |
-| Latest successful clusters | 198 | 99.0% |
+| Clean completed clusters | 91 | 45.3% |
+| Needs-human clusters | 42 | 20.9% |
+| Latest successful clusters | 199 | 99.0% |
 | Latest failed clusters | 2 | 1.0% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 425 | audit |
-| Fix action attempts | 129 | audit |
+| Run attempts archived | 426 | audit |
+| Fix action attempts | 130 | audit |
 | Fix actions executed | 0 | 0.0% |
-| Fix actions failed | 29 | 22.5% |
-| Fix actions blocked | 36 | 27.9% |
-| Latest clusters with fix failures | 32 | 16.0% |
-| Distinct PRs touched | 772 | 100% |
-| Open PRs tracked | 337 | 43.7% |
-| Closed unmerged PRs tracked | 352 | 45.6% |
-| Completed close actions | 30 | 11.6% |
-| Completed merge actions | 23 | 8.9% |
+| Fix actions failed | 29 | 22.3% |
+| Fix actions blocked | 36 | 27.7% |
+| Latest clusters with fix failures | 32 | 15.9% |
+| Distinct PRs touched | 775 | 100% |
+| Open PRs tracked | 339 | 43.7% |
+| Closed unmerged PRs tracked | 353 | 45.5% |
+| Completed close actions | 30 | 11.5% |
+| Completed merge actions | 23 | 8.8% |
 | Duplicate closes | 22 | 73.3% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 90 | 34.7% |
-| Skipped mutation attempts | 116 | 44.8% |
+| Blocked mutation attempts | 91 | 35.0% |
+| Skipped mutation attempts | 116 | 44.6% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [ghcrawl-156873-autonomous-smoke](results/openclaw/ghcrawl-156873-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156873-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156873-autonomous-smoke.md) | [25039876456](https://github.com/openclaw/clownfish/actions/runs/25039876456) |
 | [ghcrawl-156879-autonomous-smoke](results/openclaw/ghcrawl-156879-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156879-autonomous-smoke.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/ghcrawl-156879-autonomous-smoke.md) | [25039930706](https://github.com/openclaw/clownfish/actions/runs/25039930706) |
 | [ghcrawl-156868-autonomous-smoke](results/openclaw/ghcrawl-156868-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156868-autonomous-smoke.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/ghcrawl-156868-autonomous-smoke.md) | [25039867359](https://github.com/openclaw/clownfish/actions/runs/25039867359) |
 | [ghcrawl-156864-autonomous-smoke](results/openclaw/ghcrawl-156864-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156864-autonomous-smoke.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/ghcrawl-156864-autonomous-smoke.md) | [25039821052](https://github.com/openclaw/clownfish/actions/runs/25039821052) |
@@ -103,7 +104,6 @@ Scope: 200 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156658-autonomous-smoke](results/openclaw/ghcrawl-156658-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156658-autonomous-smoke.md | canonical is not listed in job refs | [report](results/openclaw/ghcrawl-156658-autonomous-smoke.md) | [25023026716](https://github.com/openclaw/clownfish/actions/runs/25023026716) |
 | [ghcrawl-156656-autonomous-smoke](results/openclaw/ghcrawl-156656-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156656-autonomous-smoke.md | mergeable state is CONFLICTING | [report](results/openclaw/ghcrawl-156656-autonomous-smoke.md) | [25023023225](https://github.com/openclaw/clownfish/actions/runs/25023023225) |
 | [ghcrawl-156644-autonomous-smoke](results/openclaw/ghcrawl-156644-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156644-autonomous-smoke.md | mergeable state is CONFLICTING | [report](results/openclaw/ghcrawl-156644-autonomous-smoke.md) | [25023010799](https://github.com/openclaw/clownfish/actions/runs/25023010799) |
-| [ghcrawl-156665-autonomous-smoke](results/openclaw/ghcrawl-156665-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156665-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=core, coreTests, docs [check:changed] src/cron/isolated-agent/run-e... | [report](results/openclaw/ghcrawl-156665-autonomous-smoke.md) | [25023036489](https://github.com/openclaw/clownfish/actions/runs/25023036489) |
 
 ### Fix Failure Queue
 
@@ -144,7 +144,7 @@ Scope: 200 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | merge state status is UNSTABLE | 10 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
 | target changed since worker review | 9 | [ghcrawl-156624-autonomous-smoke](results/openclaw/ghcrawl-156624-autonomous-smoke.md) |
 | mergeable state is CONFLICTING | 7 | [ghcrawl-156651-autonomous-smoke](results/openclaw/ghcrawl-156651-autonomous-smoke.md) |
-| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 3 | [ghcrawl-156706-autonomous-smoke](results/openclaw/ghcrawl-156706-autonomous-smoke.md) |
+| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 4 | [ghcrawl-156873-autonomous-smoke](results/openclaw/ghcrawl-156873-autonomous-smoke.md) |
 | target is not listed in job candidates | 3 | [ghcrawl-156667-autonomous-smoke](results/openclaw/ghcrawl-156667-autonomous-smoke.md) |
 | candidate fix is not merged | 2 | [ghcrawl-191459-agentic-merge](results/openclaw/ghcrawl-191459-agentic-merge.md) |
 | canonical is not listed in job refs | 2 | [ghcrawl-156658-autonomous-smoke](results/openclaw/ghcrawl-156658-autonomous-smoke.md) |

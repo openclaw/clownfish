@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156873-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25039876456",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25039876456",
+  "head_sha": "ddeac017c7796b33e322eb33ea7297510fe2229d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156873-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:35:10.386Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/60773",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/60773",
+  "summary": "Classified the Control UI docs PR cluster from the hydrated preflight artifact. #60773 remains the canonical gatewayUrl encoding path, but it is not merge-ready because both Greptile and Codex identified destructive documentation truncation. Plan a narrow repair of #60773's contributor branch, keep #54671 open as related-but-separate Docker pairing documentation work, and do not act on already-closed #61331.",
+  "actions": [
+    {
+      "target": "#54671",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60773",
+      "candidate_fix": null,
+      "reason": "Same Control UI documentation area, but distinct Docker pairing clarification rather than duplicate gatewayUrl encoding work."
+    },
+    {
+      "target": "#60773",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60773",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful but blocked by destructive doc truncation and unresolved bot review findings; repair the contributor branch before any merge or closeout."
+    },
+    {
+      "target": "#61331",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#60773",
+      "candidate_fix": null,
+      "reason": "Already-closed zh-CN generated-doc PR is historical evidence only and must not receive a mutation."
+    },
+    {
+      "target": "cluster:ghcrawl-156873-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#60773",
+      "candidate_fix": null,
+      "reason": "A concrete repair plan is required before #60773 can become merge-ready."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/60773",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#60773",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "docs: encode Control UI gatewayUrl examples",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
