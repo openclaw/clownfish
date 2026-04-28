@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156675-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25070590154",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25070590154",
+  "head_sha": "8b6e588945d23823a34b05ad78ca752a430936c7",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156675-autonomous-smoke.md",
+  "published_at": "2026-04-28T18:39:41.259Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/49751",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/49751",
+  "summary": "Classified #49751 as the live canonical repairable PR for the WS handshake timer race. Merge is not recommended yet because mergeability/check proof and post-repair Codex /review are missing. Planned a repair_contributor_branch fix artifact for #49751, kept #62060 open as related, marked already-closed candidate PRs as skipped, and quarantined the hydrated security-sensitive linked refs only.",
+  "actions": [
+    {
+      "target": "#49751",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch before any merge or duplicate closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156675-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and repairable, but missing merge preflight."
+    },
+    {
+      "target": "#62060",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Related timeout tuning follow-up; leave open for separate maintainer decision after #49751 repair/merge path is resolved."
+    },
+    {
+      "target": "#48950",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#51172",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#52142",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#49751",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#47113",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#47640",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish mutation scope."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/49751",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#49751",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix: clear WS handshake timer early, increase timeouts",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

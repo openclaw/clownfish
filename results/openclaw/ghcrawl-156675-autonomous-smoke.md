@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156675-autonomous-smoke"
 mode: "autonomous"
-run_id: "25023049824"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25023049824"
-head_sha: "416b225d73239870f6704a4eeb6d95f026ba00e9"
+run_id: "25070590154"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25070590154"
+head_sha: "8b6e588945d23823a34b05ad78ca752a430936c7"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T22:49:01.377Z"
+published_at: "2026-04-28T18:39:41.259Z"
 canonical: "https://github.com/openclaw/openclaw/pull/49751"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/49751"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25023049824](https://github.com/openclaw/clownfish/actions/runs/25023049824)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25070590154](https://github.com/openclaw/clownfish/actions/runs/25070590154)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/49751
 
 ## Summary
 
-Classified the hydrated cluster without GitHub mutations. #49751 remains the canonical useful contributor PR, but it is not merge-ready because review-bot findings and failing/stale checks require repair. Closed PRs stay historical evidence, #62060 stays open as related follow-up timeout work, and security-sensitive linked refs are quarantined only for central security routing.
+Classified #49751 as the live canonical repairable PR for the WS handshake timer race. Merge is not recommended yet because mergeability/check proof and post-repair Codex /review are missing. Planned a repair_contributor_branch fix artifact for #49751, kept #62060 open as related, marked already-closed candidate PRs as skipped, and quarantined the hydrated security-sensitive linked refs only.
 
 ## Impact
 
@@ -60,20 +60,20 @@ Classified the hydrated cluster without GitHub mutations. #49751 remains the can
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49751 | merge_canonical | blocked | fix_pr | mergeable state is CONFLICTING |
+| #49751 | merge_canonical | blocked | fix_pr | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49751 | fix_needed | planned | canonical | Canonical PR is useful but not merge-ready; repair the contributor branch, address review-bot findings, rebase onto main 496a5eb56f466e828e7f843a0a55dfc7fbe01199, run validation and Codex /review, then reassess merge. |
-| cluster:ghcrawl-156675-autonomous-smoke | build_fix_artifact | planned |  | Build an executable repair artifact for the canonical contributor PR instead of merging stale/unreviewed code. |
-| #62060 | keep_related | planned | related | Keep open as related follow-up timeout-headroom work; do not merge or close it in this cluster pass. |
-| #48950 | keep_closed | skipped | superseded | Already closed; retain as historical related/superseded evidence only. |
-| #51172 | keep_closed | skipped | superseded | Already closed; retain as historical superseded evidence only. |
-| #52142 | keep_closed | skipped | superseded | Already closed; retain as historical superseded timeout evidence only. |
-| #47113 | route_security | planned | security_sensitive | Quarantine this exact linked ref for central OpenClaw security handling; do not mutate it through ProjectClownfish. |
-| #47640 | route_security | planned | security_sensitive | Quarantine this exact linked ref for central OpenClaw security handling; continue unrelated non-security classification. |
+| #49751 | fix_needed | planned | canonical | Repair the contributor branch before any merge or duplicate closeout. |
+| cluster:ghcrawl-156675-autonomous-smoke | build_fix_artifact | planned |  | Canonical PR is useful and repairable, but missing merge preflight. |
+| #62060 | keep_related | planned | related | Related timeout tuning follow-up; leave open for separate maintainer decision after #49751 repair/merge path is resolved. |
+| #48950 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #51172 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #52142 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #47113 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish mutation scope. |
+| #47640 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish mutation scope. |
 
 ## Needs Human
 
