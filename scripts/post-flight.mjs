@@ -9,6 +9,7 @@ const CLEAN_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS"]);
 const FIX_PR_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS", "UNSTABLE"]);
 const FIX_PR_ACTIONS = new Set(["open_fix_pr", "repair_contributor_branch"]);
 const FIX_PR_READY_STATUSES = new Set(["opened", "pushed"]);
+const POST_MERGE_CLOSE_ACTIONS = new Set(["close_duplicate", "close_superseded", "close_fixed_by_candidate", "post_merge_close"]);
 const DEFAULT_IGNORED_CHECKS = ["auto-response", "Labeler", "Stale"];
 const POST_FLIGHT_WAIT_MS = numberEnv("CLOWNFISH_POST_FLIGHT_WAIT_MS", 10 * 60 * 1000);
 const POST_FLIGHT_POLL_MS = numberEnv("CLOWNFISH_POST_FLIGHT_POLL_MS", 15 * 1000);
@@ -74,7 +75,11 @@ if (!fixReport) {
 
 for (const action of fixReport.actions ?? []) {
   if (!FIX_PR_ACTIONS.has(String(action.action ?? ""))) continue;
-  report.actions.push(finalizeFixPr(action));
+  const finalized = finalizeFixPr(action);
+  report.actions.push(finalized);
+  if (finalized.status === "executed") {
+    report.actions.push(...finalizePostMergeCloseouts(action, finalized));
+  }
 }
 
 if (report.actions.length === 0) {
@@ -182,6 +187,79 @@ function finalizeFixPr(action) {
     merge_method: "squash",
     waited_ms: waitedMs,
   };
+}
+
+function finalizePostMergeCloseouts(fixAction, finalized) {
+  const fixPr = parsePullRequestUrl(fixAction.pr_url ?? fixAction.target);
+  if (!fixPr) return [];
+  const fixRef = `#${fixPr.number}`;
+  const fixUrl = `https://github.com/${result.repo}/pull/${fixPr.number}`;
+  const closeouts = [];
+  for (const action of result.actions ?? []) {
+    const actionName = String(action.action ?? "");
+    if (!POST_MERGE_CLOSE_ACTIONS.has(actionName)) continue;
+    if (!["blocked", "planned"].includes(String(action.status ?? ""))) continue;
+    const target = normalizeIssueRef(action.target);
+    if (!target || target === fixPr.number) continue;
+    const candidateFix = normalizeIssueRef(action.candidate_fix ?? action.fixed_by ?? action.fix_candidate);
+    if (candidateFix !== fixPr.number) continue;
+    closeouts.push(finalizePostMergeCloseout({ action, actionName, target, fixRef, fixUrl, finalized }));
+  }
+  return closeouts;
+}
+
+function finalizePostMergeCloseout({ action, actionName, target, fixRef, fixUrl, finalized }) {
+  const base = {
+    action: "post_merge_closeout",
+    source_action: actionName,
+    target: `#${target}`,
+    canonical: action.canonical ?? undefined,
+    candidate_fix: fixRef,
+    fix_pr: fixUrl,
+  };
+  const live = fetchIssue(result.repo, target);
+  if (live.state !== "open") {
+    return { ...base, status: "skipped", reason: `target is ${live.state}`, live_state: live.state };
+  }
+  if (hasSecuritySignalText(live.title, live.body, live.labels ?? [])) {
+    return { ...base, status: "blocked", reason: "security-sensitive target requires central security triage" };
+  }
+  if (dryRun) {
+    return { ...base, status: "planned", reason: "dry run", merge_commit_sha: finalized.merge_commit_sha ?? null };
+  }
+
+  ghBestEffort(["issue", "edit", String(target), "--repo", result.repo, "--add-label", "clownfish"]);
+  ghWithRetry([
+    "issue",
+    "comment",
+    String(target),
+    "--repo",
+    result.repo,
+    "--body",
+    closeoutBody({ actionName, fixUrl }),
+  ]);
+  if (live.pull_request) {
+    ghWithRetry(["pr", "close", String(target), "--repo", result.repo]);
+  } else {
+    ghWithRetry(["issue", "close", String(target), "--repo", result.repo, "--reason", "completed"]);
+  }
+  const after = fetchIssue(result.repo, target);
+  return {
+    ...base,
+    status: after.state === "closed" ? "executed" : "blocked",
+    reason: after.state === "closed" ? "closed after canonical fix merged" : `target is ${after.state}`,
+    live_state: after.state,
+    merge_commit_sha: finalized.merge_commit_sha ?? null,
+  };
+}
+
+function closeoutBody({ actionName, fixUrl }) {
+  const relation = actionName === "close_superseded" ? "superseded by" : "covered by";
+  return [
+    `This is ${relation} ${fixUrl}, which has landed as the canonical ProjectClownfish fix path for this cluster.`,
+    "",
+    "Closing this now that the validated fix is merged. If this still reproduces on current main with a different path, reply here and we can reopen or split it back out.",
+  ].join("\n");
 }
 
 function validateMergePolicy() {
@@ -352,6 +430,10 @@ function fetchPullRequest(repo, number) {
   return ghJson(["api", `repos/${repo}/pulls/${number}`]);
 }
 
+function fetchIssue(repo, number) {
+  return ghJson(["api", `repos/${repo}/issues/${number}`]);
+}
+
 function fetchPullRequestView(repo, number) {
   return ghJson([
     "pr",
@@ -433,6 +515,23 @@ function ghWithRetry(ghArgs, attempts = 6) {
     }
   }
   throw lastError;
+}
+
+function ghBestEffort(ghArgs) {
+  try {
+    ghWithRetry(ghArgs, 2);
+  } catch {
+    // Labels are useful for operator visibility, but should not block a proven closeout.
+  }
+}
+
+function normalizeIssueRef(value) {
+  const text = String(value ?? "").trim();
+  const match =
+    text.match(/^#(\d+)$/) ??
+    text.match(/^(\d+)$/) ??
+    text.match(/github\.com\/[^/]+\/[^/]+\/(?:issues|pull)\/(\d+)(?:[/?#].*)?$/i);
+  return match ? Number(match[1]) : 0;
 }
 
 function stripAnsi(text) {
