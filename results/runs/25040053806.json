@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156899-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25040053806",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25040053806",
+  "head_sha": "b5882593624f918e2d9866e1724514b5153bce36",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156899-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:46:55.259Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/65643",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/65643",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/66000",
+  "summary": "Canonical path shifted from closed representative #65982 to open issue #65643 with repairable contributor PR #66000. #66000 is focused and checks pass, but merge is blocked by unresolved Codex bot feedback requiring custom OPENCLAW_LAUNCHD_LABEL overrides to be preserved. Emit a repair-contributor-branch fix artifact; do not close related open issues until the canonical fix lands.",
+  "actions": [
+    {
+      "target": "#60188",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65643",
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated preflight state; no mutation planned."
+    },
+    {
+      "target": "#65982",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65643",
+      "candidate_fix": null,
+      "reason": "Closed representative is historical evidence; open #65643 is the current canonical issue for the remaining launchd-label precedence bug."
+    },
+    {
+      "target": "#65643",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65643",
+      "candidate_fix": "#66000",
+      "reason": "Best live canonical issue for the unresolved launchd-label precedence bug."
+    },
+    {
+      "target": "#66000",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65643",
+      "candidate_fix": "#66000",
+      "reason": "Repair the contributor branch rather than merge now; the branch is editable and the required fix is narrow."
+    },
+    {
+      "target": "#47555",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65643",
+      "candidate_fix": "#66000",
+      "reason": "Related open report should remain open until the canonical #65643/#66000 fix is repaired and landed, then it can be rechecked for duplicate or fixed-by-candidate closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156899-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#65643",
+      "candidate_fix": "#66000",
+      "reason": "Build an executable repair artifact for the editable contributor PR branch before any merge or closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/66000",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#66000",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): clear conflicting OPENCLAW_LAUNCHD_LABEL when --profile is provided",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
