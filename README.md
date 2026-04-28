@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 28, 2026, 18:35 UTC
+Last dashboard update: Apr 28, 2026, 18:36 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,12 +52,12 @@ Scope: 218 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 218 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 97 | 44.5% |
+| Clean completed clusters | 98 | 45.0% |
 | Needs-human clusters | 40 | 18.3% |
 | Latest successful clusters | 216 | 99.1% |
 | Latest failed clusters | 2 | 0.9% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 449 | audit |
+| Run attempts archived | 450 | audit |
 | Fix action attempts | 149 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 34 | 22.8% |
@@ -79,6 +79,7 @@ Scope: 218 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [ghcrawl-156720-autonomous-smoke](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | apply skipped | jobs/openclaw/inbox/ghcrawl-156720-autonomous-smoke.md | Closeout is blocked on the canonical fix path landing. | [report](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | [25070819579](https://github.com/openclaw/clownfish/actions/runs/25070819579) |
 | [ghcrawl-156594-autonomous-smoke](results/openclaw/ghcrawl-156594-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156594-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156594-autonomous-smoke.md) | [25069740030](https://github.com/openclaw/clownfish/actions/runs/25069740030) |
 | [ghcrawl-156593-autonomous-smoke](results/openclaw/ghcrawl-156593-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156593-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156593-autonomous-smoke.md) | [25069738606](https://github.com/openclaw/clownfish/actions/runs/25069738606) |
 | [ghcrawl-156627-autonomous-smoke](results/openclaw/ghcrawl-156627-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156627-autonomous-smoke.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/ghcrawl-156627-autonomous-smoke.md) | [25070489790](https://github.com/openclaw/clownfish/actions/runs/25070489790) |
@@ -102,7 +103,6 @@ Scope: 218 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156805-autonomous-smoke](results/openclaw/ghcrawl-156805-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156805-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/telegra... | [report](results/openclaw/ghcrawl-156805-autonomous-smoke.md) | [25039479679](https://github.com/openclaw/clownfish/actions/runs/25039479679) |
 | [ghcrawl-156683-autonomous-smoke](results/openclaw/ghcrawl-156683-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156683-autonomous-smoke.md | pull request is draft | [report](results/openclaw/ghcrawl-156683-autonomous-smoke.md) | [25038992235](https://github.com/openclaw/clownfish/actions/runs/25038992235) |
 | [ghcrawl-156789-autonomous-smoke](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156789-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=apps, docs [check:changed] apps/shared/OpenClawKit/Sources/OpenClaw... | [report](results/openclaw/ghcrawl-156789-autonomous-smoke.md) | [25039373452](https://github.com/openclaw/clownfish/actions/runs/25039373452) |
-| [ghcrawl-156720-autonomous-smoke](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156720-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | [25039066365](https://github.com/openclaw/clownfish/actions/runs/25039066365) |
 | [ghcrawl-156751-autonomous-smoke](results/openclaw/ghcrawl-156751-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156751-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156751-autonomous-smoke.md) | [25039174091](https://github.com/openclaw/clownfish/actions/runs/25039174091) |
 
 ### Fix Failure Queue
@@ -142,8 +142,8 @@ Scope: 218 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | action status is blocked | 89 | [ghcrawl-156636-autonomous-smoke](results/openclaw/ghcrawl-156636-autonomous-smoke.md) |
 | close requires ProjectClownfish fix PR opened/pushed or merge executed first | 12 | [ghcrawl-156722-autonomous-smoke](results/openclaw/ghcrawl-156722-autonomous-smoke.md) |
 | merge state status is UNSTABLE | 10 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
-| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 9 | [ghcrawl-156594-autonomous-smoke](results/openclaw/ghcrawl-156594-autonomous-smoke.md) |
 | target changed since worker review | 9 | [ghcrawl-156624-autonomous-smoke](results/openclaw/ghcrawl-156624-autonomous-smoke.md) |
+| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 8 | [ghcrawl-156594-autonomous-smoke](results/openclaw/ghcrawl-156594-autonomous-smoke.md) |
 | mergeable state is CONFLICTING | 6 | [ghcrawl-156651-autonomous-smoke](results/openclaw/ghcrawl-156651-autonomous-smoke.md) |
 | target is not listed in job candidates | 3 | [ghcrawl-156667-autonomous-smoke](results/openclaw/ghcrawl-156667-autonomous-smoke.md) |
 | candidate fix is not merged | 2 | [ghcrawl-191459-agentic-merge](results/openclaw/ghcrawl-191459-agentic-merge.md) |

@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156720-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25070819579",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25070819579",
+  "head_sha": "0cf1f18e77f38d918c7ae148f3ad4a7d47c03221",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156720-autonomous-smoke.md",
+  "published_at": "2026-04-28T18:35:37.876Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/45270",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/45268",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/45270",
+  "summary": "Hydrated state shows two distinct status families. #45270 remains the canonical open PR for the totalTokensFresh context-usage bug and covers linked issue #45268, but merge is not recommended because mergeability is unknown and there is no fresh Codex /review merge preflight. #65381/#65109 are a related cache-cost subcluster with failing checks, so they stay open. Security-sensitive hydrated closed PRs #52329 and #63238 are quarantined only.",
+  "actions": [
+    {
+      "target": "#45270",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45270",
+      "candidate_fix": "#45270",
+      "reason": "Canonical PR is clear, useful, and narrow, but merge gates are incomplete."
+    },
+    {
+      "target": "#45268",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#45270",
+      "candidate_fix": "#45270",
+      "reason": "Closeout is blocked on the canonical fix path landing."
+    },
+    {
+      "target": "#52329",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated item is routed to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#63238",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated item is routed to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#65109",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45270",
+      "candidate_fix": "#65381",
+      "reason": "Related cache-cost subcluster should remain open until #65381 or an equivalent fix lands."
+    },
+    {
+      "target": "#65381",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45270",
+      "candidate_fix": "#65381",
+      "reason": "Related implementation candidate is not merge-ready because checks are failing."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "route_security": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#45268",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#45270",
+      "candidate_fix": "#45270",
+      "title": null,
+      "idempotency_key": "ghcrawl-156720-autonomous-smoke:#45268:close_fixed_by_candidate:#45270:2026-04-28T04:44:45Z",
+      "reason": "Closeout is blocked on the canonical fix path landing.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
