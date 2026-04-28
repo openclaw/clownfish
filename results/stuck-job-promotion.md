@@ -4,41 +4,382 @@ Mode: applied
 
 | Metric | Count |
 | --- | ---: |
-| Available | 431 |
-| Selected | 30 |
+| Available | 371 |
+| Selected | 371 |
 | Planned | 0 |
-| Promoted | 30 |
+| Promoted | 371 |
 | Blocked | 0 |
 
-| Job | Status | Source | Destination | Reason |
-| --- | --- | --- | --- | --- |
-| ghcrawl-156599-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156599-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156599-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156600-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156600-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156600-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156601-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156601-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156601-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156602-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156602-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156602-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156604-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156604-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156604-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156605-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156605-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156605-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156606-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156606-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156606-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156607-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156607-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156607-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156608-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156608-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156608-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156610-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156610-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156610-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156611-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156611-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156611-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156613-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156613-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156613-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156614-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156614-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156614-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156615-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156615-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156615-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156616-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156616-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156616-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156617-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156617-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156617-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156619-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156619-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156619-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156620-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156620-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156620-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156621-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156621-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156621-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156622-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156622-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156622-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156623-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156623-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156623-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156624-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156624-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156624-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156625-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156625-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156625-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156626-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156626-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156626-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156627-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156627-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156627-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156628-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156628-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156628-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156629-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156629-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156629-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156630-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156630-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156630-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156631-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156631-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156631-autonomous-smoke.md | moved to inbox |
-| ghcrawl-156632-autonomous-smoke.md | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156632-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156632-autonomous-smoke.md | moved to inbox |
+| Job | Members | Open | Status | Source | Destination | Reason |
+| --- | ---: | ---: | --- | --- | --- | --- |
+| ghcrawl-156676-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156676-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156676-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156677-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156677-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156677-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156678-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156678-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156678-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156679-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156679-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156679-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156680-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156680-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156680-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156681-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156681-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156681-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156682-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156682-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156682-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156683-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156683-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156683-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156684-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156684-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156684-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156685-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156685-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156685-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156686-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156686-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156686-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156687-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156687-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156687-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156688-autonomous-smoke.md | 5 | 5 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156688-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156688-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156689-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156689-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156689-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156690-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156690-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156690-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156691-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156691-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156691-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156692-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156692-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156692-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156693-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156693-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156693-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156694-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156694-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156694-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156695-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156695-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156695-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156696-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156696-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156696-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156697-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156697-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156697-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156698-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156698-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156698-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156699-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156699-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156699-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156700-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156700-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156700-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156702-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156702-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156702-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156703-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156703-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156703-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156704-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156704-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156704-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156705-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156705-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156705-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156706-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156706-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156706-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156707-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156707-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156707-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156708-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156708-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156708-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156709-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156709-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156709-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156710-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156710-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156710-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156711-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156711-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156711-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156712-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156712-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156712-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156715-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156715-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156715-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156716-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156716-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156716-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156717-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156717-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156717-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156718-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156718-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156718-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156719-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156719-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156719-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156720-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156720-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156720-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156721-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156721-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156721-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156722-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156722-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156722-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156723-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156723-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156723-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156724-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156724-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156724-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156725-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156725-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156725-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156726-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156726-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156726-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156727-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156727-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156727-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156728-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156728-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156728-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156729-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156729-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156729-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156730-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156730-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156730-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156732-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156732-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156732-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156733-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156733-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156733-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156734-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156734-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156734-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156735-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156735-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156735-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156736-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156736-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156736-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156737-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156737-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156737-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156738-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156738-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156738-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156739-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156739-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156739-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156740-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156740-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156740-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156741-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156741-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156741-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156742-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156742-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156742-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156743-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156743-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156743-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156744-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156744-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156744-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156745-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156745-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156745-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156746-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156746-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156746-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156747-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156747-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156747-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156748-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156748-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156748-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156749-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156749-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156749-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156750-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156750-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156750-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156751-autonomous-smoke.md | 4 | 4 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156751-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156751-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156752-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156752-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156752-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156753-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156753-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156753-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156754-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156754-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156754-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156755-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156755-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156755-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156756-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156756-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156756-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156757-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156757-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156757-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156758-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156758-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156758-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156759-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156759-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156759-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156760-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156760-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156760-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156761-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156761-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156761-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156762-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156762-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156762-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156763-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156763-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156763-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156764-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156764-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156764-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156765-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156765-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156765-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156766-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156766-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156766-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156767-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156767-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156767-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156771-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156771-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156771-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156772-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156772-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156772-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156773-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156773-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156773-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156774-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156774-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156774-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156775-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156775-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156775-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156776-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156776-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156776-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156777-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156777-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156777-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156778-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156778-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156778-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156779-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156779-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156779-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156781-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156781-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156781-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156782-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156782-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156782-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156783-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156783-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156783-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156784-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156784-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156784-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156785-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156785-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156785-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156786-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156786-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156786-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156787-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156787-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156787-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156788-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156788-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156788-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156789-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156789-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156789-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156790-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156790-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156790-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156791-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156791-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156791-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156792-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156792-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156792-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156793-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156793-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156793-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156794-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156794-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156794-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156795-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156795-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156795-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156796-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156796-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156796-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156798-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156798-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156798-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156799-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156799-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156799-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156800-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156800-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156800-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156801-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156801-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156801-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156802-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156802-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156802-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156803-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156803-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156803-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156804-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156804-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156804-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156805-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156805-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156805-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156806-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156806-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156806-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156807-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156807-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156807-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156808-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156808-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156808-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156809-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156809-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156809-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156810-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156810-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156810-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156811-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156811-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156811-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156813-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156813-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156813-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156814-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156814-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156814-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156815-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156815-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156815-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156816-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156816-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156816-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156817-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156817-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156817-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156818-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156818-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156818-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156819-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156819-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156819-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156821-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156821-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156821-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156822-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156822-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156822-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156823-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156823-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156823-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156824-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156824-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156824-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156825-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156825-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156825-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156826-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156826-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156826-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156827-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156827-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156827-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156829-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156829-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156829-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156831-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156831-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156831-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156832-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156832-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156832-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156833-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156833-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156833-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156834-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156834-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156834-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156835-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156835-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156835-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156836-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156836-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156836-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156837-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156837-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156837-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156838-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156838-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156838-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156839-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156839-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156839-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156840-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156840-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156840-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156841-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156841-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156841-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156842-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156842-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156842-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156843-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156843-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156843-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156844-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156844-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156844-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156845-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156845-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156845-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156846-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156846-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156846-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156847-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156847-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156847-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156848-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156848-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156848-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156849-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156849-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156849-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156850-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156850-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156850-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156851-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156851-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156851-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156852-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156852-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156852-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156853-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156853-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156853-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156854-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156854-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156854-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156855-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156855-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156855-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156856-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156856-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156856-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156857-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156857-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156857-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156858-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156858-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156858-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156859-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156859-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156859-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156860-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156860-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156860-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156861-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156861-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156861-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156862-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156862-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156862-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156863-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156863-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156863-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156864-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156864-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156864-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156865-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156865-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156865-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156866-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156866-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156866-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156867-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156867-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156867-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156868-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156868-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156868-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156869-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156869-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156869-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156870-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156870-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156870-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156871-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156871-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156871-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156872-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156872-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156872-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156873-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156873-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156873-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156874-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156874-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156874-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156875-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156875-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156875-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156876-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156876-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156876-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156877-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156877-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156877-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156878-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156878-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156878-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156879-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156879-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156879-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156880-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156880-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156880-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156881-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156881-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156881-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156882-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156882-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156882-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156883-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156883-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156883-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156884-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156884-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156884-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156885-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156885-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156885-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156886-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156886-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156886-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156887-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156887-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156887-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156888-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156888-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156888-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156889-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156889-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156889-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156890-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156890-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156890-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156891-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156891-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156891-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156892-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156892-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156892-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156893-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156893-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156893-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156894-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156894-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156894-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156895-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156895-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156895-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156896-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156896-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156896-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156897-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156897-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156897-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156898-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156898-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156898-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156899-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156899-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156899-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156900-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156900-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156900-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156901-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156901-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156901-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156903-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156903-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156903-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156904-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156904-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156904-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156905-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156905-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156905-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156906-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156906-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156906-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156907-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156907-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156907-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156908-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156908-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156908-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156909-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156909-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156909-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156910-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156910-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156910-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156912-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156912-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156912-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156913-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156913-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156913-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156914-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156914-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156914-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156915-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156915-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156915-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156916-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156916-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156916-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156917-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156917-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156917-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156918-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156918-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156918-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156919-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156919-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156919-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156920-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156920-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156920-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156921-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156921-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156921-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156922-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156922-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156922-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156924-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156924-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156924-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156925-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156925-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156925-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156926-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156926-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156926-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156927-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156927-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156927-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156928-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156928-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156928-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156929-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156929-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156929-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156930-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156930-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156930-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156931-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156931-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156931-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156932-autonomous-smoke.md | 3 | 3 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156932-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156932-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156933-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156933-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156933-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156934-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156934-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156934-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156935-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156935-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156935-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156936-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156936-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156936-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156938-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156938-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156938-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156939-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156939-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156939-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156940-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156940-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156940-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156941-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156941-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156941-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156942-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156942-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156942-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156943-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156943-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156943-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156944-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156944-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156944-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156945-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156945-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156945-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156946-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156946-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156946-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156947-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156947-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156947-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156948-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156948-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156948-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156949-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156949-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156949-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156950-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156950-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156950-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156951-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156951-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156951-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156953-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156953-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156953-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156954-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156954-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156954-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156955-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156955-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156955-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156956-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156956-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156956-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156957-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156957-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156957-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156958-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156958-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156958-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156959-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156959-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156959-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156960-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156960-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156960-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156961-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156961-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156961-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156962-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156962-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156962-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156964-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156964-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156964-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156965-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156965-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156965-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156966-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156966-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156966-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156968-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156968-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156968-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156969-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156969-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156969-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156970-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156970-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156970-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156971-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156971-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156971-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156973-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156973-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156973-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156975-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156975-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156975-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156976-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156976-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156976-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156977-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156977-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156977-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156978-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156978-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156978-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156979-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156979-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156979-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156980-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156980-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156980-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156981-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156981-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156981-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156982-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156982-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156982-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156983-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156983-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156983-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156984-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156984-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156984-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156985-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156985-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156985-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156986-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156986-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156986-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156987-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156987-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156987-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156988-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156988-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156988-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156989-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156989-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156989-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156990-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156990-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156990-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156991-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156991-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156991-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156993-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156993-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156993-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156994-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156994-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156994-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156995-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156995-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156995-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156996-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156996-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156996-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156997-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156997-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156997-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156998-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156998-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156998-autonomous-smoke.md | moved to inbox |
+| ghcrawl-156999-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-156999-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-156999-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157000-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157000-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157000-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157001-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157001-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157001-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157002-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157002-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157002-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157003-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157003-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157003-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157004-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157004-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157004-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157005-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157005-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157005-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157006-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157006-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157006-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157007-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157007-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157007-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157008-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157008-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157008-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157009-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157009-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157009-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157010-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157010-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157010-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157011-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157011-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157011-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157012-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157012-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157012-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157013-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157013-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157013-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157014-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157014-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157014-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157015-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157015-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157015-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157016-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157016-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157016-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157017-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157017-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157017-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157018-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157018-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157018-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157019-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157019-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157019-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157021-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157021-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157021-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157023-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157023-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157023-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157024-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157024-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157024-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157025-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157025-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157025-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157026-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157026-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157026-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157027-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157027-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157027-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157028-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157028-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157028-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157029-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157029-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157029-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157030-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157030-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157030-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157031-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157031-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157031-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157032-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157032-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157032-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157033-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157033-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157033-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157034-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157034-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157034-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157035-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157035-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157035-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157036-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157036-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157036-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157037-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157037-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157037-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157038-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157038-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157038-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157039-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157039-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157039-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157040-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157040-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157040-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157041-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157041-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157041-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157042-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157042-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157042-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157043-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157043-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157043-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157044-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157044-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157044-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157045-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157045-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157045-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157046-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157046-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157046-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157047-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157047-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157047-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157048-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157048-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157048-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157049-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157049-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157049-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157050-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157050-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157050-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157051-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157051-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157051-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157052-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157052-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157052-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157053-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157053-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157053-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157055-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157055-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157055-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157056-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157056-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157056-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157057-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157057-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157057-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157058-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157058-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157058-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157059-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157059-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157059-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157060-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157060-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157060-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157061-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157061-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157061-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157062-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157062-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157062-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157063-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157063-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157063-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157064-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157064-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157064-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157065-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157065-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157065-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157066-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157066-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157066-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157067-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157067-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157067-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157069-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157069-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157069-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157070-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157070-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157070-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157072-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157072-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157072-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157074-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157074-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157074-autonomous-smoke.md | moved to inbox |
+| ghcrawl-157075-autonomous-smoke.md | 2 | 2 | promoted | jobs/openclaw/outbox/stuck/ghcrawl-157075-autonomous-smoke.md | jobs/openclaw/inbox/ghcrawl-157075-autonomous-smoke.md | moved to inbox |
