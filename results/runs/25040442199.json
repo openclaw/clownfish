@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156991-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25040442199",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25040442199",
+  "head_sha": "d177675ff2a910a4598ad09d39228f818b63ced6",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156991-autonomous-smoke.md",
+  "published_at": "2026-04-28T07:54:38.749Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39599",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39599",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/39683",
+  "summary": "Hydrated state shows the root bug remains open as #39599. #39683 is the cleanest narrow contributor PR to repair, but it is not merge-ready because Codex flagged an update-path regression for legacy Feishu/Lark jobs. #39602 overlaps the same fix but currently deletes the cron CLI registration module and has failing checks, so it should not be merged. #40031 is related broader cron/Feishu work with broad churn and failing checks, not the canonical fix for this cluster.",
+  "actions": [
+    {
+      "target": "#39599",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39599",
+      "candidate_fix": "#39683",
+      "reason": "Keep the canonical issue open until a focused fix lands on main."
+    },
+    {
+      "target": "#39683",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39599",
+      "candidate_fix": "#39683",
+      "reason": "Repair the contributor branch before merge; do not merge until the update-path regression is fixed, Codex /review is clean, and pnpm check:changed passes."
+    },
+    {
+      "target": "#39602",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#39599",
+      "candidate_fix": "#39683",
+      "reason": "require_fix_before_close blocks superseding #39602 until the canonical fix path lands or a ProjectClownfish replacement/repair PR is opened."
+    },
+    {
+      "target": "#40031",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39599",
+      "candidate_fix": null,
+      "reason": "Keep open as related broader work; do not close or merge it in this focused cluster."
+    },
+    {
+      "target": "cluster:ghcrawl-156991-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39599",
+      "candidate_fix": "#39683",
+      "reason": "Build an executable repair artifact for the existing contributor branch rather than merging or closing now."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/39683",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#39602",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39599",
+      "candidate_fix": "#39683",
+      "title": null,
+      "idempotency_key": "ghcrawl-156991-autonomous-smoke:#39602:blocked-superseded-by-39683:2026-04-28",
+      "reason": "require_fix_before_close blocks superseding #39602 until the canonical fix path lands or a ProjectClownfish replacement/repair PR is opened.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#39683",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cron): reject Feishu announce jobs without delivery target",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
