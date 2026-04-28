@@ -144,6 +144,7 @@ function repoFromOriginRemote() {
 function ghJson(ghArgs) {
   const text = execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
+    env: { ...process.env, NO_COLOR: "1", FORCE_COLOR: "0", CLICOLOR: "0" },
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
     maxBuffer: 64 * 1024 * 1024,
