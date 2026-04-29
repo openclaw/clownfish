@@ -1,20 +1,20 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-04-29T21:18:39.053Z
+Generated: 2026-04-29T21:21:57.261Z
 
 ## Summary
 
 | Metric | Count |
 | --- | ---: |
-| open_prs | 19 |
+| open_prs | 18 |
 | ready_candidates | 0 |
 | security_hold | 0 |
-| needs_rebase | 18 |
+| needs_rebase | 17 |
 | mergeability_unknown | 0 |
-| needs_checks | 9 |
+| needs_checks | 8 |
 | needs_review | 9 |
-| needs_merge_preflight | 19 |
-| needs_result_backfill | 11 |
+| needs_merge_preflight | 18 |
+| needs_result_backfill | 10 |
 
 ## Dispatch
 
@@ -48,4 +48,3 @@ Status: report_only
 | [#73986](https://github.com/openclaw/openclaw/pull/73986) | fix(feishu): fallback to media when file download returns 502 | ghcrawl-199239-agentic-merge | CONFLICTING | DIRTY | CANCELLED:19 SKIPPED:39 SUCCESS:154; blockers:18 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (npm-onboard-channel-agent):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (doctor-switch):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (update-channel-switch):CANCELLED, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73982](https://github.com/openclaw/openclaw/pull/73982) | fix(chat-bash): inherit exec policy defaults | ghcrawl-157029-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:12 SKIPPED:37 SUCCESS:161; blockers:10 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (kitchen-sink-plugin):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-0):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-1):CANCELLED, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73981](https://github.com/openclaw/openclaw/pull/73981) | fix(streaming): preserve markdown boundaries across block chunks | ghcrawl-157042-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:10 SKIPPED:41 SUCCESS:165; blockers:9 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-0):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-1):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-2):CANCELLED, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73979](https://github.com/openclaw/openclaw/pull/73979) | fix(mattermost): add WebSocket ping/pong keepalive | ghcrawl-157033-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:6 SKIPPED:39 SUCCESS:169; blockers:3 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-channel-deps-compat):CANCELLED; CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-plugin-install-uninstall-2):CANCELLED; CI / plugin-prerelease-suite:CANCELLED, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
