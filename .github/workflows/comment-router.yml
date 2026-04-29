@@ -74,6 +74,7 @@ jobs:
       - name: Route Clownfish comments
         env:
           GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || github.token }}
+          CLOWNFISH_CLAWSWEEPER_GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
           CLOWNFISH_ALLOW_AUTOMERGE: ${{ vars.CLOWNFISH_ALLOW_AUTOMERGE || '0' }}
           CLOWNFISH_ALLOW_MERGE: ${{ vars.CLOWNFISH_ALLOW_MERGE || '0' }}
         run: |

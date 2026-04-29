@@ -544,7 +544,16 @@ function dispatchClawSweeperReview(command) {
       "-f",
       `item_number=${command.issue_number}`,
     ],
-    { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
+    {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      env: ghEnv(
+        process.env.CLOWNFISH_CLAWSWEEPER_GH_TOKEN
+          ? { GH_TOKEN: process.env.CLOWNFISH_CLAWSWEEPER_GH_TOKEN }
+          : {},
+      ),
+      stdio: "pipe",
+    },
   );
   if (result.status !== 0) {
     throw new Error(`failed to dispatch ClawSweeper review for #${command.issue_number}: ${result.stderr || result.stdout}`);
@@ -920,8 +929,8 @@ function ghBestEffort(ghArgs) {
   }
 }
 
-function ghEnv() {
-  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
+function ghEnv(overrides = {}) {
+  const env = { ...process.env, ...overrides, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
   return env;
 }
