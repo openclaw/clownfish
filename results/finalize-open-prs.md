@@ -1,20 +1,20 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-04-29T10:19:42.086Z
+Generated: 2026-04-29T10:29:49.796Z
 
 ## Summary
 
 | Metric | Count |
 | --- | ---: |
-| open_prs | 46 |
+| open_prs | 45 |
 | ready_candidates | 0 |
 | security_hold | 1 |
-| needs_rebase | 39 |
+| needs_rebase | 38 |
 | mergeability_unknown | 0 |
-| needs_checks | 18 |
-| needs_review | 17 |
-| needs_merge_preflight | 46 |
-| needs_result_backfill | 27 |
+| needs_checks | 17 |
+| needs_review | 16 |
+| needs_merge_preflight | 45 |
+| needs_result_backfill | 26 |
 
 ## Dispatch
 
@@ -75,4 +75,3 @@ Status: report_only
 | [#73888](https://github.com/openclaw/openclaw/pull/73888) | fix(daemon): recover systemctl user bus env for gateway commands | ghcrawl-156597-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:1 SKIPPED:20 SUCCESS:84 FAILURE:2; blockers:2 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-agentic-commands:FAILURE; CI / checks-node-core:FAILURE, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73800](https://github.com/openclaw/openclaw/pull/73800) | fix(hooks): repair shared-hook announcement policy | ghcrawl-156636-autonomous-smoke | MERGEABLE | UNSTABLE | FAILURE:1 SUCCESS:58 SKIPPED:9; blockers:1 | needs_merge_state:UNSTABLE, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:FAILURE, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#73799](https://github.com/openclaw/openclaw/pull/73799) | fix(media): treat legacy Word docs as binary attachments | ghcrawl-156640-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:2 SKIPPED:11 SUCCESS:59 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73751](https://github.com/openclaw/openclaw/pull/73751) | fix(exec): decode Windows command output with codepage-aware streaming | ghcrawl-156777-autonomous-smoke | CONFLICTING | DIRTY | SUCCESS:49 SKIPPED:19 FAILURE:15; blockers:15 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / build-artifacts:FAILURE; CI / check-prod-types:FAILURE; CI / check-lint:FAILURE, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
