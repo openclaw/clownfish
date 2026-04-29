@@ -56,27 +56,36 @@ jobs:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           CONCLUSION: ${{ github.event.workflow_run.conclusion }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          git fetch origin main
+          git checkout -B main origin/main
+          npm run publish-result -- artifacts \
+            --run-id "$RUN_ID" \
+            --run-url "$RUN_URL" \
+            --head-sha "$HEAD_SHA" \
+            --conclusion "$CONCLUSION"
+          npm run finalize-open-prs -- --write-report
+          npm run publish-result
+          git add README.md results jobs/openclaw/closed apply-report.json
+          if git diff --cached --quiet; then
+            echo "No result changes"
+            exit 0
+          fi
+          git commit -m "chore: publish cluster result"
+
           for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push attempt ${attempt} failed; rebasing existing ledger commit onto origin/main"
             git fetch origin main
-            git checkout -B main origin/main
-            npm run publish-result -- artifacts \
-              --run-id "$RUN_ID" \
-              --run-url "$RUN_URL" \
-              --head-sha "$HEAD_SHA" \
-              --conclusion "$CONCLUSION"
-            npm run finalize-open-prs -- --write-report
-            npm run publish-result
-            git add README.md results jobs/openclaw/closed apply-report.json
-            if git diff --cached --quiet; then
-              echo "No result changes"
-              exit 0
+            if git rebase origin/main; then
+              continue
             fi
-            git commit -m "chore: publish cluster result"
-            if git push origin main; then
-              exit 0
-            fi
+            git rebase --abort || true
+            exit 1
           done
           exit 1
