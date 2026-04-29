@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 13:42 UTC
+Last dashboard update: Apr 29, 2026, 19:20 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 275 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 276 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 275 | 100% |
+| Latest clusters reviewed | 276 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 113 | 41.1% |
-| Needs-human clusters | 42 | 15.3% |
-| Latest successful clusters | 247 | 89.8% |
-| Latest failed clusters | 4 | 1.5% |
+| Clean completed clusters | 114 | 41.3% |
+| Needs-human clusters | 42 | 15.2% |
+| Latest successful clusters | 248 | 89.9% |
+| Latest failed clusters | 4 | 1.4% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 528 | audit |
+| Run attempts archived | 529 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
 | Fix actions blocked | 50 | 30.5% |
-| Latest clusters with fix failures | 44 | 16.0% |
-| Distinct PRs touched | 865 | 100% |
-| Open PRs tracked | 293 | 33.9% |
-| Closed unmerged PRs tracked | 467 | 54.0% |
+| Latest clusters with fix failures | 44 | 15.9% |
+| Distinct PRs touched | 873 | 100% |
+| Open PRs tracked | 294 | 33.7% |
+| Closed unmerged PRs tracked | 474 | 54.3% |
 | Completed close actions | 30 | 10.6% |
 | Completed merge actions | 23 | 8.1% |
 | Duplicate closes | 22 | 73.3% |
@@ -167,23 +167,6 @@ Scope: 275 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [#74009](https://github.com/openclaw/openclaw/pull/74009) | fix(agents): prefer sessionKey in sessions_send | ghcrawl-166009-agentic-merge | clownfish/ghcrawl-166009-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:Parity gate / Run the OpenAI / Opus 4.6... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#74008](https://github.com/openclaw/openclaw/pull/74008) | Repair Control UI zh-CN localization coverage | ghcrawl-191463-agentic-merge | clownfish/ghcrawl-191463-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-core-fast-support:FAILURE; CI / checks-node-core:FAILURE... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#74002](https://github.com/openclaw/openclaw/pull/74002) | fix(exec): respect OPENCLAW_STATE_DIR for exec approvals | ghcrawl-191457-agentic-merge | clownfish/ghcrawl-191457-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#74001](https://github.com/openclaw/openclaw/pull/74001) | fix(feishu): reply inside P2P direct-message threads | ghcrawl-165996-agentic-merge | clownfish/ghcrawl-165996-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73998](https://github.com/openclaw/openclaw/pull/73998) | fix(feishu): reconcile WebSocket reconnect backoff | ghcrawl-207048-agentic-merge | clownfish/ghcrawl-207048-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73996](https://github.com/openclaw/openclaw/pull/73996) | fix: interpolate responsePrefix template variables in heartbeat replies | ghcrawl-157060-autonomous-smoke | clownfish/ghcrawl-157060-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73993](https://github.com/openclaw/openclaw/pull/73993) | fix(telegram): avoid silent polling drops for in-flight updates | ghcrawl-191453-agentic-merge | clownfish/ghcrawl-191453-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73991](https://github.com/openclaw/openclaw/pull/73991) | Add per-agent command lane isolation | ghcrawl-157052-autonomous-smoke | clownfish/ghcrawl-157052-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73989](https://github.com/openclaw/openclaw/pull/73989) | fix(health-monitor): add reconnect grace for gateway reconnects | ghcrawl-157023-autonomous-smoke | clownfish/ghcrawl-157023-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73988](https://github.com/openclaw/openclaw/pull/73988) | fix(agents): load symlinked workspace bootstrap files | ghcrawl-157010-autonomous-smoke | clownfish/ghcrawl-157010-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / plugin-prerelease-docker-suite / p... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73987](https://github.com/openclaw/openclaw/pull/73987) | fix(control-ui): share gateway token scope across loopback hosts | ghcrawl-157066-autonomous-smoke | clownfish/ghcrawl-157066-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / plugin-prerelease-docker-suite / D... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73986](https://github.com/openclaw/openclaw/pull/73986) | fix(feishu): fallback to media when file download returns 502 | ghcrawl-199239-agentic-merge | clownfish/ghcrawl-199239-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (npm-onbo... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73982](https://github.com/openclaw/openclaw/pull/73982) | fix(chat-bash): inherit exec policy defaults | ghcrawl-157029-autonomous-smoke | clownfish/ghcrawl-157029-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (kitchen-... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73981](https://github.com/openclaw/openclaw/pull/73981) | fix(streaming): preserve markdown boundaries across block chunks | ghcrawl-157042-autonomous-smoke | clownfish/ghcrawl-157042-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / plugin-prerelease-docker-suite / D... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73980](https://github.com/openclaw/openclaw/pull/73980) | Repair Control UI zh-CN localization coverage | ghcrawl-156993-autonomous-smoke | clownfish/ghcrawl-156993-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73979](https://github.com/openclaw/openclaw/pull/73979) | fix(mattermost): add WebSocket ping/pong keepalive | ghcrawl-157033-autonomous-smoke | clownfish/ghcrawl-157033-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / plugin-prerelease-docker-suite / Docker E2E targeted lanes (bundled-... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73976](https://github.com/openclaw/openclaw/pull/73976) | fix(memory): use per-keyword FTS search in hybrid mode #39484 | ghcrawl-156988-autonomous-smoke | clownfish/ghcrawl-156988-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-core-runtime-shared:FAILURE; CI / checks-node-core:FAILU... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73975](https://github.com/openclaw/openclaw/pull/73975) | fix(discord): preserve session account for A2A announces | ghcrawl-157050-autonomous-smoke | clownfish/ghcrawl-157050-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73974](https://github.com/openclaw/openclaw/pull/73974) | macOS: avoid CLI gateway repair when the app owns launchd | ghcrawl-157048-autonomous-smoke | clownfish/ghcrawl-157048-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:CI / plugin-prerelease-docker-suite / D... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73972](https://github.com/openclaw/openclaw/pull/73972) | fix(feishu): reply inside P2P direct-message threads | ghcrawl-156976-autonomous-smoke | clownfish/ghcrawl-156976-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 
 ### Latest ProjectClownfish Closures
 
