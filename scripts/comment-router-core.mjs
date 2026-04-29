@@ -91,15 +91,15 @@ export function isMaintainerCommandAllowed({
   allowedAssociations,
   allowedRepositoryPermissions = DEFAULT_ALLOWED_REPOSITORY_PERMISSIONS,
 }) {
-  const association = String(authorAssociation ?? "").trim().toUpperCase();
-  const associationSet = new Set([...allowedAssociations].map((value) => String(value).trim().toUpperCase()).filter(Boolean));
-  if (associationSet.has(association)) return true;
-
   const permission = String(repositoryPermission ?? "").trim().toLowerCase();
   const permissionSet = new Set(
     [...allowedRepositoryPermissions].map((value) => String(value).trim().toLowerCase()).filter(Boolean),
   );
-  return permission ? permissionSet.has(permission) : false;
+  if (permission) return permissionSet.has(permission);
+
+  const association = String(authorAssociation ?? "").trim().toUpperCase();
+  const associationSet = new Set([...allowedAssociations].map((value) => String(value).trim().toUpperCase()).filter(Boolean));
+  return association === "OWNER" && associationSet.has(association);
 }
 
 export function buildAutomergeMergeArgs({ issueNumber, repo, expectedHeadSha }) {

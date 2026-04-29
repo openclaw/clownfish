@@ -325,12 +325,20 @@ test("automerge gate block only reports closed merge policy gates", () => {
   assert.equal(automergeGateBlockReason({ CLOWNFISH_ALLOW_MERGE: "1", CLOWNFISH_ALLOW_AUTOMERGE: "1" }), "");
 });
 
-test("maintainer command authorization falls back to repository permission", () => {
+test("maintainer command authorization requires maintainer repository permission", () => {
   const allowedAssociations = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
   assert.equal(
     isMaintainerCommandAllowed({
       authorAssociation: "MEMBER",
       repositoryPermission: null,
+      allowedAssociations,
+    }),
+    false,
+  );
+  assert.equal(
+    isMaintainerCommandAllowed({
+      authorAssociation: "MEMBER",
+      repositoryPermission: "write",
       allowedAssociations,
     }),
     true,
@@ -350,5 +358,13 @@ test("maintainer command authorization falls back to repository permission", () 
       allowedAssociations,
     }),
     false,
+  );
+  assert.equal(
+    isMaintainerCommandAllowed({
+      authorAssociation: "OWNER",
+      repositoryPermission: null,
+      allowedAssociations,
+    }),
+    true,
   );
 });
