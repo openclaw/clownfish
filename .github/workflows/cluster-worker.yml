@@ -301,31 +301,31 @@ jobs:
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
         timeout-minutes: 30
         env:
-          GH_TOKEN: ${{ steps.workflow_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.workflow_app_token.outputs.token || steps.app_token.outputs.token || github.token }}
         run: npm run execute-fix -- "${{ inputs.job }}" --latest
 
       - name: Apply safe closure actions
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
-          GH_TOKEN: ${{ steps.workflow_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.workflow_app_token.outputs.token || steps.app_token.outputs.token || github.token }}
         run: npm run apply-result -- "${{ inputs.job }}" --latest
 
       - name: Post-flight finalize fix PRs
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
         env:
-          GH_TOKEN: ${{ steps.workflow_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.workflow_app_token.outputs.token || steps.app_token.outputs.token || github.token }}
         run: npm run post-flight -- "${{ inputs.job }}" --latest
 
       - name: Apply post-flight closeouts
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
-          GH_TOKEN: ${{ steps.workflow_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.workflow_app_token.outputs.token || steps.app_token.outputs.token || github.token }}
         run: npm run apply-result -- "${{ inputs.job }}" --latest
 
       - name: Tag Clownfish targets
         if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
-          GH_TOKEN: ${{ steps.workflow_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.workflow_app_token.outputs.token || steps.app_token.outputs.token || github.token }}
         run: npm run tag-clownfish -- .projectclownfish/runs --apply --live --open-branches false --report .projectclownfish/runs/clownfish-label-report.json
 
       - name: Upload final worker artifacts
