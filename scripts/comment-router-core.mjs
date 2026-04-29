@@ -1,5 +1,82 @@
 export const REPAIR_INTENTS = new Set(["fix_ci", "address_review", "rebase", "clawsweeper_auto_repair"]);
 export const MERGE_INTENTS = new Set(["clawsweeper_auto_merge"]);
+export const AUTOMERGE_JOB_SOURCE = "pr_automerge";
+
+export function repoSlug(repo) {
+  return String(repo ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_.-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function automergeClusterId(repo, issueNumber) {
+  return `automerge-${repoSlug(repo)}-${Number(issueNumber)}`;
+}
+
+export function automergeJobBranch(repo, issueNumber) {
+  return `clownfish/${automergeClusterId(repo, issueNumber)}`;
+}
+
+export function automergeJobPath(repo, issueNumber) {
+  const owner = String(repo ?? "").split("/")[0] || "openclaw";
+  return `jobs/${owner}/inbox/${automergeClusterId(repo, issueNumber)}.md`;
+}
+
+export function renderAutomergeJob({ repo, issueNumber, title = null }) {
+  const clusterId = automergeClusterId(repo, issueNumber);
+  const branch = automergeJobBranch(repo, issueNumber);
+  const ref = `#${Number(issueNumber)}`;
+  const prUrl = `https://github.com/${repo}/pull/${Number(issueNumber)}`;
+  const safeTitle = String(title ?? `PR ${ref}`).trim() || `PR ${ref}`;
+  return `---
+repo: ${repo}
+cluster_id: ${clusterId}
+mode: autonomous
+allowed_actions:
+  - comment
+  - label
+  - fix
+  - raise_pr
+blocked_actions:
+  - close
+  - merge
+require_human_for:
+  - close
+  - merge
+canonical:
+  - ${ref}
+candidates:
+  - ${ref}
+cluster_refs:
+  - ${ref}
+allow_instant_close: false
+allow_fix_pr: true
+allow_merge: false
+allow_unmerged_fix_close: false
+allow_post_merge_close: false
+require_fix_before_close: true
+security_policy: central_security_only
+security_sensitive: false
+target_branch: ${branch}
+source: ${AUTOMERGE_JOB_SOURCE}
+---
+
+# Clownfish automerge repair candidate
+
+Maintainer opted ${ref} into Clownfish automerge.
+
+Source PR: ${prUrl}
+Title: ${safeTitle}
+
+Clownfish should use this job only for the bounded ClawSweeper review/fix loop:
+
+- If ClawSweeper requests changes and the PR branch is safe to update, emit a fix artifact with \`repair_strategy: "repair_contributor_branch"\` and \`source_prs: ["${prUrl}"]\`.
+- If the PR branch cannot be safely updated, emit a narrow credited replacement only when the artifact can preserve the original contributor credit; otherwise return \`needs_human\`.
+- Do not merge, close, or bypass review gates from the worker. The comment router owns final merge only after a passing ClawSweeper verdict for the exact current head.
+- Keep repair scope limited to actionable ClawSweeper findings, failing relevant checks, and required review feedback on this PR.
+`;
+}
 
 export function automergeGateBlockReason(env = process.env) {
   if (env.CLOWNFISH_ALLOW_MERGE !== "1") return "merge requires CLOWNFISH_ALLOW_MERGE=1";
@@ -75,9 +152,9 @@ export function renderResponse(command, dispatched) {
       marker,
       "Clownfish is here and listening for maintainer commands.",
       "",
-      "Supported commands: `/clownfish status`, `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`, `/clownfish explain`, `/clownfish stop`.",
+      "Supported commands: `/clownfish status`, `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`, `/clownfish automerge`, `/clownfish explain`, `/clownfish stop`.",
       "",
-      "I only act for maintainers, or for trusted ClawSweeper repair feedback on an existing Clownfish PR.",
+      "I only act for maintainers, or for trusted ClawSweeper feedback on a Clownfish PR or PR opted into `clownfish:automerge`.",
     ].join("\n");
   }
   if (["status", "explain"].includes(command.intent)) {
@@ -100,7 +177,7 @@ export function renderResponse(command, dispatched) {
       "",
       dispatched?.clawsweeper
         ? `I added \`clownfish:automerge\` and asked ClawSweeper to review this head. If ClawSweeper requests changes, I will repair the branch and ask for another review, up to the configured round limit.`
-        : `Reason: ${command.reason ?? "automerge requires an existing Clownfish PR"}.`,
+        : `Reason: ${command.reason ?? "automerge requires a pull request"}.`,
       "",
       "A maintainer can pause this with `/clownfish stop`.",
     ].join("\n");
@@ -112,8 +189,8 @@ export function renderResponse(command, dispatched) {
       "",
       `Reason: ${command.reason ?? "unsupported command or target"}.`,
       "",
-      "Supported repair commands currently work on existing Clownfish PRs only: `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`.",
-      "A maintainer can point me at one of those PRs and I can take another pass.",
+      "Supported repair commands work on existing Clownfish PRs and PRs opted into `clownfish:automerge`: `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`.",
+      "A maintainer can opt a PR in with `/clownfish automerge` and I can take another pass.",
     ].join("\n");
   }
   if (command.intent === "clawsweeper_auto_repair") {
@@ -126,7 +203,7 @@ export function renderResponse(command, dispatched) {
       `Action: dispatched \`${dispatched.workflow}\` for \`${dispatched.job_path}\` in \`${dispatched.mode}\` mode.`,
       `Model: \`${dispatched.model}\``,
       "",
-      "I will update this Clownfish PR branch if the repair worker finds a safe, narrow fix.",
+      "I will update this PR branch, or open a safe credited replacement, if the repair worker finds a narrow fix.",
     ].join("\n");
   }
   if (command.intent === "clawsweeper_auto_merge") {
@@ -292,6 +369,7 @@ function renderStatusBody(command) {
     lines.push(`- PR: #${command.issue_number}`);
     lines.push(`- Branch: \`${target.branch ?? "unknown"}\``);
     lines.push(`- Clownfish PR: ${target.is_clownfish_pr ? "yes" : "no"}`);
+    if (target.automerge_job_path) lines.push(`- Automerge job: \`${target.automerge_job_path}\``);
     if (target.job_path) lines.push(`- Job: \`${target.job_path}\``);
     if (target.merge_state_status) lines.push(`- Merge state: \`${target.merge_state_status}\``);
     if (target.review_decision) lines.push(`- Review decision: \`${target.review_decision}\``);

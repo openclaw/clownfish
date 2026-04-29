@@ -4,12 +4,17 @@ import test from "node:test";
 import {
   MERGE_INTENTS,
   REPAIR_INTENTS,
+  automergeClusterId,
   automergeGateBlockReason,
+  automergeJobBranch,
+  automergeJobPath,
   buildAutomergeMergeArgs,
   parseCommand,
   parseTrustedAutomation,
+  renderAutomergeJob,
   renderResponse,
 } from "../scripts/comment-router-core.mjs";
+import { parseSimpleYaml, validateJob } from "../scripts/lib.mjs";
 
 test("parseCommand recognizes maintainer slash commands", () => {
   assert.deepEqual(parseCommand("/clownfish fix ci"), {
@@ -32,6 +37,35 @@ test("parseCommand recognizes maintainer slash commands", () => {
     command: "automerge",
     intent: "automerge",
   });
+});
+
+test("automerge job helpers create stable adopted PR job identity", () => {
+  assert.equal(automergeClusterId("openclaw/openclaw", 74112), "automerge-openclaw-openclaw-74112");
+  assert.equal(automergeJobBranch("openclaw/openclaw", 74112), "clownfish/automerge-openclaw-openclaw-74112");
+  assert.equal(automergeJobPath("openclaw/openclaw", 74112), "jobs/openclaw/inbox/automerge-openclaw-openclaw-74112.md");
+});
+
+test("renderAutomergeJob validates and keeps merge owned by router", () => {
+  const raw = renderAutomergeJob({
+    repo: "openclaw/openclaw",
+    issueNumber: 74112,
+    title: "Tighten cross-session message handling",
+  });
+  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  assert.ok(match);
+  const job = {
+    frontmatter: parseSimpleYaml(match[1]),
+    body: match[2].trim(),
+  };
+
+  assert.deepEqual(validateJob(job), []);
+  assert.equal(job.frontmatter.source, "pr_automerge");
+  assert.equal(job.frontmatter.allow_fix_pr, true);
+  assert.equal(job.frontmatter.allow_merge, false);
+  assert.deepEqual(job.frontmatter.blocked_actions, ["close", "merge"]);
+  assert.deepEqual(job.frontmatter.allowed_actions, ["comment", "label", "fix", "raise_pr"]);
+  assert.match(job.body, /repair_contributor_branch/);
+  assert.match(job.body, /router owns final merge/);
 });
 
 test("parseCommand recognizes Clownfish bot mentions", () => {
@@ -152,7 +186,8 @@ test("renderResponse reports trusted repair dispatches without losing guardrails
 
   assert.match(body, /Thanks, ClawSweeper/);
   assert.match(body, /cluster-worker\.yml/);
-  assert.match(body, /safe, narrow fix/);
+  assert.match(body, /safe credited replacement/);
+  assert.match(body, /narrow fix/);
   assert.doesNotMatch(body, /ProjectClownfish/i);
 });
 

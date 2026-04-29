@@ -6,20 +6,24 @@ marking.
 
 ## Goal
 
-Clownfish-created PRs should keep improving after they are opened. When
-ClawSweeper reviews a Clownfish PR and leaves actionable feedback, Clownfish
-can dispatch the same cluster job again and update the existing branch. It
-must not create another PR for the same issue cluster, and it must not react to
-ordinary contributor comments.
+Clownfish-created PRs and maintainer-opted existing PRs should keep improving
+after they are opened. When ClawSweeper reviews an opted-in PR and leaves
+actionable feedback, Clownfish can dispatch the backing job again and update
+the existing branch when safe. It must not create another PR for the same issue
+cluster unless the source branch cannot be safely updated, and it must not
+react to ordinary contributor comments.
 
 The loop is intentionally small:
 
-1. Clownfish opens or updates `clownfish/<cluster-id>`.
-2. ClawSweeper reviews that PR.
+1. Clownfish opens `clownfish/<cluster-id>` or a maintainer comments
+   `/clownfish automerge` on any open PR.
+2. ClawSweeper reviews that PR head.
 3. The comment router sees trusted ClawSweeper feedback.
-4. Clownfish dispatches the existing job through `cluster-worker.yml`.
-5. The repair worker pushes another commit to the same branch if it finds a
-   safe, narrow fix.
+4. Clownfish dispatches the existing or adopted job through
+   `cluster-worker.yml`.
+5. The repair worker pushes another commit to the source branch if it finds a
+   safe, narrow fix, or opens a credited replacement when the source branch
+   cannot be safely updated.
 6. ClawSweeper reviews the updated PR again.
 
 ## Trust Model
@@ -39,7 +43,7 @@ Trusted automation:
 - author login must be in `CLOWNFISH_TRUSTED_BOTS`;
 - default trusted bot logins are `clawsweeper[bot]` and
   `openclaw-clawsweeper[bot]`;
-- the target must already be a Clownfish PR;
+- the target must be a Clownfish PR or a PR labeled `clownfish:automerge`;
 - the action becomes `clawsweeper_auto_repair`.
 
 The trusted automation lane exists only for review bots we control. It does
@@ -71,17 +75,19 @@ for already-open PRs and dashboard tools.
 
 ## Automerge Opt-In
 
-Maintainers can opt an existing Clownfish PR into the bounded merge loop with:
+Maintainers can opt any open PR into the bounded merge loop with:
 
 ```text
 /clownfish automerge
 ```
 
 The command adds `clownfish:automerge`, asks ClawSweeper to review the current
-PR head, and leaves an idempotent comment. It currently applies only to
-existing Clownfish PRs because the repair loop must map the PR branch back to
-one cluster job. `/clownfish stop` pauses the loop by adding
-`clownfish:human-review`.
+PR head, creates a durable adopted Clownfish job when the PR is not already
+backed by one, and leaves an idempotent comment. The adopted job lives at
+`jobs/<owner>/inbox/automerge-<owner>-<repo>-<pr>.md`; it lets the normal
+repair worker update the contributor branch when GitHub says that is safe, or
+open a credited replacement when it is not. `/clownfish stop` pauses the loop
+by adding `clownfish:human-review`.
 
 Automerge has two explicit gates:
 
@@ -182,8 +188,8 @@ The router does not dispatch when:
 - the comment author is not trusted automation and is not a maintainer;
 - the issue or PR is closed;
 - the target is not a PR;
-- the PR is not marked as a Clownfish PR;
-- the branch cannot be mapped back to a job file;
+- the PR is neither a Clownfish PR nor labeled `clownfish:automerge`;
+- the PR cannot be mapped to or adopted into a job file;
 - the same comment version was already processed;
 - the same PR already reached the total auto-repair cap;
 - the same PR head SHA already reached the per-head auto-repair cap;

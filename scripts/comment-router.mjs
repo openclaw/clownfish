@@ -16,9 +16,12 @@ import {
   MERGE_INTENTS,
   REPAIR_INTENTS,
   automergeGateBlockReason,
+  automergeClusterId,
+  automergeJobPath,
   buildAutomergeMergeArgs,
   parseCommand,
   parseTrustedAutomation,
+  renderAutomergeJob,
   renderResponse,
 } from "./comment-router-core.mjs";
 import {
@@ -182,7 +185,7 @@ function classifyCommand(command) {
 
   const issue = fetchIssue(command.issue_number);
   const pull = issue.pull_request ? fetchPullRequestView(command.issue_number) : null;
-  const target = pull ? classifyPullTarget(pull) : classifyIssueTarget(issue);
+  const target = pull ? classifyPullTarget(pull, command.issue_number) : classifyIssueTarget(issue);
   const next = { ...command, target };
 
   if (hasExistingResponse(command.issue_number, command.comment_id, command.intent, target.head_sha)) {
@@ -199,16 +202,19 @@ function classifyCommand(command) {
     if (!pull) {
       return automergeBlocked(next, "automerge requires a pull request");
     }
-    if (!target.is_clownfish_pr) {
-      return automergeBlocked(next, "automerge currently requires an existing Clownfish PR");
-    }
+    const actions = [];
     if (!target.job_path) {
-      return automergeBlocked(next, "could not find the Clownfish job for this PR branch");
+      actions.push({
+        action: "ensure_automerge_job",
+        job_path: target.automerge_job_path,
+        status: execute ? "pending" : "planned",
+      });
     }
     return {
       ...next,
       status: "ready",
       actions: [
+        ...actions,
         { action: "label", label: AUTOMERGE_LABEL, status: execute ? "pending" : "planned" },
         { action: "dispatch_clawsweeper", workflow: clawsweeperWorkflow, status: execute ? "pending" : "planned" },
         { action: "comment", status: execute ? "pending" : "planned" },
@@ -234,13 +240,10 @@ function classifyCommand(command) {
     return repairBlocked(next, "repair commands require an open issue or PR");
   }
   if (!pull) {
-    return repairBlocked(next, "repair commands currently require an existing Clownfish PR");
+    return repairBlocked(next, "repair commands require a pull request");
   }
-  if (!target.is_clownfish_pr) {
-    return repairBlocked(next, "repair commands only run on Clownfish PRs");
-  }
-  if (!target.job_path) {
-    return repairBlocked(next, "could not find the Clownfish job for this PR branch");
+  if (!canRepairPullTarget(target)) {
+    return repairBlocked(next, "repair commands require a Clownfish PR or a PR opted into Clownfish automerge");
   }
   if (command.intent === "clawsweeper_auto_repair") {
     if (
@@ -254,12 +257,22 @@ function classifyCommand(command) {
     const alreadyPlanned = autoRepairAlreadyPlanned(next);
     if (alreadyPlanned) return { ...next, status: "skipped", reason: alreadyPlanned };
   }
+  const actions = [];
+  const repairJobPath = target.job_path ?? target.automerge_job_path;
+  if (!target.job_path) {
+    actions.push({
+      action: "ensure_automerge_job",
+      job_path: repairJobPath,
+      status: execute ? "pending" : "planned",
+    });
+  }
 
   return {
     ...next,
     status: "ready",
     actions: [
-      { action: "dispatch_repair", workflow, job_path: target.job_path, mode: target.mode, status: execute ? "pending" : "planned" },
+      ...actions,
+      { action: "dispatch_repair", workflow, job_path: repairJobPath, mode: target.mode, status: execute ? "pending" : "planned" },
       { action: "comment", status: execute ? "pending" : "planned" },
     ],
   };
@@ -270,7 +283,6 @@ function classifyAutomergePass(command, issue, pull) {
   if (!pull) return { ...command, status: "skipped", reason: "ClawSweeper pass marker is not on a PR" };
   if (!hasLabel(command.target, AUTOMERGE_LABEL)) return { ...command, status: "skipped", reason: "PR is not opted into Clownfish automerge" };
   if (hasLabel(command.target, HUMAN_REVIEW_LABEL)) return { ...command, status: "skipped", reason: "PR is paused for human review" };
-  if (!command.target?.is_clownfish_pr) return { ...command, status: "skipped", reason: "automerge currently requires a Clownfish PR" };
   if (!command.expected_head_sha || command.expected_head_sha === "unknown") {
     return { ...command, status: "skipped", reason: "ClawSweeper pass marker must include the reviewed PR head SHA" };
   }
@@ -325,6 +337,11 @@ function repairBlocked(command, reason) {
   };
 }
 
+function canRepairPullTarget(target) {
+  if (target?.kind !== "pull_request") return false;
+  return Boolean(target.job_path || target.is_clownfish_pr || hasLabel(target, AUTOMERGE_LABEL));
+}
+
 function autoRepairAlreadyPlanned(command) {
   const headKey = autoRepairHeadKey(command);
   if (!headKey) return null;
@@ -368,19 +385,49 @@ function autoRepairHeadKey(command) {
 
 function executeCommand(command) {
   let dispatched = null;
-  if (REPAIR_INTENTS.has(command.intent) && command.target?.job_path && command.target?.is_clownfish_pr) {
+  if (REPAIR_INTENTS.has(command.intent) && canRepairPullTarget(command.target)) {
+    const job = ensureAutomergeJob(command);
+    if (job.status_detail === "written") {
+      command.actions = command.actions.map((action) => {
+        if (action.action === "ensure_automerge_job") return { ...action, status: "executed", ...job };
+        if (action.action === "dispatch_repair") {
+          return {
+            ...action,
+            job_path: command.target.job_path,
+            mode: command.target.mode,
+            status: "waiting",
+            reason: "adopted job must be committed before worker dispatch",
+          };
+        }
+        return action;
+      });
+      command.status = "waiting";
+      return;
+    }
     dispatched = dispatchRepair(command);
-    command.actions = command.actions.map((action) =>
-      action.action === "dispatch_repair" ? { ...action, status: "executed", dispatched_at: new Date().toISOString() } : action,
-    );
+    command.actions = command.actions.map((action) => {
+      if (action.action === "ensure_automerge_job") return { ...action, status: "executed", ...job };
+      if (action.action === "dispatch_repair") {
+        return {
+          ...action,
+          job_path: command.target.job_path,
+          mode: command.target.mode,
+          status: "executed",
+          dispatched_at: new Date().toISOString(),
+        };
+      }
+      return action;
+    });
   }
   if (command.intent === "automerge" && command.issue_number) {
+    const job = ensureAutomergeJob(command);
     ensureAutomergeLabel(command.repo);
     ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", AUTOMERGE_LABEL]);
     const clawsweeper = dispatchClawSweeperReview(command);
     dispatched = { ...(dispatched ?? {}), clawsweeper };
     command.actions = command.actions.map((action) => {
       if (action.action === "label") return { ...action, status: "executed", label: AUTOMERGE_LABEL };
+      if (action.action === "ensure_automerge_job") return { ...action, status: "executed", ...job };
       if (action.action === "dispatch_clawsweeper") {
         return { ...action, status: "executed", dispatched_at: new Date().toISOString(), ...clawsweeper };
       }
@@ -418,6 +465,51 @@ function executeCommand(command) {
     action.action === "comment" ? { ...action, status: "executed", commented_at: new Date().toISOString() } : action,
   );
   command.status = "executed";
+}
+
+function ensureAutomergeJob(command) {
+  if (command.target?.job_path) {
+    return {
+      job_path: command.target.job_path,
+      mode: command.target.mode ?? dispatchMode(command.target.job_path),
+      status_detail: "existing",
+    };
+  }
+  if (command.target?.kind !== "pull_request" || !command.issue_number) {
+    throw new Error("automerge repair job requires a pull request target");
+  }
+
+  const relative = command.target.automerge_job_path ?? automergeJobPath(command.repo, command.issue_number);
+  const absolute = path.join(repoRoot(), relative);
+  let statusDetail = "existing";
+  if (!fs.existsSync(absolute)) {
+    fs.mkdirSync(path.dirname(absolute), { recursive: true });
+    fs.writeFileSync(
+      absolute,
+      renderAutomergeJob({
+        repo: command.repo,
+        issueNumber: command.issue_number,
+        title: command.target.title,
+      }),
+    );
+    statusDetail = "written";
+  }
+
+  const job = parseJob(relative);
+  const errors = validateJob(job);
+  if (errors.length > 0) throw new Error(`invalid automerge job ${relative}: ${errors.join("; ")}`);
+  command.target = {
+    ...command.target,
+    cluster_id: job.frontmatter.cluster_id,
+    job_path: job.relativePath,
+    mode: dispatchMode(job.relativePath),
+  };
+  return {
+    job_path: command.target.job_path,
+    mode: command.target.mode,
+    cluster_id: command.target.cluster_id,
+    status_detail: statusDetail,
+  };
 }
 
 function dispatchClawSweeperReview(command) {
@@ -591,12 +683,16 @@ function classifyIssueTarget(issue) {
   };
 }
 
-function classifyPullTarget(pull) {
+function classifyPullTarget(pull, issueNumber) {
   const branch = String(pull.headRefName ?? "");
   const labels = (pull.labels ?? []).map((item) => item.name ?? item);
   const author = String(pull.author?.login ?? pull.author?.name ?? "").toLowerCase();
   const clusterId = branch.startsWith(headPrefix) ? branch.slice(headPrefix.length) : null;
-  const jobPath = clusterId ? existingJobPath(clusterId) : null;
+  const automergeCluster = automergeClusterId(targetRepo, issueNumber);
+  const automergePath = automergeJobPath(targetRepo, issueNumber);
+  const clownfishJobPath = clusterId ? existingJobPath(clusterId, targetRepo) : null;
+  const adoptedJobPath = existingJobPath(automergeCluster, targetRepo);
+  const jobPath = clownfishJobPath ?? adoptedJobPath;
   return {
     kind: "pull_request",
     title: pull.title ?? null,
@@ -605,8 +701,10 @@ function classifyPullTarget(pull) {
     author,
     labels,
     is_clownfish_pr: branch.startsWith(headPrefix) || labels.includes(label) || clownfishAuthors.has(author),
-    cluster_id: clusterId,
+    cluster_id: clusterId ?? (adoptedJobPath ? automergeCluster : null),
     job_path: jobPath,
+    automerge_cluster_id: automergeCluster,
+    automerge_job_path: adoptedJobPath ?? automergePath,
     mode: jobPath ? dispatchMode(jobPath) : "autonomous",
     merge_state_status: pull.mergeStateStatus ?? null,
     review_decision: pull.reviewDecision ?? null,
@@ -621,12 +719,13 @@ function dispatchMode(jobPath) {
   return ["execute", "autonomous"].includes(String(job.frontmatter.mode ?? "")) ? job.frontmatter.mode : "autonomous";
 }
 
-function existingJobPath(clusterId) {
+function existingJobPath(clusterId, repo = targetRepo) {
+  const owner = String(repo ?? "").split("/")[0] || "openclaw";
   for (const relative of [
-    path.join("jobs", "openclaw", "inbox", `${clusterId}.md`),
-    path.join("jobs", "openclaw", `${clusterId}.md`),
-    path.join("jobs", "openclaw", "outbox", "finalized", `${clusterId}.md`),
-    path.join("jobs", "openclaw", "outbox", "stuck", `${clusterId}.md`),
+    path.join("jobs", owner, "inbox", `${clusterId}.md`),
+    path.join("jobs", owner, `${clusterId}.md`),
+    path.join("jobs", owner, "outbox", "finalized", `${clusterId}.md`),
+    path.join("jobs", owner, "outbox", "stuck", `${clusterId}.md`),
   ]) {
     if (fs.existsSync(path.join(repoRoot(), relative))) return relative;
   }

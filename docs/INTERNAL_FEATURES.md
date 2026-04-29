@@ -323,8 +323,9 @@ Contributor comments are ignored without a reply.
 
 The generated-PR auto-update design is documented in
 [`docs/auto-update-prs.md`](auto-update-prs.md). That lane lets trusted
-ClawSweeper comments dispatch a repair run for an existing Clownfish PR without
-allowing arbitrary comment authors to trigger work.
+ClawSweeper comments dispatch a repair run for an existing Clownfish PR or a
+PR explicitly opted into `clownfish:automerge` without allowing arbitrary
+comment authors to trigger work.
 
 Accepted command styles:
 
@@ -343,6 +344,7 @@ Supported commands:
 /clownfish fix ci
 /clownfish address review
 /clownfish rebase
+/clownfish automerge
 /clownfish explain
 /clownfish stop
 @openclaw-clownfish fix ci
@@ -354,14 +356,16 @@ Behavior:
 - `fix ci`: dispatch the existing Clownfish PR's job for repair.
 - `address review`: dispatch the existing Clownfish PR's job for repair.
 - `rebase`: dispatch the existing Clownfish PR's job for repair.
-- `automerge`: label an existing Clownfish PR with `clownfish:automerge`
-  and dispatch a ClawSweeper review for the current head.
+- `automerge`: label any open PR with `clownfish:automerge`, create an
+  adopted job if needed, and dispatch a ClawSweeper review for the current
+  head.
 - `stop`: label the item for human review.
 
-Repair commands currently apply only to existing Clownfish PRs. The router
-finds those by `clownfish` label, `clownfish/*` branch, or configured
-Clownfish author login, resolves the cluster job from the branch, posts one
-idempotent response marker, and dispatches `cluster-worker.yml`.
+Repair commands apply to existing Clownfish PRs and PRs opted into
+`clownfish:automerge`. The router finds Clownfish PRs by `clownfish` label,
+`clownfish/*` branch, or configured Clownfish author login, resolves or creates
+the backing job, posts one idempotent response marker, and dispatches
+`cluster-worker.yml`.
 
 Trusted ClawSweeper comments become `clawsweeper_auto_repair`. Preferred
 comments use hidden `clawsweeper-verdict:*` markers and include
