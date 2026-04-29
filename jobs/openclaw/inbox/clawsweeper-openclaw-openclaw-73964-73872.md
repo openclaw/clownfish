@@ -22,6 +22,7 @@ cluster_refs:
   - #73872
 allow_instant_close: false
 allow_fix_pr: true
+allow_broad_fix_artifacts: true
 allow_merge: false
 allow_unmerged_fix_close: false
 allow_post_merge_close: true
