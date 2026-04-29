@@ -1,19 +1,19 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-04-29T01:00:15.567Z
+Generated: 2026-04-29T01:14:33.747Z
 
 ## Summary
 
 | Metric | Count |
 | --- | ---: |
-| open_prs | 122 |
+| open_prs | 123 |
 | ready_candidates | 0 |
 | security_hold | 3 |
 | needs_rebase | 100 |
 | mergeability_unknown | 0 |
-| needs_checks | 102 |
+| needs_checks | 103 |
 | needs_review | 11 |
-| needs_merge_preflight | 122 |
+| needs_merge_preflight | 123 |
 | needs_result_backfill | 77 |
 
 ## Dispatch
@@ -30,6 +30,7 @@ Status: report_only
 
 | PR | Title | Cluster | Mergeable | Merge State | Checks | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [#73902](https://github.com/openclaw/openclaw/pull/73902) | fix(update): skip disabled plugins during post-update sync | clawsweeper-openclaw-openclaw-73880 | MERGEABLE | UNSTABLE | CANCELLED:2 SKIPPED:21 SUCCESS:64 FAILURE:2; blockers:2 | needs_merge_state:UNSTABLE, needs_checks:CI / plugin-prerelease-docker-suite / prepare_docker_e2e_image:FAILURE; CI / plugin-prerelease-suite:FAILURE, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#73891](https://github.com/openclaw/openclaw/pull/73891) | fix(imessage): normalize leading echo-cache corruption bytes | ghcrawl-156611-autonomous-smoke | MERGEABLE | CLEAN | CANCELLED:1 SKIPPED:20 SUCCESS:86 | needs_merge_preflight | backfill merge preflight: security cleared, comments resolved, Codex /review passed, validation recorded |
 | [#73890](https://github.com/openclaw/openclaw/pull/73890) | fix(installer): warn before npm prefix redirection | ghcrawl-156595-autonomous-smoke | MERGEABLE | CLEAN | CANCELLED:2 SKIPPED:20 SUCCESS:86 | needs_merge_preflight | backfill merge preflight: security cleared, comments resolved, Codex /review passed, validation recorded |
 | [#73889](https://github.com/openclaw/openclaw/pull/73889) | fix(cli): stabilize Windows scheduled-task restart health after ready | ghcrawl-156629-autonomous-smoke | MERGEABLE | UNSTABLE | CANCELLED:1 SKIPPED:20 SUCCESS:84 FAILURE:2; blockers:2 | needs_merge_state:UNSTABLE, needs_checks:CI / checks-node-agentic-commands:FAILURE; CI / checks-node-core:FAILURE, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
