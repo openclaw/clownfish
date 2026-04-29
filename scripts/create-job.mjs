@@ -140,6 +140,7 @@ ${refs.map((ref) => `  - ${ref}`).join("\n")}
 allow_instant_close: false
 allow_fix_pr: true
 allow_merge: false
+allow_unmerged_fix_close: false
 allow_post_merge_close: true
 require_fix_before_close: true
 security_policy: central_security_only

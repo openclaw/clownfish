@@ -48,8 +48,8 @@ jobs:
       - name: Finalize open ProjectClownfish PRs
         env:
           GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || github.token }}
-          CLOWNFISH_ALLOW_EXECUTE: ${{ inputs.execute && (vars.CLOWNFISH_ALLOW_EXECUTE || '1') || '0' }}
-          CLOWNFISH_ALLOW_FIX_PR: ${{ inputs.execute && (vars.CLOWNFISH_ALLOW_FIX_PR || '1') || '0' }}
+          CLOWNFISH_ALLOW_EXECUTE: ${{ inputs.execute && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && '1' || '0' }}
+          CLOWNFISH_ALLOW_FIX_PR: ${{ inputs.execute && vars.CLOWNFISH_ALLOW_FIX_PR == '1' && '1' || '0' }}
         run: |
           args=(
             --write-report
@@ -58,8 +58,10 @@ jobs:
             --runner "${{ inputs.runner }}"
             --execution-runner "${{ inputs.execution_runner }}"
           )
-          if [ "${{ inputs.execute }}" = "true" ]; then
+          if [ "${{ inputs.execute }}" = "true" ] && [ "${CLOWNFISH_ALLOW_EXECUTE}" = "1" ] && [ "${CLOWNFISH_ALLOW_FIX_PR}" = "1" ]; then
             args+=(--execute)
+          elif [ "${{ inputs.execute }}" = "true" ]; then
+            echo "execution requested, but Clownfish execute/fix gates are not explicitly 1; writing report without dispatching repairs"
           fi
           npm run finalize-open-prs -- "${args[@]}"
           npm run publish-result
@@ -77,7 +79,7 @@ jobs:
             exit 0
           fi
           git commit -m "chore: record open PR finalizer"
-          for attempt in 1 2 3; do
+          for _ in 1 2 3; do
             if git push; then
               exit 0
             fi

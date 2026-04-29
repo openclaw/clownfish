@@ -43,8 +43,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
   CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
-  CLOWNFISH_ALLOW_EXECUTE: ${{ vars.CLOWNFISH_ALLOW_EXECUTE || '1' }}
-  CLOWNFISH_ALLOW_FIX_PR: ${{ vars.CLOWNFISH_ALLOW_FIX_PR || '1' }}
+  CLOWNFISH_ALLOW_EXECUTE: ${{ vars.CLOWNFISH_ALLOW_EXECUTE == '1' && '1' || '0' }}
+  CLOWNFISH_ALLOW_FIX_PR: ${{ vars.CLOWNFISH_ALLOW_FIX_PR == '1' && '1' || '0' }}
   CLOWNFISH_ALLOW_MERGE: "0"
   CLOWNFISH_CODEX_REASONING_EFFORT: ${{ vars.CLOWNFISH_CODEX_REASONING_EFFORT || 'medium' }}
   CLOWNFISH_CODEX_REVIEW_ATTEMPTS: ${{ vars.CLOWNFISH_CODEX_REVIEW_ATTEMPTS || '2' }}
@@ -160,7 +160,7 @@ jobs:
 
       - name: Execute credited fix artifact
         id: execute
-        if: ${{ steps.prepare.outputs.should_repair == 'true' }}
+        if: ${{ steps.prepare.outputs.should_repair == 'true' && env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
         continue-on-error: true
         timeout-minutes: 35
         env:
@@ -170,7 +170,7 @@ jobs:
         run: npm run execute-fix -- "${{ steps.prepare.outputs.job_path }}" "${{ steps.prepare.outputs.result_path }}"
 
       - name: Post-flight finalize fix PRs
-        if: ${{ steps.prepare.outputs.should_repair == 'true' && steps.execute.outcome == 'success' }}
+        if: ${{ steps.prepare.outputs.should_repair == 'true' && steps.execute.outcome == 'success' && env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
         env:
           GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || github.token }}
         run: npm run post-flight -- "${{ steps.prepare.outputs.job_path }}" "${{ steps.prepare.outputs.result_path }}"
@@ -185,7 +185,7 @@ jobs:
             --run-id "${{ github.run_id }}" \
             --run-url "$RUN_URL" \
             --head-sha "${{ github.sha }}" \
-            --conclusion "${{ steps.execute.outcome == 'success' && 'success' || 'failure' }}"
+            --conclusion "${{ steps.execute.outcome == 'success' && 'success' || steps.execute.outcome == 'failure' && 'failure' || 'skipped' }}"
 
       - name: Finalize commit finding audit
         if: always()
@@ -194,7 +194,7 @@ jobs:
             npm run commit-finding-intake -- finalize \
               --audit-path "${{ steps.prepare.outputs.audit_path }}" \
               --run-dir "${{ steps.prepare.outputs.run_dir }}" \
-              --status "${{ steps.prepare.outputs.should_repair == 'true' && steps.execute.outcome || steps.prepare.outputs.status }}"
+              --status "${{ steps.prepare.outputs.should_repair == 'true' && (steps.execute.outcome || 'skipped') || steps.prepare.outputs.status }}"
           fi
 
       - name: Commit intake ledger

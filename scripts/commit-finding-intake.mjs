@@ -168,6 +168,7 @@ cluster_refs: []
 allow_instant_close: false
 allow_fix_pr: true
 allow_merge: false
+allow_unmerged_fix_close: false
 allow_post_merge_close: false
 require_fix_before_close: false
 security_policy: central_security_only

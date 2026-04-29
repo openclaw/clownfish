@@ -60,12 +60,25 @@ npm run create-job -- --from-report ../clawsweeper/records/openclaw-openclaw/ite
 
 The generated job defaults to `mode: autonomous`, `allow_fix_pr: true`,
 `allow_instant_close: false`, `allow_merge: false`, and
-`require_fix_before_close: true`. Commit and push the new job file, then
-dispatch it:
+`require_fix_before_close: true`. `close_duplicate` actions can still consolidate
+duplicate threads, but `close_fixed_by_candidate` waits for a merged candidate
+fix unless a maintainer explicitly sets `allow_unmerged_fix_close: true`.
+Commit and push the new job file, then dispatch it:
 
 ```bash
 npm run validate:job -- jobs/openclaw/inbox/clawsweeper-openclaw-openclaw-123.md
 npm run dispatch -- jobs/openclaw/inbox/clawsweeper-openclaw-openclaw-123.md --mode autonomous
+```
+
+To ask for a replacement PR from an existing useful but uneditable source PR,
+make the prompt explicit:
+
+```md
+Treat #123 as useful source work. If the branch cannot be safely updated
+because it is uneditable, stale, draft-only, or unsafe, create a narrow
+Clownfish replacement PR instead of waiting. Preserve the source PR author as
+co-author, credit the source PR in the replacement PR body, and close only that
+source PR after the replacement PR is opened.
 ```
 
 Keep `CLOWNFISH_ALLOW_MERGE=0` unless a human explicitly opens the merge gate.
@@ -116,6 +129,8 @@ It only applies closure actions when all of these are true:
 - GitHub still reports the same `updated_at`;
 - the target is open and not maintainer-authored.
 - the target is not security-sensitive.
+- `close_fixed_by_candidate` has a merged candidate fix unless
+  `allow_unmerged_fix_close: true` was set by a maintainer.
 
 The applicator writes an idempotency marker into the close comment before closing. Re-runs skip already-applied comments/closures instead of posting twice.
 
@@ -146,7 +161,7 @@ npm run dispatch -- jobs/openclaw/cluster-*.md --mode plan --runner blacksmith-4
 
 The workflow uses Node 24 and logs Codex in with `OPENAI_API_KEY`, while also passing `CODEX_API_KEY` to `codex exec`. Set `CODEX_API_KEY` to the same value unless you intentionally separate CI auth.
 
-Codex runs in a read-only sandbox for classification and receives no GitHub token. GitHub read access is scoped to deterministic preflight scripts. For reviewed fix artifacts, `execute-fix-artifact` gives Codex a temporary target checkout without GitHub credentials, then the deterministic executor commits, pushes, opens the replacement PR, and closes uneditable source PRs only after the replacement exists. Remaining write access is scoped to `apply-result`.
+Codex runs in a read-only sandbox for classification and receives no GitHub token. GitHub read access is scoped to deterministic preflight scripts. For reviewed fix artifacts, `execute-fix-artifact` gives Codex a temporary target checkout without GitHub credentials, then the deterministic executor commits, pushes, opens the replacement PR, and closes uneditable source PRs only after the replacement exists. When a replacement carries contributor work forward, non-bot source PR authors are added as `Co-authored-by` trailers and named in the replacement PR body and source close comment. Remaining write access is scoped to `apply-result`.
 
 Runs for the same job path and mode share a concurrency group. Different cluster jobs can still run in parallel.
 

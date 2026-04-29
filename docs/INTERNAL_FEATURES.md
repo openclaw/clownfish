@@ -150,11 +150,17 @@ It can:
 - run Codex `/review`
 - address Codex review findings
 - open or update the target PR
-- preserve contributor credit in PR body and closeout comments
+- preserve contributor credit in co-author trailers, PR body, and closeout comments
 
 The executor prepares a temporary checkout of the target repo. Codex edits that
 checkout without GitHub credentials. The deterministic executor commits,
 pushes, opens PRs, and comments using the GitHub token.
+
+When replacing a meaningful contributor PR, the executor fetches the source PR
+author, skips bot authors, adds `Co-authored-by` trailers to replacement
+checkpoint commits, records carried-forward credit in the replacement PR body,
+and says in the source close comment that the contribution is carried forward
+rather than rejected.
 
 Generated Clownfish PRs are marked by:
 
@@ -166,6 +172,13 @@ Current operational gotcha: OpenClaw's PR queue policy can close PRs when the
 Clownfish app author has more than 10 active PRs. That is a target-repo policy
 interaction, not evidence that the generated PR is invalid. Reduce or land the
 active Clownfish queue before reopening those PRs.
+
+Replacement PR creation also has a per-area backpressure guard. Before opening a
+new `clownfish/*` replacement branch, `execute-fix-artifact` groups the proposed
+`likely_files` into touched areas such as `extensions/discord`, `src/core`, or
+`docs`, reads open Clownfish PRs in the target repo, and blocks if the same area
+already has `CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA` open Clownfish PRs. The default
+limit is `3`; set it to `0` only for a deliberately uncapped execution window.
 
 ## ClawSweeper Commit Findings
 
@@ -405,8 +418,10 @@ PR directly.
 
 Important gates:
 
-- `CLOWNFISH_ALLOW_EXECUTE`: allows deterministic write lanes.
+- `CLOWNFISH_ALLOW_EXECUTE`: allows deterministic write lanes. Workflows treat
+  any value except literal `1` as closed.
 - `CLOWNFISH_ALLOW_FIX_PR`: allows branch repair and replacement PR creation.
+  Workflows treat any value except literal `1` as closed.
 - `CLOWNFISH_ALLOW_MERGE`: allows Clownfish to merge. Keep this `0` unless a
   maintainer explicitly opens it.
 - `CLOWNFISH_COMMENT_ROUTER_EXECUTE`: lets scheduled comment routing post
@@ -418,6 +433,8 @@ Important defaults:
 - `CLOWNFISH_CODEX_REASONING_EFFORT`: model reasoning effort; use `xhigh` for
   difficult repair work.
 - `CLOWNFISH_MAX_LIVE_WORKERS`: dispatch capacity guard.
+- `CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA`: replacement PR area backpressure; default
+  is `3` open Clownfish PRs per touched area, and `0` disables the cap.
 - `CLOWNFISH_TARGET_VALIDATION_MODE`: changed-only validation by default.
 - `CLOWNFISH_RESOLVE_REVIEW_THREADS`: lets fix execution resolve threads after
   it addresses them.

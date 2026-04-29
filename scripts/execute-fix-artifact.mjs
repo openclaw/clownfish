@@ -33,6 +33,7 @@ const installTargetDeps = process.env.CLOWNFISH_INSTALL_TARGET_DEPS !== "0";
 const allowBroadFixArtifacts = process.env.CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS === "1";
 const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
 const maxAutonomousFixSurfaces = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_SURFACES ?? 4));
+const maxActivePrsPerArea = Number(process.env.CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA ?? 3);
 const strictTargetValidation =
   process.env.CLOWNFISH_STRICT_TARGET_VALIDATION === "1" ||
   String(process.env.CLOWNFISH_TARGET_VALIDATION_MODE ?? "changed-only") === "strict";
@@ -409,8 +410,19 @@ function prepareFallbackReplacementCheckout(sourceTargetDir) {
 
 function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fallbackReason }) {
   const baseBranch = String(process.env.CLOWNFISH_FIX_BASE_BRANCH ?? DEFAULT_BASE_BRANCH);
-  run("git", ["fetch", "origin", baseBranch], { cwd: targetDir });
+  const contributorCredits = sourceContributorCredits({ fixArtifact, targetDir });
   const branch = replacementBranchName(result.cluster_id);
+  const areaCapacityBlock = validateActivePrAreaCapacity({ fixArtifact, targetDir, branch });
+  if (areaCapacityBlock) {
+    return {
+      action: "open_fix_pr",
+      status: "blocked",
+      branch,
+      repair_strategy: fixArtifact.repair_strategy,
+      ...areaCapacityBlock,
+    };
+  }
+  run("git", ["fetch", "origin", baseBranch], { cwd: targetDir });
   const branchState = checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch });
   if (branchState.resumed) rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
   prepareTargetToolchain(targetDir);
@@ -423,13 +435,14 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     mode: "replacement",
     fallbackReason,
     baseBranch,
+    contributorCredits,
     allowExistingChanges: branchState.resumed && branchHasBaseDiff({ targetDir, baseBranch }),
     pushCheckpoint: dryRun ? null : () => pushRecoverableBranch({ targetDir, branch }),
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     prep.commit = currentHead(targetDir);
   }
-  const body = replacementPrBody(fixArtifact, fallbackReason);
+  const body = replacementPrBody(fixArtifact, fallbackReason, contributorCredits);
   if (dryRun) {
     return {
       action: "open_fix_pr",
@@ -440,6 +453,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
       checkpoint_commits: prep.checkpoint_commits,
       merge_preflight: prep.merge_preflight,
       supersede_sources: supersedeSources ? fixArtifact.source_prs ?? [] : [],
+      contributor_credit: contributorCredits.map(publicContributorCredit),
     };
   }
 
@@ -468,7 +482,9 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     for (const source of supersededSources) {
       const parsed = parsePullRequestUrl(source);
       if (!parsed || parsed.repo !== result.repo) continue;
-      supersededSourceActions.push(closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir }));
+      supersededSourceActions.push(
+        closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, contributorCredits }),
+      );
     }
   }
 
@@ -484,10 +500,11 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     review_threads: threadResolution,
     superseded_sources: supersededSources,
     superseded_source_actions: supersededSourceActions,
+    contributor_credit: contributorCredits.map(publicContributorCredit),
   };
 }
 
-function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }) {
+function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir, contributorCredits }) {
   const base = { source, pr: `#${parsed.number}`, action: "close_superseded_source" };
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
   if (view.mergedAt || view.state === "MERGED") {
@@ -497,12 +514,14 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }
     return { ...base, status: "skipped", reason: "already closed" };
   }
 
+  const carriedCredit = sourceCreditLines({ source, contributorCredits });
   const comment = [
-    "ProjectClownfish could not safely update this branch, so it opened a narrow replacement PR instead.",
+    "Clownfish could not safely update this branch, so it opened a narrow replacement PR instead.",
     "",
     `Replacement PR: ${replacementPrUrl}`,
     `Source PR: ${source}`,
-    "Contributor credit is preserved in the replacement PR body and changelog plan.",
+    ...carriedCredit,
+    "Closing this PR to keep review focused on the replacement. The contribution is carried forward, not discarded.",
   ].join("\n");
   run("gh", ["pr", "comment", String(parsed.number), "--repo", result.repo, "--body", comment], {
     cwd: targetDir,
@@ -514,7 +533,15 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }
     env: ghEnv(),
     encoding: "utf8",
   });
-  if (closed.status === 0) return { ...base, status: "executed", reason: "closed in favor of replacement PR" };
+  if (closed.status === 0) {
+    return {
+      ...base,
+      status: "executed",
+      reason: "closed in favor of credited replacement PR",
+      replacement_pr: replacementPrUrl,
+      contributor_credit: contributorCredits.map(publicContributorCredit),
+    };
+  }
 
   const detail = `${closed.stderr ?? ""}\n${closed.stdout ?? ""}`.trim();
   if (/already merged|can't be closed because it was already merged/i.test(detail)) {
@@ -538,7 +565,7 @@ function ensurePullRequestOpen({ number, targetDir }) {
 
 function fetchSourcePullRequestView({ repo, number, targetDir }) {
   return JSON.parse(
-    run("gh", ["pr", "view", String(number), "--repo", repo, "--json", "state,mergedAt,title,url"], {
+    run("gh", ["pr", "view", String(number), "--repo", repo, "--json", "author,state,mergedAt,title,url"], {
       cwd: targetDir,
       env: ghEnv(),
     }),
@@ -552,6 +579,7 @@ function editValidatePrepareMerge({
   mode,
   fallbackReason,
   baseBranch = DEFAULT_BASE_BRANCH,
+  contributorCredits = [],
   allowExistingChanges = false,
   pushCheckpoint = null,
 }) {
@@ -620,6 +648,7 @@ function editValidatePrepareMerge({
   const firstCheckpoint = commitCheckpointIfNeeded({
     targetDir,
     message: fixArtifact.pr_title,
+    trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
   });
   if (firstCheckpoint) {
     checkpointCommits.push(firstCheckpoint);
@@ -635,6 +664,7 @@ function editValidatePrepareMerge({
       const checkpoint = commitCheckpointIfNeeded({
         targetDir,
         message: `fix(clownfish): address review for ${result.cluster_id} (${attempt})`,
+        trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
       });
       if (checkpoint) {
         checkpointCommits.push(checkpoint);
@@ -645,6 +675,7 @@ function editValidatePrepareMerge({
   const finalCheckpoint = commitCheckpointIfNeeded({
     targetDir,
     message: `fix(clownfish): finalize ${result.cluster_id}`,
+    trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
   });
   if (finalCheckpoint) {
     checkpointCommits.push(finalCheckpoint);
@@ -1240,18 +1271,184 @@ function codexReviewSchemaPath() {
   return schemaPath;
 }
 
-function replacementPrBody(fixArtifact, fallbackReason) {
+function replacementPrBody(fixArtifact, fallbackReason, contributorCredits = []) {
+  const creditLines = contributorCredits.map((credit) => `- ${publicCreditLabel(credit)} from ${credit.sources.join(", ")}`);
   const lines = [
     fixArtifact.pr_body.trim(),
     "",
-    "ProjectClownfish replacement details:",
+    "Clownfish replacement details:",
     `- Cluster: ${result.cluster_id}`,
     `- Source PRs: ${(fixArtifact.source_prs ?? []).join(", ") || "none"}`,
     `- Credit: ${fixArtifact.credit_notes.join("; ")}`,
+    ...(creditLines.length > 0 ? ["", "Carried-forward contributor credit:", ...creditLines] : []),
     `- Validation: ${fixArtifact.validation_commands.join("; ")}`,
   ];
   if (fallbackReason) lines.push(`- Repair fallback: ${fallbackReason}`);
   return `${lines.join("\n")}\n`;
+}
+
+function sourceContributorCredits({ fixArtifact, targetDir }) {
+  const byLogin = new Map();
+  for (const source of fixArtifact.source_prs ?? []) {
+    const parsed = parsePullRequestUrl(source);
+    if (!parsed || parsed.repo !== result.repo) continue;
+    const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
+    const login = String(view.author?.login ?? "").trim();
+    if (!login || view.author?.is_bot || isBotLogin(login)) continue;
+    const key = login.toLowerCase();
+    const existing = byLogin.get(key) ?? {
+      login,
+      name: safeTrailerName(login, login),
+      email: `${login}@users.noreply.github.com`,
+      sources: [],
+    };
+    const user = fetchGitHubUser(login, targetDir);
+    if (user) {
+      existing.name = safeTrailerName(user.name || user.login || login, login);
+      existing.email = `${user.id}+${user.login}@users.noreply.github.com`;
+    }
+    existing.sources = uniqueStrings([...existing.sources, parsed.url]);
+    byLogin.set(key, existing);
+  }
+  return [...byLogin.values()];
+}
+
+function fetchGitHubUser(login, targetDir) {
+  try {
+    const user = JSON.parse(run("gh", ["api", `users/${login}`], { cwd: targetDir, env: ghEnv() }));
+    if (!user?.id || !user?.login) return null;
+    return user;
+  } catch {
+    return null;
+  }
+}
+
+function coAuthorTrailers(contributorCredits) {
+  return contributorCredits.map((credit) => `Co-authored-by: ${credit.name} <${credit.email}>`);
+}
+
+function publicContributorCredit(credit) {
+  return {
+    login: credit.login,
+    name: credit.name,
+    sources: credit.sources,
+    co_authored_by: `Co-authored-by: ${credit.name} <${credit.email}>`,
+  };
+}
+
+function publicCreditLabel(credit) {
+  return `@${credit.login} (${credit.name || credit.login})`;
+}
+
+function safeTrailerName(value, fallback = "Contributor") {
+  const name = String(value ?? "")
+    .replace(/[<>\r\n]/g, "")
+    .trim();
+  return name || fallback;
+}
+
+function isBotLogin(login) {
+  return /\[bot\]$|bot$/i.test(String(login ?? ""));
+}
+
+function sourceCreditLines({ source, contributorCredits }) {
+  const matching = contributorCredits.filter((credit) => credit.sources.includes(source));
+  if (matching.length === 0) {
+    return ["Contributor credit is preserved in the replacement PR body and changelog plan."];
+  }
+  return matching.map((credit) => `Credit preserved: @${credit.login} is carried forward as co-author in the replacement PR.`);
+}
+
+function validateActivePrAreaCapacity({ fixArtifact, targetDir, branch }) {
+  if (!Number.isFinite(maxActivePrsPerArea) || maxActivePrsPerArea < 1) return null;
+  const areas = affectedAreasForFiles(fixArtifact.likely_files ?? []);
+  if (areas.length === 0) return null;
+
+  let activePrs;
+  try {
+    activePrs = listOpenClownfishPrAreas({ targetDir }).filter((pull) => pull.branch !== branch);
+  } catch (error) {
+    return {
+      code: "active_area_pr_cap_unverified",
+      reason: `could not verify active Clownfish PR area capacity: ${compactText(error.message, 500)}`,
+      areas,
+      max_active_prs_per_area: maxActivePrsPerArea,
+    };
+  }
+  const blockedAreas = areas
+    .map((area) => ({
+      area,
+      active: activePrs.filter((pull) => pull.areas.includes(area)),
+    }))
+    .filter((entry) => entry.active.length >= maxActivePrsPerArea);
+
+  if (blockedAreas.length === 0) return null;
+  const first = blockedAreas[0];
+  return {
+    code: "active_area_pr_cap",
+    reason: `active Clownfish PR cap reached for ${first.area}: ${first.active.length}/${maxActivePrsPerArea} open PRs`,
+    areas,
+    max_active_prs_per_area: maxActivePrsPerArea,
+    active_area_prs: first.active.slice(0, 10).map((pull) => ({
+      pr: `#${pull.number}`,
+      url: pull.url,
+      title: pull.title,
+      branch: pull.branch,
+      areas: pull.areas,
+    })),
+  };
+}
+
+function listOpenClownfishPrAreas({ targetDir }) {
+  const pulls = JSON.parse(
+    run(
+      "gh",
+      ["pr", "list", "--repo", result.repo, "--state", "open", "--limit", "500", "--json", "number,title,url,headRefName,labels"],
+      { cwd: targetDir, env: ghEnv() },
+    ),
+  );
+  return pulls
+    .filter((pull) => {
+      const branch = String(pull.headRefName ?? "");
+      const labels = (pull.labels ?? []).map((label) => String(label.name ?? label));
+      return branch.startsWith("clownfish/") || labels.includes("clownfish");
+    })
+    .map((pull) => {
+      const files = fetchPullRequestFilePaths({ targetDir, number: pull.number });
+      return {
+        number: pull.number,
+        title: pull.title,
+        url: pull.url,
+        branch: String(pull.headRefName ?? ""),
+        areas: affectedAreasForFiles(files),
+      };
+    });
+}
+
+function fetchPullRequestFilePaths({ targetDir, number }) {
+  const view = JSON.parse(
+    run("gh", ["pr", "view", String(number), "--repo", result.repo, "--json", "files"], {
+      cwd: targetDir,
+      env: ghEnv(),
+    }),
+  );
+  return (view.files ?? []).map((file) => String(file.path ?? "")).filter(Boolean);
+}
+
+function affectedAreasForFiles(files) {
+  return uniqueStrings(files.map(affectedAreaForFile).filter(Boolean));
+}
+
+function affectedAreaForFile(file) {
+  const normalized = String(file ?? "").replaceAll("\\", "/").replace(/^\.\/+/, "");
+  if (!normalized || normalized.includes("*")) return "";
+  const parts = normalized.split("/").filter(Boolean);
+  if (parts.length === 0) return "";
+  if (["apps", "extensions", "packages"].includes(parts[0]) && parts[1]) return `${parts[0]}/${parts[1]}`;
+  if (parts[0] === "src" && parts[1]) return `src/${parts[1]}`;
+  if (parts[0] === "test" || parts[0] === "tests") return parts[0];
+  if (parts[0] === "docs" || parts[0] === ".github" || parts[0] === "scripts") return parts[0];
+  return parts[0];
 }
 
 function supersededReplacementSources(fixArtifact) {
@@ -2087,10 +2284,12 @@ function fetchDeeperHistory({ targetDir, baseBranch }) {
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
 }
 
-function commitCheckpointIfNeeded({ targetDir, message }) {
+function commitCheckpointIfNeeded({ targetDir, message, trailers = [] }) {
   if (!run("git", ["status", "--porcelain"], { cwd: targetDir }).trim()) return "";
   run("git", ["add", "--all"], { cwd: targetDir });
-  run("git", ["commit", "-m", message], { cwd: targetDir });
+  const args = ["commit", "-m", message];
+  for (const trailer of uniqueStrings(trailers)) args.push("-m", trailer);
+  run("git", args, { cwd: targetDir });
   return run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
 }
 

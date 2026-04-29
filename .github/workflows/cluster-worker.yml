@@ -60,8 +60,8 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
       CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
-      CLOWNFISH_ALLOW_EXECUTE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && (vars.CLOWNFISH_ALLOW_EXECUTE || '1') || '0' }}
-      CLOWNFISH_ALLOW_FIX_PR: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && (vars.CLOWNFISH_ALLOW_FIX_PR || '1') || '0' }}
+      CLOWNFISH_ALLOW_EXECUTE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && '1' || '0' }}
+      CLOWNFISH_ALLOW_FIX_PR: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && vars.CLOWNFISH_ALLOW_FIX_PR == '1' && '1' || '0' }}
       CLOWNFISH_ALLOW_MERGE: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && (vars.CLOWNFISH_ALLOW_MERGE || '0') || '0' }}
       CLOWNFISH_HYDRATE_CLUSTER_REFS: ${{ vars.CLOWNFISH_HYDRATE_CLUSTER_REFS || '1' }}
       CLOWNFISH_HYDRATE_COMMENTS: ${{ vars.CLOWNFISH_HYDRATE_COMMENTS || '1' }}
@@ -147,7 +147,12 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_READ_GH_TOKEN || github.token }}
         run: |
-          args=("${{ inputs.job }}" --mode "${{ inputs.mode }}")
+          worker_mode="${{ inputs.mode }}"
+          if [ "$worker_mode" != "plan" ] && [ "${CLOWNFISH_ALLOW_EXECUTE}" != "1" ]; then
+            echo "CLOWNFISH_ALLOW_EXECUTE is not explicitly 1; rendering plan-only output for requested $worker_mode run"
+            worker_mode="plan"
+          fi
+          args=("${{ inputs.job }}" --mode "$worker_mode")
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             args+=(--dry-run)
           fi
@@ -187,8 +192,8 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
       CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
-      CLOWNFISH_ALLOW_EXECUTE: ${{ needs.cluster.outputs.allow_execute || '1' }}
-      CLOWNFISH_ALLOW_FIX_PR: ${{ needs.cluster.outputs.allow_fix_pr || '1' }}
+      CLOWNFISH_ALLOW_EXECUTE: ${{ needs.cluster.outputs.allow_execute == '1' && '1' || '0' }}
+      CLOWNFISH_ALLOW_FIX_PR: ${{ needs.cluster.outputs.allow_fix_pr == '1' && '1' || '0' }}
       CLOWNFISH_ALLOW_MERGE: ${{ needs.cluster.outputs.allow_merge || '0' }}
       CLOWNFISH_CODEX_REASONING_EFFORT: ${{ vars.CLOWNFISH_CODEX_REASONING_EFFORT || 'medium' }}
       CLOWNFISH_CODEX_REVIEW_ATTEMPTS: ${{ vars.CLOWNFISH_CODEX_REVIEW_ATTEMPTS || '2' }}

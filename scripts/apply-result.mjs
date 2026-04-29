@@ -456,6 +456,7 @@ function validateClosePolicy({ job, actionName }) {
 function validateFixFirstClose({ job, result, actionName, classification, candidateFix }) {
   if (job.frontmatter.require_fix_before_close !== true) return "";
   if (["close_low_signal", "post_merge_close"].includes(actionName)) return "";
+  if (classification === "duplicate") return "";
 
   const priorMerge = report.actions.some(
     (entry) => MERGE_ACTIONS.has(entry.action) && entry.status === "executed",
@@ -466,6 +467,10 @@ function validateFixFirstClose({ job, result, actionName, classification, candid
     return "";
   }
 
+  if (classification === "fixed_by_candidate" && job.frontmatter.allow_unmerged_fix_close !== true) {
+    return "fixed_by_candidate close requires a merged fix PR unless allow_unmerged_fix_close: true";
+  }
+
   const fixReport = readFixExecutionReport(result);
   const fixLanded = (fixReport?.actions ?? []).some((entry) =>
     ["open_fix_pr", "repair_contributor_branch"].includes(String(entry.action ?? "")) &&
@@ -473,7 +478,7 @@ function validateFixFirstClose({ job, result, actionName, classification, candid
   );
   if (fixLanded) return "";
 
-  return "close requires ProjectClownfish fix PR opened/pushed or merge executed first";
+  return "close requires Clownfish fix PR opened/pushed, merged candidate fix, or merge executed first";
 }
 
 function isMergedCandidateFix(repo, candidateFix) {
