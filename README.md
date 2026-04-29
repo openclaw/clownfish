@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 19:20 UTC
+Last dashboard update: Apr 29, 2026, 19:26 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 276 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 277 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 276 | 100% |
+| Latest clusters reviewed | 277 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 114 | 41.3% |
+| Clean completed clusters | 115 | 41.5% |
 | Needs-human clusters | 42 | 15.2% |
-| Latest successful clusters | 248 | 89.9% |
+| Latest successful clusters | 249 | 89.9% |
 | Latest failed clusters | 4 | 1.4% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 529 | audit |
+| Run attempts archived | 530 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
 | Fix actions blocked | 50 | 30.5% |
 | Latest clusters with fix failures | 44 | 15.9% |
-| Distinct PRs touched | 873 | 100% |
-| Open PRs tracked | 294 | 33.7% |
-| Closed unmerged PRs tracked | 474 | 54.3% |
+| Distinct PRs touched | 876 | 100% |
+| Open PRs tracked | 295 | 33.7% |
+| Closed unmerged PRs tracked | 476 | 54.3% |
 | Completed close actions | 30 | 10.6% |
 | Completed merge actions | 23 | 8.1% |
 | Duplicate closes | 22 | 73.3% |
@@ -165,8 +165,9 @@ Scope: 276 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [#74049](https://github.com/openclaw/openclaw/pull/74049) | fix: The executable defaults now use `openai/gpt-5.5`, and the pinned | clawsweeper-commit-openclaw-openclaw-d130a77a3b1e | clownfish/clawsweeper-commit-openclaw-openclaw-d130a77a3b1e | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-agentic-commands:FAILURE; CI / check-lint:FAILURE; CI / ... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#74010](https://github.com/openclaw/openclaw/pull/74010) | fix(compaction): respect effective reserve tokens in compaction gates | ghcrawl-199269-agentic-merge | clownfish/ghcrawl-199269-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:Parity gate / Run the OpenAI / Opus 4.6 parity gate against the qa-lab mo... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#74009](https://github.com/openclaw/openclaw/pull/74009) | fix(agents): prefer sessionKey in sessions_send | ghcrawl-166009-agentic-merge | clownfish/ghcrawl-166009-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_checks:Parity gate / Run the OpenAI / Opus 4.6... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#74008](https://github.com/openclaw/openclaw/pull/74008) | Repair Control UI zh-CN localization coverage | ghcrawl-191463-agentic-merge | clownfish/ghcrawl-191463-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:CI / checks-node-core-fast-support:FAILURE; CI / checks-node-core:FAILURE... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#74002](https://github.com/openclaw/openclaw/pull/74002) | fix(exec): respect OPENCLAW_STATE_DIR for exec approvals | ghcrawl-191457-agentic-merge | clownfish/ghcrawl-191457-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
+| [#74001](https://github.com/openclaw/openclaw/pull/74001) | fix(feishu): reply inside P2P direct-message threads | ghcrawl-165996-agentic-merge | clownfish/ghcrawl-165996-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
+| [#73998](https://github.com/openclaw/openclaw/pull/73998) | fix(feishu): reconcile WebSocket reconnect backoff | ghcrawl-207048-agentic-merge | clownfish/ghcrawl-207048-agentic-merge | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 
 ### Latest ProjectClownfish Closures
 
