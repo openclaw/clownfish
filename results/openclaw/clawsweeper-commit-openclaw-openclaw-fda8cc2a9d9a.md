@@ -2,19 +2,19 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-fda8cc2a9d9a"
 mode: "autonomous"
-run_id: "25093235720"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25093235720"
-head_sha: "6f0af20e8a65bcf5652338215deebcb04c3c82fc"
-workflow_conclusion: "skipped"
+run_id: "25095630144"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25095630144"
+head_sha: "7855b57dab2e045cadd7d0fb3b0389a74f4b0bda"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T05:54:59.397Z"
+published_at: "2026-04-29T07:09:10.873Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
 actions_total: 1
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 0
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -25,9 +25,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25093235720](https://github.com/openclaw/clownfish/actions/runs/25093235720)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25095630144](https://github.com/openclaw/clownfish/actions/runs/25095630144)
 
-Workflow conclusion: skipped
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -44,7 +44,7 @@ Found one CI regression: normal full Node CI now emits an empty extension-shard 
 | Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -54,7 +54,7 @@ Found one CI regression: normal full Node CI now emits an empty extension-shard 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| execute_fix | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 |
 
 ## Apply Actions
 
