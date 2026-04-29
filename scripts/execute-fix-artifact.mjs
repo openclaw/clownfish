@@ -8,6 +8,14 @@ import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "
 const FIX_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"]);
 const REPAIR_STRATEGIES = new Set(["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"]);
 const NON_EXECUTABLE_REPAIR_STRATEGIES = new Set(["already_fixed_on_main", "needs_human"]);
+const ALLOWED_VALIDATION_ENV_PREFIXES = new Set([
+  "CI",
+  "NODE_OPTIONS",
+  "OPENCLAW_LOCAL_CHECK",
+  "OPENCLAW_LOCAL_CHECK_MODE",
+  "OPENCLAW_TESTBOX",
+  "OPENCLAW_VITEST_MAX_WORKERS",
+]);
 const DEFAULT_BASE_BRANCH = "main";
 
 const args = parseArgs(process.argv.slice(2));
@@ -31,6 +39,7 @@ const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
 const installTargetDeps = process.env.CLOWNFISH_INSTALL_TARGET_DEPS !== "0";
 const allowBroadFixArtifacts = process.env.CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS === "1";
+const closeSupersededSourcePrs = process.env.CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_PRS === "1";
 const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
 const maxAutonomousFixSurfaces = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_SURFACES ?? 4));
 const strictTargetValidation =
@@ -459,7 +468,11 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     for (const source of supersededSources) {
       const parsed = parsePullRequestUrl(source);
       if (!parsed || parsed.repo !== result.repo) continue;
-      supersededSourceActions.push(closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir }));
+      supersededSourceActions.push(
+        closeSupersededSourcePrs
+          ? closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir })
+          : linkReplacementSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir }),
+      );
     }
   }
 
@@ -478,6 +491,31 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   };
 }
 
+function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir }) {
+  const base = { source, pr: `#${parsed.number}`, action: "link_replacement_source" };
+  const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
+  if (view.mergedAt || view.state === "MERGED") {
+    return { ...base, status: "skipped", reason: "already merged", merged_at: view.mergedAt ?? null };
+  }
+  if (view.state === "CLOSED") {
+    return { ...base, status: "skipped", reason: "already closed" };
+  }
+
+  const comment = [
+    "ProjectClownfish could not safely update this branch, so it opened a narrow replacement PR instead.",
+    "",
+    `Replacement PR: ${replacementPrUrl}`,
+    `Source PR: ${source}`,
+    "This source PR is being left open for maintainer and contributor review; automatic source-PR closing is disabled.",
+    "Contributor credit is preserved in the replacement PR body and changelog plan.",
+  ].join("\n");
+  run("gh", ["pr", "comment", String(parsed.number), "--repo", result.repo, "--body", comment], {
+    cwd: targetDir,
+    env: ghEnv(),
+  });
+  return { ...base, status: "executed", reason: "linked replacement PR without closing source PR" };
+}
+
 function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }) {
   const base = { source, pr: `#${parsed.number}`, action: "close_superseded_source" };
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
@@ -493,6 +531,7 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }
     "",
     `Replacement PR: ${replacementPrUrl}`,
     `Source PR: ${source}`,
+    "Automatic source-PR closing is explicitly enabled for this run.",
     "Contributor credit is preserved in the replacement PR body and changelog plan.",
   ].join("\n");
   run("gh", ["pr", "comment", String(parsed.number), "--repo", result.repo, "--body", comment], {
@@ -1575,6 +1614,9 @@ function resolveAllowedValidationCommands(command, cwd, baseBranch = DEFAULT_BAS
     if (pnpmScript === "vitest" && parts[commandStart + 1] === "run") {
       return normalizePathValidationCommand(["pnpm", "test:serial", ...parts.slice(commandStart + 2)], cwd, baseBranch);
     }
+    if (pnpmScript === "exec" && parts[commandStart + 1] === "vitest" && parts[commandStart + 2] === "run") {
+      return normalizePathValidationCommand(["pnpm", "test:serial", ...parts.slice(commandStart + 3)], cwd, baseBranch);
+    }
     if (pnpmScript === "test" || pnpmScript === "test:serial") {
       return normalizePathValidationCommand(["pnpm", pnpmScript, ...parts.slice(commandStart + 1)], cwd, baseBranch);
     }
@@ -1689,11 +1731,31 @@ function parseAllowedValidationCommand(command) {
   if (/[`$;&|<>()[\]{}*?~]/.test(text)) {
     throw new Error(`unsafe validation command: ${text}`);
   }
-  const parts = text.split(/\s+/);
+  const parts = normalizeAllowedValidationCommandParts(text.split(/\s+/), text);
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
   return parts;
+}
+
+function normalizeAllowedValidationCommandParts(parts, originalText) {
+  const normalized = [...parts];
+  while (normalized.length > 0 && isAllowedValidationEnvAssignment(normalized[0])) {
+    normalized.shift();
+  }
+  if (normalized[0] === "corepack" && normalized[1] === "pnpm") {
+    normalized.shift();
+  }
+  if (normalized.length === 0) {
+    throw new Error(`unsupported validation command: ${originalText}`);
+  }
+  return normalized;
+}
+
+function isAllowedValidationEnvAssignment(part) {
+  const match = String(part ?? "").match(/^([A-Z_][A-Z0-9_]*)=([A-Za-z0-9_.,:/+=-]*)$/);
+  if (!match) return false;
+  return ALLOWED_VALIDATION_ENV_PREFIXES.has(match[1]);
 }
 
 function readPackageScriptSet(cwd) {

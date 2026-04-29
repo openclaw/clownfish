@@ -187,7 +187,7 @@ jobs:
     needs: cluster
     if: ${{ needs.cluster.result == 'success' && (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
     runs-on: ${{ inputs.execution_runner }}
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
@@ -199,13 +199,14 @@ jobs:
       CLOWNFISH_CODEX_REVIEW_ATTEMPTS: ${{ vars.CLOWNFISH_CODEX_REVIEW_ATTEMPTS || '2' }}
       CLOWNFISH_REBASE_REPAIR_ATTEMPTS: ${{ vars.CLOWNFISH_REBASE_REPAIR_ATTEMPTS || '4' }}
       CLOWNFISH_FIX_CODEX_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_CODEX_TIMEOUT_MS || '1200000' }}
-      CLOWNFISH_FIX_STEP_TIMEOUT_MS: "1500000"
-      CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: ${{ vars.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS || '300000' }}
+      CLOWNFISH_FIX_STEP_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_STEP_TIMEOUT_MS || '2700000' }}
+      CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: ${{ vars.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS || '420000' }}
       CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS || '120000' }}
       CLOWNFISH_RESOLVE_REVIEW_THREADS: ${{ vars.CLOWNFISH_RESOLVE_REVIEW_THREADS || '1' }}
       CLOWNFISH_MODEL: ${{ inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
       CLOWNFISH_TARGET_VALIDATION_MODE: ${{ vars.CLOWNFISH_TARGET_VALIDATION_MODE || 'changed-only' }}
       CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS: ${{ vars.CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS || 'auto-response,Labeler,Stale' }}
+      CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_PRS: ${{ vars.CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_PRS || '0' }}
       CLOWNFISH_GIT_USER_NAME: ${{ vars.CLOWNFISH_GIT_USER_NAME || 'projectclownfish' }}
       CLOWNFISH_GIT_USER_EMAIL: ${{ vars.CLOWNFISH_GIT_USER_EMAIL || 'projectclownfish@users.noreply.github.com' }}
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
@@ -287,7 +288,7 @@ jobs:
 
       - name: Execute credited fix artifact
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
-        timeout-minutes: 30
+        timeout-minutes: 45
         env:
           GH_TOKEN: ${{ steps.write_app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN }}
         run: npm run execute-fix -- "${{ inputs.job }}" --latest
