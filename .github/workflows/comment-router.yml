@@ -18,6 +18,11 @@ on:
         required: true
         default: "180"
         type: string
+      since:
+        description: "Optional ISO timestamp lower bound for scanned comments"
+        required: false
+        default: ""
+        type: string
       max_comments:
         description: "Maximum recent comments to inspect"
         required: true
@@ -81,6 +86,7 @@ jobs:
           set -euo pipefail
           target_repo="${{ github.event_name == 'workflow_dispatch' && inputs.target_repo || vars.CLOWNFISH_TARGET_REPO || 'openclaw/openclaw' }}"
           lookback_minutes="${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || vars.CLOWNFISH_COMMENT_LOOKBACK_MINUTES || '180' }}"
+          since="${{ github.event_name == 'workflow_dispatch' && inputs.since || '' }}"
           max_comments="${{ github.event_name == 'workflow_dispatch' && inputs.max_comments || vars.CLOWNFISH_COMMENT_MAX_COMMENTS || '100' }}"
           runner="${{ github.event_name == 'workflow_dispatch' && inputs.runner || vars.CLOWNFISH_WORKER_RUNNER || 'blacksmith-4vcpu-ubuntu-2404' }}"
           execution_runner="${{ github.event_name == 'workflow_dispatch' && inputs.execution_runner || vars.CLOWNFISH_EXECUTION_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}"
@@ -94,6 +100,9 @@ jobs:
             --execution-runner "$execution_runner"
             --wait-for-capacity
           )
+          if [ -n "$since" ]; then
+            args+=(--since "$since")
+          fi
           if { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.execute }}" = "true" ]; } ||
              { [ "${{ github.event_name }}" = "schedule" ] && [ "${{ vars.CLOWNFISH_COMMENT_ROUTER_EXECUTE || '0' }}" = "1" ]; }; then
             args+=(--execute)
