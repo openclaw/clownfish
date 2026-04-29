@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 13:25 UTC
+Last dashboard update: Apr 29, 2026, 13:42 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 274 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 275 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 274 | 100% |
+| Latest clusters reviewed | 275 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 113 | 41.2% |
-| Needs-human clusters | 41 | 15.0% |
-| Latest successful clusters | 246 | 89.8% |
+| Clean completed clusters | 113 | 41.1% |
+| Needs-human clusters | 42 | 15.3% |
+| Latest successful clusters | 247 | 89.8% |
 | Latest failed clusters | 4 | 1.5% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 527 | audit |
+| Run attempts archived | 528 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
 | Fix actions blocked | 50 | 30.5% |
-| Latest clusters with fix failures | 44 | 16.1% |
+| Latest clusters with fix failures | 44 | 16.0% |
 | Distinct PRs touched | 865 | 100% |
-| Open PRs tracked | 296 | 34.2% |
-| Closed unmerged PRs tracked | 464 | 53.6% |
+| Open PRs tracked | 293 | 33.9% |
+| Closed unmerged PRs tracked | 467 | 54.0% |
 | Completed close actions | 30 | 10.6% |
 | Completed merge actions | 23 | 8.1% |
 | Duplicate closes | 22 | 73.3% |
@@ -79,6 +79,7 @@ Scope: 274 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-12535-dedupe-only-20260429-remote](results/openclaw/gitcrawl-12535-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-12535-dedupe-only-20260429-remote.md | Codex worker timed out after 1800000ms | [report](results/openclaw/gitcrawl-12535-dedupe-only-20260429-remote.md) | [25109664831](https://github.com/openclaw/clownfish/actions/runs/25109664831) |
 | [gitcrawl-12851-dedupe-only-20260429-remote](results/openclaw/gitcrawl-12851-dedupe-only-20260429-remote.md) | workflow failure | jobs/openclaw/inbox/gitcrawl-12851-dedupe-only-20260429-remote.md | No close, merge, label, or fix action is safe from this dedupe-only pass. The canonical hint #67816 and related QR follow-up #67820 have ... | [report](results/openclaw/gitcrawl-12851-dedupe-only-20260429-remote.md) | [25109675769](https://github.com/openclaw/clownfish/actions/runs/25109675769) |
 | [gitcrawl-238838-dedupe-only-20260429c](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-238838-dedupe-only-20260429c.md | target is not listed in job candidates | [report](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) | [25108831266](https://github.com/openclaw/clownfish/actions/runs/25108831266) |
 | [gitcrawl-238871-dedupe-only-20260429c](results/openclaw/gitcrawl-238871-dedupe-only-20260429c.md) | needs human | jobs/openclaw/inbox/gitcrawl-238871-dedupe-only-20260429c.md | Choose the canonical Feishu group-thread mention API and implementation path between #48945 threadFollowUp active/topic/off and #40530 re... | [report](results/openclaw/gitcrawl-238871-dedupe-only-20260429c.md) | [25107991613](https://github.com/openclaw/clownfish/actions/runs/25107991613) |
@@ -103,7 +104,6 @@ Scope: 274 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156679-autonomous-smoke](results/openclaw/ghcrawl-156679-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156679-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156679-autonomous-smoke.md) | [25070625859](https://github.com/openclaw/clownfish/actions/runs/25070625859) |
 | [ghcrawl-156682-autonomous-smoke](results/openclaw/ghcrawl-156682-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156682-autonomous-smoke.md | target is not listed in job candidates | [report](results/openclaw/ghcrawl-156682-autonomous-smoke.md) | [25070632559](https://github.com/openclaw/clownfish/actions/runs/25070632559) |
 | [ghcrawl-156720-autonomous-smoke](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | apply skipped | jobs/openclaw/inbox/ghcrawl-156720-autonomous-smoke.md | Closeout is blocked on the canonical fix path landing. | [report](results/openclaw/ghcrawl-156720-autonomous-smoke.md) | [25070819579](https://github.com/openclaw/clownfish/actions/runs/25070819579) |
-| [ghcrawl-156594-autonomous-smoke](results/openclaw/ghcrawl-156594-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156594-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156594-autonomous-smoke.md) | [25069740030](https://github.com/openclaw/clownfish/actions/runs/25069740030) |
 
 ### Fix Failure Queue
 
