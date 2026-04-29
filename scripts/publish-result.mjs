@@ -1121,7 +1121,8 @@ function githubIssueInfoBatch(repo, numbers) {
   const query = `query { repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(name)}) { ${fields} } }`;
   const body = runGhGraphql(query);
   if (!body) return new Map();
-  const data = JSON.parse(body);
+  const data = parseGhJson(body, `issue info for ${repo}`);
+  if (!data) return new Map();
   const repository = data?.data?.repository ?? {};
   const out = new Map();
   numbers.forEach((number, index) => {
@@ -1152,7 +1153,8 @@ function githubPullInfoBatch(repo, numbers) {
   const query = `query { repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(name)}) { ${fields} } }`;
   const body = runGhGraphql(query);
   if (!body) return new Map();
-  const data = JSON.parse(body);
+  const data = parseGhJson(body, `pull info for ${repo}`);
+  if (!data) return new Map();
   const repository = data?.data?.repository ?? {};
   const out = new Map();
   numbers.forEach((number, index) => {
@@ -1184,6 +1186,21 @@ function runGhGraphql(query) {
     return stripAnsi(text);
   } catch (error) {
     return stripAnsi(error.stdout || error.output?.[1]?.toString() || "");
+  }
+}
+
+function parseGhJson(body, context) {
+  const text = String(body ?? "").trim();
+  if (!text) return null;
+  if (!text.startsWith("{") && !text.startsWith("[")) {
+    console.warn(`warning: ignoring non-json GitHub response for ${context}`);
+    return null;
+  }
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    console.warn(`warning: could not parse GitHub response for ${context}: ${error.message}`);
+    return null;
   }
 }
 
