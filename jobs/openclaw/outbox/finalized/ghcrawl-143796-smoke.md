@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-143796-telegram-polling-stall
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label

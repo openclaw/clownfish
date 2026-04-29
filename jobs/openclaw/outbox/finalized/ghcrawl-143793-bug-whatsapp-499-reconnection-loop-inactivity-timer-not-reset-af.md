@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-143793-bug-whatsapp-499-reconnection-loop-inactivity-timer-not-reset-af
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label

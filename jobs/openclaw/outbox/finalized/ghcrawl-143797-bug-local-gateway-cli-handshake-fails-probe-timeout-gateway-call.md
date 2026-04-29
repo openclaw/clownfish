@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-143797-bug-local-gateway-cli-handshake-fails-probe-timeout-gateway-call
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label

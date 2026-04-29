@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-143799-unhandled-promise-rejection-agent-listener-invoked-outside-activ
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label

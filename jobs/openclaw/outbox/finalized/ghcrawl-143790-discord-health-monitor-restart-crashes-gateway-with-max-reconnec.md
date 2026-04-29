@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-143790-discord-health-monitor-restart-crashes-gateway-with-max-reconnec
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label
