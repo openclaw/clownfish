@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238884-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25100259952",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25100259952",
+  "head_sha": "567e275f854175d34fbcb261cb413a1d6aa237b9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238884-dedupe-only-20260429c.md",
+  "published_at": "2026-04-29T09:11:24.718Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/62195",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/62195",
+  "summary": "Selected #62195 as the live canonical preHook implementation. Planned one superseded closeout for #45129, kept #45465 and #9465 open as related broader lifecycle-hooks work, and quarantined linked security-sensitive #17529 without letting it block non-security dedupe.",
+  "actions": [
+    {
+      "target": "#62195",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62195",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical for the preHook gate family; merge and fix actions are blocked by the job, so this run only classifies it as canonical."
+    },
+    {
+      "target": "#45129",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#62195",
+      "candidate_fix": "#62195",
+      "reason": "Superseded by the newer open canonical #62195 for the same cron pre-run gating feature, with contributor credit preserved in the planned close comment."
+    },
+    {
+      "target": "#45465",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62195",
+      "candidate_fix": null,
+      "reason": "Related same cron hooks family, but not a true duplicate because it tracks a broader lifecycle-hooks feature that should remain open separately."
+    },
+    {
+      "target": "#9465",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62195",
+      "candidate_fix": null,
+      "reason": "Related broader feature-request issue; leave open for maintainer follow-up rather than closing as covered by #62195."
+    },
+    {
+      "target": "#17529",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated linked ref is marked security-sensitive, so it is routed to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#45129",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#62195",
+      "candidate_fix": "#62195",
+      "title": null,
+      "idempotency_key": "gitcrawl-238884-dedupe-only-20260429c:#45129:close_superseded_by:#62195",
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T09:10:51Z"
+    }
+  ]
+}
