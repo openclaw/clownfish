@@ -1,15 +1,15 @@
 {
   "status": "dry_run",
-  "generated_at": "2026-04-29T07:13:30.576Z",
+  "generated_at": "2026-04-29T07:14:46.132Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
   "since": "2026-04-29T07:12:00Z",
   "execute": false,
   "max_comments": 50,
-  "scanned_comments": 6,
-  "commands_seen": 3,
-  "actionable": 0,
+  "scanned_comments": 11,
+  "commands_seen": 6,
+  "actionable": 1,
   "trusted_bots": [
     "clawsweeper[bot]",
     "openclaw-clawsweeper[bot]"
@@ -22,6 +22,66 @@
   "max_auto_repairs_per_head": 1,
   "max_auto_repairs_per_pr": 5,
   "commands": [
+    {
+      "idempotency_key": "clawsweeper-repair:openclaw/openclaw:74171:4341615876:2026-04-29T07:13:29Z:clawsweeper_auto_repair",
+      "comment_id": "4341615876",
+      "comment_version_key": "4341615876:2026-04-29T07:13:29Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/74171#issuecomment-4341615876",
+      "repo": "openclaw/openclaw",
+      "issue_number": 74171,
+      "author": "clawsweeper[bot]",
+      "author_association": "NONE",
+      "comment_created_at": "2026-04-29T07:13:29Z",
+      "comment_updated_at": "2026-04-29T07:13:29Z",
+      "trigger": "trusted_bot",
+      "command": "clawsweeper auto repair",
+      "intent": "clawsweeper_auto_repair",
+      "trusted_bot": true,
+      "trusted_bot_author": "clawsweeper[bot]",
+      "automation_source": "clawsweeper",
+      "repair_reason": "structured ClawSweeper verdict: needs-human (sha=4ce4fc12dbbe377e9b1bfe335da4c4f1bec1e5ed)",
+      "expected_head_sha": "4ce4fc12dbbe377e9b1bfe335da4c4f1bec1e5ed",
+      "finding_id": null,
+      "status": "skipped",
+      "actions": [],
+      "target": {
+        "kind": "pull_request",
+        "title": "fix(agents): preserve CLI wake-up session metadata",
+        "branch": "fix/issue-74125-cli-wake-resume",
+        "head_sha": "4ce4fc12dbbe377e9b1bfe335da4c4f1bec1e5ed",
+        "author": "bitloi",
+        "labels": [
+          "agents",
+          "size: M"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": null,
+        "job_path": null,
+        "automerge_cluster_id": "automerge-openclaw-openclaw-74171",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74171.md",
+        "mode": "autonomous",
+        "merge_state_status": "UNKNOWN",
+        "review_decision": "",
+        "checks": {
+          "total": 76,
+          "counts": {
+            "CANCELLED": 2,
+            "IN_PROGRESS": 1,
+            "SKIPPED": 16,
+            "SUCCESS": 55,
+            "FAILURE": 2
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
+            "checks-node-core-support-boundary:FAILURE",
+            "checks-node-core:FAILURE"
+          ]
+        }
+      },
+      "reason": "repair commands require a Clownfish PR or a PR opted into Clownfish automerge"
+    },
     {
       "idempotency_key": "clawsweeper-repair:openclaw/openclaw:74156:4341466075:2026-04-29T07:12:31Z:clawsweeper_auto_repair",
       "comment_id": "4341466075",
@@ -42,8 +102,20 @@
       "repair_reason": "structured ClawSweeper verdict: needs-human (sha=2122b19ae300850ba92cf612167af5b4d2568efa)",
       "expected_head_sha": "2122b19ae300850ba92cf612167af5b4d2568efa",
       "finding_id": null,
-      "status": "skipped",
-      "actions": [],
+      "status": "ready",
+      "actions": [
+        {
+          "action": "dispatch_repair",
+          "workflow": "cluster-worker.yml",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74156.md",
+          "mode": "autonomous",
+          "status": "planned"
+        },
+        {
+          "action": "comment",
+          "status": "planned"
+        }
+      ],
       "target": {
         "kind": "pull_request",
         "title": "fix(auth): scope external CLI auth status overlays",
@@ -64,7 +136,7 @@
         "automerge_cluster_id": "automerge-openclaw-openclaw-74156",
         "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74156.md",
         "mode": "autonomous",
-        "merge_state_status": "DIRTY",
+        "merge_state_status": "UNKNOWN",
         "review_decision": "",
         "checks": {
           "total": 83,
@@ -79,8 +151,7 @@
             "auto-response:CANCELLED"
           ]
         }
-      },
-      "reason": "matching Clownfish response comment already exists"
+      }
     },
     {
       "idempotency_key": "clawsweeper-repair:openclaw/openclaw:74134:4341381366:2026-04-29T07:13:22Z:clawsweeper_auto_repair",
@@ -176,7 +247,7 @@
         "automerge_cluster_id": "automerge-openclaw-openclaw-74040",
         "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74040.md",
         "mode": "autonomous",
-        "merge_state_status": "UNKNOWN",
+        "merge_state_status": "UNSTABLE",
         "review_decision": "",
         "checks": {
           "total": 71,
@@ -187,6 +258,133 @@
             "FAILURE": 2
           },
           "blockers": [
+            "Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
+            "checks-node-core-support-boundary:FAILURE",
+            "checks-node-core:FAILURE"
+          ]
+        }
+      },
+      "reason": "repair commands require a Clownfish PR or a PR opted into Clownfish automerge"
+    },
+    {
+      "idempotency_key": "clawsweeper-repair:openclaw/openclaw:73767:4338506244:2026-04-29T07:13:43Z:clawsweeper_auto_repair",
+      "comment_id": "4338506244",
+      "comment_version_key": "4338506244:2026-04-29T07:13:43Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/73767#issuecomment-4338506244",
+      "repo": "openclaw/openclaw",
+      "issue_number": 73767,
+      "author": "clawsweeper[bot]",
+      "author_association": "NONE",
+      "comment_created_at": "2026-04-28T19:41:04Z",
+      "comment_updated_at": "2026-04-29T07:13:43Z",
+      "trigger": "trusted_bot",
+      "command": "clawsweeper auto repair",
+      "intent": "clawsweeper_auto_repair",
+      "trusted_bot": true,
+      "trusted_bot_author": "clawsweeper[bot]",
+      "automation_source": "clawsweeper",
+      "repair_reason": "structured ClawSweeper verdict: needs-human (sha=9f31db1ce3bb24e3833b14034512de6169435d57)",
+      "expected_head_sha": "9f31db1ce3bb24e3833b14034512de6169435d57",
+      "finding_id": null,
+      "status": "skipped",
+      "actions": [],
+      "target": {
+        "kind": "pull_request",
+        "title": "[codex] Finalize RuntimePlan embedded-runner cleanup stack",
+        "branch": "contract-finalization/runtime-plan-final-stack",
+        "head_sha": "9f31db1ce3bb24e3833b14034512de6169435d57",
+        "author": "100yenadmin",
+        "labels": [
+          "docs",
+          "channel: line",
+          "channel: slack",
+          "app: web-ui",
+          "gateway",
+          "scripts",
+          "commands",
+          "agents",
+          "channel: feishu",
+          "size: XL",
+          "extensions: codex"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": null,
+        "job_path": null,
+        "automerge_cluster_id": "automerge-openclaw-openclaw-73767",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-73767.md",
+        "mode": "autonomous",
+        "merge_state_status": "UNKNOWN",
+        "review_decision": "",
+        "checks": {
+          "total": 7,
+          "counts": {
+            "SKIPPED": 2,
+            "SUCCESS": 5
+          },
+          "blockers": []
+        }
+      },
+      "reason": "repair commands require a Clownfish PR or a PR opted into Clownfish automerge"
+    },
+    {
+      "idempotency_key": "clawsweeper-repair:openclaw/openclaw:73384:4333296877:2026-04-29T07:14:30Z:clawsweeper_auto_repair",
+      "comment_id": "4333296877",
+      "comment_version_key": "4333296877:2026-04-29T07:14:30Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/73384#issuecomment-4333296877",
+      "repo": "openclaw/openclaw",
+      "issue_number": 73384,
+      "author": "clawsweeper[bot]",
+      "author_association": "NONE",
+      "comment_created_at": "2026-04-28T07:45:54Z",
+      "comment_updated_at": "2026-04-29T07:14:30Z",
+      "trigger": "trusted_bot",
+      "command": "clawsweeper auto repair",
+      "intent": "clawsweeper_auto_repair",
+      "trusted_bot": true,
+      "trusted_bot_author": "clawsweeper[bot]",
+      "automation_source": "clawsweeper",
+      "repair_reason": "structured ClawSweeper verdict: needs-human (sha=7e03ba2a4217bfddbc2bfd5bffbc276661cab84d)",
+      "expected_head_sha": "7e03ba2a4217bfddbc2bfd5bffbc276661cab84d",
+      "finding_id": null,
+      "status": "skipped",
+      "actions": [],
+      "target": {
+        "kind": "pull_request",
+        "title": "[plugin sdk] Consolidate workflow seams, fixtures, and host-hook recipes",
+        "branch": "feature/plugin-sdk-workflow-followups-consolidated",
+        "head_sha": "7e03ba2a4217bfddbc2bfd5bffbc276661cab84d",
+        "author": "100yenadmin",
+        "labels": [
+          "docs",
+          "channel: line",
+          "app: macos",
+          "app: web-ui",
+          "gateway",
+          "cli",
+          "commands",
+          "agents",
+          "size: XL",
+          "extensions: qa-lab"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": null,
+        "job_path": null,
+        "automerge_cluster_id": "automerge-openclaw-openclaw-73384",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-73384.md",
+        "mode": "autonomous",
+        "merge_state_status": "UNKNOWN",
+        "review_decision": "",
+        "checks": {
+          "total": 78,
+          "counts": {
+            "CANCELLED": 1,
+            "IN_PROGRESS": 1,
+            "SKIPPED": 13,
+            "SUCCESS": 61,
+            "FAILURE": 2
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
             "Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
             "checks-node-core-support-boundary:FAILURE",
             "checks-node-core:FAILURE"
