@@ -41,23 +41,23 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 10:53 UTC
+Last dashboard update: Apr 29, 2026, 11:00 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 260 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 261 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 260 | 100% |
+| Latest clusters reviewed | 261 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 104 | 40.0% |
-| Needs-human clusters | 39 | 15.0% |
-| Latest successful clusters | 232 | 89.2% |
-| Latest failed clusters | 4 | 1.5% |
+| Clean completed clusters | 104 | 39.8% |
+| Needs-human clusters | 39 | 14.9% |
+| Latest successful clusters | 232 | 88.9% |
+| Latest failed clusters | 5 | 1.9% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 504 | audit |
+| Run attempts archived | 505 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
@@ -79,6 +79,7 @@ Scope: 260 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-238786-dedupe-only-20260429](results/openclaw/gitcrawl-238786-dedupe-only-20260429.md) | workflow failure | jobs/openclaw/inbox/gitcrawl-238786-dedupe-only-20260429.md | Representative #58549 is already closed as implemented, so #72176 is the best live canonical for the current duplicate-delivery regressio... | [report](results/openclaw/gitcrawl-238786-dedupe-only-20260429.md) | [25104668076](https://github.com/openclaw/clownfish/actions/runs/25104668076) |
 | [low-signal-pr-sweep-20260427T0530-01](results/openclaw/low-signal-pr-sweep-20260427t0530-01.md) | workflow failure | jobs/openclaw/inbox/low-signal-pr-sweep-20260427T0530-01.md | Reviewed the five listed low-signal sweep PRs using the hydrated preflight artifact. Planned one low-signal closure for #55104, kept #537... | [report](results/openclaw/low-signal-pr-sweep-20260427t0530-01.md) | [25104125687](https://github.com/openclaw/clownfish/actions/runs/25104125687) |
 | [automerge-openclaw-openclaw-74126](results/openclaw/automerge-openclaw-openclaw-74126.md) | needs human | jobs/openclaw/inbox/automerge-openclaw-openclaw-74126.md | #74126: maintainer needs to complete the live automerge adoption smoke check and close the PR manually if appropriate; the hydrated artif... | [report](results/openclaw/automerge-openclaw-openclaw-74126.md) | [25101630563](https://github.com/openclaw/clownfish/actions/runs/25101630563) |
 | [gitcrawl-238884-dedupe-only-20260429c](results/openclaw/gitcrawl-238884-dedupe-only-20260429c.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-238884-dedupe-only-20260429c.md | target changed since worker review | [report](results/openclaw/gitcrawl-238884-dedupe-only-20260429c.md) | [25100259952](https://github.com/openclaw/clownfish/actions/runs/25100259952) |
@@ -103,7 +104,6 @@ Scope: 260 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156586-autonomous-smoke](results/openclaw/ghcrawl-156586-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156586-autonomous-smoke.md | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [report](results/openclaw/ghcrawl-156586-autonomous-smoke.md) | [25069727471](https://github.com/openclaw/clownfish/actions/runs/25069727471) |
 | [ghcrawl-156582-autonomous-smoke](results/openclaw/ghcrawl-156582-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156582-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=all [check:changed] extension-impacting surface; extension typechec... | [report](results/openclaw/ghcrawl-156582-autonomous-smoke.md) | [25069721873](https://github.com/openclaw/clownfish/actions/runs/25069721873) |
 | [ghcrawl-156595-autonomous-smoke](results/openclaw/ghcrawl-156595-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156595-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156595-autonomous-smoke.md) | [25069741964](https://github.com/openclaw/clownfish/actions/runs/25069741964) |
-| [ghcrawl-156860-autonomous-smoke](results/openclaw/ghcrawl-156860-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156860-autonomous-smoke.md | base branch advanced after validation and projectclownfish/repair-ghcrawl-156860-autonomous-smoke-53667 needs a fresh rebase pass: Rebasi... | [report](results/openclaw/ghcrawl-156860-autonomous-smoke.md) | [25043323244](https://github.com/openclaw/clownfish/actions/runs/25043323244) |
 
 ### Fix Failure Queue
 
