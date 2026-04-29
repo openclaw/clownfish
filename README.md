@@ -251,6 +251,45 @@ Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions
 - Merge preflight: no PR can merge until `CLOWNFISH_ALLOW_MERGE=1`, security issues are cleared, comments are resolved, Codex `/review` has passed, findings are addressed, and changed-surface validation is clean. With the merge gate closed, ProjectClownfish labels merge-ready targets for human review instead of merging.
 - Repair ladder: make the useful contributor PR mergeable when its branch is maintainer-editable; otherwise replace draft, stale, unmergeable, uneditable, or unsafe branches with a narrow credited fix PR. When fix PR mode is enabled, "wait or replace" is already answered: replace, preserve credit, then supersede only the source PR that could not be safely updated.
 
+## Maintainer Comment Commands
+
+Clownfish can route maintainer comments from target repositories back into the
+cloud repair workflow. It recognizes both command styles:
+
+```text
+/clownfish status
+@openclaw-clownfish status
+```
+
+Do not use `@clownfish`; that is a separate GitHub user. The accepted mention is
+`@openclaw-clownfish` or `@openclaw-clownfish[bot]`.
+
+Only maintainers can trigger it. The router checks GitHub `author_association`
+and accepts `OWNER`, `MEMBER`, and `COLLABORATOR` by default. Contributor and
+unknown comments are ignored without a reply.
+
+Supported commands:
+
+```text
+/clownfish status
+/clownfish fix ci
+/clownfish address review
+/clownfish rebase
+/clownfish explain
+/clownfish stop
+@openclaw-clownfish fix ci
+```
+
+`status` and `explain` post a short status reply. `fix ci`, `address review`,
+and `rebase` dispatch the normal `cluster-worker.yml` repair path, but only for
+existing Clownfish PRs identified by the `clownfish` label or `clownfish/*`
+branch. `stop` labels the item for human review.
+
+The router writes an idempotency marker into each reply and records processed
+comments in `results/comment-router.json`. The scheduled workflow is dry by
+default; set `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` to let scheduled runs post
+replies and dispatch workers.
+
 ## Local Run
 
 Requires Node 24.
@@ -303,6 +342,15 @@ CLOWNFISH_ALLOW_EXECUTE=1 CLOWNFISH_ALLOW_FIX_PR=1 npm run execute-fix -- jobs/o
 
 # Rebuild the open Clownfish PR finalization report without mutating GitHub.
 npm run finalize-open-prs -- --write-report
+
+# Dry-run maintainer comment routing. Recognizes `/clownfish ...` and
+# `@openclaw-clownfish ...` in recent issue/PR comments.
+npm run comment-router -- --repo openclaw/openclaw --lookback-minutes 180
+
+# Execute maintainer comment routing: post replies and dispatch repair workers
+# for existing Clownfish PRs when maintainers ask for `fix ci`,
+# `address review`, or `rebase`.
+npm run comment-router -- --repo openclaw/openclaw --execute --wait-for-capacity
 
 # Dry-run job hygiene: classify old smoke jobs, outbox-ready jobs, unprocessed
 # jobs, and requeue candidates without deleting, moving, or dispatching.
@@ -361,5 +409,9 @@ The workflow needs:
 - optional `CLOWNFISH_MAX_LIVE_WORKERS` variable for dispatch/requeue/self-heal worker fan-out; default is `50`
 - optional `CLOWNFISH_CODEX_TIMEOUT_MS` and `CLOWNFISH_FIX_CODEX_TIMEOUT_MS` variables; worker planning defaults to 30 minutes, while fix execution defaults to a 20 minute Codex budget inside the 30 minute build-PR step so timeout artifacts can be written
 - optional `CLOWNFISH_CODEX_REVIEW_ATTEMPTS` and `CLOWNFISH_RESOLVE_REVIEW_THREADS` variables for agentic merge-prep review loops
+- optional `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` to let the scheduled comment
+  router respond to maintainer-only `/clownfish ...` and
+  `@openclaw-clownfish ...` commands. Without it, scheduled runs only write a
+  dry report.
 
 Keep exact secret names, token scopes, and execution-window procedures in private operations docs or repository settings notes. Do not put token values or live operational credentials in job files.

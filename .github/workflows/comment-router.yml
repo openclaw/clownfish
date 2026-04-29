@@ -1,0 +1,119 @@
+name: comment router
+
+on:
+  workflow_dispatch:
+    inputs:
+      execute:
+        description: "Post replies and dispatch repair workers"
+        required: true
+        default: false
+        type: boolean
+      target_repo:
+        description: "Repository to scan for Clownfish commands"
+        required: true
+        default: openclaw/openclaw
+        type: string
+      lookback_minutes:
+        description: "How far back to scan comments"
+        required: true
+        default: "180"
+        type: string
+      max_comments:
+        description: "Maximum recent comments to inspect"
+        required: true
+        default: "100"
+        type: string
+      runner:
+        description: "Runner label for repair planning/review work"
+        required: true
+        default: blacksmith-4vcpu-ubuntu-2404
+        type: string
+      execution_runner:
+        description: "Runner label for fix/apply execution work"
+        required: true
+        default: blacksmith-16vcpu-ubuntu-2404
+        type: string
+  schedule:
+    - cron: "*/10 * * * *"
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  route-comments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Create GitHub App token
+        id: app_token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.CLOWNFISH_APP_ID }}
+          private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
+          owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-actions: write
+          permission-contents: read
+          permission-issues: write
+          permission-pull-requests: write
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Route Clownfish comments
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || github.token }}
+        run: |
+          set -euo pipefail
+          target_repo="${{ github.event_name == 'workflow_dispatch' && inputs.target_repo || vars.CLOWNFISH_TARGET_REPO || 'openclaw/openclaw' }}"
+          lookback_minutes="${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || vars.CLOWNFISH_COMMENT_LOOKBACK_MINUTES || '180' }}"
+          max_comments="${{ github.event_name == 'workflow_dispatch' && inputs.max_comments || vars.CLOWNFISH_COMMENT_MAX_COMMENTS || '100' }}"
+          runner="${{ github.event_name == 'workflow_dispatch' && inputs.runner || vars.CLOWNFISH_WORKER_RUNNER || 'blacksmith-4vcpu-ubuntu-2404' }}"
+          execution_runner="${{ github.event_name == 'workflow_dispatch' && inputs.execution_runner || vars.CLOWNFISH_EXECUTION_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}"
+
+          args=(
+            --write-report
+            --repo "$target_repo"
+            --lookback-minutes "$lookback_minutes"
+            --max-comments "$max_comments"
+            --runner "$runner"
+            --execution-runner "$execution_runner"
+            --wait-for-capacity
+          )
+          if { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.execute }}" = "true" ]; } ||
+             { [ "${{ github.event_name }}" = "schedule" ] && [ "${{ vars.CLOWNFISH_COMMENT_ROUTER_EXECUTE || '0' }}" = "1" ]; }; then
+            args+=(--execute)
+          fi
+          npm run comment-router -- "${args[@]}"
+
+      - name: Commit comment router ledger
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/comment-router.json results/comment-router-latest.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No comment router changes"
+            exit 0
+          fi
+          git commit -m "chore: record Clownfish comment routing"
+          for attempt in 1 2 3; do
+            echo "Push attempt ${attempt}"
+            if git push; then
+              exit 0
+            fi
+            git fetch origin main
+            git rebase -X theirs origin/main
+          done
+          git push

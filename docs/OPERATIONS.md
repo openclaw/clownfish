@@ -120,6 +120,36 @@ Runs for the same job path and mode share a concurrency group. Different cluster
 
 Live preflight hydrates job-provided refs by default and records linked refs without expanding them. Set repo variables `CLOWNFISH_MAX_LINKED_REFS` above `0` only for small clusters that need first-hop context and `CLOWNFISH_HYDRATE_COMMENTS=1` when comment bodies are necessary evidence; normal scale runs use issue/PR metadata, body excerpts, PR files, and PR checks.
 
+## Maintainer Comment Routing
+
+`npm run comment-router` scans recent issue and PR comments in the target repo.
+It accepts only maintainer-authored commands, gated by GitHub
+`author_association` values `OWNER`, `MEMBER`, or `COLLABORATOR` by default.
+Contributor comments are ignored without a reply.
+
+Supported triggers:
+
+```text
+/clownfish status
+/clownfish fix ci
+/clownfish address review
+/clownfish rebase
+/clownfish explain
+/clownfish stop
+@openclaw-clownfish fix ci
+```
+
+Repair commands currently apply only to existing Clownfish PRs, identified by
+the `clownfish` label or `clownfish/*` branch prefix. The router resolves the
+cluster job from the branch name, posts one idempotent reply with a hidden
+marker, and dispatches the normal `cluster-worker.yml` repair path. It records
+processed comments in `results/comment-router.json`.
+
+The scheduled workflow is dry by default. Set
+`CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` in repo variables to let scheduled runs
+post replies and dispatch workers. Manual workflow dispatch can also pass
+`execute=true`.
+
 ## Token Strategy
 
 Prefer a fine-grained token or GitHub App token.
