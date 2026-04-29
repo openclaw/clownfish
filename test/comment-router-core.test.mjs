@@ -243,7 +243,8 @@ test("renderResponse reports explicit human-review pause actions", () => {
   );
 
   assert.match(body, /pausing automerge/);
-  assert.match(body, /clownfish:human-review/);
+  assert.match(body, /regular `clownfish` label/);
+  assert.doesNotMatch(body, /clownfish:human-review/);
   assert.doesNotMatch(body, /did not dispatch/);
 });
 
