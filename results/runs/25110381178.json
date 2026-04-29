@@ -1,0 +1,208 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14002-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25110381178",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25110381178",
+  "head_sha": "7d2adb9c59b8750974f50f0d9103e76d18fa9122",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14002-dedupe-only-20260429-remote.md",
+  "published_at": "2026-04-29T13:21:36.946Z",
+  "canonical": "No single canonical replaces closed #58356. Open subfamily anchors: https://github.com/openclaw/openclaw/issues/14251, https://github.com/openclaw/openclaw/issues/47555, https://github.com/openclaw/openclaw/pull/52515, and https://github.com/openclaw/openclaw/pull/66000.",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows the representative #58356 is already closed and the remaining open refs split into several non-duplicate subfamilies. No high-confidence close/comment/label mutation is planned. Open anchors are #14251 for macOS LaunchDaemon/system-service scope, #47555/#66000 for stale launchd-label profile handling, and #52515 for doctor cleanup hints; unrelated or distinct reports are kept open.",
+  "actions": [
+    {
+      "target": "#58356",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#37591",
+      "candidate_fix": null,
+      "reason": "Closed representative is historical evidence only; do not emit close/comment mutations for it."
+    },
+    {
+      "target": "#48457",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact security-sensitive linked ref to central OpenClaw security handling; no ProjectClownfish mutation."
+    },
+    {
+      "target": "#14251",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#14251",
+      "candidate_fix": null,
+      "reason": "Best open anchor for the macOS system LaunchDaemon lifecycle subfamily; related items carry distinct details, so no duplicate close."
+    },
+    {
+      "target": "#40207",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related macOS launchd reliability issue, but distinct from system LaunchDaemon lifecycle and not a safe duplicate close."
+    },
+    {
+      "target": "#42252",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related diagnostics work, but it is not the same root cause as the launchd lifecycle, profile, or doctor cleanup subfamilies."
+    },
+    {
+      "target": "#47555",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#47555",
+      "candidate_fix": "#66000",
+      "reason": "Keep as the profile stale-label restart canonical; do not close until PR #66000 or equivalent proves lifecycle commands are fixed."
+    },
+    {
+      "target": "#51860",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#14251",
+      "candidate_fix": null,
+      "reason": "Related to #14251, but it has unique boot, status, and TMPDIR evidence; keep open."
+    },
+    {
+      "target": "#52510",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#52515",
+      "reason": "Covered by open candidate PR #52515, but closeout is not safe before the PR is repaired/reviewed and landed."
+    },
+    {
+      "target": "#52515",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#52515",
+      "candidate_fix": null,
+      "reason": "Keep as the doctor cleanup candidate PR, but no merge or fixed-by closeout is planned under this dedupe-only job."
+    },
+    {
+      "target": "#55208",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#14251",
+      "candidate_fix": null,
+      "reason": "Related to #14251, but the Local Network Privacy angle and product design scope are distinct enough to keep open."
+    },
+    {
+      "target": "#55880",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related gateway recovery area, but not a duplicate of the LaunchDaemon, profile, or doctor cleanup issues."
+    },
+    {
+      "target": "#59349",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent session-routing bug; keep open outside this cluster."
+    },
+    {
+      "target": "#59665",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related launchd environment issue with a distinct PATH policy question; keep open."
+    },
+    {
+      "target": "#60398",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related external-volume launchd bug, but distinct from #40207 log-path EX_CONFIG and from system LaunchDaemon mode."
+    },
+    {
+      "target": "#61713",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related macOS gateway exec/environment reachability issue; keep open because reproduction and root cause differ from the launchd service items."
+    },
+    {
+      "target": "#65643",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#66000",
+      "reason": "Covered by candidate PR #66000, but not safe to close in this dedupe pass."
+    },
+    {
+      "target": "#66000",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#66000",
+      "candidate_fix": null,
+      "reason": "Keep as the active profile-label fix candidate; no merge recommendation is allowed in this job."
+    },
+    {
+      "target": "#67631",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related macOS launchd ownership gap with distinct Mac App/CLI behavior; keep open."
+    },
+    {
+      "target": "#70223",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1,
+    "keep_canonical": 4,
+    "keep_related": 11,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 17
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
