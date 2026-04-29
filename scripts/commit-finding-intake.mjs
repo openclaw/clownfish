@@ -393,7 +393,7 @@ function likelyFilesFromReport(markdown) {
   for (const match of markdown.matchAll(/^- File:\s*`?([^`\n]+?)`?\s*$/gim)) out.push(match[1].trim());
   const changed = markdown.match(/^- Changed files:\s*(.+)$/im)?.[1] ?? "";
   for (const match of changed.matchAll(/`([^`]+)`/g)) out.push(match[1].trim());
-  return unique(out.filter((file) => file && file !== "unknown" && !/^https?:/.test(file))).slice(0, 20);
+  return unique(out.filter((file) => file && file !== "unknown" && !/^https?:/.test(file) && isExecutableRepairPath(file))).slice(0, 20);
 }
 
 function affectedSurfaces(files, markdown) {
@@ -402,8 +402,20 @@ function affectedSurfaces(files, markdown) {
     const first = file.split("/")[0] || file;
     surfaces.add(first);
   }
-  for (const kind of findingKinds(markdown)) surfaces.add(kind);
+  if (surfaces.size === 0) {
+    for (const kind of findingKinds(markdown)) surfaces.add(kind);
+  }
   return [...surfaces].filter(Boolean).slice(0, 8).length ? [...surfaces].filter(Boolean).slice(0, 8) : ["commit finding"];
+}
+
+function isExecutableRepairPath(file) {
+  const value = String(file ?? "").trim();
+  if (!value || value === "unknown" || /^https?:/i.test(value)) return false;
+  if (/^(?:docs|examples|\.github\/ISSUE_TEMPLATE|\.agents\/skills)\//.test(value)) return false;
+  if (/(?:^|\/)(?:README|CHANGELOG|CONTRIBUTING|CODE_OF_CONDUCT|SECURITY|SUPPORT|LICENSE)(?:\.[A-Za-z0-9]+)?$/i.test(value)) {
+    return false;
+  }
+  return true;
 }
 
 function summaryFromReport(markdown) {
