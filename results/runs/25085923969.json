@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156715-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25085923969",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25085923969",
+  "head_sha": "f235dafeb1f490ef92624e6c83444fc0d6e6d65e",
+  "workflow_conclusion": "failure",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156715-autonomous-smoke.md",
+  "published_at": "2026-04-29T01:43:12.966Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/59752",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59752",
+  "summary": "Hydrated preflight keeps #59752 as the non-security canonical repair path for the media-only same-target messaging reply suppression bug linked from #59743. #59752 is repairable on the contributor branch but is not merge-ready because relevant checks and the latest bot review are not clean. #44391 and #59787 are quarantined to central security handling. #59795 is superseded by the canonical path, but closeout is blocked until #59752 is repaired, reviewed, validated, and landed.",
+  "actions": [
+    {
+      "target": "#44391",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only #44391 to central OpenClaw security handling and continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#59752",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59752",
+      "candidate_fix": "#59752",
+      "reason": "Repair the contributor branch before any merge or dependent closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156715-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#59752",
+      "candidate_fix": "#59752",
+      "reason": "Build an executable repair artifact for the canonical contributor branch instead of merging a failing PR or closing dependents early."
+    },
+    {
+      "target": "#59743",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#59752",
+      "candidate_fix": "#59752",
+      "reason": "Fixed-by-candidate closeout is blocked on the canonical #59752 repair and merge because require_fix_before_close is true."
+    },
+    {
+      "target": "#59787",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only #59787 to central OpenClaw security handling and continue unrelated non-security fix planning."
+    },
+    {
+      "target": "#59795",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#59752",
+      "candidate_fix": "#59752",
+      "reason": "Superseded closeout is clear but blocked until canonical #59752 is repaired and landed; contributor credit must be preserved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "close_fixed_by_candidate": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
