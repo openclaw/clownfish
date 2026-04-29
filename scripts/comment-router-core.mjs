@@ -1,6 +1,20 @@
 export const REPAIR_INTENTS = new Set(["fix_ci", "address_review", "rebase", "clawsweeper_auto_repair"]);
 export const MERGE_INTENTS = new Set(["clawsweeper_auto_merge"]);
 
+export function automergeGateBlockReason(env = process.env) {
+  if (env.CLOWNFISH_ALLOW_MERGE !== "1") return "merge requires CLOWNFISH_ALLOW_MERGE=1";
+  if (env.CLOWNFISH_ALLOW_AUTOMERGE !== "1") return "automerge requires CLOWNFISH_ALLOW_AUTOMERGE=1";
+  return "";
+}
+
+export function buildAutomergeMergeArgs({ issueNumber, repo, expectedHeadSha }) {
+  const args = ["pr", "merge", String(issueNumber), "--repo", repo, "--squash"];
+  if (expectedHeadSha && expectedHeadSha !== "unknown") {
+    args.push("--match-head-commit", expectedHeadSha);
+  }
+  return args;
+}
+
 export function parseCommand(body) {
   for (const line of String(body ?? "").split(/\r?\n/)) {
     const slash = line.match(/^\s*\/clownfish(?:\s+(.+))?\s*$/i);

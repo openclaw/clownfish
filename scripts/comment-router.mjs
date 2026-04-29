@@ -12,7 +12,15 @@ import {
   validateJob,
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
-import { MERGE_INTENTS, REPAIR_INTENTS, parseCommand, parseTrustedAutomation, renderResponse } from "./comment-router-core.mjs";
+import {
+  MERGE_INTENTS,
+  REPAIR_INTENTS,
+  automergeGateBlockReason,
+  buildAutomergeMergeArgs,
+  parseCommand,
+  parseTrustedAutomation,
+  renderResponse,
+} from "./comment-router-core.mjs";
 import {
   appendLedger,
   assertRepo,
@@ -481,28 +489,28 @@ function executeAutomerge(command) {
     if (isTransientAutomergeBlock(block, view)) {
       return { action: "merge", status: "waiting", reason: block, merge_method: "squash" };
     }
-    if (process.env.CLOWNFISH_ALLOW_MERGE !== "1" || process.env.CLOWNFISH_ALLOW_AUTOMERGE !== "1") {
-      ensureMergeReadyLabel(command.repo);
-      ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", MERGE_READY_LABEL]);
-    }
     return { action: "merge", status: "blocked", reason: block, merge_method: "squash" };
   }
-  if (process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
+  const gateBlock = automergeGateBlockReason(process.env);
+  if (gateBlock) {
     ensureMergeReadyLabel(command.repo);
     ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", MERGE_READY_LABEL]);
-    return { action: "merge", status: "blocked", reason: "merge requires CLOWNFISH_ALLOW_MERGE=1", merge_method: "squash" };
+    return { action: "merge", status: "blocked", reason: gateBlock, merge_method: "squash" };
   }
-  if (process.env.CLOWNFISH_ALLOW_AUTOMERGE !== "1") {
-    ensureMergeReadyLabel(command.repo);
-    ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", MERGE_READY_LABEL]);
-    return { action: "merge", status: "blocked", reason: "automerge requires CLOWNFISH_ALLOW_AUTOMERGE=1", merge_method: "squash" };
-  }
-  const result = spawnSync("gh", ["pr", "merge", String(command.issue_number), "--repo", command.repo, "--squash"], {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    env: ghEnv(),
-    stdio: "pipe",
-  });
+  const result = spawnSync(
+    "gh",
+    buildAutomergeMergeArgs({
+      issueNumber: command.issue_number,
+      repo: command.repo,
+      expectedHeadSha: command.expected_head_sha,
+    }),
+    {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      env: ghEnv(),
+      stdio: "pipe",
+    },
+  );
   if (result.status !== 0) {
     return {
       action: "merge",

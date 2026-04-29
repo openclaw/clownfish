@@ -4,6 +4,8 @@ import test from "node:test";
 import {
   MERGE_INTENTS,
   REPAIR_INTENTS,
+  automergeGateBlockReason,
+  buildAutomergeMergeArgs,
   parseCommand,
   parseTrustedAutomation,
   renderResponse,
@@ -188,4 +190,23 @@ test("repair intent set documents executable repair commands", () => {
 
 test("merge intent set documents ClawSweeper pass automerge", () => {
   assert.deepEqual([...MERGE_INTENTS], ["clawsweeper_auto_merge"]);
+});
+
+test("automerge merge args pin the reviewed head SHA", () => {
+  assert.deepEqual(
+    buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha: "abc123" }),
+    ["pr", "merge", "123", "--repo", "openclaw/openclaw", "--squash", "--match-head-commit", "abc123"],
+  );
+});
+
+test("automerge gate block only reports closed merge policy gates", () => {
+  assert.equal(
+    automergeGateBlockReason({ CLOWNFISH_ALLOW_MERGE: "0", CLOWNFISH_ALLOW_AUTOMERGE: "1" }),
+    "merge requires CLOWNFISH_ALLOW_MERGE=1",
+  );
+  assert.equal(
+    automergeGateBlockReason({ CLOWNFISH_ALLOW_MERGE: "1", CLOWNFISH_ALLOW_AUTOMERGE: "0" }),
+    "automerge requires CLOWNFISH_ALLOW_AUTOMERGE=1",
+  );
+  assert.equal(automergeGateBlockReason({ CLOWNFISH_ALLOW_MERGE: "1", CLOWNFISH_ALLOW_AUTOMERGE: "1" }), "");
 });
