@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156863-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25086686616",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25086686616",
+  "head_sha": "f235dafeb1f490ef92624e6c83444fc0d6e6d65e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156863-autonomous-smoke.md",
+  "published_at": "2026-04-29T01:56:43.711Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/52618",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/52618",
+  "canonical_pr": null,
+  "summary": "Representative PR #52623 is already closed and no longer canonical. The live canonical is issue #52618. Security-sensitive refs #57978, #68865, and #72411 are routed to central security handling. Current main still appears to lack the post-start Feishu WebSocket supervisor/stall recovery for #52618, so this result plans a narrow credited fix artifact and no closes or merges.",
+  "actions": [
+    {
+      "target": "#52618",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "Keep #52618 open as the canonical bug until a hydrated, validated fix lands."
+    },
+    {
+      "target": "#52623",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions; keep as historical credited evidence."
+    },
+    {
+      "target": "#57978",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact item to central OpenClaw security handling and continue non-security classification separately."
+    },
+    {
+      "target": "#68865",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact item to central OpenClaw security handling; it is closed, so no closure action is valid."
+    },
+    {
+      "target": "#72411",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact linked item to central OpenClaw security handling; do not use it for post-merge closeout in this cluster."
+    },
+    {
+      "target": "cluster:ghcrawl-156863-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "A narrow Feishu WebSocket supervisor fix is still needed before #52618 or related implementation PRs can be closed."
+    },
+    {
+      "target": "cluster:ghcrawl-156863-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "The bug is real from hydrated evidence, but no merge-ready non-security PR is available."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "route_security": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/73940",
+      "branch": "clownfish/ghcrawl-156863-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/73940"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#73940",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(feishu): supervise WebSocket retry exhaustion",
+      "idempotency_key": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
