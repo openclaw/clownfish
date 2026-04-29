@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2501-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25133523783",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25133523783",
+  "head_sha": "70c8a777fa9eb04b416c45f07c80bfc38f2df21b",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2501-dedupe-only-20260429-remote.md",
+  "published_at": "2026-04-29T21:04:45.085Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/56467",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/56467",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows #56467 is the only open cluster candidate. The representative #52703 is closed, so it is retained only as historical decision evidence rather than used as an executable duplicate-close canonical. Keep #56467 as the current open canonical for this family, keep closed context refs untouched, and route unrelated security-shaped PR evidence on #41964 to central security handling.",
+  "actions": [
+    {
+      "target": "#41924",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context only; no mutation planned."
+    },
+    {
+      "target": "#41964",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped hydrated linked PR evidence must be quarantined separately; it does not block #56467 classification."
+    },
+    {
+      "target": "#52698",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#56467",
+      "candidate_fix": null,
+      "reason": "Already closed related context; retain as historical evidence for the current open canonical #56467."
+    },
+    {
+      "target": "#52703",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#56467",
+      "candidate_fix": null,
+      "reason": "Closed representative retained as historical evidence only; the current open canonical is #56467."
+    },
+    {
+      "target": "#56467",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#56467",
+      "candidate_fix": null,
+      "reason": "Retain the only open candidate as the current canonical instead of closing it against the already-closed historical representative #52703."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
