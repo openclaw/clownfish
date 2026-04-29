@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 22:15 UTC
+Last dashboard update: Apr 29, 2026, 22:19 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 321 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 322 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 321 | 100% |
+| Latest clusters reviewed | 322 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 149 | 46.4% |
-| Needs-human clusters | 46 | 14.3% |
-| Latest successful clusters | 293 | 91.3% |
+| Clean completed clusters | 149 | 46.3% |
+| Needs-human clusters | 47 | 14.6% |
+| Latest successful clusters | 294 | 91.3% |
 | Latest failed clusters | 4 | 1.2% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 574 | audit |
+| Run attempts archived | 575 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
 | Fix actions blocked | 50 | 30.5% |
 | Latest clusters with fix failures | 44 | 13.7% |
-| Distinct PRs touched | 1002 | 100% |
-| Open PRs tracked | 367 | 36.6% |
-| Closed unmerged PRs tracked | 519 | 51.8% |
+| Distinct PRs touched | 1013 | 100% |
+| Open PRs tracked | 378 | 37.3% |
+| Closed unmerged PRs tracked | 519 | 51.2% |
 | Completed close actions | 30 | 10.4% |
 | Completed merge actions | 23 | 8.0% |
 | Duplicate closes | 22 | 73.3% |
@@ -79,6 +79,7 @@ Scope: 321 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-5707-dedupe-only-20260429-remote](results/openclaw/gitcrawl-5707-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-5707-dedupe-only-20260429-remote.md | #40044 and #66312 need maintainer product/API direction on the prompt-visible Runtime session identifier before either PR can be treated ... | [report](results/openclaw/gitcrawl-5707-dedupe-only-20260429-remote.md) | [25136426946](https://github.com/openclaw/clownfish/actions/runs/25136426946) |
 | [gitcrawl-2880-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2880-dedupe-only-20260429-remote.md | target changed since worker review | [report](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) | [25134553126](https://github.com/openclaw/clownfish/actions/runs/25134553126) |
 | [gitcrawl-2733-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2733-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2733-dedupe-only-20260429-remote.md | target changed since worker review | [report](results/openclaw/gitcrawl-2733-dedupe-only-20260429-remote.md) | [25134075609](https://github.com/openclaw/clownfish/actions/runs/25134075609) |
 | [gitcrawl-2477-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2477-dedupe-only-20260429-remote.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | [25133514336](https://github.com/openclaw/clownfish/actions/runs/25133514336) |
@@ -103,7 +104,6 @@ Scope: 321 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [25094690632](https://github.com/openclaw/clownfish/actions/runs/25094690632) |
 | [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | [25093937673](https://github.com/openclaw/clownfish/actions/runs/25093937673) |
 | [clawsweeper-commit-openclaw-openclaw-a887a512ef8e](results/openclaw/clawsweeper-commit-openclaw-openclaw-a887a512ef8e.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-a887a512ef8e.md | Found one concrete CI regression. The commit adds duplicate `run_checks_node_extensions` keys in the workflow output map and manifest obj... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-a887a512ef8e.md) | [25093541960](https://github.com/openclaw/clownfish/actions/runs/25093541960) |
-| [clawsweeper-commit-openclaw-openclaw-5435591f6a1a](results/openclaw/clawsweeper-commit-openclaw-openclaw-5435591f6a1a.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-5435591f6a1a.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-5435591f6a1a.md) | [25090570865](https://github.com/openclaw/clownfish/actions/runs/25090570865) |
 
 ### Fix Failure Queue
 
