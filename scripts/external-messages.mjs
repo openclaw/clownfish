@@ -72,6 +72,22 @@ const sourceStaysOpenLines = [
   "This PR stays open for now, with the replacement linked as the current fix path.",
 ];
 
+const automergeNoChangeOpeners = [
+  "This repair lap finished without changing the PR. Clownfish checked the reef and found no safe patch to push this time.",
+  "Clownfish finished this automerge repair swim without changing the branch.",
+  "No new branch changes from this lap. Clownfish kept the current tidy instead of splashing around.",
+  "This pass ended as a no-op: no narrow repair surfaced, so Clownfish left the branch untouched.",
+  "Clownfish took another look and did not find a safe branch change to make on this pass.",
+];
+
+const automergeNoChangeClosers = [
+  "No branch push, rebase, replacement PR, merge, or ClawSweeper re-review was started on this lap.",
+  "No push, rebase, replacement PR, merge, or ClawSweeper re-review happened this swim.",
+  "Clownfish left the PR as-is: no push, no rebase, no replacement PR, no merge, and no fresh ClawSweeper pass.",
+  "Nothing moved downstream from this pass: no branch update, replacement PR, merge, or re-review.",
+  "This lap stayed observational only. no branch push, no replacement, no merge, no mystery bubbles.",
+];
+
 const carriedCreditLines = [
   "Contributor credit is carried into the replacement PR body and changelog plan.",
   "Contributor credit is copied into the replacement PR notes and changelog path.",
@@ -185,9 +201,9 @@ export function repairContributorBranchComment({ sourcePrUrl, validationCommands
 export function automergeRepairOutcomeComment({ marker, result, report, target, provenance }) {
   const lines = [
     marker,
-    `${SIGNATURE} automerge status`,
+    `${SIGNATURE} reef automerge status`,
     "",
-    "Repair pass finished without changing this PR.",
+    variant(automergeNoChangeOpeners),
     "",
     `Target: #${target}`,
     `Executor outcome: ${compactForComment(report?.reason ?? "no executable fix action", 260)}.`,
@@ -198,7 +214,7 @@ export function automergeRepairOutcomeComment({ marker, result, report, target, 
   if (actionLines.length > 0) {
     lines.push("", "Worker actions:", ...actionLines);
   }
-  lines.push("", "No branch push, rebase, replacement PR, merge, or ClawSweeper re-review was started by this pass.");
+  lines.push("", variant(automergeNoChangeClosers));
   return withFishNotes(lines, provenance);
 }
 

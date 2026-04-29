@@ -194,9 +194,9 @@ export function renderResponse(command, dispatched) {
   if (command.intent === "stop") {
     return [
       marker,
-      "Got it. Clownfish will leave this item for human review.",
+      "Got it. Clownfish is floating this back to human review. 🐠",
       "",
-      "I kept the regular `clownfish` label on it and paused the automation trail until a maintainer asks again.",
+      "I kept the regular `clownfish` label on it and paused the automation current until a maintainer calls me back in.",
     ].join("\n");
   }
   if (command.intent === "automerge") {
@@ -204,14 +204,14 @@ export function renderResponse(command, dispatched) {
     return [
       marker,
       dispatched?.clawsweeper
-        ? "Clownfish automerge is enabled for this PR."
-        : "Clownfish could not enable automerge for this PR.",
+        ? "Clownfish is on the reef for this PR. 🐠"
+        : "Clownfish could not catch the automerge current for this PR.",
       "",
       dispatched?.clawsweeper
-        ? `I ${clearedHumanReview ? "cleared `clownfish:human-review`, " : ""}added \`clownfish:automerge\` and asked ClawSweeper to review this head. If ClawSweeper requests changes or returns \`needs-human\`, I will repair/rebase the branch and ask for another review, up to the configured round limit.`
+        ? `I ${clearedHumanReview ? "cleared \`clownfish:human-review\`, " : ""}tagged \`clownfish:automerge\` and sent ClawSweeper over this exact head. If the sweep finds rough coral, failing checks, or \`needs-human\`, I will take another bounded repair lap and ask for a fresh review.`
         : `Reason: ${command.reason ?? "automerge requires a pull request"}.`,
       "",
-      "A maintainer can pause this with `/clownfish stop`.",
+      "A maintainer can call `/clownfish stop` any time and I will drift this back to human review.",
     ].join("\n");
   }
   if (command.intent === "autoclose") {
@@ -242,23 +242,23 @@ export function renderResponse(command, dispatched) {
     return [
       marker,
       fromNeedsHuman
-        ? "Thanks, ClawSweeper. Clownfish is continuing the automerge repair loop for this PR."
-        : "Thanks, ClawSweeper. Clownfish picked up the repair feedback.",
+        ? "Thanks, ClawSweeper. Clownfish is swimming another guarded repair lap for this PR. 🐠"
+        : "Thanks, ClawSweeper. Clownfish picked up the reef notes and is starting a guarded repair pass. 🐠",
       "",
       `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
       `Feedback: ${command.repair_reason ?? "ClawSweeper requested another repair pass."}`,
       `Action: dispatched \`${dispatched.workflow}\` for \`${dispatched.job_path}\` in \`${dispatched.mode}\` mode.`,
       `Model: \`${dispatched.model}\``,
       "",
-      "I will update this PR branch, or open a safe credited replacement, if the repair worker finds a narrow fix.",
+      "I will update this PR branch when I can. If GitHub branch permissions block that swim lane, I will open a safe credited replacement instead and keep it narrow.",
     ].join("\n");
   }
   if (command.intent === "clawsweeper_auto_merge") {
     return [
       marker,
       dispatched?.merge?.status === "executed"
-        ? "Thanks, ClawSweeper. Clownfish merged this PR after the passing review."
-        : "Thanks, ClawSweeper. Clownfish saw the passing review, but did not merge yet.",
+        ? "Thanks, ClawSweeper. Clear water: Clownfish merged this PR after the passing review. 🐠"
+        : "Thanks, ClawSweeper. Clownfish saw the passing review, but one reef gate still blocked the merge.",
       "",
       `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
       `Feedback: ${command.repair_reason ?? "ClawSweeper reported a passing review."}`,
@@ -266,36 +266,36 @@ export function renderResponse(command, dispatched) {
       ...(dispatched?.merge?.merged_at ? [`Merged at: ${dispatched.merge.merged_at}`] : []),
       "",
       dispatched?.merge?.status === "executed"
-        ? "The automerge loop is complete."
-        : "I left the PR open for the remaining gate instead of bypassing it.",
+        ? "Automerge lap complete. no mystery bubbles."
+        : "I left the PR open for the remaining gate instead of cutting around it.",
     ].join("\n");
   }
   if (command.intent === "clawsweeper_needs_human") {
     return [
       marker,
-      "Clownfish is pausing automerge for human review.",
+      "Clownfish is floating this PR back to human review. 🐠",
       "",
       `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
       `Reason: ${command.repair_reason ?? "ClawSweeper requested human review."}`,
       "",
-      "I kept the regular `clownfish` label on it and left the final call with a maintainer.",
+      "I kept the regular `clownfish` label on it and left the final call with a maintainer. no sneaky merge currents.",
     ].join("\n");
   }
   if (!dispatched) {
     return [
       marker,
-      "Clownfish did not dispatch a repair worker for this one.",
+      "Clownfish did not send a repair worker into this current.",
       "",
       `Reason: ${command.reason ?? "unsupported command or target"}.`,
       "",
       "Supported repair commands work on existing Clownfish PRs and PRs opted into `clownfish:automerge`: `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`.",
-      "A maintainer can opt a PR in with `/clownfish automerge` and I can take another pass.",
+      "A maintainer can opt a PR in with `/clownfish automerge`, and I can take another guarded swim.",
       "A maintainer can close unsupported or declined work with `/autoclose <reason>`.",
     ].join("\n");
   }
   return [
     marker,
-    "Clownfish picked this up.",
+    "Clownfish picked this up and is swimming it through the narrow lane. 🐠",
     "",
     `Command: \`${command.command}\``,
     `Action: dispatched \`${dispatched.workflow}\` for \`${dispatched.job_path}\` in \`${dispatched.mode}\` mode.`,

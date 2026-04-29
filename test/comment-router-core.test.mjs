@@ -229,7 +229,7 @@ test("renderResponse reports trusted repair dispatches without losing guardrails
   assert.match(body, /clownfish-command:456:2026-04-29T07:12:31Z:clawsweeper_auto_repair:def456/);
   assert.match(body, /cluster-worker\.yml/);
   assert.match(body, /safe credited replacement/);
-  assert.match(body, /narrow fix/);
+  assert.match(body, /keep it narrow/);
   assert.doesNotMatch(body, /ProjectClownfish/i);
 });
 
@@ -250,7 +250,9 @@ test("renderResponse reports automerge resume actions", () => {
   );
 
   assert.match(body, /cleared `clownfish:human-review`/);
-  assert.match(body, /repair\/rebase/);
+  assert.match(body, /tagged `clownfish:automerge`/);
+  assert.match(body, /bounded repair lap/);
+  assert.match(body, /\/clownfish stop/);
 });
 
 test("renderResponse reports maintainer autoclose results", () => {
@@ -295,9 +297,11 @@ test("renderResponse reports needs-human automerge repair dispatches", () => {
     },
   );
 
-  assert.match(body, /continuing the automerge repair loop/);
+  assert.match(body, /guarded repair lap/);
   assert.match(body, /cluster-worker\.yml/);
   assert.match(body, /automerge-openclaw-openclaw-74156/);
+  assert.match(body, /safe credited replacement/);
+  assert.match(body, /keep it narrow/);
   assert.doesNotMatch(body, /did not dispatch/);
 });
 
@@ -313,7 +317,7 @@ test("renderResponse reports explicit human-review pause actions", () => {
     null,
   );
 
-  assert.match(body, /pausing automerge/);
+  assert.match(body, /human review/);
   assert.match(body, /regular `clownfish` label/);
   assert.doesNotMatch(body, /clownfish:human-review/);
   assert.doesNotMatch(body, /did not dispatch/);
@@ -338,7 +342,7 @@ test("renderResponse reports automerge completion", () => {
   );
 
   assert.match(body, /merged this PR/);
-  assert.match(body, /automerge loop is complete/);
+  assert.match(body, /Automerge lap complete/);
   assert.doesNotMatch(body, /ProjectClownfish/i);
 });
 

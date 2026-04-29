@@ -23,9 +23,10 @@ test("automergeRepairOutcomeComment explains no-op repair runs", () => {
   });
 
   assert.match(body, /^<!-- marker -->/);
-  assert.match(body, /Repair pass finished without changing this PR/);
+  assert.match(body, /Clownfish 🐠 reef automerge status/);
+  assert.match(body, /(without changing|without changing the branch|no-op|no new branch changes|no safe branch change)/i);
   assert.match(body, /Executor outcome: no planned fix actions\./);
   assert.match(body, /`route_security` on `#74156`: planned - central handling required/);
-  assert.match(body, /No branch push, rebase, replacement PR, merge, or ClawSweeper re-review/);
+  assert.match(body, /(No branch push|No push|left the PR as-is|Nothing moved downstream|observational only)/i);
   assert.match(body, /model gpt-test, reasoning medium; reviewed against 0123456789ab/);
 });
