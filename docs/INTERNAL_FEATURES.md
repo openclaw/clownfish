@@ -178,7 +178,7 @@ new `clownfish/*` replacement branch, `execute-fix-artifact` groups the proposed
 `likely_files` into touched areas such as `extensions/discord`, `src/core`, or
 `docs`, reads open Clownfish PRs in the target repo, and blocks if the same area
 already has `CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA` open Clownfish PRs. The default
-limit is `3`; set it to `0` only for a deliberately uncapped execution window.
+limit is `50`; set it to `0` only for a deliberately uncapped execution window.
 
 ## ClawSweeper Commit Findings
 
@@ -434,7 +434,9 @@ Important defaults:
   difficult repair work.
 - `CLOWNFISH_MAX_LIVE_WORKERS`: dispatch capacity guard.
 - `CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA`: replacement PR area backpressure; default
-  is `3` open Clownfish PRs per touched area, and `0` disables the cap.
+  is `50` open Clownfish PRs per touched area, and `0` disables the cap.
+- ClawSweeper commit-finding repair PRs get the `clownfish:commit-finding`
+  label in addition to the standard `clownfish` tracking label.
 - `CLOWNFISH_TARGET_VALIDATION_MODE`: changed-only validation by default.
 - `CLOWNFISH_RESOLVE_REVIEW_THREADS`: lets fix execution resolve threads after
   it addresses them.

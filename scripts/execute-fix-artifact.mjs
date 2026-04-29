@@ -33,7 +33,9 @@ const installTargetDeps = process.env.CLOWNFISH_INSTALL_TARGET_DEPS !== "0";
 const allowBroadFixArtifacts = process.env.CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS === "1";
 const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
 const maxAutonomousFixSurfaces = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_SURFACES ?? 4));
-const maxActivePrsPerArea = Number(process.env.CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA ?? 3);
+const maxActivePrsPerArea = Number(process.env.CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA ?? 50);
+const CLOWNFISH_LABEL = "clownfish";
+const COMMIT_FINDING_LABEL = "clownfish:commit-finding";
 const strictTargetValidation =
   process.env.CLOWNFISH_STRICT_TARGET_VALIDATION === "1" ||
   String(process.env.CLOWNFISH_TARGET_VALIDATION_MODE ?? "changed-only") === "strict";
@@ -469,6 +471,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     ).trim();
   const prNumber = pullRequestNumberFromUrl(prUrl);
   if (prNumber) ensurePullRequestOpen({ number: prNumber, targetDir });
+  if (prNumber) labelReplacementPullRequest({ number: prNumber, targetDir });
   if (prNumber) prep.merge_preflight.target = `#${prNumber}`;
   const threadResolution = prNumber
     ? prepareReviewThreadsForMerge({ repo: result.repo, number: prNumber, targetDir })
@@ -502,6 +505,33 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     superseded_source_actions: supersededSourceActions,
     contributor_credit: contributorCredits.map(publicContributorCredit),
   };
+}
+
+function labelReplacementPullRequest({ number, targetDir }) {
+  ensureLabel(result.repo, CLOWNFISH_LABEL, "0E8A16", "Tracked by Clownfish automation", targetDir);
+  addLabel(result.repo, number, CLOWNFISH_LABEL, targetDir);
+  if (job.frontmatter.source === "clawsweeper_commit" || job.frontmatter.commit_sha) {
+    ensureLabel(result.repo, COMMIT_FINDING_LABEL, "1D76DB", "PR created from a ClawSweeper commit finding", targetDir);
+    addLabel(result.repo, number, COMMIT_FINDING_LABEL, targetDir);
+  }
+}
+
+function ensureLabel(repo, name, color, description, targetDir) {
+  try {
+    run("gh", ["label", "create", name, "--repo", repo, "--color", color, "--description", description], {
+      cwd: targetDir,
+      env: ghEnv(),
+    });
+  } catch (error) {
+    if (!/already exists/i.test(String(error?.message ?? error))) throw error;
+  }
+}
+
+function addLabel(repo, number, name, targetDir) {
+  run("gh", ["issue", "edit", String(number), "--repo", repo, "--add-label", name], {
+    cwd: targetDir,
+    env: ghEnv(),
+  });
 }
 
 function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir, contributorCredits }) {
