@@ -1,13 +1,13 @@
 {
   "status": "executed",
-  "generated_at": "2026-04-29T06:32:10.249Z",
+  "generated_at": "2026-04-29T06:39:05.027Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
-  "since": "2026-04-29T06:31:47Z",
+  "since": "2026-04-29T06:38:40Z",
   "execute": true,
   "max_comments": 10,
-  "scanned_comments": 1,
+  "scanned_comments": 3,
   "commands_seen": 1,
   "actionable": 1,
   "trusted_bots": [
@@ -23,16 +23,16 @@
   "max_auto_repairs_per_pr": 5,
   "commands": [
     {
-      "idempotency_key": "comment-router:openclaw/openclaw:74126:4341423249:2026-04-29T06:31:50Z:automerge",
-      "comment_id": "4341423249",
-      "comment_version_key": "4341423249:2026-04-29T06:31:50Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/74126#issuecomment-4341423249",
+      "idempotency_key": "comment-router:openclaw/openclaw:74156:4341450934:2026-04-29T06:38:43Z:automerge",
+      "comment_id": "4341450934",
+      "comment_version_key": "4341450934:2026-04-29T06:38:43Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/74156#issuecomment-4341450934",
       "repo": "openclaw/openclaw",
-      "issue_number": 74126,
+      "issue_number": 74156,
       "author": "steipete",
       "author_association": "CONTRIBUTOR",
-      "comment_created_at": "2026-04-29T06:31:50Z",
-      "comment_updated_at": "2026-04-29T06:31:50Z",
+      "comment_created_at": "2026-04-29T06:38:43Z",
+      "comment_updated_at": "2026-04-29T06:38:43Z",
       "trigger": "slash",
       "command": "automerge",
       "intent": "automerge",
@@ -45,6 +45,14 @@
       "status": "executed",
       "actions": [
         {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74156.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-74156",
+          "status_detail": "written"
+        },
+        {
           "action": "label",
           "label": "clownfish:automerge",
           "status": "executed"
@@ -53,46 +61,92 @@
           "action": "dispatch_clawsweeper",
           "workflow": "sweep.yml",
           "status": "executed",
-          "dispatched_at": "2026-04-29T06:32:11.793Z",
+          "dispatched_at": "2026-04-29T06:39:07.853Z",
           "event": "repository_dispatch",
           "repo": "openclaw/clawsweeper",
-          "item_number": 74126
+          "item_number": 74156
         },
         {
           "action": "comment",
           "status": "executed",
-          "commented_at": "2026-04-29T06:32:12.404Z"
+          "commented_at": "2026-04-29T06:39:08.601Z"
         }
       ],
       "author_repository_permission": "admin",
       "target": {
         "kind": "pull_request",
-        "title": "test: exercise Clownfish any-PR automerge opt-in",
-        "branch": "codex/clownfish-automerge-smoke-20260429060432",
-        "head_sha": "03dde6b00ae172d4e2ddd3358b7c29dd53b3237f",
+        "title": "fix(auth): scope external CLI auth status overlays",
+        "branch": "fix/external-cli-auth-status-scope",
+        "head_sha": "2122b19ae300850ba92cf612167af5b4d2568efa",
         "author": "steipete",
         "labels": [
+          "docs",
+          "gateway",
+          "agents",
           "maintainer",
-          "size: XS",
-          "clownfish:automerge"
+          "size: L"
         ],
         "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-74126",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74126.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-74126",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74126.md",
+        "cluster_id": "automerge-openclaw-openclaw-74156",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74156.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-74156",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-74156.md",
         "mode": "autonomous",
-        "merge_state_status": "CLEAN",
+        "merge_state_status": "UNSTABLE",
         "review_decision": "",
         "checks": {
-          "total": 44,
+          "total": 71,
           "counts": {
             "CANCELLED": 1,
-            "SKIPPED": 32,
-            "SUCCESS": 11
+            "IN_PROGRESS": 43,
+            "SKIPPED": 18,
+            "SUCCESS": 9
           },
           "blockers": [
-            "auto-response:CANCELLED"
+            "auto-response:CANCELLED",
+            "auto-response:IN_PROGRESS",
+            "Run the OpenAI / Opus 4.6 parity gate against the qa-lab mock:IN_PROGRESS",
+            "build-artifacts:IN_PROGRESS",
+            "checks-fast-bundled:IN_PROGRESS",
+            "checks-fast-contracts-plugins:IN_PROGRESS",
+            "checks-fast-contracts-channels-a:IN_PROGRESS",
+            "checks-fast-contracts-channels-b:IN_PROGRESS",
+            "checks-fast-contracts-channels-c:IN_PROGRESS",
+            "checks-fast-protocol:IN_PROGRESS",
+            "checks-node-core-fast-support:IN_PROGRESS",
+            "checks-node-core-src-security:IN_PROGRESS",
+            "checks-node-core-ui:IN_PROGRESS",
+            "checks-node-core-runtime-infra:IN_PROGRESS",
+            "checks-node-core-runtime-media-ui:IN_PROGRESS",
+            "checks-node-core-runtime-shared:IN_PROGRESS",
+            "checks-node-agentic-control-plane:IN_PROGRESS",
+            "checks-node-agentic-cli:IN_PROGRESS",
+            "checks-node-agentic-command-support:IN_PROGRESS",
+            "checks-node-agentic-commands-agent-channel:IN_PROGRESS",
+            "checks-node-agentic-commands-doctor:IN_PROGRESS",
+            "checks-node-agentic-commands-doctor-shared:IN_PROGRESS",
+            "checks-node-agentic-commands-models:IN_PROGRESS",
+            "checks-node-agentic-commands-onboard-config:IN_PROGRESS",
+            "checks-node-agentic-commands-status-tools:IN_PROGRESS",
+            "checks-node-agentic-agents:IN_PROGRESS",
+            "checks-node-agentic-plugin-sdk:IN_PROGRESS",
+            "checks-node-auto-reply-core-top-level:IN_PROGRESS",
+            "checks-node-auto-reply-reply-agent-runner:IN_PROGRESS",
+            "checks-node-auto-reply-reply-dispatch:IN_PROGRESS",
+            "checks-node-auto-reply-reply-commands-state-routing:IN_PROGRESS",
+            "check-preflight-guards:IN_PROGRESS",
+            "check-prod-types:IN_PROGRESS",
+            "check-lint:IN_PROGRESS",
+            "check-policy-guards:IN_PROGRESS",
+            "check-test-types:IN_PROGRESS",
+            "check-strict-smoke:IN_PROGRESS",
+            "check-additional-boundaries:IN_PROGRESS",
+            "check-additional-extension-channels:IN_PROGRESS",
+            "check-additional-extension-bundled:IN_PROGRESS",
+            "check-additional-extension-package-boundary:IN_PROGRESS",
+            "check-additional-runtime-topology-architecture:IN_PROGRESS",
+            "check-docs:IN_PROGRESS",
+            "Greptile Review:IN_PROGRESS"
           ]
         }
       }
