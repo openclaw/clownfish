@@ -1,6 +1,6 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-04-29T09:53:40.438Z
+Generated: 2026-04-29T10:05:33.588Z
 
 ## Summary
 
@@ -8,7 +8,7 @@ Generated: 2026-04-29T09:53:40.438Z
 | --- | ---: |
 | open_prs | 46 |
 | ready_candidates | 0 |
-| security_hold | 0 |
+| security_hold | 1 |
 | needs_rebase | 39 |
 | mergeability_unknown | 0 |
 | needs_checks | 18 |
@@ -65,7 +65,7 @@ Status: report_only
 | [#73940](https://github.com/openclaw/openclaw/pull/73940) | fix(feishu): supervise WebSocket retry exhaustion | ghcrawl-156863-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:3 SKIPPED:40 SUCCESS:172 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73938](https://github.com/openclaw/openclaw/pull/73938) | fix(memory): thread remote batch HTTP timeout budget | ghcrawl-156843-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:3 SKIPPED:39 SUCCESS:173 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73937](https://github.com/openclaw/openclaw/pull/73937) | fix(feishu): fallback to media when file download returns 502 | ghcrawl-156844-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:3 SKIPPED:40 SUCCESS:172 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
-| [#73925](https://github.com/openclaw/openclaw/pull/73925) | fix(gateway): bound websocket auth after valid connect | ghcrawl-156675-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:3 SKIPPED:21 SUCCESS:87 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
+| [#73925](https://github.com/openclaw/openclaw/pull/73925) | fix(gateway): bound websocket auth after valid connect | ghcrawl-156675-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:3 SKIPPED:21 SUCCESS:87 | security_route, needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight | route to central security triage |
 | [#73923](https://github.com/openclaw/openclaw/pull/73923) | fix(ui): preserve gateway token during safe websocket url edits | ghcrawl-156708-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:2 SKIPPED:20 SUCCESS:86 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73920](https://github.com/openclaw/openclaw/pull/73920) | fix(feishu): clean up bitable placeholder rows with empty defaults | ghcrawl-156661-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:2 SKIPPED:41 SUCCESS:173 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 | [#73919](https://github.com/openclaw/openclaw/pull/73919) | fix(mcp): dispose bundled runtimes after one-shot runs | ghcrawl-156747-autonomous-smoke | CONFLICTING | DIRTY | CANCELLED:4 SKIPPED:38 SUCCESS:173 | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, unresolved review threads remain, needs_merge_preflight, needs_result_backfill | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |

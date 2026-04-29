@@ -3,12 +3,12 @@
   "clownfish_repo": "openclaw/clownfish",
   "head_prefix": "clownfish/",
   "label": "clownfish",
-  "generated_at": "2026-04-29T09:53:40.438Z",
+  "generated_at": "2026-04-29T10:05:33.588Z",
   "count": 46,
   "summary": {
     "open_prs": 46,
     "ready_candidates": 0,
-    "security_hold": 0,
+    "security_hold": 1,
     "needs_rebase": 39,
     "mergeability_unknown": 0,
     "needs_checks": 18,
@@ -2278,7 +2278,7 @@
       "mergeable": "CONFLICTING",
       "merge_state_status": "DIRTY",
       "review_decision": "",
-      "security_hold": false,
+      "security_hold": true,
       "checks": {
         "total": 111,
         "counts": {
@@ -2320,20 +2320,29 @@
         ]
       },
       "latest_record": {
-        "run_id": "25070590154",
-        "run_url": "https://github.com/openclaw/clownfish/actions/runs/25070590154",
+        "run_id": "25101875795",
+        "run_url": "https://github.com/openclaw/clownfish/actions/runs/25101875795",
         "cluster_id": "ghcrawl-156675-autonomous-smoke",
-        "published_at": "2026-04-28T18:39:41.259Z",
+        "published_at": "2026-04-29T09:59:08.648Z",
         "workflow_conclusion": "success",
-        "apply_action": null
+        "apply_action": {
+          "target": "#73925",
+          "action": "route_security",
+          "status": "planned",
+          "classification": "security_sensitive",
+          "canonical": "#73925",
+          "candidate_fix": null,
+          "reason": "Security-sensitive review evidence blocks autonomous Clownfish repair/merge and requires central OpenClaw security handling for #73925 only."
+        }
       },
       "blockers": [
+        "security_route",
         "needs_rebase:CONFLICTING",
         "needs_merge_state:DIRTY",
         "unresolved review threads remain",
         "needs_merge_preflight"
       ],
-      "recommended_next_action": "resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review"
+      "recommended_next_action": "route to central security triage"
     },
     {
       "number": 73923,
