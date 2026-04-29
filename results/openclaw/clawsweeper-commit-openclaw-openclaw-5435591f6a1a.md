@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-5435591f6a1a"
 mode: "autonomous"
-run_id: "25090214395"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25090214395"
-head_sha: "8ea313595994f1fa80509cbc4327abce5365b1e1"
+run_id: "25090570865"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25090570865"
+head_sha: "74d7ba686025790c866cfbe1e74327ffeeab0dd6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T04:01:50.322Z"
+published_at: "2026-04-29T04:24:16.584Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
 actions_total: 1
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 1
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25090214395](https://github.com/openclaw/clownfish/actions/runs/25090214395)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25090570865](https://github.com/openclaw/clownfish/actions/runs/25090570865)
 
 Workflow conclusion: success
 
@@ -44,9 +44,9 @@ Found one low-severity block-reply edge case in the new split-tag buffering. The
 | Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 1 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,13 +54,13 @@ Found one low-severity block-reply edge case in the new split-tag buffering. The
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | blocked |  | clownfish/clawsweeper-commit-openclaw-openclaw-5435591f6a1a | active Clownfish PR cap reached for CHANGELOG.md: 78/50 open PRs |
+| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/74065 | clownfish/clawsweeper-commit-openclaw-openclaw-5435591f6a1a |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #74065 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Worker Action Matrix
 
