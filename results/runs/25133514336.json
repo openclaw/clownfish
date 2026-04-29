@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2477-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25133514336",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25133514336",
+  "head_sha": "70c8a777fa9eb04b416c45f07c80bfc38f2df21b",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2477-dedupe-only-20260429-remote.md",
+  "published_at": "2026-04-29T21:01:06.358Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73915",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73915",
+  "summary": "Hydrated preflight shows the audit false-positive bug is fixed on current main by merged PR #73915. Plan to close open issue #65745 as fixed by that candidate, keep the separate write-time validation work around #50011/#50076 open as related, and skip already closed context refs.",
+  "actions": [
+    {
+      "target": "#65745",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#73915",
+      "reason": "The representative issue is now covered by the hydrated, merged candidate fix #73915; require_fix_before_close is false and instant close is allowed."
+    },
+    {
+      "target": "#50011",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50011",
+      "candidate_fix": "#50076",
+      "reason": "#50011 is related denyCommands work but not a duplicate of the audit false-positive fixed by #73915."
+    },
+    {
+      "target": "#50076",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50011",
+      "candidate_fix": "#50076",
+      "reason": "Useful related implementation candidate for #50011; keep open outside this audit-false-positive closeout."
+    },
+    {
+      "target": "#50320",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50011",
+      "candidate_fix": null,
+      "reason": "Related broad PR with unresolved review findings; not safe to close, merge, or use as the canonical fix for this dedupe-only cluster."
+    },
+    {
+      "target": "#51865",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#73915",
+      "reason": "Already closed refs must not receive close actions."
+    },
+    {
+      "target": "#50158",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50011",
+      "candidate_fix": "#50076",
+      "reason": "Closed historical PR; no mutation is valid."
+    },
+    {
+      "target": "#73915",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#73915",
+      "candidate_fix": null,
+      "reason": "Merged canonical PR is evidence only for this worker result."
+    }
+  ],
+  "action_counts": {
+    "close_fixed_by_candidate": 1,
+    "keep_related": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#65745",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#73915",
+      "title": null,
+      "idempotency_key": "gitcrawl-2477-dedupe-only-20260429-remote:#65745:close_fixed_by_candidate:#73915:2026-04-27T02:30:54Z",
+      "reason": "candidate fix is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
