@@ -78,7 +78,7 @@ assertRepo(targetRepo, "repo");
 assertRepo(clownfishRepo, "clownfish-repo");
 
 const ledger = readLedger(ledgerPath());
-const processedCommentIds = new Set((ledger.commands ?? []).map((entry) => String(entry.comment_id)));
+const processedCommentVersions = new Set((ledger.commands ?? []).map(commentVersionKey).filter(Boolean));
 const plannedAutoRepairHeads = new Set();
 const comments = listRecentComments().slice(0, maxComments);
 const commands = [];
@@ -88,15 +88,16 @@ for (const comment of comments) {
   if (!parsed) continue;
   const issueNumber = issueNumberFromUrl(comment.issue_url);
   const command = {
-    idempotency_key: idempotencyKey(parsed, issueNumber, comment.id),
+    idempotency_key: idempotencyKey(parsed, issueNumber, comment.id, comment.updated_at),
     comment_id: String(comment.id),
+    comment_version_key: commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at }),
     comment_url: comment.html_url,
     repo: targetRepo,
     issue_number: issueNumber,
     author: comment.user?.login ?? null,
     author_association: String(comment.author_association ?? "").toUpperCase(),
-    created_at: comment.created_at,
-    updated_at: comment.updated_at,
+    comment_created_at: comment.created_at,
+    comment_updated_at: comment.updated_at,
     trigger: parsed.trigger,
     command: parsed.command,
     intent: parsed.intent,
@@ -160,17 +161,18 @@ function classifyCommand(command) {
   if (!command.issue_number) {
     return { ...command, status: "ignored", reason: "could not resolve issue or PR number" };
   }
-  if (processedCommentIds.has(command.comment_id)) {
-    return { ...command, status: "skipped", reason: "comment already processed in ledger" };
-  }
-  if (hasExistingResponse(command.issue_number, command.comment_id)) {
-    return { ...command, status: "skipped", reason: "matching Clownfish response comment already exists" };
+  if (command.comment_version_key && processedCommentVersions.has(command.comment_version_key)) {
+    return { ...command, status: "skipped", reason: "comment version already processed in ledger" };
   }
 
   const issue = fetchIssue(command.issue_number);
   const pull = issue.pull_request ? fetchPullRequestView(command.issue_number) : null;
   const target = pull ? classifyPullTarget(pull) : classifyIssueTarget(issue);
   const next = { ...command, target };
+
+  if (hasExistingResponse(command.issue_number, command.comment_id, command.intent, target.head_sha)) {
+    return { ...next, status: "skipped", reason: "matching Clownfish response comment already exists" };
+  }
 
   if (["status", "explain", "help"].includes(command.intent)) {
     return { ...next, status: "ready", actions: [{ action: "comment", status: execute ? "pending" : "planned" }] };
@@ -414,8 +416,8 @@ function fetchPullRequestView(number) {
   ]);
 }
 
-function hasExistingResponse(number, commentId) {
-  const marker = `<!-- clownfish-command:${commentId}:`;
+function hasExistingResponse(number, commentId, intent, headSha) {
+  const marker = `<!-- clownfish-command:${commentId}:${intent}:${headSha ?? "na"} -->`;
   return ghPaged(`repos/${targetRepo}/issues/${number}/comments?per_page=100`).some((comment) => String(comment.body ?? "").includes(marker));
 }
 
@@ -442,9 +444,16 @@ function ledgerPath() {
   return path.join(repoRoot(), "results", "comment-router.json");
 }
 
-function idempotencyKey(parsed, issueNumber, commentId) {
+function idempotencyKey(parsed, issueNumber, commentId, commentUpdatedAt) {
   const prefix = parsed.trusted_bot ? "clawsweeper-repair" : "comment-router";
-  return `${prefix}:${targetRepo}:${issueNumber}:${commentId}:${parsed.intent}`;
+  return `${prefix}:${targetRepo}:${issueNumber}:${commentId}:${commentUpdatedAt ?? "unknown"}:${parsed.intent}`;
+}
+
+function commentVersionKey(entry) {
+  const id = entry?.comment_id;
+  const updatedAt = entry?.comment_updated_at;
+  if (!id || !updatedAt) return null;
+  return `${id}:${updatedAt}`;
 }
 
 function ghJson(ghArgs) {

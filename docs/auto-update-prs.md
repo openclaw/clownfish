@@ -120,7 +120,7 @@ Clownfish has three layers of duplicate protection:
 - job creation checks for an existing open PR or branch before writing a new
   job;
 - the comment router writes an idempotency marker in its reply and records
-  processed comments in `results/comment-router.json`;
+  processed comment versions in `results/comment-router.json`;
 - trusted ClawSweeper repairs are capped per PR and per PR head SHA.
 
 The default caps are five automatic repair iterations per PR and one
@@ -141,6 +141,12 @@ iteration produces a new commit.
 Runs for the same job path and mode share the `cluster-worker.yml` concurrency
 group, so repeated dispatches queue instead of racing the same branch.
 
+ClawSweeper edits one durable review comment in place. The router keys its
+ledger by comment id plus `updated_at`, and response markers include the target
+PR head SHA, so an edited ClawSweeper comment can trigger a new repair after
+Clownfish has pushed a new commit while unchanged comment versions remain
+idempotent.
+
 ## Failure Behavior
 
 The router does not dispatch when:
@@ -150,7 +156,7 @@ The router does not dispatch when:
 - the target is not a PR;
 - the PR is not marked as a Clownfish PR;
 - the branch cannot be mapped back to a job file;
-- the same comment was already processed;
+- the same comment version was already processed;
 - the same PR already reached the total auto-repair cap;
 - the same PR head SHA already reached the per-head auto-repair cap;
 - the ClawSweeper marker names a stale PR head SHA.

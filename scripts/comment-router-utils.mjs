@@ -32,7 +32,10 @@ export function appendLedger(current, entries) {
     .map((entry) => ({
       idempotency_key: entry.idempotency_key,
       comment_id: entry.comment_id,
+      comment_version_key: entry.comment_version_key ?? null,
       comment_url: entry.comment_url,
+      comment_created_at: entry.comment_created_at ?? null,
+      comment_updated_at: entry.comment_updated_at ?? null,
       repo: entry.repo,
       issue_number: entry.issue_number,
       author: entry.author,
@@ -58,10 +61,14 @@ export function appendLedger(current, entries) {
           }
         : null,
     }));
-  const byComment = new Map((current.commands ?? []).map((entry) => [String(entry.comment_id), entry]));
-  for (const entry of compact) byComment.set(String(entry.comment_id), entry);
+  const byCommentVersion = new Map((current.commands ?? []).map((entry) => [ledgerEntryKey(entry), entry]));
+  for (const entry of compact) byCommentVersion.set(ledgerEntryKey(entry), entry);
   current.updated_at = new Date().toISOString();
-  current.commands = [...byComment.values()].slice(-1000);
+  current.commands = [...byCommentVersion.values()].slice(-1000);
+}
+
+function ledgerEntryKey(entry) {
+  return entry.comment_version_key ?? `${entry.comment_id ?? "unknown"}:${entry.comment_updated_at ?? "legacy"}`;
 }
 
 export function writeLedger(file, current) {

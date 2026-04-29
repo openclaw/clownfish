@@ -190,7 +190,11 @@ Repair commands currently apply only to existing Clownfish PRs, identified by
 the `clownfish` label or `clownfish/*` branch prefix. The router resolves the
 cluster job from the branch name, posts one idempotent reply with a hidden
 marker, and dispatches the normal `cluster-worker.yml` repair path. It records
-processed comments in `results/comment-router.json`.
+processed comment versions in `results/comment-router.json`. For durable
+ClawSweeper comments, idempotency is per comment id plus GitHub `updated_at`,
+and response markers include the target PR head SHA. That lets edited
+ClawSweeper comments wake Clownfish again after the PR branch changes while
+unchanged comment versions remain idempotent.
 
 The router also has a trusted automation path for ClawSweeper comments on
 existing Clownfish PRs. Default trusted authors are `clawsweeper[bot]` and
