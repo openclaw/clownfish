@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-199270-agentic-merge"
 mode: "autonomous"
-run_id: "25035230140"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25035230140"
-head_sha: "11314bb0977e829eeb62cc0be17e0c531c9fe13a"
+run_id: "25103749561"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25103749561"
+head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T05:23:33.528Z"
+published_at: "2026-04-29T10:39:41.064Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72389"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72389"
@@ -15,7 +15,7 @@ actions_total: 7
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
-apply_executed: 1
+apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25035230140](https://github.com/openclaw/clownfish/actions/runs/25035230140)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25103749561](https://github.com/openclaw/clownfish/actions/runs/25103749561)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72389
 
 ## Summary
 
-Hydrated state shows the original representative #52745 is closed and was already replaced by open ProjectClownfish PR #72389. #72389 is the canonical repair path for the orphaned-final stale streaming bug, but it is not merge-ready because hydrated checks include failing core jobs and Greptile has an actionable pending-history-refresh review finding. #69026 is related watchdog UX work, not a duplicate of the orphaned-final fix, and should stay open outside this canonical path. No GitHub mutations are emitted directly.
+The original representative #52745 is obsolete and already superseded by merged replacement #72389 on main. The only still-open seed PR, #69026, plus linked issue #68596 are a separate watchdog-threshold/product follow-up, not duplicates of the orphan-final streaming fix. No close, merge, or fix-PR action is safe for this cluster.
 
 ## Impact
 
@@ -45,7 +45,7 @@ Hydrated state shows the original representative #52745 is closed and was alread
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 1 |
+| Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -54,25 +54,25 @@ Hydrated state shows the original representative #52745 is closed and was alread
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/72389 |  |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72389 | merge_canonical | executed | fix_pr | merged by ProjectClownfish post-flight |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #52745 | keep_closed | skipped | superseded | Closed historical source PR; no close action is valid. |
-| #59582 | keep_closed | skipped | fixed_by_candidate | Already closed as superseded/fixed by hydrated merged PR #60043; no mutation needed. |
-| #66289 | keep_closed | skipped | superseded | Closed historical overlapping PR; no close action is valid. |
-| #67302 | keep_closed | skipped | superseded | Closed historical overlapping PR; no close action is valid. |
-| #69026 | keep_related | planned | related | Related watchdog UX follow-up, not a duplicate or canonical fix for this cluster. |
-| #72389 | fix_needed | planned | canonical | Canonical PR is repairable but not merge-ready; executor should repair the branch, rerun validation, run Codex /review, resolve bot findings, then reconsider merge. |
-| cluster:ghcrawl-199270-agentic-merge | build_fix_artifact | planned |  | A concrete canonical fix path exists but needs automated repair before merge can be considered. |
+| #72389 | keep_closed | skipped | canonical | Canonical fix path is already merged and closed; retain only as evidence. |
+| #52745 | keep_closed | skipped | superseded | Already closed source PR superseded by merged credited replacement #72389. |
+| #59582 | keep_closed | skipped | fixed_by_candidate | Already closed related fallback PR; covered historically by hydrated merged PR #60043, not actionable in this cluster. |
+| #66289 | keep_closed | skipped | superseded | Already closed overlapping PR; no close or merge action is valid. |
+| #67302 | keep_closed | skipped | related | Already closed related PR with distinct/not-reproducible behavior. |
+| #69026 | keep_related | planned | related | Keep open as a related follow-up; merge is blocked by unresolved product direction and review-bot feedback. |
+| #68596 | keep_related | planned | related | Keep open as the canonical related follow-up for watchdog threshold/configuration work. |
 
 ## Needs Human
 
