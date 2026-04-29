@@ -119,7 +119,7 @@ jobs:
             echo "CLOWNFISH_READ_GH_TOKEN is required"
             exit 1
           fi
-          gh auth status
+          gh api "repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw" --jq .full_name >/dev/null
 
       - name: Install Codex CLI
         run: |
