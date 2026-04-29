@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { assertAllowedOwner, hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
-import { postMergeCloseoutComment } from "./external-messages.mjs";
+import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS"]);
@@ -257,7 +257,13 @@ function finalizePostMergeCloseout({ action, actionName, target, fixRef, fixUrl,
     "--repo",
     result.repo,
     "--body",
-    postMergeCloseoutComment({ actionName, fixUrl }),
+    postMergeCloseoutComment({
+      actionName,
+      fixUrl,
+      provenance: externalMessageProvenance({
+        reviewedSha: finalized.merge_commit_sha ?? action.commit ?? result.reviewed_sha ?? result.head_sha,
+      }),
+    }),
   ]);
   if (live.pull_request) {
     ghWithRetry(["pr", "close", String(target), "--repo", result.repo]);

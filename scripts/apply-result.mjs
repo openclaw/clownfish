@@ -4,7 +4,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { assertAllowedOwner, hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
-import { defaultCloseComment } from "./external-messages.mjs";
+import { defaultCloseComment, externalMessageProvenance } from "./external-messages.mjs";
 
 const MAINTAINER_AUTHOR_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 const CLOSE_ACTIONS = new Set([
@@ -706,6 +706,9 @@ function renderCloseComment({ action, classification, result, target, live }) {
     canonical,
     candidateFix,
     reason,
+    provenance: externalMessageProvenance({
+      reviewedSha: action.reviewed_sha ?? action.head_sha ?? result.reviewed_sha ?? result.head_sha,
+    }),
   });
 }
 

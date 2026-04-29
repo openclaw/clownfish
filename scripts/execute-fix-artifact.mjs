@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import {
+  externalMessageProvenance,
   repairContributorBranchComment,
   replacementPrBody,
   replacementSourceCloseComment,
@@ -373,6 +374,11 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   const comment = repairContributorBranchComment({
     sourcePrUrl: sourcePr.url,
     validationCommands: fixArtifact.validation_commands,
+    provenance: externalMessageProvenance({
+      model,
+      reasoning: codexReasoningEffort,
+      reviewedSha: prep.commit,
+    }),
   });
   run("gh", ["pr", "comment", String(sourcePr.number), "--repo", result.repo, "--body", comment], { cwd: targetDir, env: ghEnv() });
   return {
@@ -432,7 +438,12 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     prep.commit = currentHead(targetDir);
   }
-  const body = replacementPrBody({ fixArtifact, fallbackReason, clusterId: result.cluster_id });
+  const provenance = externalMessageProvenance({
+    model,
+    reasoning: codexReasoningEffort,
+    reviewedSha: prep.commit,
+  });
+  const body = replacementPrBody({ fixArtifact, fallbackReason, clusterId: result.cluster_id, provenance });
   if (dryRun) {
     return {
       action: "open_fix_pr",
@@ -473,8 +484,8 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
       if (!parsed || parsed.repo !== result.repo) continue;
       supersededSourceActions.push(
         closeSupersededSourcePrs
-          ? closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir })
-          : linkReplacementSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir }),
+          ? closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, provenance })
+          : linkReplacementSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, provenance }),
       );
     }
   }
@@ -494,7 +505,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   };
 }
 
-function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir }) {
+function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir, provenance }) {
   const base = { source, pr: `#${parsed.number}`, action: "link_replacement_source" };
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
   if (view.mergedAt || view.state === "MERGED") {
@@ -504,7 +515,7 @@ function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir }
     return { ...base, status: "skipped", reason: "already closed" };
   }
 
-  const comment = replacementSourceLinkComment({ replacementPrUrl, sourcePrUrl: source });
+  const comment = replacementSourceLinkComment({ replacementPrUrl, sourcePrUrl: source, provenance });
   run("gh", ["pr", "comment", String(parsed.number), "--repo", result.repo, "--body", comment], {
     cwd: targetDir,
     env: ghEnv(),
@@ -512,7 +523,7 @@ function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir }
   return { ...base, status: "executed", reason: "linked replacement PR without closing source PR" };
 }
 
-function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }) {
+function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir, provenance }) {
   const base = { source, pr: `#${parsed.number}`, action: "close_superseded_source" };
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
   if (view.mergedAt || view.state === "MERGED") {
@@ -522,7 +533,7 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir }
     return { ...base, status: "skipped", reason: "already closed" };
   }
 
-  const comment = replacementSourceCloseComment({ replacementPrUrl, sourcePrUrl: source });
+  const comment = replacementSourceCloseComment({ replacementPrUrl, sourcePrUrl: source, provenance });
   run("gh", ["pr", "comment", String(parsed.number), "--repo", result.repo, "--body", comment], {
     cwd: targetDir,
     env: ghEnv(),
