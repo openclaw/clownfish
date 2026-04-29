@@ -46,6 +46,17 @@ The trusted automation lane exists only for review bots we control. It does
 not treat random `@clownfish`, `@openclaw-clownfish`, or contributor prose as
 permission to spend workers or push commits.
 
+## Review Comment Shape
+
+ClawSweeper comments are meant to be readable by maintainers and parseable by
+Clownfish. The visible text should say whether the PR needs changes, what
+change is required before merge, what acceptance criteria would prove the fix,
+what evidence was checked, and what risk remains.
+
+The hidden markers at the bottom are the automation contract. Clownfish should
+prefer markers over prose whenever they exist. The action marker is omitted for
+pass, approved, needs-human, failed, or inconclusive reviews.
+
 ## Clownfish PR Markers
 
 The router considers a PR to be from Clownfish when any of these are true:
@@ -60,10 +71,20 @@ for already-open PRs and dashboard tools.
 
 ## ClawSweeper Trigger
 
-Preferred ClawSweeper comments should include a hidden marker:
+Preferred ClawSweeper comments should include hidden verdict and action
+markers:
 
 ```html
+<!-- clawsweeper-verdict:needs-changes sha=<head-sha> finding=<id> -->
 <!-- clawsweeper-action:fix-required sha=<head-sha> finding=<id> -->
+```
+
+Positive or human-only reviews should use a verdict marker without a repair
+action:
+
+```html
+<!-- clawsweeper-verdict:pass sha=<head-sha> -->
+<!-- clawsweeper-verdict:needs-human sha=<head-sha> -->
 ```
 
 Accepted marker actions:
@@ -72,6 +93,16 @@ Accepted marker actions:
 - `repair-required`
 - `address-review`
 - `fix-ci`
+
+Accepted repair verdicts:
+
+- `needs-changes`
+- `changes-requested`
+- `fix-required`
+- `repair-required`
+
+Non-repair verdicts such as `pass`, `approved`, `no-changes`, and
+`needs-human` never dispatch Clownfish.
 
 The router also has a conservative fallback for current ClawSweeper review
 comments. It only applies to trusted bot authors and looks for phrases like
@@ -90,17 +121,22 @@ Clownfish has three layers of duplicate protection:
   job;
 - the comment router writes an idempotency marker in its reply and records
   processed comments in `results/comment-router.json`;
-- trusted ClawSweeper repairs are capped per PR head SHA.
+- trusted ClawSweeper repairs are capped per PR and per PR head SHA.
 
-The default cap is one auto-repair dispatch per PR head SHA:
+The default caps are five automatic repair iterations per PR and one
+auto-repair dispatch per PR head SHA:
 
 ```bash
+CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR=5
 CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD=1
 ```
 
 That means many ClawSweeper comments on the same commit trigger at most one
 repair run. If Clownfish pushes a new commit, the PR head SHA changes and a
-new ClawSweeper finding can trigger one more repair run.
+new ClawSweeper finding can trigger one more repair run, until the PR reaches
+five automatic ClawSweeper-triggered repair iterations. The per-PR cap is total
+across all head SHAs and stops the automatic review/repair loop even when every
+iteration produces a new commit.
 
 Runs for the same job path and mode share the `cluster-worker.yml` concurrency
 group, so repeated dispatches queue instead of racing the same branch.
@@ -115,7 +151,9 @@ The router does not dispatch when:
 - the PR is not marked as a Clownfish PR;
 - the branch cannot be mapped back to a job file;
 - the same comment was already processed;
-- the same PR head SHA already reached the auto-repair cap.
+- the same PR already reached the total auto-repair cap;
+- the same PR head SHA already reached the per-head auto-repair cap;
+- the ClawSweeper marker names a stale PR head SHA.
 
 For trusted automation comments, these blocked cases are silent skips. That
 keeps Clownfish from replying to every ordinary contributor PR that
@@ -147,7 +185,10 @@ Important knobs:
 - `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` enables scheduled writes and dispatches;
 - `CLOWNFISH_TRUSTED_BOTS` controls trusted automation authors;
 - `CLOWNFISH_AUTHOR_LOGINS` controls PR author identities treated as Clownfish;
-- `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD` controls per-head repair caps.
+- `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR` controls total automatic repair
+  iterations per PR; default `5`.
+- `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD` controls per-head repair caps;
+  default `1`.
 
 ## Verification
 

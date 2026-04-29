@@ -224,6 +224,12 @@ For a maintainer-facing architecture map of the automation lanes, see
 For the ClawSweeper feedback loop that updates existing generated PRs, see
 [`docs/auto-update-prs.md`](docs/auto-update-prs.md).
 
+That loop is marker-driven. ClawSweeper comments use hidden
+`clawsweeper-verdict:*` markers, and only actionable PR feedback includes
+`clawsweeper-action:fix-required`. Clownfish ignores pass/human-only verdicts,
+skips stale head SHAs, and caps automatic repairs at five per PR and one per PR
+head SHA.
+
 ClawSweeper commit findings have a separate intake lane. A
 `clawsweeper_commit_finding` dispatch fetches the latest markdown commit report,
 writes an audit record under `results/commit-findings/`, and only sends the
@@ -423,6 +429,11 @@ The workflow needs:
 - ClawSweeper commit-finding repair PRs are labeled `clownfish:commit-finding`
 - optional `CLOWNFISH_CODEX_TIMEOUT_MS` and `CLOWNFISH_FIX_CODEX_TIMEOUT_MS` variables; worker planning defaults to 30 minutes, while fix execution defaults to a 20 minute Codex budget inside the 30 minute build-PR step so timeout artifacts can be written
 - optional `CLOWNFISH_CODEX_REVIEW_ATTEMPTS` and `CLOWNFISH_RESOLVE_REVIEW_THREADS` variables for agentic merge-prep review loops
+- optional `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR` and
+  `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD` variables for trusted
+  ClawSweeper review feedback; defaults are `5` automatic repair iterations per
+  PR and `1` repair per PR head SHA. The per-PR cap is total across changing
+  head SHAs and stops the automatic review/repair loop.
 - optional `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` to let the scheduled comment
   router respond to maintainer-only `/clownfish ...` and
   `@openclaw-clownfish ...` commands. Without it, scheduled runs only write a

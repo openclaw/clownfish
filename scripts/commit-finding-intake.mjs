@@ -434,21 +434,107 @@ function prTitle(summary) {
 }
 
 function prBody(context) {
+  const findings = findingsFromReport(context.report.body);
+  const reviewed = sectionBullets(context.report.body, "Reviewed").slice(0, 6);
+  const tests = sectionBullets(context.report.body, "Tests / Live Checks").slice(0, 6);
+  const limitations = sectionBullets(context.report.body, "Limitations").slice(0, 4);
+  const likelyFiles = context.likelyFiles.length ? context.likelyFiles : likelyFilesFromReport(context.report.body);
+  const sourceLines = [
+    `- ClawSweeper report: ${context.reportUrl}`,
+    `- Commit under review: https://github.com/${context.targetRepo}/commit/${context.sha}`,
+    `- Latest main at intake: ${context.latestMain || "unknown"}`,
+    context.report.author ? `- Original commit author: ${stripEmailIdentity(context.report.author)}` : "",
+    context.report.github_author ? `- GitHub author: @${context.report.github_author}` : "",
+    context.report.highest_severity ? `- Highest severity: ${context.report.highest_severity}` : "",
+    context.report.confidence ? `- Review confidence: ${context.report.confidence}` : "",
+  ].filter(Boolean);
+
   return [
     "## Summary",
     "",
     context.summary,
     "",
-    "## Source",
+    "## What Clownfish Is Fixing",
     "",
-    `- ClawSweeper report: ${context.reportUrl}`,
-    `- Commit under review: https://github.com/${context.targetRepo}/commit/${context.sha}`,
-    `- Latest main at intake: ${context.latestMain || "unknown"}`,
+    ...renderFindingsForPr(findings),
+    "",
+    "## Expected Repair Surface",
+    "",
+    ...(likelyFiles.length
+      ? likelyFiles.map((file) => `- \`${file}\``)
+      : ["- Clownfish could not infer exact files from the report; keep the fix scoped to the verified finding."]),
+    "",
+    "## Source And Review Context",
+    "",
+    ...sourceLines,
+    ...(reviewed.length > 0 ? ["", ...reviewed] : []),
     "",
     "## Expected validation",
     "",
     ...context.validation.map((command) => `- \`${command}\``),
+    ...(tests.length > 0 ? ["", "ClawSweeper already ran:", ...tests] : []),
+    ...(limitations.length > 0 ? ["", "Known review limits:", ...limitations] : []),
+    "",
+    "## Clownfish Guardrails",
+    "",
+    "- Re-check the finding against latest `main` before changing code.",
+    "- Keep the patch to the narrowest behavior change and matching regression coverage.",
+    "- Do not merge automatically; this PR stays for maintainer review.",
   ].join("\n");
+}
+
+function findingsFromReport(markdown) {
+  const findingsSection = section(markdown, "Findings");
+  if (!findingsSection) return [];
+  const out = [];
+  const findingPattern = /(?:^|\n)###\s+(.+?)\n([\s\S]*?)(?=\n###\s+|\n?$)/g;
+  for (const match of findingsSection.matchAll(findingPattern)) {
+    const body = match[2] ?? "";
+    out.push({
+      title: compact(match[1] ?? "Finding", 180),
+      kind: lineField(body, "Kind"),
+      file: lineField(body, "File"),
+      line: lineField(body, "Line"),
+      evidence: lineField(body, "Evidence"),
+      impact: lineField(body, "Impact"),
+      suggestedFix: lineField(body, "Suggested fix"),
+      confidence: lineField(body, "Confidence"),
+    });
+  }
+  return out.slice(0, 4);
+}
+
+function renderFindingsForPr(findings) {
+  if (findings.length === 0) {
+    return ["- ClawSweeper found an actionable commit-level bug/regression candidate."];
+  }
+  const lines = [];
+  for (const finding of findings) {
+    lines.push(`- **${finding.title}**${finding.kind ? ` (${finding.kind})` : ""}`);
+    if (finding.file) lines.push(`  - File: ${finding.line ? `\`${stripInlineCode(finding.file)}:${finding.line}\`` : `\`${stripInlineCode(finding.file)}\``}`);
+    if (finding.evidence) lines.push(`  - Evidence: ${compact(finding.evidence, 900)}`);
+    if (finding.impact) lines.push(`  - Impact: ${compact(finding.impact, 700)}`);
+    if (finding.suggestedFix) lines.push(`  - Suggested fix: ${compact(finding.suggestedFix, 700)}`);
+    if (finding.confidence) lines.push(`  - Confidence: ${finding.confidence}`);
+  }
+  return lines;
+}
+
+function sectionBullets(markdown, heading) {
+  return section(markdown, heading)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("- "))
+    .map((line) => compact(line, 900));
+}
+
+function lineField(markdown, name) {
+  const match = markdown.match(new RegExp(`^- ${escapeRegExp(name)}:\\s*(.+)$`, "im"));
+  return match?.[1]?.trim() ?? "";
+}
+
+function stripInlineCode(value) {
+  return String(value ?? "").replace(/^`|`$/g, "").trim();
 }
 
 function fetchLatestMain(repo) {

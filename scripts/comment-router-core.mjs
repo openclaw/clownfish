@@ -15,12 +15,24 @@ export function parseTrustedAutomation(comment, { trustedAuthors = new Set() } =
   if (!trustedAuthors.has(author)) return null;
 
   const body = String(comment?.body ?? "");
-  const marker = body.match(/<!--\s*clawsweeper-action:\s*([a-z0-9_-]+)([^>]*)-->/i);
-  if (marker) {
-    const action = marker[1].toLowerCase();
-    if (["fix-required", "repair-required", "address-review", "fix-ci"].includes(action)) {
-      return trustedRepair({ author, reason: `structured ClawSweeper marker: ${action}` });
-    }
+  const verdict = clawsweeperMarker(body, "verdict");
+  const actionMarker = clawsweeperMarker(body, "action");
+  if (verdict && ["pass", "approved", "no-changes", "needs-human"].includes(verdict.action)) {
+    return null;
+  }
+  if (actionMarker && ["fix-required", "repair-required", "address-review", "fix-ci"].includes(actionMarker.action)) {
+    return trustedRepair({
+      author,
+      reason: `structured ClawSweeper marker: ${actionMarker.action}${markerReasonSuffix(actionMarker.attrs)}`,
+      marker: actionMarker,
+    });
+  }
+  if (verdict && ["needs-changes", "changes-requested", "fix-required", "repair-required"].includes(verdict.action)) {
+    return trustedRepair({
+      author,
+      reason: `structured ClawSweeper verdict: ${verdict.action}${markerReasonSuffix(verdict.attrs)}`,
+      marker: verdict,
+    });
   }
 
   if (looksLikeActionableClawSweeperReview(body)) {
@@ -70,6 +82,7 @@ export function renderResponse(command, dispatched) {
       "Thanks, ClawSweeper. Clownfish picked up the repair feedback.",
       "",
       `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
+      `Feedback: ${command.repair_reason ?? "ClawSweeper requested another repair pass."}`,
       `Action: dispatched \`${dispatched.workflow}\` for \`${dispatched.job_path}\` in \`${dispatched.mode}\` mode.`,
       `Model: \`${dispatched.model}\``,
       "",
@@ -105,7 +118,7 @@ function normalizeIntent(command) {
   return "help";
 }
 
-function trustedRepair({ author, reason }) {
+function trustedRepair({ author, reason, marker = null }) {
   return {
     trigger: "trusted_bot",
     command: "clawsweeper auto repair",
@@ -114,7 +127,36 @@ function trustedRepair({ author, reason }) {
     trusted_bot_author: author,
     automation_source: "clawsweeper",
     repair_reason: reason,
+    expected_head_sha: marker?.attrs?.sha ?? null,
+    finding_id: marker?.attrs?.finding ?? null,
   };
+}
+
+function clawsweeperMarker(body, kind) {
+  const marker = String(body ?? "").match(
+    new RegExp(`<!--\\s*clawsweeper-${kind}:\\s*([a-z0-9_-]+)([^>]*)-->`, "i"),
+  );
+  if (!marker) return null;
+  return {
+    action: marker[1].toLowerCase(),
+    attrs: markerAttributes(marker[2] ?? ""),
+  };
+}
+
+function markerAttributes(input) {
+  const attrs = {};
+  for (const match of String(input ?? "").matchAll(/([a-z0-9_-]+)=("[^"]*"|'[^']*'|[^\s>]+)/gi)) {
+    const raw = match[2] ?? "";
+    attrs[match[1].toLowerCase()] = raw.replace(/^["']|["']$/g, "");
+  }
+  return attrs;
+}
+
+function markerReasonSuffix(attrs) {
+  const parts = [];
+  if (attrs?.finding) parts.push(`finding=${attrs.finding}`);
+  if (attrs?.sha) parts.push(`sha=${attrs.sha}`);
+  return parts.length ? ` (${parts.join(" ")})` : "";
 }
 
 function looksLikeActionableClawSweeperReview(body) {

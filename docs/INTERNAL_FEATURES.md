@@ -361,14 +361,19 @@ finds those by `clownfish` label, `clownfish/*` branch, or configured
 Clownfish author login, resolves the cluster job from the branch, posts one
 idempotent response marker, and dispatches `cluster-worker.yml`.
 
-Trusted ClawSweeper comments become `clawsweeper_auto_repair`. The default
-cap is one dispatch per PR head SHA, so repeated findings on the same commit do
-not stampede the branch. A new Clownfish commit changes the head SHA and can be
-reviewed again.
+Trusted ClawSweeper comments become `clawsweeper_auto_repair`. Preferred
+comments use hidden `clawsweeper-verdict:*` markers and include
+`clawsweeper-action:fix-required` only when Clownfish should wake up. The
+default caps are five automatic repair iterations per PR and one dispatch per
+PR head SHA. The per-PR cap is total across head SHA changes, so repeated
+findings on the same commit do not stampede the branch and a single PR cannot
+loop forever.
 
 The scheduled workflow is dry by default. Set
 `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` to let scheduled runs post replies and
 dispatch workers. Manual workflow dispatch can also pass `execute=true`.
+Branch mutation still requires the downstream `CLOWNFISH_ALLOW_EXECUTE=1` and
+`CLOWNFISH_ALLOW_FIX_PR=1` gates.
 
 Ledgers:
 

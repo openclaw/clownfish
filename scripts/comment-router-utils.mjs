@@ -44,6 +44,8 @@ export function appendLedger(current, entries) {
       trusted_bot_author: entry.trusted_bot_author ?? null,
       automation_source: entry.automation_source ?? null,
       repair_reason: entry.repair_reason ?? null,
+      expected_head_sha: entry.expected_head_sha ?? null,
+      finding_id: entry.finding_id ?? null,
       status: entry.status,
       processed_at: new Date().toISOString(),
       target: entry.target

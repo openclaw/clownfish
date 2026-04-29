@@ -54,6 +54,10 @@ const maxAutoRepairsPerHead = positiveInteger(
   args["max-auto-repairs-per-head"] ?? process.env.CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD ?? 1,
   "max-auto-repairs-per-head",
 );
+const maxAutoRepairsPerPr = positiveInteger(
+  args["max-auto-repairs-per-pr"] ?? process.env.CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR ?? 5,
+  "max-auto-repairs-per-pr",
+);
 const lookbackMinutes = positiveInteger(
   args["lookback-minutes"] ?? process.env.CLOWNFISH_COMMENT_LOOKBACK_MINUTES ?? 180,
   "lookback-minutes",
@@ -100,6 +104,8 @@ for (const comment of comments) {
     trusted_bot_author: parsed.trusted_bot_author ?? null,
     automation_source: parsed.automation_source ?? null,
     repair_reason: parsed.repair_reason ?? null,
+    expected_head_sha: parsed.expected_head_sha ?? null,
+    finding_id: parsed.finding_id ?? null,
     status: "pending",
     actions: [],
   };
@@ -120,6 +126,7 @@ const report = {
   actionable: actionable.length,
   trusted_bots: [...trustedBots],
   max_auto_repairs_per_head: maxAutoRepairsPerHead,
+  max_auto_repairs_per_pr: maxAutoRepairsPerPr,
   commands,
 };
 
@@ -194,6 +201,14 @@ function classifyCommand(command) {
     return repairBlocked(next, "could not find the Clownfish job for this PR branch");
   }
   if (command.intent === "clawsweeper_auto_repair") {
+    if (
+      command.expected_head_sha &&
+      command.expected_head_sha !== "unknown" &&
+      target.head_sha &&
+      command.expected_head_sha !== target.head_sha
+    ) {
+      return { ...next, status: "skipped", reason: "ClawSweeper repair marker targets a stale PR head SHA" };
+    }
     const alreadyPlanned = autoRepairAlreadyPlanned(next);
     if (alreadyPlanned) return { ...next, status: "skipped", reason: alreadyPlanned };
   }
@@ -221,6 +236,17 @@ function repairBlocked(command, reason) {
 function autoRepairAlreadyPlanned(command) {
   const headKey = autoRepairHeadKey(command);
   if (!headKey) return null;
+
+  const priorPrDispatches = (ledger.commands ?? []).filter(
+    (entry) =>
+      entry.repo === command.repo &&
+      Number(entry.issue_number) === Number(command.issue_number) &&
+      entry.intent === "clawsweeper_auto_repair" &&
+      entry.status === "executed",
+  );
+  if (priorPrDispatches.length >= maxAutoRepairsPerPr) {
+    return `ClawSweeper auto repair already dispatched ${priorPrDispatches.length} total time(s) for this PR`;
+  }
 
   if (plannedAutoRepairHeads.has(headKey)) {
     return "ClawSweeper auto repair already planned for this PR head in this scan";

@@ -194,14 +194,21 @@ processed comments in `results/comment-router.json`.
 
 The router also has a trusted automation path for ClawSweeper comments on
 existing Clownfish PRs. Default trusted authors are `clawsweeper[bot]` and
-`openclaw-clawsweeper[bot]`; override with `CLOWNFISH_TRUSTED_BOTS`. It
-dispatches at most one auto-repair per PR head SHA by default, controlled by
-`CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD`.
+`openclaw-clawsweeper[bot]`; override with `CLOWNFISH_TRUSTED_BOTS`. Preferred
+ClawSweeper comments include `clawsweeper-verdict:*` markers plus a
+`clawsweeper-action:fix-required` marker when Clownfish should wake up. The
+router dispatches at most five automatic repair iterations per PR and at most
+one auto-repair per PR head SHA by default, controlled by
+`CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR` and
+`CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD`. The per-PR cap is total across
+head SHA changes, so the automatic loop stops after five ClawSweeper-triggered
+repair passes.
 
 The scheduled workflow is dry by default. Set
 `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` in repo variables to let scheduled runs
 post replies and dispatch workers. Manual workflow dispatch can also pass
-`execute=true`.
+`execute=true`. Branch mutation still requires the downstream execution gates,
+including `CLOWNFISH_ALLOW_EXECUTE=1` and `CLOWNFISH_ALLOW_FIX_PR=1`.
 
 ## Token Strategy
 
