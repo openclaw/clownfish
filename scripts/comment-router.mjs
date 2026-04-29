@@ -562,7 +562,50 @@ function dispatchClawSweeperReview(command) {
     },
   );
   if (result.status !== 0) {
-    throw new Error(`failed to dispatch ClawSweeper review for #${command.issue_number}: ${result.stderr || result.stdout}`);
+    const fallback = spawnSync(
+      "gh",
+      [
+        "workflow",
+        "run",
+        clawsweeperWorkflow,
+        "--repo",
+        clawsweeperRepo,
+        "-f",
+        `target_repo=${command.repo}`,
+        "-f",
+        `item_number=${command.issue_number}`,
+        "-f",
+        `item_numbers=${command.issue_number}`,
+        "-f",
+        "batch_size=1",
+        "-f",
+        "shard_count=1",
+      ],
+      {
+        cwd: repoRoot(),
+        encoding: "utf8",
+        env: ghEnv(
+          process.env.CLOWNFISH_CLAWSWEEPER_GH_TOKEN
+            ? { GH_TOKEN: process.env.CLOWNFISH_CLAWSWEEPER_GH_TOKEN }
+            : {},
+        ),
+        stdio: "pipe",
+      },
+    );
+    if (fallback.status !== 0) {
+      throw new Error(
+        `failed to dispatch ClawSweeper review for #${command.issue_number}: repository_dispatch=${
+          result.stderr || result.stdout
+        }; workflow_dispatch=${fallback.stderr || fallback.stdout}`,
+      );
+    }
+    return {
+      workflow: clawsweeperWorkflow,
+      event: "workflow_dispatch",
+      repo: clawsweeperRepo,
+      item_number: command.issue_number,
+      fallback_reason: stripAnsi(result.stderr || result.stdout).trim(),
+    };
   }
   return {
     workflow: clawsweeperWorkflow,
