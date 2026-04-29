@@ -2078,7 +2078,7 @@ function replacementBranchName(clusterId) {
 
 function checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch }) {
   if (remoteBranchExists({ targetDir, branch })) {
-    run("git", ["fetch", "origin", `${branch}:refs/remotes/origin/${branch}`], { cwd: targetDir });
+    run("git", ["fetch", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`], { cwd: targetDir });
     run("git", ["checkout", "-B", branch, `origin/${branch}`], { cwd: targetDir });
     return { resumed: true, branch };
   }
@@ -2334,25 +2334,29 @@ function currentHead(targetDir) {
 }
 
 function pushRecoverableBranch({ targetDir, branch }) {
+  let lastDetail = "";
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     const remoteSha = remoteBranchSha({ targetDir, branch });
+    const targetRef = `refs/heads/${branch}`;
     const args = remoteSha
-      ? ["push", `--force-with-lease=refs/heads/${branch}:${remoteSha}`, "origin", `HEAD:${branch}`]
-      : ["push", "origin", `HEAD:${branch}`];
+      ? ["push", `--force-with-lease=${targetRef}:${remoteSha}`, "origin", `HEAD:${targetRef}`]
+      : ["push", "origin", `HEAD:${targetRef}`];
     const pushed = spawnSync("git", args, {
       cwd: targetDir,
       env: process.env,
       encoding: "utf8",
     });
     if (pushed.status === 0) {
-      fetchRemoteRecoverableBranch({ targetDir, branch });
-      return;
+      if (fetchRemoteRecoverableBranch({ targetDir, branch, required: false })) return;
+      lastDetail = `git push reported success, but refs/heads/${branch} was not visible on origin`;
+      continue;
     }
 
     const detail = `${pushed.stderr ?? ""}\n${pushed.stdout ?? ""}`.trim();
+    lastDetail = detail;
     if (!isRecoverablePushRejection(detail)) throw new Error(detail);
 
-    fetchRemoteRecoverableBranch({ targetDir, branch });
+    if (!fetchRemoteRecoverableBranch({ targetDir, branch, required: false })) continue;
     const remoteRef = `refs/remotes/origin/${branch}`;
     if (isAncestor({ targetDir, ancestor: "HEAD", descendant: remoteRef })) return;
     if (!isAncestor({ targetDir, ancestor: remoteRef, descendant: "HEAD" })) {
@@ -2364,11 +2368,19 @@ function pushRecoverableBranch({ targetDir, branch }) {
       }
     }
   }
-  throw new Error(`recoverable branch ${branch} push was rejected after retrying against the latest remote tip`);
+  throw new Error(lastDetail || `recoverable branch ${branch} push was rejected after retrying against the latest remote tip`);
 }
 
-function fetchRemoteRecoverableBranch({ targetDir, branch }) {
-  run("git", ["fetch", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`], { cwd: targetDir });
+function fetchRemoteRecoverableBranch({ targetDir, branch, required = true }) {
+  const child = spawnSync("git", ["fetch", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (child.status === 0) return true;
+  const detail = `${child.stderr ?? ""}\n${child.stdout ?? ""}`.trim();
+  if (!required && /couldn't find remote ref|could not find remote ref|not found/i.test(detail)) return false;
+  throw new Error(detail || `failed to fetch remote branch ${branch}`);
 }
 
 function isRecoverablePushRejection(detail) {
