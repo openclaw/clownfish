@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238856-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25104676921",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25104676921",
+  "head_sha": "060ab197c47d0017911b7555f5dc7306282e5988",
+  "workflow_conclusion": "failure",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238856-dedupe-only-20260429c.md",
+  "published_at": "2026-04-29T11:01:28.943Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/72578",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/72578",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72004",
+  "summary": "Hydrated state splits this cluster into related non-security Control UI duplicate-message subfamilies. #72578 remains the canonical issue for both user and assistant optimistic/history duplication; #71992 with #72004 is the focused assistant final-render race path; #63956 is related streaming-layout work. Planned one duplicate close for #72963 to #71992, kept distinct open work open, and included a planning-only fix artifact for #72578 because fix/raise_pr are disabled.",
+  "actions": [
+    {
+      "target": "#72578",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "Best surviving issue for the job representative's user+assistant duplication root cause; keep open for a narrow frontend history/optimistic merge fix."
+    },
+    {
+      "target": "cluster:gitcrawl-238856-dedupe-only-20260429c",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "A narrow fix is still needed for #72578, but implementation and PR creation are outside this job's allowed actions."
+    },
+    {
+      "target": "cluster:gitcrawl-238856-dedupe-only-20260429c",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "Prepare a narrow credited fix plan without opening a PR in this run."
+    },
+    {
+      "target": "#71992",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71992",
+      "candidate_fix": "#72004",
+      "reason": "Canonical issue for the assistant-final duplicate-render race; keep open until #72004 or an equivalent fix lands."
+    },
+    {
+      "target": "#72004",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71992",
+      "candidate_fix": "#72004",
+      "reason": "Best current candidate PR for #71992, but this worker must not recommend or execute a merge in this job."
+    },
+    {
+      "target": "#72963",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#71992",
+      "candidate_fix": "#72004",
+      "reason": "Same root cause and user-visible failure as #71992, with no unique platform/provider detail requiring separate tracking."
+    },
+    {
+      "target": "#63956",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "Related Control UI duplicate-looking symptom, but a distinct streaming layout/root-cause family; keep open rather than deduping into #72578 or #71992."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "close_duplicate": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#72963",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#71992",
+      "candidate_fix": "#72004",
+      "title": null,
+      "idempotency_key": "gitcrawl-238856-dedupe-only-20260429c:#72963:close_duplicate:#71992:2026-04-28T02:44:25Z",
+      "reason": "candidate fix is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

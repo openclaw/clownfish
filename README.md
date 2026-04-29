@@ -41,44 +41,45 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Apr 29, 2026, 11:00 UTC
+Last dashboard update: Apr 29, 2026, 11:08 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 261 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 262 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 261 | 100% |
+| Latest clusters reviewed | 262 | 100% |
 | Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 104 | 39.8% |
+| Clean completed clusters | 104 | 39.7% |
 | Needs-human clusters | 39 | 14.9% |
-| Latest successful clusters | 232 | 88.9% |
-| Latest failed clusters | 5 | 1.9% |
+| Latest successful clusters | 232 | 88.5% |
+| Latest failed clusters | 6 | 2.3% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 505 | audit |
+| Run attempts archived | 506 | audit |
 | Fix action attempts | 164 | audit |
 | Fix actions executed | 0 | 0.0% |
 | Fix actions failed | 35 | 21.3% |
 | Fix actions blocked | 50 | 30.5% |
-| Latest clusters with fix failures | 44 | 16.9% |
-| Distinct PRs touched | 835 | 100% |
-| Open PRs tracked | 288 | 34.5% |
-| Closed unmerged PRs tracked | 449 | 53.8% |
-| Completed close actions | 30 | 10.8% |
+| Latest clusters with fix failures | 44 | 16.8% |
+| Distinct PRs touched | 836 | 100% |
+| Open PRs tracked | 285 | 34.1% |
+| Closed unmerged PRs tracked | 453 | 54.2% |
+| Completed close actions | 30 | 10.7% |
 | Completed merge actions | 23 | 8.2% |
 | Duplicate closes | 22 | 73.3% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 107 | 38.4% |
-| Skipped mutation attempts | 119 | 42.7% |
+| Blocked mutation attempts | 108 | 38.6% |
+| Skipped mutation attempts | 119 | 42.5% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-238856-dedupe-only-20260429c](results/openclaw/gitcrawl-238856-dedupe-only-20260429c.md) | workflow failure | jobs/openclaw/inbox/gitcrawl-238856-dedupe-only-20260429c.md | Hydrated state splits this cluster into related non-security Control UI duplicate-message subfamilies. #72578 remains the canonical issue... | [report](results/openclaw/gitcrawl-238856-dedupe-only-20260429c.md) | [25104676921](https://github.com/openclaw/clownfish/actions/runs/25104676921) |
 | [gitcrawl-238786-dedupe-only-20260429](results/openclaw/gitcrawl-238786-dedupe-only-20260429.md) | workflow failure | jobs/openclaw/inbox/gitcrawl-238786-dedupe-only-20260429.md | Representative #58549 is already closed as implemented, so #72176 is the best live canonical for the current duplicate-delivery regressio... | [report](results/openclaw/gitcrawl-238786-dedupe-only-20260429.md) | [25104668076](https://github.com/openclaw/clownfish/actions/runs/25104668076) |
 | [low-signal-pr-sweep-20260427T0530-01](results/openclaw/low-signal-pr-sweep-20260427t0530-01.md) | workflow failure | jobs/openclaw/inbox/low-signal-pr-sweep-20260427T0530-01.md | Reviewed the five listed low-signal sweep PRs using the hydrated preflight artifact. Planned one low-signal closure for #55104, kept #537... | [report](results/openclaw/low-signal-pr-sweep-20260427t0530-01.md) | [25104125687](https://github.com/openclaw/clownfish/actions/runs/25104125687) |
 | [automerge-openclaw-openclaw-74126](results/openclaw/automerge-openclaw-openclaw-74126.md) | needs human | jobs/openclaw/inbox/automerge-openclaw-openclaw-74126.md | #74126: maintainer needs to complete the live automerge adoption smoke check and close the PR manually if appropriate; the hydrated artif... | [report](results/openclaw/automerge-openclaw-openclaw-74126.md) | [25101630563](https://github.com/openclaw/clownfish/actions/runs/25101630563) |
@@ -103,7 +104,6 @@ Scope: 261 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156585-autonomous-smoke](results/openclaw/ghcrawl-156585-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156585-autonomous-smoke.md | Codex produced no target repo changes after 3 edit attempt(s). | [report](results/openclaw/ghcrawl-156585-autonomous-smoke.md) | [25069725706](https://github.com/openclaw/clownfish/actions/runs/25069725706) |
 | [ghcrawl-156586-autonomous-smoke](results/openclaw/ghcrawl-156586-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156586-autonomous-smoke.md | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [report](results/openclaw/ghcrawl-156586-autonomous-smoke.md) | [25069727471](https://github.com/openclaw/clownfish/actions/runs/25069727471) |
 | [ghcrawl-156582-autonomous-smoke](results/openclaw/ghcrawl-156582-autonomous-smoke.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-156582-autonomous-smoke.md | validation command failed (pnpm check:changed): [check:changed] lanes=all [check:changed] extension-impacting surface; extension typechec... | [report](results/openclaw/ghcrawl-156582-autonomous-smoke.md) | [25069721873](https://github.com/openclaw/clownfish/actions/runs/25069721873) |
-| [ghcrawl-156595-autonomous-smoke](results/openclaw/ghcrawl-156595-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156595-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | [report](results/openclaw/ghcrawl-156595-autonomous-smoke.md) | [25069741964](https://github.com/openclaw/clownfish/actions/runs/25069741964) |
 
 ### Fix Failure Queue
 
@@ -152,8 +152,8 @@ Scope: 261 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Fix-first policy blocks superseded closeout until #49430 is repaired and merged. | 2 | [ghcrawl-156585-autonomous-smoke](results/openclaw/ghcrawl-156585-autonomous-smoke.md) |
 | maintainer issue comment blocks low-signal auto-close | 2 | [low-signal-pr-sweep-20260425T2346-01](results/openclaw/low-signal-pr-sweep-20260425t2346-01.md) |
 | require_fix_before_close blocks superseded PR closeout until the canonical fix path is landed or opened as a concrete fix PR. | 2 | [ghcrawl-156789-autonomous-smoke](results/openclaw/ghcrawl-156789-autonomous-smoke.md) |
+| candidate fix is not listed in job refs | 1 | [gitcrawl-238856-dedupe-only-20260429c](results/openclaw/gitcrawl-238856-dedupe-only-20260429c.md) |
 | candidate fix is not merged | 1 | [ghcrawl-191459-agentic-merge](results/openclaw/ghcrawl-191459-agentic-merge.md) |
-| Clear covered issue, but closeout is blocked on the canonical fix path landing. | 1 | [ghcrawl-156739-autonomous-smoke](results/openclaw/ghcrawl-156739-autonomous-smoke.md) |
 
 ### Open PR Finalizer Queue
 
