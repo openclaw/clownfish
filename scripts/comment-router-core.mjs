@@ -1,3 +1,5 @@
+export const REPAIR_INTENTS = new Set(["fix_ci", "address_review", "rebase", "clawsweeper_auto_repair"]);
+
 export function parseCommand(body) {
   for (const line of String(body ?? "").split(/\r?\n/)) {
     const slash = line.match(/^\s*\/clownfish(?:\s+(.+))?\s*$/i);
@@ -5,6 +7,26 @@ export function parseCommand(body) {
     const mention = line.match(/^\s*@openclaw-clownfish(?:\[bot\])?(?:\s+(.+))?\s*$/i);
     if (mention) return commandFromText("mention", mention[1] ?? "status");
   }
+  return null;
+}
+
+export function parseTrustedAutomation(comment, { trustedAuthors = new Set() } = {}) {
+  const author = String(comment?.user?.login ?? "").toLowerCase();
+  if (!trustedAuthors.has(author)) return null;
+
+  const body = String(comment?.body ?? "");
+  const marker = body.match(/<!--\s*clawsweeper-action:\s*([a-z0-9_-]+)([^>]*)-->/i);
+  if (marker) {
+    const action = marker[1].toLowerCase();
+    if (["fix-required", "repair-required", "address-review", "fix-ci"].includes(action)) {
+      return trustedRepair({ author, reason: `structured ClawSweeper marker: ${action}` });
+    }
+  }
+
+  if (looksLikeActionableClawSweeperReview(body)) {
+    return trustedRepair({ author, reason: "ClawSweeper review comment asks to keep repairing this PR" });
+  }
+
   return null;
 }
 
@@ -39,6 +61,18 @@ export function renderResponse(command, dispatched) {
       "Supported repair commands currently work on existing Clownfish PRs only: `/clownfish fix ci`, `/clownfish address review`, `/clownfish rebase`.",
     ].join("\n");
   }
+  if (command.intent === "clawsweeper_auto_repair") {
+    return [
+      marker,
+      "Clownfish picked up ClawSweeper feedback.",
+      "",
+      `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
+      `Action: dispatched \`${dispatched.workflow}\` for \`${dispatched.job_path}\` in \`${dispatched.mode}\` mode.`,
+      `Model: \`${dispatched.model}\``,
+      "",
+      "I will update this Clownfish PR branch if the repair worker finds a safe, narrow fix.",
+    ].join("\n");
+  }
   return [
     marker,
     "Clownfish picked this up.",
@@ -66,6 +100,45 @@ function normalizeIntent(command) {
   if (["rebase", "update branch", "sync"].includes(command)) return "rebase";
   if (["stop", "pause", "human review", "handoff"].includes(command)) return "stop";
   return "help";
+}
+
+function trustedRepair({ author, reason }) {
+  return {
+    trigger: "trusted_bot",
+    command: "clawsweeper auto repair",
+    intent: "clawsweeper_auto_repair",
+    trusted_bot: true,
+    trusted_bot_author: author,
+    automation_source: "clawsweeper",
+    repair_reason: reason,
+  };
+}
+
+function looksLikeActionableClawSweeperReview(body) {
+  const text = String(body ?? "").toLowerCase();
+  if (!text.includes("clawsweeper") && !text.includes("codex review:")) return false;
+  if (
+    [
+      "no actionable",
+      "no issues found",
+      "looks good",
+      "safe to merge",
+      "approved",
+      "nothing to fix",
+      "no findings",
+    ].some((phrase) => text.includes(phrase))
+  ) {
+    return false;
+  }
+  return [
+    /keep this pr open/s,
+    /needs? (?:maintainer )?follow[- ]up/s,
+    /still (?:has|lacks|needs|fails|failing|blocked|broken|missing)/s,
+    /unresolved review/s,
+    /failing checks?/s,
+    /actionable (?:review )?finding/s,
+    /please (?:fix|address|rebase)/s,
+  ].some((pattern) => pattern.test(text));
 }
 
 function renderStatusBody(command) {

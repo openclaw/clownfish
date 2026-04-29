@@ -218,6 +218,12 @@ Scope: 225 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 ## How It Works
 
+For a maintainer-facing architecture map of the automation lanes, see
+[`docs/INTERNAL_FEATURES.md`](docs/INTERNAL_FEATURES.md).
+
+For the ClawSweeper feedback loop that updates existing generated PRs, see
+[`docs/auto-update-prs.md`](docs/auto-update-prs.md).
+
 Each cluster job:
 
 1. Starts from one markdown job file under `jobs/`.

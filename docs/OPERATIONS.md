@@ -1,5 +1,12 @@
 # Operations
 
+For the internal feature map across job creation, PR generation, comment
+commands, finalizers, self-heal, gates, and ledgers, see
+[`docs/INTERNAL_FEATURES.md`](INTERNAL_FEATURES.md).
+
+For the trusted ClawSweeper-to-Clownfish PR repair loop, see
+[`docs/auto-update-prs.md`](auto-update-prs.md).
+
 ## Batch Flow
 
 1. Create or export cluster job markdown files under `jobs/<repo>/`.
@@ -144,6 +151,12 @@ the `clownfish` label or `clownfish/*` branch prefix. The router resolves the
 cluster job from the branch name, posts one idempotent reply with a hidden
 marker, and dispatches the normal `cluster-worker.yml` repair path. It records
 processed comments in `results/comment-router.json`.
+
+The router also has a trusted automation path for ClawSweeper comments on
+existing Clownfish PRs. Default trusted authors are `clawsweeper[bot]` and
+`openclaw-clawsweeper[bot]`; override with `CLOWNFISH_TRUSTED_BOTS`. It
+dispatches at most one auto-repair per PR head SHA by default, controlled by
+`CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD`.
 
 The scheduled workflow is dry by default. Set
 `CLOWNFISH_COMMENT_ROUTER_EXECUTE=1` in repo variables to let scheduled runs

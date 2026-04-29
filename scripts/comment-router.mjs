@@ -12,13 +12,27 @@ import {
   validateJob,
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
-import { parseCommand, renderResponse } from "./comment-router-core.mjs";
+import { parseCommand, parseTrustedAutomation, renderResponse, REPAIR_INTENTS } from "./comment-router-core.mjs";
+import {
+  appendLedger,
+  assertRepo,
+  commaSet,
+  issueNumberFromUrl,
+  positiveInteger,
+  readLedger,
+  stripAnsi,
+  summarizeChecks,
+  writeLedger,
+  writePayload,
+  writeReportFile,
+} from "./comment-router-utils.mjs";
 
 const DEFAULT_TARGET_REPO = "openclaw/openclaw";
 const DEFAULT_HEAD_PREFIX = "clownfish/";
 const DEFAULT_LABEL = "clownfish";
 const DEFAULT_ALLOWED_ASSOCIATIONS = ["OWNER", "MEMBER", "COLLABORATOR"];
-const REPAIR_INTENTS = new Set(["fix_ci", "address_review", "rebase"]);
+const DEFAULT_TRUSTED_BOTS = ["clawsweeper[bot]", "openclaw-clawsweeper[bot]"];
+const DEFAULT_CLOWNFISH_AUTHORS = ["openclaw-clownfish", "openclaw-clownfish[bot]"];
 
 const args = parseArgs(process.argv.slice(2));
 const targetRepo = String(args.repo ?? process.env.CLOWNFISH_TARGET_REPO ?? DEFAULT_TARGET_REPO);
@@ -36,6 +50,10 @@ const writeReport = Boolean(args["write-report"] || execute);
 const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const maxLiveWorkers = readMaxLiveWorkers(args);
 const maxComments = positiveInteger(args["max-comments"] ?? process.env.CLOWNFISH_COMMENT_MAX_COMMENTS ?? 100, "max-comments");
+const maxAutoRepairsPerHead = positiveInteger(
+  args["max-auto-repairs-per-head"] ?? process.env.CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD ?? 1,
+  "max-auto-repairs-per-head",
+);
 const lookbackMinutes = positiveInteger(
   args["lookback-minutes"] ?? process.env.CLOWNFISH_COMMENT_LOOKBACK_MINUTES ?? 180,
   "lookback-minutes",
@@ -47,21 +65,26 @@ const allowedAssociations = new Set(
     .map((value) => value.trim().toUpperCase())
     .filter(Boolean),
 );
+const trustedBots = commaSet(args["trusted-bots"] ?? process.env.CLOWNFISH_TRUSTED_BOTS ?? DEFAULT_TRUSTED_BOTS.join(","));
+const clownfishAuthors = commaSet(
+  args["clownfish-authors"] ?? process.env.CLOWNFISH_AUTHOR_LOGINS ?? DEFAULT_CLOWNFISH_AUTHORS.join(","),
+);
 
 assertRepo(targetRepo, "repo");
 assertRepo(clownfishRepo, "clownfish-repo");
 
-const ledger = readLedger();
+const ledger = readLedger(ledgerPath());
 const processedCommentIds = new Set((ledger.commands ?? []).map((entry) => String(entry.comment_id)));
+const plannedAutoRepairHeads = new Set();
 const comments = listRecentComments().slice(0, maxComments);
 const commands = [];
 
 for (const comment of comments) {
-  const parsed = parseCommand(comment.body);
+  const parsed = parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots });
   if (!parsed) continue;
   const issueNumber = issueNumberFromUrl(comment.issue_url);
   const command = {
-    idempotency_key: `comment-router:${targetRepo}:${comment.id}:${parsed.intent}`,
+    idempotency_key: idempotencyKey(parsed, issueNumber, comment.id),
     comment_id: String(comment.id),
     comment_url: comment.html_url,
     repo: targetRepo,
@@ -73,6 +96,10 @@ for (const comment of comments) {
     trigger: parsed.trigger,
     command: parsed.command,
     intent: parsed.intent,
+    trusted_bot: Boolean(parsed.trusted_bot),
+    trusted_bot_author: parsed.trusted_bot_author ?? null,
+    automation_source: parsed.automation_source ?? null,
+    repair_reason: parsed.repair_reason ?? null,
     status: "pending",
     actions: [],
   };
@@ -91,6 +118,8 @@ const report = {
   scanned_comments: comments.length,
   commands_seen: commands.length,
   actionable: actionable.length,
+  trusted_bots: [...trustedBots],
+  max_auto_repairs_per_head: maxAutoRepairsPerHead,
   commands,
 };
 
@@ -103,14 +132,18 @@ if (execute) {
   }
   for (const command of actionable) executeCommand(command);
   appendLedger(ledger, commands);
-  writeLedger(ledger);
+  writeLedger(ledgerPath(), ledger);
 }
 
-if (writeReport) writeReportFile(report);
+if (writeReport) writeReportFile(repoRoot(), report);
 console.log(JSON.stringify(report, null, 2));
 
 function classifyCommand(command) {
-  if (!allowedAssociations.has(command.author_association)) {
+  if (command.trusted_bot) {
+    if (!trustedBots.has(String(command.author ?? "").toLowerCase())) {
+      return { ...command, status: "ignored", reason: "trusted automation author is not allowed" };
+    }
+  } else if (!allowedAssociations.has(command.author_association)) {
     return {
       ...command,
       status: "ignored",
@@ -149,28 +182,17 @@ function classifyCommand(command) {
     return { ...next, status: "ready", actions: [{ action: "comment", status: execute ? "pending" : "planned" }] };
   }
   if (!pull) {
-    return {
-      ...next,
-      status: "ready",
-      actions: [{ action: "comment", status: execute ? "pending" : "planned" }],
-      reason: "repair commands currently require an existing Clownfish PR",
-    };
+    return repairBlocked(next, "repair commands currently require an existing Clownfish PR");
   }
   if (!target.is_clownfish_pr) {
-    return {
-      ...next,
-      status: "ready",
-      actions: [{ action: "comment", status: execute ? "pending" : "planned" }],
-      reason: "repair commands only run on Clownfish PRs",
-    };
+    return repairBlocked(next, "repair commands only run on Clownfish PRs");
   }
   if (!target.job_path) {
-    return {
-      ...next,
-      status: "ready",
-      actions: [{ action: "comment", status: execute ? "pending" : "planned" }],
-      reason: "could not find the Clownfish job for this PR branch",
-    };
+    return repairBlocked(next, "could not find the Clownfish job for this PR branch");
+  }
+  if (command.intent === "clawsweeper_auto_repair") {
+    const alreadyPlanned = autoRepairAlreadyPlanned(next);
+    if (alreadyPlanned) return { ...next, status: "skipped", reason: alreadyPlanned };
   }
 
   return {
@@ -181,6 +203,46 @@ function classifyCommand(command) {
       { action: "comment", status: execute ? "pending" : "planned" },
     ],
   };
+}
+
+function repairBlocked(command, reason) {
+  if (command.trusted_bot) return { ...command, status: "skipped", reason };
+  return {
+    ...command,
+    status: "ready",
+    actions: [{ action: "comment", status: execute ? "pending" : "planned" }],
+    reason,
+  };
+}
+
+function autoRepairAlreadyPlanned(command) {
+  const headKey = autoRepairHeadKey(command);
+  if (!headKey) return null;
+
+  if (plannedAutoRepairHeads.has(headKey)) {
+    return "ClawSweeper auto repair already planned for this PR head in this scan";
+  }
+
+  const priorDispatches = (ledger.commands ?? []).filter(
+    (entry) =>
+      entry.repo === command.repo &&
+      Number(entry.issue_number) === Number(command.issue_number) &&
+      entry.intent === "clawsweeper_auto_repair" &&
+      entry.status === "executed" &&
+      entry.target?.head_sha === command.target?.head_sha,
+  );
+  if (priorDispatches.length >= maxAutoRepairsPerHead) {
+    return `ClawSweeper auto repair already dispatched ${priorDispatches.length} time(s) for this PR head`;
+  }
+
+  plannedAutoRepairHeads.add(headKey);
+  return null;
+}
+
+function autoRepairHeadKey(command) {
+  const sha = command.target?.head_sha;
+  if (!sha) return null;
+  return `${command.repo}#${command.issue_number}:${sha}`;
 }
 
 function executeCommand(command) {
@@ -254,6 +316,7 @@ function classifyIssueTarget(issue) {
 function classifyPullTarget(pull) {
   const branch = String(pull.headRefName ?? "");
   const labels = (pull.labels ?? []).map((item) => item.name ?? item);
+  const author = String(pull.author?.login ?? pull.author?.name ?? "").toLowerCase();
   const clusterId = branch.startsWith(headPrefix) ? branch.slice(headPrefix.length) : null;
   const jobPath = clusterId ? existingJobPath(clusterId) : null;
   return {
@@ -261,8 +324,9 @@ function classifyPullTarget(pull) {
     title: pull.title ?? null,
     branch,
     head_sha: pull.headRefOid ?? null,
+    author,
     labels,
-    is_clownfish_pr: branch.startsWith(headPrefix) || labels.includes(label),
+    is_clownfish_pr: branch.startsWith(headPrefix) || labels.includes(label) || clownfishAuthors.has(author),
     cluster_id: clusterId,
     job_path: jobPath,
     mode: jobPath ? dispatchMode(jobPath) : "autonomous",
@@ -291,21 +355,6 @@ function existingJobPath(clusterId) {
   return null;
 }
 
-function summarizeChecks(checks) {
-  const counts = {};
-  const blockers = [];
-  for (const check of checks) {
-    const name = String(check.name ?? check.context ?? "unknown check");
-    const status = String(check.status ?? check.state ?? "").toUpperCase();
-    const conclusion = String(check.conclusion ?? "").toUpperCase();
-    const key = conclusion || status || "UNKNOWN";
-    counts[key] = (counts[key] ?? 0) + 1;
-    if (status && !["COMPLETED", "SUCCESS"].includes(status)) blockers.push(`${name}:${status}`);
-    if (conclusion && !["SUCCESS", "SKIPPED", "NEUTRAL"].includes(conclusion)) blockers.push(`${name}:${conclusion}`);
-  }
-  return { total: checks.length, counts, blockers };
-}
-
 function listRecentComments() {
   const list = ghPaged(`repos/${targetRepo}/issues/comments?since=${encodeURIComponent(since)}&per_page=100`);
   return list.sort((left, right) => Date.parse(right.created_at ?? "") - Date.parse(left.created_at ?? ""));
@@ -326,6 +375,7 @@ function fetchPullRequestView(number) {
     [
       "headRefName",
       "headRefOid",
+      "author",
       "labels",
       "mergeStateStatus",
       "reviewDecision",
@@ -341,7 +391,7 @@ function hasExistingResponse(number, commentId) {
 }
 
 function postComment(command, body) {
-  const payloadPath = writePayload(`comment-router-${command.comment_id}`, { body });
+  const payloadPath = writePayload(repoRoot(), `comment-router-${command.comment_id}`, { body });
   ghText(["api", `repos/${command.repo}/issues/${command.issue_number}/comments`, "--method", "POST", "--input", payloadPath]);
 }
 
@@ -359,76 +409,13 @@ function ensureHumanReviewLabel(repo) {
   ]);
 }
 
-function readLedger() {
-  const file = ledgerPath();
-  if (!fs.existsSync(file)) return { updated_at: null, commands: [] };
-  try {
-    const data = JSON.parse(fs.readFileSync(file, "utf8"));
-    return { updated_at: data.updated_at ?? null, commands: Array.isArray(data.commands) ? data.commands : [] };
-  } catch {
-    return { updated_at: null, commands: [] };
-  }
-}
-
-function appendLedger(current, entries) {
-  const compact = entries
-    .filter((entry) => ["executed", "skipped"].includes(entry.status))
-    .map((entry) => ({
-      idempotency_key: entry.idempotency_key,
-      comment_id: entry.comment_id,
-      comment_url: entry.comment_url,
-      repo: entry.repo,
-      issue_number: entry.issue_number,
-      author: entry.author,
-      author_association: entry.author_association,
-      trigger: entry.trigger,
-      command: entry.command,
-      intent: entry.intent,
-      status: entry.status,
-      processed_at: new Date().toISOString(),
-      target: entry.target
-        ? {
-            kind: entry.target.kind,
-            branch: entry.target.branch,
-            head_sha: entry.target.head_sha,
-            cluster_id: entry.target.cluster_id,
-            job_path: entry.target.job_path,
-          }
-        : null,
-    }));
-  const byComment = new Map((current.commands ?? []).map((entry) => [String(entry.comment_id), entry]));
-  for (const entry of compact) byComment.set(String(entry.comment_id), entry);
-  current.updated_at = new Date().toISOString();
-  current.commands = [...byComment.values()].slice(-1000);
-}
-
-function writeLedger(current) {
-  const file = ledgerPath();
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${JSON.stringify(current, null, 2)}\n`);
-}
-
 function ledgerPath() {
   return path.join(repoRoot(), "results", "comment-router.json");
 }
 
-function writeReportFile(data) {
-  const file = path.join(repoRoot(), "results", "comment-router-latest.json");
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
-}
-
-function writePayload(name, payload) {
-  const dir = path.join(repoRoot(), ".projectclownfish", "payloads");
-  fs.mkdirSync(dir, { recursive: true });
-  const file = path.join(dir, `${safeName(name)}.json`);
-  fs.writeFileSync(file, `${JSON.stringify(payload)}\n`);
-  return file;
-}
-
-function issueNumberFromUrl(value) {
-  const match = String(value ?? "").match(/\/issues\/(\d+)$/);
-  return match ? Number(match[1]) : 0;
+function idempotencyKey(parsed, issueNumber, commentId) {
+  const prefix = parsed.trusted_bot ? "clawsweeper-repair" : "comment-router";
+  return `${prefix}:${targetRepo}:${issueNumber}:${commentId}:${parsed.intent}`;
 }
 
 function ghJson(ghArgs) {
@@ -464,22 +451,4 @@ function ghEnv() {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
   return env;
-}
-
-function stripAnsi(text) {
-  return String(text ?? "").replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, "");
-}
-
-function safeName(value) {
-  return String(value).replace(/[^A-Za-z0-9_.-]+/g, "-").slice(0, 120);
-}
-
-function positiveInteger(value, name) {
-  const number = Number(value);
-  if (!Number.isInteger(number) || number < 1) throw new Error(`${name} must be a positive integer`);
-  return number;
-}
-
-function assertRepo(value, name) {
-  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value)) throw new Error(`${name} must be owner/repo`);
 }
