@@ -1,17 +1,20 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-143796-telegram-polling-stall"
-mode: "plan"
-run_id: "24931170014"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24931170014"
-head_sha: "e6fc44c785086090541174c0309c5ed6ca780083"
+mode: "autonomous"
+run_id: "25105383652"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25105383652"
+head_sha: "f4310f686a7c936b6d823e2f2236940847c8f999"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T01:36:05.566Z"
-canonical: "#69147"
-canonical_issue: "#69147"
+published_at: "2026-04-29T11:26:16.403Z"
+canonical: "https://github.com/openclaw/openclaw/issues/71066"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/71066"
 canonical_pr: null
-actions_total: 15
+actions_total: 18
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,27 +25,36 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24931170014](https://github.com/openclaw/projectclownfish/actions/runs/24931170014)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25105383652](https://github.com/openclaw/clownfish/actions/runs/25105383652)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #69147
+Canonical: https://github.com/openclaw/openclaw/issues/71066
 
 ## Summary
 
-Planned split into six open issue families. #69147 should replace closed representative #63516 for the intermittent Telegram long-poll stall family. Other open canonicals should remain separate: #71066 for transport or fetch-fallback no-poll failures, #67034 for multi-account stall avalanches, #62031 for restart/init silent Telegram failure, #60400 for the 2026.4.2 all-channel empty-table regression, and #58064 for LaunchAgent cross-channel restart failure. No safe auto-closures are recommended because the remaining open reports retain distinct platform, version, supervisor, or scope details.
+Hydrated state shows representative #63516 and every original open candidate except #71066 are now closed. #71066 is the only live non-security issue and should be the live canonical for the remaining sticky-IPv4/current-main retest path, not a forced duplicate sink for the closed startup/config/restart subfamilies. No close, merge, or fix PR action is planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 15 |
+| Worker actions | 18 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -54,21 +66,24 @@ Planned split into six open issue families. #69147 should replace closed represe
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69147 | keep_canonical | planned | canonical | Best live replacement for closed representative #63516. |
-| #50174 | keep_related | planned | related | Related stall symptom, but Windows-specific transport errors and Discord instability make auto-closure unsafe. |
-| #60088 | keep_related | planned | related | Same degraded-reply family, but the first-message-specific reproduction is too narrow for duplicate closure. |
-| #67034 | keep_canonical | planned | canonical | Distinct high-concurrency stall family with no broader open issue covering the same synchronized 16-account failure mode. |
-| #71066 | keep_canonical | planned | canonical | Best open anchor for current transport or fetch-fallback no-poll failures. |
-| #59833 | keep_related | planned | related | Related no-poll transport family, but the WSL2 startup signature differs from #71066. |
-| #62031 | keep_canonical | planned | canonical | Best open canonical for Telegram-specific restart or init silent-failure reports spanning v2026.3.24+. |
-| #55727 | keep_related | planned | related | Same silent-start family, but early 2026.3.24 behavior should stay open until maintainers confirm full coverage by #62031. |
-| #64178 | keep_related | planned | related | Likely same silent-start family, but later-version confirmation makes auto-closure unsafe. |
-| #60400 | keep_canonical | planned | canonical | Best open canonical for the 2026.4.2 all-channel startup regression. |
-| #60646 | keep_related | planned | related | Same regression family, but Linux plus WhatsApp scope makes auto-closure unsafe. |
-| #61195 | keep_related | planned | related | Related 2026.4.2 startup regression, but the fresh-boot angle is worth preserving. |
-| #61273 | keep_related | planned | related | Related 2026.4.2 startup regression, but it carries its own platform and version confirmation. |
-| #58064 | keep_canonical | planned | canonical | Best open canonical for LaunchAgent-specific cross-channel restart failures. |
-| #61712 | keep_related | planned | related | Same LaunchAgent restart family, but narrower Telegram-only report. |
+| #71066 | keep_canonical | planned | canonical | Use #71066 as the live canonical for the remaining unresolved sticky IPv4 Telegram polling subfamily; do not close it or convert it into a fix artifact until the requested current-main diagnostic retest narrows fetch-vs-runner ownership. |
+| #63516 | keep_closed | skipped | fixed_by_candidate | Already closed as covered by the landed watchdog fix; no live canonical replacement is needed for this closed broad-stall report. |
+| #50174 | keep_closed | skipped | fixed_by_candidate | Closed as implemented on current main; keep as closed related/fixed context rather than routing to #71066. |
+| #55727 | keep_closed | skipped | related | Closed startup subfamily; keep closed and do not dedupe into the live sticky IPv4 canonical. |
+| #58064 | keep_closed | skipped | related | Closed LaunchAgent/channel-start subfamily; keep closed. |
+| #58230 | keep_closed | skipped | related | Closed related restart-loop subfamily; keep closed. |
+| #59833 | keep_closed | skipped | related | Closed startup/credential subfamily; keep closed. |
+| #60088 | keep_closed | skipped | fixed_by_candidate | Closed as implemented; keep closed. |
+| #60400 | keep_closed | skipped | related | Closed registry/startup subfamily; keep closed. |
+| #60646 | route_security | planned | security_sensitive | Quarantine the exact ref because hydrated evidence includes a leaked-token notice; continue processing unrelated non-security items. |
+| #61195 | keep_closed | skipped | related | Closed startup/token-resolution subfamily; keep closed. |
+| #61273 | keep_closed | skipped | related | Closed startup/schema-loading subfamily; keep closed. |
+| #61712 | keep_closed | skipped | related | Closed LaunchAgent/startup subfamily; keep closed. |
+| #62031 | keep_closed | skipped | related | Closed startup/credential subfamily; keep closed. |
+| #64178 | keep_closed | skipped | related | Closed channel auto-enable/listing subfamily; keep closed. |
+| #67034 | keep_closed | skipped | related | Closed multi-account/approval-storm subfamily; keep closed. |
+| #69147 | keep_closed | skipped | fixed_by_candidate | Closed as implemented by the current polling recovery stack; keep closed. |
+| #69476 | route_security | planned | security_sensitive | Quarantine the exact security-sensitive PR review signal without poisoning the ordinary issue triage path. |
 
 ## Needs Human
 

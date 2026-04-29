@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238856-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25105234648",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25105234648",
+  "head_sha": "195790bbe8a80284a2d1f7ba4ba947b141428867",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238856-dedupe-only-20260429c.md",
+  "published_at": "2026-04-29T11:19:47.392Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/72578",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/72578",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72004",
+  "summary": "Hydrated state splits into related but distinct Control UI duplicate-message families. #72578 is the best live canonical for the history/optimistic-message merge duplicate covered by #72963; #71992 is covered by the open focused PR #72004 but should stay open until that lands; #63956 is a separate streaming layout issue. Planned one high-confidence duplicate close and a narrow non-mutating fix artifact for the #72578/#72963 subfamily because no viable hydrated PR exists and this job cannot open one.",
+  "actions": [
+    {
+      "target": "#72578",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "Best live canonical issue for the history/optimistic-message merge duplicate subfamily; leave open for fix and validation."
+    },
+    {
+      "target": "#72963",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "True duplicate of the open #72578 canonical subfamily with no unique remaining reproduction path after accounting for the separate closed TTS path."
+    },
+    {
+      "target": "#71992",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72004",
+      "candidate_fix": "#72004",
+      "reason": "Covered by candidate PR #72004, but not safe to close before the fix lands because current main is still affected and the hydrated review context says to keep the issue open until landing."
+    },
+    {
+      "target": "#72004",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72004",
+      "candidate_fix": null,
+      "reason": "Canonical PR candidate for the #71992 race subfamily; no merge action is emitted because allow_merge is false for this job."
+    },
+    {
+      "target": "#63956",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Control UI duplicate-message family, but not a true duplicate of #72578 or fixed by #72004; keep open for a separate narrow follow-up."
+    },
+    {
+      "target": "#69208",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broader related umbrella, not the canonical issue for this narrow duplicate-close decision."
+    },
+    {
+      "target": "cluster:gitcrawl-238856-dedupe-only-20260429c",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "A narrow follow-up fix is needed for the #72578/#72963 subfamily, but this job blocks direct fix and PR creation."
+    },
+    {
+      "target": "cluster:gitcrawl-238856-dedupe-only-20260429c",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "reason": "Non-mutating artifact captures the narrow repair path without opening or pushing a PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "close_duplicate": 1,
+    "keep_related": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#72963",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#72578",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-238856-dedupe-only-20260429c:#72963:close-duplicate-of-72578:v1",
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T11:08:43Z"
+    }
+  ]
+}

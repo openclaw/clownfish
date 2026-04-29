@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260427T0530-01",
+  "mode": "autonomous",
+  "run_id": "25105230558",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25105230558",
+  "head_sha": "195790bbe8a80284a2d1f7ba4ba947b141428867",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260427T0530-01.md",
+  "published_at": "2026-04-29T11:18:00.820Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Low-signal sweep reviewed the listed PRs only. Planned one low-signal close for #55104, kept already-closed #48659 and #53948 skipped, and routed #53720 and #50955 to human follow-up because they are focused/useful PRs with green or technical-review blockers rather than boring low-signal cleanup. No security-sensitive items were detected in the hydrated artifact.",
+  "actions": [
+    {
+      "target": "#53720",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal closure is blocked by the job's green_checks, focused_bug_fix, and technical_correctness_judgment human-review gates; keep this open for maintainer review instead of closing as low-signal."
+    },
+    {
+      "target": "#50955",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal closure is blocked by the job's focused_bug_fix and technical_correctness_judgment gates; this needs maintainer review rather than backlog-cleanup closure."
+    },
+    {
+      "target": "#48659",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight; no mutation is planned."
+    },
+    {
+      "target": "#55104",
+      "action": "close_low_signal",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This satisfies the opt-in low-signal policy as a broad dirty core/harness capability PR with red checks, unresolved bot findings, no maintainer signal, and no active author-owned repair."
+    },
+    {
+      "target": "#53948",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight; no mutation is planned."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_closed": 2,
+    "close_low_signal": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "skipped": 2,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [
+    "#53720: focused green PR for per-agent enabled/disabled lifecycle control; low-signal close is blocked by green_checks/focused implementation and technical review gates.",
+    "#50955: focused ACP thread-binding fix with ClawSweeper keep-open evidence, failed checks, and unresolved technical review blockers; low-signal close is blocked by focused_bug_fix/technical_correctness_judgment."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#55104",
+      "action": "close_low_signal",
+      "status": "blocked",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "low-signal-pr-sweep-20260427T0530-01:#55104:close_low_signal:2026-03-26T11:09:41Z",
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T11:07:45Z"
+    }
+  ]
+}

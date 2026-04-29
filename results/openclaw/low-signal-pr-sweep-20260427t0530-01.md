@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "low-signal-pr-sweep-20260427T0530-01"
 mode: "autonomous"
-run_id: "25104125687"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104125687"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
-workflow_conclusion: "failure"
-result_status: "planned"
-published_at: "2026-04-29T10:46:54.690Z"
+run_id: "25105230558"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25105230558"
+head_sha: "195790bbe8a80284a2d1f7ba4ba947b141428867"
+workflow_conclusion: "success"
+result_status: "needs_human"
+published_at: "2026-04-29T11:18:00.820Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -16,26 +16,26 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 2
 ---
 
 # low-signal-pr-sweep-20260427T0530-01
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104125687](https://github.com/openclaw/clownfish/actions/runs/25104125687)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25105230558](https://github.com/openclaw/clownfish/actions/runs/25105230558)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: unknown
 
 ## Summary
 
-Reviewed the five listed low-signal sweep PRs using the hydrated preflight artifact. Planned one low-signal closure for #55104, kept #53720 and #50955 open because they are not low-signal cleanup targets, and skipped #48659 and #53948 because they are already closed. No security-sensitive refs were detected.
+Low-signal sweep reviewed the listed PRs only. Planned one low-signal close for #55104, kept already-closed #48659 and #53948 skipped, and routed #53720 and #50955 to human follow-up because they are focused/useful PRs with green or technical-review blockers rather than boring low-signal cleanup. No security-sensitive items were detected in the hydrated artifact.
 
 ## Impact
 
@@ -46,9 +46,9 @@ Reviewed the five listed low-signal sweep PRs using the hydrated preflight artif
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 2 |
 
 ## Fix Execution Actions
 
@@ -60,18 +60,19 @@ Reviewed the five listed low-signal sweep PRs using the hydrated preflight artif
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #55104 | close_low_signal | blocked | low_signal | target changed since worker review |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #53720 | keep_related | planned | related | Not a low-signal cleanup target; keep open for maintainer/product review. |
-| #50955 | keep_related | planned | related | Not boringly clear low-signal; keep open for the ACP maintainer review path. |
-| #48659 | keep_closed | skipped |  | Already closed; no mutation planned. |
-| #55104 | close_low_signal | planned | low_signal | Boringly clear low-signal close under the risky broad core/automation drive-by and unreviewably broad dirty-branch evidence. |
-| #53948 | keep_closed | skipped |  | Already closed; no mutation planned. |
+| #53720 | needs_human | blocked | needs_human | Low-signal closure is blocked by the job's green_checks, focused_bug_fix, and technical_correctness_judgment human-review gates; keep this open for maintainer review instead of closing as low-signal. |
+| #50955 | needs_human | blocked | needs_human | Low-signal closure is blocked by the job's focused_bug_fix and technical_correctness_judgment gates; this needs maintainer review rather than backlog-cleanup closure. |
+| #48659 | keep_closed | skipped | low_signal | Already closed in live preflight; no mutation is planned. |
+| #55104 | close_low_signal | planned | low_signal | This satisfies the opt-in low-signal policy as a broad dirty core/harness capability PR with red checks, unresolved bot findings, no maintainer signal, and no active author-owned repair. |
+| #53948 | keep_closed | skipped | low_signal | Already closed in live preflight; no mutation is planned. |
 
 ## Needs Human
 
-- none
+- #53720: focused green PR for per-agent enabled/disabled lifecycle control; low-signal close is blocked by green_checks/focused implementation and technical review gates.
+- #50955: focused ACP thread-binding fix with ClawSweeper keep-open evidence, failed checks, and unresolved technical review blockers; low-signal close is blocked by focused_bug_fix/technical_correctness_judgment.

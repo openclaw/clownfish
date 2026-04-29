@@ -1,0 +1,197 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143796-telegram-polling-stall",
+  "mode": "autonomous",
+  "run_id": "25105383652",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25105383652",
+  "head_sha": "f4310f686a7c936b6d823e2f2236940847c8f999",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-143796-smoke.md",
+  "published_at": "2026-04-29T11:26:16.403Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/71066",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/71066",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows representative #63516 and every original open candidate except #71066 are now closed. #71066 is the only live non-security issue and should be the live canonical for the remaining sticky-IPv4/current-main retest path, not a forced duplicate sink for the closed startup/config/restart subfamilies. No close, merge, or fix PR action is planned.",
+  "actions": [
+    {
+      "target": "#71066",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71066",
+      "candidate_fix": null,
+      "reason": "Use #71066 as the live canonical for the remaining unresolved sticky IPv4 Telegram polling subfamily; do not close it or convert it into a fix artifact until the requested current-main diagnostic retest narrows fetch-vs-runner ownership."
+    },
+    {
+      "target": "#63516",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#71502",
+      "reason": "Already closed as covered by the landed watchdog fix; no live canonical replacement is needed for this closed broad-stall report."
+    },
+    {
+      "target": "#50174",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed as implemented on current main; keep as closed related/fixed context rather than routing to #71066."
+    },
+    {
+      "target": "#55727",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed startup subfamily; keep closed and do not dedupe into the live sticky IPv4 canonical."
+    },
+    {
+      "target": "#58064",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed LaunchAgent/channel-start subfamily; keep closed."
+    },
+    {
+      "target": "#58230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related restart-loop subfamily; keep closed."
+    },
+    {
+      "target": "#59833",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed startup/credential subfamily; keep closed."
+    },
+    {
+      "target": "#60088",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed as implemented; keep closed."
+    },
+    {
+      "target": "#60400",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed registry/startup subfamily; keep closed."
+    },
+    {
+      "target": "#60646",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact ref because hydrated evidence includes a leaked-token notice; continue processing unrelated non-security items."
+    },
+    {
+      "target": "#61195",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed startup/token-resolution subfamily; keep closed."
+    },
+    {
+      "target": "#61273",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed startup/schema-loading subfamily; keep closed."
+    },
+    {
+      "target": "#61712",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed LaunchAgent/startup subfamily; keep closed."
+    },
+    {
+      "target": "#62031",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed startup/credential subfamily; keep closed."
+    },
+    {
+      "target": "#64178",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed channel auto-enable/listing subfamily; keep closed."
+    },
+    {
+      "target": "#67034",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed multi-account/approval-storm subfamily; keep closed."
+    },
+    {
+      "target": "#69147",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#71502",
+      "reason": "Closed as implemented by the current polling recovery stack; keep closed."
+    },
+    {
+      "target": "#69476",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive PR review signal without poisoning the ordinary issue triage path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 15,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 15
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

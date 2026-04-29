@@ -1,17 +1,20 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-143797-bug-local-gateway-cli-handshake-fails-probe-timeout-gateway-call"
-mode: "plan"
-run_id: "24936633679"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24936633679"
-head_sha: "26aea6dfd2d7f0535f43131bbfd4c1d5d934edbb"
+mode: "autonomous"
+run_id: "25105385679"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25105385679"
+head_sha: "f4310f686a7c936b6d823e2f2236940847c8f999"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T01:36:05.582Z"
-canonical: "#51469"
-canonical_issue: "#51469"
+published_at: "2026-04-29T11:27:11.545Z"
+canonical: "https://github.com/openclaw/openclaw/issues/62762"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/62762"
 canonical_pr: null
-actions_total: 11
+actions_total: 16
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,27 +25,36 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24936633679](https://github.com/openclaw/projectclownfish/actions/runs/24936633679)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25105385679](https://github.com/openclaw/clownfish/actions/runs/25105385679)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #51469
+Canonical: https://github.com/openclaw/openclaw/issues/62762
 
 ## Summary
 
-Replace closed representative #45560 with #51469 for the 2026.3.12/2026.3.13 local handshake-timeout family. Recommend duplicate closure for #45222, #46008, and #51679; keep probe-only and browser-specific reports related; note #61554 is already closed in live state; and leave the newer 2026.4.15 hang-at-handshake reports (#67985, #68642, #68944) open as related follow-up candidates rather than collapsing them into the older timeout family.
+The closed representative #45560 should not be reopened. The hydrated state shows most original open candidates are now closed as fixed or superseded. #62762 is the best live canonical for the remaining gateway 1006/probe-vs-real-turn subfamily, while #68944 is a separate open CLI post-challenge hang that needs a narrow non-mutating fix artifact. #52336 remains related but browser-specific and stale/improved, #61095 is a separate exec-environment root cause, and #68614 is independent Google Chat work.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 11 |
+| Worker actions | 16 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -54,17 +66,22 @@ Replace closed representative #45560 with #51469 for the 2026.3.12/2026.3.13 loc
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45222 | close_duplicate | planned | duplicate | Same loopback CLI handshake failure family as #51469, with no unique remaining work beyond the broader surviving canonical. |
-| #46008 | close_duplicate | planned | duplicate | Sparse devices-list variant of the established 2026.3.12/2026.3.13 local handshake-timeout regression tracked more completely in #51469. |
-| #48360 | keep_related | planned | related | Related gateway handshake/probe area, but not a safe duplicate because the report explicitly says device RPC still succeeds. |
-| #51357 | keep_related | planned | related | Probe-focused false-negative report in the same subsystem, but not safe to close as a duplicate of the local 2026.3.13 CLI timeout canonical. |
-| #51469 | keep_canonical | planned | canonical | Best surviving open replacement for closed representative #45560 for the original 2026.3.12/2026.3.13 local handshake-timeout family. |
-| #51679 | close_duplicate | planned | duplicate | Same timeout/closed-before-connect family as #51469, with less focused diagnosis and no distinct remaining scope. |
-| #52336 | keep_related | planned | related | Related handshake family, but browser automation adds meaningful scope and reproduction detail, so it should stay open rather than be auto-closed against a generic CLI canonical. |
-| #61554 | keep_related | planned | related | Already closed in live state; keep only as related historical evidence and do not emit another closure action. |
-| #67985 | keep_related | planned | related | Same gateway handshake subsystem, but likely a newer follow-up regression rather than a safe duplicate of the older timeout canonical. |
-| #68642 | keep_related | planned | related | Related handshake family, but the indefinite hang behavior suggests a different root cause and should remain open. |
-| #68944 | keep_related | planned | related | Keep open as related; it is likely the best surviving report for a separate 2026.4.15 hang-at-handshake follow-up family, not a safe duplicate closure target for #51469. |
+| #45560 | keep_closed | skipped | fixed_by_candidate | Representative is already closed and covered by current-main fixes; use newer open #62762 only for the remaining unfixed 1006/probe subfamily. |
+| #62762 | keep_canonical | planned | canonical | Use #62762 as the live canonical issue for remaining gateway 1006/probe-vs-real-turn reports; no mutation is planned. |
+| #45222 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action. |
+| #46008 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action. |
+| #48360 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on main; no action. |
+| #51357 | keep_closed | skipped | superseded | Already closed as superseded by live canonical #62762. |
+| #51469 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on main; no action. |
+| #51679 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action. |
+| #52336 | keep_related | planned | related | Same gateway-close symptom family, but browser-service specific and not proven fixed or duplicative; keep open as related pending fresh repro. |
+| #61554 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action. |
+| #67985 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no action. |
+| #68642 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; #68944 remains a separate newer silent-failure path. |
+| #61095 | keep_related | planned | related | Related symptom family but separate exec-environment root cause; keep open for its own fix path. |
+| #68944 | fix_needed | planned | related | Separate open CLI Gateway client bug with no viable hydrated PR; build a narrow non-mutating fix artifact. |
+| #68614 | keep_independent | planned | independent | Independent channel-specific PR; no merge or closure action from this cluster. |
+| cluster:ghcrawl-143797-bug-local-gateway-cli-handshake-fails-probe-timeout-gateway-call | build_fix_artifact | planned | related | A narrow source change is needed for the open #68944 CLI post-challenge hang, but this job may only emit structured work. |
 
 ## Needs Human
 
