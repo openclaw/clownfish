@@ -22,6 +22,7 @@ const skipFeatureRequests = args["include-feature-requests"] !== true && args["s
 const fromGitcrawl = Boolean(args["from-gitcrawl"] || args["from-ghcrawl"] || args.all);
 const limit = numberArg("limit", 40);
 const minSize = numberArg("min-size", 2);
+const minOpenMembers = numberArg("min-open-members", 1);
 let clusterIds = args._.map((value) => Number(value)).filter(Boolean);
 const selectingFromGitcrawl = clusterIds.length === 0 && fromGitcrawl;
 const clusterSource = detectClusterSource();
@@ -32,7 +33,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -100,6 +101,12 @@ for (const clusterId of clusterIds) {
   const openMembers = members.filter((member) => member.state === "open");
   if (openMembers.length === 0) {
     console.error(`skip closed-only cluster: ${clusterId} ${representative.title ?? ""}`);
+    continue;
+  }
+  if (openMembers.length < minOpenMembers) {
+    console.error(
+      `skip low-open cluster: ${clusterId} ${representative.title ?? ""} (${openMembers.length} open < ${minOpenMembers})`,
+    );
     continue;
   }
   const closedMembers = members.filter((member) => member.state !== "open");
@@ -249,7 +256,7 @@ function memberSqlForClusterIds(clusterIds) {
         t.kind,
         t.state,
         t.title,
-        t.body,
+        t.body_excerpt as body,
         t.labels_json,
         t.updated_at
       from cluster_groups cg
