@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-6951-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142700183",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142700183",
+  "head_sha": "0b2576f505f062756bdfed443c12fd6d9a764b16",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-6951-dedupe-only-20260429d.md",
+  "published_at": "2026-04-30T01:36:00.843Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/48786",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48786",
+  "canonical_pr": null,
+  "summary": "Canonical remains the open issue #48786 for Feishu fetched quoted/replied message mention placeholders. #60103 and #73469 are related Feishu mention issues but have different outbound-format and streaming-notification scopes, so they should stay open. Linked PR #48976 targets #48786 but includes security-sensitive unrelated churn and unresolved review-bot findings, so it is quarantined and no close, merge, or fix PR is executable in this dedupe-only job.",
+  "actions": [
+    {
+      "target": "#48786",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48786",
+      "candidate_fix": null,
+      "reason": "#48786 is still the best live canonical issue for the fetched quoted/replied message mention placeholder bug."
+    },
+    {
+      "target": "#48976",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The Feishu portion is related to #48786, but the hydrated PR also contains security-sensitive unrelated changes; quarantine only #48976 and continue non-security classification for the issues."
+    },
+    {
+      "target": "#60103",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48786",
+      "candidate_fix": null,
+      "reason": "#60103 belongs in the Feishu mention family but has a broader outbound-format root cause and should remain open as related, not duplicate of #48786."
+    },
+    {
+      "target": "#73469",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60103",
+      "candidate_fix": null,
+      "reason": "#73469 is related Feishu mention work but is not a duplicate of #48786 or #60103 because notification timing is a distinct product/implementation decision."
+    },
+    {
+      "target": "cluster:gitcrawl-6951-dedupe-only-20260429d",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#48786",
+      "candidate_fix": null,
+      "reason": "A narrow non-security fix is still needed for #48786, but implementation is blocked in this dedupe-only job by the fix/raise_pr frontmatter gates and by quarantine of the broad linked PR."
+    },
+    {
+      "target": "cluster:gitcrawl-6951-dedupe-only-20260429d",
+      "action": "build_fix_artifact",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#48786",
+      "candidate_fix": null,
+      "reason": "Build a narrow credited fix artifact for a future fix-enabled lane; keep it blocked here because this job cannot execute fix or raise_pr actions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
