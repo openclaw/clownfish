@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3154-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142072560",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142072560",
+  "head_sha": "a0b870a07f2988db4b233d32e6ac2590b6afdb2d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3154-dedupe-only-20260429d.md",
+  "published_at": "2026-04-30T01:09:12.777Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/53439",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/53439",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/53441",
+  "summary": "Canonical issue remains #53439. #53441 is the focused, repairable Synology Chat implementation candidate, but this dedupe-only job cannot merge or repair it and its review comments are not fully resolved. #53522 stays open for a maintainer split/supersedence decision because it is broader, partly overlaps shipped work, has failing checks, and contains potentially useful Synology follow-up details.",
+  "actions": [
+    {
+      "target": "#53439",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53439",
+      "candidate_fix": "#53441",
+      "reason": "Keep #53439 as the canonical issue because it is the live root report and the fix has not landed on main."
+    },
+    {
+      "target": "#53441",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53441",
+      "candidate_fix": "#53441",
+      "reason": "Treat #53441 as the best current implementation candidate, but do not emit merge or repair actions because merge/fix are blocked and review-bot feedback remains unresolved."
+    },
+    {
+      "target": "#53522",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#53439",
+      "candidate_fix": "#53441",
+      "reason": "Maintainer judgment is needed for #53522: split or supersede the broader PR after deciding whether to carry any Synology Content-Length/test-helper work into the focused #53441 path with attribution."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#53522 requires maintainer branch/split decision: it overlaps the focused #53441 Synology fix, includes already-shipped web_fetch/status work plus a separate gatewayReachable status semantics change, has failing checks, and contains potentially useful Synology Content-Length coverage that should be credited if carried forward."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
