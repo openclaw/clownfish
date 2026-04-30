@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3013-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142532872",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142532872",
+  "head_sha": "635e49e8d0f5f1f39d5a829d2a709a0e61ee5f73",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3013-dedupe-only-20260429d.md",
+  "published_at": "2026-04-30T01:27:02.459Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/48556",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48554",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/48556",
+  "summary": "Hydrated preflight keeps #48554/#48556 as the live canonical FormData/proxy bug path. #48556 is the narrow repairable canonical PR but is not merge-ready because checks and a Greptile review finding remain unresolved; #66243 is quarantined to central security triage because hydrated review comments contain security-sensitive findings.",
+  "actions": [
+    {
+      "target": "#48554",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48554",
+      "candidate_fix": "#48556",
+      "reason": "Keep the issue open as the canonical bug thread until a validated fix lands."
+    },
+    {
+      "target": "#48556",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48556",
+      "candidate_fix": "#48556",
+      "reason": "This is the narrowest non-security canonical PR path, but it must remain open for repair/review rather than merge or closeout."
+    },
+    {
+      "target": "#66243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped review evidence requires central OpenClaw security handling for this PR only; unrelated canonical classification for #48554/#48556 can continue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
