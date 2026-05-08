@@ -158,7 +158,8 @@ function applyAction({ job, result, action, dryRun, allowMissingUpdatedAt }) {
       ...base,
       status: "skipped",
       source_status: action.status ?? null,
-      reason: action.reason ?? `action status is ${action.status}`,
+      source_reason: action.reason ?? null,
+      reason: `action status is ${action.status ?? "missing"}`,
     };
   }
   if (MERGE_ACTIONS.has(actionName)) {

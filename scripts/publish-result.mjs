@@ -569,6 +569,8 @@ function sanitizeApplyAction(action) {
     candidate_fix: action.candidate_fix ?? null,
     title: action.title ?? action.target_title ?? action.pr_title ?? null,
     idempotency_key: action.idempotency_key ?? null,
+    source_status: action.source_status ?? null,
+    source_reason: action.source_reason ?? null,
     reason: action.reason ?? null,
     merged_at: action.merged_at ?? null,
     merge_commit_sha: action.merge_commit_sha ?? null,
@@ -676,7 +678,7 @@ function buildInspectionRows({ latestByCluster, latestFailedFixRows, latestBlock
     addInspectionRow(byCluster, row.record, `fix ${row.action.status}`, actionReason(row.action));
   }
   for (const row of [...latestBlockedRows, ...latestSkippedRows]) {
-    addInspectionRow(byCluster, row.record, `apply ${row.action.status}`, actionReason(row.action));
+    addInspectionRow(byCluster, row.record, `apply ${row.action.status}`, actionReason(row.action, row.record));
   }
   return [...byCluster.values()].sort((left, right) =>
     String(right.record.published_at ?? "").localeCompare(String(left.record.published_at ?? "")),
@@ -737,7 +739,7 @@ function renderFixFailureRows(rows) {
 function renderBlockedReasonRows(rows) {
   const counts = new Map();
   for (const row of rows) {
-    const reason = compactReason(actionReason(row.action) || "unknown");
+    const reason = compactReason(actionReason(row.action, row.record) || "unknown");
     const current = counts.get(reason);
     counts.set(reason, {
       reason,
@@ -779,7 +781,14 @@ function renderFinalizerRows(report) {
     .join("\n");
 }
 
-function actionReason(action) {
+function actionReason(action, record = null) {
+  const genericStatus = String(action?.reason ?? "").match(/^action status is (.+)$/);
+  if (genericStatus) {
+    const sourceAction = findSourceAction(record, action);
+    const sourceStatus = action?.source_status ?? sourceAction?.status;
+    const sourceReason = action?.source_reason ?? sourceAction?.reason;
+    if (sourceReason) return compactReason([sourceStatus, sourceReason].filter(Boolean).join(": "));
+  }
   return compactReason(
     [
       action?.code,
@@ -787,6 +796,17 @@ function actionReason(action) {
     ]
       .filter(Boolean)
       .join(": "),
+  );
+}
+
+function findSourceAction(record, applyAction) {
+  if (!record || !Array.isArray(record.actions)) return null;
+  return record.actions.find(
+    (action) =>
+      action.target === applyAction?.target &&
+      action.action === applyAction?.action &&
+      action.status &&
+      action.status !== "planned",
   );
 }
 
