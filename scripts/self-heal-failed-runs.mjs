@@ -12,6 +12,7 @@ import {
   validateJob,
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
+import { restoreGateValue } from "./gate-restore.mjs";
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
@@ -127,7 +128,7 @@ try {
   console.log(JSON.stringify(summary, null, 2));
 } finally {
   for (const gate of gateRestores.reverse()) {
-    setGate(gate.name, gate.previous || "1");
+    setGate(gate.name, restoreGateValue(gate.previous));
   }
 }
 
