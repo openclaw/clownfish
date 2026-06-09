@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+  "mode": "autonomous",
+  "run_id": "27242663897",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27242663897",
+  "head_sha": "8512bac3ffbc7df198d73a84ff8939383b0cde26",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md",
+  "published_at": "2026-06-09T23:49:36.664Z",
+  "canonical": "new_fix_pr:clownfish/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Verified the ClawSweeper TTS migration finding against openclaw/openclaw main at ec0f311f7fccba8e7bbf750256462a82b5bc42e0. The unsupported-path migration is still present, so this cluster should create one narrow fix PR; no close or merge actions are allowed for this job.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The ClawSweeper data-loss finding remains valid on current main and there is no hydrated canonical issue or contributor PR to repair."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create a new narrow Clownfish fix PR that limits TTS legacy migration to schema-supported locations and updates the regression tests."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/91787",
+      "branch": "clownfish/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "f4d9b50b5e69c1d51b942915c05ff8a0b0aafddb",
+      "checkpoint_commits": [
+        "f4d9b50b5e69c1d51b942915c05ff8a0b0aafddb"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/91787"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#91787",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
