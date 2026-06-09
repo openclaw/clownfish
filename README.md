@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 9, 2026, 07:43 UTC
+Last dashboard update: Jun 9, 2026, 08:14 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -57,28 +57,29 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Latest successful clusters | 335 | 93.1% |
 | Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 624 | audit |
-| Fix action attempts | 169 | audit |
+| Run attempts archived | 625 | audit |
+| Fix action attempts | 170 | audit |
 | Fix actions executed | 1 | 0.6% |
-| Fix actions failed | 35 | 20.7% |
-| Fix actions blocked | 50 | 29.6% |
+| Fix actions failed | 35 | 20.6% |
+| Fix actions blocked | 50 | 29.4% |
 | Latest clusters with fix failures | 43 | 11.9% |
-| Distinct PRs touched | 1081 | 100% |
-| Open PRs tracked | 124 | 11.5% |
-| Closed unmerged PRs tracked | 814 | 75.3% |
+| Distinct PRs touched | 1082 | 100% |
+| Open PRs tracked | 125 | 11.6% |
+| Closed unmerged PRs tracked | 814 | 75.2% |
 | Completed close actions | 30 | 10.3% |
 | Completed merge actions | 23 | 7.9% |
 | Duplicate closes | 22 | 73.3% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 121 | 41.6% |
-| Skipped mutation attempts | 117 | 40.2% |
+| Blocked mutation attempts | 122 | 41.8% |
+| Skipped mutation attempts | 117 | 40.1% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | [27191846979](https://github.com/openclaw/clownfish/actions/runs/27191846979) |
 | [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | Verified the ClawSweeper commit finding against current main 994f4f99fe25fd7258dbcd2ba81f69f9687fafe6. The release guide still says direc... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [27191080344](https://github.com/openclaw/clownfish/actions/runs/27191080344) |
 | [clawsweeper-commit-openclaw-openclaw-4cf228466770](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4cf228466770.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | [27188796046](https://github.com/openclaw/clownfish/actions/runs/27188796046) |
 | [clawsweeper-commit-openclaw-openclaw-a0fd105e5e41](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | [27187735401](https://github.com/openclaw/clownfish/actions/runs/27187735401) |
@@ -103,7 +104,6 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [gitcrawl-238838-dedupe-only-20260429c](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-238838-dedupe-only-20260429c.md | target is not listed in job candidates | [report](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) | [25108831266](https://github.com/openclaw/clownfish/actions/runs/25108831266) |
 | [gitcrawl-238871-dedupe-only-20260429c](results/openclaw/gitcrawl-238871-dedupe-only-20260429c.md) | needs human | jobs/openclaw/inbox/gitcrawl-238871-dedupe-only-20260429c.md | Choose the canonical Feishu group-thread mention API and implementation path between #48945 threadFollowUp active/topic/off and #40530 re... | [report](results/openclaw/gitcrawl-238871-dedupe-only-20260429c.md) | [25107991613](https://github.com/openclaw/clownfish/actions/runs/25107991613) |
 | [gitcrawl-238843-dedupe-only-20260429c](results/openclaw/gitcrawl-238843-dedupe-only-20260429c.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-238843-dedupe-only-20260429c.md | target changed since worker review | [report](results/openclaw/gitcrawl-238843-dedupe-only-20260429c.md) | [25105238272](https://github.com/openclaw/clownfish/actions/runs/25105238272) |
-| [gitcrawl-238856-dedupe-only-20260429c](results/openclaw/gitcrawl-238856-dedupe-only-20260429c.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-238856-dedupe-only-20260429c.md | target changed since worker review | [report](results/openclaw/gitcrawl-238856-dedupe-only-20260429c.md) | [25105234648](https://github.com/openclaw/clownfish/actions/runs/25105234648) |
 
 ### Fix Failure Queue
 
@@ -144,7 +144,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | blocked: Close is blocked on the canonical fix path or fix PR. | 11 | [ghcrawl-191463-agentic-merge](results/openclaw/ghcrawl-191463-agentic-merge.md) |
 | merge state status is UNSTABLE | 10 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 9 | [ghcrawl-156679-autonomous-smoke](results/openclaw/ghcrawl-156679-autonomous-smoke.md) |
-| job does not allow merge | 7 | [clawsweeper-commit-openclaw-openclaw-4cf228466770](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) |
+| job does not allow merge | 7 | [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) |
 | mergeable state is CONFLICTING | 5 | [ghcrawl-156651-autonomous-smoke](results/openclaw/ghcrawl-156651-autonomous-smoke.md) |
 | target is not listed in job candidates | 5 | [gitcrawl-238838-dedupe-only-20260429c](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) |
 | blocked: Duplicate close is blocked on the replacement fix path. | 4 | [ghcrawl-165995-agentic-merge](results/openclaw/ghcrawl-165995-agentic-merge.md) |
@@ -159,7 +159,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+| [#91661](https://github.com/openclaw/openclaw/pull/91661) | chore(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | clownfish/clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, nee... | repair failing checks or document unrelated main flake with touched-surface proof |
 
 ### Latest ProjectClownfish Closures
 

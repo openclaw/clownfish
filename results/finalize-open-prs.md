@@ -1,19 +1,19 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-06-09T07:43:03.534Z
+Generated: 2026-06-09T08:13:38.063Z
 
 ## Summary
 
 | Metric | Count |
 | --- | ---: |
-| open_prs | 0 |
+| open_prs | 1 |
 | ready_candidates | 0 |
 | security_hold | 0 |
 | needs_rebase | 0 |
 | mergeability_unknown | 0 |
-| needs_checks | 0 |
+| needs_checks | 1 |
 | needs_review | 0 |
-| needs_merge_preflight | 0 |
+| needs_merge_preflight | 1 |
 | needs_result_backfill | 0 |
 
 ## Dispatch
@@ -30,4 +30,4 @@ Status: report_only
 
 | PR | Title | Cluster | Mergeable | Merge State | Checks | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |  |  |
+| [#91661](https://github.com/openclaw/openclaw/pull/91661) | chore(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | MERGEABLE | UNSTABLE | CANCELLED:6 SKIPPED:53 SUCCESS:12 IN_PROGRESS:2; blockers:5 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
