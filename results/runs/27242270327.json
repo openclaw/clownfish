@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+  "mode": "autonomous",
+  "run_id": "27242270327",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27242270327",
+  "head_sha": "6ea8dff04230e6ae0ddfbf0dee3897723ec991a5",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md",
+  "published_at": "2026-06-09T23:26:28.414Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "ClawSweeper commit finding is still valid on current main 54415d322f439141e0f53ee00676af7527b05651. The generic TTS migration still writes unsupported agents.defaults.tts and Discord root/account tts paths, while Discord's supported TTS override is voice.tts. No GitHub mutations were performed; a narrow new fix PR artifact is planned.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The reported data-loss migration bug remains present on current main and no existing hydrated PR or issue owns the fix path."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow non-security fix PR is appropriate and allowed by the job frontmatter."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
