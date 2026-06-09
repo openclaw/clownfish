@@ -1,0 +1,133 @@
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+
+const repoRoot = path.resolve(import.meta.dirname, "..");
+
+test("sweep-openclaw-jobs finalizes jobs whose target refs are all closed", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "closed.md"), {
+    clusterId: "closed-cluster",
+    canonical: ["#1"],
+    candidates: ["#1", "#2"],
+    clusterRefs: ["#1", "#2"],
+  });
+  writeJob(path.join(fixture.inbox, "mixed.md"), {
+    clusterId: "mixed-cluster",
+    canonical: ["#3"],
+    candidates: ["#3", "#4"],
+    clusterRefs: ["#3", "#4"],
+  });
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(
+    liveRefReport,
+    `${JSON.stringify(
+      {
+        refs: [
+          liveRef(1, "CLOSED"),
+          liveRef(2, "CLOSED"),
+          liveRef(3, "CLOSED"),
+          liveRef(4, "OPEN"),
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const dryRun = sweep(fixture, liveRefReport);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const dryReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(dryReport.totals.move_to_outbox, 1);
+  assert.equal(dryReport.totals.keep, 1);
+  assert.equal(fs.existsSync(path.join(fixture.inbox, "closed.md")), true);
+
+  const applied = sweep(fixture, liveRefReport, "--apply-outbox");
+  assert.equal(applied.status, 0, applied.stderr || applied.stdout);
+  const appliedReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(appliedReport.status, "applied");
+  assert.equal(fs.existsSync(path.join(fixture.outbox, "closed.md")), true);
+  assert.equal(fs.existsSync(path.join(fixture.inbox, "mixed.md")), true);
+});
+
+function makeFixture() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-sweep-"));
+  const inbox = path.join(root, "inbox");
+  const outbox = path.join(root, "outbox");
+  const stuck = path.join(root, "stuck");
+  const report = path.join(root, "report.json");
+  fs.mkdirSync(inbox, { recursive: true });
+  return { root, inbox, outbox, stuck, report };
+}
+
+function writeJob(filePath, { clusterId, canonical, candidates, clusterRefs }) {
+  fs.writeFileSync(
+    filePath,
+    `---
+repo: openclaw/openclaw
+cluster_id: ${clusterId}
+mode: autonomous
+allowed_actions:
+  - comment
+  - label
+  - close
+blocked_actions:
+  - merge
+require_human_for:
+  - merge
+canonical:
+${canonical.map((ref) => `  - "${ref}"`).join("\n")}
+candidates:
+${candidates.map((ref) => `  - "${ref}"`).join("\n")}
+cluster_refs:
+${clusterRefs.map((ref) => `  - "${ref}"`).join("\n")}
+allow_instant_close: true
+allow_fix_pr: false
+allow_merge: false
+security_sensitive: false
+---
+
+# Test Job
+`,
+  );
+}
+
+function liveRef(number, state) {
+  return {
+    repo: "openclaw/openclaw",
+    number,
+    __typename: "PullRequest",
+    state,
+    merged: state === "MERGED",
+    title: `PR ${number}`,
+    url: `https://github.com/openclaw/openclaw/pull/${number}`,
+  };
+}
+
+function sweep(fixture, liveRefReport, ...extraArgs) {
+  return spawnSync(
+    process.execPath,
+    [
+      "scripts/sweep-openclaw-jobs.mjs",
+      "--jobs",
+      fixture.inbox,
+      "--outbox",
+      fixture.outbox,
+      "--stuck",
+      fixture.stuck,
+      "--report",
+      fixture.report,
+      "--verify-target-refs-live",
+      "--live-ref-report",
+      liveRefReport,
+      ...extraArgs,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+    },
+  );
+}
