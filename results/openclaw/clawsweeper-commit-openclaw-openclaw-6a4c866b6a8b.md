@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b"
 mode: "autonomous"
-run_id: "27191848638"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27191848638"
-head_sha: "6c128b8ae5a7903210b51ab54a24e9e9b1ac064c"
-workflow_conclusion: "failure"
+run_id: "27193815000"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27193815000"
+head_sha: "3e159c60f4a0d18e3b15d25ce3cf4493cc4fdeae"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-09T08:23:50.385Z"
+published_at: "2026-06-09T08:38:34.673Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -16,7 +16,7 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,9 +25,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27191848638](https://github.com/openclaw/clownfish/actions/runs/27191848638)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27193815000](https://github.com/openclaw/clownfish/actions/runs/27193815000)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Verified the ClawSweeper commit finding against current main c5171625369e8362ed97e5cae303ec884044b61e. The release guide still describes direct manual CI as including Android and still shows direct CI examples without include_android=true, while ci.yml keeps Android opt-in for workflow_dispatch. This is a narrow non-security docs fix suitable for a new Clownfish fix PR.
+ClawSweeper's release-process finding remains valid on current main. Manual CI still defaults Android off unless include_android=true, while docs/reference/RELEASING.md still claims direct manual CI includes Android and shows direct ci.yml dispatch examples without the opt-in flag. No issue/PR refs were hydrated for this commit-finding job, so the canonical path is a new narrow docs fix PR.
 
 ## Impact
 
@@ -46,7 +46,7 @@ Verified the ClawSweeper commit finding against current main c5171625369e8362ed9
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,20 +54,20 @@ Verified the ClawSweeper commit finding against current main c5171625369e8362ed9
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/91665 | clownfish/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #91665 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | fix_needed | planned |  | Latest main still contains the release-process documentation regression reported by ClawSweeper, and no hydrated issue or PR already owns the fix. |
-| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | build_fix_artifact | planned |  | Build one narrow docs-only fix PR artifact for the executor; close and merge are blocked by job frontmatter. |
+| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | fix_needed | planned |  | The reported regression is still present on current main, no viable canonical PR exists in the hydrated artifact, and the job allows a narrow non-security fix PR. |
+| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | build_fix_artifact | planned |  | Build a cluster-scoped artifact for the Clownfish executor to open one narrow docs fix PR. |
 
 ## Needs Human
 

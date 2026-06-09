@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 9, 2026, 08:24 UTC
+Last dashboard update: Jun 9, 2026, 08:39 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -54,32 +54,32 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Policy-archived clusters | 1 | audit |
 | Clean completed clusters | 187 | 51.9% |
 | Needs-human clusters | 49 | 13.6% |
-| Latest successful clusters | 335 | 93.1% |
-| Latest failed clusters | 4 | 1.1% |
+| Latest successful clusters | 336 | 93.3% |
+| Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 626 | audit |
-| Fix action attempts | 170 | audit |
+| Run attempts archived | 627 | audit |
+| Fix action attempts | 171 | audit |
 | Fix actions executed | 1 | 0.6% |
-| Fix actions failed | 35 | 20.6% |
-| Fix actions blocked | 50 | 29.4% |
+| Fix actions failed | 35 | 20.5% |
+| Fix actions blocked | 50 | 29.2% |
 | Latest clusters with fix failures | 43 | 11.9% |
-| Distinct PRs touched | 1082 | 100% |
-| Open PRs tracked | 125 | 11.6% |
+| Distinct PRs touched | 1083 | 100% |
+| Open PRs tracked | 126 | 11.6% |
 | Closed unmerged PRs tracked | 814 | 75.2% |
-| Completed close actions | 30 | 10.3% |
-| Completed merge actions | 23 | 7.9% |
+| Completed close actions | 30 | 10.2% |
+| Completed merge actions | 23 | 7.8% |
 | Duplicate closes | 22 | 73.3% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 122 | 41.8% |
-| Skipped mutation attempts | 117 | 40.1% |
+| Blocked mutation attempts | 123 | 42.0% |
+| Skipped mutation attempts | 117 | 39.9% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
-| [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | Verified the ClawSweeper commit finding against current main c5171625369e8362ed97e5cae303ec884044b61e. The release guide still describes ... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [27191848638](https://github.com/openclaw/clownfish/actions/runs/27191848638) |
+| [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [27193815000](https://github.com/openclaw/clownfish/actions/runs/27193815000) |
 | [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | [27191846979](https://github.com/openclaw/clownfish/actions/runs/27191846979) |
 | [clawsweeper-commit-openclaw-openclaw-4cf228466770](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4cf228466770.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | [27188796046](https://github.com/openclaw/clownfish/actions/runs/27188796046) |
 | [clawsweeper-commit-openclaw-openclaw-a0fd105e5e41](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | [27187735401](https://github.com/openclaw/clownfish/actions/runs/27187735401) |
@@ -144,7 +144,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | blocked: Close is blocked on the canonical fix path or fix PR. | 11 | [ghcrawl-191463-agentic-merge](results/openclaw/ghcrawl-191463-agentic-merge.md) |
 | merge state status is UNSTABLE | 10 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 9 | [ghcrawl-156679-autonomous-smoke](results/openclaw/ghcrawl-156679-autonomous-smoke.md) |
-| job does not allow merge | 7 | [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) |
+| job does not allow merge | 8 | [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) |
 | mergeable state is CONFLICTING | 5 | [ghcrawl-156651-autonomous-smoke](results/openclaw/ghcrawl-156651-autonomous-smoke.md) |
 | target is not listed in job candidates | 5 | [gitcrawl-238838-dedupe-only-20260429c](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) |
 | blocked: Duplicate close is blocked on the replacement fix path. | 4 | [ghcrawl-165995-agentic-merge](results/openclaw/ghcrawl-165995-agentic-merge.md) |
@@ -159,6 +159,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
+| [#91665](https://github.com/openclaw/openclaw/pull/91665) | docs: fix release CI Android dispatch guidance | clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | clownfish/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:IN_PROGRESS; CI / check-docs:IN_PROGRESS, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#91661](https://github.com/openclaw/openclaw/pull/91661) | chore(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | clownfish/clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
 
 ### Latest ProjectClownfish Closures
