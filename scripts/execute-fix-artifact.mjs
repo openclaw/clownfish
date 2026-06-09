@@ -1157,7 +1157,16 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
   fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.jsonl`), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.stderr.log`), child.stderr);
   if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex /review timed out after ${codexTimeoutMs}ms`);
-  if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex /review failed");
+  if (child.status !== 0) {
+    const fallbackReview = extractCodexReviewFromJsonl(child.stdout);
+    if (fallbackReview) {
+      fs.writeFileSync(outputPath, `${JSON.stringify(fallbackReview, null, 2)}\n`);
+      throw new Error(`Codex /review failed: ${fallbackReview.summary || "structured review did not pass"}`);
+    }
+    const stdout = compactText(child.stdout, 800);
+    const stderr = compactText(child.stderr, 800);
+    throw new Error(`Codex /review failed: stdout=${stdout || "empty"}; stderr=${stderr || "empty"}`);
+  }
   if (!fs.existsSync(outputPath)) {
     const fallbackReview = extractCodexReviewFromJsonl(child.stdout);
     if (fallbackReview) {
