@@ -99,6 +99,12 @@ function reviewResult(resultPath) {
   if (result.status === "executed") {
     failures.push("worker result status must not be executed; only the applicator records execution");
   }
+  if (result.status === "failed") {
+    failures.push("worker result status is failed");
+  }
+  if (isInfrastructureBlockedResult(result, actions)) {
+    failures.push(`worker infrastructure blocked: ${firstLine(result.summary) || "unknown worker failure"}`);
+  }
 
   const closeActions = [];
   const fixActions = [];
@@ -292,6 +298,19 @@ function isUnavailableNeedsHumanAction(action) {
   if (action.status !== "planned" && action.status !== "blocked") return false;
   const text = [action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
   return /\b(404|not found|unavailable|could not hydrate|missing live|refreshed hydration)\b/i.test(text);
+}
+
+function isInfrastructureBlockedResult(result, actions) {
+  if (result.status !== "blocked") return false;
+  if (actions.length > 0) return false;
+  const text = [result.summary, ...(Array.isArray(result.needs_human) ? result.needs_human : [])].join("\n");
+  return /\b(Codex worker timed out|Codex worker exited|HTTP error:\s*401|401 Unauthorized|Unauthorized|failed to connect to websocket|OPENAI_API_KEY|CODEX_API_KEY|API key|authentication|auth failed|login failed)\b/i.test(
+    text,
+  );
+}
+
+function firstLine(value) {
+  return String(value ?? "").split(/\r?\n/, 1)[0].trim();
 }
 
 function isFixFirstBlockedCloseAction(action, hasClusterFixPath) {
