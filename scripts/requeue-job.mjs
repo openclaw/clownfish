@@ -120,7 +120,7 @@ function resolveFromRunId(runId) {
   const downloaded = spawnSync(
     "gh",
     ["run", "download", runId, "--repo", repo, "--dir", artifactDir],
-    { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
+    { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
   );
   if (downloaded.status !== 0) {
     throw new Error(`could not resolve run ${runId}: ${downloaded.stderr || downloaded.stdout}`);
@@ -167,7 +167,7 @@ function dispatchJob(jobPath, mode) {
       "-f",
       `model=${model}`,
     ],
-    { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
+    { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
   );
   if (result.status !== 0) {
     throw new Error(`failed to dispatch ${jobPath}: ${result.stderr || result.stdout}`);
@@ -227,6 +227,7 @@ function setGate(name, value) {
   execFileSync("gh", ["variable", "set", name, "--repo", repo, "--body", value], {
     cwd: repoRoot(),
     encoding: "utf8",
+    env: ghEnv(),
     stdio: ["ignore", "pipe", "pipe"],
   });
   console.log(`${name}=${value}`);
@@ -244,10 +245,19 @@ function ghJson(ghArgs) {
   const text = execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
+    env: ghEnv(),
     stdio: ["ignore", "pipe", "pipe"],
     maxBuffer: 64 * 1024 * 1024,
   });
-  return JSON.parse(text || "null");
+  return JSON.parse(stripAnsi(text) || "null");
+}
+
+function ghEnv() {
+  return { ...process.env, NO_COLOR: "1", CLICOLOR: "0", CLICOLOR_FORCE: "0", GH_FORCE_TTY: "0" };
+}
+
+function stripAnsi(text) {
+  return String(text ?? "").replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, "").trim();
 }
 
 function looksLikeRunId(value) {
