@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b"
 mode: "autonomous"
-run_id: "27191080344"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27191080344"
-head_sha: "9dc89d79970ed8ee003e1a25c22062a86fa99aaf"
+run_id: "27191848638"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27191848638"
+head_sha: "6c128b8ae5a7903210b51ab54a24e9e9b1ac064c"
 workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-06-09T07:42:37.405Z"
+published_at: "2026-06-09T08:23:50.385Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27191080344](https://github.com/openclaw/clownfish/actions/runs/27191080344)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27191848638](https://github.com/openclaw/clownfish/actions/runs/27191848638)
 
 Workflow conclusion: failure
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Verified the ClawSweeper commit finding against current main 994f4f99fe25fd7258dbcd2ba81f69f9687fafe6. The release guide still says direct manual CI includes Android and still shows a direct CI command without include_android=true, while ci.yml keeps Android opt-in for manual dispatches. This is a narrow non-security docs fix suitable for a new Clownfish fix PR.
+Verified the ClawSweeper commit finding against current main c5171625369e8362ed97e5cae303ec884044b61e. The release guide still describes direct manual CI as including Android and still shows direct CI examples without include_android=true, while ci.yml keeps Android opt-in for workflow_dispatch. This is a narrow non-security docs fix suitable for a new Clownfish fix PR.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Verified the ClawSweeper commit finding against current main 994f4f99fe25fd7258d
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 | cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | fix_needed | planned |  | Latest main still contains the release-process documentation regression reported by ClawSweeper, and no hydrated issue or PR already owns the fix. |
-| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | build_fix_artifact | planned |  | Build one narrow docs-only fix PR artifact for the executor; no close or merge actions are allowed by the job. |
+| cluster:clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b | build_fix_artifact | planned |  | Build one narrow docs-only fix PR artifact for the executor; close and merge are blocked by job frontmatter. |
 
 ## Needs Human
 

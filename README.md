@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 9, 2026, 08:14 UTC
+Last dashboard update: Jun 9, 2026, 08:24 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -57,7 +57,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Latest successful clusters | 335 | 93.1% |
 | Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 625 | audit |
+| Run attempts archived | 626 | audit |
 | Fix action attempts | 170 | audit |
 | Fix actions executed | 1 | 0.6% |
 | Fix actions failed | 35 | 20.6% |
@@ -79,8 +79,8 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | Verified the ClawSweeper commit finding against current main c5171625369e8362ed97e5cae303ec884044b61e. The release guide still describes ... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [27191848638](https://github.com/openclaw/clownfish/actions/runs/27191848638) |
 | [clawsweeper-commit-openclaw-openclaw-4eba70b532f8](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4eba70b532f8.md) | [27191846979](https://github.com/openclaw/clownfish/actions/runs/27191846979) |
-| [clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md | Verified the ClawSweeper commit finding against current main 994f4f99fe25fd7258dbcd2ba81f69f9687fafe6. The release guide still says direc... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-6a4c866b6a8b.md) | [27191080344](https://github.com/openclaw/clownfish/actions/runs/27191080344) |
 | [clawsweeper-commit-openclaw-openclaw-4cf228466770](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4cf228466770.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4cf228466770.md) | [27188796046](https://github.com/openclaw/clownfish/actions/runs/27188796046) |
 | [clawsweeper-commit-openclaw-openclaw-a0fd105e5e41](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-a0fd105e5e41.md) | [27187735401](https://github.com/openclaw/clownfish/actions/runs/27187735401) |
 | [ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar](results/openclaw/ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar.md) | needs human | jobs/openclaw/inbox/ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar.md | 2026-06-09T05:41:01.693375Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized,... | [report](results/openclaw/ghcrawl-143800-bug-cron-announce-delivery-reports-success-but-messages-never-ar.md) | [27186275552](https://github.com/openclaw/clownfish/actions/runs/27186275552) |
@@ -159,7 +159,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#91661](https://github.com/openclaw/openclaw/pull/91661) | chore(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | clownfish/clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, nee... | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#91661](https://github.com/openclaw/openclaw/pull/91661) | chore(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | clownfish/clawsweeper-commit-openclaw-openclaw-4eba70b532f8 | needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
 
 ### Latest ProjectClownfish Closures
 
