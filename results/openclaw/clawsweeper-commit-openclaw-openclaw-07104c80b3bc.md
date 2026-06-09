@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-07104c80b3bc"
 mode: "autonomous"
-run_id: "27196707222"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27196707222"
-head_sha: "05816d2401f91fb1a96d34ab93e2bc0e361e61f0"
+run_id: "27198879017"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27198879017"
+head_sha: "8ca420f4d911ed6a8bcb0a071ffc17597a3b4d99"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-09T09:39:03.116Z"
+published_at: "2026-06-09T10:17:18.028Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27196707222](https://github.com/openclaw/clownfish/actions/runs/27196707222)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27198879017](https://github.com/openclaw/clownfish/actions/runs/27198879017)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-ClawSweeper commit finding is still valid on current main 5e1fbca3cbc60b1a4d4fa8c937dad22b826899b6. The deprecated Discord plugin SDK facade still types cfg as optional and exposes raw id/channel_id fields, while the runtime edit path requires cfg and returns normalized messageId/channelId. No issue/PR refs were hydrated and no close or merge action is permitted; plan a narrow new fix PR.
+The ClawSweeper commit finding is still valid on current main 5e1fbca3cbc60b1a4d4fa8c937dad22b826899b6. The deprecated Discord SDK facade still advertises optional cfg and legacy id/channel_id result fields while the wrapped runtime requires cfg and returns normalized messageId/channelId. Plan one narrow credited fix PR; no close or merge actions are allowed for this job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ ClawSweeper commit finding is still valid on current main 5e1fbca3cbc60b1a4d4fa8
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| cluster:clawsweeper-commit-openclaw-openclaw-07104c80b3bc | fix_needed | planned |  | The reported public SDK compatibility regression remains present on current main and has a narrow non-security fix path. |
-| cluster:clawsweeper-commit-openclaw-openclaw-07104c80b3bc | build_fix_artifact | planned |  | Build a cluster-scoped new-fix-PR artifact for the verified ClawSweeper commit finding. |
+| cluster:clawsweeper-commit-openclaw-openclaw-07104c80b3bc | fix_needed | planned |  | No hydrated issue or PR canonical exists for this commit-level finding, and the bug remains present on current main, so a new narrow fix PR is needed. |
+| cluster:clawsweeper-commit-openclaw-openclaw-07104c80b3bc | build_fix_artifact | planned |  | Create one narrow Clownfish fix PR from clownfish/clawsweeper-commit-openclaw-openclaw-07104c80b3bc to align the deprecated Discord SDK facade with the runtime contract. |
 
 ## Needs Human
 
