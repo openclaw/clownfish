@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-07631fb931fc"
 mode: "autonomous"
-run_id: "27196708973"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27196708973"
-head_sha: "05816d2401f91fb1a96d34ab93e2bc0e361e61f0"
+run_id: "27201701751"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27201701751"
+head_sha: "65784493b822310366a0422c6de639e19063f1de"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-09T09:56:56.086Z"
+published_at: "2026-06-09T11:28:54.016Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27196708973](https://github.com/openclaw/clownfish/actions/runs/27196708973)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27201701751](https://github.com/openclaw/clownfish/actions/runs/27201701751)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-The ClawSweeper compatibility finding remains valid on current main 5e1fbca3cbc60b1a4d4fa8c937dad22b826899b6. The Discord runtime-api barrel still omits the previously exported timeout helpers, the helpers are absent from the current timeout module, and the export guardrail test now preserves the reduced public surface. No hydrated issue or PR refs exist, no security-sensitive refs were detected, and the job allows one narrow non-security fix PR.
+ClawSweeper finding is still valid on current main 73ce4fdcbbcc441223d25bd584effdf5b57e81e3: Discord's public runtime sidecar still omits the legacy timeout helper exports. Plan one narrow non-security fix PR to restore deprecated compatibility exports and update guardrails/tests. No close or merge actions are planned.
 
 ## Impact
 
@@ -54,7 +54,7 @@ The ClawSweeper compatibility finding remains valid on current main 5e1fbca3cbc6
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | blocked |  |  | Codex fix worker timed out after 1200000ms |
+| execute_fix | blocked |  |  | fix execution deadline exceeded before Codex /review; 132867ms remains, 90000ms reserved for report upload |
 
 ## Apply Actions
 
@@ -66,8 +66,8 @@ The ClawSweeper compatibility finding remains valid on current main 5e1fbca3cbc6
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| cluster:clawsweeper-commit-openclaw-openclaw-07631fb931fc | fix_needed | planned |  | Reported public API compatibility regression is still present on current main; no viable canonical PR is hydrated, and the job permits a narrow fix PR. |
-| cluster:clawsweeper-commit-openclaw-openclaw-07631fb931fc | build_fix_artifact | planned |  | A cluster-scoped fix artifact is needed for the Clownfish executor to create or update the target branch. |
+| cluster:clawsweeper-commit-openclaw-openclaw-07631fb931fc | fix_needed | planned |  | No hydrated issue or PR exists for this clawsweeper_commit job, and the compatibility regression still reproduces on current main; a narrow non-security fix PR is appropriate. |
+| cluster:clawsweeper-commit-openclaw-openclaw-07631fb931fc | build_fix_artifact | planned |  | Build a new narrow fix PR artifact from the target branch clownfish/clawsweeper-commit-openclaw-openclaw-07631fb931fc; no existing canonical PR is available to repair. |
 
 ## Needs Human
 
