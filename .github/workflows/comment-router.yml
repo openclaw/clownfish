@@ -112,6 +112,18 @@ jobs:
       - name: Commit comment router ledger
         if: always()
         run: |
+          if [ "${{ github.event_name }}" = "schedule" ] &&
+             [ "${{ vars.CLOWNFISH_COMMENT_ROUTER_EXECUTE || '0' }}" != "1" ] &&
+             [ -f results/comment-router-latest.json ]; then
+            report_status="$(node -e 'const fs = require("node:fs"); const report = JSON.parse(fs.readFileSync("results/comment-router-latest.json", "utf8")); process.stdout.write(String(report.status ?? ""));')"
+            report_execute="$(node -e 'const fs = require("node:fs"); const report = JSON.parse(fs.readFileSync("results/comment-router-latest.json", "utf8")); process.stdout.write(String(report.execute ?? ""));')"
+            report_actionable="$(node -e 'const fs = require("node:fs"); const report = JSON.parse(fs.readFileSync("results/comment-router-latest.json", "utf8")); process.stdout.write(String(report.actionable ?? 0));')"
+            if [ "$report_status" = "dry_run" ] && [ "$report_execute" != "true" ] && [ "$report_actionable" = "0" ]; then
+              echo "No actionable scheduled dry-run commands; skipping comment router report commit"
+              exit 0
+            fi
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add results/comment-router.json results/comment-router-latest.json jobs/ 2>/dev/null || true
