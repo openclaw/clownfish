@@ -22,6 +22,7 @@ const openPrClusters = live ? readOpenClownfishPrClusters() : new Map();
 const activeRuns = live ? readActiveClusterRuns() : [];
 const jobFiles = activeJobFiles(jobsDir);
 const liveTargetRefs = verifyTargetRefsLive ? readLiveTargetRefs(jobFiles) : new Map();
+const liveFixPrClusters = live ? readLiveFixPrClusters([...latestByCluster.values()]) : new Map();
 const rows = [];
 
 for (const jobPath of jobFiles) {
@@ -83,12 +84,14 @@ function classifyJob(jobPath) {
   const clusterId = String(job.frontmatter.cluster_id);
   const latest = latestByCluster.get(clusterId);
   const openPrs = openPrClusters.get(clusterId) ?? [];
+  const liveFixPrs = liveFixPrClusters.get(clusterId) ?? [];
   const row = baseRow(jobPath, clusterId, "keep", "job is still eligible for normal dispatch");
   row.mode = job.frontmatter.mode;
   row.latest_run_id = latest?.run_id ?? null;
   row.latest_workflow_conclusion = latest?.workflow_conclusion ?? null;
   row.latest_result_status = latest?.result_status ?? null;
   row.open_prs = openPrs;
+  if (liveFixPrs.length > 0) row.live_fix_prs = liveFixPrs;
   addLiveTargetRefSummary(row, job);
 
   if (isExampleJob(job)) {
@@ -99,6 +102,9 @@ function classifyJob(jobPath) {
   }
   if (openPrs.length > 0) {
     return { ...row, status: "active", reason: "open clownfish PR exists for this cluster" };
+  }
+  if (latest && latestOpenedFixPrsAreMerged(latest, liveFixPrs)) {
+    return { ...row, status: "move_to_outbox", reason: "opened Clownfish fix PR is merged in live GitHub state" };
   }
   if (verifyTargetRefsLive && row.live_target_refs_total > 0 && row.live_target_refs_missing === 0) {
     if (row.live_target_refs_open === 0) {
@@ -213,6 +219,77 @@ function requeueReason(record) {
     return "latest result has blocked or failed fix actions";
   }
   return "latest result has blocked apply actions";
+}
+
+function latestOpenedFixPrsAreMerged(record, liveFixPrs) {
+  const refs = openedFixPrRefs(record);
+  if (refs.length === 0 || liveFixPrs.length === 0) return false;
+  const merged = new Set(
+    liveFixPrs
+      .filter((pr) => pr.kind === "pull_request" && pr.merged === true)
+      .map((pr) => liveRefKey(pr.repo, pr.number)),
+  );
+  return refs.every((ref) => merged.has(liveRefKey(ref.repo, ref.number)));
+}
+
+function openedFixPrRefs(record) {
+  const defaultRepo = String(record.repo ?? process.env.CLOWNFISH_TARGET_REPO ?? "openclaw/openclaw");
+  const refs = [];
+  const seen = new Set();
+  for (const action of record.fix_actions ?? []) {
+    if (String(action?.action ?? "") !== "open_fix_pr" || String(action?.status ?? "") !== "opened") continue;
+    const ref = parseGitHubPrRef(action.pr ?? action.url ?? action.target, defaultRepo);
+    if (!ref) continue;
+    const key = liveRefKey(ref.repo, ref.number);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    refs.push(ref);
+  }
+  return refs;
+}
+
+function parseGitHubPrRef(value, defaultRepo) {
+  const text = String(value ?? "").trim();
+  const urlMatch = text.match(/^https:\/\/github\.com\/([^/\s]+\/[^/\s]+)\/pull\/([0-9]+)(?:$|[/?#])/);
+  if (urlMatch) return { repo: urlMatch[1], number: Number(urlMatch[2]) };
+  const number = refNumber(text);
+  if (number === null) return null;
+  return { repo: defaultRepo, number };
+}
+
+function readLiveFixPrClusters(runRecords) {
+  const refsByRepo = new Map();
+  const clusterRefs = new Map();
+  for (const record of runRecords) {
+    const clusterId = String(record.cluster_id ?? "");
+    if (!clusterId) continue;
+    for (const ref of openedFixPrRefs(record)) {
+      const numbers = refsByRepo.get(ref.repo) ?? new Set();
+      numbers.add(ref.number);
+      refsByRepo.set(ref.repo, numbers);
+      const refs = clusterRefs.get(clusterId) ?? [];
+      refs.push(ref);
+      clusterRefs.set(clusterId, refs);
+    }
+  }
+
+  const liveByKey = new Map();
+  for (const [repo, numbers] of refsByRepo.entries()) {
+    for (const record of fetchLiveIssueOrPullRequestRefs(repo, [...numbers])) {
+      liveByKey.set(liveRefKey(repo, record.number), record);
+    }
+  }
+
+  const out = new Map();
+  for (const [clusterId, refs] of clusterRefs.entries()) {
+    out.set(
+      clusterId,
+      refs
+        .map((ref) => liveByKey.get(liveRefKey(ref.repo, ref.number)))
+        .filter(Boolean),
+    );
+  }
+  return out;
 }
 
 function readLiveTargetRefs(jobPaths) {
@@ -497,6 +574,7 @@ function publicRow(row) {
     if (openRefs.length > 0) out.live_target_open_refs = openRefs.slice(0, 20);
     if (closedRefs.length > 0) out.live_target_closed_refs_sample = closedRefs.slice(0, 10);
   }
+  if (Array.isArray(out.live_fix_prs)) out.live_fix_prs = out.live_fix_prs.map(compactLiveTargetRef);
   return out;
 }
 
