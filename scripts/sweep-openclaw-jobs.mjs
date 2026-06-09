@@ -10,6 +10,7 @@ const outboxDir = path.resolve(String(args.outbox ?? path.join(repoRoot(), "jobs
 const stuckDir = path.resolve(String(args.stuck ?? path.join(repoRoot(), "jobs", "openclaw", "outbox", "stuck")));
 const reportPath = path.resolve(String(args.report ?? path.join(repoRoot(), "results", "openclaw-job-sweep.json")));
 const live = Boolean(args.live);
+const verifyTargetRefsLive = Boolean(args["verify-target-refs-live"] || args["live-target-refs"]);
 const applyDeleteTests = Boolean(args["apply-delete-tests"]);
 const applyOutbox = Boolean(args["apply-outbox"]);
 const applyStuck = Boolean(args["apply-stuck"]);
@@ -19,9 +20,11 @@ const records = readRunRecords();
 const latestByCluster = latestClusterRecords(records);
 const openPrClusters = live ? readOpenClownfishPrClusters() : new Map();
 const activeRuns = live ? readActiveClusterRuns() : [];
+const jobFiles = activeJobFiles(jobsDir);
+const liveTargetRefs = verifyTargetRefsLive ? readLiveTargetRefs(jobFiles) : new Map();
 const rows = [];
 
-for (const jobPath of activeJobFiles(jobsDir)) {
+for (const jobPath of jobFiles) {
   rows.push(classifyJob(jobPath));
 }
 
@@ -30,6 +33,7 @@ const report = {
   status: dryRun ? "dry_run" : "applied",
   generated_at: new Date().toISOString(),
   live,
+  verify_target_refs_live: verifyTargetRefsLive,
   jobs_dir: path.relative(repoRoot(), jobsDir),
   outbox_dir: path.relative(repoRoot(), outboxDir),
   stuck_dir: path.relative(repoRoot(), stuckDir),
@@ -85,6 +89,7 @@ function classifyJob(jobPath) {
   row.latest_workflow_conclusion = latest?.workflow_conclusion ?? null;
   row.latest_result_status = latest?.result_status ?? null;
   row.open_prs = openPrs;
+  addLiveTargetRefSummary(row, job);
 
   if (isExampleJob(job)) {
     return { ...row, status: "keep", reason: "example job is referenced by local run docs" };
@@ -94,6 +99,16 @@ function classifyJob(jobPath) {
   }
   if (openPrs.length > 0) {
     return { ...row, status: "active", reason: "open clownfish PR exists for this cluster" };
+  }
+  if (verifyTargetRefsLive && row.live_target_refs_total > 0 && row.live_target_refs_missing === 0) {
+    if (row.live_target_refs_open === 0) {
+      return { ...row, status: "move_to_outbox", reason: "all target issue/PR refs are closed in live GitHub state" };
+    }
+    return {
+      ...row,
+      status: "keep",
+      reason: `${row.live_target_refs_open} live target issue/PR refs remain open`,
+    };
   }
   if (isTestJob(job) && latest) {
     return { ...row, status: "delete_test_job", reason: "old smoke/test job has a published result and no open clownfish PR" };
@@ -129,6 +144,58 @@ function isExampleJob(job) {
   return name === "cluster-example.md" || name === "autonomous-example.md";
 }
 
+function addLiveTargetRefSummary(row, job) {
+  if (!verifyTargetRefsLive) return;
+  const refs = targetRefNumbers(job);
+  const records = refs.map(
+    (number) =>
+      liveTargetRefs.get(liveRefKey(job.frontmatter.repo, number)) ?? {
+        repo: job.frontmatter.repo,
+        number,
+        status: "missing",
+        reason: "not present in live ref report",
+      },
+  );
+  const found = records.filter((record) => record.status === "found");
+  const missing = records.filter((record) => record.status !== "found");
+  row.live_target_refs_total = refs.length;
+  row.live_target_refs_found = found.length;
+  row.live_target_refs_missing = missing.length;
+  row.live_target_refs_open = found.filter((record) => record.state === "open").length;
+  row.live_target_refs_closed = found.filter((record) => record.state !== "open").length;
+  row.live_target_refs = found.map((record) => ({
+    ref: `#${record.number}`,
+    kind: record.kind,
+    state: record.state,
+    merged: record.merged ?? undefined,
+    title: record.title,
+    url: record.url,
+  }));
+  if (missing.length > 0) {
+    row.live_target_ref_errors = missing.map((record) => ({
+      ref: `#${record.number}`,
+      status: record.status,
+      reason: record.reason ?? "not found",
+    }));
+  }
+}
+
+function targetRefNumbers(job) {
+  const refs = [
+    ...(job.frontmatter.canonical ?? []),
+    ...(job.frontmatter.candidates ?? []),
+    ...(job.frontmatter.cluster_refs ?? []),
+    ...(job.frontmatter.maintainer_close_refs ?? []),
+  ];
+  return [...new Set(refs.map(refNumber).filter((number) => number !== null))].sort((left, right) => left - right);
+}
+
+function refNumber(ref) {
+  const match = String(ref).match(/(?:^|[#/])([0-9]+)(?:$|[?#/])/);
+  if (!match) return null;
+  return Number(match[1]);
+}
+
 function needsRequeue(record) {
   if (["failure", "cancelled", "timed_out"].includes(String(record.workflow_conclusion ?? ""))) return true;
   if ((record.fix_actions ?? []).some((action) => ["failed", "blocked"].includes(String(action.status ?? "")))) {
@@ -146,6 +213,162 @@ function requeueReason(record) {
     return "latest result has blocked or failed fix actions";
   }
   return "latest result has blocked apply actions";
+}
+
+function readLiveTargetRefs(jobPaths) {
+  const report = args["live-ref-report"];
+  if (report !== undefined && report !== true) return readLiveTargetRefReport(path.resolve(String(report)));
+
+  const refsByRepo = new Map();
+  for (const jobPath of jobPaths) {
+    let job;
+    try {
+      job = parseJob(jobPath);
+    } catch {
+      continue;
+    }
+    const repo = String(job.frontmatter.repo ?? "");
+    if (!repo) continue;
+    const numbers = refsByRepo.get(repo) ?? new Set();
+    for (const number of targetRefNumbers(job)) numbers.add(number);
+    refsByRepo.set(repo, numbers);
+  }
+
+  const out = new Map();
+  for (const [repo, numbers] of refsByRepo.entries()) {
+    for (const record of fetchLiveIssueOrPullRequestRefs(repo, [...numbers])) {
+      out.set(liveRefKey(repo, record.number), record);
+    }
+  }
+  return out;
+}
+
+function readLiveTargetRefReport(filePath) {
+  const parsed = readJson(filePath);
+  const rows = Array.isArray(parsed) ? parsed : (parsed?.refs ?? parsed?.live_target_refs ?? []);
+  const out = new Map();
+  for (const row of rows) {
+    const repo = String(row.repo ?? row.repository ?? "");
+    const number = Number(row.number);
+    if (!repo || !Number.isInteger(number)) continue;
+    out.set(liveRefKey(repo, number), normalizeLiveRefRecord(repo, { ...row, number }));
+  }
+  return out;
+}
+
+function fetchLiveIssueOrPullRequestRefs(repo, numbers) {
+  if (numbers.length === 0) return [];
+  const [owner, name] = repo.split("/");
+  const rows = [];
+  for (const chunk of chunks(numbers, 80)) {
+    const query = liveRefsGraphqlQuery(chunk);
+    const data = ghJson(
+      [
+        "api",
+        "graphql",
+        "-f",
+        `owner=${owner}`,
+        "-f",
+        `name=${name}`,
+        "-f",
+        `query=${query}`,
+      ],
+      { allowPartial: true },
+    );
+    const repository = data?.data?.repository ?? data?.repository ?? {};
+    for (const number of chunk) {
+      const raw = repository[`n${number}`];
+      rows.push(normalizeLiveRefRecord(repo, raw ? { ...raw, number } : { number, status: "missing", reason: "GitHub returned no issueOrPullRequest" }));
+    }
+  }
+  return rows;
+}
+
+function liveRefsGraphqlQuery(numbers) {
+  const selections = numbers
+    .map(
+      (number) => `n${number}: issueOrPullRequest(number: ${number}) {
+        __typename
+        ... on Issue {
+          number
+          state
+          stateReason
+          title
+          url
+          updatedAt
+          closedAt
+        }
+        ... on PullRequest {
+          number
+          state
+          merged
+          title
+          url
+          updatedAt
+          closedAt
+        }
+      }`,
+    )
+    .join("\n");
+  return `query($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+      ${selections}
+    }
+  }`;
+}
+
+function normalizeLiveRefRecord(repo, raw) {
+  const number = Number(raw.number);
+  const typename = String(raw.__typename ?? raw.typename ?? raw.kind ?? "").toLowerCase();
+  const state = normalizeLiveRefState(raw.state);
+  if (!Number.isInteger(number)) {
+    return { repo, number: null, status: "invalid", reason: "missing number" };
+  }
+  if (raw.status && raw.status !== "found") {
+    return {
+      repo,
+      number,
+      status: String(raw.status),
+      reason: raw.reason ?? null,
+    };
+  }
+  if (!state) {
+    return {
+      repo,
+      number,
+      status: "missing",
+      reason: raw.reason ?? "missing state",
+    };
+  }
+  return {
+    repo,
+    number,
+    status: "found",
+    kind: typename.includes("pull") ? "pull_request" : "issue",
+    state,
+    merged: raw.merged === undefined ? undefined : Boolean(raw.merged),
+    title: raw.title ?? "",
+    url: raw.url ?? "",
+    updated_at: raw.updatedAt ?? raw.updated_at ?? null,
+    closed_at: raw.closedAt ?? raw.closed_at ?? null,
+  };
+}
+
+function normalizeLiveRefState(value) {
+  const state = String(value ?? "").toLowerCase();
+  if (state === "open") return "open";
+  if (state === "closed" || state === "merged") return state;
+  return null;
+}
+
+function liveRefKey(repo, number) {
+  return `${repo}#${number}`;
+}
+
+function chunks(values, size) {
+  const out = [];
+  for (let index = 0; index < values.length; index += size) out.push(values.slice(index, index + size));
+  return out;
 }
 
 function isFinalized(record) {
@@ -265,7 +488,26 @@ function readActiveClusterRuns() {
 }
 
 function publicRow(row) {
-  return Object.fromEntries(Object.entries(row).filter(([, value]) => value !== undefined));
+  const out = Object.fromEntries(Object.entries(row).filter(([, value]) => value !== undefined));
+  if (Array.isArray(out.live_target_refs)) {
+    const refs = out.live_target_refs;
+    delete out.live_target_refs;
+    const openRefs = refs.filter((ref) => ref.state === "open").map(compactLiveTargetRef);
+    const closedRefs = refs.filter((ref) => ref.state !== "open").map(compactLiveTargetRef);
+    if (openRefs.length > 0) out.live_target_open_refs = openRefs.slice(0, 20);
+    if (closedRefs.length > 0) out.live_target_closed_refs_sample = closedRefs.slice(0, 10);
+  }
+  return out;
+}
+
+function compactLiveTargetRef(ref) {
+  return {
+    ref: ref.ref,
+    kind: ref.kind,
+    state: ref.state,
+    title: ref.title,
+    url: ref.url,
+  };
 }
 
 function countBy(rows, keyFn) {
@@ -285,17 +527,41 @@ function readJson(filePath) {
   }
 }
 
-function ghJson(ghArgs) {
+function ghJson(ghArgs, options = {}) {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
-  const text = execFileSync("gh", ghArgs, {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    env,
-    stdio: ["ignore", "pipe", "pipe"],
-    maxBuffer: 64 * 1024 * 1024,
-  });
+  let text;
+  try {
+    text = execFileSync(githubCli(), ghArgs, {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      env,
+      stdio: ["ignore", "pipe", "pipe"],
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  } catch (error) {
+    if (!options.allowPartial || !error.stdout) throw error;
+    text = error.stdout;
+  }
   return JSON.parse(stripAnsi(text) || "null");
+}
+
+function githubCli() {
+  if (process.env.CLOWNFISH_GH_BIN) return process.env.CLOWNFISH_GH_BIN;
+  return hasCommand("ghx") ? "ghx" : "gh";
+}
+
+function hasCommand(command) {
+  try {
+    execFileSync("sh", ["-lc", `command -v ${command}`], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "ignore", "ignore"],
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function stripAnsi(text) {
