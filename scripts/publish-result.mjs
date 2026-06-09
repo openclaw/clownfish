@@ -590,6 +590,10 @@ function sanitizeFixAction(action) {
     source_status: action.source_status ?? null,
     repair_strategy: action.repair_strategy ?? null,
     reason: action.reason ?? null,
+    commit: action.commit ?? null,
+    checkpoint_commits: action.checkpoint_commits ?? null,
+    retry_recommended: action.retry_recommended ?? null,
+    recoverable_branch_pushed: action.recoverable_branch_pushed ?? null,
     title: action.title ?? null,
     url: action.url ?? action.pr_url ?? null,
   };

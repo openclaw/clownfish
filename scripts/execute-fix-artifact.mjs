@@ -65,6 +65,7 @@ const codexWriteNetworkAccess = parseBooleanEnv(
 const codexReviewNetworkAccess = parseBooleanEnv(process.env.CLOWNFISH_CODEX_REVIEW_NETWORK_ACCESS, false);
 let workRoot = "";
 let targetDir = "";
+let activeFixProgress = null;
 
 if (!jobPath) {
   console.error("usage: node scripts/execute-fix-artifact.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -261,12 +262,7 @@ try {
     };
   } else {
     if (!isBlockedFixError(error)) throw error;
-    outcome = {
-      action: "execute_fix",
-      status: "blocked",
-      repair_strategy: fixArtifact.repair_strategy,
-      reason: error.message,
-    };
+    outcome = blockedFixOutcome(error, fixArtifact);
   }
 }
 
@@ -279,6 +275,33 @@ function isBlockedFixError(error) {
   return /fix execution deadline exceeded|timed out after \d+ms before fix execution deadline|Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed|base branch advanced after validation/i.test(
     String(error?.message ?? error),
   );
+}
+
+function noteFixProgress(progress) {
+  activeFixProgress = {
+    ...(activeFixProgress ?? {}),
+    ...progress,
+  };
+}
+
+function blockedFixOutcome(error, fixArtifact) {
+  const reason = String(error?.message ?? error);
+  if (activeFixProgress?.recoverable_branch_pushed === true) {
+    return {
+      ...activeFixProgress,
+      status: "blocked",
+      repair_strategy: activeFixProgress.repair_strategy ?? fixArtifact.repair_strategy,
+      reason,
+      retry_recommended: true,
+      recovery_note: "recoverable branch was pushed before fix execution blocked; requeue can resume it",
+    };
+  }
+  return {
+    action: "execute_fix",
+    status: "blocked",
+    repair_strategy: fixArtifact.repair_strategy,
+    reason,
+  };
 }
 
 function remainingFixExecutionMs(label, { reserveMs = fixReportReserveMs, minMs = 10 * 1000 } = {}) {
@@ -403,6 +426,17 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   ghAuthSetupGit(targetDir);
   const pushArgs = repairBranchPushArgs({ pull, rebased });
   run("git", pushArgs, { cwd: targetDir });
+  noteFixProgress({
+    action: "repair_contributor_branch",
+    repair_strategy: fixArtifact.repair_strategy,
+    target: sourcePr.url,
+    head_repo: pull.head.repo.full_name,
+    head_ref: pull.head.ref,
+    rebased,
+    commit: prep.commit,
+    recoverable_branch_pushed: true,
+    merge_preflight: prep.merge_preflight,
+  });
   const threadResolution = prepareReviewThreadsForMerge({ repo: result.repo, number: sourcePr.number, targetDir });
   const comment = repairContributorBranchComment({
     sourcePrUrl: sourcePr.url,
@@ -465,10 +499,20 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   }
   run("git", ["fetch", "origin", baseBranch], { cwd: targetDir });
   const branchState = checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch });
+  const branchProgress = {
+    action: "open_fix_pr",
+    repair_strategy: fixArtifact.repair_strategy,
+    branch,
+    resumed_branch: branchState.resumed,
+    supersede_sources: supersedeSources ? fixArtifact.source_prs ?? [] : [],
+    contributor_credit: contributorCredits.map(publicContributorCredit),
+  };
+  noteFixProgress(branchProgress);
   if (branchState.resumed) rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
   prepareTargetToolchain(targetDir);
 
   if (!dryRun) ghAuthSetupGit(targetDir);
+  const pushedCheckpointCommits = [];
   const prep = editValidatePrepareMerge({
     fixArtifact,
     targetDir,
@@ -478,7 +522,19 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     baseBranch,
     contributorCredits,
     allowExistingChanges: branchState.resumed && branchHasBaseDiff({ targetDir, baseBranch }),
-    pushCheckpoint: dryRun ? null : () => pushRecoverableBranch({ targetDir, branch }),
+    pushCheckpoint: dryRun
+      ? null
+      : () => {
+          pushRecoverableBranch({ targetDir, branch });
+          const commit = currentHead(targetDir);
+          pushedCheckpointCommits.push(commit);
+          noteFixProgress({
+            ...branchProgress,
+            commit,
+            checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
+            recoverable_branch_pushed: true,
+          });
+        },
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     prep.commit = currentHead(targetDir);
