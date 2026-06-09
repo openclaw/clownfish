@@ -129,6 +129,22 @@ if (child.status !== 0) {
 }
 
 repairResultIfNeeded();
+const finalReview = reviewResult();
+if (finalReview.status !== 0) {
+  fs.writeFileSync(path.join(runDir, "review-results-final.json"), finalReview.stdout || finalReview.stderr || "");
+  if (!fs.existsSync(resultPath)) {
+    writeBlockedResult("Codex worker completed without writing result.json; see codex.jsonl for the transcript");
+    const blockedReview = reviewResult();
+    if (blockedReview.status !== 0) {
+      fs.writeFileSync(path.join(runDir, "review-results-blocked.json"), blockedReview.stdout || blockedReview.stderr || "");
+      console.error(blockedReview.stdout || blockedReview.stderr || "blocked worker result failed validation");
+      process.exit(1);
+    }
+  } else {
+    console.error(finalReview.stdout || finalReview.stderr || "worker result failed validation");
+    process.exit(1);
+  }
+}
 
 console.log(`result: ${path.relative(repoRoot(), resultPath)}`);
 
@@ -251,6 +267,7 @@ function writeBlockedResult(summary) {
     canonical: null,
     canonical_issue: null,
     canonical_pr: null,
+    merge_preflight: [],
     fix_artifact: null,
   };
   fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
