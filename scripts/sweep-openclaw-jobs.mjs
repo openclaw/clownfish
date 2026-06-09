@@ -9,6 +9,7 @@ const jobsDir = path.resolve(String(args.jobs ?? path.join(repoRoot(), "jobs", "
 const outboxDir = path.resolve(String(args.outbox ?? path.join(repoRoot(), "jobs", "openclaw", "outbox", "finalized")));
 const stuckDir = path.resolve(String(args.stuck ?? path.join(repoRoot(), "jobs", "openclaw", "outbox", "stuck")));
 const reportPath = path.resolve(String(args.report ?? path.join(repoRoot(), "results", "openclaw-job-sweep.json")));
+const runRecordsDir = path.resolve(String(args["run-records"] ?? path.join(repoRoot(), "results", "runs")));
 const live = Boolean(args.live);
 const verifyTargetRefsLive = Boolean(args["verify-target-refs-live"] || args["live-target-refs"]);
 const applyDeleteTests = Boolean(args["apply-delete-tests"]);
@@ -479,12 +480,11 @@ function applyActions(classifiedRows) {
 }
 
 function readRunRecords() {
-  const dir = path.join(repoRoot(), "results", "runs");
-  if (!fs.existsSync(dir)) return [];
+  if (!fs.existsSync(runRecordsDir)) return [];
   return fs
-    .readdirSync(dir)
+    .readdirSync(runRecordsDir)
     .filter((name) => name.endsWith(".json"))
-    .map((name) => readJson(path.join(dir, name)))
+    .map((name) => readJson(path.join(runRecordsDir, name)))
     .filter(Boolean);
 }
 
@@ -494,11 +494,41 @@ function latestClusterRecords(runRecords) {
     const clusterId = String(record.cluster_id ?? "");
     if (!clusterId) continue;
     const previous = latest.get(clusterId);
-    if (!previous || String(record.published_at ?? "").localeCompare(String(previous.published_at ?? "")) > 0) {
+    if (!previous || compareRunRecordRecency(record, previous) > 0) {
       latest.set(clusterId, record);
     }
   }
   return latest;
+}
+
+function compareRunRecordRecency(left, right) {
+  const leftRunId = parseNumericRunId(left.run_id);
+  const rightRunId = parseNumericRunId(right.run_id);
+  if (leftRunId !== null && rightRunId !== null && leftRunId !== rightRunId) {
+    return leftRunId > rightRunId ? 1 : -1;
+  }
+
+  const leftTime = runRecordTimestamp(left);
+  const rightTime = runRecordTimestamp(right);
+  if (leftTime !== null && rightTime !== null && leftTime !== rightTime) return leftTime - rightTime;
+  if (leftTime !== null && rightTime === null) return 1;
+  if (leftTime === null && rightTime !== null) return -1;
+
+  return String(left.run_id ?? "").localeCompare(String(right.run_id ?? ""));
+}
+
+function parseNumericRunId(value) {
+  const text = String(value ?? "").trim();
+  if (!/^[0-9]+$/.test(text)) return null;
+  return BigInt(text);
+}
+
+function runRecordTimestamp(record) {
+  for (const key of ["published_at", "completed_at", "updated_at", "generated_at", "created_at"]) {
+    const timestamp = Date.parse(String(record[key] ?? ""));
+    if (Number.isFinite(timestamp)) return timestamp;
+  }
+  return null;
 }
 
 function readOpenClownfishPrClusters() {

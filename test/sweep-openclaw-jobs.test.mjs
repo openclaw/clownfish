@@ -53,14 +53,52 @@ test("sweep-openclaw-jobs finalizes jobs whose target refs are all closed", () =
   assert.equal(fs.existsSync(path.join(fixture.inbox, "mixed.md")), true);
 });
 
+test("sweep-openclaw-jobs uses newest run id when published_at is absent", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "blocked.md"), {
+    clusterId: "blocked-cluster",
+    canonical: [],
+    candidates: ["#999"],
+    clusterRefs: ["#999"],
+  });
+  writeRunRecord(fixture, "100", {
+    cluster_id: "blocked-cluster",
+    run_id: "100",
+    workflow_conclusion: "skipped",
+    result_status: "planned",
+    fix_actions: [],
+    apply_actions: [],
+  });
+  writeRunRecord(fixture, "200", {
+    cluster_id: "blocked-cluster",
+    run_id: "200",
+    workflow_conclusion: "success",
+    result_status: "planned",
+    fix_actions: [{ action: "execute_fix", status: "blocked" }],
+    apply_actions: [],
+  });
+
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(liveRefReport, `${JSON.stringify({ refs: [] }, null, 2)}\n`);
+
+  const dryRun = sweep(fixture, liveRefReport);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const dryReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(dryReport.totals.requeue_candidate, 1);
+  assert.equal(dryReport.requeue_candidates[0].latest_run_id, "200");
+  assert.equal(dryReport.requeue_candidates[0].reason, "latest result has blocked or failed fix actions");
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-sweep-"));
   const inbox = path.join(root, "inbox");
   const outbox = path.join(root, "outbox");
   const stuck = path.join(root, "stuck");
+  const runs = path.join(root, "runs");
   const report = path.join(root, "report.json");
   fs.mkdirSync(inbox, { recursive: true });
-  return { root, inbox, outbox, stuck, report };
+  fs.mkdirSync(runs, { recursive: true });
+  return { root, inbox, outbox, stuck, runs, report };
 }
 
 function writeJob(filePath, { clusterId, canonical, candidates, clusterRefs }) {
@@ -95,6 +133,10 @@ security_sensitive: false
   );
 }
 
+function writeRunRecord(fixture, runId, record) {
+  fs.writeFileSync(path.join(fixture.runs, `${runId}.json`), `${JSON.stringify(record, null, 2)}\n`);
+}
+
 function liveRef(number, state) {
   return {
     repo: "openclaw/openclaw",
@@ -120,6 +162,8 @@ function sweep(fixture, liveRefReport, ...extraArgs) {
       fixture.stuck,
       "--report",
       fixture.report,
+      "--run-records",
+      fixture.runs,
       "--verify-target-refs-live",
       "--live-ref-report",
       liveRefReport,
