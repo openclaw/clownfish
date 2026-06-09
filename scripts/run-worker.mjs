@@ -11,6 +11,7 @@ import {
   repoRoot,
   validateJob,
 } from "./lib.mjs";
+import { extractWorkerResultFromCodexJsonl } from "./worker-result-transcript.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
@@ -122,12 +123,22 @@ if (child.error?.code === "ETIMEDOUT") {
 }
 
 if (child.status !== 0) {
+  if (recoverResultFromTranscriptIfMissing()) {
+    repairResultIfNeeded();
+    const recoveredReview = reviewResult();
+    if (recoveredReview.status === 0) {
+      console.log(`result: ${path.relative(repoRoot(), resultPath)}`);
+      process.exit(0);
+    }
+    fs.writeFileSync(path.join(runDir, "review-results-recovered.json"), recoveredReview.stdout || recoveredReview.stderr || "");
+  }
   const detail = child.stderr || child.stdout || `Codex worker exited ${child.status}`;
   writeBlockedResult(detail.trim());
   console.error(detail);
   process.exit(0);
 }
 
+recoverResultFromTranscriptIfMissing();
 repairResultIfNeeded();
 const finalReview = reviewResult();
 if (finalReview.status !== 0) {
@@ -242,6 +253,26 @@ function reviewResult() {
     encoding: "utf8",
     env: process.env,
   });
+}
+
+function recoverResultFromTranscriptIfMissing() {
+  if (fs.existsSync(resultPath) || !fs.existsSync(transcriptPath)) return false;
+  const recovered = extractWorkerResultFromCodexJsonl(fs.readFileSync(transcriptPath, "utf8"));
+  if (!recovered) return false;
+
+  fs.writeFileSync(resultPath, `${JSON.stringify(recovered, null, 2)}\n`);
+  fs.writeFileSync(
+    path.join(runDir, "result.recovered-from-transcript.json"),
+    `${JSON.stringify(
+      {
+        source: path.basename(transcriptPath),
+        reason: "Codex emitted terminal worker JSON in an agent_message but did not write output-last-message",
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  return true;
 }
 
 function codexEnv() {
