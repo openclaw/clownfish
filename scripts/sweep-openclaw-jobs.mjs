@@ -286,14 +286,20 @@ function readJson(filePath) {
 }
 
 function ghJson(ghArgs) {
+  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
+  delete env.FORCE_COLOR;
   const text = execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
-    env: process.env,
+    env,
     stdio: ["ignore", "pipe", "pipe"],
     maxBuffer: 64 * 1024 * 1024,
   });
-  return JSON.parse(text || "null");
+  return JSON.parse(stripAnsi(text) || "null");
+}
+
+function stripAnsi(text) {
+  return text.replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, "");
 }
 
 function writeMarkdownReport(report, filePath) {
