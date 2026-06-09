@@ -427,6 +427,16 @@ export function renderPrompt(job, requestedMode, context = {}) {
     );
   }
 
+  if (context.targetCheckoutPath) {
+    const absolute = path.resolve(String(context.targetCheckoutPath));
+    parts.push(
+      "## Target checkout",
+      `Repository: \`${context.targetCheckoutRepo ?? job.frontmatter.repo}\``,
+      `Path: \`${path.relative(repoRoot(), absolute)}\``,
+      "A read-only checkout of the target repository is available for verifying current main before planning executable fixes. Inspect it directly when the job requires proving current target behavior.",
+    );
+  }
+
   parts.push(
     "## Required final output",
     "Return JSON matching `schemas/codex-result.schema.json` and nothing else.",
