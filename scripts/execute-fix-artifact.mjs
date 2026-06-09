@@ -27,6 +27,8 @@ const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const requestedCodexTimeoutMs = Number(process.env.CLOWNFISH_FIX_CODEX_TIMEOUT_MS ?? 25 * 60 * 1000);
 const fixStepTimeoutMs = Number(process.env.CLOWNFISH_FIX_STEP_TIMEOUT_MS ?? 30 * 60 * 1000);
 const fixTimeoutReserveMs = Number(process.env.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS ?? 5 * 60 * 1000);
+const fixReportReserveMs = Number(process.env.CLOWNFISH_FIX_REPORT_RESERVE_MS ?? 90 * 1000);
+const fixStepDeadlineAtMs = Date.now() + fixStepTimeoutMs;
 const codexTimeoutMs = Math.min(requestedCodexTimeoutMs, Math.max(60 * 1000, fixStepTimeoutMs - fixTimeoutReserveMs));
 const codexPreflightTimeoutMs = Number(process.env.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS ?? 2 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
@@ -178,57 +180,57 @@ if (scopeBlock) {
   process.exit(0);
 }
 
-workRoot =
-  typeof args["work-dir"] === "string"
-    ? path.resolve(args["work-dir"])
-    : fs.mkdtempSync(path.join(os.tmpdir(), "projectclownfish-fix-"));
-targetDir =
-  typeof args["target-dir"] === "string"
-    ? path.resolve(args["target-dir"])
-    : path.join(workRoot, result.repo.replace("/", "-"));
-fs.mkdirSync(workRoot, { recursive: true });
-
-ensureTargetCheckout(result.repo, targetDir);
-setupGitIdentity(targetDir);
-
-const validationPreflight = preflightTargetValidationPlan({ fixArtifact, targetDir, baseBranch: DEFAULT_BASE_BRANCH });
-report.validation_preflight = validationPreflight;
-if (validationPreflight.status === "blocked") {
-  report.status = "blocked";
-  report.reason = validationPreflight.reason;
-  report.actions.push({
-    action: "execute_fix",
-    status: "blocked",
-    code: validationPreflight.code,
-    repair_strategy: fixArtifact.repair_strategy,
-    reason: validationPreflight.reason,
-    required: validationPreflight.required,
-    available_scripts: validationPreflight.available_scripts,
-    target_branch: validationPreflight.target_branch,
-    source_pr: validationPreflight.source_pr,
-  });
-  writeReport(report, resultPath);
-  process.exit(0);
-}
-
-const writePreflight = runCodexWritePreflight();
-report.preflight = writePreflight;
-if (writePreflight.status === "blocked") {
-  report.status = "blocked";
-  report.reason = writePreflight.reason;
-  report.actions.push({
-    action: "execute_fix",
-    status: "blocked",
-    repair_strategy: fixArtifact.repair_strategy,
-    reason: writePreflight.reason,
-    evidence: writePreflight.evidence,
-  });
-  writeReport(report, resultPath);
-  process.exit(0);
-}
-
 let outcome;
 try {
+  workRoot =
+    typeof args["work-dir"] === "string"
+      ? path.resolve(args["work-dir"])
+      : fs.mkdtempSync(path.join(os.tmpdir(), "projectclownfish-fix-"));
+  targetDir =
+    typeof args["target-dir"] === "string"
+      ? path.resolve(args["target-dir"])
+      : path.join(workRoot, result.repo.replace("/", "-"));
+  fs.mkdirSync(workRoot, { recursive: true });
+
+  ensureTargetCheckout(result.repo, targetDir);
+  setupGitIdentity(targetDir);
+
+  const validationPreflight = preflightTargetValidationPlan({ fixArtifact, targetDir, baseBranch: DEFAULT_BASE_BRANCH });
+  report.validation_preflight = validationPreflight;
+  if (validationPreflight.status === "blocked") {
+    report.status = "blocked";
+    report.reason = validationPreflight.reason;
+    report.actions.push({
+      action: "execute_fix",
+      status: "blocked",
+      code: validationPreflight.code,
+      repair_strategy: fixArtifact.repair_strategy,
+      reason: validationPreflight.reason,
+      required: validationPreflight.required,
+      available_scripts: validationPreflight.available_scripts,
+      target_branch: validationPreflight.target_branch,
+      source_pr: validationPreflight.source_pr,
+    });
+    writeReport(report, resultPath);
+    process.exit(0);
+  }
+
+  const writePreflight = runCodexWritePreflight();
+  report.preflight = writePreflight;
+  if (writePreflight.status === "blocked") {
+    report.status = "blocked";
+    report.reason = writePreflight.reason;
+    report.actions.push({
+      action: "execute_fix",
+      status: "blocked",
+      repair_strategy: fixArtifact.repair_strategy,
+      reason: writePreflight.reason,
+      evidence: writePreflight.evidence,
+    });
+    writeReport(report, resultPath);
+    process.exit(0);
+  }
+
   if (fixArtifact.repair_strategy === "repair_contributor_branch") {
     try {
       outcome = executeRepairBranch({ fixArtifact, targetDir });
@@ -274,9 +276,31 @@ report.actions.push(outcome);
 writeReport(report, resultPath);
 
 function isBlockedFixError(error) {
-  return /Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed|base branch advanced after validation/i.test(
+  return /fix execution deadline exceeded|timed out after \d+ms before fix execution deadline|Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed|base branch advanced after validation/i.test(
     String(error?.message ?? error),
   );
+}
+
+function remainingFixExecutionMs(label, { reserveMs = fixReportReserveMs, minMs = 10 * 1000 } = {}) {
+  const remainingMs = fixStepDeadlineAtMs - Date.now();
+  const usableMs = remainingMs - reserveMs;
+  if (usableMs < minMs) {
+    throw new Error(
+      `fix execution deadline exceeded before ${label}; ${Math.max(
+        0,
+        remainingMs,
+      )}ms remains, ${reserveMs}ms reserved for report upload`,
+    );
+  }
+  return usableMs;
+}
+
+function boundedCodexTimeoutMs(label) {
+  return Math.min(codexTimeoutMs, remainingFixExecutionMs(label, { minMs: 60 * 1000 }));
+}
+
+function boundedPreflightTimeoutMs(label) {
+  return Math.min(codexPreflightTimeoutMs, remainingFixExecutionMs(label, { minMs: 15 * 1000 }));
 }
 
 function shouldFallbackToReplacementAfterRepairError(error) {
@@ -662,6 +686,7 @@ function editValidatePrepareMerge({
         repositoryContext,
       });
       const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
+      const timeoutMs = boundedCodexTimeoutMs("Codex fix worker");
       const codexResult = spawnSync(
         "codex",
         [
@@ -685,13 +710,13 @@ function editValidatePrepareMerge({
           input: prompt,
           encoding: "utf8",
           env: codexEnv(),
-          timeout: codexTimeoutMs,
+          timeout: timeoutMs,
         },
       );
       fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.jsonl`), codexResult.stdout ?? "");
       if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.stderr.log`), codexResult.stderr);
       if (codexResult.error?.code === "ETIMEDOUT") {
-        throw new Error(`Codex fix worker timed out after ${codexTimeoutMs}ms`);
+        throw new Error(`Codex fix worker timed out after ${timeoutMs}ms`);
       }
       if (codexResult.status !== 0) {
         throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
@@ -967,6 +992,7 @@ function runCodexWritePreflight() {
     "Do not inspect environment variables, credentials, tokens, or secrets.",
     "Do not call gh, git push, open PRs, or mutate anything outside the current directory.",
   ].join("\n");
+  const timeoutMs = boundedPreflightTimeoutMs("Codex write preflight");
   const child = spawnSync(
     "codex",
     [
@@ -991,7 +1017,7 @@ function runCodexWritePreflight() {
       input: prompt,
       encoding: "utf8",
       env: codexEnv(),
-      timeout: codexPreflightTimeoutMs,
+      timeout: timeoutMs,
       maxBuffer: 16 * 1024 * 1024,
     },
   );
@@ -1000,7 +1026,7 @@ function runCodexWritePreflight() {
 
   if (child.error?.code === "ETIMEDOUT") {
     return blockedCodexWritePreflight(
-      `Codex write preflight timed out after ${codexPreflightTimeoutMs}ms`,
+      `Codex write preflight timed out after ${timeoutMs}ms`,
       child.stderr || child.stdout,
     );
   }
@@ -1017,7 +1043,7 @@ function runCodexWritePreflight() {
   return {
     status: "passed",
     sandbox: codexWriteSandbox,
-    timeout_ms: codexPreflightTimeoutMs,
+    timeout_ms: timeoutMs,
     evidence: [`Codex wrote ${path.basename(expectedPath)} in an isolated preflight directory.`],
   };
 }
@@ -1126,6 +1152,7 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
     JSON.stringify(fixArtifact, null, 2),
     "```",
   ].join("\n");
+  const timeoutMs = boundedCodexTimeoutMs("Codex /review");
   const child = spawnSync(
     "codex",
     [
@@ -1151,12 +1178,12 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
       input: prompt,
       encoding: "utf8",
       env: codexEnv(),
-      timeout: codexTimeoutMs,
+      timeout: timeoutMs,
     },
   );
   fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.jsonl`), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.stderr.log`), child.stderr);
-  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex /review timed out after ${codexTimeoutMs}ms`);
+  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex /review timed out after ${timeoutMs}ms`);
   if (child.status !== 0) {
     const fallbackReview = extractCodexReviewFromJsonl(child.stdout);
     if (fallbackReview) {
@@ -1242,6 +1269,7 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
     JSON.stringify(fixArtifact, null, 2),
     "```",
   ].join("\n");
+  const timeoutMs = boundedCodexTimeoutMs("Codex review-fix worker");
   const child = spawnSync(
     "codex",
     [
@@ -1265,12 +1293,12 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
       input: prompt,
       encoding: "utf8",
       env: codexEnv(),
-      timeout: codexTimeoutMs,
+      timeout: timeoutMs,
     },
   );
   fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-fix-${attempt}.jsonl`), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-fix-${attempt}.stderr.log`), child.stderr);
-  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex review-fix worker timed out after ${codexTimeoutMs}ms`);
+  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex review-fix worker timed out after ${timeoutMs}ms`);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex review-fix worker failed");
 }
 
@@ -2154,6 +2182,7 @@ function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArti
       lastError,
     });
     const summaryPath = path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.md`);
+    const timeoutMs = boundedCodexTimeoutMs("Codex rebase-fix worker");
     const child = spawnSync(
       "codex",
       [
@@ -2177,7 +2206,7 @@ function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArti
         input: prompt,
         encoding: "utf8",
         env: codexEnv(),
-        timeout: codexTimeoutMs,
+        timeout: timeoutMs,
       },
     );
     fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.jsonl`), child.stdout ?? "");
@@ -2185,7 +2214,7 @@ function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArti
       fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.stderr.log`), child.stderr);
     }
     if (child.error?.code === "ETIMEDOUT") {
-      throw new Error(`Codex rebase-fix worker timed out after ${codexTimeoutMs}ms`);
+      throw new Error(`Codex rebase-fix worker timed out after ${timeoutMs}ms`);
     }
     if (child.status !== 0) {
       throw new Error(child.stderr || child.stdout || "Codex rebase-fix worker failed");
@@ -2430,7 +2459,14 @@ function findLatestResultPath() {
 }
 
 function writeReport(report, resultPath) {
-  appendAutomergeRepairOutcomeComment(report, resultPath);
+  try {
+    appendAutomergeRepairOutcomeComment(report, resultPath);
+  } catch (error) {
+    report.report_warnings = [
+      ...(report.report_warnings ?? []),
+      `could not append automerge repair outcome comment: ${compactText(error?.message ?? error, 500)}`,
+    ];
+  }
   const reportPath =
     typeof args.report === "string"
       ? path.resolve(args.report)
@@ -2599,12 +2635,23 @@ function codexEnv() {
 }
 
 function run(command, commandArgs, options = {}) {
+  const timeoutMs =
+    typeof options.timeout === "number"
+      ? options.timeout
+      : remainingFixExecutionMs(`${command} ${commandArgs.join(" ")}`, { minMs: 10 * 1000 });
   const child = spawnSync(command, commandArgs, {
     cwd: options.cwd,
     env: options.env ?? process.env,
     input: options.input,
     encoding: "utf8",
+    timeout: timeoutMs,
   });
+  if (child.error?.code === "ETIMEDOUT") {
+    throw new Error(`${command} ${commandArgs.join(" ")} timed out after ${timeoutMs}ms before fix execution deadline`);
+  }
+  if (child.error) {
+    throw child.error;
+  }
   if (child.status !== 0) {
     const detail = child.stderr || child.stdout || `${command} exited ${child.status}`;
     throw new Error(detail.trim());
