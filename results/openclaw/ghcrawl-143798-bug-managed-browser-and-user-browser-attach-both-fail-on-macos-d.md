@@ -2,47 +2,65 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-143798-bug-managed-browser-and-user-browser-attach-both-fail-on-macos-d"
 mode: "plan"
-run_id: "24931326064"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24931326064"
-head_sha: "75185936126d75ebb182e229f44f6cda4edd81cd"
+run_id: "27186274666"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27186274666"
+head_sha: "ab30a75be3eefa1a46f230dd2c6591ffffa4c1da"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-04-26T01:36:05.573Z"
+result_status: "blocked"
+published_at: "2026-06-09T05:42:48.384Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 6
+actions_total: 0
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 4
+needs_human_count: 1
 ---
 
 # ghcrawl-143798-bug-managed-browser-and-user-browser-attach-both-fail-on-macos-d
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24931326064](https://github.com/openclaw/projectclownfish/actions/runs/24931326064)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27186274666](https://github.com/openclaw/clownfish/actions/runs/27186274666)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: blocked
 
 Canonical: unknown
 
 ## Summary
 
-Using the provided preflight artifact as live GitHub state, the cluster has changed materially since job generation: #47879, #48037, and #62706 are already closed. The only still-open listed candidate, #48867, is a separate Android Termux stdin-parent-death failure. Because representative #65125 is also closed and hydrated PR candidate #51732 is closed, dirty, and has a failing check, this run cannot name a safe live canonical from the hydrated set.
+2026-06-09T05:41:30.442966Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:30.964940Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:31.559270Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:32.412523Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:33.599779Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:35.484417Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:39.373639Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 0 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 4 |
+| Needs human | 1 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -54,16 +72,14 @@ Using the provided preflight artifact as live GitHub state, the cluster has chan
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65125 | needs_human | blocked | needs_human | The representative issue is closed and no hydrated open successor in the same macOS managed-browser/existing-session attach family is available to promote as the live canonical. |
-| #51732 | needs_human | blocked | needs_human | #51732 is not a safe canonical fix path for this plan because it is closed, not mergeable, has a failing check, and exceeds the job's human-review gates. |
-| #47879 | keep_related | skipped | related | Already closed in live state; this is related Chrome MCP configuration work, not the same root cause as the representative failure family. |
-| #48037 | keep_related | skipped | related | Already closed in live state; this is related feature/configuration scope, not the same root cause as the representative failure family. |
-| #62706 | keep_related | skipped | related | Already closed in live state; this is a related attach-path bug, but it is distinct from the representative macOS/browser attach family. |
-| #48867 | keep_independent | planned | independent | Keep open and independent; it should not replace #65125 as canonical for this cluster because it is a separate Android/Termux failure family. |
+| _None_ |  |  |  |  |
 
 ## Needs Human
 
-- Cluster changed materially since job generation: #47879, #48037, and #62706 were listed as open candidates but are already closed in the preflight live state.
-- Representative #65125 is closed, and the only remaining open listed candidate (#48867) is a different Android Termux failure, so no safe live canonical exists in the hydrated set.
-- Canonical PR candidate #51732 is closed, mergeable=false, mergeable_state=dirty, has 13 changed files, and includes a failing check, so the job's human gates block using it as the canonical fix path.
-- If maintainers want a new live canonical for the #65125 family, linked refs such as #65379/#65401 need hydration in a follow-up cluster before that choice is made.
+- 2026-06-09T05:41:30.442966Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:30.964940Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:31.559270Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:32.412523Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:33.599779Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:35.484417Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
+2026-06-09T05:41:39.373639Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 401 Unauthorized, url: wss://api.openai.com/v1/responses
