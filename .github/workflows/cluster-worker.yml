@@ -157,6 +157,17 @@ jobs:
       - name: Validate job
         run: npm run validate:job -- "${{ inputs.job }}"
 
+      - name: Prepare target checkout
+        if: ${{ (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          target_repo="$(node --input-type=module -e 'import { parseJob } from "./scripts/lib.mjs"; console.log(parseJob(process.argv[1]).frontmatter.repo);' "${{ inputs.job }}")"
+          target_dir=".projectclownfish/target/${target_repo//\//-}"
+          rm -rf "$target_dir"
+          gh repo clone "$target_repo" "$target_dir" -- --depth=1
+          echo "CLOWNFISH_TARGET_CHECKOUT=$target_dir" >> "$GITHUB_ENV"
+          echo "prepared target checkout for $target_repo at $target_dir"
+
       - name: Run worker
         run: |
           worker_mode="${{ inputs.mode }}"

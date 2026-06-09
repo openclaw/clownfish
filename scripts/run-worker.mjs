@@ -55,6 +55,10 @@ const promptPath = path.join(runDir, "prompt.md");
 const resultPath = path.join(runDir, "result.json");
 const transcriptPath = path.join(runDir, "codex.jsonl");
 const promptContext = {};
+if (process.env.CLOWNFISH_TARGET_CHECKOUT) {
+  promptContext.targetCheckoutPath = process.env.CLOWNFISH_TARGET_CHECKOUT;
+  promptContext.targetCheckoutRepo = job.frontmatter.repo;
+}
 
 if (!dryRun) {
   const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir];
