@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 9, 2026, 23:50 UTC
+Last dashboard update: Jun 10, 2026, 05:02 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -53,19 +53,19 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Latest clusters reviewed | 360 | 100% |
 | Policy-archived clusters | 1 | audit |
 | Clean completed clusters | 188 | 52.2% |
-| Needs-human clusters | 49 | 13.6% |
-| Latest successful clusters | 341 | 94.7% |
+| Needs-human clusters | 50 | 13.9% |
+| Latest successful clusters | 342 | 95.0% |
 | Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 636 | audit |
+| Run attempts archived | 637 | audit |
 | Fix action attempts | 177 | audit |
 | Fix actions executed | 1 | 0.6% |
 | Fix actions failed | 35 | 19.8% |
 | Fix actions blocked | 53 | 29.9% |
 | Latest clusters with fix failures | 45 | 12.5% |
 | Distinct PRs touched | 1085 | 100% |
-| Open PRs tracked | 125 | 11.5% |
-| Closed unmerged PRs tracked | 814 | 75.0% |
+| Open PRs tracked | 123 | 11.3% |
+| Closed unmerged PRs tracked | 815 | 75.1% |
 | Completed close actions | 30 | 10.2% |
 | Completed merge actions | 23 | 7.8% |
 | Duplicate closes | 22 | 73.3% |
@@ -79,6 +79,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | needs human | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | Codex worker completed without writing result.json; see codex.jsonl for the transcript | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27254285881](https://github.com/openclaw/clownfish/actions/runs/27254285881) |
 | [clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | [27242663897](https://github.com/openclaw/clownfish/actions/runs/27242663897) |
 | [clawsweeper-commit-openclaw-openclaw-0bbbc99980b8](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | [27241227425](https://github.com/openclaw/clownfish/actions/runs/27241227425) |
 | [clawsweeper-commit-openclaw-openclaw-07631fb931fc](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md | fix execution deadline exceeded before Codex /review; 132867ms remains, 90000ms reserved for report upload | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | [27201701751](https://github.com/openclaw/clownfish/actions/runs/27201701751) |
@@ -103,7 +104,6 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [gitcrawl-1957-dedupe-only-20260429-remote](results/openclaw/gitcrawl-1957-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-1957-dedupe-only-20260429-remote.md | #49408 requires maintainer policy judgment on whether root-escaping symlinked managed skills should be supported or explicitly documented... | [report](results/openclaw/gitcrawl-1957-dedupe-only-20260429-remote.md) | [25131311478](https://github.com/openclaw/clownfish/actions/runs/25131311478) |
 | [gitcrawl-1953-dedupe-only-20260429-remote](results/openclaw/gitcrawl-1953-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-1953-dedupe-only-20260429-remote.md | No single open canonical issue or PR clearly replaces closed representative #43551. The open candidates should be split by maintainers in... | [report](results/openclaw/gitcrawl-1953-dedupe-only-20260429-remote.md) | [25131307011](https://github.com/openclaw/clownfish/actions/runs/25131307011) |
 | [gitcrawl-16529-dedupe-only-20260429-remote](results/openclaw/gitcrawl-16529-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-16529-dedupe-only-20260429-remote.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-16529-dedupe-only-20260429-remote.md) | [25130299053](https://github.com/openclaw/clownfish/actions/runs/25130299053) |
-| [gitcrawl-12535-dedupe-only-20260429-remote](results/openclaw/gitcrawl-12535-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-12535-dedupe-only-20260429-remote.md | Codex worker timed out after 1800000ms | [report](results/openclaw/gitcrawl-12535-dedupe-only-20260429-remote.md) | [25109664831](https://github.com/openclaw/clownfish/actions/runs/25109664831) |
 
 ### Fix Failure Queue
 
@@ -159,7 +159,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#91787](https://github.com/openclaw/openclaw/pull/91787) | fix(doctor): keep TTS legacy migration on supported paths | clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d | clownfish/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, nee... | repair failing checks or document unrelated main flake with touched-surface proof |
+| _None_ |  |  |  |  |  |
 
 ### Latest ProjectClownfish Closures
 

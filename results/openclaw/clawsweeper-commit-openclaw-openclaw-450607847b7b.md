@@ -2,53 +2,53 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-450607847b7b"
 mode: "autonomous"
-run_id: "25092523967"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25092523967"
-head_sha: "25ed93de7e4e78e41755de007288832d4e945d9f"
-workflow_conclusion: "skipped"
-result_status: "planned"
-published_at: "2026-04-29T05:29:13.910Z"
+run_id: "27254285881"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27254285881"
+head_sha: "30fe524e0242df8f63b0c7c77e9b878f295439cd"
+workflow_conclusion: "success"
+result_status: "blocked"
+published_at: "2026-06-10T05:01:15.098Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 1
+actions_total: 0
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # clawsweeper-commit-openclaw-openclaw-450607847b7b
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25092523967](https://github.com/openclaw/clownfish/actions/runs/25092523967)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27254285881](https://github.com/openclaw/clownfish/actions/runs/27254285881)
 
-Workflow conclusion: skipped
+Workflow conclusion: success
 
-Worker result: planned
+Worker result: blocked
 
 Canonical: unknown
 
 ## Summary
 
-Found one low-severity parity bug in the new REM harness preview.
+Codex worker completed without writing result.json; see codex.jsonl for the transcript
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 0 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,8 +66,8 @@ Found one low-severity parity bug in the new REM harness preview.
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| cluster:clawsweeper-commit-openclaw-openclaw-450607847b7b | build_fix_artifact | planned |  | ClawSweeper found an actionable commit-level bug/regression candidate. |
+| _None_ |  |  |  |  |
 
 ## Needs Human
 
-- none
+- Codex worker completed without writing result.json; see codex.jsonl for the transcript
