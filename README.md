@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 10, 2026, 05:18 UTC
+Last dashboard update: Jun 10, 2026, 05:33 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -54,15 +54,15 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Policy-archived clusters | 1 | audit |
 | Clean completed clusters | 189 | 52.5% |
 | Needs-human clusters | 49 | 13.6% |
-| Latest successful clusters | 343 | 95.3% |
-| Latest failed clusters | 4 | 1.1% |
+| Latest successful clusters | 344 | 95.6% |
+| Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 640 | audit |
-| Fix action attempts | 178 | audit |
+| Run attempts archived | 641 | audit |
+| Fix action attempts | 179 | audit |
 | Fix actions executed | 1 | 0.6% |
-| Fix actions failed | 35 | 19.7% |
-| Fix actions blocked | 53 | 29.8% |
-| Latest clusters with fix failures | 45 | 12.5% |
+| Fix actions failed | 35 | 19.6% |
+| Fix actions blocked | 54 | 30.2% |
+| Latest clusters with fix failures | 46 | 12.8% |
 | Distinct PRs touched | 1086 | 100% |
 | Open PRs tracked | 121 | 11.1% |
 | Closed unmerged PRs tracked | 817 | 75.2% |
@@ -79,7 +79,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
-| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | The ClawSweeper finding is still valid on current openclaw/openclaw main at 54c400a975711782615b8682ce4d635910843f4f. previewRemHarness s... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27254810249](https://github.com/openclaw/clownfish/actions/runs/27254810249) |
+| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | Codex /review failed: structured output was not written to replacement-codex-review-2.json; stdout={"type":"thread.started","thread_id":"... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27255091380](https://github.com/openclaw/clownfish/actions/runs/27255091380) |
 | [clawsweeper-commit-openclaw-openclaw-548c280eff60](results/openclaw/clawsweeper-commit-openclaw-openclaw-548c280eff60.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-548c280eff60.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-548c280eff60.md) | [27254287010](https://github.com/openclaw/clownfish/actions/runs/27254287010) |
 | [clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | [27242663897](https://github.com/openclaw/clownfish/actions/runs/27242663897) |
 | [clawsweeper-commit-openclaw-openclaw-0bbbc99980b8](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | [27241227425](https://github.com/openclaw/clownfish/actions/runs/27241227425) |
@@ -109,6 +109,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | Status | Target | Branch/PR | Reason | Run |
 | --- | --- | --- | --- | --- | --- |
+| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | blocked |  | clownfish/clawsweeper-commit-openclaw-openclaw-450607847b7b | Codex /review failed: structured output was not written to replacement-codex-review-2.json; stdout={"type":"thread.started","thread_id":"... | [27255091380](https://github.com/openclaw/clownfish/actions/runs/27255091380) |
 | [clawsweeper-commit-openclaw-openclaw-07631fb931fc](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | blocked |  |  | fix execution deadline exceeded before Codex /review; 132867ms remains, 90000ms reserved for report upload | [27201701751](https://github.com/openclaw/clownfish/actions/runs/27201701751) |
 | [clawsweeper-commit-openclaw-openclaw-07104c80b3bc](results/openclaw/clawsweeper-commit-openclaw-openclaw-07104c80b3bc.md) | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, extensions, exten... | [27198879017](https://github.com/openclaw/clownfish/actions/runs/27198879017) |
 | [ghcrawl-166004-agentic-merge](results/openclaw/ghcrawl-166004-agentic-merge.md) | blocked |  |  | Codex /review did not pass after 2 attempt(s): Cannot perform the review without inspecting the repository diff and validation state. | [25087637821](https://github.com/openclaw/clownfish/actions/runs/25087637821) |
@@ -133,7 +134,6 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156868-autonomous-smoke](results/openclaw/ghcrawl-156868-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039867359](https://github.com/openclaw/clownfish/actions/runs/25039867359) |
 | [ghcrawl-156864-autonomous-smoke](results/openclaw/ghcrawl-156864-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039821052](https://github.com/openclaw/clownfish/actions/runs/25039821052) |
 | [ghcrawl-156741-autonomous-smoke](results/openclaw/ghcrawl-156741-autonomous-smoke.md) | failed |  |  | base branch advanced after validation and projectclownfish/repair-ghcrawl-156741-autonomous-smoke-59382 needs a fresh rebase pass: Rebasi... | [25039129783](https://github.com/openclaw/clownfish/actions/runs/25039129783) |
-| [ghcrawl-156741-autonomous-smoke](results/openclaw/ghcrawl-156741-autonomous-smoke.md) | blocked |  |  | base branch advanced after validation and projectclownfish/repair-ghcrawl-156741-autonomous-smoke-59382 needs a fresh rebase pass: Rebasi... | [25039129783](https://github.com/openclaw/clownfish/actions/runs/25039129783) |
 
 ### Top Blocked Reasons
 

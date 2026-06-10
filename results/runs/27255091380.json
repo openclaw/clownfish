@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-450607847b7b",
+  "mode": "autonomous",
+  "run_id": "27255091380",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27255091380",
+  "head_sha": "b15fd611b6787ff89c50cbfe797e0a9117a9c473",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md",
+  "published_at": "2026-06-10T05:32:42.287Z",
+  "canonical": "new_fix_pr:clownfish/clawsweeper-commit-openclaw-openclaw-450607847b7b",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Verified the ClawSweeper REM harness preview finding against openclaw/openclaw main at c7b4c6bfc5c25e1017bfa8006163ea0d239b83f4. The bug is still present: previewRemHarness passes lookback-filtered recall entries directly into the REM preview, while the real REM path first filters out recall entries whose source files no longer exist. Plan one narrow new Clownfish fix PR; no close or merge actions are allowed for this job.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-450607847b7b",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The ClawSweeper low-severity non-security finding remains valid on current main and there is no hydrated canonical issue or contributor PR to repair."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-450607847b7b",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create one narrow Clownfish fix PR for the REM harness preview parity bug, with a focused regression test and no merge or closeout."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/clawsweeper-commit-openclaw-openclaw-450607847b7b",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "Codex /review failed: structured output was not written to replacement-codex-review-2.json; stdout={\"type\":\"thread.started\",\"thread_id\":\"019eb004-14ec-72a2-b561-3ddb928a7879\"} {\"type\":\"turn.started\"} {\"type\":\"item.started\",\"item\":{\"id\":\"item_0\",\"type\":\"command_execution\",\"command\":\"/bin/bash -lc \\\"sed -n '1,220p' .agents/skills/openclaw-pr-maintainer/SKILL.md && sed -n '1,220p' .agents/skills/autoreview/SKILL.md && git status -sb && git diff --stat origin/main...HEAD && git diff --name-only origin/main...HEAD\\\"\",\"aggregated_output\":\"\",\"exit_code\":null,\"status\":\"in_progress\"}} {\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"command_execution\",\"command\":\"/bin/bash -lc \\\"sed -n '1,220p' .agents/skills/openclaw-pr-maintainer/SKILL.md && sed -n '1,220p' .agents/skills/autoreview/SKILL.md && git status -sb && git diff --stat origin/main...HEAD && git diff --name-only origin/main...H...; stderr=empty",
+      "commit": "c1e0c2676aadab65f8704890dc0cb47652d2e4f8",
+      "checkpoint_commits": [
+        "c1e0c2676aadab65f8704890dc0cb47652d2e4f8"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
