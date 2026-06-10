@@ -2024,13 +2024,56 @@ function uniqueStrings(values) {
 function parseAllowedValidationCommand(command) {
   const text = String(command ?? "").trim();
   if (!text) throw new Error("empty validation command");
-  if (/[`$;&|<>()[\]{}*?~]/.test(text)) {
-    throw new Error(`unsafe validation command: ${text}`);
-  }
-  const parts = text.split(/\s+/);
+  const parts = splitValidationCommand(text);
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
+  return parts;
+}
+
+function splitValidationCommand(text) {
+  const parts = [];
+  let current = "";
+  let quote = "";
+  let escaped = false;
+
+  for (const ch of text) {
+    if (escaped) {
+      current += ch;
+      escaped = false;
+      continue;
+    }
+    if (quote) {
+      if (ch === "\\") {
+        escaped = true;
+        continue;
+      }
+      if (ch === quote) {
+        quote = "";
+        continue;
+      }
+      current += ch;
+      continue;
+    }
+    if (ch === "'" || ch === '"') {
+      quote = ch;
+      continue;
+    }
+    if (/\s/.test(ch)) {
+      if (current) {
+        parts.push(current);
+        current = "";
+      }
+      continue;
+    }
+    if (/[`$;&|<>()[\]{}*?~\\]/.test(ch)) {
+      throw new Error(`unsafe validation command: ${text}`);
+    }
+    current += ch;
+  }
+
+  if (escaped || quote) throw new Error(`unsafe validation command: ${text}`);
+  if (current) parts.push(current);
   return parts;
 }
 
