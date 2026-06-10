@@ -87,6 +87,11 @@ Do not merge. Do not close issues. Do not handle security-sensitive findings in 
 
 The watcher-root finding is resolved by https://github.com/openclaw/openclaw/pull/91884 and must not be reworked here.
 
+## Manual Status
+
+- 2026-06-10: This split interval/embed startup finding landed via https://github.com/openclaw/openclaw/pull/91978 as https://github.com/openclaw/openclaw/commit/17be26bc4f8bf2d0df9a6c299b05ca443673750e.
+- The Clownfish executor blocked the generated fix artifact as too broad, so the fix was completed manually as a maintainer-scoped PR instead of rerunning the autonomous broad-artifact path.
+
 ## Suggested Validation
 
 - Focused Gateway startup memory tests covering `onBoot: false` with non-zero `interval` and/or `embedInterval`.

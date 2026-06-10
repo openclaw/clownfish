@@ -41,20 +41,20 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 10, 2026, 07:31 UTC
+Last dashboard update: Jun 10, 2026, 16:16 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 359 active latest cluster reports. 2 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 360 | 100% |
-| Policy-archived clusters | 1 | audit |
-| Clean completed clusters | 193 | 53.6% |
+| Latest clusters reviewed | 359 | 100% |
+| Policy-archived clusters | 2 | audit |
+| Clean completed clusters | 193 | 53.8% |
 | Needs-human clusters | 49 | 13.6% |
-| Latest successful clusters | 351 | 97.5% |
+| Latest successful clusters | 350 | 97.5% |
 | Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
 | Run attempts archived | 649 | audit |
@@ -62,10 +62,10 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Fix actions executed | 1 | 0.5% |
 | Fix actions failed | 35 | 19.2% |
 | Fix actions blocked | 56 | 30.8% |
-| Latest clusters with fix failures | 48 | 13.3% |
-| Distinct PRs touched | 1087 | 100% |
-| Open PRs tracked | 114 | 10.5% |
-| Closed unmerged PRs tracked | 825 | 75.9% |
+| Latest clusters with fix failures | 47 | 13.1% |
+| Distinct PRs touched | 951 | 100% |
+| Open PRs tracked | 102 | 10.7% |
+| Closed unmerged PRs tracked | 694 | 73.0% |
 | Completed close actions | 30 | 10.1% |
 | Completed merge actions | 23 | 7.7% |
 | Duplicate closes | 22 | 73.3% |
@@ -80,7 +80,6 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
 | [clawsweeper-commit-openclaw-openclaw-806a0119f3cd](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) | [27259600929](https://github.com/openclaw/clownfish/actions/runs/27259600929) |
-| [clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7](results/openclaw/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7.md) | partial / stuck | jobs/openclaw/outbox/stuck/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7.md | watcher-root finding landed in openclaw/openclaw#91884; interval-only QMD startup finding needs a narrower follow-up | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7.md) | [27259604421](https://github.com/openclaw/clownfish/actions/runs/27259604421) |
 | [clawsweeper-commit-openclaw-openclaw-7662a17b08bb](results/openclaw/clawsweeper-commit-openclaw-openclaw-7662a17b08bb.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-7662a17b08bb.md | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-7662a17b08bb.md) | [27256001364](https://github.com/openclaw/clownfish/actions/runs/27256001364) |
 | [clawsweeper-commit-openclaw-openclaw-4932e91517ad](results/openclaw/clawsweeper-commit-openclaw-openclaw-4932e91517ad.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-4932e91517ad.md | No fix PR is planned. The ClawSweeper finding is already fixed on current openclaw/openclaw main at 92418fc9da1a5837c9770a2a7366e83d87de2... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-4932e91517ad.md) | [27255672367](https://github.com/openclaw/clownfish/actions/runs/27255672367) |
 | [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | Codex /review failed: structured output was not written to replacement-codex-review-2.json; stdout={"type":"thread.started","thread_id":"... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27255091380](https://github.com/openclaw/clownfish/actions/runs/27255091380) |
@@ -104,12 +103,12 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [gitcrawl-2477-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2477-dedupe-only-20260429-remote.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | [25133514336](https://github.com/openclaw/clownfish/actions/runs/25133514336) |
 | [gitcrawl-2282-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2282-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2282-dedupe-only-20260429-remote.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-2282-dedupe-only-20260429-remote.md) | [25132458580](https://github.com/openclaw/clownfish/actions/runs/25132458580) |
 | [gitcrawl-2111-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2111-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2111-dedupe-only-20260429-remote.md | target changed since worker review | [report](results/openclaw/gitcrawl-2111-dedupe-only-20260429-remote.md) | [25131909532](https://github.com/openclaw/clownfish/actions/runs/25131909532) |
+| [gitcrawl-1972-dedupe-only-20260429-remote](results/openclaw/gitcrawl-1972-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-1972-dedupe-only-20260429-remote.md | #43443: maintainer decision needed on launchd EIO retry plus SIGKILL/PID identity semantics before any automated replacement or rebase. | [report](results/openclaw/gitcrawl-1972-dedupe-only-20260429-remote.md) | [25131315944](https://github.com/openclaw/clownfish/actions/runs/25131315944) |
 
 ### Fix Failure Queue
 
 | Cluster | Status | Target | Branch/PR | Reason | Run |
 | --- | --- | --- | --- | --- | --- |
-| [clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7](results/openclaw/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7.md) | stuck |  | https://github.com/openclaw/openclaw/pull/91884 | watcher-root finding landed; interval-only QMD startup finding remains split-out work | [27259604421](https://github.com/openclaw/clownfish/actions/runs/27259604421) |
 | [clawsweeper-commit-openclaw-openclaw-7662a17b08bb](results/openclaw/clawsweeper-commit-openclaw-openclaw-7662a17b08bb.md) | blocked |  | clownfish/clawsweeper-commit-openclaw-openclaw-7662a17b08bb | Codex /review failed: structured output was not written to replacement-codex-review-1.json; stdout={"type":"thread.started","thread_id":"... | [27256001364](https://github.com/openclaw/clownfish/actions/runs/27256001364) |
 | [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | blocked |  | clownfish/clawsweeper-commit-openclaw-openclaw-450607847b7b | Codex /review failed: structured output was not written to replacement-codex-review-2.json; stdout={"type":"thread.started","thread_id":"... | [27255091380](https://github.com/openclaw/clownfish/actions/runs/27255091380) |
 | [clawsweeper-commit-openclaw-openclaw-07631fb931fc](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | blocked |  |  | fix execution deadline exceeded before Codex /review; 132867ms remains, 90000ms reserved for report upload | [27201701751](https://github.com/openclaw/clownfish/actions/runs/27201701751) |
@@ -134,6 +133,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | [ghcrawl-156946-autonomous-smoke](results/openclaw/ghcrawl-156946-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25040211577](https://github.com/openclaw/clownfish/actions/runs/25040211577) |
 | [ghcrawl-156879-autonomous-smoke](results/openclaw/ghcrawl-156879-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039930706](https://github.com/openclaw/clownfish/actions/runs/25039930706) |
 | [ghcrawl-156868-autonomous-smoke](results/openclaw/ghcrawl-156868-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039867359](https://github.com/openclaw/clownfish/actions/runs/25039867359) |
+| [ghcrawl-156864-autonomous-smoke](results/openclaw/ghcrawl-156864-autonomous-smoke.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [25039821052](https://github.com/openclaw/clownfish/actions/runs/25039821052) |
 
 ### Top Blocked Reasons
 
