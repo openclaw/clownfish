@@ -23,6 +23,10 @@ const resultRepairAttempts = Math.max(0, Number(process.env.CLOWNFISH_RESULT_REP
 const resultRepairTimeoutMs = Number(process.env.CLOWNFISH_RESULT_REPAIR_TIMEOUT_MS ?? 10 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 const codexServiceTier = String(process.env.CLOWNFISH_CODEX_SERVICE_TIER ?? "fast").trim();
+const codexStdoutMaxBufferBytes = parsePositiveIntegerEnv(
+  process.env.CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES,
+  64 * 1024 * 1024,
+);
 
 if (!jobPath) {
   console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute|autonomous [--dry-run]");
@@ -121,6 +125,11 @@ if (child.error?.code === "ETIMEDOUT") {
   console.error(`Codex worker timed out after ${codexTimeoutMs}ms`);
   process.exit(0);
 }
+if (child.error?.code === "ENOBUFS") {
+  writeBlockedResult(`Codex worker stdout exceeded ${codexStdoutMaxBufferBytes} bytes before writing result.json`);
+  console.error(`Codex worker stdout exceeded ${codexStdoutMaxBufferBytes} bytes`);
+  process.exit(0);
+}
 
 if (child.status !== 0) {
   if (recoverResultFromTranscriptIfMissing()) {
@@ -184,6 +193,7 @@ function runCodex({ input, outputPath, transcriptPath: codexTranscriptPath, stde
     encoding: "utf8",
     env: codexEnv(),
     timeout: timeoutMs,
+    maxBuffer: codexStdoutMaxBufferBytes,
   });
 
   fs.writeFileSync(codexTranscriptPath, child.stdout ?? "");
@@ -283,6 +293,13 @@ function codexEnv() {
   delete env.CLOWNFISH_READ_GH_TOKEN;
   delete env.CLOWNFISH_CODEX_GH_TOKEN;
   return env;
+}
+
+function parsePositiveIntegerEnv(value, fallback) {
+  if (value === undefined || value === "") return fallback;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) return fallback;
+  return parsed;
 }
 
 function writeBlockedResult(summary) {
