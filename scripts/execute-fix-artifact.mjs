@@ -33,6 +33,10 @@ const codexTimeoutMs = Math.min(requestedCodexTimeoutMs, Math.max(60 * 1000, fix
 const codexPreflightTimeoutMs = Number(process.env.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS ?? 2 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 const codexServiceTier = String(process.env.CLOWNFISH_CODEX_SERVICE_TIER ?? "fast").trim();
+const codexStdoutMaxBufferBytes = Math.max(
+  1024 * 1024,
+  Number(process.env.CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES ?? 64 * 1024 * 1024),
+);
 const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 3));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const maxRebaseAttempts = Math.max(4, Number(process.env.CLOWNFISH_REBASE_REPAIR_ATTEMPTS ?? 4));
@@ -767,13 +771,13 @@ function editValidatePrepareMerge({
           encoding: "utf8",
           env: codexEnv(),
           timeout: timeoutMs,
+          maxBuffer: codexStdoutMaxBufferBytes,
         },
       );
       fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.jsonl`), codexResult.stdout ?? "");
       if (codexResult.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-${attempt}.stderr.log`), codexResult.stderr);
-      if (codexResult.error?.code === "ETIMEDOUT") {
-        throw new Error(`Codex fix worker timed out after ${timeoutMs}ms`);
-      }
+      const processError = codexProcessErrorMessage(codexResult, "Codex fix worker", timeoutMs);
+      if (processError) throw new Error(processError);
       if (codexResult.status !== 0) {
         throw new Error(codexResult.stderr || codexResult.stdout || "Codex fix worker failed");
       }
@@ -1026,6 +1030,15 @@ function compactText(value, maxLength) {
   return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
 }
 
+function codexProcessErrorMessage(child, label, timeoutMs) {
+  if (child.error?.code === "ETIMEDOUT") return `${label} timed out after ${timeoutMs}ms`;
+  if (child.error?.code === "ENOBUFS") {
+    return `${label} exceeded stdout buffer (${codexStdoutMaxBufferBytes} bytes); increase CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES`;
+  }
+  if (child.error) return `${label} failed: ${child.error.message}`;
+  return "";
+}
+
 function runCodexWritePreflight() {
   if (skipCodexWritePreflight) {
     return {
@@ -1074,18 +1087,14 @@ function runCodexWritePreflight() {
       encoding: "utf8",
       env: codexEnv(),
       timeout: timeoutMs,
-      maxBuffer: 16 * 1024 * 1024,
+      maxBuffer: codexStdoutMaxBufferBytes,
     },
   );
   fs.writeFileSync(path.join(workRoot, "codex-write-preflight.jsonl"), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, "codex-write-preflight.stderr.log"), child.stderr);
 
-  if (child.error?.code === "ETIMEDOUT") {
-    return blockedCodexWritePreflight(
-      `Codex write preflight timed out after ${timeoutMs}ms`,
-      child.stderr || child.stdout,
-    );
-  }
+  const processError = codexProcessErrorMessage(child, "Codex write preflight", timeoutMs);
+  if (processError) return blockedCodexWritePreflight(processError, child.stderr || child.stdout);
   if (child.status !== 0) {
     return blockedCodexWritePreflight("Codex write preflight failed", child.stderr || child.stdout);
   }
@@ -1235,11 +1244,13 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
       encoding: "utf8",
       env: codexEnv(),
       timeout: timeoutMs,
+      maxBuffer: codexStdoutMaxBufferBytes,
     },
   );
   fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.jsonl`), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-${attempt}.stderr.log`), child.stderr);
-  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex /review timed out after ${timeoutMs}ms`);
+  const processError = codexProcessErrorMessage(child, "Codex /review", timeoutMs);
+  if (processError) throw new Error(processError);
   if (child.status !== 0) {
     const fallbackReview = extractCodexReviewFromJsonl(child.stdout);
     if (fallbackReview) {
@@ -1350,11 +1361,13 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
       encoding: "utf8",
       env: codexEnv(),
       timeout: timeoutMs,
+      maxBuffer: codexStdoutMaxBufferBytes,
     },
   );
   fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-fix-${attempt}.jsonl`), child.stdout ?? "");
   if (child.stderr) fs.writeFileSync(path.join(workRoot, `${mode}-codex-review-fix-${attempt}.stderr.log`), child.stderr);
-  if (child.error?.code === "ETIMEDOUT") throw new Error(`Codex review-fix worker timed out after ${timeoutMs}ms`);
+  const processError = codexProcessErrorMessage(child, "Codex review-fix worker", timeoutMs);
+  if (processError) throw new Error(processError);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex review-fix worker failed");
 }
 
@@ -2306,15 +2319,15 @@ function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArti
         encoding: "utf8",
         env: codexEnv(),
         timeout: timeoutMs,
+        maxBuffer: codexStdoutMaxBufferBytes,
       },
     );
     fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.jsonl`), child.stdout ?? "");
     if (child.stderr) {
       fs.writeFileSync(path.join(workRoot, `replacement-codex-rebase-fix-${attempt}.stderr.log`), child.stderr);
     }
-    if (child.error?.code === "ETIMEDOUT") {
-      throw new Error(`Codex rebase-fix worker timed out after ${timeoutMs}ms`);
-    }
+    const processError = codexProcessErrorMessage(child, "Codex rebase-fix worker", timeoutMs);
+    if (processError) throw new Error(processError);
     if (child.status !== 0) {
       throw new Error(child.stderr || child.stdout || "Codex rebase-fix worker failed");
     }

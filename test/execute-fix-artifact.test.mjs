@@ -7,6 +7,17 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
+test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffer", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+  const codexSpawnCount = source.match(/spawnSync\(\s*\n\s*"codex"/g)?.length ?? 0;
+  const codexMaxBufferCount = source.match(/maxBuffer:\s*codexStdoutMaxBufferBytes/g)?.length ?? 0;
+
+  assert.equal(codexSpawnCount, 5);
+  assert.equal(codexMaxBufferCount, codexSpawnCount);
+  assert.match(source, /CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES/);
+  assert.match(source, /child\.error\?\.code === "ENOBUFS"/);
+});
+
 test("execute-fix-artifact preserves recoverable replacement branch when review deadline blocks", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
