@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "clawsweeper-commit-openclaw-openclaw-7877182b6f59"
 mode: "autonomous"
-run_id: "25098390975"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25098390975"
-head_sha: "9885ef4ae6b856ecc82a89624bce2aeeb34630da"
-workflow_conclusion: "skipped"
+run_id: "27256002546"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27256002546"
+head_sha: "becc580db27cb0c6c6147a3499ca4d331a6d921d"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T08:21:25.652Z"
-canonical: null
+published_at: "2026-06-10T05:49:27.420Z"
+canonical: "https://github.com/openclaw/openclaw/tree/92418fc9da1a5837c9770a2a7366e83d87de2fd3"
 canonical_issue: null
 canonical_pr: null
 actions_total: 1
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25098390975](https://github.com/openclaw/clownfish/actions/runs/25098390975)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27256002546](https://github.com/openclaw/clownfish/actions/runs/27256002546)
 
-Workflow conclusion: skipped
+Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: https://github.com/openclaw/openclaw/tree/92418fc9da1a5837c9770a2a7366e83d87de2fd3
 
 ## Summary
 
-Found one concrete regression: a focused gateway test file now fails because its module mock was not updated for the new runtime-deps cleanup export.
+The ClawSweeper commit finding is already fixed on the hydrated latest main. No fix PR should be opened for this cluster.
 
 ## Impact
 
@@ -66,7 +66,7 @@ Found one concrete regression: a focused gateway test file now fails because its
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| cluster:clawsweeper-commit-openclaw-openclaw-7877182b6f59 | build_fix_artifact | planned |  | ClawSweeper found an actionable commit-level bug/regression candidate. |
+| cluster:clawsweeper-commit-openclaw-openclaw-7877182b6f59 | build_fix_artifact | skipped |  | Latest main no longer contains the import/mock mismatch described by the ClawSweeper report, so this is an audited no-PR outcome. |
 
 ## Needs Human
 
