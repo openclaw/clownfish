@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-548c280eff60",
+  "mode": "autonomous",
+  "run_id": "27254287010",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27254287010",
+  "head_sha": "30fe524e0242df8f63b0c7c77e9b878f295439cd",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-548c280eff60.md",
+  "published_at": "2026-06-10T05:10:48.607Z",
+  "canonical": "https://github.com/openclaw/openclaw/commit/548c280eff60d1851473fdb455cfdc82dd552779",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "The ClawSweeper commit finding still warrants a narrow fix artifact on current main b4cdd9211957875df0d301ccc40e2935ba26829f: the public Plugin SDK channel contract exports ChannelOutboundPayloadHint while the tracked Plugin SDK API baseline hash remains the only committed drift-detection artifact. No GitHub issue or PR refs were hydrated, no security-sensitive signal was present, and close/merge actions are blocked by the job.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-548c280eff60",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No viable hydrated canonical PR exists, and the reported Plugin SDK API baseline drift remains a narrow generated-artifact repair."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-548c280eff60",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create a Clownfish fix PR from the cluster target branch to refresh the Plugin SDK API baseline hash and validate the changed surface."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/91842",
+      "branch": "clownfish/clawsweeper-commit-openclaw-openclaw-548c280eff60",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "a60699466e4acbf9fda421a3b675a682dee81b34",
+      "checkpoint_commits": [
+        "a60699466e4acbf9fda421a3b675a682dee81b34"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/91842"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#91842",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
