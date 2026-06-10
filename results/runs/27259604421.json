@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7",
+  "mode": "autonomous",
+  "run_id": "27259604421",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27259604421",
+  "head_sha": "b53cc678ce321243d48f88a3a8db54bd66e34c10",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7.md",
+  "published_at": "2026-06-10T07:23:40.790Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Verified the ClawSweeper commit finding against openclaw/openclaw main at a3d5e5bc7247427db222d57051f5cb28813d2f29. Both QMD freshness regressions are still present, no security-sensitive signal was found, and a narrow new fix PR is appropriate.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Both reported regressions remain present on latest hydrated main and no viable canonical PR exists in the cluster, so a narrow fix artifact is needed."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Build one narrow implementation PR that repairs QMD startup arming and collection-root-relative watcher ignores."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/clawsweeper-commit-openclaw-openclaw-afc4f06ca3c7",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, extensions, extensionTests, docs [check:changed] extensions/memory-core/src/memory/qmd-manager.test.ts: extension test [check:changed] extensions/memory-core/src/memory/qmd-manager.ts: extension production [check:changed] src/gateway/server-startup-memory.test.ts: core test [check:changed] src/gateway/server-startup-memory.ts: core production [check:changed] src/gateway/server-startup-post-attach.test.ts: core test [check:changed] src/gateway/server-startup-post-attach.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:...",
+      "commit": "63560932803da1b7ee8fea79d03a17367e66aef0",
+      "checkpoint_commits": [
+        "63560932803da1b7ee8fea79d03a17367e66aef0"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
