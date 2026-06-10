@@ -80,6 +80,12 @@ Cluster shape from ghcrawl:
 - representative: #61782, currently closed in local store
 - latest member update: 2026-04-25T17:12:54.250Z
 
+## Manual Status
+
+- 2026-06-10: Live GitHub recheck found all 25 original cluster refs closed and no open Clownfish PR for this cluster.
+- 2026-06-10: The published worker result's replacement canonical, duplicate, related, and linked refs are also closed: #62560, #65153, #44980, #45799, #60472, #54959, #44182, and #62312.
+- Keep this security-hold job finalized as historical audit data rather than rerunning a stale autonomous cluster.
+
 ## Goal
 
 Run one live autonomous classification pass. Classify open candidates only, verify live GitHub state, choose the current canonical issue or PR if the representative is obsolete, and emit only high-confidence planned close/comment/label actions. Closed context refs are evidence only and must not receive close actions.

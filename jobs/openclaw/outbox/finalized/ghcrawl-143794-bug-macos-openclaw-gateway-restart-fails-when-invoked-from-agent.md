@@ -96,6 +96,12 @@ Cluster shape from ghcrawl:
 - representative: #40306, currently closed in local store
 - latest member update: 2026-04-25T11:56:54.695Z
 
+## Manual Status
+
+- 2026-06-10: Live GitHub recheck found all 40 original cluster refs closed and no open Clownfish PR for this cluster.
+- 2026-06-10: The published worker result's replacement canonical and related refs are also closed: #60885, #71060, #58890, #58061, #66436, and #70968. Security-routed refs #53742 and #61340 are closed too.
+- Keep this security-hold job finalized as historical audit data rather than rerunning a stale plan-mode cluster.
+
 ## Goal
 
 Classify the open candidate issues and PRs in read-only plan mode. Do not close anything. If the representative is closed, report whether another open item should become the live canonical. If the cluster contains multiple root causes, split them in the action matrix instead of forcing a single duplicate family.

@@ -8,12 +8,12 @@
   "stuck_dir": "jobs/openclaw/outbox/stuck",
   "active_cluster_runs": [],
   "totals": {
-    "jobs": 94,
+    "jobs": 92,
     "move_to_outbox": 30,
     "keep": 54,
     "requeue_candidate": 6,
     "active": 1,
-    "security_hold": 3
+    "security_hold": 1
   },
   "delete_test_jobs": [],
   "outbox_jobs": [
@@ -1889,94 +1889,6 @@
   ],
   "security_hold_jobs": [
     {
-      "job": "jobs/openclaw/inbox/ghcrawl-143794-bug-macos-openclaw-gateway-restart-fails-when-invoked-from-agent.md",
-      "cluster_id": "ghcrawl-143794-bug-macos-openclaw-gateway-restart-fails-when-invoked-from-agent",
-      "status": "security_hold",
-      "reason": "security-sensitive job stays out of automation cleanup",
-      "mode": "plan",
-      "latest_run_id": "25069821394",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 40,
-      "live_target_refs_found": 40,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 0,
-      "live_target_refs_closed": 40,
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#40089",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Gateway restart (update.run) can leave service dead: bootout without bootstrap",
-          "url": "https://github.com/openclaw/openclaw/issues/40089"
-        },
-        {
-          "ref": "#40306",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: macOS openclaw gateway restart fails when invoked from agent/tool-driven automation; manual Terminal restart can work, recovery requires openclaw gateway install",
-          "url": "https://github.com/openclaw/openclaw/issues/40306"
-        },
-        {
-          "ref": "#40550",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] openclaw gateway stop/start fails to recover on macOS 26 — service removed but never re-registered",
-          "url": "https://github.com/openclaw/openclaw/issues/40550"
-        },
-        {
-          "ref": "#40737",
-          "kind": "issue",
-          "state": "closed",
-          "title": "macOS: gateway restart can leave LaunchAgent not loaded; prefer kickstart-first for loaded services",
-          "url": "https://github.com/openclaw/openclaw/issues/40737"
-        },
-        {
-          "ref": "#41197",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] openclaw update does not restart gateway automatically",
-          "url": "https://github.com/openclaw/openclaw/issues/41197"
-        },
-        {
-          "ref": "#41198",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Gateway restart from agent exec kills gateway without recovery (bootout before bootstrap)",
-          "url": "https://github.com/openclaw/openclaw/issues/41198"
-        },
-        {
-          "ref": "#41251",
-          "kind": "issue",
-          "state": "closed",
-          "title": "gateway restart unloads launchd service and fails to reload",
-          "url": "https://github.com/openclaw/openclaw/issues/41251"
-        },
-        {
-          "ref": "#41315",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: macOS LaunchAgent restart instability: gateway restart often leaves service not loaded; install+restart required",
-          "url": "https://github.com/openclaw/openclaw/issues/41315"
-        },
-        {
-          "ref": "#41353",
-          "kind": "issue",
-          "state": "closed",
-          "title": "From @Krill: `openclaw gateway restart` should attempt bootstrap when plist exists but service isn’t loaded (macOS launchd)",
-          "url": "https://github.com/openclaw/openclaw/issues/41353"
-        },
-        {
-          "ref": "#41570",
-          "kind": "issue",
-          "state": "closed",
-          "title": "gateway restart fails - launchd service not found",
-          "url": "https://github.com/openclaw/openclaw/issues/41570"
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/ghcrawl-143801-autonomous-smoke.md",
       "cluster_id": "ghcrawl-143801-autonomous-smoke",
       "status": "security_hold",
@@ -2077,94 +1989,6 @@
           "state": "closed",
           "title": "fix: avoid inheriting session key for isolated cron jobs",
           "url": "https://github.com/openclaw/openclaw/pull/50020"
-        }
-      ]
-    },
-    {
-      "job": "jobs/openclaw/inbox/ghcrawl-143805-autonomous-smoke.md",
-      "cluster_id": "ghcrawl-143805-autonomous-smoke",
-      "status": "security_hold",
-      "reason": "security-sensitive job stays out of automation cleanup",
-      "mode": "autonomous",
-      "latest_run_id": "24939001644",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 25,
-      "live_target_refs_found": 25,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 0,
-      "live_target_refs_closed": 25,
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#41821",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: Telegram photo download fails — single photo and media group both affected",
-          "url": "https://github.com/openclaw/openclaw/issues/41821"
-        },
-        {
-          "ref": "#44708",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: Telegram media download broken since 2026.3.11",
-          "url": "https://github.com/openclaw/openclaw/issues/44708"
-        },
-        {
-          "ref": "#44732",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Telegram media download fails when behind HTTP proxy (SSRF guard DNS pinning bypasses proxy)",
-          "url": "https://github.com/openclaw/openclaw/issues/44732"
-        },
-        {
-          "ref": "#44747",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: Telegram Voice Memo Download Fails",
-          "url": "https://github.com/openclaw/openclaw/issues/44747"
-        },
-        {
-          "ref": "#44769",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] Telegram插件下载媒体文件时没有使用代理配置",
-          "url": "https://github.com/openclaw/openclaw/issues/44769"
-        },
-        {
-          "ref": "#44771",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] Telegram plugin fails to download media files when proxy is configured",
-          "url": "https://github.com/openclaw/openclaw/issues/44771"
-        },
-        {
-          "ref": "#44980",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Telegram media download fails when proxy is required - fetchRemoteMedia bypasses configured proxy",
-          "url": "https://github.com/openclaw/openclaw/issues/44980"
-        },
-        {
-          "ref": "#45079",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: Regression: Telegram channel fails to fetch media when configured with proxy on 2026.3.12, worked on 2026.3.7",
-          "url": "https://github.com/openclaw/openclaw/issues/45079"
-        },
-        {
-          "ref": "#45116",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] Telegram media files cannot be received after upgrading to 3.12",
-          "url": "https://github.com/openclaw/openclaw/issues/45116"
-        },
-        {
-          "ref": "#45467",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Media download fails when Telegram proxy is configured (SSRF guard overrides proxy dispatcher)",
-          "url": "https://github.com/openclaw/openclaw/issues/45467"
         }
       ]
     }

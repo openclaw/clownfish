@@ -4,13 +4,13 @@ Mode: applied
 
 | Metric | Count |
 | --- | ---: |
-| Jobs | 95 |
+| Jobs | 92 |
 | Delete test jobs | 0 |
 | Move to outbox | 30 |
 | Move to stuck queue | 0 |
 | Requeue candidates | 6 |
 | Active | 1 |
-| Security hold | 3 |
+| Security hold | 1 |
 | Invalid | 0 |
 
 ## Delete Test Jobs
@@ -81,9 +81,7 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/ghcrawl-143794-bug-macos-openclaw-gateway-restart-fails-when-invoked-from-agent.md | ghcrawl-143794-bug-macos-openclaw-gateway-restart-fails-when-invoked-from-agent | security-sensitive job stays out of automation cleanup |
 | jobs/openclaw/inbox/ghcrawl-143801-autonomous-smoke.md | ghcrawl-143801-autonomous-smoke | security-sensitive job stays out of automation cleanup |
-| jobs/openclaw/inbox/ghcrawl-143805-autonomous-smoke.md | ghcrawl-143805-autonomous-smoke | security-sensitive job stays out of automation cleanup |
 
 ## Invalid Jobs
 
