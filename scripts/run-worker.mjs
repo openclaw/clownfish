@@ -222,6 +222,7 @@ function repairResultIfNeeded() {
       "Do not mutate GitHub. Do not change the job scope. Return a complete replacement JSON result only.",
       "Fix the validation failures with the narrowest safe changes. If a PR closeout comment is missing contributor credit, update that action comment to explicitly preserve credit, including wording such as `credit`, `attribution`, `thanks @user`, or `source PR`, and keep the canonical/fix links intact.",
       "If a validator failure reveals that an action is not safely repairable from the provided artifacts, downgrade only that action to a non-mutating `keep_related`, `keep_independent`, blocked fix-first action, or `needs_human` with exact evidence.",
+      "Exception: for `source: clawsweeper_commit` jobs where current main already fixed the finding, do not downgrade to `keep_related`; emit a cluster-scoped `build_fix_artifact` action with `status: \"skipped\"`, `target_kind: null`, `target_updated_at: null`, and a `fix_artifact` using `repair_strategy: \"already_fixed_on_main\"` plus `allow_no_pr: true`.",
       "",
       "## Validator output",
       "```json",

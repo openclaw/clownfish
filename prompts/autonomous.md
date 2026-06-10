@@ -8,8 +8,12 @@ Scope:
 - For `source: clawsweeper_commit` jobs, start from the embedded ClawSweeper
   commit report instead of issue/PR refs. Do not perform a broad second audit of
   the commit; verify the reported finding on latest `main`, then either emit one
-  cluster-scoped `build_fix_artifact` for a narrow PR or return
-  `needs_human`/blocked evidence explaining why no PR should be created.
+  cluster-scoped `build_fix_artifact` for a narrow PR or an audited no-PR
+  `build_fix_artifact` with `status: "skipped"`, `fix_artifact.repair_strategy:
+  "already_fixed_on_main"`, and `fix_artifact.allow_no_pr: true` when current
+  `main` already fixed the finding. Do not use `keep_related` for
+  `source: clawsweeper_commit` no-op outcomes; there is no hydrated issue/PR ref
+  for that action to target.
 - Do not run broad GitHub search unless the job explicitly says so.
 - If the job includes `maintainer_calibration`, treat it as an explicit maintainer decision for that cluster. Use it to avoid stale `needs_human` outcomes, but do not bypass the normal merge gates, security boundary, review comments, Codex `/review`, or validation requirements.
 - For a maintainer-calibrated open canonical PR that is not merge-ready yet, do not return only `keep_canonical`. Emit `fix_needed` plus `build_fix_artifact` with `status: "planned"`, `repair_strategy: "repair_contributor_branch"`, and `source_prs` containing that PR URL so the executor can rebase, fix, review, and push the existing PR branch.

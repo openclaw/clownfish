@@ -25,8 +25,13 @@ Before action:
 - read the job frontmatter and body;
 - if `source: clawsweeper_commit`, treat the embedded ClawSweeper commit report
   as the source finding, do not require issue/PR refs, verify the finding
-  against latest `main`, and return a cluster-scoped fix artifact only when a
-  narrow non-security PR still makes sense;
+  against latest `main`, and return a cluster-scoped fix artifact when a narrow
+  non-security PR still makes sense;
+- if `source: clawsweeper_commit` is already fixed on latest `main`, return a
+  cluster-scoped `build_fix_artifact` action with `status: "skipped"` plus
+  `fix_artifact.repair_strategy: "already_fixed_on_main"` and
+  `fix_artifact.allow_no_pr: true`; do not use `keep_related` for that no-op
+  outcome because no hydrated issue/PR target exists;
 - read `instructions/dedupe.md`;
 - read `instructions/closure-policy.md`;
 - read `instructions/merge-policy.md`;
