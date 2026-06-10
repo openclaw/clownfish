@@ -215,7 +215,10 @@ function resultFile(clusterId) {
       affected_surfaces: ["src"],
       likely_files: ["src/app.js"],
       linked_refs: ["#1"],
-      validation_commands: ["pnpm check:changed"],
+      validation_commands: [
+        'pnpm test:serial src/app.js -t "previewRemHarness|skips REM short-term candidates whose source file disappeared"',
+        "pnpm check:changed",
+      ],
       credit_notes: ["No external contributor credit for this test."],
       changelog_required: false,
       repair_strategy: "new_fix_pr",
