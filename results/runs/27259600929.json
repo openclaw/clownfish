@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "clawsweeper-commit-openclaw-openclaw-806a0119f3cd",
+  "mode": "autonomous",
+  "run_id": "27259600929",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27259600929",
+  "head_sha": "b53cc678ce321243d48f88a3a8db54bd66e34c10",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md",
+  "published_at": "2026-06-10T07:29:56.401Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Verified the ClawSweeper finding against openclaw/openclaw main at a3d5e5bc7247427db222d57051f5cb28813d2f29. The original Codex-harness part is already mitigated on current main by forcing OPENCLAW_SKIP_DOCKER_BUILD=0 before that lane rebuilds with codex, but the ACP bind Docker live suite still appends acpx and then reuses a shared live-test image built with only matrix. No security-sensitive signal or canonical PR is present, so the planned path is a narrow new fix PR that adds acpx to the shared live-test image build arguments. No close or merge actions are allowed or planned.",
+  "actions": [
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-806a0119f3cd",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Current main still has the ACP bind portion of the reported shared live-test Docker image regression; allow_fix_pr is true and no viable canonical PR or hydrated issue/PR target exists."
+    },
+    {
+      "target": "cluster:clawsweeper-commit-openclaw-openclaw-806a0119f3cd",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A one-file workflow fix can make the shared live-test image include the plugin dependency set required by the reused ACP bind Docker live suite."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/91879",
+      "branch": "clownfish/clawsweeper-commit-openclaw-openclaw-806a0119f3cd",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "daa396a47c081232bc8594ed7a5e5ff089652cb2",
+      "checkpoint_commits": [
+        "082c51854aaa7f1593dd2d0de1eb4bc35ad0a5ec",
+        "b62a5abb8853436c2e179ff6fc76da95d6b15a25"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/91879"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#91879",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
