@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 10, 2026, 05:11 UTC
+Last dashboard update: Jun 10, 2026, 05:18 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -53,19 +53,19 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 | Latest clusters reviewed | 360 | 100% |
 | Policy-archived clusters | 1 | audit |
 | Clean completed clusters | 189 | 52.5% |
-| Needs-human clusters | 50 | 13.9% |
-| Latest successful clusters | 344 | 95.6% |
-| Latest failed clusters | 3 | 0.8% |
+| Needs-human clusters | 49 | 13.6% |
+| Latest successful clusters | 343 | 95.3% |
+| Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 639 | audit |
+| Run attempts archived | 640 | audit |
 | Fix action attempts | 178 | audit |
 | Fix actions executed | 1 | 0.6% |
 | Fix actions failed | 35 | 19.7% |
 | Fix actions blocked | 53 | 29.8% |
 | Latest clusters with fix failures | 45 | 12.5% |
 | Distinct PRs touched | 1086 | 100% |
-| Open PRs tracked | 123 | 11.3% |
-| Closed unmerged PRs tracked | 816 | 75.1% |
+| Open PRs tracked | 121 | 11.1% |
+| Closed unmerged PRs tracked | 817 | 75.2% |
 | Completed close actions | 30 | 10.1% |
 | Completed merge actions | 23 | 7.8% |
 | Duplicate closes | 22 | 73.3% |
@@ -79,8 +79,8 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | workflow failure | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | The ClawSweeper finding is still valid on current openclaw/openclaw main at 54c400a975711782615b8682ce4d635910843f4f. previewRemHarness s... | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27254810249](https://github.com/openclaw/clownfish/actions/runs/27254810249) |
 | [clawsweeper-commit-openclaw-openclaw-548c280eff60](results/openclaw/clawsweeper-commit-openclaw-openclaw-548c280eff60.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-548c280eff60.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-548c280eff60.md) | [27254287010](https://github.com/openclaw/clownfish/actions/runs/27254287010) |
-| [clawsweeper-commit-openclaw-openclaw-450607847b7b](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | needs human | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-450607847b7b.md | Codex worker completed without writing result.json; see codex.jsonl for the transcript | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-450607847b7b.md) | [27254285881](https://github.com/openclaw/clownfish/actions/runs/27254285881) |
 | [clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-1d0e9a907e6d.md) | [27242663897](https://github.com/openclaw/clownfish/actions/runs/27242663897) |
 | [clawsweeper-commit-openclaw-openclaw-0bbbc99980b8](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | apply blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md | job does not allow merge | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-0bbbc99980b8.md) | [27241227425](https://github.com/openclaw/clownfish/actions/runs/27241227425) |
 | [clawsweeper-commit-openclaw-openclaw-07631fb931fc](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | fix blocked | jobs/openclaw/inbox/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md | fix execution deadline exceeded before Codex /review; 132867ms remains, 90000ms reserved for report upload | [report](results/openclaw/clawsweeper-commit-openclaw-openclaw-07631fb931fc.md) | [27201701751](https://github.com/openclaw/clownfish/actions/runs/27201701751) |
@@ -159,7 +159,7 @@ Scope: 360 active latest cluster reports. 1 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#91842](https://github.com/openclaw/openclaw/pull/91842) | fix(plugin-sdk): refresh API baseline hash | clawsweeper-commit-openclaw-openclaw-548c280eff60 | clownfish/clawsweeper-commit-openclaw-openclaw-548c280eff60 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, nee... | repair failing checks or document unrelated main flake with touched-surface proof |
+| _None_ |  |  |  |  |  |
 
 ### Latest ProjectClownfish Closures
 
