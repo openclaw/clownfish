@@ -269,6 +269,20 @@ function applyCloseAction({
     }
   }
 
+  const comment = renderCloseComment({ action, classification, result, target, live });
+  const marker = idempotencyMarker(result.cluster_id, target, idempotencyKey);
+  const body = comment.includes(marker) ? comment : `${comment.trim()}\n\n${marker}`;
+  const existingComment = findExistingComment(result.repo, target, marker, body);
+
+  if (live.state !== "open" && existingComment) {
+    return {
+      ...base,
+      status: "executed",
+      reason: "already closed with matching projectclownfish comment",
+      live_state: live.state,
+    };
+  }
+
   const expectedUpdatedAt = action.target_updated_at ?? action.live_updated_at;
   if (!expectedUpdatedAt && !allowMissingUpdatedAt) {
     return {
@@ -290,18 +304,8 @@ function applyCloseAction({
     };
   }
 
-  const comment = renderCloseComment({ action, classification, result, target, live });
-  const marker = idempotencyMarker(result.cluster_id, target, idempotencyKey);
-  const body = comment.includes(marker) ? comment : `${comment.trim()}\n\n${marker}`;
-  const existingComment = findExistingComment(result.repo, target, marker, body);
-
   if (live.state !== "open") {
-    return {
-      ...base,
-      status: existingComment ? "executed" : "skipped",
-      reason: existingComment ? "already closed with matching projectclownfish comment" : "already closed",
-      live_state: live.state,
-    };
+    return { ...base, status: "skipped", reason: "already closed", live_state: live.state };
   }
 
   if (dryRun) {

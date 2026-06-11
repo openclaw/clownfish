@@ -49,6 +49,27 @@ test("apply-result keeps fixed-by close blocked without explicit unmerged-fix op
   assert.match(report.actions[0].reason, /fixed_by_candidate close requires a merged fix PR/);
 });
 
+test("apply-result treats closed target with matching marker as idempotently executed", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeGhStub(binDir, { issueState: "closed", includeExistingMarker: true });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(resultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  assert.equal(report.actions[0].reason, "already closed with matching projectclownfish comment");
+  assert.equal(report.actions[0].live_state, "closed");
+});
+
 function apply(jobPath, resultPath, reportPath, binDir) {
   return spawnSync(
     process.execPath,
@@ -65,8 +86,11 @@ function apply(jobPath, resultPath, reportPath, binDir) {
   );
 }
 
-function writeGhStub(binDir) {
+function writeGhStub(binDir, { issueState = "open", includeExistingMarker = false } = {}) {
   const ghPath = path.join(binDir, "gh");
+  const existingCommentBody = includeExistingMarker
+    ? `<!-- projectclownfish:close:ghcrawl-199237-agentic-merge:#60063:${resultJson().actions[0].idempotency_key} -->`
+    : "";
   fs.writeFileSync(
     ghPath,
     `#!/usr/bin/env node
@@ -77,15 +101,15 @@ function write(value) {
 if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   write({
     number: 60063,
-    state: "open",
+    state: ${JSON.stringify(issueState)},
     title: "streaming fix",
-    updated_at: "2026-06-11T05:07:30Z",
+    updated_at: ${JSON.stringify(issueState === "open" ? "2026-06-11T05:07:30Z" : "2026-06-11T12:38:26Z")},
     labels: [],
     author_association: "NONE",
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
-  write([[]]);
+  write(${JSON.stringify(existingCommentBody ? [[{ body: existingCommentBody }]] : [[]])});
 } else {
   process.stderr.write("unexpected gh call: " + args.join(" ") + "\\n");
   process.exit(1);
