@@ -47,8 +47,8 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #37634 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 166005 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-11 found #31331 and #37634 open; #37634 remains the likely canonical but worker must verify current GitHub state."
+notes: "Generated from ghcrawl run cluster 166005 on 2026-04-26; live refreshed on 2026-06-11."
 ---
 
 # GHCrawl Cluster 166005
@@ -76,16 +76,15 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
-
-Open candidates:
-
-- #31331 [Bug]: Docker Install + Sandbox can't workspaceAccess at all
 - #36525 [Feature]: agents.defaults.sandbox.workspaceAccess语义重构，修改挂载目录。
-- #37634 sandbox: keep workspaceAccess none workspaces writable
 - #44077 [Bug]: Sandbox file-tool edits rewrite workspace files to 0600, causing EACCES on host-side file tools
 - #46026 Bug: workspaceAccess: "none" mounts sandbox workspace as read-only instead of read-write
 - #57230 [Bug]: sandboxed agents fail file access and file sending for host absolute workspace paths
 - #59063 Sandboxed agents cannot reliably consume downloaded files because host workspace paths are returned instead of /workspace paths
 - #59613 [Bug]: sandbox container lack of permission to read write files
 - #65316 [Bug]: Sandboxed sessions can expose write-capable file tools even when no effective writable workspace target is available
+
+Open candidates:
+
+- #31331 [Bug]: Docker Install + Sandbox can't workspaceAccess at all
+- #37634 sandbox: keep workspaceAccess none workspaces writable
