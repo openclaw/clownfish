@@ -4,11 +4,11 @@ Mode: applied
 
 | Metric | Count |
 | --- | ---: |
-| Jobs | 35 |
+| Jobs | 32 |
 | Delete test jobs | 0 |
-| Move to outbox | 3 |
+| Move to outbox | 1 |
 | Move to stuck queue | 0 |
-| Requeue candidates | 10 |
+| Requeue candidates | 9 |
 | Active | 0 |
 | Security hold | 1 |
 | Invalid | 0 |
@@ -23,9 +23,7 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/ghcrawl-143798-bug-managed-browser-and-user-browser-attach-both-fail-on-macos-d.md | ghcrawl-143798-bug-managed-browser-and-user-browser-attach-both-fail-on-macos-d | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/ghcrawl-165997-agentic-merge.md | ghcrawl-165997-agentic-merge | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/gitcrawl-238856-dedupe-only-20260429c.md | gitcrawl-238856-dedupe-only-20260429c | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/gitcrawl-238884-dedupe-only-20260429c.md | gitcrawl-238884-dedupe-only-20260429c | latest run is clean and no open clownfish PR remains |
 
 ## Move To Stuck Queue
 
@@ -45,7 +43,6 @@ Mode: applied
 | jobs/openclaw/inbox/ghcrawl-207037-agentic-merge.md | ghcrawl-207037-agentic-merge | latest result has blocked or failed fix actions |
 | jobs/openclaw/inbox/gitcrawl-12851-dedupe-only-20260429-remote.md | gitcrawl-12851-dedupe-only-20260429-remote | latest workflow conclusion is failure |
 | jobs/openclaw/inbox/gitcrawl-16529-dedupe-only-20260429-remote.md | gitcrawl-16529-dedupe-only-20260429-remote | latest result has blocked apply actions |
-| jobs/openclaw/inbox/gitcrawl-238884-dedupe-only-20260429c.md | gitcrawl-238884-dedupe-only-20260429c | latest result has blocked apply actions |
 | jobs/openclaw/inbox/gitcrawl-2477-dedupe-only-20260429-remote.md | gitcrawl-2477-dedupe-only-20260429-remote | latest result has blocked apply actions |
 
 ## Active Jobs
