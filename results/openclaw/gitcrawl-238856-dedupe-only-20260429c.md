@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238856-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "27316212847"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27316212847"
-head_sha: "08cb02f5c04d4e1682af0e8ca0372e1a84444c9b"
-workflow_conclusion: "failure"
+run_id: "27317560720"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27317560720"
+head_sha: "f36a48c9bff6114bf9daea886e92434f3dbb368f"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-11T00:56:02.044Z"
+published_at: "2026-06-11T01:30:32.015Z"
 canonical: "https://github.com/openclaw/openclaw/issues/63956"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/63956"
 canonical_pr: null
@@ -25,9 +25,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27316212847](https://github.com/openclaw/clownfish/actions/runs/27316212847)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27317560720](https://github.com/openclaw/clownfish/actions/runs/27317560720)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/63956
 
 ## Summary
 
-Hydrated state makes the representative #72578 obsolete: #72578, #71992, and #72963 are already closed historical refs. The only open seed item is #63956, and it is related but not a strict duplicate of the closed post-final/history duplicate family because it tracks the during-stream visual layout where one assistant turn appears as multiple bubbles before collapsing. No close actions are planned. A non-mutating credited fix artifact is planned from closed source PR #63986 because current main still renders separate stream segment items and the source PR is closed, uneditable, and has review blockers to address.
+No GitHub mutations planned. The hydrated preflight shows the original representative #72578 and prior cluster issues #71992/#72963 are already closed, so they are historical evidence only. The only live seed issue is #63956, and it tracks a distinct in-flight streaming layout problem rather than the already-closed final-history duplicate-message family. Keep #63956 as the current open canonical for this cluster; keep the linked umbrella #69208 related; do not open a fix artifact because fix and raise_pr are blocked for this job.
 
 ## Impact
 
@@ -66,14 +66,14 @@ Hydrated state makes the representative #72578 obsolete: #72578, #71992, and #72
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #63956 | keep_canonical | planned | canonical | Only open seed with a unique remaining symptom; keep as the live canonical for this narrow streaming layout subcluster. |
-| #71992 | keep_closed | skipped | related | Already closed; not a valid closure target for this run. |
-| #72578 | keep_closed | skipped | related | Already closed representative; use as historical evidence only. |
-| #72963 | keep_closed | skipped | duplicate | Already closed by prior Clownfish duplicate closeout; no mutation is valid. |
-| #69208 | keep_related | planned | related | Related umbrella context, but not a strict duplicate of the remaining open narrow streaming-layout issue. |
-| #63986 | keep_closed | skipped | superseded | Closed uneditable contributor PR with useful idea and unresolved review blockers; replacement artifact should preserve credit. |
-| cluster:gitcrawl-238856-dedupe-only-20260429c | fix_needed | planned |  | A narrow credited Control UI layout fix is still needed, but this worker may only emit the plan/artifact. |
-| cluster:gitcrawl-238856-dedupe-only-20260429c | build_fix_artifact | planned |  | Prepare an auditable non-mutating replacement plan without opening a PR in this dedupe-only job. |
+| #63956 | keep_canonical | planned | canonical | #63956 is the only open seed ref and has a distinct unresolved streaming-layout scope; no close, merge, or fix action satisfies the job gates. |
+| #69208 | keep_related | planned | related | Related umbrella, but not a true duplicate target for the current live seed issue. |
+| #63986 | keep_closed | skipped | related | Closed contributor PR is useful historical evidence for #63956 but cannot receive a close action or serve as a live candidate fix in this no-fix/no-merge job. |
+| #34164 | keep_closed | skipped | related | Historical related PR for a different duplicate-render slice; already closed and not a viable candidate. |
+| #72004 | keep_closed | skipped | related | Historical related PR; already closed, and merge/fix actions are blocked by this job. |
+| #71992 | keep_closed | skipped | related | Closed related issue; no live closure target remains. |
+| #72578 | keep_closed | skipped | related | Original representative is obsolete as a live canonical because it is already closed. |
+| #72963 | keep_closed | skipped | duplicate | Already closed duplicate of #72578; historical evidence only. |
 
 ## Needs Human
 
