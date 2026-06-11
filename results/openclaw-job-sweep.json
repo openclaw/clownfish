@@ -1,6 +1,6 @@
 {
-  "status": "dry_run",
-  "generated_at": "2026-06-10T23:32:09.822Z",
+  "status": "applied",
+  "generated_at": "2026-06-11T00:33:55.652Z",
   "live": true,
   "verify_target_refs_live": true,
   "jobs_dir": "jobs/openclaw/inbox",
@@ -11,45 +11,25 @@
     "jobs": 36,
     "keep": 34,
     "security_hold": 1,
-    "active": 1
+    "move_to_outbox": 1
   },
   "delete_test_jobs": [],
-  "outbox_jobs": [],
-  "stuck_jobs": [],
-  "requeue_candidates": [],
-  "active_jobs": [
+  "outbox_jobs": [
     {
       "job": "jobs/openclaw/inbox/ghcrawl-191457-agentic-merge.md",
       "cluster_id": "ghcrawl-191457-agentic-merge",
-      "status": "active",
-      "reason": "open clownfish PR exists for this cluster",
+      "status": "move_to_outbox",
+      "reason": "all target issue/PR refs are closed in live GitHub state",
       "mode": "autonomous",
       "latest_run_id": "24967648150",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
-      "open_prs": [
-        {
-          "number": 74002,
-          "title": "fix(exec): respect OPENCLAW_STATE_DIR for exec approvals",
-          "url": "https://github.com/openclaw/openclaw/pull/74002",
-          "head_ref": "clownfish/ghcrawl-191457-agentic-merge",
-          "updated_at": "2026-05-30T05:02:32Z"
-        }
-      ],
+      "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
       "live_target_refs_missing": 0,
-      "live_target_refs_open": 1,
-      "live_target_refs_closed": 9,
-      "live_target_open_refs": [
-        {
-          "ref": "#64473",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix: allow symlinks within ~/.openclaw directory in boundary path checks",
-          "url": "https://github.com/openclaw/openclaw/pull/64473"
-        }
-      ],
+      "live_target_refs_open": 0,
+      "live_target_refs_closed": 10,
       "live_target_closed_refs_sample": [
         {
           "ref": "#38650",
@@ -94,6 +74,13 @@
           "url": "https://github.com/openclaw/openclaw/pull/62938"
         },
         {
+          "ref": "#64473",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix: allow symlinks within ~/.openclaw directory in boundary path checks",
+          "url": "https://github.com/openclaw/openclaw/pull/64473"
+        },
+        {
           "ref": "#64663",
           "kind": "pull_request",
           "state": "closed",
@@ -117,6 +104,9 @@
       ]
     }
   ],
+  "stuck_jobs": [],
+  "requeue_candidates": [],
+  "active_jobs": [],
   "security_hold_jobs": [
     {
       "job": "jobs/openclaw/inbox/ghcrawl-143801-autonomous-smoke.md",

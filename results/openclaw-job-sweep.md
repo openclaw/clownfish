@@ -1,15 +1,15 @@
 # OpenClaw Job Sweep
 
-Mode: dry_run
+Mode: applied
 
 | Metric | Count |
 | --- | ---: |
 | Jobs | 36 |
 | Delete test jobs | 0 |
-| Move to outbox | 0 |
+| Move to outbox | 1 |
 | Move to stuck queue | 0 |
 | Requeue candidates | 0 |
-| Active | 1 |
+| Active | 0 |
 | Security hold | 1 |
 | Invalid | 0 |
 
@@ -23,7 +23,7 @@ Mode: dry_run
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| _None_ |  |  |
+| jobs/openclaw/inbox/ghcrawl-191457-agentic-merge.md | ghcrawl-191457-agentic-merge | all target issue/PR refs are closed in live GitHub state |
 
 ## Move To Stuck Queue
 
@@ -41,7 +41,7 @@ Mode: dry_run
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/ghcrawl-191457-agentic-merge.md | ghcrawl-191457-agentic-merge | open clownfish PR exists for this cluster |
+| _None_ |  |  |
 
 ## Security Hold Jobs
 
