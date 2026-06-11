@@ -77,6 +77,8 @@ If #60063 is repaired or replaced, do not carry its `CHANGELOG.md` edit forward.
 
 Maintainer explicitly allows `close_fixed_by_candidate` without a merged Clownfish fix PR only if fresh worker evidence again verifies #60063 is already covered by current `main`. Prior run 27345868950 found current main `9a6c71a47d9526c677a325531dfc44adc054d9bb` already contains the narrow gateway streaming merge/replace support and focused regression coverage.
 
+Finalized on 2026-06-11 after run 27346967226 verified current main `68ec783e74b59b672dbe14585e892d887adb2bfb` contains the gateway streaming merge/replace behavior and focused regression coverage. Clownfish commented and closed #60063 at 2026-06-11T12:38:25Z/12:38:26Z; #74498 remains a separate related UI follow-up, #47399 remains routed to central security, and the remaining cluster refs are closed context.
+
 ## Member Inventory
 
 Closed context refs:
