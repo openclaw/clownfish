@@ -210,7 +210,7 @@ jobs:
     needs: cluster
     if: ${{ needs.cluster.result == 'success' && (inputs.mode == 'execute' || inputs.mode == 'autonomous') && !inputs.dry_run }}
     runs-on: ${{ inputs.execution_runner }}
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
@@ -222,7 +222,7 @@ jobs:
       CLOWNFISH_CODEX_REVIEW_ATTEMPTS: ${{ vars.CLOWNFISH_CODEX_REVIEW_ATTEMPTS || '2' }}
       CLOWNFISH_REBASE_REPAIR_ATTEMPTS: ${{ vars.CLOWNFISH_REBASE_REPAIR_ATTEMPTS || '4' }}
       CLOWNFISH_FIX_CODEX_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_CODEX_TIMEOUT_MS || '1200000' }}
-      CLOWNFISH_FIX_STEP_TIMEOUT_MS: "1500000"
+      CLOWNFISH_FIX_STEP_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_STEP_TIMEOUT_MS || '2400000' }}
       CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: ${{ vars.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS || '300000' }}
       CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS: ${{ vars.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS || '120000' }}
       CLOWNFISH_RESOLVE_REVIEW_THREADS: ${{ vars.CLOWNFISH_RESOLVE_REVIEW_THREADS || '1' }}
@@ -334,7 +334,7 @@ jobs:
 
       - name: Execute credited fix artifact
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
-        timeout-minutes: 30
+        timeout-minutes: 45
         run: npm run execute-fix -- "${{ inputs.job }}" --latest
 
       - name: Apply safe closure actions
