@@ -154,25 +154,39 @@ console.log(
 );
 
 function hydrateItem(repo, number) {
+  const hydrationErrors = [];
   let issue;
   try {
     issue = ghJson(["api", `repos/${repo}/issues/${number}`]);
   } catch (error) {
     return unavailableItem(repo, number, error);
   }
-  const comments = HYDRATE_COMMENTS ? ghPaged(`repos/${repo}/issues/${number}/comments`) : [];
-  const pullRequest = issue.pull_request ? ghJson(["api", `repos/${repo}/pulls/${number}`]) : null;
-  const files = pullRequest ? ghPaged(`repos/${repo}/pulls/${number}/files`) : [];
-  const commits = pullRequest ? ghPaged(`repos/${repo}/pulls/${number}/commits`) : [];
-  const reviews = pullRequest ? ghPaged(`repos/${repo}/pulls/${number}/reviews`) : [];
-  const reviewComments = pullRequest ? ghPaged(`repos/${repo}/pulls/${number}/comments`) : [];
+  const comments = HYDRATE_COMMENTS
+    ? safeGhPaged(`repos/${repo}/issues/${number}/comments`, `issue #${number} comments`, hydrationErrors)
+    : [];
+  const pullRequest = issue.pull_request
+    ? safeGhJson(["api", `repos/${repo}/pulls/${number}`], `pull request #${number}`, hydrationErrors)
+    : null;
+  const files = pullRequest
+    ? safeGhPaged(`repos/${repo}/pulls/${number}/files`, `pull request #${number} files`, hydrationErrors)
+    : [];
+  const commits = pullRequest
+    ? safeGhPaged(`repos/${repo}/pulls/${number}/commits`, `pull request #${number} commits`, hydrationErrors)
+    : [];
+  const reviews = pullRequest
+    ? safeGhPaged(`repos/${repo}/pulls/${number}/reviews`, `pull request #${number} reviews`, hydrationErrors)
+    : [];
+  const reviewComments = pullRequest
+    ? safeGhPaged(`repos/${repo}/pulls/${number}/comments`, `pull request #${number} review comments`, hydrationErrors)
+    : [];
   const checks = pullRequest ? ghPrChecks(repo, number) : [];
+  const hydrationError = hydrationErrors.length > 0 ? hydrationErrors.join("; ") : null;
 
   return {
     repo,
     number,
     ref: `#${number}`,
-    kind: pullRequest ? "pull_request" : "issue",
+    kind: issue.pull_request ? "pull_request" : "issue",
     state: issue.state,
     title: issue.title,
     html_url: issue.html_url,
@@ -185,6 +199,7 @@ function hydrateItem(repo, number) {
     body: issue.body ?? "",
     body_excerpt: excerpt(issue.body),
     comments_count: issue.comments ?? comments.length,
+    hydration_error: hydrationError,
     comments: comments.map((comment) => ({
       author: comment.user?.login,
       author_association: comment.author_association,
@@ -193,58 +208,88 @@ function hydrateItem(repo, number) {
       body: comment.body ?? "",
       body_excerpt: excerpt(comment.body),
     })),
-    pull_request: pullRequest
-      ? {
-          draft: pullRequest.draft,
-          merged: pullRequest.merged,
-          merged_at: pullRequest.merged_at,
-          merge_commit_sha: pullRequest.merge_commit_sha,
-          mergeable: pullRequest.mergeable,
-          mergeable_state: pullRequest.mergeable_state,
-          base_ref: pullRequest.base?.ref,
-          head_ref: pullRequest.head?.ref,
-          head_repo: pullRequest.head?.repo?.full_name,
-          head_repo_owner: pullRequest.head?.repo?.owner?.login,
-          head_sha: pullRequest.head?.sha,
-          maintainer_can_modify: pullRequest.maintainer_can_modify,
-          requested_reviewers: (pullRequest.requested_reviewers ?? []).map((reviewer) => reviewer.login).filter(Boolean),
-          requested_teams: (pullRequest.requested_teams ?? []).map((team) => team.slug ?? team.name).filter(Boolean),
-          additions: pullRequest.additions,
-          deletions: pullRequest.deletions,
-          changed_files: pullRequest.changed_files,
-          files: files.map((file) => ({
-            filename: file.filename,
-            status: file.status,
-            additions: file.additions,
-            deletions: file.deletions,
-          })),
-          commits: commits.map((commit) => ({
-            sha: commit.sha,
-            message: firstLine(commit.commit?.message),
-            author: commit.author?.login ?? commit.commit?.author?.name,
-          })),
-          reviews: reviews.map((review) => ({
-            author: review.user?.login,
-            author_association: review.author_association,
-            state: review.state,
-            submitted_at: review.submitted_at,
-            body_excerpt: excerpt(review.body),
-          })),
-          review_comments: reviewComments.map((comment) => ({
-            author: comment.user?.login,
-            author_association: comment.author_association,
-            path: comment.path,
-            line: comment.line ?? comment.original_line,
-            side: comment.side,
-            created_at: comment.created_at,
-            updated_at: comment.updated_at,
-            body: comment.body ?? "",
-            body_excerpt: excerpt(comment.body),
-            diff_hunk_excerpt: excerpt(comment.diff_hunk, 500),
-          })),
-          checks,
-        }
+    pull_request: issue.pull_request
+      ? pullRequest
+        ? {
+            draft: pullRequest.draft,
+            merged: pullRequest.merged,
+            merged_at: pullRequest.merged_at,
+            merge_commit_sha: pullRequest.merge_commit_sha,
+            mergeable: pullRequest.mergeable,
+            mergeable_state: pullRequest.mergeable_state,
+            base_ref: pullRequest.base?.ref,
+            head_ref: pullRequest.head?.ref,
+            head_repo: pullRequest.head?.repo?.full_name,
+            head_repo_owner: pullRequest.head?.repo?.owner?.login,
+            head_sha: pullRequest.head?.sha,
+            maintainer_can_modify: pullRequest.maintainer_can_modify,
+            requested_reviewers: (pullRequest.requested_reviewers ?? []).map((reviewer) => reviewer.login).filter(Boolean),
+            requested_teams: (pullRequest.requested_teams ?? []).map((team) => team.slug ?? team.name).filter(Boolean),
+            additions: pullRequest.additions,
+            deletions: pullRequest.deletions,
+            changed_files: pullRequest.changed_files,
+            files: files.map((file) => ({
+              filename: file.filename,
+              status: file.status,
+              additions: file.additions,
+              deletions: file.deletions,
+            })),
+            commits: commits.map((commit) => ({
+              sha: commit.sha,
+              message: firstLine(commit.commit?.message),
+              author: commit.author?.login ?? commit.commit?.author?.name,
+            })),
+            reviews: reviews.map((review) => ({
+              author: review.user?.login,
+              author_association: review.author_association,
+              state: review.state,
+              submitted_at: review.submitted_at,
+              body_excerpt: excerpt(review.body),
+            })),
+            review_comments: reviewComments.map((comment) => ({
+              author: comment.user?.login,
+              author_association: comment.author_association,
+              path: comment.path,
+              line: comment.line ?? comment.original_line,
+              side: comment.side,
+              created_at: comment.created_at,
+              updated_at: comment.updated_at,
+              body: comment.body ?? "",
+              body_excerpt: excerpt(comment.body),
+              diff_hunk_excerpt: excerpt(comment.diff_hunk, 500),
+            })),
+            checks,
+          }
+        : unavailablePullRequest(hydrationError)
       : null,
+  };
+}
+
+function unavailablePullRequest(reason) {
+  return {
+    hydration_error: reason || "GitHub pull request details could not be hydrated.",
+    draft: null,
+    merged: null,
+    merged_at: null,
+    merge_commit_sha: null,
+    mergeable: null,
+    mergeable_state: null,
+    base_ref: null,
+    head_ref: null,
+    head_repo: null,
+    head_repo_owner: null,
+    head_sha: null,
+    maintainer_can_modify: null,
+    requested_reviewers: [],
+    requested_teams: [],
+    additions: null,
+    deletions: null,
+    changed_files: null,
+    files: [],
+    commits: [],
+    reviews: [],
+    review_comments: [],
+    checks: [{ error: reason || "GitHub pull request details could not be hydrated." }],
   };
 }
 
@@ -318,6 +363,7 @@ function summarizeItem(item, job) {
           head_repo_owner: item.pull_request.head_repo_owner,
           head_sha: item.pull_request.head_sha,
           maintainer_can_modify: item.pull_request.maintainer_can_modify,
+          hydration_error: item.pull_request.hydration_error ?? null,
           requested_reviewers: item.pull_request.requested_reviewers,
           requested_teams: item.pull_request.requested_teams,
           changed_files: item.pull_request.changed_files,
@@ -433,6 +479,7 @@ function canonicalCandidates(items, job) {
 }
 
 function classificationHint(item, job) {
+  if (item.state === "unavailable") return "unavailable_live_state";
   if (itemSecuritySensitive(item, job)) return "security_sensitive_route_only";
   const canonicalNumbers = new Set((job.frontmatter.canonical ?? []).map((ref) => normalizeRef(job.frontmatter.repo, ref).number));
   if (canonicalNumbers.has(item.number)) return "canonical_hint";
@@ -608,10 +655,28 @@ function ghJson(ghArgs) {
   return JSON.parse(stripAnsi(text) || "null");
 }
 
+function safeGhJson(ghArgs, label, errors) {
+  try {
+    return ghJson(ghArgs);
+  } catch (error) {
+    errors.push(`${label}: ${firstLine(error?.stderr || error?.message || String(error))}`);
+    return null;
+  }
+}
+
 function ghPaged(apiPath) {
   const pages = ghJson(["api", apiPath, "--paginate", "--slurp"]);
   if (!Array.isArray(pages)) return [];
   return pages.flatMap((page) => (Array.isArray(page) ? page : []));
+}
+
+function safeGhPaged(apiPath, label, errors) {
+  try {
+    return ghPaged(apiPath);
+  } catch (error) {
+    errors.push(`${label}: ${firstLine(error?.stderr || error?.message || String(error))}`);
+    return [];
+  }
 }
 
 function ghPrChecks(repo, number) {
