@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-16529-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25130299053"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25130299053"
-head_sha: "59815fb21cd4e74e6fe01972c176792bdc76c884"
+run_id: "27318945701"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27318945701"
+head_sha: "7c00efb289892e38188605ea321baa52c55c5e22"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T19:53:18.250Z"
-canonical: "https://github.com/openclaw/openclaw/pull/64394"
-canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/64394"
-actions_total: 3
+published_at: "2026-06-11T02:13:44.242Z"
+canonical: "https://github.com/openclaw/openclaw/issues/61970"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/61970"
+canonical_pr: null
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,28 +25,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25130299053](https://github.com/openclaw/clownfish/actions/runs/25130299053)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27318945701](https://github.com/openclaw/clownfish/actions/runs/27318945701)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/64394
+Canonical: https://github.com/openclaw/openclaw/issues/61970
 
 ## Summary
 
-Hydrated state supports one closeout: #61970 is an obsolete pre-fix WhatsApp outbound media false-success report covered by current main via the hydrated merged #64394 fix and corroborated by closed #63169/#63816. #59174 and linked #48979 are related media reports with different root causes, so they stay open.
+Hydrated live state leaves #61970 as the only open candidate and the best surviving canonical issue for the WhatsApp outbound video delivery report. #59174 was listed as an open candidate in the local gitcrawl inventory but is already closed in live state and tracks a different inbound quoted-image media path, so no close/comment/label mutation is planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,15 +60,14 @@ Hydrated state supports one closeout: #61970 is an obsolete pre-fix WhatsApp out
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61970 | close_fixed_by_candidate | blocked | fixed_by_candidate | candidate fix is not listed in job refs |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61970 | close_fixed_by_candidate | planned | fixed_by_candidate | #61970 is the same pre-fix WhatsApp outbound media false-success failure as the hydrated closed context reports, and the hydrated merged #64394/current-main fix path covers the mediaUrl/mediaUrls send path. |
-| #59174 | keep_related | planned | related | Related WhatsApp media area, but not the same root cause or user-visible failure as outbound media send false-success. |
-| #48979 | keep_related | planned | related | Related media delivery follow-up, but different channel and root cause; keep it open outside this closeout. |
+| #61970 | keep_canonical | planned | canonical | #61970 remains the best live canonical issue. It should stay open for maintainer/product follow-up because the reported outbound video failure is not proven fixed, not a high-confidence duplicate of the closed context items, and this job cannot open a fix PR. |
+| #59174 | keep_closed | skipped | related | Already closed in live state and related rather than duplicate of the surviving outbound-video canonical issue. |
 
 ## Needs Human
 

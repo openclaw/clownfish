@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 11, 2026, 01:56 UTC
+Last dashboard update: Jun 11, 2026, 02:14 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,12 +52,12 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 357 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 196 | 54.9% |
+| Clean completed clusters | 197 | 55.2% |
 | Needs-human clusters | 48 | 13.4% |
 | Latest successful clusters | 349 | 97.8% |
 | Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 655 | audit |
+| Run attempts archived | 656 | audit |
 | Fix action attempts | 184 | audit |
 | Fix actions executed | 1 | 0.5% |
 | Fix actions failed | 36 | 19.6% |
@@ -153,7 +153,7 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | blocked: Closeout is blocked on the canonical fix path #72614 landing. | 3 | [ghcrawl-156598-autonomous-smoke](results/openclaw/ghcrawl-156598-autonomous-smoke.md) |
 | blocked: Superseded classification is clear, but require_fix_before_close blocks closure until the canonical fix path lands. | 3 | [ghcrawl-199237-agentic-merge](results/openclaw/ghcrawl-199237-agentic-merge.md) |
 | blocked: True duplicate/subreport of #54155, but close is blocked on the canonical fix path or fix PR. | 3 | [ghcrawl-166014-agentic-merge](results/openclaw/ghcrawl-166014-agentic-merge.md) |
-| candidate fix is not listed in job refs | 3 | [gitcrawl-2477-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) |
+| blocked: Blocked on canonical fix path #38776 being repaired and landed. | 2 | [ghcrawl-199244-agentic-merge](results/openclaw/ghcrawl-199244-agentic-merge.md) |
 
 ### Open PR Finalizer Queue
 
