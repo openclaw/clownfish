@@ -4,7 +4,8 @@ import { execFileSync } from "node:child_process";
 
 const SECURITY_SIGNAL_PATTERN =
   /\b(vulnerabilit(?:y|ies)|cve-\d+|ghsa|exploit|ssrf|xss|csrf|rce|(?:sql|command|code|prompt)\s*injection|auth(?:entication)?\s*bypass|privilege\s+escalation|sensitive\s+data|security\s+(?:issue|bug|fix|patch|advisory|triage)|(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token).{0,80}(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text)|(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text).{0,80}(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token))\b/i;
-const SECURITY_LABEL_PATTERN = /^(?:security|security[-_: ]sensitive|security[:/].+|type:\s*security|kind:\s*security)$/i;
+const SECURITY_LABEL_PATTERN =
+  /^(?:security|security[-_: ]sensitive|security[:/].+|type:\s*security|kind:\s*security|impact:\s*security|clawsweeper:needs-security-review)$/i;
 const STRUCTURED_SECURITY_MARKER_PATTERN =
   /<!--\s*clawsweeper-(?:security|route|verdict)\s*:\s*(?:security|security-sensitive|sensitive|route-security|central-security)\b[^>]*-->/i;
 const PROMPT_ARTIFACT_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_ARTIFACT_MAX_CHARS ?? 320_000);

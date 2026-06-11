@@ -126,6 +126,39 @@ test("sweep-openclaw-jobs preserves requeue candidates with open target refs", (
   assert.equal(dryReport.requeue_candidates[0].reason, "latest result has blocked apply actions");
 });
 
+test("sweep-openclaw-jobs holds jobs with open security-sensitive live refs", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "blocked-security-open.md"), {
+    clusterId: "blocked-security-open-cluster",
+    canonical: ["#50011"],
+    candidates: ["#50011"],
+    clusterRefs: ["#50011"],
+  });
+  writeRunRecord(fixture, "400", {
+    cluster_id: "blocked-security-open-cluster",
+    run_id: "400",
+    workflow_conclusion: "success",
+    result_status: "planned",
+    fix_actions: [],
+    apply_actions: [{ action: "close_fixed_by_candidate", status: "blocked" }],
+  });
+
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(
+    liveRefReport,
+    `${JSON.stringify({ refs: [liveRef(50011, "OPEN", ["impact:security"])] }, null, 2)}\n`,
+  );
+
+  const dryRun = sweep(fixture, liveRefReport);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const dryReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(dryReport.totals.security_hold, 1);
+  assert.equal(dryReport.security_hold_jobs[0].latest_run_id, "400");
+  assert.equal(dryReport.security_hold_jobs[0].reason, "live target refs include security-sensitive open issue/PR");
+  assert.equal(dryReport.security_hold_jobs[0].live_target_open_refs[0].security_sensitive, true);
+  assert.deepEqual(dryReport.security_hold_jobs[0].live_target_open_refs[0].labels, ["impact:security"]);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-sweep-"));
   const inbox = path.join(root, "inbox");
@@ -174,7 +207,7 @@ function writeRunRecord(fixture, runId, record) {
   fs.writeFileSync(path.join(fixture.runs, `${runId}.json`), `${JSON.stringify(record, null, 2)}\n`);
 }
 
-function liveRef(number, state) {
+function liveRef(number, state, labels = []) {
   return {
     repo: "openclaw/openclaw",
     number,
@@ -183,6 +216,7 @@ function liveRef(number, state) {
     merged: state === "MERGED",
     title: `PR ${number}`,
     url: `https://github.com/openclaw/openclaw/pull/${number}`,
+    labels,
   };
 }
 

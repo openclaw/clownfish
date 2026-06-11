@@ -2,7 +2,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { hasSecuritySignalText, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import {
+  hasDeterministicSecuritySignal,
+  hasSecuritySignalText,
+  parseArgs,
+  parseJob,
+  repoRoot,
+  validateJob,
+} from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const jobsDir = path.resolve(String(args.jobs ?? path.join(repoRoot(), "jobs", "openclaw", "inbox")));
@@ -101,6 +108,9 @@ function classifyJob(jobPath) {
   if (job.frontmatter.security_sensitive === true || hasSecuritySignalText(job.raw)) {
     return { ...row, status: "security_hold", reason: "security-sensitive job stays out of automation cleanup" };
   }
+  if (hasOpenSecuritySensitiveLiveTarget(row)) {
+    return { ...row, status: "security_hold", reason: "live target refs include security-sensitive open issue/PR" };
+  }
   if (openPrs.length > 0) {
     return { ...row, status: "active", reason: "open clownfish PR exists for this cluster" };
   }
@@ -172,6 +182,8 @@ function addLiveTargetRefSummary(row, job) {
     merged: record.merged ?? undefined,
     title: record.title,
     url: record.url,
+    labels: record.labels?.length > 0 ? record.labels : undefined,
+    security_sensitive: record.security_sensitive === true ? true : undefined,
   }));
   if (missing.length > 0) {
     row.live_target_ref_errors = missing.map((record) => ({
@@ -180,6 +192,12 @@ function addLiveTargetRefSummary(row, job) {
       reason: record.reason ?? "not found",
     }));
   }
+}
+
+function hasOpenSecuritySensitiveLiveTarget(row) {
+  return (row.live_target_refs ?? []).some(
+    (record) => record.state === "open" && record.security_sensitive === true,
+  );
 }
 
 function targetRefNumbers(job) {
@@ -370,6 +388,11 @@ function liveRefsGraphqlQuery(numbers) {
           url
           updatedAt
           closedAt
+          labels(first: 30) {
+            nodes {
+              name
+            }
+          }
         }
         ... on PullRequest {
           number
@@ -379,6 +402,11 @@ function liveRefsGraphqlQuery(numbers) {
           url
           updatedAt
           closedAt
+          labels(first: 30) {
+            nodes {
+              name
+            }
+          }
         }
       }`,
     )
@@ -394,6 +422,7 @@ function normalizeLiveRefRecord(repo, raw) {
   const number = Number(raw.number);
   const typename = String(raw.__typename ?? raw.typename ?? raw.kind ?? "").toLowerCase();
   const state = normalizeLiveRefState(raw.state);
+  const labels = normalizeLabels(raw.labels);
   if (!Number.isInteger(number)) {
     return { repo, number: null, status: "invalid", reason: "missing number" };
   }
@@ -424,7 +453,23 @@ function normalizeLiveRefRecord(repo, raw) {
     url: raw.url ?? "",
     updated_at: raw.updatedAt ?? raw.updated_at ?? null,
     closed_at: raw.closedAt ?? raw.closed_at ?? null,
+    labels,
+    security_sensitive: hasDeterministicSecuritySignal({ labels }),
   };
+}
+
+function normalizeLabels(labels) {
+  if (Array.isArray(labels)) {
+    return labels
+      .map((label) => (typeof label === "string" ? label : label?.name))
+      .filter((label) => typeof label === "string" && label.length > 0);
+  }
+  if (Array.isArray(labels?.nodes)) {
+    return labels.nodes
+      .map((label) => label?.name)
+      .filter((label) => typeof label === "string" && label.length > 0);
+  }
+  return [];
 }
 
 function normalizeLiveRefState(value) {
@@ -609,13 +654,15 @@ function publicRow(row) {
 }
 
 function compactLiveTargetRef(ref) {
-  return {
+  return Object.fromEntries(Object.entries({
     ref: ref.ref,
     kind: ref.kind,
     state: ref.state,
     title: ref.title,
     url: ref.url,
-  };
+    labels: ref.labels,
+    security_sensitive: ref.security_sensitive,
+  }).filter(([, value]) => value !== undefined));
 }
 
 function countBy(rows, keyFn) {
