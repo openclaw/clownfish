@@ -90,6 +90,17 @@ test("execute-fix-artifact preserves recoverable replacement branch when review 
   assert.match(remoteBranch, new RegExp(`^${report.actions[0].commit}\\s+refs/heads/clownfish/deadline-cluster`));
 });
 
+test("execute-fix-artifact routes rebased fork repairs to replacement before expensive work", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+  const guardIndex = source.indexOf("CLOWNFISH_ALLOW_REBASED_FORK_REPAIR");
+  const toolchainIndex = source.indexOf("prepareTargetToolchain(targetDir);");
+
+  assert.notEqual(guardIndex, -1);
+  assert.notEqual(toolchainIndex, -1);
+  assert.ok(guardIndex < toolchainIndex);
+  assert.match(source, /fork branch requiring rebase/);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-exec-"));
   const binDir = path.join(root, "bin");

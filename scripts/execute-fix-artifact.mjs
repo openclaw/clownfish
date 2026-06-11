@@ -333,7 +333,7 @@ function boundedPreflightTimeoutMs(label) {
 function shouldFallbackToReplacementAfterRepairError(error) {
   const message = String(error?.message ?? error);
   if (/validation command failed|Codex |no merge base/i.test(message)) return false;
-  return /maintainer_can_modify=false|missing head repo\/ref|source PR #\d+ is (?:closed|merged)|permission denied|permission to [^\s]+ denied|remote rejected|could not push|repository not found|not found/i.test(
+  return /maintainer_can_modify=false|missing head repo\/ref|source PR #\d+ is (?:closed|merged)|fork branch requiring rebase|permission denied|permission to [^\s]+ denied|remote rejected|could not push|repository not found|not found/i.test(
     message,
   );
 }
@@ -405,6 +405,11 @@ function executeRepairBranch({ fixArtifact, targetDir }) {
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
   let rebased = rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
+  if (!sameRepoBranch && rebased && process.env.CLOWNFISH_ALLOW_REBASED_FORK_REPAIR !== "1") {
+    throw new Error(
+      `source PR #${sourcePr.number} is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files`,
+    );
+  }
   if (!sameRepoBranch && !dryRun) {
     ghAuthSetupGit(targetDir);
     assertRepairBranchWritable({ targetDir, pull, rebased });
