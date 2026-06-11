@@ -48,7 +48,7 @@ allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
 canonical_hint: "Live refresh on 2026-06-11 found #31331 and #37634 open; #37634 remains the likely canonical but worker must verify current GitHub state."
-notes: "Generated from ghcrawl run cluster 166005 on 2026-04-26; live refreshed on 2026-06-11."
+notes: "Generated from ghcrawl run cluster 166005 on 2026-04-26; live refreshed on 2026-06-11. Finalized after run 27347582477 routed the live open workspaceAccess:none family to central security handling."
 ---
 
 # GHCrawl Cluster 166005
@@ -88,3 +88,9 @@ Open candidates:
 
 - #31331 [Bug]: Docker Install + Sandbox can't workspaceAccess at all
 - #37634 sandbox: keep workspaceAccess none workspaces writable
+
+## Finalization
+
+Run `27347582477` completed successfully on 2026-06-11. Artifact review passed with 26 planned actions: 21 `keep_closed`, 3 `route_security`, 1 `keep_related`, and 1 cluster-scoped `fix_needed`.
+
+Live verification after the run found #31331, #37634, and #59718 still open with security-review / no-new-fix-pr style handling already present. The worker routed that security-sensitive family to central OpenClaw security handling and intentionally planned no close, merge, or fix PR. #73385 remains an open related sandbox PR, but is not a high-confidence canonical replacement for the quarantined workspaceAccess:none issues.
