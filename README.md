@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 11, 2026, 02:14 UTC
+Last dashboard update: Jun 11, 2026, 09:00 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
