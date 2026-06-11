@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 10, 2026, 16:29 UTC
+Last dashboard update: Jun 11, 2026, 00:55 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,20 +52,20 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 357 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 192 | 53.8% |
+| Clean completed clusters | 193 | 54.1% |
 | Needs-human clusters | 48 | 13.4% |
 | Latest successful clusters | 348 | 97.5% |
 | Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 649 | audit |
+| Run attempts archived | 650 | audit |
 | Fix action attempts | 182 | audit |
 | Fix actions executed | 1 | 0.5% |
 | Fix actions failed | 35 | 19.2% |
 | Fix actions blocked | 56 | 30.8% |
 | Latest clusters with fix failures | 47 | 13.2% |
-| Distinct PRs touched | 1087 | 100% |
-| Open PRs tracked | 113 | 10.4% |
-| Closed unmerged PRs tracked | 825 | 75.9% |
+| Distinct PRs touched | 1088 | 100% |
+| Open PRs tracked | 112 | 10.3% |
+| Closed unmerged PRs tracked | 826 | 75.9% |
 | Completed close actions | 30 | 10.1% |
 | Completed merge actions | 23 | 7.7% |
 | Duplicate closes | 22 | 73.3% |
@@ -143,8 +143,8 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | close requires ProjectClownfish fix PR opened/pushed or merge executed first | 13 | [ghcrawl-156593-autonomous-smoke](results/openclaw/ghcrawl-156593-autonomous-smoke.md) |
 | job does not allow merge | 12 | [clawsweeper-commit-openclaw-openclaw-806a0119f3cd](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) |
 | blocked: Close is blocked on the canonical fix path or fix PR. | 11 | [ghcrawl-191463-agentic-merge](results/openclaw/ghcrawl-191463-agentic-merge.md) |
-| merge state status is UNSTABLE | 10 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 9 | [ghcrawl-156679-autonomous-smoke](results/openclaw/ghcrawl-156679-autonomous-smoke.md) |
+| merge state status is UNSTABLE | 9 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
 | mergeable state is CONFLICTING | 5 | [ghcrawl-156651-autonomous-smoke](results/openclaw/ghcrawl-156651-autonomous-smoke.md) |
 | target is not listed in job candidates | 5 | [gitcrawl-238838-dedupe-only-20260429c](results/openclaw/gitcrawl-238838-dedupe-only-20260429c.md) |
 | blocked: Duplicate close is blocked on the replacement fix path. | 4 | [ghcrawl-165995-agentic-merge](results/openclaw/ghcrawl-165995-agentic-merge.md) |
@@ -159,7 +159,7 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#91879](https://github.com/openclaw/openclaw/pull/91879) | fix(ci): include ACPX in shared live-test image | clawsweeper-commit-openclaw-openclaw-806a0119f3cd | clownfish/clawsweeper-commit-openclaw-openclaw-806a0119f3cd | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, nee... | repair failing checks or document unrelated main flake with touched-surface proof |
+| _None_ |  |  |  |  |  |
 
 ### Latest ProjectClownfish Closures
 
