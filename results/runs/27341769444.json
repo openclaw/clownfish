@@ -1,0 +1,158 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207037-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "27341769444",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27341769444",
+  "head_sha": "35377717befcae1debeeeabf92c67ad3609b0c4c",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-207037-agentic-merge.md",
+  "published_at": "2026-06-11T11:25:10.726Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/54646",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/54646",
+  "summary": "#54646 is the current live canonical PR for the gateway RPC timeout input-validation root cause. It is useful, narrow, and editable, but not merge-ready because required merge preflight is missing and hydrated checks are unstable, so the planned path is to repair the contributor branch, rerun review/validation, and only then merge. Closed refs are kept as historical evidence only; #60661 is related but separate accepted-run timeout work and is not safe to close or merge in this cluster.",
+  "actions": [
+    {
+      "target": "#40953",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "Already closed; keep as historical source and credit evidence while #54646 carries the live fix path."
+    },
+    {
+      "target": "#54646",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54646",
+      "candidate_fix": null,
+      "reason": "Best surviving open canonical PR for gateway RPC timeout validation, but merge is blocked until branch repair, clean /review, and validation are complete."
+    },
+    {
+      "target": "cluster:ghcrawl-207037-agentic-merge",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "Repair #54646 on the contributor branch, address any fresh review findings, run validation, then reassess merge."
+    },
+    {
+      "target": "cluster:ghcrawl-207037-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "Executable branch-repair plan is needed before any merge or closeout action."
+    },
+    {
+      "target": "#56796",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#74543",
+      "candidate_fix": "#74543",
+      "reason": "Already closed; use only as related historical evidence for the agent fallback subfamily."
+    },
+    {
+      "target": "#60661",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54646",
+      "candidate_fix": null,
+      "reason": "Related accepted-run timeout follow-up; keep open and do not close, merge, or fold into the #54646 input-validation repair."
+    },
+    {
+      "target": "#74543",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#74543",
+      "reason": "Already merged and closed; retain as evidence only."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #54646 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92158",
+      "branch": "clownfish/ghcrawl-207037-agentic-merge",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "aeda3bcecdde87dd41fd32a0e0030f3a8e0d2a19",
+      "checkpoint_commits": [],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92158"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92158",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): validate gateway RPC timeout inputs",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
