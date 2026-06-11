@@ -601,11 +601,11 @@ function ghJson(ghArgs) {
   const text = execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
-    env: process.env,
+    env: ghEnv(),
     maxBuffer: 64 * 1024 * 1024,
     stdio: ["ignore", "pipe", "pipe"],
   }).trim();
-  return JSON.parse(text || "null");
+  return JSON.parse(stripAnsi(text) || "null");
 }
 
 function ghPaged(apiPath) {
@@ -622,15 +622,23 @@ function ghPrChecks(repo, number) {
       {
         cwd: repoRoot(),
         encoding: "utf8",
-        env: process.env,
+        env: ghEnv(),
         maxBuffer: 16 * 1024 * 1024,
         stdio: ["ignore", "pipe", "pipe"],
       },
     ).trim();
-    return JSON.parse(text || "[]");
+    return JSON.parse(stripAnsi(text) || "[]");
   } catch (error) {
     return [{ error: firstLine(error?.stderr || error?.message || String(error)) }];
   }
+}
+
+function ghEnv() {
+  return { ...process.env, NO_COLOR: "1", CLICOLOR: "0", CLICOLOR_FORCE: "0", GH_FORCE_TTY: "0" };
+}
+
+function stripAnsi(text) {
+  return String(text ?? "").replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, "").trim();
 }
 
 function excerpt(text, limit = 1200) {
