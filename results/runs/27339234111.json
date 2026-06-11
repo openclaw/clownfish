@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-207037-agentic-merge",
+  "mode": "autonomous",
+  "run_id": "27339234111",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27339234111",
+  "head_sha": "485b76cd752951da6cf451ed5717afc6dd354972",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-207037-agentic-merge.md",
+  "published_at": "2026-06-11T10:46:02.293Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/54646",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/54646",
+  "summary": "#54646 is the current canonical path for the gateway RPC timeout-input bug, but it is not merge-ready because merge state is unknown, latest checks include failures, and no clean merge preflight/Codex review is present. Build a repair artifact for the maintainer-editable #54646 branch. #60661 is related but covers a distinct accepted-run timeout semantics issue, so it stays open. Closed refs are retained only as historical evidence.",
+  "actions": [
+    {
+      "target": "#54646",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "#54646 is useful, narrow, and maintainer-editable, but merge is blocked until the executor rebases/repairs it, runs pnpm check:changed, runs Codex /review, addresses findings, and proves clean merge preflight."
+    },
+    {
+      "target": "#40953",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "Already closed; keep only as historical contributor-credit context for the #54646 repair path."
+    },
+    {
+      "target": "#60661",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct related follow-up, not a duplicate of #54646 and not safe to close or merge in this cluster."
+    },
+    {
+      "target": "#56796",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#74543",
+      "candidate_fix": "#74543",
+      "reason": "Already closed; keep as historical evidence for the session-lock subfamily only."
+    },
+    {
+      "target": "#74543",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#74543",
+      "candidate_fix": "#74543",
+      "reason": "Closed merged context only; no mutation."
+    },
+    {
+      "target": "cluster:ghcrawl-207037-agentic-merge",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#54646",
+      "candidate_fix": "#54646",
+      "reason": "Build an executable repair artifact for #54646; the worker itself does not push, comment, merge, or close."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_closed": 3,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "To https://github.com/ruanrrn/openclaw.git\n ! [remote rejected]       HEAD -> bughunt/fix-cli-gateway-timeout-validation (refusing to allow a GitHub App to create or update workflow `.github/workflows/ci.yml` without `workflows` permission)\nerror: failed to push some refs to 'https://github.com/ruanrrn/openclaw.git'",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review timed out after 383546ms",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
