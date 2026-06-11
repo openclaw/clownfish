@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 11, 2026, 12:05 UTC
+Last dashboard update: Jun 11, 2026, 12:22 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -53,32 +53,33 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | Latest clusters reviewed | 357 | 100% |
 | Policy-archived clusters | 4 | audit |
 | Clean completed clusters | 197 | 55.2% |
-| Needs-human clusters | 47 | 13.2% |
+| Needs-human clusters | 46 | 12.9% |
 | Latest successful clusters | 349 | 97.8% |
 | Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 661 | audit |
+| Run attempts archived | 662 | audit |
 | Fix action attempts | 188 | audit |
 | Fix actions executed | 1 | 0.5% |
 | Fix actions failed | 36 | 19.1% |
 | Fix actions blocked | 59 | 31.4% |
 | Latest clusters with fix failures | 48 | 13.4% |
-| Distinct PRs touched | 1098 | 100% |
-| Open PRs tracked | 113 | 10.3% |
-| Closed unmerged PRs tracked | 830 | 75.6% |
+| Distinct PRs touched | 1099 | 100% |
+| Open PRs tracked | 114 | 10.4% |
+| Closed unmerged PRs tracked | 830 | 75.5% |
 | Completed close actions | 30 | 10.0% |
-| Completed merge actions | 23 | 7.7% |
+| Completed merge actions | 23 | 7.6% |
 | Duplicate closes | 22 | 73.3% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 129 | 43.0% |
-| Skipped mutation attempts | 118 | 39.3% |
+| Blocked mutation attempts | 130 | 43.2% |
+| Skipped mutation attempts | 118 | 39.2% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [ghcrawl-199237-agentic-merge](results/openclaw/ghcrawl-199237-agentic-merge.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-199237-agentic-merge.md | fixed_by_candidate close requires a merged fix PR unless allow_unmerged_fix_close: true | [report](results/openclaw/ghcrawl-199237-agentic-merge.md) | [27345868950](https://github.com/openclaw/clownfish/actions/runs/27345868950) |
 | [ghcrawl-166003-agentic-merge](results/openclaw/ghcrawl-166003-agentic-merge.md) | fix blocked | jobs/openclaw/inbox/ghcrawl-166003-agentic-merge.md | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [report](results/openclaw/ghcrawl-166003-agentic-merge.md) | [27345047272](https://github.com/openclaw/clownfish/actions/runs/27345047272) |
 | [ghcrawl-207037-agentic-merge](results/openclaw/ghcrawl-207037-agentic-merge.md) | fix failed | jobs/openclaw/inbox/ghcrawl-207037-agentic-merge.md | source PR #54646 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-207037-agentic-merge.md) | [27341769444](https://github.com/openclaw/clownfish/actions/runs/27341769444) |
 | [ghcrawl-165996-agentic-merge](results/openclaw/ghcrawl-165996-agentic-merge.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-165996-agentic-merge.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | [report](results/openclaw/ghcrawl-165996-agentic-merge.md) | [27337707885](https://github.com/openclaw/clownfish/actions/runs/27337707885) |
@@ -103,7 +104,6 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | [gitcrawl-5707-dedupe-only-20260429-remote](results/openclaw/gitcrawl-5707-dedupe-only-20260429-remote.md) | needs human | jobs/openclaw/inbox/gitcrawl-5707-dedupe-only-20260429-remote.md | #40044 and #66312 need maintainer product/API direction on the prompt-visible Runtime session identifier before either PR can be treated ... | [report](results/openclaw/gitcrawl-5707-dedupe-only-20260429-remote.md) | [25136426946](https://github.com/openclaw/clownfish/actions/runs/25136426946) |
 | [gitcrawl-2880-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2880-dedupe-only-20260429-remote.md | target changed since worker review | [report](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) | [25134553126](https://github.com/openclaw/clownfish/actions/runs/25134553126) |
 | [gitcrawl-2733-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2733-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2733-dedupe-only-20260429-remote.md | target changed since worker review | [report](results/openclaw/gitcrawl-2733-dedupe-only-20260429-remote.md) | [25134075609](https://github.com/openclaw/clownfish/actions/runs/25134075609) |
-| [gitcrawl-2477-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-2477-dedupe-only-20260429-remote.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-2477-dedupe-only-20260429-remote.md) | [25133514336](https://github.com/openclaw/clownfish/actions/runs/25133514336) |
 
 ### Fix Failure Queue
 
@@ -151,9 +151,9 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | blocked: Blocked by require_fix_before_close until the credited replacement fix PR for #34574 is opened. | 3 | [ghcrawl-199253-agentic-merge](results/openclaw/ghcrawl-199253-agentic-merge.md) |
 | blocked: Clear duplicate, but closeout is blocked on the canonical fix path. | 3 | [ghcrawl-156584-autonomous-smoke](results/openclaw/ghcrawl-156584-autonomous-smoke.md) |
 | blocked: Closeout is blocked on the canonical fix path #72614 landing. | 3 | [ghcrawl-156598-autonomous-smoke](results/openclaw/ghcrawl-156598-autonomous-smoke.md) |
-| blocked: Superseded classification is clear, but require_fix_before_close blocks closure until the canonical fix path lands. | 3 | [ghcrawl-199237-agentic-merge](results/openclaw/ghcrawl-199237-agentic-merge.md) |
 | blocked: True duplicate/subreport of #54155, but close is blocked on the canonical fix path or fix PR. | 3 | [ghcrawl-166014-agentic-merge](results/openclaw/ghcrawl-166014-agentic-merge.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 3 | [ghcrawl-207037-agentic-merge](results/openclaw/ghcrawl-207037-agentic-merge.md) |
+| blocked: Blocked on canonical fix path #38776 being repaired and landed. | 2 | [ghcrawl-199244-agentic-merge](results/openclaw/ghcrawl-199244-agentic-merge.md) |
 
 ### Open PR Finalizer Queue
 
