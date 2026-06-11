@@ -1,0 +1,72 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238884-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "27317870091",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27317870091",
+  "head_sha": "b65e35077e84ac20dfff6a635825eb111eebe569",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238884-dedupe-only-20260429c.md",
+  "published_at": "2026-06-11T01:38:01.232Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/62195",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/62195",
+  "summary": "Autonomous dedupe classification only. #62195 remains the non-security canonical PR for the narrow cron/heartbeat preHook gate work. #45465 is security-sensitive and must route to central security triage. #45129 is already closed and should not receive a closure action. #9465 is related broader product work and should stay open outside this dedupe closeout.",
+  "actions": [
+    {
+      "target": "#62195",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62195",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical path for the narrow preHook gate family; keep open for maintainer review and proof."
+    },
+    {
+      "target": "#45465",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive PR must be handled by central OpenClaw security triage; this does not block non-security classification of #62195."
+    },
+    {
+      "target": "#45129",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#62195",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by #62195; no further action is allowed or needed."
+    },
+    {
+      "target": "#9465",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related cron hook product work with distinct scope; keep open and do not close as a duplicate of the narrow #62195 preHook PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

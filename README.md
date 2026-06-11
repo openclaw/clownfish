@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 11, 2026, 01:31 UTC
+Last dashboard update: Jun 11, 2026, 01:38 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,12 +52,12 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 357 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 194 | 54.3% |
+| Clean completed clusters | 195 | 54.6% |
 | Needs-human clusters | 48 | 13.4% |
 | Latest successful clusters | 348 | 97.5% |
 | Latest failed clusters | 4 | 1.1% |
 | Latest cancelled clusters | 0 | 0.0% |
-| Run attempts archived | 653 | audit |
+| Run attempts archived | 654 | audit |
 | Fix action attempts | 184 | audit |
 | Fix actions executed | 1 | 0.5% |
 | Fix actions failed | 36 | 19.6% |
@@ -139,7 +139,7 @@ Scope: 357 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | Reason | Latest count | Example cluster |
 | --- | ---: | --- |
-| target changed since worker review | 17 | [gitcrawl-2880-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) |
+| target changed since worker review | 16 | [gitcrawl-2880-dedupe-only-20260429-remote](results/openclaw/gitcrawl-2880-dedupe-only-20260429-remote.md) |
 | job does not allow merge | 12 | [clawsweeper-commit-openclaw-openclaw-806a0119f3cd](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) |
 | blocked: Close is blocked on the canonical fix path or fix PR. | 11 | [ghcrawl-191463-agentic-merge](results/openclaw/ghcrawl-191463-agentic-merge.md) |
 | close requires ProjectClownfish fix PR opened/pushed or merge executed first | 11 | [ghcrawl-156593-autonomous-smoke](results/openclaw/ghcrawl-156593-autonomous-smoke.md) |
