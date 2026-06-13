@@ -2,47 +2,60 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-143801-autonomous-smoke"
 mode: "autonomous"
-run_id: "24943078008"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24943078008"
-head_sha: "3160a4e666957ca2e0f65fdc0a4d41ba982f99b1"
+run_id: "27481571770"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27481571770"
+head_sha: "96f30ca3aa974d2e607cebef5ff93febd1bf88ac"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-04-26T01:36:05.669Z"
-canonical: "https://github.com/openclaw/openclaw/pull/50020"
+result_status: "planned"
+published_at: "2026-06-13T23:20:38.062Z"
+canonical: "https://github.com/openclaw/openclaw/pull/67398"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/50020"
-actions_total: 30
+canonical_pr: "https://github.com/openclaw/openclaw/pull/67398"
+actions_total: 2
+fix_executed: 0
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 5
+needs_human_count: 0
 ---
 
 # ghcrawl-143801-autonomous-smoke
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24943078008](https://github.com/openclaw/projectclownfish/actions/runs/24943078008)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27481571770](https://github.com/openclaw/clownfish/actions/runs/27481571770)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/50020
+Canonical: https://github.com/openclaw/openclaw/pull/67398
 
 ## Summary
 
-Historical representative #50020 is closed, and the hydrated refs do not reduce to a single safe open replacement. The live preflight snapshot is over-clustered across Telegram delivery/threading, session/transcript lifecycle, payload.model resolution, heartbeat mirror routing, and unrelated outliers, so no high-confidence close/comment/label actions are safe.
+#67398 is the only open hydrated item and remains the canonical path, but it is not merge-ready. Current main still builds heartbeat outbound session context from the base session key after computing an isolated run key, and the PR is small/editable, so the safe next action is to repair the contributor branch with real behavior proof and rerun review instead of merging or closing anything.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 30 |
+| Worker actions | 2 |
+| Fix executed | 0 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 5 |
+| Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| repair_contributor_branch | failed |  |  | source PR #67398 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files |
+| open_fix_pr | blocked |  | clownfish/ghcrawl-143801-autonomous-smoke | Codex /review did not pass after 2 attempt(s): Blocking review finding: the normal isolated heartbeat path now passes the isolated run key plus base policy key, but wake re-entry with an already-suffixed :heartbeat session still drops the base policy key. That leaves a security-sensitive group media policy bypass path and does not fully address the prior bot review concern. |
 
 ## Apply Actions
 
@@ -54,41 +67,9 @@ Historical representative #50020 is closed, and the hydrated refs do not reduce 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #40571 | needs_human | blocked | independent | Independent bug and not safe for autonomous triage while live checks are failing. |
-| #43469 | needs_human | blocked | independent | Out-of-cluster linked PR with failing checks; leave for human split, not dedupe. |
-| #43695 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #43767 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #43808 | needs_human | blocked | related | Related Telegram topic-delivery subfamily, but failing checks block autonomous canonical or close decisions. |
-| #44240 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #44270 | needs_human | blocked | needs_human | Overlapping candidate PRs exist, but no merge-ready canonical is safe for autonomous routing. |
-| #44325 | needs_human | blocked | superseded | Likely superseded by the later follow-up chain ending at #44412, but failing checks on the family make contributor-safe closure a human task. |
-| #44351 | needs_human | blocked | superseded | Likely superseded by #44412, but live failures in the PR family make contributor-safe closure a human task. |
-| #44412 | needs_human | blocked | needs_human | Best current candidate in the #44270 subfamily, but not safe to treat as canonical while live checks fail. |
-| #49572 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #49704 | needs_human | blocked | related | Related Telegram delivery family, but a different root cause from #43808/#59069/#64708 and blocked by failing CI. |
-| #50020 | keep_closed | skipped | canonical | Historical representative only; already closed. |
-| #56572 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #56624 | keep_independent | planned | independent | Separate bug with passing checks; keep open as an independent fix path, not a dedupe target for #50020. |
-| #57136 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #57367 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #57470 | keep_independent | planned | independent | Clean independent fix in the model-override subfamily; keep open, but it does not replace #50020 as cluster-wide canonical. |
-| #58304 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #58318 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #58893 | needs_human | blocked | independent | Independent draft behavior change with incomplete CI; leave for human triage, not autonomous dedupe. |
-| #59020 | needs_human | blocked | related | Related session/transcript family, but not the same root cause as #50020 and blocked by failing checks. |
-| #59069 | keep_related | planned | related | Related Telegram delivery subfamily with passing checks, but distinct from #43808 delivery.threadId plumbing and from the #44270 DM-thread inference line. |
-| #61291 | keep_closed | skipped | related | Already closed; historical evidence only. |
-| #64708 | needs_human | blocked | related | Related Telegram delivery subfamily, but failing checks block autonomous routing or closure. |
-| #65176 | needs_human | blocked | independent | Independent stacked-branch outlier with failing checks; keep out of autonomous dedupe. |
-| #65179 | needs_human | blocked | superseded | Likely superseded by #57470, but the stacked unrelated change and failing checks make contributor-safe closure a human task. |
-| #67398 | keep_independent | planned | independent | Passing independent heartbeat fix; keep open as its own path, not as a canonical replacement for #50020. |
-| #68555 | needs_human | blocked | related | Related model-selection subfamily, but it conflicts with #57470's allow-explicit-override behavior and needs human product choice. |
-| #70619 | keep_closed | skipped | related | Already closed; historical evidence only. |
+| #67398 | fix_needed | planned | canonical | Canonical PR is useful but not merge-ready; repair the editable contributor branch, add explicit behavior proof, rebase as needed, run /review, and validate before any merge recommendation. |
+| cluster:ghcrawl-143801-autonomous-smoke | build_fix_artifact | planned |  | Build an executable repair artifact for the editable canonical PR branch; no close, merge, or post-merge action is planned in this pass. |
 
 ## Needs Human
 
-- No single open canonical replaces closed representative #50020. The hydrated refs split into at least five root-cause families: Telegram delivery/threading (#43808/#44270/#44325/#44351/#44412/#49704/#59069/#64708), session/transcript lifecycle (#56624/#59020 plus closed #50020/#58318/#61291/#70619), payload.model resolution (#57470/#65179/#68555), heartbeat isolated-session routing (#67398), and outliers (#40571/#43469/#58893/#65176).
-- #44270 cannot be auto-routed: #44325 and #44351 are likely superseded by #44412, but #44412 still has failing protocol and secrets checks in the live preflight state.
-- The payload.model line cannot be auto-closed: #65179 looks superseded by the smaller passing #57470, but it carries unrelated #65176 SSRF changes and failing core/extension/check jobs.
-- Several open refs still have failing or insufficient live validation (#40571, #43469, #43808, #49704, #58893, #59020, #64708, #65176, #65179, #68555), so autonomous close/comment/label actions would violate the failing_checks guard.
-- Closed context refs (#50020, #57136, #58318, #61291 and other closed issues) are evidence only. The provided artifact does not prove a merged-on-main cluster-wide canonical replacement.
+- none
