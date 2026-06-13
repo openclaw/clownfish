@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-143801-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27482131963",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27482131963",
+  "head_sha": "d64f893eb27045dfc87f44dac4ad7060545f4b0b",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-143801-autonomous-smoke.md",
+  "published_at": "2026-06-13T23:44:29.678Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/67398",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/67398",
+  "summary": "#67398 is the only open hydrated candidate and remains the canonical repair path. It is useful and narrow, but merge is not safe now because the PR is dirty, the Real behavior proof check failed, and ClawSweeper still requires behavior proof/review. Current main still shows the reported base-session outbound routing, so plan an in-place repair of the contributor branch rather than closing or merging anything.",
+  "actions": [
+    {
+      "target": "#56941",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#67398",
+      "candidate_fix": null,
+      "reason": "Already closed; retain as historical context for the heartbeat isolated-session family."
+    },
+    {
+      "target": "#57577",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#67398",
+      "candidate_fix": null,
+      "reason": "Already closed; retain as historical context for the heartbeat isolated-session family."
+    },
+    {
+      "target": "#67398",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#67398",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch before any merge: rebase/resolve dirty state, preserve the narrow runSessionKey fix, add or keep explicit mirror proof, run Codex /review and pnpm check:changed, then re-evaluate merge."
+    },
+    {
+      "target": "cluster:ghcrawl-143801-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#67398",
+      "candidate_fix": null,
+      "reason": "Build an executable repair artifact for the canonical contributor PR rather than merging a dirty branch or opening an unrelated replacement."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #67398 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92807",
+      "branch": "clownfish/ghcrawl-143801-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "eb04aad6e06990b2efbebca10b1f7a349f815afd",
+      "checkpoint_commits": [
+        "e3010556cc9f22c84598e94ad1476e39eb626aee"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92807"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92807",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(heartbeat): route outbound mirror to isolated session key",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
