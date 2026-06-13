@@ -29,7 +29,7 @@ allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
 canonical_hint: "Live refresh on 2026-06-14 found #67398 as the only open hydrated candidate; worker must still verify current GitHub state before action."
-notes: "Generated from ghcrawl run cluster 143801 on 2026-04-25; live refreshed on 2026-06-14."
+notes: "Generated from ghcrawl run cluster 143801 on 2026-04-25; live refreshed on 2026-06-14. Finalized after replacement PR #92807 merged."
 ---
 
 # GHCrawl Cluster 143801
@@ -97,3 +97,9 @@ Closed context refs:
 Open candidates:
 
 - #67398 fix(heartbeat): route outbound mirror to isolated session key
+
+## Finalization
+
+Run `27482131963` completed successfully on 2026-06-13. It opened replacement PR #92807 for the stale contributor PR #67398 after the first repair attempt could not safely push to the fork branch.
+
+Replacement PR #92807 was squash-merged as `c2754150c963b35490f415db3e29cb2b7fa26566`, and source PR #67398 is closed. Keep this job finalized rather than rerunning the stale source PR cluster.

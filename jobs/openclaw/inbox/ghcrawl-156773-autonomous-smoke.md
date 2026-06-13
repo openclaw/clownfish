@@ -19,14 +19,12 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#39982"
+  - "#39923"
 candidates:
   - "#39923"
-  - "#39982"
   - "#40392"
 cluster_refs:
   - "#39923"
-  - "#39982"
   - "#40392"
 security_policy: central_security_only
 security_sensitive: false
@@ -35,8 +33,8 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #39982 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156773 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #39923 and #40392 open; original representative #39982 is closed context only."
+notes: "Generated from ghcrawl run cluster 156773 on 2026-04-26; live refreshed on 2026-06-14."
 ---
 
 # GHCrawl Cluster 156773
@@ -53,7 +51,7 @@ Cluster shape from ghcrawl:
 - issues: 1
 - pull requests: 2
 - open candidates in local store: 3
-- representative: #39982, currently open in local store
+- representative: #39982, currently closed after live refresh
 - latest member update: 2026-04-25T07:30:10.563Z
 
 ## Goal
@@ -64,10 +62,9 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #39982 feat(config): use datetime suffix for backup rotation instead of numeric
 
 Open candidates:
 
 - #39923 feat(config): use datetime suffix for config backup files instead of numeric rotation
-- #39982 feat(config): use datetime suffix for backup rotation instead of numeric
 - #40392 config: use datetime suffix for config backup files instead of numeric rotation
