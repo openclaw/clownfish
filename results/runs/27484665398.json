@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156760-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27484665398",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27484665398",
+  "head_sha": "15ce3c5acb722f6304d0f6de2dc809dfe5816678",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156760-autonomous-smoke.md",
+  "published_at": "2026-06-14T01:30:03.930Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/34528",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/34528",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77653",
+  "summary": "Canonical issue #34528 remains open. Current main still has the Feishu reaction-suffixed message ID bug, and open PR #77653 is the only hydrated repairable candidate, but merge and post-merge closeout are blocked until the real behavior proof gate, mergeability, validation, and Codex review are clean. No GitHub mutations are emitted.",
+  "actions": [
+    {
+      "target": "#34528",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "#34528 is the surviving canonical bug report; require_fix_before_close blocks closeout until #77653 or a replacement lands and validates."
+    },
+    {
+      "target": "#77653",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Repair the contributor branch rather than opening a new fix PR: the branch is editable and focused, but it must be rebased/validated/reviewed and supplied with real behavior proof before merge."
+    },
+    {
+      "target": "cluster:ghcrawl-156760-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "A narrow repair artifact is needed so the executor can refresh #77653 and preserve contributor credit while keeping closure and merge blocked."
+    },
+    {
+      "target": "#34565",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Already closed historical contributor PR; preserve as credit/evidence only."
+    },
+    {
+      "target": "#34639",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Already closed historical contributor PR; preserve as credit/evidence only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
