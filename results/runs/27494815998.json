@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156982-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27494815998",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27494815998",
+  "head_sha": "2fe1e514dd96b4c06f82a4dcf98f42c8cd4f4700",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156982-autonomous-smoke.md",
+  "published_at": "2026-06-14T10:02:19.764Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/39245",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/39245",
+  "summary": "#39245 is the best live canonical path for the OpenAI-compatible functions-prefix tool-call normalization bug, but it is not merge-ready: the hydrated PR is dirty against main, has a failing Real behavior proof check, and the latest ClawSweeper review calls out scope drift and behavior-proof blockers. Current main at 2f34d06b428e5fa00237302186d0ace69fc5e1c1 still lacks the reported normalization, so plan a maintainer-editable repair of #39245 rather than merge or close anything new.",
+  "actions": [
+    {
+      "target": "#39091",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "Already closed before this run; keep as historical superseded context and do not emit a close action."
+    },
+    {
+      "target": "#39245",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "#39245 owns the canonical bug fix but needs branch repair, narrowing, rebase/conflict resolution, behavior proof, refreshed Codex review, and pnpm validation before any merge can be planned."
+    },
+    {
+      "target": "cluster:ghcrawl-156982-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "Build a narrow repair artifact for #39245 so the executor can rebase and validate the maintainer-editable contributor branch before any merge or closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #39245 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156982-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/session-transcript-repair.attachments.test.ts: core test [check:changed] src/agents/session-transcript-repair.test.ts: core test [check:changed] src/agents/session-transcript-repair.ts: core production [check:changed] src/agents/tool-call-id.test.ts: core test [check:changed] src/agents/tool-call-id.ts: core production [check:changed] src/agents/tool-call-shared.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --increme...",
+      "commit": "05ddbaa3647de082a0eca1d6f21e81a6615e14f5",
+      "checkpoint_commits": [
+        "05ddbaa3647de082a0eca1d6f21e81a6615e14f5"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
