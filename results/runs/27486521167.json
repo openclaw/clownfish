@@ -1,0 +1,121 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157004-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27486521167",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486521167",
+  "head_sha": "fb8f137c423b876399d9e3e4ff1a8695add173e6",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157004-autonomous-smoke.md",
+  "published_at": "2026-06-14T03:22:03.993Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/67783",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/67783",
+  "summary": "Canonical path is open PR #67783. It is narrow, editable, and current-main verification shows the reported Feishu typing-reaction target bug still exists, but unresolved ClawSweeper/Codex bot review findings block merge. Planned result: repair #67783's contributor branch, keep linked non-duplicate Feishu items open, and leave closed historical PR #39 untouched.",
+  "actions": [
+    {
+      "target": "#67783",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#67783",
+      "candidate_fix": "#67783",
+      "reason": "Repair the useful canonical contributor PR branch before merge; the branch is editable and narrow, but actionable bot review findings remain unresolved."
+    },
+    {
+      "target": "cluster:ghcrawl-157004-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#67783",
+      "candidate_fix": "#67783",
+      "reason": "Build an executable repair artifact for the existing #67783 branch instead of merging with unresolved review findings."
+    },
+    {
+      "target": "#69572",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#67783",
+      "candidate_fix": null,
+      "reason": "Same Feishu typing UX area, but not the same root cause or fix scope as #67783; keep open as related follow-up."
+    },
+    {
+      "target": "#73958",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#67783",
+      "candidate_fix": null,
+      "reason": "Related Feishu thread-routing PR with separate scope and unresolved checks/review; leave it open for its own repair/merge path."
+    },
+    {
+      "target": "#39",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and independent historical context only."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #67783 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-157004-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): No security-sensitive code issue found in the Feishu dispatch/typing diff. The code addresses the synthetic-id typing concern and the Greptile dead-parameter comment, but the current PR metadata is stale for this repair and should be fixed before merge.",
+      "commit": "dbb2fd0651df2b10fe1f9c00a55340cee1766c91",
+      "checkpoint_commits": [
+        "dbb2fd0651df2b10fe1f9c00a55340cee1766c91"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
