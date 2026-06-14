@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 14, 2026, 07:38 UTC
+Last dashboard update: Jun 14, 2026, 09:29 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 394 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 395 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 394 | 100% |
+| Latest clusters reviewed | 395 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 205 | 52.0% |
-| Needs-human clusters | 46 | 11.7% |
-| Latest successful clusters | 385 | 97.7% |
+| Clean completed clusters | 206 | 52.2% |
+| Needs-human clusters | 46 | 11.6% |
+| Latest successful clusters | 386 | 97.7% |
 | Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 1 | 0.3% |
-| Run attempts archived | 712 | audit |
+| Run attempts archived | 713 | audit |
 | Fix action attempts | 242 | audit |
 | Fix actions executed | 1 | 0.4% |
 | Fix actions failed | 58 | 24.0% |
 | Fix actions blocked | 74 | 30.6% |
-| Latest clusters with fix failures | 72 | 18.3% |
-| Distinct PRs touched | 1202 | 100% |
-| Open PRs tracked | 109 | 9.1% |
-| Closed unmerged PRs tracked | 909 | 75.6% |
+| Latest clusters with fix failures | 72 | 18.2% |
+| Distinct PRs touched | 1203 | 100% |
+| Open PRs tracked | 106 | 8.8% |
+| Closed unmerged PRs tracked | 913 | 75.9% |
 | Completed close actions | 30 | 9.3% |
 | Completed merge actions | 23 | 7.1% |
 | Duplicate closes | 22 | 73.3% |
@@ -159,9 +159,7 @@ Scope: 394 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#92911](https://github.com/openclaw/openclaw/pull/92911) | fix(cli): avoid false downgrade prompt for latest tag | ghcrawl-156686-autonomous-smoke | clownfish/ghcrawl-156686-autonomous-smoke | needs_merge_state:UNSTABLE, needs_checks:CodeQL / Security High (core-auth-secrets):IN_PROGRESS; OpenGrep — PR Diff / Scan changed paths ... | repair failing checks or document unrelated main flake with touched-surface proof |
 | [#92910](https://github.com/openclaw/openclaw/pull/92910) | fix(memory-core): safely refresh qmd index during collection repair | ghcrawl-156633-autonomous-smoke | clownfish/ghcrawl-156633-autonomous-smoke | needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
-| [#92879](https://github.com/openclaw/openclaw/pull/92879) | fix(sessions): fall back to reset archive for missing async transcripts | gitcrawl-10447-autonomous-smoke | clownfish/gitcrawl-10447-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavi... | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
 
 ### Latest ProjectClownfish Closures
 
