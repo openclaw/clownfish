@@ -1,0 +1,111 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156822-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27486525526",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486525526",
+  "head_sha": "fb8f137c423b876399d9e3e4ff1a8695add173e6",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156822-autonomous-smoke.md",
+  "published_at": "2026-06-14T03:14:19.976Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/63321",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63321",
+  "summary": "Classified #63321 as the canonical PR, but it is not merge-ready. No close or merge is planned; the safe path is to repair the editable contributor branch, preserve credit, address review-bot findings, rebase against current main, and validate with the OpenClaw pnpm gates.",
+  "actions": [
+    {
+      "target": "#63321",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63321",
+      "candidate_fix": null,
+      "reason": "The PR is useful and editable, but failing proof, unknown mergeability, stale branch state, and unresolved review-bot semantics block merge. Because fix and raise_pr are allowed and maintainer_can_modify=true, repair_contributor_branch is the correct executable path."
+    },
+    {
+      "target": "cluster:ghcrawl-156822-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#63321",
+      "candidate_fix": null,
+      "reason": "A narrow, contributor-credit-preserving branch repair is available and allowed by the job."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #63321 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92849",
+      "branch": "clownfish/ghcrawl-156822-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "70e334bb36614734e982f363e5e4245e95b9a088",
+      "checkpoint_commits": [
+        "42bfc3e558d13dac82fc7e3a1056ee13a20fa55c"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92849"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92849",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(tailscale): preserve parse errors for malformed JSON",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
