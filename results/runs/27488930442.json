@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2491-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27488930442",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27488930442",
+  "head_sha": "174f98c691cc8ad2a6c29f671541c354831222e1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2491-autonomous-smoke.md",
+  "published_at": "2026-06-14T05:05:45.238Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Cluster classification used the hydrated preflight artifact. #51347 and linked #27884 are security-sensitive in the artifact, so they are routed item-by-item to central security handling; all other hydrated refs are already closed evidence only.",
+  "actions": [
+    {
+      "target": "#27884",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be quarantined to central OpenClaw security triage."
+    },
+    {
+      "target": "#51347",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open candidate #51347 is security-sensitive in the hydrated artifact and must be routed to central OpenClaw security triage."
+    },
+    {
+      "target": "#40623",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged and closed; no mutation planned."
+    },
+    {
+      "target": "#49082",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed superseded PR retained as evidence only."
+    },
+    {
+      "target": "#51375",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed superseded PR retained as evidence only."
+    },
+    {
+      "target": "#53917",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed representative retained as evidence only; it is not a live canonical target."
+    },
+    {
+      "target": "#57156",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref retained as evidence only."
+    },
+    {
+      "target": "#58591",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed superseded PR retained as evidence only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 6
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
