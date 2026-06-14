@@ -1,0 +1,177 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156686-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27491294402",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27491294402",
+  "head_sha": "92614437e428c57ed73bd7804c00fbc2db3dfa6f",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156686-autonomous-smoke.md",
+  "published_at": "2026-06-14T07:37:13.913Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/63593",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63593",
+  "summary": "Live hydration shows the original representative #69645 is closed. The only open candidate is #63593, a distinct update-cli downgrade-prompt bug; it is narrow and maintainer-modifiable, but not merge-ready because real-behavior proof failed, so this result plans a contributor-branch repair artifact and no direct close or merge.",
+  "actions": [
+    {
+      "target": "#53426",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#65471",
+      "reason": "Already closed as fixed by the merged post-self-update respawn path."
+    },
+    {
+      "target": "#58352",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#65471",
+      "reason": "Closed historical contributor PR covered by merged replacement #65471."
+    },
+    {
+      "target": "#65471",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-shaped closed PR comment to central OpenClaw security handling."
+    },
+    {
+      "target": "#67702",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related update-cli work with distinct git-mode gateway scope."
+    },
+    {
+      "target": "#69412",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#69412",
+      "candidate_fix": null,
+      "reason": "Closed root issue for the stale skip/no-op package update family."
+    },
+    {
+      "target": "#69421",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69412",
+      "candidate_fix": null,
+      "reason": "Closed superseded PR for the stale #69412 skip/no-op design."
+    },
+    {
+      "target": "#69645",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69412",
+      "candidate_fix": null,
+      "reason": "Representative is obsolete and already closed; no mutation is valid."
+    },
+    {
+      "target": "#63593",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63593",
+      "candidate_fix": "#63593",
+      "reason": "Repair the existing contributor branch before any merge recommendation."
+    },
+    {
+      "target": "cluster:ghcrawl-156686-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#63593",
+      "candidate_fix": "#63593",
+      "reason": "Build an executable repair artifact for the only live canonical PR."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 6,
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 6,
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #63593 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92911",
+      "branch": "clownfish/ghcrawl-156686-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "8b84b7f79f1b0bafc44769a71925397615e3ce87",
+      "checkpoint_commits": [
+        "8b0d4ed43c67fb1b8033ce1917702010f24a6f36"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92911"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92911",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): avoid false downgrade prompt for latest tag",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
