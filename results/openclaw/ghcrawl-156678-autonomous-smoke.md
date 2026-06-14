@@ -7,7 +7,7 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/27514423561"
 head_sha: "3ec749a472ab32e853dda0b67cf060e75a274aa5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-14T23:21:29.201Z"
+published_at: "2026-06-14T23:34:20.529Z"
 canonical: "https://github.com/openclaw/openclaw/issues/50795"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/50795"
 canonical_pr: null
@@ -15,8 +15,8 @@ actions_total: 12
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
-apply_executed: 0
-apply_blocked: 1
+apply_executed: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -45,8 +45,8 @@ Canonical: https://github.com/openclaw/openclaw/issues/50795
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 0 |
-| Apply blocked | 1 |
+| Applied executions | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,7 +60,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/50795
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93084 | merge_canonical | blocked | fix_pr | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish |
+| #93084 | merge_canonical | executed | fix_pr | already merged |
 
 ## Worker Action Matrix
 

@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 14, 2026, 23:22 UTC
+Last dashboard update: Jun 14, 2026, 23:34 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,7 +52,7 @@ Scope: 407 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 407 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 214 | 52.6% |
+| Clean completed clusters | 215 | 52.8% |
 | Needs-human clusters | 50 | 12.3% |
 | Latest successful clusters | 398 | 97.8% |
 | Latest failed clusters | 3 | 0.7% |
@@ -64,22 +64,21 @@ Scope: 407 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | Fix actions blocked | 80 | 31.5% |
 | Latest clusters with fix failures | 71 | 17.4% |
 | Distinct PRs touched | 1232 | 100% |
-| Open PRs tracked | 89 | 7.2% |
+| Open PRs tracked | 88 | 7.1% |
 | Closed unmerged PRs tracked | 952 | 77.3% |
 | Completed close actions | 32 | 9.6% |
-| Completed merge actions | 25 | 7.5% |
+| Completed merge actions | 26 | 7.8% |
 | Duplicate closes | 22 | 68.8% |
 | Superseded closes | 0 | 0.0% |
 | Fixed-by-candidate closes | 0 | 0.0% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 151 | 45.5% |
+| Blocked mutation attempts | 150 | 45.2% |
 | Skipped mutation attempts | 124 | 37.3% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
-| [ghcrawl-156678-autonomous-smoke](results/openclaw/ghcrawl-156678-autonomous-smoke.md) | apply blocked | jobs/openclaw/outbox/stuck/ghcrawl-156678-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | [report](results/openclaw/ghcrawl-156678-autonomous-smoke.md) | [27514423561](https://github.com/openclaw/clownfish/actions/runs/27514423561) |
 | [ghcrawl-156949-autonomous-smoke](results/openclaw/ghcrawl-156949-autonomous-smoke.md) | needs human | jobs/openclaw/outbox/stuck/ghcrawl-156949-autonomous-smoke.md | #92091 needs maintainer/author follow-up for redacted live Discord behavior proof and, if that cannot be provided promptly, a decision on... | [report](results/openclaw/ghcrawl-156949-autonomous-smoke.md) | [27514543970](https://github.com/openclaw/clownfish/actions/runs/27514543970) |
 | [ghcrawl-156966-autonomous-smoke](results/openclaw/ghcrawl-156966-autonomous-smoke.md) | needs human | jobs/openclaw/outbox/stuck/ghcrawl-156966-autonomous-smoke.md | Hydrate the existing open/conflicting recovery PR referenced in #38091's 2026-06-12 ClawSweeper comment before executing fix work; choose... | [report](results/openclaw/ghcrawl-156966-autonomous-smoke.md) | [27507069908](https://github.com/openclaw/clownfish/actions/runs/27507069908) |
 | [ghcrawl-156982-autonomous-smoke](results/openclaw/ghcrawl-156982-autonomous-smoke.md) | fix blocked | jobs/openclaw/outbox/stuck/ghcrawl-156982-autonomous-smoke.md | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] sr... | [report](results/openclaw/ghcrawl-156982-autonomous-smoke.md) | [27506374186](https://github.com/openclaw/clownfish/actions/runs/27506374186) |
@@ -104,6 +103,7 @@ Scope: 407 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | [ghcrawl-157062-autonomous-smoke](results/openclaw/ghcrawl-157062-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-157062-autonomous-smoke.md | source PR #64181 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-157062-autonomous-smoke.md) | [27486517646](https://github.com/openclaw/clownfish/actions/runs/27486517646) |
 | [ghcrawl-156837-autonomous-smoke](results/openclaw/ghcrawl-156837-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156837-autonomous-smoke.md | source PR #56176 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-156837-autonomous-smoke.md) | [27486518620](https://github.com/openclaw/clownfish/actions/runs/27486518620) |
 | [ghcrawl-156822-autonomous-smoke](results/openclaw/ghcrawl-156822-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156822-autonomous-smoke.md | source PR #63321 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-156822-autonomous-smoke.md) | [27486525526](https://github.com/openclaw/clownfish/actions/runs/27486525526) |
+| [ghcrawl-156880-autonomous-smoke](results/openclaw/ghcrawl-156880-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-156880-autonomous-smoke.md | fixed_by_candidate close requires a merged fix PR unless allow_unmerged_fix_close: true | [report](results/openclaw/ghcrawl-156880-autonomous-smoke.md) | [27486520641](https://github.com/openclaw/clownfish/actions/runs/27486520641) |
 
 ### Fix Failure Queue
 
@@ -139,7 +139,7 @@ Scope: 407 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | Reason | Latest count | Example cluster |
 | --- | ---: | --- |
-| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 21 | [ghcrawl-156678-autonomous-smoke](results/openclaw/ghcrawl-156678-autonomous-smoke.md) |
+| merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 20 | [ghcrawl-156686-autonomous-smoke](results/openclaw/ghcrawl-156686-autonomous-smoke.md) |
 | target changed since worker review | 17 | [ghcrawl-199237-agentic-merge](results/openclaw/ghcrawl-199237-agentic-merge.md) |
 | job does not allow merge | 12 | [clawsweeper-commit-openclaw-openclaw-806a0119f3cd](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) |
 | blocked: Close is blocked on the canonical fix path or fix PR. | 11 | [ghcrawl-191463-agentic-merge](results/openclaw/ghcrawl-191463-agentic-merge.md) |
