@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156982-autonomous-smoke"
 mode: "autonomous"
-run_id: "27506374186"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27506374186"
-head_sha: "772609939e8df97f161412c135242d1e0fca23c1"
+run_id: "27515659253"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27515659253"
+head_sha: "50268f1fd89dafa5e2ca7b68d5d0e69622b10373"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-14T17:40:52.568Z"
-canonical: "cluster:ghcrawl-156982-autonomous-smoke"
+published_at: "2026-06-14T23:42:44.886Z"
+canonical: "https://github.com/openclaw/openclaw/pull/39245"
 canonical_issue: null
-canonical_pr: null
+canonical_pr: "https://github.com/openclaw/openclaw/pull/39245"
 actions_total: 4
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27506374186](https://github.com/openclaw/clownfish/actions/runs/27506374186)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27515659253](https://github.com/openclaw/clownfish/actions/runs/27515659253)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: cluster:ghcrawl-156982-autonomous-smoke
+Canonical: https://github.com/openclaw/openclaw/pull/39245
 
 ## Summary
 
-Current main still lacks the OpenAI-compatible mangled tool-call ID/name normalization. #39091 is already closed and should stay historical. #39245 is the useful successor, but it is dirty, has a failing Real behavior proof check, and carries unrelated node exec changes, so the safe path is a narrow credited replacement fix PR; #39245 closeout is blocked until that replacement exists.
+Current main at 9ba6ed1d5cb87c258459b5997f03895f27083dc1 still lacks the OpenAI-compatible functions-space tool-call normalization. #39091 is already closed and must stay historical. #39245 is the live useful contributor PR, but it is not merge-ready: it has a failing Real behavior proof gate, unknown mergeability, unresolved ClawSweeper proof/scope concerns, and node exec workdir changes outside the stated tool-call fix. Plan a narrow credited replacement fix artifact and block superseding #39245 until that replacement PR exists.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Current main still lacks the OpenAI-compatible mangled tool-call ID/name normali
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39091 | keep_closed | skipped | superseded | Already closed; keep as superseded historical context only. |
-| #39245 | close_superseded | blocked | superseded | Closeout is blocked on a replacement fix PR that preserves @deepujain credit and removes the unsafe/broad branch scope. |
-| cluster:ghcrawl-156982-autonomous-smoke | fix_needed | planned |  | Bug still appears real on current main and no merge-ready canonical PR exists. |
-| cluster:ghcrawl-156982-autonomous-smoke | build_fix_artifact | planned |  | Build a narrow credited replacement fix artifact for the executor; do not merge or close #39245 until the replacement PR exists and passes gates. |
+| #39091 | keep_closed | skipped | superseded | Already closed historical PR; keep as evidence and credit source only. |
+| #39245 | close_superseded | blocked | superseded | Blocked by fix-first policy: do not close the useful source PR until Clownfish has opened or merged the narrow credited replacement. |
+| cluster:ghcrawl-156982-autonomous-smoke | fix_needed | planned |  | The bug still appears real on current main and the only live PR is useful but not safe to merge as-is. |
+| cluster:ghcrawl-156982-autonomous-smoke | build_fix_artifact | planned |  | Allowed actions include fix and raise_pr; replacement is narrow, auditable, and preserves contributor credit. |
 
 ## Needs Human
 

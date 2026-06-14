@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156982-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27515659253",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27515659253",
+  "head_sha": "50268f1fd89dafa5e2ca7b68d5d0e69622b10373",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156982-autonomous-smoke.md",
+  "published_at": "2026-06-14T23:42:44.886Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/39245",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/39245",
+  "summary": "Current main at 9ba6ed1d5cb87c258459b5997f03895f27083dc1 still lacks the OpenAI-compatible functions-space tool-call normalization. #39091 is already closed and must stay historical. #39245 is the live useful contributor PR, but it is not merge-ready: it has a failing Real behavior proof gate, unknown mergeability, unresolved ClawSweeper proof/scope concerns, and node exec workdir changes outside the stated tool-call fix. Plan a narrow credited replacement fix artifact and block superseding #39245 until that replacement PR exists.",
+  "actions": [
+    {
+      "target": "#39091",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "Already closed historical PR; keep as evidence and credit source only."
+    },
+    {
+      "target": "#39245",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Blocked by fix-first policy: do not close the useful source PR until Clownfish has opened or merged the narrow credited replacement."
+    },
+    {
+      "target": "cluster:ghcrawl-156982-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "The bug still appears real on current main and the only live PR is useful but not safe to merge as-is."
+    },
+    {
+      "target": "cluster:ghcrawl-156982-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39245",
+      "candidate_fix": null,
+      "reason": "Allowed actions include fix and raise_pr; replacement is narrow, auditable, and preserves contributor credit."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "close_superseded": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "blocked": 1,
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/session-transcript-repair.attachments.test.ts: core test [check:changed] src/agents/session-transcript-repair.test.ts: core test [check:changed] src/agents/session-transcript-repair.ts: core production [check:changed] src/agents/tool-call-id.test.ts: core test [check:changed] src/agents/tool-call-id.ts: core production [check:changed] src/agents/tool-call-shared.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --increme...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#39245",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "openclaw-openclaw:ghcrawl-156982-autonomous-smoke:39245:close-superseded-after-replacement:2026-06-14T07-58-04Z",
+      "source_status": "blocked",
+      "source_reason": "Blocked by fix-first policy: do not close the useful source PR until Clownfish has opened or merged the narrow credited replacement.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
