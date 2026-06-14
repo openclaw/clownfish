@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#49569"
+  - "#67782"
 candidates:
-  - "#49569"
   - "#67782"
-  - "#69165"
 cluster_refs:
-  - "#49569"
   - "#67782"
-  - "#69165"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,8 +31,8 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #49569 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156841 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #67782 open; original representative #49569 and linked issue #69165 are closed context only."
+notes: "Generated from ghcrawl run cluster 156841 on 2026-04-26; live refreshed on 2026-06-14."
 ---
 
 # GHCrawl Cluster 156841
@@ -53,7 +49,7 @@ Cluster shape from ghcrawl:
 - issues: 1
 - pull requests: 2
 - open candidates in local store: 3
-- representative: #49569, currently open in local store
+- representative: #49569, currently closed after live refresh
 - latest member update: 2026-04-24T18:56:22.371Z
 
 ## Goal
@@ -64,10 +60,9 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #49569 fix(telegram): retry setMyCommands on 429 rate-limit with retry_after backoff
+- #69165 [Feature]: Outbound Telegram send queue with per-chat rate limiting and retry_after-aware backoff
 
 Open candidates:
 
-- #49569 fix(telegram): retry setMyCommands on 429 rate-limit with retry_after backoff
 - #67782 fix(telegram): skip delete before non-empty command sync
-- #69165 [Feature]: Outbound Telegram send queue with per-chat rate limiting and retry_after-aware backoff
