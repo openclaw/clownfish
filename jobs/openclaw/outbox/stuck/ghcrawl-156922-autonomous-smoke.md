@@ -32,7 +32,7 @@ allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
 canonical_hint: "Live refresh on 2026-06-14 found #70391 open; #66271 and #67037 are closed context only."
-notes: "Generated from ghcrawl run cluster 156922 on 2026-04-26; live refreshed and promoted on 2026-06-14."
+notes: "Generated from ghcrawl run cluster 156922 on 2026-04-26; live refreshed and promoted on 2026-06-14. Parked after run 27486520110: worker found current main contains the Control UI reload behavior, but closeout for #70391 was blocked by require_fix_before_close because there is no merged fix PR object."
 ---
 
 # GHCrawl Cluster 156922

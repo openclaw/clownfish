@@ -32,7 +32,7 @@ allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
 canonical_hint: "Live refresh on 2026-06-14 found #61374 open; #56766 and #57308 are closed context only."
-notes: "Generated from ghcrawl run cluster 156880 on 2026-04-26; live refreshed and promoted on 2026-06-14."
+notes: "Generated from ghcrawl run cluster 156880 on 2026-04-26; live refreshed and promoted on 2026-06-14. Parked after run 27486520641: worker found current main contains the Slack wake/thread-routing behavior, but closeout for #61374/#61502 was blocked by require_fix_before_close because there is no merged fix PR object."
 ---
 
 # GHCrawl Cluster 156880
