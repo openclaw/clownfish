@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157053-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27482850946",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27482850946",
+  "head_sha": "2e26ac66d03f49f84f09d55a7c6b40a9647da8a1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157053-autonomous-smoke.md",
+  "published_at": "2026-06-14T00:32:50.465Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/42754",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/42754",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42908",
+  "summary": "#42754 remains the canonical Feishu card-action issue. Current main at c2754150 still normalizes card actions to action.value/tag and drops sibling callback fields. #42908 is the useful maintainer-editable contributor PR, but it is not merge-ready because the branch is dirty, relevant checks/proof are failing, and a clean /review merge preflight is missing. Plan repair of #42908, route only the unrelated security-sensitive linked #75, and keep #43202 open as related because it adds input_value/name scope that should be covered by the repair before any closeout.",
+  "actions": [
+    {
+      "target": "#75",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only the exact security-sensitive linked ref and continue ordinary non-security classification for the Feishu cluster."
+    },
+    {
+      "target": "#118",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No mutation is valid for this already-closed unrelated context ref."
+    },
+    {
+      "target": "#42754",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42754",
+      "candidate_fix": "#42908",
+      "reason": "The representative is still the best open canonical issue for the shared Feishu card-action payload-loss root cause."
+    },
+    {
+      "target": "#42908",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42754",
+      "candidate_fix": "#42908",
+      "reason": "Repair the contributor branch before any merge or fixed-by-candidate closeout; do not replace it because maintainer_can_modify is true and the diff is narrow."
+    },
+    {
+      "target": "#43202",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42754",
+      "candidate_fix": "#42908",
+      "reason": "Keep open as related until the #42908 repair explicitly covers the broader sibling-field payload contract and lands."
+    },
+    {
+      "target": "cluster:ghcrawl-157053-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42754",
+      "candidate_fix": "#42908",
+      "reason": "A deterministic executor can update #42908's maintainer-editable branch and preserve contributor credit."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #42908 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-157053-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/feishu/src/bot.card-action.test.ts: extension test [check:changed] extensions/feishu/src/bot.ts: extension production [check:changed] extensions/feishu/src/card-action.ts: extension production [check:changed] extensions/feishu/src/card-interaction.test.ts: extension test [check:changed] extensions/feishu/src/card-interaction.ts: extension production [check:changed] extensions/feishu/src/event-types.ts: extension production [check:changed] extensions/feishu/src/monitor.account.ts: extension production [check:changed] extensions/feishu/src/monitor.card-action.lifecycle.test-support.ts: extension production [check:changed] extensions/feishu/src/types.ts: extension production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate ...",
+      "commit": "98d4aeb5d4c37be99f788384e582a55dc4708bca",
+      "checkpoint_commits": [
+        "be2f9d4d14434f50bdf4fe0c32389e799ea40e6d",
+        "98d4aeb5d4c37be99f788384e582a55dc4708bca"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
