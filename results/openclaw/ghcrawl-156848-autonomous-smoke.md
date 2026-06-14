@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156848-autonomous-smoke"
 mode: "autonomous"
-run_id: "27485434872"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27485434872"
-head_sha: "6039da9a6c96d42c90d16daab044269bd67333ab"
+run_id: "27502018230"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27502018230"
+head_sha: "ddd158d1a8646459174ce7d0d17f259cd27b741e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-14T02:15:11.264Z"
+published_at: "2026-06-14T14:53:36.712Z"
 canonical: "https://github.com/openclaw/openclaw/pull/61151"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/61151"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27485434872](https://github.com/openclaw/clownfish/actions/runs/27485434872)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27502018230](https://github.com/openclaw/clownfish/actions/runs/27502018230)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/61151
 
 ## Summary
 
-#61151 is the canonical open PR for this cluster, but it is not merge-ready from the hydrated state. Planned an executable repair of the editable contributor branch; no close or merge actions are planned.
+#61151 is the only open hydrated candidate and remains the canonical repair path. It is useful, focused, non-security, and maintainer-editable, but it is not merge-ready: current main still lacks the partialJson session-repair fix, while the hydrated PR has an unresolved ClawSweeper/Codex signed-thinking partialJson finding plus an unstable/failing check. Plan repair of the contributor branch before any merge or closeout.
 
 ## Impact
 
@@ -55,7 +55,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/61151
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
 | repair_contributor_branch | failed |  |  | source PR #61151 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files |
-| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, docs [check:changed] src/agents/embedded-agent-runner/run/attempt.tool-call-normalization.test.ts: core test [check:changed] src/agents/embedded-agent-runner/run/attempt.tool-call-normalization.ts: core production [check:changed] src/agents/session-transcript-repair.test.ts: core test [check:changed] src/agents/tool-call-id.test.ts: core test [check:changed] src/agents/tool-call-id.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental -... |
+| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, docs [check:changed] src/agents/embedded-agent-runner/run/attempt.tool-call-normalization.test.ts: core test [check:changed] src/agents/embedded-agent-runner/run/attempt.tool-call-normalization.ts: core production [check:changed] src/agents/session-transcript-repair.test.ts: core test [check:changed] src/agents/session-transcript-repair.ts: core production [check:changed] src/agents/tool-call-id.test.ts: core test [check:changed] src/agents/tool-call-id.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typeche... |
 
 ## Apply Actions
 
@@ -67,8 +67,8 @@ Canonical: https://github.com/openclaw/openclaw/pull/61151
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61151 | fix_needed | planned | canonical | #61151 is the best canonical path and the branch is editable, but failing/unstable checks and missing current merge preflight require branch repair and validation before any merge recommendation. |
-| cluster:ghcrawl-156848-autonomous-smoke | build_fix_artifact | planned |  | The job allows fix work, and a narrow editable canonical PR exists but needs repair before merge. |
+| #61151 | fix_needed | planned | canonical | Canonical PR is repairable but not merge-ready; repair #61151 in place, rerun focused tests, pnpm check:changed, and Codex /review before any merge recommendation. |
+| cluster:ghcrawl-156848-autonomous-smoke | build_fix_artifact | planned |  | Build an executable repair artifact for the existing contributor branch so Clownfish can make #61151 merge-ready while preserving drvoss's contribution credit. |
 
 ## Needs Human
 
