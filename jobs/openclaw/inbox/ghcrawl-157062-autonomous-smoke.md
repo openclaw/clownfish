@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156837-autonomous-smoke
+cluster_id: ghcrawl-157062-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#49072"
+  - "#64181"
 candidates:
-  - "#49072"
-  - "#49085"
-  - "#56176"
+  - "#64181"
 cluster_refs:
-  - "#49072"
-  - "#49085"
-  - "#56176"
+  - "#64181"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,26 +31,26 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #49072 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156837 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #64181 open and mergeable/unstable; original representative #43109 is closed context only."
+notes: "Generated from ghcrawl run cluster 157062 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156837
+# GHCrawl Cluster 157062
 
-Generated from local ghcrawl run cluster 156837 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 157062 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(acp): route logs to stderr to keep stdout JSON-RPC clean
+> fix: resolve model alias in llm-slug-generator hook
 
 Cluster shape from ghcrawl:
 
-- total members: 3
+- total members: 2
 - issues: 0
-- pull requests: 3
-- open candidates in local store: 3
-- representative: #49072, currently open in local store
-- latest member update: 2026-04-24T18:56:28.972Z
+- pull requests: 2
+- open candidates in local store: 2
+- representative: #43109, currently open in local store
+- latest member update: 2026-04-24T18:56:28.356Z
 
 ## Goal
 
@@ -68,6 +64,5 @@ Closed context refs:
 
 Open candidates:
 
-- #49072 fix(acp): route logs to stderr to keep stdout JSON-RPC clean
-- #49085 fix(acp): keep stdout JSON clean
-- #56176 fix: accept MCP protocolVersion 2025-11-25 in ACP server (#56102)
+- #43109 fix: resolve model alias in llm-slug-generator hook
+- #64181 fix(hooks): reject error responses from slug generator and strip post-truncation dashes

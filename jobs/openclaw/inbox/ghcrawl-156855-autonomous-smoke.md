@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-157004-autonomous-smoke
+cluster_id: ghcrawl-156855-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,13 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#40147"
+  - "#69975"
 candidates:
-  - "#40147"
-  - "#67783"
+  - "#69975"
 cluster_refs:
-  - "#40147"
-  - "#67783"
+  - "#69975"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -33,26 +31,26 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #40147 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 157004 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #69975 open; #51581 and #60890 are closed context only."
+notes: "Generated from ghcrawl run cluster 156855 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 157004
+# GHCrawl Cluster 156855
 
-Generated from local ghcrawl run cluster 157004 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156855 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(feishu): prioritize root_id before replyInThread when replying
+> feat(cron): add --thread-id flag to cron create/edit for Telegram forum topics
 
 Cluster shape from ghcrawl:
 
-- total members: 2
+- total members: 3
 - issues: 0
-- pull requests: 2
-- open candidates in local store: 2
-- representative: #40147, currently open in local store
-- latest member update: 2026-04-25T07:30:10.477Z
+- pull requests: 3
+- open candidates in local store: 3
+- representative: #51581, currently open in local store
+- latest member update: 2026-04-24T18:56:26.123Z
 
 ## Goal
 
@@ -66,5 +64,6 @@ Closed context refs:
 
 Open candidates:
 
-- #40147 fix(feishu): prioritize root_id before replyInThread when replying
-- #67783 fix(feishu): target typing reaction on inbound
+- #51581 feat(cron): add --thread-id flag to cron create/edit for Telegram forum topics
+- #60890 fix(cron): support thread-id in cron add/edit and paged lookup
+- #69975 fix(cli): clarify --tz help text for offset-less --at values

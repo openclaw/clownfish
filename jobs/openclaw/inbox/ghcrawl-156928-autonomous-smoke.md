@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156922-autonomous-smoke
+cluster_id: ghcrawl-156928-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#67037"
+  - "#68106"
 candidates:
-  - "#66271"
-  - "#67037"
-  - "#70391"
+  - "#68106"
 cluster_refs:
-  - "#66271"
-  - "#67037"
-  - "#70391"
+  - "#68106"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,17 +31,17 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #67037 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156922 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #68106 open; #68313 and #70204 are closed context only."
+notes: "Generated from ghcrawl run cluster 156928 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156922
+# GHCrawl Cluster 156928
 
-Generated from local ghcrawl run cluster 156922 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156928 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(ui): skip session.message reloads during active chat
+> fix(lobster): surface workflow path errors
 
 Cluster shape from ghcrawl:
 
@@ -53,8 +49,8 @@ Cluster shape from ghcrawl:
 - issues: 0
 - pull requests: 3
 - open candidates in local store: 3
-- representative: #67037, currently open in local store
-- latest member update: 2026-04-24T18:56:21.257Z
+- representative: #68106, currently open in local store
+- latest member update: 2026-04-24T18:56:18.063Z
 
 ## Goal
 
@@ -68,6 +64,6 @@ Closed context refs:
 
 Open candidates:
 
-- #66271 Control UI: avoid chat flicker on session reload
-- #67037 fix(ui): skip session.message reloads during active chat
-- #70391 fix(ui): avoid redundant reload after final chat event
+- #68106 fix(lobster): surface workflow path errors
+- #68313 fix(lobster): surface file-not-found error for workflow-like pipeline paths
+- #70204 fix(lobster): clarify unresolved workflow file paths

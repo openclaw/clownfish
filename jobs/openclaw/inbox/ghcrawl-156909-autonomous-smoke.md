@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156928-autonomous-smoke
+cluster_id: ghcrawl-156909-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#68106"
+  - "#63644"
 candidates:
-  - "#68106"
-  - "#68313"
-  - "#70204"
+  - "#63644"
 cluster_refs:
-  - "#68106"
-  - "#68313"
-  - "#70204"
+  - "#63644"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,17 +31,17 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #68106 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156928 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #63644 open; #64673 and #65188 are closed context only."
+notes: "Generated from ghcrawl run cluster 156909 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156928
+# GHCrawl Cluster 156909
 
-Generated from local ghcrawl run cluster 156928 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156909 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(lobster): surface workflow path errors
+> fix(ui): prevent iOS Safari auto-zoom on chat input and form fields (#64651)
 
 Cluster shape from ghcrawl:
 
@@ -53,8 +49,8 @@ Cluster shape from ghcrawl:
 - issues: 0
 - pull requests: 3
 - open candidates in local store: 3
-- representative: #68106, currently open in local store
-- latest member update: 2026-04-24T18:56:18.063Z
+- representative: #65188, currently open in local store
+- latest member update: 2026-04-24T18:56:22.103Z
 
 ## Goal
 
@@ -68,6 +64,6 @@ Closed context refs:
 
 Open candidates:
 
-- #68106 fix(lobster): surface workflow path errors
-- #68313 fix(lobster): surface file-not-found error for workflow-like pipeline paths
-- #70204 fix(lobster): clarify unresolved workflow file paths
+- #63644 fix(ui): fix iPhone Safari chat layout and input zoom
+- #64673 fix(ui): set input font-size to 16px to prevent iOS Safari auto-zoom on focus
+- #65188 fix(ui): prevent iOS Safari auto-zoom on chat input and form fields (#64651)

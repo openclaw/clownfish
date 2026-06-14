@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-157062-autonomous-smoke
+cluster_id: ghcrawl-156880-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,13 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#43109"
+  - "#61374"
 candidates:
-  - "#43109"
-  - "#64181"
+  - "#61374"
 cluster_refs:
-  - "#43109"
-  - "#64181"
+  - "#61374"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -33,26 +31,26 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #43109 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 157062 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #61374 open; #56766 and #57308 are closed context only."
+notes: "Generated from ghcrawl run cluster 156880 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 157062
+# GHCrawl Cluster 156880
 
-Generated from local ghcrawl run cluster 157062 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156880 for `openclaw/openclaw`.
 
 Display title:
 
-> fix: resolve model alias in llm-slug-generator hook
+> fix(slack): wake interaction system events
 
 Cluster shape from ghcrawl:
 
-- total members: 2
+- total members: 3
 - issues: 0
-- pull requests: 2
-- open candidates in local store: 2
-- representative: #43109, currently open in local store
-- latest member update: 2026-04-24T18:56:28.356Z
+- pull requests: 3
+- open candidates in local store: 3
+- representative: #56766, currently open in local store
+- latest member update: 2026-04-24T18:56:26.453Z
 
 ## Goal
 
@@ -66,5 +64,6 @@ Closed context refs:
 
 Open candidates:
 
-- #43109 fix: resolve model alias in llm-slug-generator hook
-- #64181 fix(hooks): reject error responses from slug generator and strip post-truncation dashes
+- #56766 fix(slack): wake interaction system events
+- #57308 fix(slack): wake interaction system events (rebased #56766)
+- #61374 fix(slack): wake sessions for interactive block actions
