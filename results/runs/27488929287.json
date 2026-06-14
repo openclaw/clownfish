@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-12687-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27488929287",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27488929287",
+  "head_sha": "174f98c691cc8ad2a6c29f671541c354831222e1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-12687-autonomous-smoke.md",
+  "published_at": "2026-06-14T05:44:27.000Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/67331",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/67331",
+  "summary": "Representative #67332 is now closed and security-sensitive, so it is not a live canonical. The active non-security canonical path is to repair editable PR #67331 in place; #67333 remains related but too broad and contains unique doctor/parity-harness work, while #67332 and linked #84943 route to central security handling.",
+  "actions": [
+    {
+      "target": "#67331",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#67331",
+      "candidate_fix": null,
+      "reason": "Repair the useful editable contributor branch before any merge; address the hydrated bot findings and rerun focused validation plus pnpm check:changed."
+    },
+    {
+      "target": "#67332",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive auth-boundary work is out of ProjectClownfish mutation scope; route the exact ref to central OpenClaw security handling and do not close, merge, label, comment, or repair it here."
+    },
+    {
+      "target": "#67333",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#67331",
+      "candidate_fix": null,
+      "reason": "Keep open as related follow-up work; do not close as duplicate because unique doctor/parity-harness scope remains, and do not merge or repair in this cluster because the branch is broad and depends on security-routed work."
+    },
+    {
+      "target": "#84943",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact linked security-sensitive ref to central OpenClaw security handling; no ProjectClownfish mutation is planned for it."
+    },
+    {
+      "target": "cluster:gitcrawl-12687-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#67331",
+      "candidate_fix": null,
+      "reason": "Build an executable repair artifact for the contributor branch so Clownfish can rebase, fix review blockers, validate, run /review, and only then consider merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "route_security": 2,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "git fetch https://github.com/zeng269/openclaw.git pr/claw-parity-fs-hardening:projectclownfish/repair-gitcrawl-12687-autonomous-smoke-67331 timed out after 2291459ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "git fetch https://github.com/zeng269/openclaw.git pr/claw-parity-fs-hardening:projectclownfish/repair-gitcrawl-12687-autonomous-smoke-67331 timed out after 2291459ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
