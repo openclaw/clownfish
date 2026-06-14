@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156779-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27483675257",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27483675257",
+  "head_sha": "74c3495db93c53072dae244aaf2a2dc23cfce9db",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156779-autonomous-smoke.md",
+  "published_at": "2026-06-14T00:41:53.945Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/40768",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/40768",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/40782",
+  "summary": "#40768 remains the canonical open issue. #40782 is the useful writable contributor repair path, but it is not merge-ready: current main still uses open_id-only mention detection, human and bot review findings remain unresolved, mergeability is unknown, and relevant checks are failing. Plan a contributor-branch repair artifact; do not merge or close anything from this worker result.",
+  "actions": [
+    {
+      "target": "#40768",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40768",
+      "candidate_fix": "#40782",
+      "reason": "#40768 is the surviving canonical issue for the Feishu multi-bot @mention root cause."
+    },
+    {
+      "target": "#40782",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40768",
+      "candidate_fix": "#40782",
+      "reason": "Repair the contributor branch before any merge or issue closeout; #40782 is useful but currently blocked by unresolved review, proof, check, and rebase work."
+    },
+    {
+      "target": "#35994",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is planned."
+    },
+    {
+      "target": "#40783",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#40768",
+      "candidate_fix": "#40782",
+      "reason": "Already closed contributor PR; no mutation is planned."
+    },
+    {
+      "target": "cluster:ghcrawl-156779-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#40768",
+      "candidate_fix": "#40782",
+      "reason": "Build a narrow repair artifact for #40782 so the executor can rebase/refactor the contributor branch and preserve attribution."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_closed": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
