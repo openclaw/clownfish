@@ -1,6 +1,6 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-06-14T03:42:17.802Z
+Generated: 2026-06-14T03:43:33.183Z
 
 ## Summary
 
@@ -30,4 +30,4 @@ Status: report_only
 
 | PR | Title | Cluster | Mergeable | Merge State | Checks | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [#73958](https://github.com/openclaw/openclaw/pull/73958) | fix(feishu): preserve root_id thread routing without thread_id forcing | ghcrawl-157004-autonomous-smoke | MERGEABLE | UNSTABLE | CANCELLED:2 IN_PROGRESS:103 SKIPPED:33 SUCCESS:11 QUEUED:13; blockers:117 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; OpenGrep — PR Diff / Scan changed paths (precise):IN_PROGRESS; Workflow Sanity / actionlint:IN_PROGRESS, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#73958](https://github.com/openclaw/openclaw/pull/73958) | fix(feishu): preserve root_id thread routing without thread_id forcing | ghcrawl-157004-autonomous-smoke | MERGEABLE | UNSTABLE | CANCELLED:2 SKIPPED:33 SUCCESS:97 IN_PROGRESS:30; blockers:31 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; CI / checks-fast-bun-launcher:IN_PROGRESS; CI / checks-fast-contracts-channels-a:IN_PROGRESS, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
