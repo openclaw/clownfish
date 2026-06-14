@@ -1,0 +1,111 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156909-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27486519036",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486519036",
+  "head_sha": "fb8f137c423b876399d9e3e4ff1a8695add173e6",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156909-autonomous-smoke.md",
+  "published_at": "2026-06-14T03:27:46.235Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/63644",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63644",
+  "summary": "#63644 is the only hydrated open item and remains the canonical repair path. It is narrow and maintainer-editable, but it is not merge-ready because real behavior proof failed, mergeability is unknown, and merge preflight has not produced a clean Codex /review. Plan an in-place repair of the contributor branch; do not close, merge, or route anything to security.",
+  "actions": [
+    {
+      "target": "#63644",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63644",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and editable but not merge-ready; repair the contributor branch, rerun proof/review, and only then consider merge."
+    },
+    {
+      "target": "cluster:ghcrawl-156909-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#63644",
+      "candidate_fix": null,
+      "reason": "Job allows fix and raise_pr; the safe path is an in-place branch repair followed by validation and fresh review."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #63644 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92855",
+      "branch": "clownfish/ghcrawl-156909-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "62f0150349f92d32cef02bceba82111d3b0c8ad4",
+      "checkpoint_commits": [
+        "f120615dca99df791b3270ce36dd6760b65054a6"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92855"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92855",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(ui): repair iOS Safari chat viewport handling",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

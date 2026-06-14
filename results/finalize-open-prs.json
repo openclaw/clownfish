@@ -3,17 +3,17 @@
   "clownfish_repo": "openclaw/clownfish",
   "head_prefix": "clownfish/",
   "label": "clownfish",
-  "generated_at": "2026-06-14T03:25:13.992Z",
-  "count": 2,
+  "generated_at": "2026-06-14T03:28:28.110Z",
+  "count": 3,
   "summary": {
-    "open_prs": 2,
+    "open_prs": 3,
     "ready_candidates": 0,
     "security_hold": 0,
     "needs_rebase": 0,
     "mergeability_unknown": 0,
-    "needs_checks": 2,
+    "needs_checks": 3,
     "needs_review": 0,
-    "needs_merge_preflight": 2,
+    "needs_merge_preflight": 3,
     "needs_result_backfill": 0
   },
   "dispatch": {
@@ -28,35 +28,30 @@
   },
   "prs": [
     {
-      "number": 92854,
-      "title": "fix(hooks): reject slug-generator error payloads",
-      "url": "https://github.com/openclaw/openclaw/pull/92854",
-      "branch": "clownfish/ghcrawl-157062-autonomous-smoke",
-      "head_sha": "6d3be12d095f14e5aa4ee3755d25348719f917df",
-      "cluster_id": "ghcrawl-157062-autonomous-smoke",
-      "job_path": "jobs/openclaw/inbox/ghcrawl-157062-autonomous-smoke.md",
-      "updated_at": "2026-06-14T03:24:21Z",
+      "number": 92855,
+      "title": "fix(ui): repair iOS Safari chat viewport handling",
+      "url": "https://github.com/openclaw/openclaw/pull/92855",
+      "branch": "clownfish/ghcrawl-156909-autonomous-smoke",
+      "head_sha": "62f0150349f92d32cef02bceba82111d3b0c8ad4",
+      "cluster_id": "ghcrawl-156909-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/ghcrawl-156909-autonomous-smoke.md",
+      "updated_at": "2026-06-14T03:27:28Z",
       "mergeable": "MERGEABLE",
       "merge_state_status": "UNSTABLE",
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 179,
+        "total": 161,
         "counts": {
-          "CANCELLED": 4,
-          "IN_PROGRESS": 117,
-          "SKIPPED": 40,
-          "SUCCESS": 17,
-          "NEUTRAL": 1
+          "CANCELLED": 5,
+          "SKIPPED": 33,
+          "SUCCESS": 10,
+          "IN_PROGRESS": 113
         },
         "blockers": [
           "Real behavior proof:CANCELLED",
           "Real behavior proof:CANCELLED",
-          "CodeQL / Security High (core-auth-secrets):IN_PROGRESS",
-          "CodeQL / Security High (channel-runtime-boundary):IN_PROGRESS",
-          "CodeQL / Security High (mcp-process-tool-boundary):IN_PROGRESS",
-          "CodeQL / Security High (plugin-trust-boundary):IN_PROGRESS",
-          "CodeQL / Security High (actions):IN_PROGRESS",
+          "Real behavior proof:CANCELLED",
           "CI / pnpm-store-warmup:IN_PROGRESS",
           "CI / build-artifacts:IN_PROGRESS",
           "CI / checks-fast-bundled-protocol:IN_PROGRESS",
@@ -113,6 +108,7 @@
           "CI / checks-node-agentic-control-plane-runtime:IN_PROGRESS",
           "CI / checks-node-agentic-control-plane-runtime-config:IN_PROGRESS",
           "CI / checks-node-agentic-control-plane-runtime-cron:IN_PROGRESS",
+          "CI / checks-node-agentic-control-plane-runtime-events:IN_PROGRESS",
           "CI / checks-node-agentic-control-plane-runtime-network:IN_PROGRESS",
           "CI / checks-node-agentic-control-plane-runtime-server:IN_PROGRESS",
           "CI / checks-node-agentic-control-plane-runtime-shared-token:IN_PROGRESS",
@@ -182,6 +178,73 @@
         "latest": []
       },
       "latest_record": {
+        "run_id": "27486519036",
+        "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486519036",
+        "cluster_id": "ghcrawl-156909-autonomous-smoke",
+        "published_at": "2026-06-14T03:27:46.235Z",
+        "workflow_conclusion": "success",
+        "apply_action": {
+          "target": "#92855",
+          "action": "merge_canonical",
+          "status": "blocked",
+          "classification": "fix_pr",
+          "canonical": null,
+          "candidate_fix": null,
+          "title": "fix(ui): repair iOS Safari chat viewport handling",
+          "idempotency_key": null,
+          "source_status": null,
+          "source_reason": null,
+          "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+          "merged_at": null,
+          "merge_commit_sha": null,
+          "live_state": null,
+          "live_updated_at": null
+        }
+      },
+      "blockers": [
+        "needs_merge_state:UNSTABLE",
+        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED",
+        "needs_merge_preflight"
+      ],
+      "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
+    },
+    {
+      "number": 92854,
+      "title": "fix(hooks): reject slug-generator error payloads",
+      "url": "https://github.com/openclaw/openclaw/pull/92854",
+      "branch": "clownfish/ghcrawl-157062-autonomous-smoke",
+      "head_sha": "6d3be12d095f14e5aa4ee3755d25348719f917df",
+      "cluster_id": "ghcrawl-157062-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/ghcrawl-157062-autonomous-smoke.md",
+      "updated_at": "2026-06-14T03:24:21Z",
+      "mergeable": "MERGEABLE",
+      "merge_state_status": "CLEAN",
+      "review_decision": "",
+      "security_hold": false,
+      "checks": {
+        "total": 180,
+        "counts": {
+          "CANCELLED": 4,
+          "SKIPPED": 40,
+          "SUCCESS": 135,
+          "NEUTRAL": 1
+        },
+        "blockers": [
+          "Real behavior proof:CANCELLED",
+          "Real behavior proof:CANCELLED"
+        ]
+      },
+      "review_threads": {
+        "status": "clean",
+        "reason": null,
+        "unresolved_count": 0,
+        "examples": []
+      },
+      "review_bots": {
+        "count": 0,
+        "latest": []
+      },
+      "latest_record": {
         "run_id": "27486517646",
         "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486517646",
         "cluster_id": "ghcrawl-157062-autonomous-smoke",
@@ -206,8 +269,7 @@
         }
       },
       "blockers": [
-        "needs_merge_state:UNSTABLE",
-        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CodeQL / Security High (core-auth-secrets):IN_PROGRESS",
+        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED",
         "needs_merge_preflight"
       ],
       "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
@@ -220,24 +282,22 @@
       "head_sha": "7a94030aa14ea14bd3ac952a02c3c63f08d7f160",
       "cluster_id": "ghcrawl-156837-autonomous-smoke",
       "job_path": "jobs/openclaw/inbox/ghcrawl-156837-autonomous-smoke.md",
-      "updated_at": "2026-06-14T03:20:29Z",
+      "updated_at": "2026-06-14T03:27:02Z",
       "mergeable": "MERGEABLE",
-      "merge_state_status": "UNSTABLE",
+      "merge_state_status": "CLEAN",
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 177,
+        "total": 178,
         "counts": {
           "CANCELLED": 4,
           "SKIPPED": 40,
-          "SUCCESS": 131,
-          "IN_PROGRESS": 1,
+          "SUCCESS": 133,
           "NEUTRAL": 1
         },
         "blockers": [
           "Real behavior proof:CANCELLED",
-          "Real behavior proof:CANCELLED",
-          "CI / checks-node-agentic-control-plane-startup-core:IN_PROGRESS"
+          "Real behavior proof:CANCELLED"
         ]
       },
       "review_threads": {
@@ -275,8 +335,7 @@
         }
       },
       "blockers": [
-        "needs_merge_state:UNSTABLE",
-        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CI / checks-node-agentic-control-plane-startup-core:IN_PROGRESS",
+        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED",
         "needs_merge_preflight"
       ],
       "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
