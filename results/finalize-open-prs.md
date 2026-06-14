@@ -1,6 +1,6 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-06-14T01:19:19.982Z
+Generated: 2026-06-14T01:20:29.833Z
 
 ## Summary
 
@@ -30,4 +30,4 @@ Status: report_only
 
 | PR | Title | Cluster | Mergeable | Merge State | Checks | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [#92820](https://github.com/openclaw/openclaw/pull/92820) | UI: localize Logs tab labels | ghcrawl-156615-autonomous-smoke | MERGEABLE | UNSTABLE | CANCELLED:4 SKIPPED:33 SUCCESS:12 IN_PROGRESS:113; blockers:115 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CI / pnpm-store-warmup:IN_PROGRESS, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#92820](https://github.com/openclaw/openclaw/pull/92820) | UI: localize Logs tab labels | ghcrawl-156615-autonomous-smoke | MERGEABLE | UNSTABLE | CANCELLED:4 SKIPPED:33 SUCCESS:109 IN_PROGRESS:16; blockers:18 | needs_merge_state:UNSTABLE, needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CI / checks-fast-contracts-channels-a:IN_PROGRESS, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |

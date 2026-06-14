@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156841-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27483676802",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27483676802",
+  "head_sha": "74c3495db93c53072dae244aaf2a2dc23cfce9db",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156841-autonomous-smoke.md",
+  "published_at": "2026-06-14T01:19:58.631Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/67782",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/67782",
+  "summary": "Planned repair for #67782 as the canonical open PR. No close or merge action is planned: closed refs remain evidence only, and #67782 is blocked from merge by the failed Real behavior proof check and missing merge preflight. The fix artifact directs the executor to repair the editable contributor branch with attribution preserved.",
+  "actions": [
+    {
+      "target": "#67782",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#67782",
+      "candidate_fix": null,
+      "reason": "Repair #67782 rather than merging now: the branch is useful and editable, but proof/review/merge gates are not met."
+    },
+    {
+      "target": "cluster:ghcrawl-156841-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#67782",
+      "candidate_fix": null,
+      "reason": "Create an executable repair artifact for the deterministic executor; this worker performs no GitHub mutation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "git fetch https://github.com/p3nchan/openclaw.git p3nchan/telegram-command-sync-no-delete:projectclownfish/repair-ghcrawl-156841-autonomous-smoke-67782 timed out after 2268867ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "git fetch https://github.com/p3nchan/openclaw.git p3nchan/telegram-command-sync-no-delete:projectclownfish/repair-ghcrawl-156841-autonomous-smoke-67782 timed out after 2268867ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
