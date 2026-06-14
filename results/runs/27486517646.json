@@ -1,0 +1,153 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157062-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27486517646",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27486517646",
+  "head_sha": "fb8f137c423b876399d9e3e4ff1a8695add173e6",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157062-autonomous-smoke.md",
+  "published_at": "2026-06-14T03:24:38.993Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/64181",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/64181",
+  "summary": "Canonical path is editable PR #64181. Current main at 9f32bea3970c71f922f4992a6d33a211e67c761e still accepts slug-generator payload text as a slug and strips dashes before truncation, so the narrow bug is real. #64181 is not merge-ready because Real behavior proof is failing, mergeability is unknown, and a maintainer noted it must be updated against current main; plan branch repair, not merge. #65134 is related performance/auth-provider work, not a duplicate. #38161 is quarantined as security-sensitive, and #66455 is already closed/merged context.",
+  "actions": [
+    {
+      "target": "#38161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive linked PR and continue unrelated non-security classification."
+    },
+    {
+      "target": "#64181",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#64181",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical PR for the slug-generator error-payload and post-truncation dash bugs, but it needs branch repair and validation before merge."
+    },
+    {
+      "target": "cluster:ghcrawl-157062-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#64181",
+      "candidate_fix": null,
+      "reason": "Canonical PR #64181 is useful but not merge-ready; repair the contributor branch before any merge or closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-157062-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#64181",
+      "candidate_fix": null,
+      "reason": "Create a narrow branch-repair artifact so the executor can make #64181 merge-ready."
+    },
+    {
+      "target": "#65134",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#64181",
+      "candidate_fix": null,
+      "reason": "Related same-area slug-generator work with unique scope; keep it out of this canonical repair rather than closing it as a duplicate."
+    },
+    {
+      "target": "#66455",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed merged context only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #64181 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/92854",
+      "branch": "clownfish/ghcrawl-157062-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "6d3be12d095f14e5aa4ee3755d25348719f917df",
+      "checkpoint_commits": [
+        "bf3b9fd40b61fce31d9353ac74ad660d71c97be1",
+        "1dc980c3b32358ea3f4b728b6d8818ba59ab03c0"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/92854"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92854",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(hooks): reject slug-generator error payloads",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
