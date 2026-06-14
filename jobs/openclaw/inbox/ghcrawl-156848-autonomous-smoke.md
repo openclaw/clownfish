@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156962-autonomous-smoke
+cluster_id: ghcrawl-156848-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,13 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#36630"
+  - "#61151"
 candidates:
-  - "#36630"
-  - "#56791"
+  - "#61151"
 cluster_refs:
-  - "#36630"
-  - "#56791"
+  - "#61151"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -33,26 +31,27 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #36630 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156962 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #61151 open and mergeable; original representative #50802 and #58166 are closed context only."
+notes: "Generated from ghcrawl run cluster 156848 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156962
+# GHCrawl Cluster 156848
 
-Generated from local ghcrawl run cluster 156962 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156848 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(signal): complete bidirectional quote-reply support
+> fix: recognize snake_case tool call types in session history repair
 
 Cluster shape from ghcrawl:
 
-- total members: 2
+- total members: 3
 - issues: 0
-- pull requests: 2
-- open candidates in local store: 2
-- representative: #36630, currently open in local store
-- latest member update: 2026-04-24T18:56:19.672Z
+- pull requests: 3
+- open candidates in local store: 3
+- open candidates after live refresh: 1
+- representative: #50802, currently closed after live refresh
+- latest member update: 2026-04-24T18:56:24.816Z
 
 ## Goal
 
@@ -62,9 +61,9 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #50802 fix: recognize snake_case tool call types in session history repair
+- #58166 fix: skip phantom toolResult synthesis for empty toolCallIds
 
 Open candidates:
 
-- #36630 fix(signal): complete bidirectional quote-reply support
-- #56791 fix(signal): forward quote metadata to agent context
+- #61151 fix(agents): drop partialJson streaming artifacts from session history repair

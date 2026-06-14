@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156822-autonomous-smoke
+cluster_id: ghcrawl-156962-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#46578"
+  - "#36630"
 candidates:
-  - "#46578"
-  - "#58940"
-  - "#63321"
+  - "#36630"
 cluster_refs:
-  - "#46578"
-  - "#58940"
-  - "#63321"
+  - "#36630"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,26 +31,27 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #46578 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156822 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #36630 open and mergeable; #56791 is closed context only. Worker must verify #36630 is still the best live canonical."
+notes: "Generated from ghcrawl run cluster 156962 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156822
+# GHCrawl Cluster 156962
 
-Generated from local ghcrawl run cluster 156822 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156962 for `openclaw/openclaw`.
 
 Display title:
 
-> fix: replace console.log with logVerbose in tailscale funnel
+> fix(signal): complete bidirectional quote-reply support
 
 Cluster shape from ghcrawl:
 
-- total members: 3
+- total members: 2
 - issues: 0
-- pull requests: 3
-- open candidates in local store: 3
-- representative: #46578, currently open in local store
-- latest member update: 2026-04-24T18:56:28.748Z
+- pull requests: 2
+- open candidates in local store: 2
+- open candidates after live refresh: 1
+- representative: #36630, currently open after live refresh
+- latest member update: 2026-04-24T18:56:19.672Z
 
 ## Goal
 
@@ -64,10 +61,8 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #56791 fix(signal): forward quote metadata to agent context
 
 Open candidates:
 
-- #46578 fix: replace console.log with logVerbose in tailscale funnel
-- #58940 fix(tailscale): prevent zombie process on binary check timeout
-- #63321 fix(tailscale): wrap JSON.parse calls in try/catch to prevent crashes
+- #36630 fix(signal): complete bidirectional quote-reply support

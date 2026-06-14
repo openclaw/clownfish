@@ -1,6 +1,6 @@
 ---
 repo: openclaw/openclaw
-cluster_id: ghcrawl-156788-autonomous-smoke
+cluster_id: ghcrawl-156822-autonomous-smoke
 mode: autonomous
 allowed_actions:
   - comment
@@ -19,15 +19,11 @@ require_human_for:
   - unclear_canonical
   - broad_code_delta
 canonical:
-  - "#48588"
+  - "#63321"
 candidates:
-  - "#41637"
-  - "#48329"
-  - "#48588"
+  - "#63321"
 cluster_refs:
-  - "#41637"
-  - "#48329"
-  - "#48588"
+  - "#63321"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: true
@@ -35,17 +31,17 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #48588 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156788 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #63321 open and mergeable; original representative #46578 and #58940 are closed context only."
+notes: "Generated from ghcrawl run cluster 156822 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
-# GHCrawl Cluster 156788
+# GHCrawl Cluster 156822
 
-Generated from local ghcrawl run cluster 156788 for `openclaw/openclaw`.
+Generated from local ghcrawl run cluster 156822 for `openclaw/openclaw`.
 
 Display title:
 
-> fix(feishu): await HTTP server close before clearing state references
+> fix: replace console.log with logVerbose in tailscale funnel
 
 Cluster shape from ghcrawl:
 
@@ -53,8 +49,9 @@ Cluster shape from ghcrawl:
 - issues: 0
 - pull requests: 3
 - open candidates in local store: 3
-- representative: #48588, currently open in local store
-- latest member update: 2026-04-24T18:56:28.906Z
+- open candidates after live refresh: 1
+- representative: #46578, currently closed after live refresh
+- latest member update: 2026-04-24T18:56:28.748Z
 
 ## Goal
 
@@ -64,10 +61,9 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #46578 fix: replace console.log with logVerbose in tailscale funnel
+- #58940 fix(tailscale): prevent zombie process on binary check timeout
 
 Open candidates:
 
-- #41637 fix(feishu): share webhook server across accounts on same host:port
-- #48329 fix(feishu): await HTTP server close during monitor cleanup
-- #48588 fix(feishu): await HTTP server close before clearing state references
+- #63321 fix(tailscale): wrap JSON.parse calls in try/catch to prevent crashes

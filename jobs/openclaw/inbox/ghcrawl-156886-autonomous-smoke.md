@@ -21,12 +21,8 @@ require_human_for:
 canonical:
   - "#64734"
 candidates:
-  - "#58383"
-  - "#59531"
   - "#64734"
 cluster_refs:
-  - "#58383"
-  - "#59531"
   - "#64734"
 security_policy: central_security_only
 security_sensitive: false
@@ -35,8 +31,8 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "ghcrawl representative #64734 is open; worker must verify it is still the best live canonical."
-notes: "Generated from ghcrawl run cluster 156886 on 2026-04-26."
+canonical_hint: "Live refresh on 2026-06-14 found #64734 open and mergeable; #58383/#59531 are closed context only. Worker must verify #64734 is still the best live canonical."
+notes: "Generated from ghcrawl run cluster 156886 on 2026-04-26; live refreshed and promoted on 2026-06-14."
 ---
 
 # GHCrawl Cluster 156886
@@ -53,7 +49,8 @@ Cluster shape from ghcrawl:
 - issues: 0
 - pull requests: 3
 - open candidates in local store: 3
-- representative: #64734, currently open in local store
+- open candidates after live refresh: 1
+- representative: #64734, currently open after live refresh
 - latest member update: 2026-04-24T18:56:24.520Z
 
 ## Goal
@@ -64,10 +61,9 @@ Run one live autonomous classification pass. Classify open candidates only, veri
 
 Closed context refs:
 
-- none
+- #58383 fix(discord): increase thread title max tokens for thinking models
+- #59531 Discord: omit temperature for Codex thread title generation on OpenAI Codex
 
 Open candidates:
 
-- #58383 fix(discord): increase thread title max tokens for thinking models
-- #59531 Discord: omit temperature for Codex thread title generation on OpenAI Codex
 - #64734 fix(discord): raise thread title timeout and tokens to fit reasoning models
