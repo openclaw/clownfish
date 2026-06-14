@@ -31,8 +31,8 @@ allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "Live refresh on 2026-06-14 found #67782 open; original representative #49569 and linked issue #69165 are closed context only."
-notes: "Generated from ghcrawl run cluster 156841 on 2026-04-26; live refreshed on 2026-06-14."
+canonical_hint: "Parked on 2026-06-14 after run 27485129133: #67782 remains canonical and useful, but merge/repair needs human judgment because real behavior proof is failing and ClawSweeper requested a maintainer decision."
+notes: "Generated from ghcrawl run cluster 156841 on 2026-04-26; live refreshed on 2026-06-14; parked as needs-human."
 ---
 
 # GHCrawl Cluster 156841

@@ -32,8 +32,8 @@ allow_fix_pr: true
 allow_merge: false
 allow_post_merge_close: true
 require_fix_before_close: true
-canonical_hint: "Narrow split from ghcrawl-156779: prove the current Feishu bot identity source first. If bot/v3/info still lacks union_id or the identity invariant is unclear, block with needs_human instead of broadening."
-notes: "Split from ghcrawl-156779 after broad-fix guard on run 27483675257; scope limited on 2026-06-14."
+canonical_hint: "Parked on 2026-06-14 after run 27485128688: current hydrated evidence cannot prove a safe Feishu fallback identity source, so #40782 is not repairable until maintainers identify/prove the identity invariant."
+notes: "Split from ghcrawl-156779 after broad-fix guard on run 27483675257; scope limited and parked as needs-human on 2026-06-14."
 ---
 
 # GHCrawl Cluster 156779: Identity Source Proof
