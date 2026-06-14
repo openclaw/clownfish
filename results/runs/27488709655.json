@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-17425-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27488709655",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27488709655",
+  "head_sha": "a975481a4e4fa45b6bcfc62032034df3e50f2da9",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-17425-autonomous-smoke.md",
+  "published_at": "2026-06-14T04:56:04.440Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated live state materially disagrees with the gitcrawl inventory: the job describes account-suspension reports, but the hydrated primary refs #437, #845, and #1142 are unrelated OpenClaw browser/provider/tool items and all are already closed. No close, merge, label, comment, or fix PR action is safe from this cluster; one closed context PR (#282) carries a credential/token-shaped review signal and is quarantined as historical security context only.",
+  "actions": [
+    {
+      "target": "cluster:gitcrawl-17425-autonomous-smoke",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cluster identity/canonical choice is materially unclear; a maintainer should regenerate or repair the gitcrawl cluster mapping before any cleanup is applied."
+    },
+    {
+      "target": "#282",
+      "action": "route_security",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no ProjectClownfish mutation is valid, but the exact ref is quarantined as security-sensitive evidence."
+    },
+    {
+      "target": "#437",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#437",
+      "candidate_fix": "#439",
+      "reason": "Already closed in live state; keep as historical fixed-by-candidate evidence only and do not emit any close/comment action."
+    },
+    {
+      "target": "#439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#437",
+      "candidate_fix": "#439",
+      "reason": "Already closed linked fix evidence; no merge, close, or repair action is valid."
+    },
+    {
+      "target": "#845",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent PR; no cluster mutation is valid."
+    },
+    {
+      "target": "#1142",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent feature/tool PR; keep as historical context only."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "route_security": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Regenerate or repair gitcrawl cluster 17425 before applying cleanup: the job inventory/title describes account-suspension reports, while hydrated live refs are unrelated closed OpenClaw browser/provider/tool items."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
