@@ -3,17 +3,17 @@
   "clownfish_repo": "openclaw/clownfish",
   "head_prefix": "clownfish/",
   "label": "clownfish",
-  "generated_at": "2026-06-14T05:25:21.607Z",
-  "count": 1,
+  "generated_at": "2026-06-14T05:28:04.811Z",
+  "count": 2,
   "summary": {
-    "open_prs": 1,
+    "open_prs": 2,
     "ready_candidates": 0,
     "security_hold": 0,
     "needs_rebase": 0,
     "mergeability_unknown": 0,
-    "needs_checks": 1,
+    "needs_checks": 2,
     "needs_review": 0,
-    "needs_merge_preflight": 1,
+    "needs_merge_preflight": 2,
     "needs_result_backfill": 0
   },
   "dispatch": {
@@ -28,33 +28,37 @@
   },
   "prs": [
     {
-      "number": 92876,
-      "title": "fix(memory-wiki): stop flagging raw source pages as malformed",
-      "url": "https://github.com/openclaw/openclaw/pull/92876",
-      "branch": "clownfish/gitcrawl-11828-autonomous-smoke",
-      "head_sha": "fd12fcfe17766ce68b57dce28493cb73d875da1c",
-      "cluster_id": "gitcrawl-11828-autonomous-smoke",
-      "job_path": "jobs/openclaw/inbox/gitcrawl-11828-autonomous-smoke.md",
-      "updated_at": "2026-06-14T05:24:37Z",
+      "number": 92879,
+      "title": "fix(sessions): fall back to reset archive for missing async transcripts",
+      "url": "https://github.com/openclaw/openclaw/pull/92879",
+      "branch": "clownfish/gitcrawl-10447-autonomous-smoke",
+      "head_sha": "caeb344bdecf01c33456ca1cc585e81d8aec912a",
+      "cluster_id": "gitcrawl-10447-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/gitcrawl-10447-autonomous-smoke.md",
+      "updated_at": "2026-06-14T05:27:11Z",
       "mergeable": "MERGEABLE",
       "merge_state_status": "UNSTABLE",
       "review_decision": "",
       "security_hold": false,
       "checks": {
-        "total": 181,
+        "total": 183,
         "counts": {
-          "CANCELLED": 4,
-          "SKIPPED": 48,
-          "SUCCESS": 16,
-          "IN_PROGRESS": 113
+          "CANCELLED": 3,
+          "IN_PROGRESS": 119,
+          "SKIPPED": 46,
+          "SUCCESS": 14,
+          "NEUTRAL": 1
         },
         "blockers": [
-          "Real behavior proof:CANCELLED",
-          "Real behavior proof:CANCELLED",
-          "CI / pnpm-store-warmup:IN_PROGRESS",
+          "CodeQL / Security High (core-auth-secrets):IN_PROGRESS",
+          "Real behavior proof:IN_PROGRESS",
+          "CodeQL / Security High (channel-runtime-boundary):IN_PROGRESS",
+          "CodeQL / Security High (network-ssrf-boundary):IN_PROGRESS",
+          "CodeQL / Security High (mcp-process-tool-boundary):IN_PROGRESS",
+          "CodeQL / Security High (plugin-trust-boundary):IN_PROGRESS",
+          "CodeQL / Security High (actions):IN_PROGRESS",
           "CI / build-artifacts:IN_PROGRESS",
           "CI / checks-fast-bundled-protocol:IN_PROGRESS",
-          "CI / checks-fast-bun-launcher:IN_PROGRESS",
           "CI / checks-fast-contracts-plugins-a:IN_PROGRESS",
           "CI / checks-fast-contracts-plugins-b:IN_PROGRESS",
           "CI / checks-fast-contracts-channels-a:IN_PROGRESS",
@@ -163,7 +167,77 @@
           "CI / check-additional-extension-channels:IN_PROGRESS",
           "CI / check-additional-extension-bundled:IN_PROGRESS",
           "CI / check-additional-extension-package-boundary:IN_PROGRESS",
-          "CI / check-additional-runtime-topology-architecture:IN_PROGRESS"
+          "CI / check-additional-runtime-topology-architecture:IN_PROGRESS",
+          "CI / check-docs:IN_PROGRESS"
+        ]
+      },
+      "review_threads": {
+        "status": "clean",
+        "reason": null,
+        "unresolved_count": 0,
+        "examples": []
+      },
+      "review_bots": {
+        "count": 0,
+        "latest": []
+      },
+      "latest_record": {
+        "run_id": "27488927901",
+        "run_url": "https://github.com/openclaw/clownfish/actions/runs/27488927901",
+        "cluster_id": "gitcrawl-10447-autonomous-smoke",
+        "published_at": "2026-06-14T05:27:30.668Z",
+        "workflow_conclusion": "success",
+        "apply_action": {
+          "target": "#92879",
+          "action": "merge_canonical",
+          "status": "blocked",
+          "classification": "fix_pr",
+          "canonical": null,
+          "candidate_fix": null,
+          "title": "fix(sessions): fall back to reset archive for missing async transcripts",
+          "idempotency_key": null,
+          "source_status": null,
+          "source_reason": null,
+          "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+          "merged_at": null,
+          "merge_commit_sha": null,
+          "live_state": null,
+          "live_updated_at": null
+        }
+      },
+      "blockers": [
+        "needs_merge_state:UNSTABLE",
+        "needs_checks:CodeQL / Security High (core-auth-secrets):IN_PROGRESS; Real behavior proof:IN_PROGRESS; CodeQL / Security High (channel-runtime-boundary):IN_PROGRESS",
+        "needs_merge_preflight"
+      ],
+      "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
+    },
+    {
+      "number": 92876,
+      "title": "fix(memory-wiki): stop flagging raw source pages as malformed",
+      "url": "https://github.com/openclaw/openclaw/pull/92876",
+      "branch": "clownfish/gitcrawl-11828-autonomous-smoke",
+      "head_sha": "fd12fcfe17766ce68b57dce28493cb73d875da1c",
+      "cluster_id": "gitcrawl-11828-autonomous-smoke",
+      "job_path": "jobs/openclaw/inbox/gitcrawl-11828-autonomous-smoke.md",
+      "updated_at": "2026-06-14T05:25:52Z",
+      "mergeable": "MERGEABLE",
+      "merge_state_status": "UNSTABLE",
+      "review_decision": "",
+      "security_hold": false,
+      "checks": {
+        "total": 181,
+        "counts": {
+          "CANCELLED": 4,
+          "SKIPPED": 48,
+          "SUCCESS": 127,
+          "IN_PROGRESS": 2
+        },
+        "blockers": [
+          "Real behavior proof:CANCELLED",
+          "Real behavior proof:CANCELLED",
+          "CI / checks-node-core-tooling:IN_PROGRESS",
+          "CI / checks-node-agentic-control-plane-startup-health-runtime:IN_PROGRESS"
         ]
       },
       "review_threads": {
@@ -202,7 +276,7 @@
       },
       "blockers": [
         "needs_merge_state:UNSTABLE",
-        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CI / pnpm-store-warmup:IN_PROGRESS",
+        "needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; CI / checks-node-core-tooling:IN_PROGRESS",
         "needs_merge_preflight"
       ],
       "recommended_next_action": "repair failing checks or document unrelated main flake with touched-surface proof"
