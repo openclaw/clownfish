@@ -1,0 +1,203 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156678-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27502017098",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27502017098",
+  "head_sha": "ddd158d1a8646459174ce7d0d17f259cd27b741e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156678-autonomous-smoke.md",
+  "published_at": "2026-06-14T14:54:59.957Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69270",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69270",
+  "summary": "Canonical drift resolved: the hinted canonical issue #69287 is already closed. The live canonical path is repairable PR #69270. Current main still has the #50795 stale usage clearing bug, and #69270 is not merge-ready because it has unstable/failing checks and unresolved review-bot/Codex findings, so the safe autonomous output is a repair fix artifact for #69270 plus blocked closeout for the still-open covered issue #50795.",
+  "actions": [
+    {
+      "target": "#50795",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Covered by canonical PR #69270, but closure is blocked until #69270 is repaired, validated, reviewed, and merged."
+    },
+    {
+      "target": "#69270",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Repair the existing contributor PR branch, then rerun validation and /review before any merge recommendation."
+    },
+    {
+      "target": "cluster:ghcrawl-156678-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Emit an executable repair artifact for Clownfish to update #69270 rather than closing or merging directly."
+    },
+    {
+      "target": "#69269",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#69286",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Closed duplicate context only."
+    },
+    {
+      "target": "#69287",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Representative is obsolete because it is closed; canonical path is now #69270."
+    },
+    {
+      "target": "#50845",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Closed superseded source PR; no mutation."
+    },
+    {
+      "target": "#82874",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Closed superseded source PR; no mutation."
+    },
+    {
+      "target": "#91468",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "reason": "Closed superseded/unsafe source PR; no mutation."
+    },
+    {
+      "target": "#69202",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related context only."
+    },
+    {
+      "target": "#60126",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context only."
+    },
+    {
+      "target": "#91143",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context only."
+    }
+  ],
+  "action_counts": {
+    "close_fixed_by_candidate": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 9
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 2,
+    "skipped": 9
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "branch projectclownfish/repair-ghcrawl-156678-autonomous-smoke-69270 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (6/15) error: could not apply 20adc5524f... fix(compaction): address review follow-ups hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply 20adc5524f... # fix(compaction): address review follow-ups [detached HEAD 38468138d3] fix(gateway): preserve hook provider session invariants Author: Liao Shiwu <liaoshiwu@gmail.com> 4 files changed, 128 insertions(+), 26 deletions(-) CONFLICT (modify/delete): src/agents/pi-embedded-runner/run/attempt.spawn-workspace.context-engine.test.ts deleted in HEAD and modified in 20adc5524f (fix(compaction): address review follow-ups). Version 20adc5524f (fix(compaction): address review follow-ups) of src/agents/pi-embedded-runner/run/attempt.spawn-workspace.context-engine.test.ts left in tree. CONFLICT (modify/delete): src/agents/pi-embedded-runner/run/attem...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "branch projectclownfish/repair-ghcrawl-156678-autonomous-smoke-69270 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (6/15) error: could not apply 20adc5524f... fix(compaction): address review follow-ups hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply 20adc5524f... # fix(compaction): address review follow-ups [detached HEAD 38468138d3] fix(gateway): preserve hook provider session invariants Author: Liao Shiwu <liaoshiwu@gmail.com> 4 files changed, 128 insertions(+), 26 deletions(-) CONFLICT (modify/delete): src/agents/pi-embedded-runner/run/attempt.spawn-workspace.context-engine.test.ts deleted in HEAD and modified in 20adc5524f (fix(compaction): address review follow-ups). Version 20adc5524f (fix(compaction): address review follow-ups) of src/agents/pi-embedded-runner/run/attempt.spawn-workspace.context-engine.test.ts left in tree. CONFLICT (modify/delete): src/agents/pi-embedded-runner/run/attem...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#50795",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69270",
+      "candidate_fix": "#69270",
+      "title": null,
+      "idempotency_key": "ghcrawl-156678-autonomous-smoke:#50795:close_fixed_by_candidate:#69270:blocked",
+      "source_status": "blocked",
+      "source_reason": "Covered by canonical PR #69270, but closure is blocked until #69270 is repaired, validated, reviewed, and merged.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
