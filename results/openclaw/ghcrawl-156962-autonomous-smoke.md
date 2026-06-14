@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156962-autonomous-smoke"
 mode: "autonomous"
-run_id: "27485436247"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27485436247"
-head_sha: "6039da9a6c96d42c90d16daab044269bd67333ab"
+run_id: "27502019109"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27502019109"
+head_sha: "ddd158d1a8646459174ce7d0d17f259cd27b741e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-14T02:19:40.496Z"
+published_at: "2026-06-14T15:08:46.546Z"
 canonical: "https://github.com/openclaw/openclaw/pull/36630"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/36630"
-actions_total: 2
+actions_total: 3
 fix_executed: 0
-fix_failed: 1
+fix_failed: 0
 fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
-apply_skipped: 0
+apply_skipped: 1
 needs_human_count: 0
 ---
 
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27485436247](https://github.com/openclaw/clownfish/actions/runs/27485436247)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27502019109](https://github.com/openclaw/clownfish/actions/runs/27502019109)
 
 Workflow conclusion: success
 
@@ -35,40 +35,40 @@ Canonical: https://github.com/openclaw/openclaw/pull/36630
 
 ## Summary
 
-#36630 is the only live open candidate and remains the canonical PR. It is useful and mergeable, but not merge-ready from the hydrated evidence because merge preflight is incomplete: bot review detail is truncated, no clean current-head /review is present, and the branch has XL compatibility/session-state/message-delivery risk labels. Planned repair of the contributor branch instead of merge or closeout.
+#36630 remains the only live open candidate and the best source/canonical path for the Signal quote-reply gap, but it is not merge-ready. Current main at ccf5976d still lacks Signal outbound quote metadata wiring, while #36630 is an XL fork PR with unknown mergeability, unresolved review-bot findings, and a prior repair run blocked by rebase conflict repair failures. Plan a credited replacement fix PR and keep any closeout for #36630 blocked until that replacement exists.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
-| Fix failed | 1 |
+| Fix failed | 0 |
 | Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
-| Apply skipped | 0 |
+| Apply skipped | 1 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | branch projectclownfish/repair-ghcrawl-156962-autonomous-smoke-36630 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (12/22) Rebasing (13/22) error: could not apply ddaee77a3b... fix(signal): preserve quote reply metadata hint: Resolve all conflicts manually, mark them as resolved with hint: "git add/rm <conflicted_files>", then run "git rebase --continue". hint: You can instead skip this commit: run "git rebase --skip". hint: To abort and get back to the state before "git rebase", run "git rebase --abort". hint: Disable this message with "git config set advice.mergeConflict false" Could not apply ddaee77a3b... # fix(signal): preserve quote reply metadata [detached HEAD 07eb224eae] fix(signal): re-apply quote-reply integration after upstream merge Author: Joey Krug <joeykrug@gmail.com> 9 files changed, 374 insertions(+), 38 deletions(-) Auto-merging CHANGELOG.md CONFLICT (content): Merge conflict in CHANGELOG.md Auto-merging docs/.generated/plugin-sdk-api-baseline.sha256 CONFLICT (content): Merge conflict in docs/.generated/plugin-sdk-api-baseline.sha256 Auto-merging extensions/signal/src/channel.ts CONFLICT (content): Merge conflict in extensions/signal/src/channel.ts Auto-merging extensions/signal/src/core.test.ts CONFLICT ... |
-| execute_fix | blocked |  |  | branch projectclownfish/repair-ghcrawl-156962-autonomous-smoke-36630 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (12/22) Rebasing (13/22) error: could not apply ddaee77a3b... fix(signal): preserve quote reply metadata hint: Resolve all conflicts manually, mark them as resolved with hint: "git add/rm <conflicted_files>", then run "git rebase --continue". hint: You can instead skip this commit: run "git rebase --skip". hint: To abort and get back to the state before "git rebase", run "git rebase --abort". hint: Disable this message with "git config set advice.mergeConflict false" Could not apply ddaee77a3b... # fix(signal): preserve quote reply metadata [detached HEAD 07eb224eae] fix(signal): re-apply quote-reply integration after upstream merge Author: Joey Krug <joeykrug@gmail.com> 9 files changed, 374 insertions(+), 38 deletions(-) Auto-merging CHANGELOG.md CONFLICT (content): Merge conflict in CHANGELOG.md Auto-merging docs/.generated/plugin-sdk-api-baseline.sha256 CONFLICT (content): Merge conflict in docs/.generated/plugin-sdk-api-baseline.sha256 Auto-merging extensions/signal/src/channel.ts CONFLICT (content): Merge conflict in extensions/signal/src/channel.ts Auto-merging extensions/signal/src/core.test.ts CONFLICT ... |
+| execute_fix | blocked |  |  | Codex fix worker timed out after 1800000ms |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #36630 | close_superseded | skipped | superseded | action status is blocked |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #36630 | fix_needed | planned | canonical | Canonical PR #36630 should be repaired on the contributor branch before any merge recommendation. The executor must rehydrate all review comments, address or prove non-actionable each bot finding, rebase/refresh narrowly, run pnpm check:changed, run a clean Codex /review, and only then merge if gates are clean. |
-| cluster:ghcrawl-156962-autonomous-smoke | build_fix_artifact | planned |  | Build a repair artifact for the existing contributor branch. Direct merge is not planned until all bot comments and a current-head /review are clean. |
+| #36630 | close_superseded | blocked | superseded | Blocked by require_fix_before_close and replacement-first policy: do not close the useful source PR until a credited replacement fix PR exists. |
+| cluster:ghcrawl-156962-autonomous-smoke | fix_needed | planned |  | The Signal quote-reply bug still appears real on current main, but the existing source PR needs replacement rather than direct merge or another blind repair attempt. |
+| cluster:ghcrawl-156962-autonomous-smoke | build_fix_artifact | planned |  | Build a replacement fix artifact so the deterministic executor can open a narrow credited PR before any source PR closeout. |
 
 ## Needs Human
 

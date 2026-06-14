@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156962-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27502019109",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27502019109",
+  "head_sha": "ddd158d1a8646459174ce7d0d17f259cd27b741e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156962-autonomous-smoke.md",
+  "published_at": "2026-06-14T15:08:46.546Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/36630",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/36630",
+  "summary": "#36630 remains the only live open candidate and the best source/canonical path for the Signal quote-reply gap, but it is not merge-ready. Current main at ccf5976d still lacks Signal outbound quote metadata wiring, while #36630 is an XL fork PR with unknown mergeability, unresolved review-bot findings, and a prior repair run blocked by rebase conflict repair failures. Plan a credited replacement fix PR and keep any closeout for #36630 blocked until that replacement exists.",
+  "actions": [
+    {
+      "target": "#36630",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Blocked by require_fix_before_close and replacement-first policy: do not close the useful source PR until a credited replacement fix PR exists."
+    },
+    {
+      "target": "cluster:ghcrawl-156962-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#36630",
+      "candidate_fix": null,
+      "reason": "The Signal quote-reply bug still appears real on current main, but the existing source PR needs replacement rather than direct merge or another blind repair attempt."
+    },
+    {
+      "target": "cluster:ghcrawl-156962-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#36630",
+      "candidate_fix": null,
+      "reason": "Build a replacement fix artifact so the deterministic executor can open a narrow credited PR before any source PR closeout."
+    }
+  ],
+  "action_counts": {
+    "close_superseded": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "Codex fix worker timed out after 1800000ms",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#36630",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-156962-autonomous-smoke:#36630:close_superseded:blocked-replacement-fix-pr:v1",
+      "source_status": "blocked",
+      "source_reason": "Blocked by require_fix_before_close and replacement-first policy: do not close the useful source PR until a credited replacement fix PR exists.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
