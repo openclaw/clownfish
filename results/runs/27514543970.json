@@ -1,0 +1,103 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156949-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27514543970",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27514543970",
+  "head_sha": "84c6fd534fe5fd873c7dbddc9480b1c4b3e21407",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156949-autonomous-smoke.md",
+  "published_at": "2026-06-14T22:53:29.902Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/20173",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/20173",
+  "canonical_pr": null,
+  "summary": "#20173 remains the live canonical issue for Discord edit-to-reprocess. #38505 and #48894 are already closed duplicates, #53654 is a broader related edit/delete tracker, and #92091 is the hydrated implementation candidate but is not merge-ready because proof and relevant checks are failing and the hydrated ClawSweeper review calls out a P1 debounce-window delete blocker. No GitHub mutation is planned.",
+  "actions": [
+    {
+      "target": "#20173",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Best live canonical issue for the edit-to-reprocess half; keep open until #92091 or another reviewed fix lands."
+    },
+    {
+      "target": "#38505",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Already closed duplicate; closed refs must not receive close actions."
+    },
+    {
+      "target": "#48894",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Already closed duplicate evidence; no closure action is valid."
+    },
+    {
+      "target": "#51950",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#20173",
+      "candidate_fix": null,
+      "reason": "Closed related context only."
+    },
+    {
+      "target": "#53654",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Related broader tracker with active contributor work; do not close as a duplicate of the edit-only canonical issue."
+    },
+    {
+      "target": "#92091",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": "related",
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Useful implementation candidate, but merge/fixed-by-candidate closeout is blocked by failing proof/checks, an actionable review blocker, and an unsafe target checkout for this worker."
+    },
+    {
+      "target": "cluster:ghcrawl-156949-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#20173",
+      "candidate_fix": "#92091",
+      "reason": "Implementation planning is blocked; preserve classification only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 3,
+    "keep_related": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92091 needs maintainer/author follow-up for redacted live Discord behavior proof and, if that cannot be provided promptly, a decision on whether to split edit-to-reprocess (#20173) from delete-to-cancel (#53654)."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
