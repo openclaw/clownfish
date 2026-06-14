@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156876-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27504161669",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27504161669",
+  "head_sha": "dd5c2005f23223b62d521e611dde7c5cf4c69342",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/ghcrawl-156876-autonomous-smoke.md",
+  "published_at": "2026-06-14T16:20:24.928Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/56096",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/56096",
+  "canonical_pr": null,
+  "summary": "Representative PR #55838 is already closed. The current canonical tracker is #56096; #55886 is useful but stale, dirty, proof-failing, and not safe to land as-is, so the executable path is a narrow credited replacement fix artifact. No merge is recommended and no close action is executable until the replacement PR exists.",
+  "actions": [
+    {
+      "target": "#48943",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Already closed in the preflight artifact; do not mutate."
+    },
+    {
+      "target": "#55811",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Already closed in the preflight artifact; keep as evidence only."
+    },
+    {
+      "target": "#55838",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#56096",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "The bug still appears real on current main and no merge-ready PR exists; build a narrow credited replacement fix."
+    },
+    {
+      "target": "#55886",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Useful contributor PR is superseded by a planned replacement path, but closeout must wait for the replacement PR."
+    },
+    {
+      "target": "#56153",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "cluster:ghcrawl-156876-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "reason": "Open a narrow credited replacement PR for the remaining Telegram sendChatAction transient cooldown/circuit-breaker behavior."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "close_superseded": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93020",
+      "branch": "clownfish/ghcrawl-156876-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "5b4b09fc788623fef7c82e812475b348b4ce61dd",
+      "checkpoint_commits": [
+        "f57dcfb1efc6e4534eef44b66f0926d39c659af8",
+        "d4253013c9f25e31938b335d4277b932af57c3e3"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93020"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#55886",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#56096",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-156876-autonomous-smoke:#55886:close_superseded:blocked:2026-06-14T10-25-21Z",
+      "source_status": "blocked",
+      "source_reason": "Useful contributor PR is superseded by a planned replacement path, but closeout must wait for the replacement PR.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#93020",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(telegram): cool down transient sendChatAction failures",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
