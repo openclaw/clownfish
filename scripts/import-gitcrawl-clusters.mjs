@@ -9,6 +9,7 @@ const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "gitcrawl", "gitcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
+const existingDir = path.resolve(String(args["existing-dir"] ?? path.join(repoRoot(), "jobs", repo.split("/")[0])));
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);
@@ -33,7 +34,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--mode plan|autonomous] [--suffix name] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -44,8 +45,8 @@ if (!["plan", "execute", "autonomous"].includes(mode)) {
 
 fs.mkdirSync(outDir, { recursive: true });
 
-const existingClusterIds = skipExisting ? existingGitcrawlClusterIds(outDir) : new Set();
-const existingMemberRefs = skipExisting ? existingGitcrawlMemberRefs(outDir, suffix) : new Map();
+const existingClusterIds = skipExisting ? existingGitcrawlClusterIds(existingDir) : new Set();
+const existingMemberRefs = skipExisting ? existingGitcrawlMemberRefs(existingDir, suffix) : new Map();
 const prefetchedMembers = selectingFromGitcrawl ? prefetchMembers(clusterIds) : null;
 let createdCount = 0;
 

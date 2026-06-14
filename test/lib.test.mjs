@@ -14,6 +14,13 @@ test("security signal detection keeps explicit security advisory wording", () =>
   assert.equal(hasSecuritySignalText("security advisory triage for GHSA-1234-5678-abcd"), true);
 });
 
+test("security signal detection catches review and scanner appeal wording", () => {
+  assert.equal(hasSecuritySignalText("Security Review Request: metadata inconsistency false positive"), true);
+  assert.equal(hasSecuritySignalText("False positive security flag on published skill"), true);
+  assert.equal(hasSecuritySignalText("Skill flagged as suspicious despite benign scanner verdicts"), true);
+  assert.equal(hasSecuritySignalText("fix: avoid inlining daemon secrets in generated systemd units"), true);
+});
+
 test("deterministic security signals ignore prose credential wording", () => {
   assert.equal(
     hasDeterministicSecuritySignal({
