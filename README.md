@@ -41,7 +41,7 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 14, 2026, 04:24 UTC
+Last dashboard update: Jun 14, 2026, 04:40 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
@@ -52,20 +52,20 @@ Scope: 382 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | --- | ---: | ---: |
 | Latest clusters reviewed | 382 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 201 | 52.6% |
-| Needs-human clusters | 45 | 11.8% |
+| Clean completed clusters | 202 | 52.9% |
+| Needs-human clusters | 44 | 11.5% |
 | Latest successful clusters | 373 | 97.6% |
 | Latest failed clusters | 3 | 0.8% |
 | Latest cancelled clusters | 1 | 0.3% |
-| Run attempts archived | 699 | audit |
+| Run attempts archived | 700 | audit |
 | Fix action attempts | 229 | audit |
 | Fix actions executed | 1 | 0.4% |
 | Fix actions failed | 52 | 22.7% |
 | Fix actions blocked | 72 | 31.4% |
 | Latest clusters with fix failures | 66 | 17.3% |
-| Distinct PRs touched | 1161 | 100% |
-| Open PRs tracked | 105 | 9.0% |
-| Closed unmerged PRs tracked | 883 | 76.1% |
+| Distinct PRs touched | 1163 | 100% |
+| Open PRs tracked | 104 | 8.9% |
+| Closed unmerged PRs tracked | 885 | 76.1% |
 | Completed close actions | 30 | 9.4% |
 | Completed merge actions | 23 | 7.2% |
 | Duplicate closes | 22 | 73.3% |
@@ -159,7 +159,7 @@ Scope: 382 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#73958](https://github.com/openclaw/openclaw/pull/73958) | fix(feishu): preserve root_id thread routing without thread_id forcing | ghcrawl-157004-autonomous-smoke | clownfish/ghcrawl-157004-autonomous-smoke | needs_rebase:CONFLICTING, needs_merge_state:DIRTY, needs_checks:Real behavior proof:CANCELLED, needs_merge_preflight | resume branch, rebase onto current main, repair conflicts, run changed checks, rerun review |
+| _None_ |  |  |  |  |  |
 
 ### Latest ProjectClownfish Closures
 
