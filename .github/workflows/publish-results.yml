@@ -93,8 +93,29 @@ jobs:
             echo "No missing cluster results to publish"
             exit 0
           fi
+          set +e
+          npm run review-results -- artifacts > artifacts/review-results.json
+          review_status=$?
+          set -e
+          if [ "$review_status" -ne 0 ]; then
+            npm run filter-reviewed-artifacts -- artifacts \
+              --review-report artifacts/review-results.json \
+              --runs-json artifacts/runs.json
+            set +e
+            npm run review-results -- artifacts > artifacts/review-results.filtered.json
+            review_status=$?
+            set -e
+            if [ "$review_status" -ne 0 ]; then
+              cat artifacts/review-results.filtered.json
+              exit "$review_status"
+            fi
+          fi
+          if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/runs.json","utf8")); process.exit(rows.length === 0 ? 0 : 1)'; then
+            echo "has_results=false" >> "$GITHUB_OUTPUT"
+            echo "No review-passing cluster results to publish"
+            exit 0
+          fi
           echo "has_results=true" >> "$GITHUB_OUTPUT"
-          npm run review-results -- artifacts
 
       - name: Publish and commit result ledger
         if: steps.download-artifacts.outputs.has_results == 'true'
