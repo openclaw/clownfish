@@ -15,7 +15,7 @@ const existingResultsDir = path.resolve(
 );
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
-const allowInstantClose = Boolean(args["allow-instant-close"]);
+const allowInstantClose = booleanArg("allow-instant-close", false);
 const editEnabledByDefault = mode === "autonomous" || mode === "execute";
 const allowMerge = booleanArg("allow-merge", editEnabledByDefault);
 const allowFixPr = booleanArg("allow-fix-pr", editEnabledByDefault);
