@@ -59,6 +59,7 @@ jobs:
           node-version: "24"
 
       - name: Download worker artifacts
+        id: download-artifacts
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.event.workflow_run.id || github.event.inputs.run_id }}
@@ -87,9 +88,16 @@ jobs:
             args+=(--run-id "$RUN_ID" --run-attempt "${RUN_ATTEMPT:-1}")
           fi
           npm run backfill-results -- "${args[@]}"
+          if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/runs.json","utf8")); process.exit(rows.length === 0 ? 0 : 1)'; then
+            echo "has_results=false" >> "$GITHUB_OUTPUT"
+            echo "No missing cluster results to publish"
+            exit 0
+          fi
+          echo "has_results=true" >> "$GITHUB_OUTPUT"
           npm run review-results -- artifacts
 
       - name: Publish and commit result ledger
+        if: steps.download-artifacts.outputs.has_results == 'true'
         env:
           GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || github.token }}
         run: |
