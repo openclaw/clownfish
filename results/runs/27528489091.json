@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-297",
+  "mode": "plan",
+  "run_id": "27528489091",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528489091",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:15Z",
+  "workflow_updated_at": "2026-06-15T06:36:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-297.md",
+  "published_at": "2026-06-15T06:39:14.728Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 candidate PRs. No GitHub mutations are planned. Closed PRs are skipped with keep_closed, security-sensitive PRs are routed, and ready/broad open PRs are left for maintainer or technical review.",
+  "actions": [
+    {
+      "target": "#47263",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped credential/boundary evidence appears on the PR itself, so quarantine this item only and route it to central OpenClaw security handling."
+    },
+    {
+      "target": "#92431",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; no mutation is available or needed in plan mode."
+    },
+    {
+      "target": "#74252",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not a dedupe closeout; it is a viable independent PR awaiting maintainer review, and merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#74235",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent high-signal PR, but the broad message-delivery surface and maintainer-review requirement make this a maintainer decision, not inventory cleanup."
+    },
+    {
+      "target": "#92424",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; no mutation is available or needed in plan mode."
+    },
+    {
+      "target": "#89107",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This item directly concerns credential storage/SecretRef handling and is explicitly marked security-sensitive, so route to central security handling."
+    },
+    {
+      "target": "#92436",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; no mutation is available or needed in plan mode."
+    },
+    {
+      "target": "#92439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; no mutation is available or needed in plan mode."
+    },
+    {
+      "target": "#92441",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cleanup-safety changes are not low-signal closeout, but the dirty/refactor-only shape needs maintainer technical review before any further action."
+    },
+    {
+      "target": "#92399",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent high-signal candidate fix, but merge is blocked by frontmatter and final acceptance is a maintainer decision."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 4,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#74252: maintainer review decision for focused log-tail PR.",
+    "#74235: maintainer review decision for broad Google Chat message-delivery PR.",
+    "#92441: technical correctness review for broad session cleanup safety PR.",
+    "#92399: maintainer review decision for OpenAI Responses cumulative snapshot fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

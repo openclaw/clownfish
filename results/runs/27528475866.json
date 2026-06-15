@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-289",
+  "mode": "plan",
+  "run_id": "27528475866",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528475866",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:56Z",
+  "workflow_updated_at": "2026-06-15T06:36:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-289.md",
+  "published_at": "2026-06-15T06:39:14.714Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative PR-inventory classifications only. No GitHub mutations are recommended in this plan-mode shard; security-shaped items are quarantined and ordinary open PRs are kept for maintainer/product review or independent follow-up.",
+  "actions": [
+    {
+      "target": "#92213",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Third-party provider/plugin catalog changes touch the plugin trust/security boundary and are out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#84758",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open feature slice related to a broader security-sensitive/product area; keep it for maintainer review rather than close or merge."
+    },
+    {
+      "target": "#92339",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR directly attempts to fix a security-sensitive reasoning/privacy leak report, so it should be handled by central OpenClaw security rather than ProjectClownfish cleanup."
+    },
+    {
+      "target": "#92294",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92238",
+      "reason": "Focused likely-fix PR for #92238, but plan-mode inventory cannot merge and should preserve it for maintainer review."
+    },
+    {
+      "target": "#84972",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical/product judgment is explicitly required before deciding whether this contract should land, be redesigned, or remain open."
+    },
+    {
+      "target": "#92328",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92312",
+      "reason": "Open replacement PR with successful proof should remain available for normal maintainer review; no closure target is appropriate in this inventory shard."
+    },
+    {
+      "target": "#91332",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91327",
+      "reason": "The PR has an unresolved P1 review finding and failed real behavior proof, so maintainer technical judgment is needed before keeping, repairing, or closing."
+    },
+    {
+      "target": "#90122",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89683",
+      "reason": "Focused UI-surface fix remains independently useful and should stay open for maintainer review."
+    },
+    {
+      "target": "#61242",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad, high-risk but potentially useful feature work should stay open as related backlog context, not be closed in this shard."
+    },
+    {
+      "target": "#61413",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches SSRF policy enforcement and trusted proxy behavior, which belongs to central security handling."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 5,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84972 requires maintainer technical/product judgment on the Anthropic compact-then-fallback contract after a CHANGES_REQUESTED review.",
+    "#91332 requires maintainer technical judgment because Real behavior proof failed and an actionable P1 reentrant-lock review finding remains."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

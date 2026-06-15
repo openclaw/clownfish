@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-275",
+  "mode": "plan",
+  "run_id": "27528452632",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528452632",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:24Z",
+  "workflow_updated_at": "2026-06-15T06:36:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-275.md",
+  "published_at": "2026-06-15T06:39:14.685Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Security-sensitive PRs are routed to central security handling; already closed PRs are kept closed; open non-security PRs are classified conservatively with merge/close blocked by job permissions and current proof/review state.",
+  "actions": [
+    {
+      "target": "#59801",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate is outside Clownfish backlog cleanup scope."
+    },
+    {
+      "target": "#59285",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the gateway cleanup-hint family, but not safe to close or merge in this plan shard."
+    },
+    {
+      "target": "#59859",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Native companion app work crosses security-boundary review concerns and should be routed centrally."
+    },
+    {
+      "target": "#59572",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed context only."
+    },
+    {
+      "target": "#59382",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed context only."
+    },
+    {
+      "target": "#59920",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open candidate; keep for normal maintainer review."
+    },
+    {
+      "target": "#59298",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Skill preamble/update notification changes touch security-sensitive agent/skill surfaces and should route centrally."
+    },
+    {
+      "target": "#60485",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Webhook verification behavior is security-sensitive and outside Clownfish cleanup scope."
+    },
+    {
+      "target": "#59517",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open bugfix candidate; not closable or mergeable in this plan shard."
+    },
+    {
+      "target": "#59177",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Discord presence/privacy boundary concerns require central security handling."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_related": 1,
+    "keep_closed": 2,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

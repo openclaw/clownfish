@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-290",
+  "mode": "plan",
+  "run_id": "27528477696",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528477696",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:59Z",
+  "workflow_updated_at": "2026-06-15T06:36:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-290.md",
+  "published_at": "2026-06-15T06:39:14.716Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No GitHub mutations are planned. Security-sensitive PRs are routed to central security handling; already-closed PRs are kept closed; open non-security PRs are retained for maintainer, proof, review, or author follow-up rather than closed or merged.",
+  "actions": [
+    {
+      "target": "#61322",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow session-state PR, but merge/fix actions are blocked by job policy and unresolved proof/review gates."
+    },
+    {
+      "target": "#66147",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped routing work is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#66168",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway/MCP surface with auth and visibility concerns should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#60661",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed items must not receive close actions; historical evidence shows this PR was not safe to merge."
+    },
+    {
+      "target": "#90552",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a plausible fix path but requires maintainer review rather than inventory cleanup closure."
+    },
+    {
+      "target": "#92135",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as a related open fix candidate; no shared canonical should be invented for this inventory job."
+    },
+    {
+      "target": "#61316",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed items must not receive close actions."
+    },
+    {
+      "target": "#61441",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed items must not receive close actions."
+    },
+    {
+      "target": "#92334",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as a related non-security bugfix candidate; proof/review gaps block any stronger recommendation."
+    },
+    {
+      "target": "#92217",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up/maintainer judgment is required; no close, merge, or fix action is allowed by this job."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "route_security": 2,
+    "keep_closed": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90552 requires maintainer review before any merge decision.",
+    "#92217 is waiting on author after ClawSweeper found issues; the hydrated artifact does not include enough detail to automate resolution."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

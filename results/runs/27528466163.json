@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-283",
+  "mode": "plan",
+  "run_id": "27528466163",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528466163",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:43Z",
+  "workflow_updated_at": "2026-06-15T06:36:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-283.md",
+  "published_at": "2026-06-15T06:39:14.700Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification shard. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. No GitHub mutations are planned; open PRs are either kept for their own review path or escalated only where the hydrated artifact shows an unresolved maintainer/technical decision.",
+  "actions": [
+    {
+      "target": "#53821",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking contributor PR, but the artifact explicitly shows maintainer review is required for a compatibility/session-state boundary-adjacent change."
+    },
+    {
+      "target": "#88810",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an active standalone Telegram fix PR with proof and no close target in this inventory shard; keep it on its own review path."
+    },
+    {
+      "target": "#92202",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not mergeable or closable from this shard; it should remain independent pending real behavior proof."
+    },
+    {
+      "target": "#92179",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone UI/TUI behavior PR; not a duplicate, superseded, or low-signal close candidate in this artifact."
+    },
+    {
+      "target": "#91055",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad active PR with author follow-up and conflicting readiness signals; a maintainer decision is required rather than inventory closeout."
+    },
+    {
+      "target": "#90267",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the plugin-index warning cluster, but not safe to close or supersede here without a canonical choice."
+    },
+    {
+      "target": "#72984",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to another open model-selection PR, but still has an unresolved review/author path and cannot be superseded safely in this inventory shard."
+    },
+    {
+      "target": "#92220",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned media fix with security-linked context and historical replacement rationale; human maintainer judgment is needed for the product/technical path."
+    },
+    {
+      "target": "#92227",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone Codex OAuth behavior PR; keep it independent for normal proof/review rather than close or merge from this shard."
+    },
+    {
+      "target": "#92191",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92191",
+      "reason": "Already closed in live hydrated state, so no close action is planned."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 4,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#53821 requires maintainer review for a ready-looking session visibility change with compatibility/session-state boundary risk.",
+    "#91055 requires maintainer/technical judgment because the broad Codex compact-context PR has active author follow-up and conflicting readiness signals.",
+    "#92220 requires maintainer judgment because the member-owned media-understanding fix is linked to a security-sensitive issue and follows a closed prior approach with maintainer correctness concerns."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

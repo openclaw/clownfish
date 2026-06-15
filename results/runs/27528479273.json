@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-291",
+  "mode": "plan",
+  "run_id": "27528479273",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528479273",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:01Z",
+  "workflow_updated_at": "2026-06-15T06:36:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-291.md",
+  "published_at": "2026-06-15T06:39:14.719Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planning only; used the provided cluster preflight artifact as live state and classified each listed open PR independently per the inventory shard instructions.",
+  "actions": [
+    {
+      "target": "#66150",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent inventory item with useful code and unresolved maintainer/review context; no close action is allowed or warranted."
+    },
+    {
+      "target": "#68280",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful active contributor PR with maintainer signal and review/proof ambiguity; keep it as related work, do not close or merge in this plan shard."
+    },
+    {
+      "target": "#88898",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related follow-up to closed canonical family, but it has a distinct remaining behavior and unresolved bot review; keep open."
+    },
+    {
+      "target": "#89517",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer/product intent, not dedupe classification; route this specific PR for human judgment."
+    },
+    {
+      "target": "#89590",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this PR to central OpenClaw security handling; continue unrelated non-security classifications."
+    },
+    {
+      "target": "#90115",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90097",
+      "reason": "Narrow PR appears related to a live non-security issue but is part of a broader PDF/media family with separate scopes; keep it open rather than close/merge."
+    },
+    {
+      "target": "#62063",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR with unresolved review/check state; keep classified as related inventory work and do not close."
+    },
+    {
+      "target": "#92349",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct PR with proof gap; keep open for author/maintainer follow-up."
+    },
+    {
+      "target": "#77539",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful, focused contributor PR with minor unresolved bot comments and maintainer-review status; keep open."
+    },
+    {
+      "target": "#86744",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#71689",
+      "reason": "Maintainer technical judgment is needed on whether the broad diff is acceptable for the task-registry corruption fix; do not close or merge in plan mode."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 7,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89517: maintainer/product decision needed on hot-mode restart semantics after author counter-position and ClawSweeper issue finding.",
+    "#86744: maintainer technical correctness judgment needed because the task-registry corruption fix has broad cross-area churn despite passing checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

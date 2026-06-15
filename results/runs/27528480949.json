@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-292",
+  "mode": "plan",
+  "run_id": "27528480949",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528480949",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:04Z",
+  "workflow_updated_at": "2026-06-15T06:36:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-292.md",
+  "published_at": "2026-06-15T06:39:14.721Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned. Security-sensitive PRs are routed to central security handling; already-closed PRs are skipped; unrelated open PRs are kept for normal maintainer review/proof rather than deduped or closed.",
+  "actions": [
+    {
+      "target": "#92354",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive reasoning leakage work is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#92236",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related commentary-progress work, but a distinct WebChat surface with no close/merge action allowed in this plan job."
+    },
+    {
+      "target": "#92358",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent gateway fix candidate needing proof; not a duplicate or low-signal closeout."
+    },
+    {
+      "target": "#92359",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent config-schema candidate needing proof; no hydrated duplicate or superseding PR in this inventory shard."
+    },
+    {
+      "target": "#66110",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no planned mutation."
+    },
+    {
+      "target": "#89920",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific unresolved maintainer review/proof decision on a broad maintainer-owned PR."
+    },
+    {
+      "target": "#92373",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92373",
+      "reason": "Already merged; no planned mutation."
+    },
+    {
+      "target": "#92371",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary/session-state item is routed to central security handling."
+    },
+    {
+      "target": "#92355",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow fix candidate; no close action is supported by this inventory shard."
+    },
+    {
+      "target": "#92176",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92176",
+      "reason": "Specific unresolved maintainer/technical correctness decision for an otherwise viable candidate PR."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 1,
+    "keep_independent": 3,
+    "keep_closed": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89920 requires maintainer review/proof decision before any merge or closeout.",
+    "#92176 requires maintainer/technical correctness decision because the linked issue is closed while the PR remains open and one expanded check is failing."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

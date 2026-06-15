@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-294",
+  "mode": "plan",
+  "run_id": "27528484215",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528484215",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:08Z",
+  "workflow_updated_at": "2026-06-15T06:36:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-294.md",
+  "published_at": "2026-06-15T06:39:14.723Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned. The shard is not a dedupe cluster, so open non-security PRs are kept independently unless already closed or security-routed.",
+  "actions": [
+    {
+      "target": "#91889",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR with a distinct feature scope and no shared canonical in this inventory shard."
+    },
+    {
+      "target": "#92125",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open dependency maintenance PR with passing relevant checks and no close path in plan mode."
+    },
+    {
+      "target": "#92392",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open bug-fix PR with failed proof, so keep it as an independent item rather than close or merge."
+    },
+    {
+      "target": "#92351",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open availability/message-delivery PR with a distinct root cause; no conservative close action is supported."
+    },
+    {
+      "target": "#92340",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR with an open linked issue and no active superseding canonical in this shard."
+    },
+    {
+      "target": "#92411",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open bug-fix PR with a check blocker; keep independently for maintainer or author follow-up."
+    },
+    {
+      "target": "#84172",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec authorization/security-boundary PR is out of scope for Clownfish backlog cleanup and should go to central OpenClaw security handling."
+    },
+    {
+      "target": "#89623",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR tied to a live open issue; keep it independently rather than close or merge in plan mode."
+    },
+    {
+      "target": "#92398",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open cron bug-fix PR with a distinct live issue; no duplicate or superseded close path is safe."
+    },
+    {
+      "target": "#92151",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state, so no mutating action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 8,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

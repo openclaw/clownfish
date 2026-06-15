@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-299",
+  "mode": "plan",
+  "run_id": "27528492294",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528492294",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:20Z",
+  "workflow_updated_at": "2026-06-15T06:36:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-299.md",
+  "published_at": "2026-06-15T06:39:14.732Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Open non-security PRs are kept open for independent review or related issue follow-up; security-sensitive #90644 is routed to central security handling; already-closed listed PRs are kept closed with skipped actions.",
+  "actions": [
+    {
+      "target": "openclaw/openclaw#89288",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related fix candidate for #75658, but not actionable for mutation in this plan-only inventory run."
+    },
+    {
+      "target": "openclaw/openclaw#90637",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related focused PR should stay open for the linked Nextcloud Talk issue path."
+    },
+    {
+      "target": "openclaw/openclaw#90644",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary authorization work is out of scope for ProjectClownfish mutation and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "openclaw/openclaw#92245",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; historical evidence only."
+    },
+    {
+      "target": "openclaw/openclaw#92200",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "openclaw/openclaw#92342",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad independent PR needs separate maintainer review or a narrower follow-up job, not dedupe closeout."
+    },
+    {
+      "target": "openclaw/openclaw#16544",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR should stay open; conflicts and failed proof block any merge-style recommendation."
+    },
+    {
+      "target": "openclaw/openclaw#91267",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "openclaw/openclaw#92455",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Product intent and technical correctness remain unresolved, with active follow-up and failing proof."
+    },
+    {
+      "target": "openclaw/openclaw#92456",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR should remain open for normal review; it is not a duplicate, low-signal closeout, or security route item."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "route_security": 1,
+    "keep_closed": 3,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "openclaw/openclaw#92455 requires maintainer/product judgment because the linked issue #92451 is marked needs-product-decision and the PR has active follow-up plus failing proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

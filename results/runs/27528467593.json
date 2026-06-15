@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-284",
+  "mode": "plan",
+  "run_id": "27528467593",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528467593",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:45Z",
+  "workflow_updated_at": "2026-06-15T06:36:40Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-284.md",
+  "published_at": "2026-06-15T06:39:14.703Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was invented. Open PRs with unresolved maintainer, security-boundary, active-author, or review-bot judgment were scoped to item-level needs_human; ordinary open PRs were kept related or independent; the already-closed seed PR was kept closed. Security-sensitive linked issue #86525 was routed to central security handling.",
+  "actions": [
+    {
+      "target": "#73704",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#57901",
+      "candidate_fix": null,
+      "reason": "Maintainer or contributor follow-up is needed on the unresolved review finding before any close or merge path can be planned."
+    },
+    {
+      "target": "#89168",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41750",
+      "candidate_fix": "#89168",
+      "reason": "Keep the PR related to its live issue; do not close or merge in this plan-only inventory shard."
+    },
+    {
+      "target": "#92167",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#23014",
+      "candidate_fix": "#92167",
+      "reason": "Keep the PR related to the live .m2a support issue; no closure action is safe or allowed here."
+    },
+    {
+      "target": "#90648",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90643",
+      "candidate_fix": "#90648",
+      "reason": "Keep the current open PR related to its live Discord mention parsing issue."
+    },
+    {
+      "target": "#88841",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on production reachability before this PR can be classified as merge-ready or superseded."
+    },
+    {
+      "target": "#92221",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent; no close, merge, or fix action is allowed from this plan-only inventory evidence."
+    },
+    {
+      "target": "#86525",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog cleanup and must be routed centrally."
+    },
+    {
+      "target": "#86527",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#86525",
+      "candidate_fix": null,
+      "reason": "Maintainer/security-boundary judgment is required before Clownfish can recommend any mutation for this PR."
+    },
+    {
+      "target": "#92237",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent as an open standalone PR; no dedupe or closure path is supported by the shard evidence."
+    },
+    {
+      "target": "#55211",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human review is needed to confirm which review-bot findings are obsolete or resolved before a merge or close classification can be planned."
+    },
+    {
+      "target": "#92252",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_related": 3,
+    "keep_independent": 2,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73704 needs maintainer/contributor resolution of the latest ClawSweeper needs-changes state and Greptile P1 runtime-model finding.",
+    "#88841 needs maintainer judgment because a maintainer explicitly declined merge pending production-reachability proof and the author replied with active follow-up.",
+    "#86527 needs maintainer/security-boundary judgment because it changes trusted-proxy behavior tied to quarantined security issue #86525.",
+    "#55211 needs human confirmation that historical actionable review-bot findings are obsolete or resolved before any merge-ready classification."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

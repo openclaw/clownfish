@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-276",
+  "mode": "plan",
+  "run_id": "27528454187",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528454187",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:26Z",
+  "workflow_updated_at": "2026-06-15T06:36:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-276.md",
+  "published_at": "2026-06-15T06:39:14.689Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Closed listed PRs remain closed; open non-security PRs are kept independent because this shard cannot merge, fix, or close them and several still need proof or review cleanup. Security-sensitive refs surfaced by the hydrated artifact are routed to central OpenClaw security handling.",
+  "actions": [
+    {
+      "target": "#8719",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog cleanup and should stay with central OpenClaw security handling."
+    },
+    {
+      "target": "#52951",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Filesystem access-control PR crosses documented security-boundary review territory; route without ProjectClownfish mutation."
+    },
+    {
+      "target": "#59149",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue is explicitly security-sensitive and requires central OpenClaw security/product review."
+    },
+    {
+      "target": "#59771",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid in this plan shard."
+    },
+    {
+      "target": "#59719",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep as historical evidence only."
+    },
+    {
+      "target": "#60835",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-operations documentation is out of scope for automated backlog cleanup; route to central security handling."
+    },
+    {
+      "target": "#60229",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open feature PR with proof blockers; no duplicate/superseded closeout is justified in this inventory shard."
+    },
+    {
+      "target": "#60212",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially viable open PR, but this plan-only inventory shard cannot merge or repair it and there is no closeout rationale."
+    },
+    {
+      "target": "#59170",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR has proof/review blockers and a linked security-sensitive issue; keep it out of automated close/merge decisions."
+    },
+    {
+      "target": "#60506",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#59490",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep as historical contributor context and do not mutate."
+    },
+    {
+      "target": "#60981",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Filesystem access-control and PathGuard boundary work must be handled by central OpenClaw security review, not Clownfish cleanup."
+    },
+    {
+      "target": "#60630",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open useful PR with proof/check blockers; no duplicate, superseded, low-signal, or close path is established."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_closed": 4,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
