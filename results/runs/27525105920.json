@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-173-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525105920",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525105920",
+  "head_sha": "416f3a943012e6a4f3b9e3e5baef7c4b408b4558",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:01:42Z",
+  "workflow_updated_at": "2026-06-15T05:02:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-173-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:03:22.041Z",
+  "canonical": "#75938",
+  "canonical_issue": "#75938",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #75938 is the best live non-security canonical among the actionable refs. #76058 is explicitly listed by the job as a security-signal ref and is routed to central security handling without poisoning the unrelated issue classification. #52568 remains open context owned by an existing overlapping job, so no mutation is planned for it.",
+  "actions": [
+    {
+      "target": "#52568",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#75938",
+      "candidate_fix": null,
+      "reason": "Existing-overlap context is not actionable in this cluster; kept only to explain why #75938 becomes the live non-security canonical for the remaining refs."
+    },
+    {
+      "target": "#75938",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75938",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical among the remaining actionable refs after excluding existing-overlap context and quarantining the security-signal PR."
+    },
+    {
+      "target": "#76058",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-designated security-signal item must be quarantined to central OpenClaw security handling; no close, merge, label, comment, or fix PR is planned for it."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
