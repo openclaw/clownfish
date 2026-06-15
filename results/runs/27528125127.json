@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-170",
+  "mode": "plan",
+  "run_id": "27528125127",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528125127",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:30Z",
+  "workflow_updated_at": "2026-06-15T06:27:51Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-170.md",
+  "published_at": "2026-06-15T06:29:42.385Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the hydrated PR inventory shard without inventing a shared canonical. Six hydrated open PRs should be kept independent for normal maintainer review. Four unavailable candidates need fresh hydration before classification because the preflight artifact lacks live state and target_updated_at; three of those also have security-shaped job-inventory text but were not marked security_sensitive by hydrated preflight.",
+  "actions": [
+    {
+      "target": "#90142",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone focused PR; no duplicate/superseded/low-signal close evidence in the hydrated artifact."
+    },
+    {
+      "target": "#89911",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad draft maintainer-owned work should remain in its own review path; no closure action is supported."
+    },
+    {
+      "target": "#90431",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial feature PR should stay independent for maintainer review; no dedupe or low-signal close evidence is present."
+    },
+    {
+      "target": "#90475",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused standalone PR; keep it in normal maintainer review rather than closing or merging from this plan shard."
+    },
+    {
+      "target": "#90477",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer PR with meaningful behavior and API surface; no closure action is supported."
+    },
+    {
+      "target": "#62682",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone contributor PR; keep independent and preserve its normal review path."
+    },
+    {
+      "target": "#75336",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs fresh hydrated live state before either security routing or normal non-mutating classification can be safely emitted."
+    },
+    {
+      "target": "#89635",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs fresh hydrated live state before either security routing or normal non-mutating classification can be safely emitted."
+    },
+    {
+      "target": "#89636",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs fresh hydrated live state before either security routing or normal non-mutating classification can be safely emitted."
+    },
+    {
+      "target": "#86711",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs a fresh hydrated preflight artifact before classification."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75336 requires fresh hydration because the preflight artifact has unavailable live state and no target_updated_at; job-inventory security-shaped text conflicts with preflight security_sensitive=false, so route_security is not safely repairable from the provided artifacts.",
+    "#89635 requires fresh hydration because the preflight artifact has unavailable live state and no target_updated_at; job-inventory security-shaped text conflicts with preflight security_sensitive=false, so route_security is not safely repairable from the provided artifacts.",
+    "#89636 requires fresh hydration because the preflight artifact has unavailable live state and no target_updated_at; job-inventory secret-handling text conflicts with preflight security_sensitive=false, so route_security is not safely repairable from the provided artifacts.",
+    "#86711 requires fresh hydration because the preflight artifact has unavailable live state and no target_updated_at."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

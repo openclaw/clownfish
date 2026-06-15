@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-172",
+  "mode": "plan",
+  "run_id": "27528128649",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528128649",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:35Z",
+  "workflow_updated_at": "2026-06-15T06:27:11Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-172.md",
+  "published_at": "2026-06-15T06:29:42.387Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. #90511 is security-sensitive and should route to central security handling. #87560 is a hydrated standalone PR to keep open. #90502 needs maintainer judgment on proof/validation. The remaining listed PRs could not be safely classified because the preflight artifact has unavailable live state from GitHub API rate limits.",
+  "actions": [
+    {
+      "target": "#87560",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone ready-for-maintainer PR; no duplicate/supersession evidence and merge is blocked by job policy."
+    },
+    {
+      "target": "#90511",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches private Discord DM read authorization and has security-tool findings, so it is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#90502",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on proof acceptance or running native Windows validation; no close/merge action is safe in this plan."
+    },
+    {
+      "target": "#89882",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#90514",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#89483",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#89783",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#90542",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#90550",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    },
+    {
+      "target": "#63347",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable from the preflight artifact, so classification needs a refreshed hydrate."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "route_security": 1,
+    "needs_human": 8
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90502: maintainer decision needed on whether source-level proof is sufficient or whether a maintainer should run native Windows proof.",
+    "#89882: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#90514: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#89483: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#89783: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#90542: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#90550: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit.",
+    "#63347: refresh preflight hydration; live PR state was unavailable due GitHub API rate limit."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

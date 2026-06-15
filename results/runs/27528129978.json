@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-needs_proof-20260615T060018-173",
+  "mode": "plan",
+  "run_id": "27528129978",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528129978",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:37Z",
+  "workflow_updated_at": "2026-06-15T06:27:05Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260615T060018-173.md",
+  "published_at": "2026-06-15T06:29:42.388Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Closed PRs stay closed, the security-sensitive PR is routed to central security handling, one hydrated open PR needs maintainer/product proof before any merge path, and five listed candidates need a refreshed preflight because live state was unavailable due GitHub API rate limiting.",
+  "actions": [
+    {
+      "target": "#63578",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#63571",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated open feature/config PR needs maintainer judgment and real behavior proof before merge; close, merge, and fix actions are not allowed or not safe in this plan."
+    },
+    {
+      "target": "#63593",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as superseded; #92911 is mentioned as evidence only because it was not hydrated."
+    },
+    {
+      "target": "#63633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed after durable review; any remaining SOCKS proxy work belongs in a refreshed, separately hydrated path."
+    },
+    {
+      "target": "#63924",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish cleanup scope and should be handled by central OpenClaw security flow."
+    },
+    {
+      "target": "#62545",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state unavailable; re-run preflight before deciding or mutating this listed candidate."
+    },
+    {
+      "target": "#65381",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state unavailable; re-run preflight before deciding or mutating this listed candidate."
+    },
+    {
+      "target": "#63636",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state unavailable; re-run preflight before deciding or mutating this listed candidate."
+    },
+    {
+      "target": "#64832",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state unavailable; re-run preflight before deciding or mutating this listed candidate."
+    },
+    {
+      "target": "#63662",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state unavailable; re-run preflight before deciding or mutating this listed candidate."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "needs_human": 6,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#63571 requires maintainer/product judgment and real behavior proof before any merge path.",
+    "#62545 needs refreshed hydration; live state unavailable in the preflight artifact.",
+    "#65381 needs refreshed hydration; live state unavailable in the preflight artifact.",
+    "#63636 needs refreshed hydration; live state unavailable in the preflight artifact.",
+    "#64832 needs refreshed hydration; live state unavailable in the preflight artifact.",
+    "#63662 needs refreshed hydration; live state unavailable in the preflight artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

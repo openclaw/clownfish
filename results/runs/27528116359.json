@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-164",
+  "mode": "plan",
+  "run_id": "27528116359",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528116359",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:16Z",
+  "workflow_updated_at": "2026-06-15T06:27:11Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-164.md",
+  "published_at": "2026-06-15T06:29:42.381Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. One security-sensitive PR is routed to central security handling; ordinary open PRs are kept non-mutating unless live state or maintainer judgment is missing.",
+  "actions": [
+    {
+      "target": "#90237",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of scope for Clownfish backlog cleanup and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#90257",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct non-security PR with missing proof, not a duplicate or close candidate in this inventory shard."
+    },
+    {
+      "target": "#90217",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer and technical-correctness judgment is required; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#90227",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer and technical-correctness judgment is required; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#90223",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer and technical-correctness judgment is required; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#90215",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct test portability PR with missing proof and review-bot blockers, not a duplicate or close candidate in this inventory shard."
+    },
+    {
+      "target": "#90230",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer and technical-correctness judgment is required; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#90258",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned dirty PR needs maintainer update or a separately authorized repair path; this plan job cannot merge or fix it."
+    },
+    {
+      "target": "#90265",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable, so no mutating or substantive classification is safe for #90265."
+    },
+    {
+      "target": "#90274",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable, so no mutating or substantive classification is safe for #90274."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 2,
+    "needs_human": 7
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90217: maintainer and technical-correctness review required for Windows directory symlink test behavior.",
+    "#90227: maintainer and technical-correctness review required for Windows credential permission-test semantics and symlink gating.",
+    "#90223: maintainer and technical-correctness review required for QQ Bot symlink capability gating.",
+    "#90230: maintainer review required to confirm the split POSIX/Windows backup permission test is correct.",
+    "#90258: maintainer-owned PR is dirty and cannot be repaired or merged under this plan job.",
+    "#90265: live preflight state unavailable due GitHub API rate limit.",
+    "#90274: live preflight state unavailable due GitHub API rate limit."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
