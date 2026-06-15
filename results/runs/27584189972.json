@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156951-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27584189972",
+  "workflow_run_id": "27584189972",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27584189972",
+  "head_sha": "3eaef20c39c95c760c2eeb4e61adf6ea57afc054",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:52:50Z",
+  "workflow_updated_at": "2026-06-15T23:57:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156951-autonomous-smoke.md",
+  "published_at": "2026-06-15T23:59:12.390Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/20786",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/20786",
+  "canonical_pr": null,
+  "summary": "Keep #20786 as the open canonical Telegram Business support tracker, keep already-closed duplicate/context refs closed, route PR #53629 to the required quarantine path, and build a narrow new fix artifact because current main still lacks runtime handlers for Telegram Business updates.",
+  "actions": [
+    {
+      "target": "#20786",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "This remains the best live canonical issue for the same Telegram Business message-loss/root handler gap."
+    },
+    {
+      "target": "#51916",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions; no further mutation is needed."
+    },
+    {
+      "target": "#53629",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated artifact marks this exact PR security-sensitive; ProjectClownfish must quarantine it and avoid merge, close, comment, or fix-PR actions for that item."
+    },
+    {
+      "target": "#1324",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unrelated first-hop context; no action needed."
+    },
+    {
+      "target": "cluster:ghcrawl-156951-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "The canonical issue is real and current, and the job allows fix and raise_pr, so Clownfish should prepare a narrow new fix path."
+    },
+    {
+      "target": "cluster:ghcrawl-156951-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "A narrow replacement/new fix PR is appropriate for the non-security canonical issue while preserving public contributor context."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 2,
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
