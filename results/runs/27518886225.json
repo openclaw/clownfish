@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-593-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518886225",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518886225",
+  "head_sha": "18a445b074de2172897e0da3a1180d5523dbac1d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:34:28Z",
+  "workflow_updated_at": "2026-06-15T01:35:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-593-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.618Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan only. The two open PRs address the same gateway.nodes.invokeTimeoutMs root cause, but the live artifact does not support a safe canonical choice: #68857 is the hinted older canonical but has failed real-behavior proof and unresolved review-bot findings; #92714 is a newer overlapping implementation with tests/docs and passing real-behavior proof, but still has a failing check and ClawSweeper review blockers. No close, merge, label, comment, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#68090",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#68857",
+      "reason": "Already closed before this worker run; no mutation is valid or needed."
+    },
+    {
+      "target": "#68857",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical selection is unclear between two open overlapping contributor PRs, and the job requires human review for conflicting PRs, failing checks, and unclear canonical choice."
+    },
+    {
+      "target": "#92714",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potential successor PR is not merge-ready and conflicts with the hinted canonical; maintainer judgment is needed to choose whether #92714 should replace #68857 or remain a related competing PR."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the live canonical path for the gateway.nodes.invokeTimeoutMs feature: keep repairing #68857, switch canonical ownership to #92714, or ask contributors to combine useful parts before any closeout."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-528-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518867406",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518867406",
+  "head_sha": "2c50056214b457163d46a7db5296599ebeec1ecd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:33:55Z",
+  "workflow_updated_at": "2026-06-15T01:34:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-528-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.609Z",
+  "canonical": "#58139",
+  "canonical_issue": "#58139",
+  "canonical_pr": "#80683",
+  "summary": "Keep #58139 as the live canonical issue. #80683 is the focused open PR for the same memory-lancedb Windows Docker bind-mount failure, but this plan-mode job does not allow merge/fix actions, so keep it related as the candidate fix path rather than closing or merging anything. #80868 is already closed and is only historical CI context for a different Docker issue.",
+  "actions": [
+    {
+      "target": "#58139",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#58139",
+      "candidate_fix": "#80683",
+      "reason": "The issue remains the best live canonical thread until a fix lands and validates the Windows Docker bind-mount behavior."
+    },
+    {
+      "target": "#80683",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58139",
+      "candidate_fix": "#80683",
+      "reason": "The PR is the focused candidate fix for #58139, but this read-only plan job cannot recommend a merge mutation or close the issue before the fix lands."
+    },
+    {
+      "target": "#80868",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#58139",
+      "candidate_fix": null,
+      "reason": "Closed linked context only; no action needed for this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-825-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519068983",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519068983",
+  "head_sha": "de7a4a9553b0a32003b8f88f0a5f7a5512c403ce",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:40:55Z",
+  "workflow_updated_at": "2026-06-15T01:42:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-825-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:20:44.671Z",
+  "canonical": "#57775",
+  "canonical_issue": "#57775",
+  "canonical_pr": "#88296",
+  "summary": "Read-only plan: route the security-sensitive canonical issue #57775 to central OpenClaw security handling, keep #88296 as the related narrow fix PR but do not merge or close in this job, and split adjacent/broad linked refs instead of forcing a duplicate family.",
+  "actions": [
+    {
+      "target": "#57775",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#57775",
+      "candidate_fix": null,
+      "reason": "Security-sensitive items are out of ProjectClownfish mutation scope and must be routed to central OpenClaw security handling without closing, labeling, commenting, merging, or opening a fix PR for this item."
+    },
+    {
+      "target": "#88296",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#57775",
+      "candidate_fix": "#88296",
+      "reason": "#88296 is the relevant narrow fix path for the routed issue, but it is not merge-ready under this job's gates and should remain open for maintainer/security review."
+    },
+    {
+      "target": "#74163",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a broad tracker/docs-generator PR, not the same root cause as #57775 or the narrow gateway command-policy fix in #88296."
+    },
+    {
+      "target": "#77730",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#57775",
+      "candidate_fix": null,
+      "reason": "Same broad Windows node command-advertisement area, but the affected command family and suspected root cause are different from exec approvals get/set, so it should not be closed as a duplicate in this cluster."
+    },
+    {
+      "target": "#84644",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive closure actions; this item is historical related context only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-714-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519024172",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519024172",
+  "head_sha": "338bbf890abe3cef8556d4805a60077caabb6622",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:39:16Z",
+  "workflow_updated_at": "2026-06-15T01:40:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-714-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:20:44.647Z",
+  "canonical": "#81061",
+  "canonical_issue": "#81061",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. Keep #81061 as the live canonical issue for the pre-routing inbound hook. Route #81198 to central security handling because the preflight artifact marks it security-sensitive. Keep linked #13304 related, not duplicate, because it requests content-based binding routing and needs separate product decisions.",
+  "actions": [
+    {
+      "target": "#81061",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81061",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical for the cluster's root feature request."
+    },
+    {
+      "target": "#81198",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#81061",
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling; no close, merge, label, comment, or fix action should be planned for it by this worker."
+    },
+    {
+      "target": "#13304",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81061",
+      "candidate_fix": null,
+      "reason": "Related routing feature, but not the same root cause or closeable duplicate of the pre-routing hook issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

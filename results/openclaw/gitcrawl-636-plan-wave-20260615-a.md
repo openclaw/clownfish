@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-636-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516896309"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516896309"
-head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
+run_id: "27518905723"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518905723"
+head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:24:59.779Z"
+published_at: "2026-06-15T02:20:44.627Z"
 canonical: "#90556"
 canonical_issue: "#90556"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516896309](https://github.com/openclaw/clownfish/actions/runs/27516896309)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518905723](https://github.com/openclaw/clownfish/actions/runs/27518905723)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90556
 
 ## Summary
 
-Plan-mode classification only. #90556 remains the live canonical feature request for Chat UI latency display. #91132 is related partial gateway work, not a duplicate, not a complete fixed-by-candidate path, and not merge-ready in this job.
+Plan-only classification: #90556 remains the canonical feature request for displaying per-message response latency in the Chat UI. #91132 is related implementation work because it only adds gateway chat.send_timing phases, does not implement the UI display requested by #90556, and is not merge-ready in the hydrated state.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #90556 remains the live canonical feature request
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90556 | keep_canonical | planned | canonical | #90556 is the best surviving canonical for the user-visible Chat UI latency-display feature. It should stay open for maintainer product decisions around timing metadata ownership and persistence. |
-| #91132 | keep_related | planned | related | #91132 belongs in the #90556 feature family and may be useful partial contributor work, but it is not a duplicate and is not a complete fix for the UI display request. |
+| #90556 | keep_canonical | planned | canonical | #90556 is the best surviving canonical item because it tracks the user-visible Chat UI feature, remains open, and no hydrated item fully implements or replaces the requested UI behavior. |
+| #91132 | keep_related | planned | related | #91132 is related implementation work toward the timing data path, but it is not a duplicate of #90556, not a complete candidate fix for the UI request, and not merge-ready in the hydrated preflight state. |
 
 ## Needs Human
 

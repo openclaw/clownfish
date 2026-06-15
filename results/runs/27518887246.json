@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-599-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518887246",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518887246",
+  "head_sha": "18a445b074de2172897e0da3a1180d5523dbac1d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:34:30Z",
+  "workflow_updated_at": "2026-06-15T01:35:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-599-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.618Z",
+  "canonical": "#91408",
+  "canonical_issue": null,
+  "canonical_pr": "#91408",
+  "summary": "Hydrated state shows both open PRs target the same Telegram ACP direct-message binding gap. #91408 is the better live canonical because it is non-draft, carries supplied/sufficient proof, passes Real behavior proof, includes direct/dm peer-kind handling plus docs/tests, and ClawSweeper marked it ready for maintainer review. #68537 is an earlier draft implementation of the same root cause, has failed real-behavior proof, and is superseded by the fuller #91408 path. No GitHub mutations are executed in plan mode.",
+  "actions": [
+    {
+      "target": "#91408",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91408",
+      "candidate_fix": "#91408",
+      "reason": "Best surviving PR for the shared root cause; keep as canonical but do not recommend merge because merge is blocked by job frontmatter, missing merge_preflight, and failing broad checks."
+    },
+    {
+      "target": "#68537",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#91408",
+      "candidate_fix": "#91408",
+      "reason": "Same root cause and user-visible failure as #91408, but #68537 is draft and proof-blocked. Superseded closeout is safe to plan only with the included credit-preserving comment and #91408 as the canonical path."
+    },
+    {
+      "target": "#91507",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#91408",
+      "candidate_fix": null,
+      "reason": "Already closed and unrelated to this cluster's Telegram ACP direct-message binding root cause."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-96-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518989886",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518989886",
+  "head_sha": "5f0d847a71c3dea47310d39983b78bf3c89b3330",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:38:03Z",
+  "workflow_updated_at": "2026-06-15T01:39:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-96-plan-ramp.md",
+  "published_at": "2026-06-15T02:20:44.646Z",
+  "canonical": "#92440",
+  "canonical_issue": "#92374",
+  "canonical_pr": "#92440",
+  "summary": "Plan-mode classification only. Security-sensitive refs are quarantined individually. Among non-security open PRs, #92440 is the strongest current canonical candidate for the #92374 dispatcher hook fix because it is narrow, hydrated, has passing checks including Real behavior proof, and overlaps the same two-file fix surface as #92392 and #92762. No close, merge, label, comment, or fix PR mutation is planned because this job is plan mode and merge/fix actions are blocked by frontmatter.",
+  "actions": [
+    {
+      "target": "#61550",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context must be routed to central OpenClaw security handling, not backlog cleanup."
+    },
+    {
+      "target": "#73542",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context must be quarantined independently."
+    },
+    {
+      "target": "#81610",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#82823",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical merged context only."
+    },
+    {
+      "target": "#90371",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate must be routed rather than closed, merged, or superseded by ProjectClownfish."
+    },
+    {
+      "target": "#92374",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue must go to central OpenClaw security handling."
+    },
+    {
+      "target": "#92392",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92440",
+      "candidate_fix": null,
+      "reason": "Same fix family, but not the strongest canonical because proof failed and #92440 has clearer validation."
+    },
+    {
+      "target": "#92440",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92440",
+      "candidate_fix": "#92440",
+      "reason": "Best live non-security canonical PR for the narrow dispatcher hook-composition fix."
+    },
+    {
+      "target": "#92762",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92440",
+      "candidate_fix": null,
+      "reason": "Same fix family, but #92440 is the stronger current canonical candidate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_closed": 1,
+    "keep_related": 2,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

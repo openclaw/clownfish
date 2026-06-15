@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-555-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516849406"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516849406"
-head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
+run_id: "27518870101"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518870101"
+head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:22:14.833Z"
+published_at: "2026-06-15T02:20:44.609Z"
 canonical: "#52540"
 canonical_issue: "#52540"
 canonical_pr: "#81825"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516849406](https://github.com/openclaw/clownfish/actions/runs/27516849406)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518870101](https://github.com/openclaw/clownfish/actions/runs/27518870101)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #52540
 
 ## Summary
 
-Plan-only classification: keep #52540 as the live canonical issue and keep #81825 as the related open fix path. No closure, merge, label, comment, fix PR, or security routing is planned.
+Plan-only classification: #52540 remains the live canonical issue for the 1Password tmux guidance bug, and #81825 is the focused linked PR/fix path but is not merge-planned in this job because merge is blocked by frontmatter and merge preflight is incomplete.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #52540 as the live canonical issue and keep #8182
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #52540 | keep_canonical | planned | canonical | #52540 remains the best live canonical report because it is the open source-repro issue for the exact tmux-only 1Password skill guidance bug, with #81825 linked as the focused fix path. |
-| #81825 | keep_related | planned | related | #81825 is the focused fix path for #52540, but in this plan-only job it should stay open for maintainer review rather than be merged or used for issue closeout because merge is blocked and review-bot comments remain unresolved. |
+| #52540 | keep_canonical | planned | canonical | #52540 is the best surviving canonical report for this root cause and should stay open until #81825 or an equivalent fix lands. |
+| #81825 | keep_related | planned | related | #81825 is the current focused fix path for canonical #52540, but this plan-mode job blocks merge and fix actions, so the safe classification is to keep it related/open for maintainer review. |
 
 ## Needs Human
 

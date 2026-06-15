@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-74-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518986855",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518986855",
+  "head_sha": "83090f0f13076b45300853ade18ac0d08711d2a4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:37:56Z",
+  "workflow_updated_at": "2026-06-15T01:39:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-74-plan-ramp.md",
+  "published_at": "2026-06-15T02:20:44.643Z",
+  "canonical": "#77800",
+  "canonical_issue": "#77800",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #77800 remains the live canonical issue for the manifest contract gate/user-visible silent-drop regression. #74586 and #80621 are related but separate root causes or product decisions, #89215 is the narrower diagnostics facet with #89422 as a related PR candidate, #84070 is already closed, and security-sensitive PRs #78084 and linked #84512 are quarantined for central security handling.",
+  "actions": [
+    {
+      "target": "#77800",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the non-security manifest contract gate regression family."
+    },
+    {
+      "target": "#74586",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Related tool/embedded-runner surface, but not the same root cause as #77800's manifest contracts.tools gate."
+    },
+    {
+      "target": "#78084",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plugin contract wildcard semantics are marked security-sensitive in the preflight artifact and must be handled by central OpenClaw security review, not ProjectClownfish cleanup."
+    },
+    {
+      "target": "#80621",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Same manifest contract area as #77800, but the boolean true catch-all semantics are a distinct product/API decision and should not be deduped into the missing-contract report."
+    },
+    {
+      "target": "#84070",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no closure action is valid."
+    },
+    {
+      "target": "#89215",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": "#89422",
+      "reason": "Narrow diagnostic facet of #77800's broader regression, with a separate PR candidate; keep related rather than close while the PR is unmerged and merge is disabled for this job."
+    },
+    {
+      "target": "#89422",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": "#89422",
+      "reason": "Related candidate PR for the diagnostic subcase only; do not merge or mark fixed-by-candidate in this plan."
+    },
+    {
+      "target": "#84512",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked security-sensitive contract-boundary PR should remain quarantined to central security/API review, with no ProjectClownfish mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 4,
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

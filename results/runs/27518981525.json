@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-702-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518981525",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518981525",
+  "head_sha": "83090f0f13076b45300853ade18ac0d08711d2a4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:37:43Z",
+  "workflow_updated_at": "2026-06-15T01:38:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-702-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.640Z",
+  "canonical": "#89700",
+  "canonical_issue": "#89700",
+  "canonical_pr": null,
+  "summary": "Plan-only classification for two open refs. #89700 is security-sensitive in the preflight artifact and must be routed to central security handling. #89756 is the related implementation PR for the same exec config migration, but it is not mergeable in this job because merge/fix actions are blocked and the PR has a broad compatibility-sensitive delta plus an unresolved Codex review concern.",
+  "actions": [
+    {
+      "target": "#89700",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#89756",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89700",
+      "candidate_fix": null,
+      "reason": "The PR is the related implementation path for #89700, but this plan should not merge, close, or repair it. It remains related while #89700 is quarantined and while PR-specific merge blockers remain outside this job's allowed actions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

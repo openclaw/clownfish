@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-707-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516939986"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516939986"
-head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
+run_id: "27518983966"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518983966"
+head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:27:35.352Z"
+published_at: "2026-06-15T02:20:44.641Z"
 canonical: "#89551"
 canonical_issue: "#89551"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516939986](https://github.com/openclaw/clownfish/actions/runs/27516939986)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518983966](https://github.com/openclaw/clownfish/actions/runs/27518983966)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89551
 
 ## Summary
 
-#89551 remains the live canonical issue for the session-memory hook model override bug. #89905 is already closed and unmerged, so no closure or merge action is valid; linked closed refs remain historical context only.
+Plan-only classification: #89551 remains the live canonical issue. #89905 is the same fix family but is already closed and unmerged, so no close/comment/label mutation is planned. Linked closed refs are retained only as historical evidence.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Canonical: #89551
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89551 | keep_canonical | planned | canonical | This is the best surviving live item for the root cause; keep it open for maintainer/product decision and any future fix path. |
-| #89905 | keep_closed | skipped | superseded | The PR overlaps the canonical issue but is not a live fix candidate. |
-| #89561 | keep_closed | skipped | superseded | This closed predecessor PR is historical evidence for the canonical issue, not an actionable candidate. |
-| #71709 | keep_closed | skipped | related | This is related slug-generator context with a different root cause and is already closed. |
+| #89551 | keep_canonical | planned | canonical |  |
+| #89905 | keep_closed | skipped | related | Already closed; retain as historical related fix attempt, not as a mutation target. |
+| #89561 | keep_closed | skipped | related | Already closed; no mutation planned. |
+| #71709 | keep_closed | skipped | independent | Already closed and not the same root cause as the canonical issue. |
 
 ## Needs Human
 

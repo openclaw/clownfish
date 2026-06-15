@@ -1,0 +1,76 @@
+---
+repo: "openclaw/openclaw"
+cluster_id: "gitcrawl-505-plan-wave-20260615-a"
+mode: "plan"
+run_id: "27518865492"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518865492"
+head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-06-15T02:20:44.608Z"
+canonical: "#80700"
+canonical_issue: "#80700"
+canonical_pr: "#80829"
+actions_total: 4
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
+apply_executed: 0
+apply_blocked: 0
+apply_skipped: 0
+needs_human_count: 0
+---
+
+# gitcrawl-505-plan-wave-20260615-a
+
+Repo: openclaw/openclaw
+
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518865492](https://github.com/openclaw/clownfish/actions/runs/27518865492)
+
+Workflow conclusion: success
+
+Worker result: planned
+
+Canonical: #80700
+
+## Summary
+
+Plan-only classification: keep #80700 as the live canonical issue and keep #80829 as the current open implementation path, but do not recommend merge or fixed-by-candidate closeout because the PR still has failing real-behavior-proof and unresolved review blockers. Linked #92672/#92676 are related broader primary-path/message-lifecycle work, not duplicates of the followup-runner canonical.
+
+## Impact
+
+| Metric | Count |
+| --- | ---: |
+| Worker actions | 4 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
+| Applied executions | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
+| Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Apply Actions
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Worker Action Matrix
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| #80700 | keep_canonical | planned | canonical | #80700 remains the clearest live canonical for the followup-agent silent-drop root cause. |
+| #80829 | keep_related | planned | related | #80829 is the current related implementation candidate for #80700, but it is not merge-ready and cannot support closeout in plan mode. |
+| #92672 | keep_related | planned | related | #92672 should stay open as related broader primary-path/message-lifecycle work rather than being folded into the #80700 followup-runner canonical. |
+| #92676 | keep_related | planned | related | #92676 belongs with the related #92672 broader failover-notification path and is not a replacement for the #80700/#80829 followup-runner path. |
+
+## Needs Human
+
+- none

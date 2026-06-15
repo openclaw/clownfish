@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-92-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518988386",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518988386",
+  "head_sha": "5f0d847a71c3dea47310d39983b78bf3c89b3330",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:38:00Z",
+  "workflow_updated_at": "2026-06-15T01:39:27Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-92-plan-ramp.md",
+  "published_at": "2026-06-15T02:20:44.645Z",
+  "canonical": "#70903",
+  "canonical_issue": "#70903",
+  "canonical_pr": null,
+  "summary": "Read-only plan: keep #70903 as the live canonical for the persisted provider cooldown recovery bug. Split #39807/#88709 as a related inline-api-key cooldown subcluster. Keep #87694 as an active #70903-related candidate, and request maintainer judgment on #87697 because it overlaps #87694 while a member review says the current shape is too broad. Quarantine security-sensitive linked PR #80482 only.",
+  "actions": [
+    {
+      "target": "#70903",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#70903",
+      "candidate_fix": null,
+      "reason": "Best surviving tracker for the file/profile-based provider cooldown recovery root cause."
+    },
+    {
+      "target": "#39807",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39807",
+      "candidate_fix": "#88709",
+      "reason": "Related provider cooldown family, but not a duplicate of #70903 because it concerns inline API-key providers that never enter the profile cooldown system."
+    },
+    {
+      "target": "#87694",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#70903",
+      "candidate_fix": null,
+      "reason": "Active related candidate for #70903, but merge/close is out of scope and merge preflight is incomplete."
+    },
+    {
+      "target": "#87697",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#70903",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: whether to narrow #87697, combine useful parts with #87694, or keep the PRs as separate follow-up tracks."
+    },
+    {
+      "target": "#88709",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39807",
+      "candidate_fix": null,
+      "reason": "Keep as the active candidate for the related #39807 inline-api-key cooldown subcluster, not as a duplicate/closure target for #70903."
+    },
+    {
+      "target": "#80482",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked item is out of ProjectClownfish cleanup scope; route only this ref to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "needs_human": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87697 requires maintainer judgment because it overlaps #87694 on #70903 while a member review says the current PR shape is too broad/noisy despite a plausible direction."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

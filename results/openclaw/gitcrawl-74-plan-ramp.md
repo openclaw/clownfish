@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-74-plan-ramp"
 mode: "plan"
-run_id: "27516230700"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516230700"
-head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
+run_id: "27518986855"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518986855"
+head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T00:04:04.865Z"
+result_status: "planned"
+published_at: "2026-06-15T02:20:44.643Z"
 canonical: "#77800"
 canonical_issue: "#77800"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-74-plan-ramp
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516230700](https://github.com/openclaw/clownfish/actions/runs/27516230700)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518986855](https://github.com/openclaw/clownfish/actions/runs/27518986855)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #77800
 
 ## Summary
 
-Plan only. #77800 remains the main live canonical for the missing contracts.tools registration-gate regression. The cluster contains separate sub-scopes: #74586 anchors an Active Memory embedded-runner abort/tool-bridge family, #89215/#89422 track diagnostics for the same manifest gate, #80621 needs a maintainer/API decision on contracts.tools:true semantics, and security-sensitive PRs #78084 and #84512 are quarantined for central security handling.
+Plan-mode classification only. #77800 remains the live canonical issue for the manifest contract gate/user-visible silent-drop regression. #74586 and #80621 are related but separate root causes or product decisions, #89215 is the narrower diagnostics facet with #89422 as a related PR candidate, #84070 is already closed, and security-sensitive PRs #78084 and linked #84512 are quarantined for central security handling.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan only. #77800 remains the main live canonical for the missing contracts.tool
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,15 +66,15 @@ Plan only. #77800 remains the main live canonical for the missing contracts.tool
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77800 | keep_canonical | planned | canonical | Best live non-security canonical for the main plugin manifest contract regression; keep open for maintainer validation and product decision. |
-| #74586 | keep_canonical | planned | canonical | #74586 is not a duplicate of the contracts.tools manifest-gate issue; it is the best open anchor for the Active Memory embedded-runner abort/tool-bridge subfamily. |
-| #78084 | route_security | planned | security_sensitive | Security-sensitive plugin contract boundary change is out of ProjectClownfish cleanup scope; quarantine for central OpenClaw security handling. |
-| #80621 | needs_human | blocked | needs_human | Maintainer/API decision needed: whether contracts.tools:true should be supported as catch-all ownership. This should not be closed as a duplicate of #77800 because it asks for a different contract semantic. |
-| #84070 | keep_related | planned | related | Related to the Active Memory embedded tool-bridge family anchored by #74586, but it has provider-path-specific evidence and should remain separate. |
-| #89215 | keep_related | planned | related | Related diagnostics sub-scope, not a true duplicate of #77800 because it does not ask to change contract ownership semantics. Keep open with #89422 as the candidate diagnostics path. |
-| #89422 | keep_related | planned | related | Keep as the candidate PR for #89215 diagnostics; do not merge or close anything in this plan-mode job. |
-| #84512 | route_security | planned | security_sensitive | Closed linked security-sensitive PR remains quarantined as central security evidence; no ProjectClownfish close, merge, or fix action. |
+| #77800 | keep_canonical | planned | canonical | Best live canonical for the non-security manifest contract gate regression family. |
+| #74586 | keep_related | planned | related | Related tool/embedded-runner surface, but not the same root cause as #77800's manifest contracts.tools gate. |
+| #78084 | route_security | planned | security_sensitive | Plugin contract wildcard semantics are marked security-sensitive in the preflight artifact and must be handled by central OpenClaw security review, not ProjectClownfish cleanup. |
+| #80621 | keep_related | planned | related | Same manifest contract area as #77800, but the boolean true catch-all semantics are a distinct product/API decision and should not be deduped into the missing-contract report. |
+| #84070 | keep_closed | skipped | related | Already closed in live preflight state; no closure action is valid. |
+| #89215 | keep_related | planned | related | Narrow diagnostic facet of #77800's broader regression, with a separate PR candidate; keep related rather than close while the PR is unmerged and merge is disabled for this job. |
+| #89422 | keep_related | planned | related | Related candidate PR for the diagnostic subcase only; do not merge or mark fixed-by-candidate in this plan. |
+| #84512 | route_security | planned | security_sensitive | Linked security-sensitive contract-boundary PR should remain quarantined to central security/API review, with no ProjectClownfish mutation. |
 
 ## Needs Human
 
-- #80621 needs a maintainer/API decision on whether contracts.tools:true should mean catch-all tool ownership; related implementation PR #84512 was closed unmerged after boundary and compatibility concerns.
+- none

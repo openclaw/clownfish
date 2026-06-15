@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-764-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519045166",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519045166",
+  "head_sha": "30afd4b1d5fd5919294bee21d7dd4b30ef87b468",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:40:05Z",
+  "workflow_updated_at": "2026-06-15T01:41:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-764-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:20:44.658Z",
+  "canonical": "#79731",
+  "canonical_issue": "#79731",
+  "canonical_pr": "#82587",
+  "summary": "Plan-mode classification only. #79731 remains the live canonical issue for the Minimax portal catalog OAuth marker bug; #82587 is the active related implementation candidate but is not merge-ready or merge-allowed in this job. Linked #77467 tracks a related but distinct expired-token refresh hook bug, and closed #79787 is historical evidence only.",
+  "actions": [
+    {
+      "target": "#77467",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79731",
+      "candidate_fix": null,
+      "reason": "Keep as related rather than duplicate: #77467 is an expired-token refresh implementation gap, while #79731/#82587 cover request-time catalog marker resolution."
+    },
+    {
+      "target": "#79731",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79731",
+      "candidate_fix": "#82587",
+      "reason": "#79731 is still the best live canonical for the catalog-marker OAuth resolution bug."
+    },
+    {
+      "target": "#79787",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#79731",
+      "candidate_fix": "#82587",
+      "reason": "Already closed historical PR; keep only as evidence and do not mutate."
+    },
+    {
+      "target": "#82587",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79731",
+      "candidate_fix": null,
+      "reason": "Keep as the active related implementation candidate for #79731, but do not recommend merge in this plan because merge is blocked by job policy and missing merge preflight/review-readiness proof."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_canonical": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

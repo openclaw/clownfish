@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-1000-plan-wave-20260615-b"
 mode: "plan"
-run_id: "27519843700"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519843700"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27519022767"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27519022767"
+head_sha: "338bbf890abe3cef8556d4805a60077caabb6622"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:10:12.703Z"
+published_at: "2026-06-15T02:20:44.646Z"
 canonical: "#70906"
 canonical_issue: null
 canonical_pr: "#70906"
-actions_total: 3
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519843700](https://github.com/openclaw/clownfish/actions/runs/27519843700)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27519022767](https://github.com/openclaw/clownfish/actions/runs/27519022767)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #70906
 
 ## Summary
 
-Plan-mode classification only. #70906 remains the canonical open PR for native compaction hook documentation. #70907 is related but not a duplicate because it covers a separate native model lifecycle hook contract with unresolved upstream accuracy concerns. Hydrated linked #19182 is already closed and unrelated to this docs cluster.
+Plan-only classification: keep #70906 as the canonical compaction-hooks docs PR for this cluster, and keep #70907 related rather than closing it because it covers model lifecycle hooks with a different upstream contract risk. No GitHub mutations are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,9 +66,8 @@ Plan-mode classification only. #70906 remains the canonical open PR for native c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #70906 | keep_canonical | planned | canonical | Best surviving cluster representative for the compaction hook documentation root cause. |
-| #70907 | keep_related | planned | related | Same documentation area and Codex hook family, but materially different hook lifecycle scope and upstream contract status. |
-| #19182 | keep_closed | skipped |  | Already closed linked context ref and unrelated to this cluster's docs-hook root causes. |
+| #70906 | keep_canonical | planned | canonical | #70906 is the best surviving canonical for the compaction-hook docs subcluster, but it is not merge-ready and merge is blocked by job frontmatter. |
+| #70907 | keep_related | planned | related | Related documentation area, but not a true duplicate of #70906 because the hook lifecycle and upstream contract risk are different. |
 
 ## Needs Human
 

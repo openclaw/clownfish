@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-835-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519074481",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519074481",
+  "head_sha": "de7a4a9553b0a32003b8f88f0a5f7a5512c403ce",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:41:08Z",
+  "workflow_updated_at": "2026-06-15T01:42:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-835-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:20:44.674Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The representative issue #75634 and candidate PR #75732 are both already closed in the hydrated preflight state, so no closure or merge action is available. No open live canonical remains in this cluster. The linked Rastermill PR #86923 is hydrated as security-sensitive and should be routed to central security handling only; its landed state is evidence that the old Sharp/libvips path is obsolete, but it is not a ProjectClownfish mutation target.",
+  "actions": [
+    {
+      "target": "#75634",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#86923",
+      "reason": "Already closed; no open issue remains to keep as canonical or close as duplicate."
+    },
+    {
+      "target": "#75732",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#86923",
+      "reason": "Already closed and superseded by the landed Rastermill path; no mutation is valid."
+    },
+    {
+      "target": "#86923",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish cleanup scope and must be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

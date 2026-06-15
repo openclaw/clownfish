@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-490-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518859273",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518859273",
+  "head_sha": "2c50056214b457163d46a7db5296599ebeec1ecd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:33:39Z",
+  "workflow_updated_at": "2026-06-15T01:36:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-490-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.605Z",
+  "canonical": "#86572",
+  "canonical_issue": "#86572",
+  "canonical_pr": "#86584",
+  "summary": "Plan-mode classification only. The live canonical for this cluster remains open issue #86572. Open PR #86584 is a related implementation candidate for the same embedded session-fence false-takeover family, but this job blocks merge/fix/raise_pr and lacks merge preflight, so no mutating action is planned. Linked security-sensitive ref #85341 is quarantined with a scoped route_security action only.",
+  "actions": [
+    {
+      "target": "#86572",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#86572",
+      "candidate_fix": "#86584",
+      "reason": "#86572 is the best live canonical issue for the root cause represented by this job. It should stay open for validation and follow-up."
+    },
+    {
+      "target": "#86584",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86572",
+      "candidate_fix": "#86584",
+      "reason": "#86584 is a useful open implementation candidate related to #86572, but this plan-mode job cannot merge it or close the issue as fixed by it."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

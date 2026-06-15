@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-570-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516857512"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516857512"
-head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
+run_id: "27518879337"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518879337"
+head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:23:41.182Z"
+published_at: "2026-06-15T02:20:44.614Z"
 canonical: "#49944"
 canonical_issue: "#49944"
-canonical_pr: "#74398"
+canonical_pr: null
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516857512](https://github.com/openclaw/clownfish/actions/runs/27516857512)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518879337](https://github.com/openclaw/clownfish/actions/runs/27518879337)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #49944
 
 ## Summary
 
-Plan-only classification: #49944 remains the live canonical issue for the Control UI verbose-default tool-card expansion bug. #74398 is the current focused canonical PR path for that issue, but no merge or fix action is planned because this job blocks merge/fix/raise_pr and the hydrated ClawSweeper review still calls out pre-merge cleanup. #50034 is already closed historical context and should not receive a mutation.
+Plan-mode classification only. #49944 remains the canonical open issue for the Control UI verbose-default tool-card expansion bug. #74398 is the active related fix PR for that canonical issue, but it is not merge-ready in this job because merge/fix actions are blocked and the hydrated ClawSweeper review still asks for a changelog cleanup before merge.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification: #49944 remains the live canonical issue for the Contro
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49944 | keep_canonical | planned | canonical | The representative issue is still open and remains the best canonical issue for the root user-visible failure; keep it open until the candidate fix path lands and is validated. |
-| #74398 | keep_canonical | planned | canonical | This is the best open focused PR for the canonical issue, but it is not merge-planned in this read-only job because merge/fix are blocked and the hydrated review still has a pre-merge cleanup item. |
-| #50034 | keep_closed | skipped | superseded | Already-closed historical PRs must not receive close actions; keep #50034 closed as superseded context for the active #74398 fix path. |
+| #49944 | keep_canonical | planned | canonical | The representative is still open and remains the best live canonical for this cluster. |
+| #74398 | keep_related | planned | related | The PR is the live fix path for the canonical issue, but merge/fix actions are unavailable and a hydrated review blocker remains. |
+| #50034 | keep_closed | skipped | superseded | Already closed linked context; included only to document that no close action is valid. |
 
 ## Needs Human
 

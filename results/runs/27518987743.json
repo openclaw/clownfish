@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-78-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518987743",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518987743",
+  "head_sha": "5f0d847a71c3dea47310d39983b78bf3c89b3330",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:37:58Z",
+  "workflow_updated_at": "2026-06-15T01:39:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-78-plan-ramp.md",
+  "published_at": "2026-06-15T02:20:44.644Z",
+  "canonical": "#92341",
+  "canonical_issue": null,
+  "canonical_pr": "#92341",
+  "summary": "Read-only plan for six open hydrated refs. #92341 remains the best live canonical for the CJK textScore and empty-MATCH fallback lane. #92524 should be kept as a separate useful candidate for the #92337 keyword-only hybrid-results lane. No security-sensitive item was detected; no merge or fix PR is planned because the job blocks merge/fix/raise_pr.",
+  "actions": [
+    {
+      "target": "#92061",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92341",
+      "candidate_fix": "#92341",
+      "reason": "Same bug family as #92341, but closeout should wait for the canonical PR path to clear review or land."
+    },
+    {
+      "target": "#92164",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92341",
+      "candidate_fix": "#92341",
+      "reason": "#92164 overlaps the #92061/#92341 lane and is weaker than the hydrated canonical replacement path; preserve contributor credit in the close comment."
+    },
+    {
+      "target": "#92337",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92524",
+      "candidate_fix": "#92524",
+      "reason": "This is related to the CJK textScore family but has a distinct hybrid-result merge/minScore root cause best represented by #92524."
+    },
+    {
+      "target": "#92341",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92341",
+      "candidate_fix": "#92341",
+      "reason": "Best live canonical for the #92061/#92164 CJK textScore and empty-MATCH fallback lane, but not merge-ready in this worker result."
+    },
+    {
+      "target": "#92524",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92524",
+      "candidate_fix": "#92524",
+      "reason": "Keep as the clearest candidate for the distinct #92337 hybrid-results root cause; merge is blocked by job mode/actions, not by classification."
+    },
+    {
+      "target": "#92728",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92341",
+      "candidate_fix": null,
+      "reason": "Related CJK fallback work, but not a duplicate of #92341 until split-term fallback behavior is explicitly included and validated."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "close_superseded": 1,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

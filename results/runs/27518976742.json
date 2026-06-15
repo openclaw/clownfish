@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-69-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518976742",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518976742",
+  "head_sha": "83090f0f13076b45300853ade18ac0d08711d2a4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:37:33Z",
+  "workflow_updated_at": "2026-06-15T01:39:23Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-69-plan-ramp.md",
+  "published_at": "2026-06-15T02:20:44.638Z",
+  "canonical": "#90975",
+  "canonical_issue": "#84527",
+  "canonical_pr": "#90975",
+  "summary": "Canonical choice is clear: #90975 is the best live canonical PR for the Antigravity CLI backend request in #84527. No GitHub mutations are planned in this read-only run. The cluster also contains separate plugin-SDK product/API decisions (#91282, #91295) and stacked follow-up PRs (#91473, #91474, #91477) that should stay open and separate until their blockers clear.",
+  "actions": [
+    {
+      "target": "#84527",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90975",
+      "candidate_fix": "#90975",
+      "reason": "Keep the issue open as the canonical request thread paired with #90975; do not close before the candidate PR lands and validation completes."
+    },
+    {
+      "target": "#90975",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90975",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical for the core backend feature; no merge action is available or safe in this plan-only job."
+    },
+    {
+      "target": "#91282",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#91282",
+      "candidate_fix": "#91477",
+      "reason": "Maintainer product/API decision is required before this public plugin SDK shape should be implemented or closed."
+    },
+    {
+      "target": "#91295",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#91295",
+      "candidate_fix": null,
+      "reason": "This is related to Antigravity text-output limitations but is a distinct public plugin SDK API decision requiring maintainer direction."
+    },
+    {
+      "target": "#91473",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90975",
+      "candidate_fix": "#91473",
+      "reason": "Related follow-up to the canonical backend PR, but not a duplicate and not merge-ready; keep it separate from #90975 closeout."
+    },
+    {
+      "target": "#91474",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90975",
+      "candidate_fix": "#91474",
+      "reason": "Related stacked follow-up that depends on #90975 but has a distinct root cause; keep open and do not merge or close in this plan-only run."
+    },
+    {
+      "target": "#91477",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91282",
+      "candidate_fix": "#91477",
+      "reason": "Keep as related implementation work for #91282; draft state, product-decision dependency, and failed proof block any merge or fixed-by closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91282 requires maintainer approval for the public `CliBackendPlugin.estimateUsage` API shape before #91477 can proceed.",
+    "#91295 requires maintainer approval for the separate `CliBackendPlugin.transformAssistantText` API shape."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

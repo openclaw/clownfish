@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-495-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518860945",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518860945",
+  "head_sha": "2c50056214b457163d46a7db5296599ebeec1ecd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:33:43Z",
+  "workflow_updated_at": "2026-06-15T01:34:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-495-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:20:44.606Z",
+  "canonical": "#47586",
+  "canonical_issue": "#47586",
+  "canonical_pr": "#47589",
+  "summary": "Plan only: keep #47586 as the live canonical issue. Keep #47589 as the related implementation PR, but do not merge or close anything because the PR has a failing Real behavior proof check, needs update against current main, and merge/fix actions are blocked by the job. Keep #52972 related but separate because it tracks cron-success suppression, not memory-statement false positives. #37239 is already closed historical context.",
+  "actions": [
+    {
+      "target": "#47586",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#47586",
+      "candidate_fix": "#47589",
+      "reason": "Best live canonical for the cluster root cause; no closure or merge is allowed in plan mode."
+    },
+    {
+      "target": "#47589",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47586",
+      "candidate_fix": "#47589",
+      "reason": "This is the linked implementation candidate for #47586, but failing proof and stale-base guidance block merge/fixed-by-candidate closeout."
+    },
+    {
+      "target": "#37239",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#47586",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#52972",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47586",
+      "candidate_fix": null,
+      "reason": "Related reminder-note symptom family, but not a duplicate of #47586 and should stay in its own fix lane."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

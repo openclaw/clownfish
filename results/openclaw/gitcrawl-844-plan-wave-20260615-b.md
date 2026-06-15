@@ -1,0 +1,74 @@
+---
+repo: "openclaw/openclaw"
+cluster_id: "gitcrawl-844-plan-wave-20260615-b"
+mode: "plan"
+run_id: "27519079433"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27519079433"
+head_sha: "de7a4a9553b0a32003b8f88f0a5f7a5512c403ce"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-06-15T02:20:44.676Z"
+canonical: "#74070"
+canonical_issue: "#74070"
+canonical_pr: null
+actions_total: 2
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
+apply_executed: 0
+apply_blocked: 0
+apply_skipped: 0
+needs_human_count: 0
+---
+
+# gitcrawl-844-plan-wave-20260615-b
+
+Repo: openclaw/openclaw
+
+Run: [https://github.com/openclaw/clownfish/actions/runs/27519079433](https://github.com/openclaw/clownfish/actions/runs/27519079433)
+
+Workflow conclusion: success
+
+Worker result: planned
+
+Canonical: #74070
+
+## Summary
+
+Plan-only classification: #74070 remains the live canonical issue for the ACP background-task terminalSummary/progressSummary bug. #74103 is already closed unmerged and should not receive any closure action; its useful contribution remains evidence for the canonical issue and any future credited fix path.
+
+## Impact
+
+| Metric | Count |
+| --- | ---: |
+| Worker actions | 2 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
+| Applied executions | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
+| Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Apply Actions
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Worker Action Matrix
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| #74070 | keep_canonical | planned | canonical | #74070 is the only open surviving item and still tracks the unresolved root cause after the direct PR was closed unmerged. |
+| #74103 | keep_closed | skipped | superseded | Already closed PRs must not receive close actions. Keep #74103 closed as historical contributor evidence while #74070 remains the canonical tracking issue. |
+
+## Needs Human
+
+- none
