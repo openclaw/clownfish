@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-99-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525257914",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525257914",
+  "head_sha": "7e8d64b08fc9bc1037152edd70bbaba43d1a8d8f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:06:26Z",
+  "workflow_updated_at": "2026-06-15T05:08:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-99-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:09:22.558Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan classification completed from the hydrated preflight artifact. The remaining open actionable refs split into multiple roots: #9835 is a Telegram prompt-guidance/product-decision tracker, #83164 is the Discord reaction-wake tracker, #83169 is explicitly marked by the job as a security-signal ref and is routed out of ProjectClownfish, and #83611 is related shared notification-wake implementation work but is not merge-ready because proof/check review is still blocked. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#9835",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#9835",
+      "candidate_fix": null,
+      "reason": "Keep #9835 open as its own canonical subcluster because it has unique Telegram prompt/config semantics and an explicit maintainer product-decision blocker."
+    },
+    {
+      "target": "#83164",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83164",
+      "candidate_fix": null,
+      "reason": "Keep #83164 as the Discord reaction-wake canonical issue; it is not a duplicate of the Telegram prompt-guidance scope in #9835."
+    },
+    {
+      "target": "#83169",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #83169 to central OpenClaw security handling per the job-specific security-signal instruction."
+    },
+    {
+      "target": "#83611",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83164",
+      "candidate_fix": null,
+      "reason": "Keep #83611 related to the reaction wake family, but do not merge or use it as fixed-by-candidate evidence because proof and review gates are not satisfied."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
