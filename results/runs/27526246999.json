@@ -1,0 +1,52 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-956-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526246999",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526246999",
+  "head_sha": "df0ecb937a5f73036ef8def5c1f076a5c228a0d6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:35:33Z",
+  "workflow_updated_at": "2026-06-15T05:36:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-956-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:37:32.193Z",
+  "canonical": "#85752",
+  "canonical_issue": "#83948",
+  "canonical_pr": "#85752",
+  "summary": "Plan-mode classification only. The hinted representative #84633 is already closed and should stay closed; the live warning-fix canonical is the already-merged #85752, not an open candidate. The only open candidate, #91156, is explicitly listed by the job as a security-signal ref and is routed to central security handling without blocking the unrelated closed warning-fix path.",
+  "actions": [
+    {
+      "target": "#84633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#85752",
+      "candidate_fix": "#85752",
+      "reason": "Already closed; preserve the existing closeout and canonicalize the warning fix to merged #85752."
+    },
+    {
+      "target": "#91156",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this exact open PR as a security-signal ref; route only this item to central security handling and do not close, merge, or label it from ProjectClownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

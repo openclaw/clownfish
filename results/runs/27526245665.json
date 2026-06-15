@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-919-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526245665",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526245665",
+  "head_sha": "df0ecb937a5f73036ef8def5c1f076a5c228a0d6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:35:31Z",
+  "workflow_updated_at": "2026-06-15T05:36:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-919-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:37:32.193Z",
+  "canonical": "#88704",
+  "canonical_issue": "#77707",
+  "canonical_pr": "#88704",
+  "summary": "Plan only. The representative issue #77707 and candidate PR #77761 are already closed in the hydrated preflight state, so no close/comment/label mutation is planned. The shipped merged fix path is #88704; #77761 is quarantined with route_security because the job explicitly lists it as a security-signal ref.",
+  "actions": [
+    {
+      "target": "#77707",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#88704",
+      "candidate_fix": "#88704",
+      "reason": "The original canonical issue is already closed as implemented; keep it closed and use the merged #88704 path as the historical fix evidence."
+    },
+    {
+      "target": "#77761",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires security-signal routing for #77761. Because it is already closed, no close or merge action is planned."
+    },
+    {
+      "target": "#77749",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#88704",
+      "candidate_fix": null,
+      "reason": "#77749 is already merged and covers a different hooks/session-memory filename collision root cause."
+    },
+    {
+      "target": "#88704",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#88704",
+      "candidate_fix": null,
+      "reason": "#88704 is the merged historical fix path for the non-security memory-core bug family; it is already closed and should be kept closed."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
