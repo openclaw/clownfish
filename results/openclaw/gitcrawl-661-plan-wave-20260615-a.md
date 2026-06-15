@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-661-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518915360"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518915360"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516906543"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516906543"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.632Z"
+published_at: "2026-06-15T02:27:57.078Z"
 canonical: "#90227"
 canonical_issue: null
 canonical_pr: "#90227"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518915360](https://github.com/openclaw/clownfish/actions/runs/27518915360)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516906543](https://github.com/openclaw/clownfish/actions/runs/27516906543)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90227
 
 ## Summary
 
-Plan-only classification: #90227 remains the canonical PR for the credentials-test Windows compatibility path. #90280 is related but distinct, covering the token resolver symlink test in a different file/scope, so it should stay open rather than be closed as duplicate or superseded.
+Plan mode classification only: keep #90227 as the live canonical PR for the Zalo credentials Windows-test compatibility work, and keep #90280 as related distinct Zalo token-resolver test work. No close, merge, fix, label, or comment mutation is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #90227 remains the canonical PR for the credentials-te
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90227 | keep_canonical | planned | canonical | Best live canonical for this cluster, but only non-mutating classification is allowed in plan mode and merge is blocked by job policy plus unresolved gates. |
-| #90280 | keep_related | planned | related | Related same-family test-platform work, not a true duplicate or superseded PR because it covers a separate token resolver test surface. |
+| #90227 | keep_canonical | planned | canonical | #90227 is still open and is the best representative for the credentials-test root cause; keep it as canonical without planning any mutation. |
+| #90280 | keep_related | planned | related | #90280 is related to the canonical family but has a distinct root scope, so it should stay open rather than be closed as a duplicate or superseded by #90227. |
 
 ## Needs Human
 

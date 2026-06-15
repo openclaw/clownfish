@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-114-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518749417",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518749417",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:29:56Z",
+  "workflow_updated_at": "2026-06-15T01:31:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-114-plan-ramp.md",
+  "published_at": "2026-06-15T02:27:57.091Z",
+  "canonical": "#89249",
+  "canonical_issue": "#89249",
+  "canonical_pr": "#89323",
+  "summary": "Plan-only classification completed from the hydrated preflight artifact. No security-sensitive refs were detected. The cluster splits into two non-security session-picker root causes: #89249 remains the canonical issue for subagent-heavy pagination/count dead-end behavior, with #89323 as the strongest hydrated fix candidate; #86183 remains a separate canonical issue for missing agentId scoping, with #86306 as its blocked fix candidate. #89283 is related CLI JSON cursor parity work and should not be treated as the canonical Control UI fix.",
+  "actions": [
+    {
+      "target": "#2",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no closure action is valid for an already-closed unrelated issue."
+    },
+    {
+      "target": "#64121",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related historical UX context, but already closed and not actionable in this plan."
+    },
+    {
+      "target": "#78983",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related historical session-picker context, but already closed and outside this plan's mutation scope."
+    },
+    {
+      "target": "#85963",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#86183",
+      "candidate_fix": "#86306",
+      "reason": "Related to the #86183 subcluster, but already closed and not eligible for a close action."
+    },
+    {
+      "target": "#86183",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#86183",
+      "candidate_fix": "#86306",
+      "reason": "Keep #86183 open as the canonical issue for the separate agentId-scoping root cause."
+    },
+    {
+      "target": "#86306",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86183",
+      "candidate_fix": "#86306",
+      "reason": "Keep as the related fix candidate for #86183, but do not merge or close anything because proof/check gates are failing and merge is blocked by the job."
+    },
+    {
+      "target": "#89249",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89249",
+      "candidate_fix": "#89323",
+      "reason": "Keep #89249 as the live canonical issue for the subagent-heavy pagination/count dead-end root cause."
+    },
+    {
+      "target": "#89283",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89249",
+      "candidate_fix": null,
+      "reason": "Related cursor/parity work, but not the canonical fix for the remaining #89249 Control UI issue and not eligible for merge or fixed-by closeout in this job."
+    },
+    {
+      "target": "#89323",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89249",
+      "candidate_fix": "#89323",
+      "reason": "Keep #89323 as the strongest hydrated fix candidate for #89249; no merge action is emitted because this plan job blocks merge and lacks merge_preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_canonical": 2,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-658-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518913396"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518913396"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516904733"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516904733"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.632Z"
+published_at: "2026-06-15T02:27:57.077Z"
 canonical: "#89868"
 canonical_issue: "#89868"
-canonical_pr: null
+canonical_pr: "#89886"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518913396](https://github.com/openclaw/clownfish/actions/runs/27518913396)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516904733](https://github.com/openclaw/clownfish/actions/runs/27516904733)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89868
 
 ## Summary
 
-Plan-only classification: #89868 remains the open canonical issue for the stop-button abort/compaction race, and #89886 is the focused related candidate fix for that same root cause. No close, merge, or fix action is planned because the job is plan mode and merge/fix/raise_pr are blocked.
+Read-only plan: #89868 remains the live canonical issue. #89886 is the narrow open fix PR for that issue, but no close, merge, or fix action is planned because this job blocks merge/fix work and has no required merge preflight. #49061 is already merged historical context only.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification: #89868 remains the open canonical issue for the stop-b
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49061 | keep_closed | skipped | superseded | Closed historical context only. |
-| #89868 | keep_canonical | planned | canonical | Best surviving canonical for the bug report and validation thread. |
-| #89886 | keep_related | planned | related | Focused candidate fix for the canonical issue, but outside this plan job's mutation permissions. |
+| #89868 | keep_canonical | planned | canonical | #89868 is the clearest open canonical report for the delegate abort-signal bridge bug and should remain open while the candidate fix path proceeds. |
+| #89886 | keep_related | planned | related | #89886 is the single narrow fix candidate for #89868, but this read-only plan should keep it open for the maintainer path instead of emitting a blocked or mutating merge action. |
+| #49061 | keep_closed | skipped | related | #49061 is useful root-cause history for the delegate bridge, but it is already merged and is not a live candidate in this cleanup plan. |
 
 ## Needs Human
 

@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-183-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518766199",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518766199",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:27Z",
+  "workflow_updated_at": "2026-06-15T01:32:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-183-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.105Z",
+  "canonical": "#48003",
+  "canonical_issue": "#48003",
+  "canonical_pr": "#73365",
+  "summary": "Plan-only classification: keep #48003 as the canonical issue for the active non-streaming steer injection bug; keep #73365 as a related but non-merge-ready fix PR because checks and review proof are not clean; keep #88058 related but split as a distinct dispatch/admission regression, with #89238 only as a linked draft fix path; route the linked security-sensitive #25592 to central security handling.",
+  "actions": [
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be quarantined without ProjectClownfish close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#48003",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "#48003 remains the best live canonical for the active non-streaming steer injection root cause."
+    },
+    {
+      "target": "#73365",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "#73365 is the relevant open fix path for #48003 but is not merge-ready and should not be closed or merged by this plan."
+    },
+    {
+      "target": "#88058",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48003",
+      "candidate_fix": "#89238",
+      "reason": "#88058 shares the busy-session steer symptom family but has distinct Control UI/dispatch admission scope, so it should not be closed as a duplicate of #48003."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

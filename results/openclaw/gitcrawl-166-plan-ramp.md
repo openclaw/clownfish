@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-166-plan-ramp"
 mode: "plan"
-run_id: "27519862487"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519862487"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518762729"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518762729"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.960Z"
+published_at: "2026-06-15T02:27:57.101Z"
 canonical: "#74378"
 canonical_issue: "#74378"
 canonical_pr: "#74425"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519862487](https://github.com/openclaw/clownfish/actions/runs/27519862487)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518762729](https://github.com/openclaw/clownfish/actions/runs/27518762729)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #74378
 
 ## Summary
 
-Plan-mode classification only. #74378 remains the best live canonical for the Windows short-lived CLI process lifecycle hang. #74425 is the linked repair PR but is not merge-ready because it is dirty and its Real behavior proof check failed. #92389 is related and likely within the same lifecycle family, but it carries useful gateway-status spawn/process-tree evidence, so it should remain open for validation. #85268 is a separate Windows exec tool stdio/deadlock symptom and should not be forced into the CLI launcher lifecycle duplicate family.
+Read-only plan: keep #74378 as the live canonical issue for the Windows short-lived CLI process lifecycle bug. Keep #74425 as the related open repair PR, but do not recommend merge or fixed-by-candidate closeout because the hydrated PR has a failing Real behavior proof check and ClawSweeper still requires native Windows npm proof. Keep #85268 and #92389 open as related Windows process-hang reports with distinct reproduction surfaces and useful remaining evidence.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-mode classification only. #74378 remains the best live canonical for the Wi
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #74378 | keep_canonical | planned | canonical | Best surviving issue for the cluster's CLI launcher lifecycle root cause. |
-| #74425 | keep_related | planned | related | The PR is the active repair path for the canonical issue, but merge is blocked by dirty state, failed behavior proof, and unresolved proof/review requirements. The job blocks merge and fix/raise_pr actions, so only non-mutating related classification is appropriate. |
-| #85268 | keep_independent | planned | independent | Same Windows hang neighborhood, but different subsystem and symptom shape: exec wrapper child process output/deadlock versus OpenClaw CLI launcher lifecycle after command completion. |
-| #92389 | keep_related | planned | related | Likely same CLI lifecycle family as #74378, but the gateway status --json subprocess/process-tree evidence is useful validation detail and the candidate fix has failing proof, so no duplicate or fixed-by-candidate closure should be planned. |
+| #74378 | keep_canonical | planned | canonical | #74378 remains the best live canonical issue for the core Windows CLI lifecycle failure. |
+| #74425 | keep_related | planned | related | #74425 is the live related repair PR for #74378, but it is not merge-ready and should not be used to close reports yet. |
+| #85268 | keep_related | planned | related | #85268 belongs in the same Windows process-hang symptom family, but its exec-wrapper, zero-output reproduction is a distinct scope and should stay open. |
+| #92389 | keep_related | planned | related | #92389 should remain open as a related report with useful Windows spawn/process-tree evidence until the canonical fix is proven. |
 
 ## Needs Human
 

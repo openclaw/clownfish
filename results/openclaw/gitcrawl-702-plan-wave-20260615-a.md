@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-702-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518981525"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518981525"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516936637"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516936637"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.640Z"
+published_at: "2026-06-15T02:27:57.084Z"
 canonical: "#89700"
 canonical_issue: "#89700"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518981525](https://github.com/openclaw/clownfish/actions/runs/27518981525)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516936637](https://github.com/openclaw/clownfish/actions/runs/27516936637)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89700
 
 ## Summary
 
-Plan-only classification for two open refs. #89700 is security-sensitive in the preflight artifact and must be routed to central security handling. #89756 is the related implementation PR for the same exec config migration, but it is not mergeable in this job because merge/fix actions are blocked and the PR has a broad compatibility-sensitive delta plus an unresolved Codex review concern.
+#89700 is open but preflight marks it security-sensitive, so it should be routed to central OpenClaw security handling. #89756 is an open non-security PR in the same exec config migration family and should be kept related; no close, merge, or fix action is planned in this read-only job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification for two open refs. #89700 is security-sensitive in the 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89700 | route_security | planned | security_sensitive | Security-sensitive issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling. |
-| #89756 | keep_related | planned | related | The PR is the related implementation path for #89700, but this plan should not merge, close, or repair it. It remains related while #89700 is quarantined and while PR-specific merge blockers remain outside this job's allowed actions. |
+| #89700 | route_security | planned | security_sensitive | The issue is explicitly security-sensitive in the live preflight artifact, so ProjectClownfish should not close, label, merge, or fix it. |
+| #89756 | keep_related | planned | related | The PR is useful related work for the routed issue, but it is not merge-ready or closable in this cluster plan because the job blocks merge/fix actions and the hydrated review evidence still contains an unresolved behavior blocker. |
 
 ## Needs Human
 

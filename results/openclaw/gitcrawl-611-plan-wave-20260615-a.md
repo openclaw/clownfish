@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-611-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518890178"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518890178"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516878190"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516878190"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.619Z"
-canonical: "#63181"
-canonical_issue: "#63181"
-canonical_pr: "#91250"
-actions_total: 5
+published_at: "2026-06-15T02:27:57.059Z"
+canonical: "https://github.com/openclaw/openclaw/issues/63181"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/63181"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/91250"
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518890178](https://github.com/openclaw/clownfish/actions/runs/27518890178)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516878190](https://github.com/openclaw/clownfish/actions/runs/27516878190)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #63181
+Canonical: https://github.com/openclaw/openclaw/issues/63181
 
 ## Summary
 
-Plan-mode classification only. #63181 remains the live canonical issue for the misleading timezone-only system prompt heading. #91250 is the linked narrow candidate fix, but merge/closeout is blocked by job policy and the failing Real behavior proof check, so no mutating action is planned.
+Keep #63181 as the live canonical issue. Keep #91250 open as the linked candidate fix path, but do not recommend merge or fixed-by-candidate closeout because the Real behavior proof check is failing and this job blocks merge/fix work. Linked issue #55935 is related prompt-time work with a different heartbeat timestamp contract scope, so keep it separate.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 5 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,11 +66,9 @@ Plan-mode classification only. #63181 remains the live canonical issue for the m
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #63181 | keep_canonical | planned | canonical | #63181 is still open, hydrated, non-security, and remains the best canonical thread for this root cause. |
-| #91250 | keep_related | planned | related | #91250 is the related candidate implementation path for #63181, but it is not mergeable in this job because merge is blocked and real behavior proof is failing. |
-| #55935 | keep_related | planned | related | #55935 is in the same prompt time-context area but has a different root cause and product scope, so it should not be closed or folded into #63181. |
-| #38782 | keep_closed | skipped | fixed_by_candidate | Already closed historical context only; no closure action is valid or needed. |
-| #63071 | keep_closed | skipped | related | Already closed historical context only; it explains why timezone-only behavior exists but is not an open duplicate candidate. |
+| #63181 | keep_canonical | planned | canonical | #63181 remains the best live canonical issue for the timezone-only prompt heading bug; no closure is appropriate before #91250 lands or is replaced. |
+| #91250 | keep_related | planned | related | #91250 should stay open as the related candidate fix for #63181, but this plan must not recommend merge or issue closeout while required proof is failing. |
+| #55935 | keep_related | planned | related | #55935 is in the same time/prompt family but has a different heartbeat timestamp contract scope, so it should remain a related follow-up rather than being folded into #63181. |
 
 ## Needs Human
 

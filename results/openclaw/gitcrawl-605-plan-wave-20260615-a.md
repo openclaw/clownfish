@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-605-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518888197"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518888197"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516865860"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516865860"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.619Z"
+published_at: "2026-06-15T02:27:57.058Z"
 canonical: "#91047"
 canonical_issue: "#91047"
 canonical_pr: "#91208"
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-605-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518888197](https://github.com/openclaw/clownfish/actions/runs/27518888197)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516865860](https://github.com/openclaw/clownfish/actions/runs/27516865860)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91047
 
 ## Summary
 
-Cluster is a single non-security bug family. #91047 remains the open canonical issue. #91208 is the only hydrated open PR and directly targets #91047, but the job blocks merge/fix actions and the PR still needs maintainer review, so no close or merge action is planned.
+Keep #91047 as the canonical issue. Keep #91208 as the related candidate fix for the same root cause; no close, merge, or fix action is planned because this job is read-only plan mode with merge/fix/raise_pr blocked and the PR still needs maintainer review before any future merge.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Cluster is a single non-security bug family. #91047 remains the open canonical i
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,9 @@ Cluster is a single non-security bug family. #91047 remains the open canonical i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91047 | keep_canonical | planned | canonical | Keep #91047 as the canonical issue because it is the open source report for the root cause and the only PR in the cluster explicitly fixes it. |
-| #91208 | keep_related | planned | related | Keep #91208 open as the related candidate fix for #91047; do not plan merge because merge is blocked by the job and maintainer review is still required. |
+| #91047 | keep_canonical | planned | canonical | The representative issue is still open, contains the root bug report, and has a hydrated open PR fix path; keep it as the canonical issue until the fix lands or maintainers choose a different path. |
+| #91208 | keep_related | planned | related | This PR is the clear candidate fix for #91047, but it should remain open for maintainer review and future merge-enabled handling rather than being merged, replaced, or closed in this plan-only job. |
 
 ## Needs Human
 
-- Maintainer review is still required to decide whether #91208's pinned session-extension registry lifecycle and cleanup behavior are acceptable for merge.
+- none

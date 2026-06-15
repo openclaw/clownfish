@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-292-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518796717",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518796717",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:31:30Z",
+  "workflow_updated_at": "2026-06-15T01:32:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-292-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.126Z",
+  "canonical": "#85537",
+  "canonical_issue": "#85537",
+  "canonical_pr": "#88487",
+  "summary": "Plan-only classification for three hydrated open refs. #85537 remains the canonical issue for the WSL protobufjs descriptor build failure. #85711 is quarantined as the artifact-listed security-sensitive item. #88487 is the focused non-security candidate fix path for #85537, but no merge/fix action is planned because the job blocks merge/fix/raise_pr and the PR is still draft without merge preflight.",
+  "actions": [
+    {
+      "target": "#85537",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85537",
+      "candidate_fix": "#88487",
+      "reason": "Keep #85537 as the canonical issue because it is the open root report with the clearest reproduction and remains the best live canonical for the non-security build failure."
+    },
+    {
+      "target": "#85711",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #85711 to central OpenClaw security handling because the live preflight artifact marks this exact PR security-sensitive."
+    },
+    {
+      "target": "#88487",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85537",
+      "candidate_fix": "#88487",
+      "reason": "Keep #88487 related as the focused candidate fix for #85537, but do not plan merge or repair because the PR is draft and this plan-mode job does not allow merge or fix actions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

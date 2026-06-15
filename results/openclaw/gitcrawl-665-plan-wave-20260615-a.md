@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-665-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518916454"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518916454"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516907375"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516907375"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T02:20:44.632Z"
+result_status: "needs_human"
+published_at: "2026-06-15T02:27:57.078Z"
 canonical: "#73432"
 canonical_issue: "#73432"
 canonical_pr: null
@@ -25,17 +25,17 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518916454](https://github.com/openclaw/clownfish/actions/runs/27518916454)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516907375](https://github.com/openclaw/clownfish/actions/runs/27516907375)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: #73432
 
 ## Summary
 
-Plan-only classification: #73432 remains the live canonical issue for the QMD embedInterval/searchMode behavior question. #73512 is a closed, unmerged contributor PR touching the same root cause, but the preflight artifact marks it security-sensitive and it must be routed to central OpenClaw security handling rather than ProjectClownfish cleanup or merge handling.
+Canonical remains open issue #73432 for the QMD embedInterval scheduling report. No close, merge, or fix action is safe in this plan: #73432 still needs a maintainer product decision on lexical search-mode embedding semantics, and #73512 is already closed plus marked security-sensitive in the preflight artifact, so it is quarantined only.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification: #73432 remains the live canonical issue for the QMD em
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #73432 | keep_canonical | planned | canonical | #73432 is the only open non-security item and remains the best live canonical thread. Maintainer product judgment is still needed on whether explicit embedInterval should override lexical search-mode embedding-free behavior. |
-| #73512 | route_security | planned | security_sensitive | Security-sensitive PRs are out of scope for ProjectClownfish mutation. Route only #73512 to central OpenClaw security handling and continue keeping the non-security canonical issue classified separately. |
+| #73432 | keep_canonical | planned | canonical | Best live canonical for the cluster, but it should stay open until maintainers decide whether explicit embedInterval should override the lexical search-mode contract. |
+| #73512 | route_security | skipped | security_sensitive | Closed security-sensitive PR is historical evidence only for this cluster; route the exact ref to central OpenClaw security handling and continue treating #73432 as the non-security canonical issue. |
 
 ## Needs Human
 
-- Maintainers need to decide the product contract for #73432: keep lexical search mode embedding-free and document/use the query/vsearch workaround, or treat explicit embedInterval as an opt-in to schedule qmd embedding and update source, docs, and tests together.
+- #73432 requires maintainer product judgment: decide whether an explicit memory.qmd.update.embedInterval should schedule QMD embedding even when searchMode is omitted/default lexical search, or whether the documented query/vsearch workaround is the intended contract.

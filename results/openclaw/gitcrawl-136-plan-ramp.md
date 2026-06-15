@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-136-plan-ramp"
 mode: "plan"
-run_id: "27519855641"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519855641"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518757439"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518757439"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.958Z"
+published_at: "2026-06-15T02:27:57.098Z"
 canonical: "#80499"
 canonical_issue: null
 canonical_pr: "#80499"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519855641](https://github.com/openclaw/clownfish/actions/runs/27519855641)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518757439](https://github.com/openclaw/clownfish/actions/runs/27518757439)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80499
 
 ## Summary
 
-Plan-mode classification only. #80499 remains the best live canonical family for Claude ACP config-control cleanup, but it is not merge-ready because it is dirty and has an unresolved Codex review finding. #84916 and #90968 are overlapping ACP config-control PRs that should stay related rather than be closed in this run. #91479 is a separate ACP timeout summary fix and should be kept independent. Already-closed linked refs #87404 and #89685 are historical context only.
+Read-only plan: #80499 remains the best live canonical for the Claude ACP config-control family. The other open PRs are not safe duplicate closeouts in this job: #84916 is a draft timeout-only/broader ACP config attempt with failing real-behavior proof, #90968 is a related but broader control-plane/startup-options implementation, and #91479 is a separate timeout-summary bug. Closed linked refs are historical evidence only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Plan-mode classification only. #80499 remains the best live canonical family for
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80499 | keep_canonical | planned | canonical | Best surviving canonical for the cluster root cause, but only as canonical classification; merge is blocked and merge is not allowed by the job. |
-| #84916 | keep_related | planned | related | Related overlapping timeout-control work, but not a true duplicate closeout target in this run because it is a draft with failing proof and a distinct control-plane/spawn surface. |
-| #90968 | keep_related | planned | related | Same symptom family but a broader and different implementation surface; keep related instead of forcing duplicate/superseded closure. |
-| #91479 | keep_independent | planned | independent | Different ACP timeout outcome/root cause; should not be deduped into the Claude ACP config-control canonical family. |
-| #87404 | keep_closed | skipped | superseded | Already closed before this run; included only because it was hydrated as linked context. |
-| #89685 | keep_closed | skipped | related | Already closed before this run; no planned mutation. |
+| #80499 | keep_canonical | planned | canonical | Best surviving canonical for the core Claude ACP config-control failure, but this plan mode job cannot merge or repair it. |
+| #84916 | keep_related | planned | related | Related timeout-config work, but draft state, failing proof, uneditable branch, and non-identical scope make closure unsafe here. |
+| #90968 | keep_related | planned | related | Related alternative/broader implementation for the same symptom family; not a duplicate closeout and merge is blocked by job policy and proof/review state. |
+| #91479 | keep_independent | planned | independent | Separate ACP timeout-summary bug; should not be closed or folded into the Claude ACP config-controls canonical path. |
+| #87404 | keep_closed | skipped | independent | Already closed historical context only. |
+| #89685 | keep_closed | skipped | related | Already closed related context only. |
 
 ## Needs Human
 

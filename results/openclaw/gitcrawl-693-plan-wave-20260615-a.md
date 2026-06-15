@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-693-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518978389"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518978389"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516932272"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516932272"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.638Z"
+published_at: "2026-06-15T02:27:57.083Z"
 canonical: "#74732"
 canonical_issue: "#74732"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518978389](https://github.com/openclaw/clownfish/actions/runs/27518978389)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516932272](https://github.com/openclaw/clownfish/actions/runs/27516932272)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #74732
 
 ## Summary
 
-Plan mode only. #74732 remains the open canonical issue for the oMLX memorySearch documentation/product decision. #74761 is an open PR in the same thread, but the preflight artifact marks it security-sensitive, so it is quarantined with route_security and no close, merge, or fix action is planned.
+Plan-only classification complete for hydrated cluster refs. #74732 remains the open non-security canonical issue. #74761 is quarantined with a scoped route_security action per the preflight artifact, with no close, merge, comment, label, or fix action planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan mode only. #74732 remains the open canonical issue for the oMLX memorySearc
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #74732 | keep_canonical | planned | canonical | #74732 is the only non-security open issue in the hydrated cluster and remains the canonical discussion for the oMLX memorySearch docs/product decision. |
-| #74761 | route_security | planned | security_sensitive | #74761 must be routed to central OpenClaw security handling and kept out of Clownfish close/merge/fix automation for this cluster. |
+| #74732 | keep_canonical | planned | canonical | #74732 is the only hydrated open non-security issue for the docs/provider request and remains the best canonical thread; plan mode and blocked fix/merge actions mean no mutation is planned. |
+| #74761 | route_security | planned | security_sensitive | #74761 is the exact hydrated security-sensitive ref for this cluster; central security-only policy requires a scoped non-mutating route_security action and no ProjectClownfish close, merge, comment, label, or fix action. |
 
 ## Needs Human
 

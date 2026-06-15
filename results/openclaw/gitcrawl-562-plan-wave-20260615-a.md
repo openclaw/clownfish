@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-562-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518874128"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518874128"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516852994"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516852994"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.611Z"
+published_at: "2026-06-15T02:27:57.048Z"
 canonical: "#91505"
 canonical_issue: "#91505"
 canonical_pr: "#91600"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518874128](https://github.com/openclaw/clownfish/actions/runs/27518874128)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516852994](https://github.com/openclaw/clownfish/actions/runs/27516852994)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91505
 
 ## Summary
 
-Plan-only classification: #91505 remains the open canonical issue for the stale app-agent diagnostic transcript failure. #91600 is a related open contributor PR that appears to target #91505, but merge/close/fix actions are out of scope for this job and merge readiness still depends on maintainer review plus compatibility acceptance for the diagnostic state change.
+Plan-mode classification only. #91505 remains the live canonical issue for the stale app-agent diagnostic transcript/root-cause family, and #91600 is the canonical contributor PR candidate for that issue. No close, merge, fix PR, or label action is planned; merge/fixed-by-candidate closeout remains blocked by job permissions and missing merge preflight.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #91505 remains the open canonical issue for the stale 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91505 | keep_canonical | planned | canonical |  |
-| #91600 | keep_related | planned | related | Keep #91600 associated with #91505 as the active contributor fix candidate; do not merge or close in this plan-only job. |
+| #91505 | keep_canonical | planned | canonical | The representative issue is still open and remains the clearest canonical tracker for the root cause. Keep it open; do not close it before the candidate fix lands and validates. |
+| #91600 | keep_canonical | planned | canonical | #91600 is the canonical PR candidate for #91505, but this plan-mode job cannot merge or repair it, and the hydrated review still leaves maintainer-review and merge-preflight gates open. |
 
 ## Needs Human
 

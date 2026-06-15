@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-184-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519868773"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519868773"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518766871"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518766871"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.965Z"
+published_at: "2026-06-15T02:27:57.106Z"
 canonical: "#90943"
-canonical_issue: null
+canonical_issue: "#90044"
 canonical_pr: "#90943"
 actions_total: 3
 fix_executed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519868773](https://github.com/openclaw/clownfish/actions/runs/27519868773)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518766871](https://github.com/openclaw/clownfish/actions/runs/27518766871)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90943
 
 ## Summary
 
-Hydrated live state shows the original representative #90045 is closed and superseded by the merged #90943 fix. All listed candidates are already closed, so no close/comment/label mutations are planned.
+All job-listed candidates are already closed in the hydrated preflight state. The original representative #90045 is no longer the live canonical because it was superseded; #90943 is the landed canonical fix path, merged as c67dc59b02b09fd2876011e871279970ce987fa0. No close, label, comment, merge, or fix action is planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Hydrated live state shows the original representative #90045 is closed and super
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90044 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; closure action is invalid, but the item is clearly covered by the landed #90943 fix. |
-| #90045 | keep_closed | skipped | superseded | Representative #90045 is no longer the live canonical; it is a closed, unmerged PR superseded by the landed #90943 repair. |
-| #90943 | keep_closed | skipped | canonical | #90943 is the best canonical fix path for this cluster, but it is already merged and closed, so no mutation is needed. |
+| #90044 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by landed candidate #90943. |
+| #90045 | keep_closed | skipped | superseded | The hinted canonical is closed and superseded by the landed #90943 fix path. |
+| #90943 | keep_closed | skipped | canonical | #90943 is the landed canonical fix path, but it is already merged and closed, so no mutation is planned. |
 
 ## Needs Human
 

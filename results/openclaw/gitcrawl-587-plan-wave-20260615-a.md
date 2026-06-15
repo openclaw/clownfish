@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-587-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518884511"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518884511"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516861634"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516861634"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.617Z"
+published_at: "2026-06-15T02:27:57.057Z"
 canonical: "#91154"
 canonical_issue: "#91154"
-canonical_pr: null
+canonical_pr: "#91828"
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518884511](https://github.com/openclaw/clownfish/actions/runs/27518884511)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516861634](https://github.com/openclaw/clownfish/actions/runs/27516861634)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91154
 
 ## Summary
 
-Plan-mode classification only. #91154 remains the best live canonical for the combined memory-wiki path-mismatch and bridge import coalescing/performance report. #91828 is a useful related contributor PR for that canonical path, but merge/fix actions are blocked by the job scope and the hydrated review still calls for maintainer review before merge. Linked #85876 remains related but narrower; closed linked refs are historical evidence only.
+Plan-only classification: #91154 remains the canonical issue, #91828 is the best hydrated PR candidate for that canonical family but is not merge-planned here, #85876 stays related, and closed linked refs stay historical context only. No close, label, merge, fix, or PR-creation action is planned.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan-mode classification only. #91154 remains the best live canonical for the co
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91154 | keep_canonical | planned | canonical | Keep #91154 open as the canonical issue because it covers both the reliability race and the import coalescing/performance problem; no close or fix mutation is allowed in this plan job. |
-| #91828 | keep_related | planned | related | Keep the PR related to the canonical issue as the current candidate fix path, but do not recommend merge in this cluster plan because merge is blocked by job scope and maintainer review remains required. |
-| #85876 | keep_related | planned | related | Keep #85876 open as a related narrower report rather than forcing a duplicate close; it shares the path-mismatch family but has distinct event-loop pressure context and does not cover the full canonical scope. |
-| #65088 | keep_closed | skipped | related | Already closed historical context only; no closure action is valid for this ref. |
-| #83740 | keep_closed | skipped | related | Already closed historical context only; no closure action is valid for this ref. |
+| #65088 | keep_closed | skipped | independent | Already closed historical context; no ProjectClownfish closure action is valid or needed. |
+| #83740 | keep_closed | skipped | related | Already closed related context; do not emit closure actions for closed refs. |
+| #85876 | keep_related | planned | related | Related narrower subcase with unique load/event-loop/UI reproduction details; keep it open rather than forcing a duplicate closeout. |
+| #91154 | keep_canonical | planned | canonical | Best live canonical issue; keep open for maintainer review and validation through the candidate PR path. |
+| #91828 | keep_canonical | planned | canonical | Best surviving PR candidate for the canonical issue family, but merge is blocked by job frontmatter and missing merge preflight/maintainer review. |
 
 ## Needs Human
 

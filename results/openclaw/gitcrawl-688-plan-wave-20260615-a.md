@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-688-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518975269"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518975269"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516915831"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516915831"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.637Z"
+published_at: "2026-06-15T02:27:57.082Z"
 canonical: "#89982"
 canonical_issue: null
 canonical_pr: "#89982"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518975269](https://github.com/openclaw/clownfish/actions/runs/27518975269)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516915831](https://github.com/openclaw/clownfish/actions/runs/27516915831)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89982
 
 ## Summary
 
-Plan only. #89982 remains the live canonical PR for the original tools-manager/resource-loader log-level cleanup. #90990 is a related follow-up in the same subsystem and pattern, but it touches a distinct file and should not be closed as a duplicate or superseded in this cluster.
+Plan mode classification only. #89982 remains the live canonical PR for the log-level cleanup family. #90990 is related follow-up work in a different file, not a duplicate or superseding candidate; no closure, merge, label, comment, or fix action is planned.
 
 ## Impact
 

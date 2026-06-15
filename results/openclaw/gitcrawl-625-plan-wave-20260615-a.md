@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-625-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518899109"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518899109"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516887925"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516887925"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.624Z"
+published_at: "2026-06-15T02:27:57.064Z"
 canonical: "#90755"
 canonical_issue: "#90755"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518899109](https://github.com/openclaw/clownfish/actions/runs/27518899109)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516887925](https://github.com/openclaw/clownfish/actions/runs/27516887925)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90755
 
 ## Summary
 
-Plan-mode classification only. #90755 remains the open canonical issue for the reconnect/in-flight assistant response bug. #90832 is related to the same symptom family but is not a merge or fixed-by-candidate path because the hydrated review says it changes the HTTP history surface while the Control UI reload path uses JSON-RPC chat.history, and its Real behavior proof check is failing.
+#90755 remains the live canonical issue for the reconnect/in-progress response loss. #90832 is related to #90755 but is not merge-ready or a fixed-by closeout path because the hydrated ClawSweeper review says it changes the HTTP history path while the browser reload path uses JSON-RPC chat.history, and its Real behavior proof check is failing.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #90755 remains the open canonical issue for the r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90755 | keep_canonical | planned | canonical | Best surviving canonical remains the open issue because it describes the actual Control UI reconnect failure and has unresolved implementation guidance. |
-| #90832 | keep_related | planned | related | The PR is related to the canonical bug and may contain useful gateway work, but it is not a proven fix for the Control UI reconnect path and cannot be treated as merge-ready or as fixing #90755. |
+| #90755 | keep_canonical | planned | canonical | Best surviving canonical for the user-visible reconnect/session-state bug; keep open for the remaining Control UI recovery work. |
+| #90832 | keep_related | planned | related | Related contributor PR for the canonical bug, but not a duplicate, not low-signal, and not safe to merge or use as the fixed-by path in this plan run. |
 
 ## Needs Human
 

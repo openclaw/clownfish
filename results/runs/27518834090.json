@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-421-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518834090",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518834090",
+  "head_sha": "2c50056214b457163d46a7db5296599ebeec1ecd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:47Z",
+  "workflow_updated_at": "2026-06-15T01:33:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-421-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.148Z",
+  "canonical": "#36212",
+  "canonical_issue": "#36212",
+  "canonical_pr": null,
+  "summary": "Canonical issue #36212 remains the issue-thread anchor, but the hydrated artifact shows the underlying queue metadata bug is now covered by merged PR #90943 on main. Open PR #91272 is a narrow contributor fix for the same root cause, but it is now redundant, dirty against main, and has failing real-behavior proof, so it should not be merged from this cluster.",
+  "actions": [
+    {
+      "target": "#36212",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#36212",
+      "candidate_fix": "#90943",
+      "reason": "Keep #36212 as the canonical issue thread because it is the clearest issue report and live open anchor; do not close it from this plan because post-merge closeout is disabled."
+    },
+    {
+      "target": "#90943",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#36212",
+      "candidate_fix": "#90943",
+      "reason": "Historical merged fix evidence only; no mutation is applicable to an already merged PR."
+    },
+    {
+      "target": "#91272",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#36212",
+      "candidate_fix": "#90943",
+      "reason": "Superseded by merged #90943 on current main; closure is planned rather than executed and must be re-fetched by the applicator before any comment/close mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

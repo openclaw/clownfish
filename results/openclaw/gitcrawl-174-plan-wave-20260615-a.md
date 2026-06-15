@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-174-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519866349"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519866349"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518765492"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518765492"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.962Z"
+published_at: "2026-06-15T02:27:57.103Z"
 canonical: "#72021"
 canonical_issue: "#72021"
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-174-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519866349](https://github.com/openclaw/clownfish/actions/runs/27519866349)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518765492](https://github.com/openclaw/clownfish/actions/runs/27518765492)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #72021
 
 ## Summary
 
-Plan-mode classification only. The hinted canonical PR #74114 is already closed, so the live canonical should move to open issue #72021 for the memory-core promotion gate/signal-contract bug. The annotation PRs #87589 and #87590 are related follow-up work, not safe duplicate closeouts in this run. The linked security-sensitive issue #67363 is quarantined only for central security handling.
+Plan-mode classification only. The original representative #74114 is already closed unmerged, so the live canonical for the recallCount/signalCount promotion-gate bug should be #72021. The annotation PRs #87589 and #87590 are related but not duplicates of the gate-semantics bug; #87590 appears to be the stronger annotation candidate, while #87589 remains blocked by failed proof. Linked security-sensitive #67363 is quarantined to central security handling.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification only. The hinted canonical PR #74114 is already closed,
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,13 +66,13 @@ Plan-mode classification only. The hinted canonical PR #74114 is already closed,
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #67363 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish cleanup scope and should be routed centrally without blocking unrelated non-security classification. |
-| #72021 | keep_canonical | planned | canonical | This open issue is the best surviving canonical thread for the gate semantics/product decision after the representative PR closed. |
-| #74114 | keep_closed | skipped | superseded | Historical useful source PR, but already closed and not the live canonical. Keep credit/evidence attached to #72021. |
-| #87588 | keep_closed | skipped | duplicate | Already-closed related duplicate context; no action beyond preserving the canonical mapping to #72021. |
-| #87589 | keep_related | planned | related | Same memory-core promotion family, but a narrower annotation PR with failing proof. Keep related rather than closing or merging. |
-| #87590 | keep_related | planned | related | Related annotation follow-up with proof and tests, but dirty merge state and incomplete review block any merge/fixed-by-candidate recommendation in this plan. |
+| #67363 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling. |
+| #72021 | keep_canonical | planned | canonical | The open issue is the surviving canonical for the root-cause decision after the representative PR closed unmerged. |
+| #74114 | keep_closed | skipped | superseded | Already closed unmerged; no further closure action is valid. The canonical discussion remains #72021. |
+| #87588 | keep_closed | skipped | duplicate | Already closed as part of the same canonical family; no mutation is valid. |
+| #87589 | keep_related | planned | related | Related annotation fix with overlapping scope and failed proof; keep it out of the gate-bug closeout. |
+| #87590 | keep_related | planned | related | Strong related annotation PR, but not the canonical fix for the gate-semantics issue and not merge-ready under this plan-mode job. |
 
 ## Needs Human
 
-- Maintainer product decision remains needed on #72021 for the intended memory-core promotion signal contract: whether minRecallCount should gate only recallCount or aggregate signalCount/dailyCount/groundedCount, and how tests/docs should reflect that.
+- none

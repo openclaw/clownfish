@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-219-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516704652"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516704652"
-head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
+run_id: "27518775120"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518775120"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:18:18.625Z"
+published_at: "2026-06-15T02:27:57.111Z"
 canonical: "#88551"
 canonical_issue: null
 canonical_pr: "#88551"
-actions_total: 3
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516704652](https://github.com/openclaw/clownfish/actions/runs/27516704652)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518775120](https://github.com/openclaw/clownfish/actions/runs/27518775120)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #88551
 
 ## Summary
 
-Plan-only classification: #88551 remains the live canonical PR for the CLI-owned transport auth-gate root cause. #88553 and #90979 are related agents-area PRs with distinct root causes, so no duplicate or superseded closeout is planned.
+Read-only plan based on the hydrated cluster preflight artifact. #88551 remains the best live canonical for the CLI-owned transport auth cooldown gate. #88553 and #90979 are useful but separate follow-up PRs with different root causes, so no close action is planned. #84814 is a closed merged linked context PR and receives no mutation.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,9 +66,10 @@ Plan-only classification: #88551 remains the live canonical PR for the CLI-owned
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88551 | keep_canonical | planned | canonical | #88551 is the best surviving open representative for the CLI-owned transport auth-gate root cause. |
-| #88553 | keep_related | planned | related | #88553 belongs to the broader agents/fallback area but has a distinct test-only root cause, so it should stay open as related rather than be closed as a duplicate of #88551. |
-| #90979 | keep_related | planned | related | #90979 is in the same agents/CLI family but tracks a distinct MCP resume-session reuse root cause, so it should stay open as related and not be closed under the #88551 canonical path. |
+| #84814 | keep_closed | skipped | related | Already closed and merged linked context; keep only as historical evidence for the broader agents fallback/auth area. |
+| #88551 | keep_canonical | planned | canonical | This remains the best live canonical for the CLI-owned transport auth cooldown gate root cause. |
+| #88553 | keep_related | planned | related | Related agents fallback area, but a distinct test-only mock-surface fix rather than a duplicate of #88551. |
+| #90979 | keep_related | planned | related | Related CLI agents area, but a separate session-state root cause; failing checks block merge only, not non-mutating classification. |
 
 ## Needs Human
 

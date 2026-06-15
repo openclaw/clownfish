@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-632-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518903105"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518903105"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516893039"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516893039"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.626Z"
+published_at: "2026-06-15T02:27:57.068Z"
 canonical: "#83538"
 canonical_issue: "#83538"
-canonical_pr: null
-actions_total: 2
+canonical_pr: "#83933"
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518903105](https://github.com/openclaw/clownfish/actions/runs/27518903105)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516893039](https://github.com/openclaw/clownfish/actions/runs/27516893039)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #83538
 
 ## Summary
 
-Cluster has one canonical open issue and one open linked PR for the same cron manual-run deleteAfterRun bug. No closure, merge, or fix PR action is safe in this plan: the issue remains canonical and the PR remains the related fix path, but merge/fixed-by-candidate closeout is blocked by job permissions and a failing Real behavior proof check.
+Plan-only classification: #83538 remains the live canonical issue. #83933 is the linked candidate fix for the same cron manual-run deleteAfterRun root cause, but no merge or fixed-by closeout is planned because merge/fix actions are blocked for this job and the PR has a failing Real behavior proof check plus compatibility/session-state risk. #92002 is an already-closed unrelated LM Studio PR hydrated only as linked context.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,8 +66,9 @@ Cluster has one canonical open issue and one open linked PR for the same cron ma
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83538 | keep_canonical | planned | canonical | #83538 is still the best live canonical issue. It should remain open until the linked fix path lands or maintainers make a product decision. |
-| #83933 | keep_related | planned | related | #83933 is the related candidate fix for #83538, but it is not merge-ready under this worker because merge is blocked by job permissions and the Real behavior proof check is failing. |
+| #83538 | keep_canonical | planned | canonical | #83538 is still the best live canonical issue for this root cause; it should stay open while the linked PR path is reviewed. |
+| #83933 | keep_related | planned | related | #83933 is the related candidate fix path for #83538, but it is not merge-ready or closeout-ready in this plan run. |
+| #92002 | keep_closed | skipped | independent | #92002 is already closed and unrelated to the cron manual-run/deleteAfterRun root cause. |
 
 ## Needs Human
 

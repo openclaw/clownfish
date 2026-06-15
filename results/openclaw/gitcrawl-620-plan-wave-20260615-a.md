@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-620-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518894702"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518894702"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516882949"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516882949"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.622Z"
+published_at: "2026-06-15T02:27:57.062Z"
 canonical: "#59616"
 canonical_issue: "#59616"
 canonical_pr: "#90653"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518894702](https://github.com/openclaw/clownfish/actions/runs/27518894702)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516882949](https://github.com/openclaw/clownfish/actions/runs/27516882949)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #59616
 
 ## Summary
 
-Plan-only classification for two open hydrated candidates. #59616 remains the canonical issue for the include-file hot-reload bug. #90653 is the live related fix PR for that issue, but it is not merge-ready in this job because merge/fix actions are blocked, the PR is dirty against main, and the hydrated checks include a failing changed-path scan.
+Plan-only classification kept #59616 as the live canonical issue. #90653 is the related open fix candidate for the same include-file hot-reload root cause, but no merge, fixed-by closeout, or fix artifact is planned because this job blocks merge/fix/raise_pr and the hydrated PR still lacks merge preflight with a failed Scan changed paths check.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification for two open hydrated candidates. #59616 remains the ca
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #59616 | keep_canonical | planned | canonical | #59616 is the clearest open tracker for the root cause and should remain canonical until a fix lands. |
-| #90653 | keep_related | planned | related | #90653 is the live fix candidate for #59616, but this plan-mode job cannot merge or repair it, and its dirty state plus failing check block any merge or fixed-by-candidate closeout. |
+| #59616 | keep_canonical | planned | canonical | #59616 is the open source-repro issue for the root cause and remains the canonical tracking thread; no closure is planned in read-only plan mode. |
+| #90653 | keep_related | planned | related | #90653 appears to target the same root cause as #59616 and should stay open for maintainer review, but it is not merge-ready or usable for fixed-by closeout in this plan because merge/fix are blocked and a hydrated check failed. |
 
 ## Needs Human
 

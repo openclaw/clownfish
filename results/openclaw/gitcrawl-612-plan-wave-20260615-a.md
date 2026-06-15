@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-612-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518891173"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518891173"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516879055"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516879055"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.619Z"
+published_at: "2026-06-15T02:27:57.060Z"
 canonical: "#64103"
 canonical_issue: "#64103"
-canonical_pr: null
+canonical_pr: "#89101"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518891173](https://github.com/openclaw/clownfish/actions/runs/27518891173)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516879055](https://github.com/openclaw/clownfish/actions/runs/27516879055)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #64103
 
 ## Summary
 
-Plan-only classification: #64103 remains the live canonical issue for the session-status/resumability contract bug. #89101 is the hydrated open PR candidate for that same root cause, but merge/fix/post-merge close actions are blocked by job frontmatter, so no mutation is planned.
+Plan-only classification: #64103 remains the live canonical issue for the session-status/resumability bug, and #89101 remains the open linked implementation candidate. No close, merge, fix, or PR-creation action is planned because the job is read-only plan mode and merge/fix actions are blocked.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #64103 remains the live canonical issue for the sessio
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #64103 | keep_canonical | planned | canonical | This issue is the best surviving canonical thread for the root cause and should stay open while the linked fix path remains under maintainer review. |
-| #89101 | keep_related | planned | related | This PR is the open related candidate fix for canonical issue #64103. It should remain open for maintainer contract review rather than being closed or merged by this plan-mode job. |
+| #64103 | keep_canonical | planned | canonical | #64103 is still open and best represents the root cause and user-visible failure for this cluster. |
+| #89101 | keep_related | planned | related | #89101 is not a duplicate to close; it is the current open implementation candidate for canonical issue #64103 and should remain available for maintainer contract review. |
 
 ## Needs Human
 

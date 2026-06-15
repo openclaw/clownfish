@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-432-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518839108",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518839108",
+  "head_sha": "2c50056214b457163d46a7db5296599ebeec1ecd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:57Z",
+  "workflow_updated_at": "2026-06-15T01:34:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-432-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.151Z",
+  "canonical": "#92523",
+  "canonical_issue": "#92523",
+  "canonical_pr": null,
+  "summary": "Read-only plan classification: #92523 remains the live canonical for the orphaned waiting TaskFlow heartbeat-deadlock report. #92648 is a related attempted fix for that canonical issue, but it is not merge-ready because ClawSweeper found missing real heartbeat-deadlock proof and compatibility/session-state risk around hard-coded waiting-flow expiry. Linked heartbeat/reply-queue refs are related context, not duplicates of #92523.",
+  "actions": [
+    {
+      "target": "#92523",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical for the TaskFlow waiting-state deadlock family."
+    },
+    {
+      "target": "#92648",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#92648",
+      "reason": "The PR is in the same root-cause family as #92523, but it is not safe to merge or use for closeout in this plan run because the proof and compatibility questions remain unresolved."
+    },
+    {
+      "target": "#86090",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#88970",
+      "reason": "Related heartbeat availability context, but not the same root cause as #92523's abandoned waiting TaskFlow lifecycle issue."
+    },
+    {
+      "target": "#88970",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#88970",
+      "reason": "Related heartbeat-runner fix, but not a replacement canonical or duplicate resolution for the orphaned waiting TaskFlow issue."
+    },
+    {
+      "target": "#91450",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; no mutation is applicable."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

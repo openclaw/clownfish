@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-634-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518903949"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518903949"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516894257"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516894257"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.627Z"
+published_at: "2026-06-15T02:27:57.069Z"
 canonical: "#90325"
 canonical_issue: "#90325"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518903949](https://github.com/openclaw/clownfish/actions/runs/27518903949)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516894257](https://github.com/openclaw/clownfish/actions/runs/27516894257)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90325
 
 ## Summary
 
-Plan-mode classification only. #90325 remains the live canonical Matrix/stale-plugin dispatch issue. #90834 is a related open candidate fix but should stay non-mutating in this job because merge and fix actions are blocked and its fail-fast behavior still needs normal maintainer acceptance outside closeout automation. #89035 is security-sensitive linked context and is routed only to central security handling; #88694 is already closed historical context.
+Plan-only classification: #90325 remains the open canonical issue for the Matrix channel.inbound.run regression; #90834 is a focused related candidate PR but is not merge-planned because this job blocks merge/fix and lacks merge preflight; #89035 is scoped to security routing; #88694 stays closed as historical context.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-mode classification only. #90325 remains the live canonical Matrix/stale-pl
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88694 | keep_closed | skipped | fixed_by_candidate | Closed historical context only; no action should be applied. |
-| #89035 | route_security | planned | security_sensitive | Quarantine this exact linked ref to central OpenClaw security handling without affecting unrelated Matrix classification. |
-| #90325 | keep_canonical | planned | canonical | This remains the best live canonical because it contains the active Matrix reproduction, updated workaround evidence, and no merged candidate fix is proven for closeout. |
-| #90834 | keep_related | planned | related | Related candidate fix for the canonical issue, but not actionable as a merge or closeout in this job. |
+| #90325 | keep_canonical | planned | canonical | #90325 is the best live canonical for the current Matrix stale-plugin/channel runtime dispatch family and should remain open while #90834 or another fix path owns validation. |
+| #90834 | keep_related | planned | related | #90834 is a useful candidate fix related to #90325, but this plan-mode job should not recommend merge or closeout without the normal merge preflight and an allowed merge lane. |
+| #89035 | route_security | planned | security_sensitive | #89035 touches the exec approval/security-boundary area and is explicitly marked for central security handling, so it is routed out of this cluster without affecting #90325/#90834. |
+| #88694 | keep_closed | skipped | related | Already closed historical Matrix report; no action is available or needed in this plan. |
 
 ## Needs Human
 

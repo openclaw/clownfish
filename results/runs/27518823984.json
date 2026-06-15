@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-387-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518823984",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518823984",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:28Z",
+  "workflow_updated_at": "2026-06-15T01:33:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-387-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.143Z",
+  "canonical": "#41750",
+  "canonical_issue": "#41750",
+  "canonical_pr": "#89168",
+  "summary": "Plan-mode classification: #41750 remains the live canonical issue for the stale managed Chrome CDP listener failure. #89168 is the related open implementation path for that canonical, but merge/close/fix actions are not planned because the job blocks merge and fix work and the hydrated review still calls for maintainer review on a broad process-control recovery delta. #41758 is already closed and is retained only as historical superseded evidence.",
+  "actions": [
+    {
+      "target": "#41750",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41750",
+      "candidate_fix": "#89168",
+      "reason": "#41750 is the best surviving canonical issue and should stay open while #89168 or a future validated fix owns implementation."
+    },
+    {
+      "target": "#89168",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41750",
+      "candidate_fix": "#89168",
+      "reason": "#89168 is the active candidate fix for #41750, but merge readiness remains a maintainer judgment due to broad process-control behavior changes and merge is blocked by this plan-mode job."
+    },
+    {
+      "target": "#41758",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41750",
+      "candidate_fix": "#89168",
+      "reason": "Already-closed historical PR; keep as superseded context only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89168 requires maintainer judgment before any merge recommendation because the hydrated ClawSweeper review flags a broad availability-sensitive process-control recovery surface, and this job explicitly blocks merge/fix actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

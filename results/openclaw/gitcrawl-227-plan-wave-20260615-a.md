@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-227-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519881961"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519881961"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518777363"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518777363"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.970Z"
+published_at: "2026-06-15T02:27:57.113Z"
 canonical: "#60402"
 canonical_issue: "#52249"
 canonical_pr: "#60402"
-actions_total: 9
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519881961](https://github.com/openclaw/clownfish/actions/runs/27519881961)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518777363](https://github.com/openclaw/clownfish/actions/runs/27518777363)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #60402
 
 ## Summary
 
-Plan-mode classification only. #60402 remains the best live canonical PR for the narrow ACP targeted-wake/heartbeat-disabled fix path, but it is not merge-ready because it is dirty and proof-blocked. #52249 should stay open as the broader yielded-parent completion tracker. #79869 is a related but separate exec-event zero-interval wake PR and should not be closed or merged in this ACP cluster. The linked security-sensitive #56442 is quarantined only for central security handling.
+Plan-only classification: keep #60402 as the live canonical PR for the narrow ACP parent-session heartbeat-disabled wake path; keep #52249 open as the broader yielded-parent issue linked to that fix path; keep #79869 related but split it as the exec-event zero-interval subcluster rather than treating it as a duplicate of #60402. No close, merge, label, comment, or fix actions are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 9 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,15 +66,9 @@ Plan-mode classification only. #60402 remains the best live canonical PR for the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #52249 | keep_related | planned | related | Same problem family as #60402, but not safe to close as fixed by candidate because the PR is unmerged, dirty, proof-blocked, and does not cover the broader native yielded-parent contract. |
-| #60402 | keep_canonical | planned | canonical | Best canonical PR for the narrow ACP heartbeat-disabled targeted wake seam, but no merge action is allowed or safe because merge is blocked by job frontmatter, dirty merge state, and failing proof. |
-| #79869 | keep_related | planned | related | Related infrastructure and symptom family, but a separate root cause/subcluster from the ACP parent-session wake fix; keep open for its own review path. |
-| #56442 | route_security | planned | security_sensitive | Scoped quarantine for central OpenClaw security handling; no ProjectClownfish close, merge, or fix action. |
-| #49572 | keep_closed | skipped | superseded | Historical context only; already-closed refs must not receive closure actions. |
-| #54690 | keep_closed | skipped | superseded | Historical context only; already-closed refs must not receive closure actions. |
-| #84839 | keep_closed | skipped | duplicate | Historical duplicate context only; already-closed refs must not receive closure actions. |
-| #62505 | keep_related | planned | related | Linked follow-up subcluster, not a duplicate of the ACP parent wake cluster. |
-| #91921 | keep_related | planned | related | Related completion-delivery area, but a separate PR path outside this ACP heartbeat-disabled cluster. |
+| #52249 | keep_related | planned | related | Keep the issue open and related to #60402; the narrow PR may cover the ACP heartbeat-disabled seam, but broader native/yielded-parent behavior and proof gaps remain. |
+| #60402 | keep_canonical | planned | canonical | #60402 remains the best live canonical for the narrow ACP heartbeat-disabled wake path, but merge is blocked in plan mode and by missing real behavior proof/merge preflight. |
+| #79869 | keep_related | planned | related | Keep related and split as a separate exec-event zero-interval subcluster; do not mark duplicate or superseded by #60402. |
 
 ## Needs Human
 

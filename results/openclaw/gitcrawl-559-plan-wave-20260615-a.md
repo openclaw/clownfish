@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-559-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518871248"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518871248"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516850280"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516850280"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.610Z"
+published_at: "2026-06-15T02:27:57.047Z"
 canonical: "#82955"
 canonical_issue: null
 canonical_pr: "#82955"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518871248](https://github.com/openclaw/clownfish/actions/runs/27518871248)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516850280](https://github.com/openclaw/clownfish/actions/runs/27516850280)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #82955
 
 ## Summary
 
-Plan-mode classification only. #82955 remains the live non-security canonical implementation PR for installer download validation. #90013 is security-sensitive in the hydrated preflight artifact and should be routed to central security handling without ProjectClownfish mutation. Linked #91528 is already merged and closed, and is only related historical context.
+Plan-mode classification only: #82955 remains the best open non-security canonical PR for installer download validation; #90013 is security-sensitive and should be routed to central security handling; #91528 is already closed/merged context for a different installer failure-handling root cause.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #82955 remains the live non-security canonical im
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #82955 | keep_canonical | planned | canonical | This is the best live non-security canonical implementation path for the cluster, but plan mode and job gates allow classification only. |
-| #90013 | route_security | planned | security_sensitive | Security-sensitive issue must be quarantined to central OpenClaw security handling; no close, label, comment, merge, or fix action should be planned for it here. |
-| #91528 | keep_closed | skipped | related | Already-closed linked context; no mutation is valid, and it is a related installer failure-handling fix rather than this cluster's canonical path. |
+| #82955 | keep_canonical | planned | canonical | #82955 is the only open non-security implementation candidate and directly owns the installer script-validation fix path, but merge/fix actions are not allowed in this job and review readiness is not complete. |
+| #90013 | route_security | planned | security_sensitive | The item is explicitly security-sensitive in the live artifact, so ProjectClownfish should quarantine only this issue with route_security and avoid close, label, comment, merge, or fix actions on it. |
+| #91528 | keep_closed | skipped | related | #91528 is related installer context but already merged and not the same root cause as downloaded script validation, so no ProjectClownfish mutation is appropriate. |
 
 ## Needs Human
 

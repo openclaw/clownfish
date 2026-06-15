@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-264-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519894288"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519894288"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518786330"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518786330"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.977Z"
+published_at: "2026-06-15T02:27:57.119Z"
 canonical: "#89899"
 canonical_issue: "#89425"
 canonical_pr: "#89899"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519894288](https://github.com/openclaw/clownfish/actions/runs/27519894288)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518786330](https://github.com/openclaw/clownfish/actions/runs/27518786330)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89899
 
 ## Summary
 
-#89899 remains the best live canonical fix path for the speech-core bundled public-surface packaging/facade mismatch. #89425 is the original report and is now covered by #89899; #92355 is superseded by #89899 because its fallback targets a package dist path that the root npm artifact does not ship. #88853 is related but mixed with a separate poll/send-schema root cause, and #92240 is already closed.
+Plan-mode classification only. No GitHub mutations were performed. #89899 remains the best live canonical fix path for the speech-core bundled runtime facade/package mismatch; #89425 is the source issue covered by that candidate fix; #92355 is superseded by #89899; #88853 is a related mixed branch with separate poll-scope work; #92240 is already closed.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Canonical: #89899
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89899 | keep_canonical | planned | canonical |  |
-| #89425 | close_fixed_by_candidate | planned | fixed_by_candidate |  |
-| #92355 | close_superseded | planned | superseded |  |
-| #88853 | keep_related | planned | related | Related mixed branch; speech-core portion is superseded by #89899, but the poll/send-schema portion is outside this cluster. |
-| #92240 | keep_closed | skipped | duplicate | Already closed; included only as hydrated linked context. |
+| #89899 | keep_canonical | planned | canonical | #89899 is the narrowest hydrated open fix for the root speech-core packaged-facade mismatch and has the strongest proof/check state among the candidate PRs. |
+| #89425 | close_fixed_by_candidate | planned | fixed_by_candidate | The issue is clearly covered by the canonical candidate fix #89899; this is a planned recommendation only and requires applicator live-state revalidation before any close/comment. |
+| #92355 | close_superseded | planned | superseded | #92355 is a same-root-cause PR with a weaker installed-package fix strategy; #89899 is the clearer canonical repair and should preserve contributor attribution if superseding this branch. |
+| #88853 | keep_related | planned | related | Related mixed branch; do not close or merge in this cluster because it contains non-speech-core poll/schema work and failing checks. |
+| #92240 | keep_closed | skipped | duplicate | Already closed duplicate context; no mutation is valid or needed. |
 
 ## Needs Human
 

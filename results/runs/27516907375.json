@@ -1,0 +1,54 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-665-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516907375",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516907375",
+  "head_sha": "77927a97323ea285a9cccfa17fb1879be9528a29",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:23:28Z",
+  "workflow_updated_at": "2026-06-15T00:25:37Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-665-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.078Z",
+  "canonical": "#73432",
+  "canonical_issue": "#73432",
+  "canonical_pr": null,
+  "summary": "Canonical remains open issue #73432 for the QMD embedInterval scheduling report. No close, merge, or fix action is safe in this plan: #73432 still needs a maintainer product decision on lexical search-mode embedding semantics, and #73512 is already closed plus marked security-sensitive in the preflight artifact, so it is quarantined only.",
+  "actions": [
+    {
+      "target": "#73432",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73432",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the cluster, but it should stay open until maintainers decide whether explicit embedInterval should override the lexical search-mode contract."
+    },
+    {
+      "target": "#73512",
+      "action": "route_security",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive PR is historical evidence only for this cluster; route the exact ref to central OpenClaw security handling and continue treating #73432 as the non-security canonical issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73432 requires maintainer product judgment: decide whether an explicit memory.qmd.update.embedInterval should schedule QMD embedding even when searchMode is omitted/default lexical search, or whether the documented query/vsearch workaround is the intended contract."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

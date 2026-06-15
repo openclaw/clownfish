@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-212-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519875733"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519875733"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518772911"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518772911"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.968Z"
+published_at: "2026-06-15T02:27:57.109Z"
 canonical: "#90445"
 canonical_issue: "#90445"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519875733](https://github.com/openclaw/clownfish/actions/runs/27519875733)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518772911](https://github.com/openclaw/clownfish/actions/runs/27518772911)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90445
 
 ## Summary
 
-Plan-only classification for cluster 212: keep #90445 as the canonical issue. Keep both PRs related because they address different UI surfaces under the same discoverability problem and neither is eligible for closeout or merge in this job.
+#90445 remains the open canonical issue. #90831 is a related contributor PR for the Sessions table tooltip work but is not merge-ready or a fixed-by closeout candidate because checks include failures and bot-review blockers remain. #91682 is a related partial PR for the Quick Settings Thinking tooltip, a different UI surface from #90831, so it should not be forced into a duplicate or superseded outcome in this cluster.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification for cluster 212: keep #90445 as the canonical issue. Ke
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90445 | keep_canonical | planned | canonical | #90445 remains the best canonical thread for the broader UI clarification request. |
-| #90831 | keep_related | planned | related | This is a plausible focused fix for part of the canonical issue, but it is not mergeable or usable for issue closeout in this plan job. |
-| #91682 | keep_related | planned | related | This is related follow-up implementation for a different UI surface, not a duplicate of #90831 and not a complete fix for #90445. |
+| #90445 | keep_canonical | planned | canonical | #90445 is still open and remains the broadest surviving canonical thread for the dropdown labeling and tooltip clarification work. |
+| #90831 | keep_related | planned | related | This PR is useful related implementation for the canonical issue, but it is not safe to merge or use for fixed-by closure in this plan because failing checks and review-bot blockers remain. |
+| #91682 | keep_related | planned | related | #91682 is a related partial fix for the same canonical issue on a different UI surface; keep it related instead of closing or superseding it. |
 
 ## Needs Human
 

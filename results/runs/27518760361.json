@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-152-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518760361",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518760361",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:16Z",
+  "workflow_updated_at": "2026-06-15T01:31:37Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-152-plan-ramp.md",
+  "published_at": "2026-06-15T02:27:57.100Z",
+  "canonical": "#89816",
+  "canonical_issue": "#89791",
+  "canonical_pr": "#89816",
+  "summary": "Plan-mode classification only. #89816 remains the live canonical PR for the #89791 docs-only mitigation path. #89791 stays open because runtime wrapper and doctor/install hardening remain unresolved. #90711/#90828 are a separate macOS launchd stderr logging-contract root cause and need maintainer product review before any close or merge path.",
+  "actions": [
+    {
+      "target": "#56543",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked context item; no plan-mode mutation is valid."
+    },
+    {
+      "target": "#65734",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent linked context item; no plan-mode mutation is valid."
+    },
+    {
+      "target": "#89791",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89816",
+      "candidate_fix": null,
+      "reason": "Related to the canonical docs PR, but not closable because unique runtime and repair work remains in the issue."
+    },
+    {
+      "target": "#89816",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89816",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the docs mitigation path, but merge is blocked by job frontmatter and maintainer review remains appropriate."
+    },
+    {
+      "target": "#90711",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90828",
+      "reason": "This is a separate logging-contract/product decision, not a duplicate of #89816/#89791 and not safe to close in this cluster."
+    },
+    {
+      "target": "#90828",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90711",
+      "candidate_fix": "#90828",
+      "reason": "Candidate fix for the independent #90711 logging-contract issue, but maintainer product review is required before merge or fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 1,
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90711/#90828 require maintainer decision on the macOS launchd stderr logging contract: keep /dev/null suppression with another diagnostic path, or accept routing stderr to gateway.err.log."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-273-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519902191"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519902191"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518791806"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518791806"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.982Z"
+published_at: "2026-06-15T02:27:57.123Z"
 canonical: "#80804"
 canonical_issue: "#80804"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519902191](https://github.com/openclaw/clownfish/actions/runs/27519902191)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518791806](https://github.com/openclaw/clownfish/actions/runs/27518791806)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80804
 
 ## Summary
 
-Read-only plan: #80804 remains the best live canonical for the supergroup/forum-topic Telegram sendMessage `chat not found` failure. #79364 is already closed and should not receive any closure action. #85006 is related Telegram forum-topic routing/message-thread fallout, but it reports a distinct 20-topic limit symptom and should stay open as related rather than be deduped into #80804.
+Plan-mode classification only. #80804 remains the best live canonical for the unresolved Telegram supergroup/forum `chat not found` send failure. #79364 is already closed as implemented on current main via #92738, so no closure action is valid. #85006 is related Telegram forum-topic routing/message-thread failure work, but it describes a distinct 20-topic/session-cache limit and should not be closed as a duplicate of #80804.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Read-only plan: #80804 remains the best live canonical for the supergroup/forum-
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #79364 | keep_closed | skipped | related | Already closed and only related to the canonical Telegram delivery family; no mutating action should be planned. |
-| #80804 | keep_canonical | planned | canonical | Best surviving canonical for the cluster's representative supergroup/forum-topic send failure. |
-| #85006 | keep_related | planned | related | Related Telegram forum-topic routing failure, but not the same proven root cause or symptom as #80804; keep open for separate maintainer follow-up. |
+| #80804 | keep_canonical | planned | canonical | Best surviving open canonical for the unresolved supergroup/forum `chat not found` failure. |
+| #79364 | keep_closed | skipped | fixed_by_candidate | Already closed; mention only as historical context and do not plan a close. |
+| #85006 | keep_related | planned | related | Same Telegram forum/topic symptom family, but distinct suspected cache-limit root cause and unique reproduction; keep open as related, not duplicate. |
 
 ## Needs Human
 

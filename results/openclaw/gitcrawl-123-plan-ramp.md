@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-123-plan-ramp"
 mode: "plan"
-run_id: "27519850375"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519850375"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518753132"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518753132"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.954Z"
+published_at: "2026-06-15T02:27:57.094Z"
 canonical: "#92819"
 canonical_issue: "#92776"
 canonical_pr: "#92819"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519850375](https://github.com/openclaw/clownfish/actions/runs/27519850375)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518753132](https://github.com/openclaw/clownfish/actions/runs/27518753132)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92819
 
 ## Summary
 
-Plan-mode classification only. #92819 remains the best live canonical PR for the stale auto-fallback-origin/snap-back failure. #92776 is the matching open source issue and can be closed as fixed-by-candidate once the applicator re-fetches unchanged live state and posts the credit-preserving close comment. #75270 is related but broader, dirty, and has unresolved review-bot findings, so it should not be closed or merged in this cluster. Already-closed linked refs are retained only as historical evidence.
+Plan-mode classification only. #92819 remains the best live canonical PR for the stale auto-fallback origin selection fix. No close, merge, label, comment, fix, or raise-PR mutations are planned; #92776 should stay open as the root issue until the canonical PR lands or maintainers decide otherwise.
 
 ## Impact
 
@@ -66,16 +66,16 @@ Plan-mode classification only. #92819 remains the best live canonical PR for the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #75270 | keep_related | planned | related | Related but not a true duplicate; keep open outside this cluster's closeout path. |
-| #82544 | keep_closed | skipped | related | Closed historical context only; no closure action is valid for an already-closed issue. |
-| #82676 | keep_closed | skipped | related | Closed merged context; no mutation planned. |
-| #87484 | keep_closed | skipped | related | Closed related predecessor fix; no closure action is valid. |
-| #92486 | keep_closed | skipped | related | Closed related issue; no mutation planned. |
-| #92573 | keep_closed | skipped | related | Closed merged related PR; no mutation planned. |
-| #92776 | close_fixed_by_candidate | planned | fixed_by_candidate | The open issue is directly covered by the hydrated canonical candidate PR #92819, and the close payload includes target_updated_at plus a credit-preserving reopen path. |
-| #92790 | keep_closed | skipped | superseded | Already closed and superseded by the live canonical PR; no closure action is valid. |
-| #92819 | keep_canonical | planned | canonical | Best live canonical for this cluster, but merge is out of scope in plan mode and blocked by job policy. |
-| #92821 | keep_closed | skipped | superseded | Already closed candidate; no close/supersede mutation is valid. |
+| openclaw/openclaw#92819 | keep_canonical | planned | canonical | Best hydrated live canonical for the cluster; merge is blocked by job mode/actions and maintainer-review gate. |
+| openclaw/openclaw#92776 | keep_related | planned | related | Root issue should remain open and linked to the canonical PR until the fix lands or maintainers explicitly accept issue closure. |
+| openclaw/openclaw#75270 | keep_related | planned | related | Related but not the canonical close/merge path for this cluster; useful contributor work should not be closed or superseded in this plan without a mergeable replacement outcome. |
+| openclaw/openclaw#92821 | keep_closed | skipped | superseded | Already closed; no mutation is valid. |
+| openclaw/openclaw#92790 | keep_closed | skipped | superseded | Closed historical predecessor; keep as evidence for why #92819 is canonical. |
+| openclaw/openclaw#82676 | keep_closed | skipped | related | Already merged historical context; not a live candidate for this cluster. |
+| openclaw/openclaw#82544 | keep_closed | skipped | related | Already closed related history; no closure action is valid. |
+| openclaw/openclaw#87484 | keep_closed | skipped | related | Already merged related fix; no live mutation target. |
+| openclaw/openclaw#92486 | keep_closed | skipped | related | Closed related context; no closure action is valid. |
+| openclaw/openclaw#92573 | keep_closed | skipped | related | Already merged related fix; no live mutation target. |
 
 ## Needs Human
 

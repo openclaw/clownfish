@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-627-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518900535"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518900535"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516889926"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516889926"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.625Z"
+published_at: "2026-06-15T02:27:57.066Z"
 canonical: "#90743"
 canonical_issue: "#90743"
 canonical_pr: "#90902"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518900535](https://github.com/openclaw/clownfish/actions/runs/27518900535)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516889926](https://github.com/openclaw/clownfish/actions/runs/27516889926)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90743
 
 ## Summary
 
-Plan-mode classification only. #90743 remains the live canonical issue. #90902 is a focused related fix PR for the same root cause and should stay open for maintainer review; no close, merge, fix, or PR-raise action is planned.
+#90743 remains the open canonical issue. #90902 is an open related candidate fix for the same MCP screenshot image-content validation failure, but no close, merge, fix, or security-routing action is planned in this read-only plan.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #90743 remains the live canonical issue. #90902 i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90743 | keep_canonical | planned | canonical | The issue is the representative, remains open, has the clearest user-facing reproduction, and is directly targeted by the only PR in the cluster. |
-| #90902 | keep_related | planned | related | The PR appears to be the focused candidate fix for the canonical issue, but this plan-mode job does not allow merge/fix actions and maintainer review is still the appropriate next gate. |
+| #90743 | keep_canonical | planned | canonical | #90743 is the only hydrated issue and remains the clearest canonical user report for this root cause; keep it open as the canonical thread while #90902 receives review as the candidate fix. |
+| #90902 | keep_related | planned | related | #90902 is a useful candidate fix tied to the #90743 canonical issue, but this plan-mode job should keep it associated for maintainer review rather than closing, merging, or replacing it. |
 
 ## Needs Human
 

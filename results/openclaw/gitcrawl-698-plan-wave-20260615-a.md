@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-698-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518979283"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518979283"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516933387"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516933387"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.639Z"
+published_at: "2026-06-15T02:27:57.083Z"
 canonical: "#79100"
 canonical_issue: "#79100"
-canonical_pr: null
+canonical_pr: "#89623"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518979283](https://github.com/openclaw/clownfish/actions/runs/27518979283)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516933387](https://github.com/openclaw/clownfish/actions/runs/27516933387)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #79100
 
 ## Summary
 
-Plan-only classification: #79100 remains the open canonical issue for the gateway health/probe --port gap, and #89623 is the hydrated open contributor PR that appears to target the same root cause. No close, merge, label, comment, or fix PR action is planned because this job is plan mode and merge/fix are blocked by frontmatter; the PR also lacks merge preflight proof.
+Hydrated plan state keeps #79100 as the canonical issue and #89623 as the canonical open contributor PR/fix path. No close, merge, label, or fix action is planned; merge/fix work is outside this plan job and required merge preflight is not present.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #79100 remains the open canonical issue for the gatewa
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #79100 | keep_canonical | planned | canonical | #79100 is the best surviving canonical report for the root cause and should remain open until the linked fix path lands and is validated. |
-| #89623 | keep_related | planned | related | #89623 is the active contributor fix path for #79100, but this worker cannot recommend merge without merge preflight and job permission. |
+| #79100 | keep_canonical | planned | canonical | #79100 is the best surviving issue for the root cause and should stay open until the linked fix path lands and is validated. |
+| #89623 | keep_canonical | planned | canonical | #89623 is the canonical open contributor PR for #79100, but this read-only plan should keep it open rather than recommend merge or replacement. |
 
 ## Needs Human
 

@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-560-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516851012",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516851012",
+  "head_sha": "1aabb2d816f9888d8a4f648c6fa800f88117c1b4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:21:20Z",
+  "workflow_updated_at": "2026-06-15T00:23:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-560-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.047Z",
+  "canonical": "#87180",
+  "canonical_issue": "#87180",
+  "canonical_pr": "#89039",
+  "summary": "Plan-mode classification only. Keep #87180 as the live canonical issue and #89039 as the hydrated related contributor fix candidate, but do not merge or close against it because the job blocks merge/fix work and the PR has a failing check plus unresolved proof/product-review signals. Keep #89734 related as a channel-specific report and treat #88703 as already-closed historical context. No GitHub mutations planned.",
+  "actions": [
+    {
+      "target": "#87180",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87180",
+      "candidate_fix": "#89039",
+      "reason": "#87180 is open, hydrated, and remains the best live issue canonical for the shared session-lock takeover and message-loss root cause."
+    },
+    {
+      "target": "#89039",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87180",
+      "candidate_fix": "#89039",
+      "reason": "#89039 is related to and may eventually fix #87180, but this worker should not recommend merge or fixed-by-candidate closeout while checks/proof gates are unresolved and merge/fix actions are blocked."
+    },
+    {
+      "target": "#88703",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#87180",
+      "candidate_fix": null,
+      "reason": "#88703 is related historical context for the same failure family, but it is already closed and must not receive a closure mutation."
+    },
+    {
+      "target": "#89734",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87180",
+      "candidate_fix": "#89039",
+      "reason": "#89734 is not independent, but its Telegram-specific user-visible failure detail is useful evidence; keep it related rather than closing it in this plan-only run."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

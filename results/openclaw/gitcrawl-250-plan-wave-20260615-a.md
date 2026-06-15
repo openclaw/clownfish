@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-250-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519889352"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519889352"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518782935"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518782935"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.974Z"
+published_at: "2026-06-15T02:27:57.116Z"
 canonical: "#76386"
-canonical_issue: "#82304"
+canonical_issue: null
 canonical_pr: "#76386"
 actions_total: 3
 fix_executed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519889352](https://github.com/openclaw/clownfish/actions/runs/27519889352)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518782935](https://github.com/openclaw/clownfish/actions/runs/27518782935)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #76386
 
 ## Summary
 
-Read-only plan for installer Ctrl+C during upgrade doctor cluster. #76386 remains the canonical open fixing PR. #82304 and #90011 report the same installer interrupt failure and should stay open/related until #76386 lands or is replaced; no close, merge, label, comment, fix, or PR-raise action is planned in this mode.
+Read-only plan for cluster gitcrawl-250-plan-wave-20260615-a. #76386 remains the live canonical implementation path for the installer Ctrl+C/upgrade doctor interrupt bug. #82304 and #90011 describe the same root cause and are already linked to #76386, but should stay open until the fixing PR lands or is replaced. No security-sensitive item was detected in the hydrated cluster artifact, and no GitHub mutation is planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Read-only plan for installer Ctrl+C during upgrade doctor cluster. #76386 remain
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #76386 | keep_canonical | planned | canonical | #76386 is still the best live canonical for this cluster, but plan mode and missing merge preflight mean it should only be kept canonical, not merged. |
-| #82304 | keep_related | planned | fixed_by_candidate | #82304 is covered by the canonical PR path, but should remain open until #76386 lands or is replaced. |
-| #90011 | keep_related | planned | fixed_by_candidate | #90011 is a duplicate report of #82304 and is covered by #76386, but closure should wait until the fixing PR lands or is replaced. |
+| #76386 | keep_canonical | planned | canonical | Best surviving implementation path for the cluster, but merge is blocked by plan mode, blocked_actions.merge, and unresolved proof/readiness signals. |
+| #82304 | keep_related | planned | fixed_by_candidate | Same root cause as #76386 and covered by that open PR, but closure should wait until the fix lands or is replaced. |
+| #90011 | keep_related | planned | fixed_by_candidate | Duplicate symptom/root cause within the #76386/#82304 family and covered by #76386, but no closure should be planned before the PR lands. |
 
 ## Needs Human
 

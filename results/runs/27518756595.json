@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-132-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518756595",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518756595",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:09Z",
+  "workflow_updated_at": "2026-06-15T01:31:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-132-plan-ramp.md",
+  "published_at": "2026-06-15T02:27:57.097Z",
+  "canonical": "#69118",
+  "canonical_issue": "#69118",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #69118 as the live canonical for the extraSystemPromptHash/groupIntro reset family, keep #81041/#81047 as a related but distinct live-fingerprint/systemPromptHash subcluster, keep #91157 as a non-merge-ready candidate for #69118, and route the linked security-sensitive #58818 to central security handling.",
+  "actions": [
+    {
+      "target": "#58818",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only."
+    },
+    {
+      "target": "#69118",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69118",
+      "candidate_fix": "#91157",
+      "reason": "#69118 remains the best live canonical for the extraSystemPromptHash/groupIntro session reset family."
+    },
+    {
+      "target": "#81041",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69118",
+      "candidate_fix": "#81047",
+      "reason": "Same user-visible session-reset family, but a distinct root cause and fix path from #69118, so it should remain related rather than be closed as a duplicate."
+    },
+    {
+      "target": "#81047",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81041",
+      "candidate_fix": "#81047",
+      "reason": "Useful related implementation candidate for #81041, but not merge-ready and not a replacement for the #69118 canonical path."
+    },
+    {
+      "target": "#91157",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69118",
+      "candidate_fix": "#91157",
+      "reason": "Focused candidate for the canonical issue, but failing proof checks and missing real-behavior proof block merge or fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

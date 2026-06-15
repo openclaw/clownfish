@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-586-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518883659"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518883659"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516860768"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516860768"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.616Z"
+published_at: "2026-06-15T02:27:57.056Z"
 canonical: "#91168"
 canonical_issue: null
 canonical_pr: "#91168"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518883659](https://github.com/openclaw/clownfish/actions/runs/27518883659)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516860768](https://github.com/openclaw/clownfish/actions/runs/27516860768)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91168
 
 ## Summary
 
-Plan-only classification: keep #91168 as the narrow live canonical for CLI-routing labels in the /model picker. Keep #91211 related because it extends the same picker surface into OAuth/API classification, has failing checks, and has unresolved ClawSweeper review concerns. Hydrated linked refs #90328 and #91177 remain related context, not closure targets for this cluster.
+Read-only plan: #91168 remains the live canonical for the narrow TUI/gateway CLI-routing label work. #91211 is a broader related follow-up with failing checks and review-bot blockers, while #90328 and #91177 are hydrated linked refs with related but distinct scope. No security-sensitive refs were detected and no mutations are planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-only classification: keep #91168 as the narrow live canonical for CLI-routi
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91168 | keep_canonical | planned | canonical | #91168 remains the best narrow canonical for the job's stated root cause, but this plan does not recommend merge or close because the job is plan-only and ClawSweeper still requests real behavior proof before merge. |
-| #91211 | keep_related | planned | related | Related, not duplicate or superseding: it targets the same picker family but adds broader OAuth/API product behavior and currently has failing checks and unresolved review findings. |
-| #90328 | keep_related | planned | related | Related linked context only: #90328 may be a broader model-runtime visibility path, but it is not a listed candidate in this job and should not replace the narrow canonical without an explicit maintainer decision. |
-| #91177 | keep_related | planned | related | Related same CLI-runtime UX area, but different root cause and different files; it should stay out of this duplicate/supersession decision. |
+| #91168 | keep_canonical | planned | canonical | #91168 is the best surviving canonical for the narrow CLI-routing label root cause, but merge is out of scope and not preflight-clean. |
+| #91211 | keep_related | planned | related | #91211 is not a duplicate because it has unique OAuth/API classification scope, but failing checks and bot review blockers make it unsuitable as canonical or merge/fixed-by-candidate path. |
+| #90328 | keep_related | planned | related | #90328 is related runtime-visibility work with distinct WebUI/protocol scope, so it should remain separate from the #91168 canonical path. |
+| #91177 | keep_related | planned | related | #91177 is in the same CLI/provider/runtime visibility family but has a different root cause and should not be closed or merged as part of this cluster. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-266-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519896523"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519896523"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518787913"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518787913"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.978Z"
+published_at: "2026-06-15T02:27:57.120Z"
 canonical: "#89617"
 canonical_issue: "#89617"
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 3
 ---
 
 # gitcrawl-266-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519896523](https://github.com/openclaw/clownfish/actions/runs/27519896523)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518787913](https://github.com/openclaw/clownfish/actions/runs/27518787913)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89617
 
 ## Summary
 
-Read-only plan: keep #89617 as the live canonical issue for the bundled Atomic Chat provider product decision, quarantine security-sensitive PR #89618, and keep docs-only PR #90401 related but separate from the bundled-provider implementation path.
+Plan-only classification: keep #89617 as the open canonical product-scope issue, route security-sensitive #89618 to central security handling without mutation, and keep docs-only #90401 related but not a duplicate or superseded item.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Read-only plan: keep #89617 as the live canonical issue for the bundled Atomic C
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 3 |
 
 ## Fix Execution Actions
 
@@ -67,10 +67,11 @@ Read-only plan: keep #89617 as the live canonical issue for the bundled Atomic C
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 | #89617 | keep_canonical | planned | canonical | #89617 remains the best canonical thread for the bundled-provider product decision. |
-| #89618 | route_security | planned | security_sensitive | Security-sensitive dependency/auth-provider surface must be routed to central OpenClaw security handling and not closed, merged, labeled, or repaired by Clownfish. |
-| #90401 | keep_related | planned | related | #90401 is related Atomic Chat documentation work with a different scope from the canonical bundled-provider product request, so it should remain open for normal docs review rather than be closed as duplicate or superseded. |
+| #89618 | route_security | planned | security_sensitive | This PR is explicitly security-sensitive in the hydrated artifact, so it is quarantined for central OpenClaw security handling and not classified for closure or merge by Clownfish. |
+| #90401 | keep_related | planned | related | #90401 is related Atomic Chat documentation work but has a narrower docs-only custom-provider scope that remains useful whether or not the bundled-provider product decision in #89617 lands. |
 
 ## Needs Human
 
-- #89618 requires central OpenClaw security handling because the hydrated artifact marks it security-sensitive and dependency-graph guard blocks dependency changes without admin/security authorization.
-- #89617 remains a maintainer product decision about whether Atomic Chat should be bundled as a first-class provider.
+- #89617 still needs maintainer product/scope judgment on whether Atomic Chat should become an enabled-by-default bundled provider.
+- #89618 is routed to central security handling because the hydrated artifact marks it security-sensitive and dependency/auth-provider guardrails are implicated.
+- #90401 has a failing Real behavior proof check, so any merge decision remains outside this plan-only classification.

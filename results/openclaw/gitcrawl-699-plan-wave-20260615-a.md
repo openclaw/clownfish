@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-699-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518980066"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518980066"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516934497"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516934497"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.639Z"
+published_at: "2026-06-15T02:27:57.083Z"
 canonical: "#65656"
 canonical_issue: "#65656"
 canonical_pr: "#81299"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518980066](https://github.com/openclaw/clownfish/actions/runs/27518980066)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516934497](https://github.com/openclaw/clownfish/actions/runs/27516934497)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #65656
 
 ## Summary
 
-#65656 remains the live canonical issue for the LINE text-plus-table reply loss. #81299 is the hydrated open PR covering the same root cause and should stay attached as the active repair path; no close, merge, label, comment, or fix PR action is planned in this read-only plan job.
+Keep #65656 as the live canonical issue and keep #81299 open as the active related repair PR. No close, merge, fix, or post-merge closeout is planned because the PR is still open/unmerged and this plan job blocks merge, fix, raise_pr, and post-merge closure.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Canonical: #65656
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65656 | keep_canonical | planned | canonical | The issue is still open, best represents the root cause, and has a hydrated open PR repair path; it should remain the canonical tracking item. |
-| #81299 | keep_related | planned | related | This PR is the same root-cause repair path for the canonical issue, but merge/fix actions are blocked by the job and merge preflight is not requested in this read-only plan. |
+| #65656 | keep_canonical | planned | canonical | #65656 remains the best live canonical issue for the LINE Reply API/Flex table message-loss root cause; keep it open until the active repair path lands and can be validated. |
+| #81299 | keep_related | planned | related | #81299 is the active related repair candidate for #65656, but this cluster is plan-only with merge/fix/post-merge closure disabled and no merge_preflight is available; keep the PR open for maintainer review rather than closing or merging it. |
 
 ## Needs Human
 

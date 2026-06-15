@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-708-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518984804"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518984804"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516940984"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516940984"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.642Z"
+published_at: "2026-06-15T02:27:57.086Z"
 canonical: "#89533"
 canonical_issue: null
 canonical_pr: "#89533"
-actions_total: 2
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518984804](https://github.com/openclaw/clownfish/actions/runs/27518984804)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516940984](https://github.com/openclaw/clownfish/actions/runs/27516940984)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #89533
 
 ## Summary
 
-Plan-only classification: keep #89533 as the canonical open documentation PR for embedded trajectory/runtime contracts, and keep #89558 as related but distinct compaction/tool-call documentation work. No close, merge, label, comment, fix, or PR-raising action is planned.
+Classified the hydrated cluster in plan mode. #89533 remains the best live canonical for the embedded trajectory documentation PR family. #89558 is related but has distinct compaction/tool-call documentation scope, so it should stay open rather than be closed as a duplicate or superseded PR. The linked closed PR #88554 is historical context only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,8 +66,9 @@ Plan-only classification: keep #89533 as the canonical open documentation PR for
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89533 | keep_canonical | planned | canonical | #89533 remains the best live canonical for the trajectory/runtime-contract side of this docs cluster. Merge is not planned because job mode is plan and blocked_actions include merge. |
-| #89558 | keep_related | planned | related | #89558 is related to the same embedded-runner documentation family, but it has unique compaction/tool-call/auth/failover documentation scope and should not be closed as a duplicate or superseded by #89533. |
+| #89533 | keep_canonical | planned | canonical | #89533 is the open representative and best canonical for the trajectory-side embedded-runner documentation work; merge remains out of scope because the job is plan mode and merge is blocked. |
+| #89558 | keep_related | planned | related | #89558 is in the same embedded-runner documentation family as #89533 but contains unique compaction and tool-call contract documentation, so it should not be closed as a duplicate or superseded item in this cluster. |
+| #88554 | keep_closed | skipped | independent | #88554 is already merged and outside the two open embedded-runner documentation candidates for this plan job. |
 
 ## Needs Human
 

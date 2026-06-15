@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-639-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518906626"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518906626"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516897408"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516897408"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.627Z"
-canonical: "#69408"
-canonical_issue: "#69408"
+published_at: "2026-06-15T02:27:57.069Z"
+canonical: "https://github.com/openclaw/openclaw/issues/69408"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/69408"
 canonical_pr: null
 actions_total: 2
 fix_executed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518906626](https://github.com/openclaw/clownfish/actions/runs/27518906626)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516897408](https://github.com/openclaw/clownfish/actions/runs/27516897408)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #69408
+Canonical: https://github.com/openclaw/openclaw/issues/69408
 
 ## Summary
 
-Keep #69408 as the live canonical issue. #90257 is the related open fix candidate for that issue, but it is not merge-ready and should not trigger fixed-by closeout because the hydrated PR has failing checks and an unresolved ClawSweeper review blocker requiring real behavior proof and a remaining direct warn-emission fix.
+#69408 remains the live canonical issue for the isolated cron loop-warning noise. #90257 is the related open fix candidate for the same root cause, but it is not merge-ready: hydrated ClawSweeper review identifies remaining warn-path/proof work and checks include failures. No close, merge, fix, label, or comment action is planned in this plan-mode job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Keep #69408 as the live canonical issue. #90257 is the related open fix candidat
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69408 | keep_canonical | planned | canonical | #69408 remains the clearest canonical root-cause thread and should stay open until the related fix candidate is proven and merge-ready. |
-| #90257 | keep_related | planned | related | #90257 belongs with the #69408 canonical family as the current fix candidate, but failing checks and unresolved review-bot findings block merge and fixed-by closeout. |
+| #69408 | keep_canonical | planned | canonical | #69408 is the best surviving issue for the root cause and should stay open until the hydrated fix candidate proves behavior and passes gates. |
+| #90257 | keep_related | planned | related | #90257 is the related open fix candidate for #69408, but failing checks and unresolved proof/review findings block merge or fixed-by-candidate closeout in this plan. |
 
 ## Needs Human
 

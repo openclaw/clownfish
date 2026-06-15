@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-619-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518893979"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518893979"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516882018"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516882018"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.621Z"
+published_at: "2026-06-15T02:27:57.061Z"
 canonical: "#60339"
 canonical_issue: "#60339"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518893979](https://github.com/openclaw/clownfish/actions/runs/27518893979)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516882018](https://github.com/openclaw/clownfish/actions/runs/27516882018)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #60339
 
 ## Summary
 
-Plan-mode classification only. #60339 remains the live canonical issue for the offloadedRefs transcript persistence regression. #86936 is the open candidate fix for the same root cause, but it is not merge-ready because proof/check/review gates are unresolved. No GitHub mutations are planned.
+Plan-mode classification for hydrated open candidates #60339 and #86936. #60339 remains the open canonical issue for the agent.request offloadedRefs transcript persistence bug. #86936 is a related candidate fix PR for the same root cause, but merge/fixed-by-candidate closeout is blocked by job mode, disabled merge/fix actions, skipped real-behavior proof, failing checks, and unresolved Copilot review comments.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #60339 remains the live canonical issue for the o
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #60339 | keep_canonical | planned | canonical | #60339 is the best hydrated live canonical: it is open, source-repro labeled, and tracks the surviving user-visible regression. |
-| #86936 | keep_related | planned | related | #86936 appears to be the candidate fix for #60339, but failing checks, skipped proof, and unresolved review comments block merge or fixed-by-candidate closeout in this plan-mode job. |
+| #60339 | keep_canonical | planned | canonical | The issue remains open, source-reproduced, and is the clearest live tracker for the root cause. The candidate PR has not landed and is not merge-ready, so the canonical issue should stay open. |
+| #86936 | keep_related | planned | related | #86936 is the linked candidate fix for #60339, but it should not be marked fixed-by-candidate or merge candidate in this plan because proof, checks, and review comments are unresolved and merge/fix actions are disabled. |
 
 ## Needs Human
 

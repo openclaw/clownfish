@@ -1,0 +1,54 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-348-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518815071",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518815071",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:11Z",
+  "workflow_updated_at": "2026-06-15T01:32:55Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-348-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.139Z",
+  "canonical": "#44294",
+  "canonical_issue": "#44294",
+  "canonical_pr": null,
+  "summary": "#44294 remains the live canonical issue. #91603 is the linked implementation PR for the same ACP error-kind problem, but it is not merge-ready because real behavior proof is failing and review-bot comments raise unresolved behavior-contract and test-coverage questions that need maintainer judgment.",
+  "actions": [
+    {
+      "target": "#44294",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#44294",
+      "candidate_fix": "#91603",
+      "reason": "The representative is still open, hydrated, non-security, and best captures the user-visible root cause while the linked PR remains under review."
+    },
+    {
+      "target": "#91603",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#44294",
+      "candidate_fix": "#91603",
+      "reason": "The PR is related to and may fix the canonical issue, but merge/fixed-by-candidate planning is blocked by failing proof and unresolved product/API-contract review questions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for #91603: whether ACP state:error non-refusal cases should reject with RequestError or continue resolving with explicit stop reasons, and what real ACP behavior proof is sufficient before this PR can be merged."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

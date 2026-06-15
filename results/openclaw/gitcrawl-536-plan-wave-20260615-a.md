@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-536-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518868367"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518868367"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516847668"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516847668"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.609Z"
+published_at: "2026-06-15T02:27:57.045Z"
 canonical: "#57067"
 canonical_issue: "#57067"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518868367](https://github.com/openclaw/clownfish/actions/runs/27518868367)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516847668](https://github.com/openclaw/clownfish/actions/runs/27516847668)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #57067
 
 ## Summary
 
-Keep #57067 as the live canonical issue. #91520 is a focused related PR for the visible-agent-list half of #57067, and hydrated linked PR #91457 is the companion related PR for the default-persistence half. No close, merge, fix, or security routing action is appropriate in this read-only plan.
+Plan mode classification only. #57067 remains the live canonical issue at https://github.com/openclaw/openclaw/issues/57067 because it tracks both reported halves: visible-list navigation friction and Set Default persistence. #91520 is a focused related PR for the visible-list half and hydrated linked PR #91457 is a focused related PR for the persistence half; both should stay open for maintainer review, with no close, merge, or fix action planned by this job.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Keep #57067 as the live canonical issue. #91520 is a focused related PR for the 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57067 | keep_canonical | planned | canonical | #57067 remains the best canonical umbrella because it covers both user-visible halves and both focused PRs intentionally reference it without closing it. |
-| #91457 | keep_related | planned | related | #91457 is a focused companion fix for one half of the canonical issue, not a duplicate or replacement for #57067 or #91520. Merge is blocked by job frontmatter and missing merge preflight. |
-| #91520 | keep_related | planned | related | #91520 is a focused candidate fix for the canonical issue's visible-list UX half. It should remain related to #57067 rather than be closed, superseded, or merged in this plan-mode job. |
+| #57067 | keep_canonical | planned | canonical | The issue is the best canonical because it tracks the whole user-visible regression family, while the PRs each address only one half. |
+| #91520 | keep_related | planned | related | This PR is useful related work, not a duplicate to close. It should stay open for maintainer review as the focused visible-list candidate. |
+| #91457 | keep_related | planned | related | Hydrated linked context confirms the canonical issue has a second focused PR covering the persistence half. Keep it related rather than closing the issue or merging in this plan job. |
 
 ## Needs Human
 

@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-649-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516901396",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516901396",
+  "head_sha": "756c7e01926673fc4be49b47719fc3f2b097892a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:23:13Z",
+  "workflow_updated_at": "2026-06-15T00:24:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-649-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.072Z",
+  "canonical": "#89589",
+  "canonical_issue": "#89589",
+  "canonical_pr": null,
+  "summary": "Plan mode only. #89589 is the open representative and remains the canonical issue for the root cause, but the preflight artifact marks it security-sensitive, so it is routed to central OpenClaw security handling. #89635 is an open related PR candidate for the same root cause, but it is not merge-ready or closeout-ready because ClawSweeper still has actionable patch-quality findings and this job blocks merge, fix, and raise_pr actions.",
+  "actions": [
+    {
+      "target": "#89589",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#89589",
+      "candidate_fix": null,
+      "reason": "#89589 is out of scope for Clownfish backlog cleanup because the live preflight marks it security-sensitive; route this exact issue to central OpenClaw security handling."
+    },
+    {
+      "target": "#89635",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89589",
+      "candidate_fix": "#89635",
+      "reason": "Keep #89635 as the related open PR candidate for #89589, but do not recommend merge, closeout, or fixed-by-candidate handling in this plan run because review-bot findings remain unresolved and this job does not allow merge or fix work."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

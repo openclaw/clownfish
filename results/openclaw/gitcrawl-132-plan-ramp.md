@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-132-plan-ramp"
 mode: "plan"
-run_id: "27519854484"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519854484"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518756595"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518756595"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.957Z"
+published_at: "2026-06-15T02:27:57.097Z"
 canonical: "#69118"
 canonical_issue: "#69118"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519854484](https://github.com/openclaw/clownfish/actions/runs/27519854484)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518756595](https://github.com/openclaw/clownfish/actions/runs/27518756595)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #69118
 
 ## Summary
 
-Plan-only classification for cluster 132: keep #69118 as the live canonical for the extraSystemPromptHash groupIntro/session-reuse root cause; keep #81041/#81047 as a related but distinct Claude live-session systemPromptHash family; keep #91157 related but blocked from merge by proof/check failures; route the hydrated security-sensitive linked ref #58818 to central security handling only.
+Plan-only classification: keep #69118 as the live canonical for the extraSystemPromptHash/groupIntro reset family, keep #81041/#81047 as a related but distinct live-fingerprint/systemPromptHash subcluster, keep #91157 as a non-merge-ready candidate for #69118, and route the linked security-sensitive #58818 to central security handling.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan-only classification for cluster 132: keep #69118 as the live canonical for 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58818 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup. |
-| #69118 | keep_canonical | planned | canonical | #69118 remains the best open canonical for the groupIntro/extraSystemPromptHash false-invalidation family. |
-| #81041 | keep_related | planned | related | Same user-visible session reset symptom family, but a distinct root cause and fix path from #69118. |
-| #81047 | keep_related | planned | related | Useful related fix candidate for #81041, but not mergeable or closable in this plan job. |
-| #91157 | keep_related | planned | related | Focused but currently blocked candidate for #69118; failing proof/checks block merge and fixed-by-candidate closeout. |
+| #58818 | route_security | planned | security_sensitive | Security-sensitive linked issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only. |
+| #69118 | keep_canonical | planned | canonical | #69118 remains the best live canonical for the extraSystemPromptHash/groupIntro session reset family. |
+| #81041 | keep_related | planned | related | Same user-visible session-reset family, but a distinct root cause and fix path from #69118, so it should remain related rather than be closed as a duplicate. |
+| #81047 | keep_related | planned | related | Useful related implementation candidate for #81041, but not merge-ready and not a replacement for the #69118 canonical path. |
+| #91157 | keep_related | planned | related | Focused candidate for the canonical issue, but failing proof checks and missing real-behavior proof block merge or fixed-by-candidate closeout. |
 
 ## Needs Human
 

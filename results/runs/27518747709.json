@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-110-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518747709",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518747709",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:29:53Z",
+  "workflow_updated_at": "2026-06-15T01:31:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-110-plan-ramp.md",
+  "published_at": "2026-06-15T02:27:57.089Z",
+  "canonical": "#91134",
+  "canonical_issue": "#80536",
+  "canonical_pr": "#91134",
+  "summary": "Read-only plan for cluster gitcrawl-110-plan-ramp. #91134 remains the best live canonical PR for the bundled channel config metadata CI guard. The cluster also contains unrelated Telegram account-agentId and Paperclip gateway compatibility work; those should not be forced into the #91134 duplicate family. #74635 is already closed, so no close action is valid. The linked security-sensitive #63924 is quarantined with route_security only.",
+  "actions": [
+    {
+      "target": "#91134",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the bundled channel config metadata CI guard, but merge is blocked by job mode and blocked_actions."
+    },
+    {
+      "target": "#80536",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91134",
+      "candidate_fix": "#91134",
+      "reason": "Same root-cause family as #91134, but keep the issue open until the canonical PR lands or a maintainer decides otherwise."
+    },
+    {
+      "target": "#63380",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "Distinct Telegram routing/config regression, not a duplicate of the bundled metadata CI guard."
+    },
+    {
+      "target": "#74974",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "Distinct Gateway/Paperclip compatibility work; keep it out of the #91134 bundled metadata CI canonical family."
+    },
+    {
+      "target": "#74635",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#74974",
+      "candidate_fix": "#74974",
+      "reason": "Already closed; no mutating close action is valid."
+    },
+    {
+      "target": "#63924",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed to central OpenClaw security handling without affecting non-security classification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_independent": 2,
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

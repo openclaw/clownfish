@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-690-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518977390"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518977390"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516918363"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516918363"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T02:20:44.638Z"
+result_status: "needs_human"
+published_at: "2026-06-15T02:27:57.083Z"
 canonical: "#89950"
 canonical_issue: "#89950"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-690-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518977390](https://github.com/openclaw/clownfish/actions/runs/27518977390)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516918363](https://github.com/openclaw/clownfish/actions/runs/27516918363)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: #89950
 
 ## Summary
 
-Read-only plan classification for hydrated cluster refs #89950 and #90079. #89950 remains the live canonical issue. #90079 is a related draft contributor PR that appears to address the same Discord native /compact empty visible reply path, but it is not merge-ready and must not be used for fixed-by-candidate closeout because real behavior proof is failing and the PR is draft.
+#89950 remains the canonical open issue. #90079 is an on-topic draft candidate fix for the same Discord native /compact empty-visible-reply failure, but draft state, missing live Discord proof, and the failing Real behavior proof check block merge and fixed-by-candidate closeout.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Read-only plan classification for hydrated cluster refs #89950 and #90079. #8995
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,9 @@ Read-only plan classification for hydrated cluster refs #89950 and #90079. #8995
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89950 | keep_canonical | planned | canonical | #89950 is the best surviving canonical thread for the reported Discord native /compact visible reply bug. |
-| #90079 | keep_related | planned | related | #90079 is related to the canonical issue and may be the eventual fix path, but draft status and failing real behavior proof block merge or fixed-by-candidate closeout in this plan. |
+| #89950 | keep_canonical | planned | canonical | #89950 is still the best surviving issue thread for this root cause; the linked candidate PR is not ready enough to close the issue as fixed. |
+| #90079 | keep_related | planned | related | #90079 is useful candidate fix work for #89950, but it should stay open until the proof gate is satisfied; do not merge, supersede, or use it for fixed-by-candidate closeout in this plan. |
 
 ## Needs Human
 
-- none
+- #90079 needs redacted live Discord native /compact behavior proof, or an explicit maintainer proof override, before any merge recommendation or #89950 fixed-by-candidate closeout.

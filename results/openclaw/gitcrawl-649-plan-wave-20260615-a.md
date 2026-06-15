@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-649-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518910096"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518910096"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516901396"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516901396"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.631Z"
+published_at: "2026-06-15T02:27:57.072Z"
 canonical: "#89589"
 canonical_issue: "#89589"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518910096](https://github.com/openclaw/clownfish/actions/runs/27518910096)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516901396](https://github.com/openclaw/clownfish/actions/runs/27516901396)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89589
 
 ## Summary
 
-Plan only. #89589 is an open security-sensitive issue and should be routed to central OpenClaw security handling. #89635 is an open contributor PR linked to that report, but merge and fix actions are blocked by job policy and the hydrated ClawSweeper review says it is not merge-ready because it changes shared JSON/text atomic write defaults instead of scoping the 0700 behavior to private state-root writes.
+Plan mode only. #89589 is the open representative and remains the canonical issue for the root cause, but the preflight artifact marks it security-sensitive, so it is routed to central OpenClaw security handling. #89635 is an open related PR candidate for the same root cause, but it is not merge-ready or closeout-ready because ClawSweeper still has actionable patch-quality findings and this job blocks merge, fix, and raise_pr actions.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan only. #89589 is an open security-sensitive issue and should be routed to ce
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89589 | route_security | planned | security_sensitive | The issue reports state directory permissions being relaxed from 0700 to 0775 by update-check JSON writes, which the artifact classifies as security-sensitive and out of scope for ProjectClownfish cleanup. |
-| #89635 | keep_related | planned | related | The PR is related to the routed security-sensitive issue and contains potentially useful contributor work, but it is not merge-ready and this plan-mode job is not allowed to merge or repair it. |
+| #89589 | route_security | planned | security_sensitive | #89589 is out of scope for Clownfish backlog cleanup because the live preflight marks it security-sensitive; route this exact issue to central OpenClaw security handling. |
+| #89635 | keep_related | planned | related | Keep #89635 as the related open PR candidate for #89589, but do not recommend merge, closeout, or fixed-by-candidate handling in this plan run because review-bot findings remain unresolved and this job does not allow merge or fix work. |
 
 ## Needs Human
 

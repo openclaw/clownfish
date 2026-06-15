@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-214-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519878243"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519878243"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518774481"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518774481"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.969Z"
+published_at: "2026-06-15T02:27:57.110Z"
 canonical: "#92102"
 canonical_issue: "#92102"
-canonical_pr: "#92114"
+canonical_pr: null
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519878243](https://github.com/openclaw/clownfish/actions/runs/27519878243)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518774481](https://github.com/openclaw/clownfish/actions/runs/27518774481)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92102
 
 ## Summary
 
-Plan-only classification for memory status/vector-store cluster 214. #92102 remains the live canonical issue. #92114 is the focused fix PR for #92102 but is not merge-ready because merge is blocked by job frontmatter, two checks are failing, and the Codex/ClawSweeper review did not complete cleanly. No GitHub mutations are planned.
+Plan-only classification: keep #92102 as the live canonical issue for the sqlite-vec lazy-init memory status bug; keep #92114 related as the focused candidate PR but do not recommend merge because merge is blocked by job permissions, failing checks, and incomplete ClawSweeper/Codex review. Already-closed context refs stay closed. #91001 is a related but separate local modelPath identity issue, not a duplicate of #92102.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan-only classification for memory status/vector-store cluster 214. #92102 rema
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92102 | keep_canonical | planned | canonical | Best live canonical for the sqlite-vec lazy-init status fast-path bug. |
-| #92114 | merge_candidate | blocked | fixed_by_candidate | Focused candidate fix for the canonical issue, but merge cannot be recommended as executable in this plan. |
-| #74544 | keep_closed | skipped | related | Already closed and related memory-status context only; no mutation. |
-| #91001 | keep_related | planned | related | Same memory status/index reporting area, but different root cause from #92102; keep open as related. |
-| #91183 | keep_closed | skipped | related | Already closed linked context with a different provider/upgrade recovery root cause. |
+| #74544 | keep_closed | skipped | superseded | Already closed; retain as historical related context only. |
+| #91001 | keep_related | planned | related | Related memory status family, but not the same root cause as #92102. |
+| #91183 | keep_closed | skipped | superseded | Already closed and resolved/superseded by another memory recovery path, not actionable in this cluster. |
+| #92102 | keep_canonical | planned | canonical | Best live canonical for the cluster's representative bug. |
+| #92114 | keep_related | planned | related | Focused candidate PR for #92102, but merge/fixed-by-candidate closeout is blocked by permissions, failing checks, and incomplete review proof. |
 
 ## Needs Human
 

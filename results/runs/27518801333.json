@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-310-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518801333",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518801333",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:31:40Z",
+  "workflow_updated_at": "2026-06-15T01:32:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-310-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.130Z",
+  "canonical": "#85087",
+  "canonical_issue": "#85087",
+  "canonical_pr": null,
+  "summary": "Plan-only classification for fast-mode cluster 310. Keep #85087 as the live canonical issue. Keep #85104 related as a broad active implementation candidate for #85087 that needs maintainer/product review before any merge or fixed-by closeout. Keep #82148 independent because it covers sessions_spawn fastMode overrides, not automatic fast:auto timeout behavior. Route linked security-sensitive #57239 only to central security handling.",
+  "actions": [
+    {
+      "target": "#57239",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked historical PR is marked security-sensitive and must be routed out of Clownfish backlog cleanup without affecting the non-security items."
+    },
+    {
+      "target": "#85087",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85087",
+      "candidate_fix": null,
+      "reason": "Open issue #85087 is still the clearest canonical for the automatic fast-mode timeout feature."
+    },
+    {
+      "target": "#82148",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#85087",
+      "candidate_fix": null,
+      "reason": "Same fast-mode area, but a different feature surface and root cause from #85087."
+    },
+    {
+      "target": "#85104",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85087",
+      "candidate_fix": "#85104",
+      "reason": "#85104 is the active implementation path for the canonical issue, but its broad scope and missing merge preflight make it related work for maintainer review rather than a merge or closeout action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_independent": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

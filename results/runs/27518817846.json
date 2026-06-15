@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-355-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518817846",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518817846",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:16Z",
+  "workflow_updated_at": "2026-06-15T01:33:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-355-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.140Z",
+  "canonical": "#14785",
+  "canonical_issue": "#14785",
+  "canonical_pr": null,
+  "summary": "Plan mode only. The originally hinted canonical #44253 is security-sensitive and should be quarantined to central OpenClaw security handling. The non-security slim-schema work is not the same root cause as #44253; #59225 is already closed and its remaining non-security slim/lazy schema scope is covered by hydrated open issue #14785, while #66720 is a related but not merge-ready PR with failing proof and unresolved review-bot blockers.",
+  "actions": [
+    {
+      "target": "#44253",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item intentionally changes command/file tool inheritance semantics between an orchestrator and subagents, so it belongs in central security handling rather than ProjectClownfish dedupe cleanup."
+    },
+    {
+      "target": "#59225",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#14785",
+      "candidate_fix": null,
+      "reason": "No closure action is valid because the target is already closed; preserve the existing closeout and canonical split."
+    },
+    {
+      "target": "#14785",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#14785",
+      "candidate_fix": null,
+      "reason": "#14785 is the best live non-security canonical for slim/lazy tool-schema overhead and parameter-pruning product decisions."
+    },
+    {
+      "target": "#66720",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#14785",
+      "candidate_fix": null,
+      "reason": "This PR is related to the non-security schema-overhead family but is not a safe merge or fixed-by-candidate path in plan mode."
+    },
+    {
+      "target": "#5641",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation should be planned."
+    },
+    {
+      "target": "#28397",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#14785",
+      "candidate_fix": null,
+      "reason": "Already closed; useful only as historical evidence for #14785."
+    },
+    {
+      "target": "#30808",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related context; no action beyond preserving it as evidence."
+    },
+    {
+      "target": "#47583",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This was a distinct per-agent tool-definition bug already closed as implemented, not a live duplicate family member."
+    },
+    {
+      "target": "#89658",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; quarantine as read-only context and do not let it drive non-security dedupe actions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 5,
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

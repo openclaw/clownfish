@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-683-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518973693"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518973693"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516913444"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516913444"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.636Z"
+published_at: "2026-06-15T02:27:57.081Z"
 canonical: "#89743"
 canonical_issue: "#89743"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518973693](https://github.com/openclaw/clownfish/actions/runs/27518973693)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516913444](https://github.com/openclaw/clownfish/actions/runs/27516913444)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89743
 
 ## Summary
 
-Canonical remains open issue #89743. The hydrated PRs #89767 and #90089 are related but complementary fix paths: #89767 covers Gateway skill install/update workspace routing, while #90089 covers sandbox skill-sync fallback. No closure, merge, or fix PR action is planned in this read-only plan job.
+Classified #89743 as the live canonical issue. #89767 and #90089 are related, complementary PRs for separate Gateway and sandbox workspace-resolution surfaces; no close, merge, or fix PR action is planned in this read-only job.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Canonical remains open issue #89743. The hydrated PRs #89767 and #90089 are rela
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89743 | keep_canonical | planned | canonical | #89743 is still the best canonical issue because it tracks the broader configured-workspace skill loading failure and both hydrated PRs address distinct subpaths under that report. |
-| #89767 | keep_related | planned | related | #89767 is related to the canonical issue but is not interchangeable with #90089; it fixes a separate Gateway API routing path and still has maintainer/review-bot considerations before any merge path. |
-| #90089 | keep_related | planned | related | #90089 is a valid related candidate fix for the sandbox fallback subpath under #89743, but it should not close or supersede #89767 because the PRs cover different code paths. |
+| #89743 | keep_canonical | planned | canonical | Best surviving canonical issue for the workspace path fallback family; leave open until the complementary PR paths land and validation can be consolidated. |
+| #89767 | keep_related | planned | related | Related Gateway-side fix for the canonical issue family; keep it open for maintainer review rather than closing or treating it as superseded by the sandbox PR. |
+| #90089 | keep_related | planned | related | Related sandbox-side fix for the canonical issue family; keep it open as a useful contributor PR, with no close or merge recommendation because this plan job blocks merge and fix actions. |
 
 ## Needs Human
 

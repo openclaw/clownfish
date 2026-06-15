@@ -1,0 +1,65 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-266-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518787913",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518787913",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:31:12Z",
+  "workflow_updated_at": "2026-06-15T01:32:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-266-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.120Z",
+  "canonical": "#89617",
+  "canonical_issue": "#89617",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #89617 as the open canonical product-scope issue, route security-sensitive #89618 to central security handling without mutation, and keep docs-only #90401 related but not a duplicate or superseded item.",
+  "actions": [
+    {
+      "target": "#89617",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89617",
+      "candidate_fix": null,
+      "reason": "#89617 remains the best canonical thread for the bundled-provider product decision."
+    },
+    {
+      "target": "#89618",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR is explicitly security-sensitive in the hydrated artifact, so it is quarantined for central OpenClaw security handling and not classified for closure or merge by Clownfish."
+    },
+    {
+      "target": "#90401",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89617",
+      "candidate_fix": null,
+      "reason": "#90401 is related Atomic Chat documentation work but has a narrower docs-only custom-provider scope that remains useful whether or not the bundled-provider product decision in #89617 lands."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89617 still needs maintainer product/scope judgment on whether Atomic Chat should become an enabled-by-default bundled provider.",
+    "#89618 is routed to central security handling because the hydrated artifact marks it security-sensitive and dependency/auth-provider guardrails are implicated.",
+    "#90401 has a failing Real behavior proof check, so any merge decision remains outside this plan-only classification."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

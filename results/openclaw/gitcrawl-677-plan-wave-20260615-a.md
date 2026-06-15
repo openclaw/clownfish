@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-677-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518971293"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518971293"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516911503"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516911503"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.635Z"
+published_at: "2026-06-15T02:27:57.080Z"
 canonical: "#67288"
 canonical_issue: "#67288"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518971293](https://github.com/openclaw/clownfish/actions/runs/27518971293)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516911503](https://github.com/openclaw/clownfish/actions/runs/27516911503)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #67288
 
 ## Summary
 
-Plan-only classification: keep #67288 as the live canonical issue. Keep #81208 related as the active linked PR candidate for the remaining no-credentials Bedrock Mantle discovery diagnostic, but do not recommend merge or fixed-by closeout in this job because merge/fix actions are blocked and the hydrated PR still has an unresolved Codex review-bot finding plus missing merge preflight proof.
+#67288 remains the open canonical issue. #81208 remains a related open candidate fix path for the remaining Bedrock Mantle no-credentials diagnostic, but no close, merge, fix, or security action is planned in this read-only job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #67288 as the live canonical issue. Keep #81208 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #67288 | keep_canonical | planned | canonical | #67288 remains the best live canonical because it is the open issue carrying the surviving user-visible behavior and the linked open PR #81208 references it as the fix path. |
-| #81208 | keep_related | planned | related | #81208 is clearly related to and plausibly fixes the remaining canonical behavior, but it is not eligible for merge/fixed-by closeout in this plan job because merge/fix are blocked and review-bot preflight is incomplete. |
+| #67288 | keep_canonical | planned | canonical | #67288 is the best live canonical because it is the only open issue report for the user-visible Bedrock Mantle discovery diagnostic, with #81208 linked as the candidate fix path. |
+| #81208 | keep_related | planned | related | #81208 should stay linked to #67288 as the open candidate fix path; plan mode and job frontmatter block merge/fix actions, and missing merge preflight prevents fixed-by-candidate closeout. |
 
 ## Needs Human
 

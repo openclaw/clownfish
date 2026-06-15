@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-343-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518813530",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518813530",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:32:08Z",
+  "workflow_updated_at": "2026-06-15T01:33:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-343-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.138Z",
+  "canonical": "#75165",
+  "canonical_issue": "#77981",
+  "canonical_pr": "#75165",
+  "summary": "Plan-only classification: keep #75165 as the live canonical implementation PR, keep #77981 open as its related product/tracking issue, and treat linked #77622 as closed historical proof-gate context only. No GitHub mutations, merge, fix PR, or closeout is recommended from this plan.",
+  "actions": [
+    {
+      "target": "#75165",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75165",
+      "candidate_fix": null,
+      "reason": "#75165 remains the best live canonical because it is the open implementation PR for the feature family and directly closes the paired tracking issue #77981."
+    },
+    {
+      "target": "#77981",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75165",
+      "candidate_fix": "#75165",
+      "reason": "#77981 is not an independent duplicate to close; it is the related tracking/product issue for the canonical PR and should remain open until #75165 lands or maintainers split the feature scope."
+    },
+    {
+      "target": "#77622",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#75165",
+      "candidate_fix": null,
+      "reason": "#77622 is historical proof-gate context, not a live candidate in this feature cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75165/#77981 still need maintainer product and ownership review before any merge or issue closeout; the worker classification is clear, but product acceptance is outside plan-mode cleanup."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-230-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518778158",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518778158",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:52Z",
+  "workflow_updated_at": "2026-06-15T01:32:00Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-230-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.113Z",
+  "canonical": "#50093",
+  "canonical_issue": "#50093",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #50093 as the canonical open tracker. #76175 and #80642 are related, competing fix approaches for the same WhatsApp reconnect/missed-message family, but neither should be closed or merged in this plan because both are blocked on real behavior proof and maintainer product choice over opt-in configurable replay versus widening the default reconnect catch-up path.",
+  "actions": [
+    {
+      "target": "#50093",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50093",
+      "candidate_fix": null,
+      "reason": "#50093 remains the best live canonical because it is open, broad enough to carry both implementation approaches, and already contains maintainer-facing review context."
+    },
+    {
+      "target": "#76175",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50093",
+      "candidate_fix": "#76175",
+      "reason": "Related candidate fix, but not a duplicate target or merge candidate. It is broader than #80642 because it adds opt-in configuration and config/schema/docs surfaces, and it still needs proof plus maintainer product decision."
+    },
+    {
+      "target": "#80642",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50093",
+      "candidate_fix": "#80642",
+      "reason": "Related candidate fix, but not ready to merge and not clearly superseded. It competes with #76175 on product shape: default widened reconnect delivery versus opt-in configurable offline-message handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer product decision needed on the canonical fix shape for #50093: choose between #76175 opt-in configurable offline-message processing and #80642 narrower default reconnect catch-up behavior, or request a combined approach.",
+    "Both candidate PRs need acceptable real WhatsApp behavior proof before any merge or issue closeout can be planned."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

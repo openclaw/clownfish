@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-185-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519869909"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519869909"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518767610"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518767610"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.965Z"
+published_at: "2026-06-15T02:27:57.106Z"
 canonical: "#87799"
 canonical_issue: null
 canonical_pr: "#87799"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519869909](https://github.com/openclaw/clownfish/actions/runs/27519869909)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518767610](https://github.com/openclaw/clownfish/actions/runs/27518767610)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #87799
 
 ## Summary
 
-Classified the installer stdin-pipe cluster in read-only plan mode. #87799 remains the best live canonical implementation path. #73814 and #90008 track the same root cause and should stay linked to #87799 until the PR lands or maintainers reject it. Already-closed linked refs are historical evidence only.
+Plan-only classification keeps #87799 as the live canonical implementation path for installer stdin isolation. #73814 and #90008 should remain open and related until the fix lands; #73830 and #73837 are already closed context refs.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Classified the installer stdin-pipe cluster in read-only plan mode. #87799 remai
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87799 | keep_canonical | planned | canonical | #87799 is the only open implementation PR that addresses the shared installer stdin-inheritance root cause. |
-| #73814 | keep_related | planned | fixed_by_candidate | This issue is covered by #87799, but should not be closed before the canonical PR lands or maintainers explicitly approve fixed-by-candidate closeout. |
-| #90008 | keep_related | planned | fixed_by_candidate | #90008 is the canonical issue-side reproduction for the same implementation path, but closure should wait for #87799 to land or be rejected. |
-| #73830 | keep_closed | skipped | superseded | Historical closed PR superseded by the installer-code fix path in #87799. |
-| #73837 | keep_closed | skipped | related | Closed linked context only; it should not be folded into this stdin-pipe duplicate family. |
+| #87799 | keep_canonical | planned | canonical | Best live canonical implementation path for the shared installer pipe-corruption root cause. |
+| #73814 | keep_related | planned | related | Same root-cause family as #87799, but the issue should stay open while the canonical PR remains unmerged. |
+| #90008 | keep_related | planned | related | Same implementation family as #87799 and useful as root-cause context; keep open until the canonical PR lands. |
+| #73830 | keep_closed | skipped | superseded | Closed historical PR superseded by the implementation fix path in #87799; no action should be applied to an already-closed PR. |
+| #73837 | keep_closed | skipped | independent | Closed linked context issue with a different installer Node.js auto-installation root cause; no cluster action. |
 
 ## Needs Human
 

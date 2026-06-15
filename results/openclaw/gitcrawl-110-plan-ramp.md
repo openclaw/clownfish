@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-110-plan-ramp"
 mode: "plan"
-run_id: "27519845967"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519845967"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518747709"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518747709"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.950Z"
+published_at: "2026-06-15T02:27:57.089Z"
 canonical: "#91134"
 canonical_issue: "#80536"
 canonical_pr: "#91134"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519845967](https://github.com/openclaw/clownfish/actions/runs/27519845967)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518747709](https://github.com/openclaw/clownfish/actions/runs/27518747709)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91134
 
 ## Summary
 
-Plan-mode classification only. #91134 remains the canonical PR for #80536's bundled channel config metadata CI guard. #63380 is related but distinct Telegram account-agentId work, #74974 is an independent Paperclip gateway protocol fix path, #74635 is already closed, and the linked security-sensitive #63924 is routed to central security handling only.
+Read-only plan for cluster gitcrawl-110-plan-ramp. #91134 remains the best live canonical PR for the bundled channel config metadata CI guard. The cluster also contains unrelated Telegram account-agentId and Paperclip gateway compatibility work; those should not be forced into the #91134 duplicate family. #74635 is already closed, so no close action is valid. The linked security-sensitive #63924 is quarantined with route_security only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Plan-mode classification only. #91134 remains the canonical PR for #80536's bund
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91134 | keep_canonical | planned | canonical | Best live canonical for the cluster's bundled channel config metadata root cause. |
-| #80536 | close_fixed_by_candidate | planned | fixed_by_candidate | The issue's remaining validation/guard work is covered by the hydrated canonical PR #91134. |
-| #63380 | keep_related | planned | related | Related channel config/schema family, but not a duplicate of the bundled metadata CI guard. |
-| #74974 | keep_independent | planned | independent | Independent Paperclip gateway protocol compatibility work, not part of the bundled channel metadata guard cluster. |
-| #74635 | keep_closed | skipped | fixed_by_candidate | Already closed; retained only as historical Paperclip context. |
-| #63924 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish cleanup scope and should route to central OpenClaw security handling. |
+| #91134 | keep_canonical | planned | canonical | Best live canonical for the bundled channel config metadata CI guard, but merge is blocked by job mode and blocked_actions. |
+| #80536 | keep_related | planned | related | Same root-cause family as #91134, but keep the issue open until the canonical PR lands or a maintainer decides otherwise. |
+| #63380 | keep_independent | planned | independent | Distinct Telegram routing/config regression, not a duplicate of the bundled metadata CI guard. |
+| #74974 | keep_independent | planned | independent | Distinct Gateway/Paperclip compatibility work; keep it out of the #91134 bundled metadata CI canonical family. |
+| #74635 | keep_closed | skipped | superseded | Already closed; no mutating close action is valid. |
+| #63924 | route_security | planned | security_sensitive | Security-sensitive linked ref must be routed to central OpenClaw security handling without affecting non-security classification. |
 
 ## Needs Human
 

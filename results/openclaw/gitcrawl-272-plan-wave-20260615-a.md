@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-272-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519901070"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519901070"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518790991"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518790991"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.980Z"
+published_at: "2026-06-15T02:27:57.122Z"
 canonical: "#81490"
 canonical_issue: "#81490"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519901070](https://github.com/openclaw/clownfish/actions/runs/27519901070)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518790991](https://github.com/openclaw/clownfish/actions/runs/27518790991)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #81490
 
 ## Summary
 
-Plan-mode classification only. #81490 remains the live canonical issue. #76927 and #86684 are related but not duplicates or merge/close candidates. Security-sensitive linked PR #85716 is quarantined to central security handling.
+Plan-mode classification only. #81490 remains the canonical open issue for the exact yielded-parent route spawning a fresh run. #76927 is related queue-first completion-announce work but is draft and proof/check blocked. #86684 is related session-state/compaction work with a distinct token/accounting/compaction trigger root cause. #85716 is a linked security-sensitive PR and is routed to central security handling only.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-mode classification only. #81490 remains the live canonical issue. #76927 a
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #81490 | keep_canonical | planned | canonical | Best live canonical for the exact yielded-parent route overwrite/fresh-run symptom. |
-| #76927 | keep_related | planned | related | Related delivery work, but not a duplicate/fix for #81490 and not merge-ready. |
-| #86684 | keep_related | planned | related | Same sessions_yield/subagent symptom family, but a distinct compaction/data-loss root cause that should remain open separately. |
-| #85716 | route_security | planned | security_sensitive | Security-boundary/token-auth content is out of scope for Clownfish backlog cleanup and should go to central OpenClaw security handling. |
+| #81490 | keep_canonical | planned | canonical | #81490 is open, directly describes the representative root cause, and no hydrated candidate proves the exact symptom fixed. |
+| #76927 | keep_related | planned | related | Related but not a duplicate/fix-owner for #81490; draft and failing proof block any merge or fixed-by-candidate closeout. |
+| #86684 | keep_related | planned | related | Same sessions_yield/subagent completion area, but distinct compaction/token-accounting root cause and unique remaining maintainer decision. |
+| #85716 | route_security | planned | security_sensitive | Hydrated linked PR is explicitly security-sensitive and must be routed without affecting unrelated non-security classifications. |
 
 ## Needs Human
 

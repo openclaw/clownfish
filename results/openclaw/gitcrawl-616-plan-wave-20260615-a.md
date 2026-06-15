@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-616-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518892112"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518892112"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516880123"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516880123"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.620Z"
+published_at: "2026-06-15T02:27:57.060Z"
 canonical: "#59736"
 canonical_issue: "#59736"
-canonical_pr: null
+canonical_pr: "#61775"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518892112](https://github.com/openclaw/clownfish/actions/runs/27518892112)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516880123](https://github.com/openclaw/clownfish/actions/runs/27516880123)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #59736
 
 ## Summary
 
-Plan mode only. #59736 remains the best live canonical issue for the Makefile/justfile developer-experience request. #61775 is a hydrated linked implementation PR with proof and small scope, but it still needs maintainer product decision on the repo-root task-runner surface and is not mergeable in this job because merge/fix actions are blocked. #90550 overlaps the same issue but is draft/unstable and lacks real behavior proof, so it should stay open as related rather than receive a closure action in this plan job.
+Canonical issue remains #59736. #61775 is the best hydrated implementation PR for the same Makefile/justfile DX request, but this job should not merge it because merge/fix actions are blocked and the root task-runner surface still needs maintainer choice. #90550 is an overlapping draft PR with failing behavior proof and no unique remaining work, so the plan recommends superseded closeout with contributor credit.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan mode only. #59736 remains the best live canonical issue for the Makefile/ju
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #59736 | keep_canonical | planned | canonical | The issue remains open, current, and is the clearest canonical discussion thread for the product decision. |
-| #61775 | keep_related | planned | related | This PR is the strongest linked implementation path, but it is not a duplicate to close and merge/fix actions are blocked by the job. |
-| #90550 | keep_related | planned | related | The PR overlaps the canonical issue but lacks proof and is draft/unstable, so it should remain related rather than be closed by this plan job. |
+| #59736 | keep_canonical | planned | canonical | #59736 remains the clearest open canonical issue for the root developer-experience request. |
+| #61775 | keep_canonical | planned | canonical | #61775 is the best hydrated implementation PR for #59736, but this plan keeps it open for maintainer review instead of recommending merge. |
+| #90550 | close_superseded | planned | superseded | #90550 is superseded by the clearer hydrated implementation path in #61775 while #59736 remains the canonical issue. |
 
 ## Needs Human
 

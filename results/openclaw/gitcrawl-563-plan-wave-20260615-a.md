@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-563-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518875149"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518875149"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516853956"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516853956"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.612Z"
+published_at: "2026-06-15T02:27:57.049Z"
 canonical: "#91503"
 canonical_issue: "#91503"
 canonical_pr: "#91573"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518875149](https://github.com/openclaw/clownfish/actions/runs/27518875149)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516853956](https://github.com/openclaw/clownfish/actions/runs/27516853956)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91503
 
 ## Summary
 
-Plan-only classification: #91503 remains the live canonical issue for the chat-history sentinel leak, and #91573 is a focused related candidate fix for that canonical issue. No close, merge, fix, or GitHub mutation is planned because the job is read-only plan mode and merge/fix actions are blocked by frontmatter.
+Kept #91503 as the live canonical issue. #91573 is the focused open candidate fix for the same chat-history sentinel leak and should remain open for maintainer review; no close, merge, or fix-PR action is planned in this plan-only job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #91503 remains the live canonical issue for the chat-h
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91503 | keep_canonical | planned | canonical | #91503 is the open issue that defines the root cause and user-visible behavior for this cluster. |
-| #91573 | keep_related | planned | fixed_by_candidate | #91573 is the focused candidate fix for the canonical issue, but merge is blocked by job policy and maintainer review is still the appropriate next step. |
+| #91503 | keep_canonical | planned | canonical | #91503 remains the best live canonical because it is the open user-facing report for this root cause and the candidate PR has not landed. |
+| #91573 | keep_related | planned | fixed_by_candidate | #91573 is the clear candidate fix for #91503, but this plan-only job cannot merge or repair it and should preserve the contributor PR for maintainer review. |
 
 ## Needs Human
 

@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-559-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516850280",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516850280",
+  "head_sha": "1aabb2d816f9888d8a4f648c6fa800f88117c1b4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:21:18Z",
+  "workflow_updated_at": "2026-06-15T00:22:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-559-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.047Z",
+  "canonical": "#82955",
+  "canonical_issue": null,
+  "canonical_pr": "#82955",
+  "summary": "Plan-mode classification only: #82955 remains the best open non-security canonical PR for installer download validation; #90013 is security-sensitive and should be routed to central security handling; #91528 is already closed/merged context for a different installer failure-handling root cause.",
+  "actions": [
+    {
+      "target": "#82955",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#82955",
+      "candidate_fix": "#82955",
+      "reason": "#82955 is the only open non-security implementation candidate and directly owns the installer script-validation fix path, but merge/fix actions are not allowed in this job and review readiness is not complete."
+    },
+    {
+      "target": "#90013",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#82955",
+      "candidate_fix": null,
+      "reason": "The item is explicitly security-sensitive in the live artifact, so ProjectClownfish should quarantine only this issue with route_security and avoid close, label, comment, merge, or fix actions on it."
+    },
+    {
+      "target": "#91528",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#82955",
+      "candidate_fix": null,
+      "reason": "#91528 is related installer context but already merged and not the same root cause as downloaded script validation, so no ProjectClownfish mutation is appropriate."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

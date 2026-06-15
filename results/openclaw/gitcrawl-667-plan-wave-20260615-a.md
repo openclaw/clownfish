@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-667-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518917226"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518917226"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516908280"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516908280"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.633Z"
-canonical: "#71689"
-canonical_issue: "#71689"
-canonical_pr: null
+published_at: "2026-06-15T02:27:57.079Z"
+canonical: "https://github.com/openclaw/openclaw/issues/71689"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/71689"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/86744"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518917226](https://github.com/openclaw/clownfish/actions/runs/27518917226)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516908280](https://github.com/openclaw/clownfish/actions/runs/27516908280)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #71689
+Canonical: https://github.com/openclaw/openclaw/issues/71689
 
 ## Summary
 
-Plan-only classification: #71689 remains the canonical open issue; #86744 is the related active fix candidate but should not be merged or used for closeout in this job because merge/fix actions are blocked and the hydrated ClawSweeper review still calls for maintainer review on a broad shared-state recovery surface.
+Plan-only classification completed from the hydrated preflight artifact. #71689 remains the open canonical issue for the task-registry malformed SQLite restore failure. #86744 is the active related contributor fix candidate, but this job blocks merge/fix actions and the PR still needs maintainer review for its broader shared-state recovery surface, so no close, merge, label, comment, or fix artifact is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #71689 remains the canonical open issue; #86744 is the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #71689 | keep_canonical | planned | canonical | Best surviving tracking thread for the reported task registry SQLite corruption startup failure. |
-| #86744 | keep_related | planned | related | Related active implementation candidate for the canonical issue, but broad shared-state impact and missing/blocked merge preflight make it unsuitable for merge or fixed-by-candidate closeout in this plan job. |
+| #71689 | keep_canonical | planned | canonical | Keep #71689 as the canonical issue thread; it is open, source-repro labeled, and still owns the user-visible failure and follow-up discussion. |
+| #86744 | keep_related | planned | related | Keep #86744 open as the related active fix candidate. It is useful and linked to the canonical issue, but merge/fix actions are out of scope for this plan job and the broad shared-state decision remains for maintainers. |
 
 ## Needs Human
 

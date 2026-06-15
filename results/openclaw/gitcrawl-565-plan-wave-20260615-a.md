@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-565-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518876172"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518876172"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516854858"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516854858"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T02:20:44.612Z"
+result_status: "planned"
+published_at: "2026-06-15T02:27:57.049Z"
 canonical: "#91475"
 canonical_issue: "#91475"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-565-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518876172](https://github.com/openclaw/clownfish/actions/runs/27518876172)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516854858](https://github.com/openclaw/clownfish/actions/runs/27516854858)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #91475
 
 ## Summary
 
-Read-only plan result: #91475 remains the canonical feature request for ultracode support, #91476 is the linked implementation PR but is not merge-plannable in this job because merge/fix actions are blocked and the hydrated bot review flags compatibility-sensitive public surface changes needing maintainer review. The linked #57858 is a separate Claude Code nesting-env issue and should not be folded into this ultracode cluster.
+Plan-only classification for the ultracode claude-cli cluster. #91475 remains the open canonical feature request; #91476 is the linked implementation PR and should remain related pending maintainer review. The first-hop linked #57858 is a distinct Claude Code nesting-env dispatch issue and should not be folded into this ultracode cluster. No GitHub mutations are planned.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Read-only plan result: #91475 remains the canonical feature request for ultracod
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Read-only plan result: #91475 remains the canonical feature request for ultracod
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91475 | keep_canonical | planned | canonical | Best surviving canonical tracker for the ultracode feature/config request. |
-| #91476 | needs_human | planned | needs_human | Maintainer judgment is required on the additive claude-cli config key and Plugin SDK/API surface before #91476 can be accepted or rejected. |
-| #57858 | keep_independent | planned | independent | Separate root cause and fix path; do not close, merge, or fold into the ultracode cluster. |
+| #91475 | keep_canonical | planned | canonical | #91475 is the clearest surviving tracker for the requested ultracode config surface. |
+| #91476 | keep_related | planned | related | #91476 is the linked implementation path for #91475, but maintainer approval is still required for the compatibility-sensitive public surface and merge is blocked by job policy. |
+| #57858 | keep_independent | planned | independent | #57858 is related only by area/provider, with a different root cause and a different existing fix path. |
 
 ## Needs Human
 
-- #91476 needs maintainer decision on the compatibility-sensitive public config/Plugin SDK surface before any merge path; merge/fix actions are blocked in this plan-mode job.
+- none

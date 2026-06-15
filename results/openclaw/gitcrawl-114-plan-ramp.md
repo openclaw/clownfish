@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-114-plan-ramp"
 mode: "plan"
-run_id: "27519848274"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519848274"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518749417"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518749417"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:10:12.704Z"
+published_at: "2026-06-15T02:27:57.091Z"
 canonical: "#89249"
 canonical_issue: "#89249"
 canonical_pr: "#89323"
-actions_total: 5
+actions_total: 9
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519848274](https://github.com/openclaw/clownfish/actions/runs/27519848274)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518749417](https://github.com/openclaw/clownfish/actions/runs/27518749417)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #89249
 
 ## Summary
 
-Plan-only classification for five open hydrated cluster candidates. #89249 remains the best canonical issue for the spawn-child pagination/count dead-end. #86183 is a separate same-area bug family about missing agentId scoping. #89323 is the strongest fix candidate for #89249 but merge is blocked by job frontmatter; #86306 and #89283 are not closeout-ready because their required real behavior proof checks fail.
+Plan-only classification completed from the hydrated preflight artifact. No security-sensitive refs were detected. The cluster splits into two non-security session-picker root causes: #89249 remains the canonical issue for subagent-heavy pagination/count dead-end behavior, with #89323 as the strongest hydrated fix candidate; #86183 remains a separate canonical issue for missing agentId scoping, with #86306 as its blocked fix candidate. #89283 is related CLI JSON cursor parity work and should not be treated as the canonical Control UI fix.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 5 |
+| Worker actions | 9 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,11 +66,15 @@ Plan-only classification for five open hydrated cluster candidates. #89249 remai
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89249 | keep_canonical | planned | canonical | #89249 remains the clearest surviving canonical for the spawn-child hidden-page pagination bug. |
-| #86183 | keep_independent | planned | independent | Same UI area, but a distinct root cause and fix path from #89249; do not close it as a duplicate in this cluster. |
-| #86306 | keep_related | planned | related | It is a plausible fix candidate for the separate #86183 family, but failing checks and missing proof block merge or fixed-by-candidate closeout. |
-| #89283 | keep_related | planned | related | Related CLI JSON parity fix, but not the current best fix for #89249's remaining Control UI bug and not closeout-ready. |
-| #89323 | merge_candidate | blocked | fixed_by_candidate | Best hydrated fix candidate for #89249, but merge is blocked by job permissions and must remain a non-executable recommendation. |
+| #2 | keep_closed | skipped | independent | Closed historical context only; no closure action is valid for an already-closed unrelated issue. |
+| #64121 | keep_closed | skipped | related | Related historical UX context, but already closed and not actionable in this plan. |
+| #78983 | keep_closed | skipped | related | Related historical session-picker context, but already closed and outside this plan's mutation scope. |
+| #85963 | keep_closed | skipped | related | Related to the #86183 subcluster, but already closed and not eligible for a close action. |
+| #86183 | keep_canonical | planned | canonical | Keep #86183 open as the canonical issue for the separate agentId-scoping root cause. |
+| #86306 | keep_related | planned | related | Keep as the related fix candidate for #86183, but do not merge or close anything because proof/check gates are failing and merge is blocked by the job. |
+| #89249 | keep_canonical | planned | canonical | Keep #89249 as the live canonical issue for the subagent-heavy pagination/count dead-end root cause. |
+| #89283 | keep_related | planned | related | Related cursor/parity work, but not the canonical fix for the remaining #89249 Control UI issue and not eligible for merge or fixed-by closeout in this job. |
+| #89323 | keep_related | planned | fixed_by_candidate | Keep #89323 as the strongest hydrated fix candidate for #89249; no merge action is emitted because this plan job blocks merge and lacks merge_preflight. |
 
 ## Needs Human
 

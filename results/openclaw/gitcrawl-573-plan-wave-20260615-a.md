@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-573-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518880183"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518880183"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516858245"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516858245"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.615Z"
+published_at: "2026-06-15T02:27:57.054Z"
 canonical: "#50289"
 canonical_issue: "#50289"
-canonical_pr: "#73440"
+canonical_pr: null
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518880183](https://github.com/openclaw/clownfish/actions/runs/27518880183)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516858245](https://github.com/openclaw/clownfish/actions/runs/27516858245)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #50289
 
 ## Summary
 
-Plan-mode classification only. #50289 remains the live canonical issue for the large ownerAllowFrom performance regression. #73440 is a directly related candidate fix, but it is not merge-ready because proof/check gates and review-bot evidence are unresolved; no close, merge, label, comment, or fix action is planned.
+Plan-only classification: keep #50289 as the open canonical issue for the ownerAllowFrom performance bug; keep #73440 related as a candidate fix, but do not merge or close because required proof/check gates are failing and fix/merge actions are blocked by the job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #50289 remains the live canonical issue for the l
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #50289 | keep_canonical | planned | canonical | #50289 is the best surviving canonical for this root cause and should stay open until a validated fix lands. |
-| #73440 | keep_related | planned | related | #73440 is useful related fix work for #50289, but it is not safe to merge or use for fixed-by closeout in this plan run. |
+| #50289 | keep_canonical | planned | canonical | #50289 remains the open source report and best canonical thread for this root cause. |
+| #73440 | keep_related | planned | related | #73440 is the relevant candidate fix for #50289, but it is not merge-ready and cannot own fixed-by closeout while proof/check gates are failing. |
 
 ## Needs Human
 

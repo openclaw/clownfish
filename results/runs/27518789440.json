@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-268-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518789440",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518789440",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:31:15Z",
+  "workflow_updated_at": "2026-06-15T01:32:31Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-268-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.121Z",
+  "canonical": "#89412",
+  "canonical_issue": "#89412",
+  "canonical_pr": null,
+  "summary": "Canonical issue #89412 remains the live non-security canonical for the implicit main binding rejection/pruning bug. Linked security-sensitive refs are quarantined individually. The two open PRs both target #89412 and touch the same config/doctor surfaces, but merge/fixed-by closeout is blocked by failing real-behavior proof and overlapping contributor PRs, so maintainer judgment is needed for the repair/merge target.",
+  "actions": [
+    {
+      "target": "#44375",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#60712",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive linked issue remains security-scoped evidence only and should not be handled through dedupe/closeout automation."
+    },
+    {
+      "target": "#89412",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89412",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the non-security root cause; keep open for validation and PR selection."
+    },
+    {
+      "target": "#89419",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#89412",
+      "candidate_fix": "#89419",
+      "reason": "Maintainer judgment is needed to choose whether #89419 should be repaired/advanced versus the overlapping #89490 after proof/check blockers are resolved."
+    },
+    {
+      "target": "#89490",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#89412",
+      "candidate_fix": "#89490",
+      "reason": "Maintainer judgment is needed to choose whether #89490 should be repaired/advanced versus the overlapping #89419 after proof/check blockers are resolved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Select the repair/merge target between overlapping contributor PRs #89419 and #89490. Both address canonical issue #89412, both touch the same config/doctor files, and both are blocked by real-behavior proof gates; #89419 also has a failing checks-node-core-fast check in the hydrated artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

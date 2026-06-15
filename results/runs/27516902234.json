@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-650-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516902234",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516902234",
+  "head_sha": "756c7e01926673fc4be49b47719fc3f2b097892a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:23:15Z",
+  "workflow_updated_at": "2026-06-15T00:25:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-650-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.075Z",
+  "canonical": "#82442",
+  "canonical_issue": "#82442",
+  "canonical_pr": "#88052",
+  "summary": "Plan-mode classification only. #82442 remains the live canonical issue for the debug proxy abrupt-disconnect crash family. #88052 is the narrow open PR candidate for the remaining upstream response error-handler gap, but merge/fix actions are blocked by the job. Closed historical refs stay closed, and the security-sensitive linked ref #86751 is quarantined without affecting the ordinary #82442/#88052 bug path.",
+  "actions": [
+    {
+      "target": "#64895",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#82442",
+      "candidate_fix": null,
+      "reason": "Already-closed broad historical proxy-capture PR; no mutation or close action is valid."
+    },
+    {
+      "target": "#82442",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#82442",
+      "candidate_fix": "#88052",
+      "reason": "#82442 is still the best live canonical thread because it preserves the original report while tracking the remaining same-class upstream response failure and its candidate PR."
+    },
+    {
+      "target": "#82444",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#82442",
+      "candidate_fix": null,
+      "reason": "Already-merged related fix for the original clientSocket side; keep it as credited historical context only."
+    },
+    {
+      "target": "#86751",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked refs are out of scope for Clownfish backlog cleanup and must be routed centrally without blocking the ordinary #82442/#88052 classification."
+    },
+    {
+      "target": "#88052",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#82442",
+      "candidate_fix": "#88052",
+      "reason": "This is the narrow candidate fix for the remaining open scope, but plan mode and blocked merge/fix actions mean it should be kept related rather than merged or used for fixed-by closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-561-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518873260"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518873260"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516852131"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516852131"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.611Z"
+published_at: "2026-06-15T02:27:57.048Z"
 canonical: "#91452"
 canonical_issue: null
 canonical_pr: "#91452"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518873260](https://github.com/openclaw/clownfish/actions/runs/27518873260)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516852131](https://github.com/openclaw/clownfish/actions/runs/27516852131)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91452
 
 ## Summary
 
-Read-only plan: keep #91452 as the live canonical for the claw-score skill work. Keep #91510 related/superseded as a taxonomy-only subset of the same skill family, but do not recommend closure or merge because both PRs are open contributor work with useful code, unresolved review-bot findings, broad XL diffs, and failing checks.
+Canonical PR remains #91452 (https://github.com/openclaw/openclaw/pull/91452). #91510 is related taxonomy-only work under the same claw-score path, but it should not be closed as a duplicate or superseded item in this plan because it has a narrower data-artifact scope and both PRs still have unresolved proof/review/check blockers. No close, merge, label, or fix action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Read-only plan: keep #91452 as the live canonical for the claw-score skill work.
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91452 | keep_canonical | planned | canonical | #91452 is the most complete open candidate for the root claw-score agent skill work, but it is not merge-ready and plan mode forbids mutation. |
-| #91510 | keep_related | planned | superseded | #91510 is superseded in scope by #91452 for the shared claw-score skill family, but should remain open/related in this read-only plan because closure would discard useful contributor work without an allowed replacement path. |
+| #91452 | keep_canonical | planned | canonical | #91452 is the best live canonical for the full claw-score agent skill scope, but it is not merge-ready and this plan mode job blocks merge, fix, and raise_pr actions. |
+| #91510 | keep_related | planned | related | Keep #91510 related to the #91452 canonical family instead of closing it as duplicate or superseded; a maintainer can later decide whether the taxonomy-only path should remain separate, move outside the skill root, or fold into the full skill PR. |
 
 ## Needs Human
 

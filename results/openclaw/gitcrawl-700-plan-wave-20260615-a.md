@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-700-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518980792"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518980792"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516935606"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516935606"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.639Z"
+published_at: "2026-06-15T02:27:57.084Z"
 canonical: "#68561"
 canonical_issue: "#68561"
 canonical_pr: "#90566"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518980792](https://github.com/openclaw/clownfish/actions/runs/27518980792)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516935606](https://github.com/openclaw/clownfish/actions/runs/27516935606)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #68561
 
 ## Summary
 
-#68561 remains the live canonical issue. #90566 is the open, focused candidate fix for the same ANNOUNCE_SKIP cron warning path, but merge and fix actions are disabled for this plan-mode job and merge preflight does not include a passed Codex /review proof.
+Plan-only classification: #68561 remains the canonical open issue for the cron ANNOUNCE_SKIP silent-suppression behavior, and #90566 is the canonical open contributor fix PR linked to that issue. No close, merge, label, comment, or fix-PR action is planned; merge and fix work are blocked by the job frontmatter, and the PR has not landed.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Canonical: #68561
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #68561 | keep_canonical | planned | canonical | This remains the best live canonical report for the root ANNOUNCE_SKIP cron behavior; keep it open until the linked fix lands and is validated. |
-| #90566 | keep_related | planned | related | This is the active candidate fix for #68561, but it should remain as a related open PR in this plan-only cluster because merge is blocked by job policy and missing required merge preflight. |
+| #68561 | keep_canonical | planned | canonical | The issue is the best surviving report of the user-visible failure; keep it open as canonical until the linked fix PR lands and post-merge closeout is allowed. |
+| #90566 | keep_canonical | planned | canonical | This is the clearest open fix candidate for the canonical issue. Keep it as the canonical PR path; do not emit a merge action because the job blocks merge and requires plan-only classification. |
 
 ## Needs Human
 

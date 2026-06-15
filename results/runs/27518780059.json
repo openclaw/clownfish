@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-232-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518780059",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518780059",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:57Z",
+  "workflow_updated_at": "2026-06-15T01:32:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-232-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.114Z",
+  "canonical": "#91723",
+  "canonical_issue": "#91723",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #91723 as the live canonical issue for the long-reply Teams streaming regression. Keep #90398 related rather than duplicate because it reports normal-length duplicate replies while #91723 is scoped to replies over the Teams 4000-character boundary. Keep #91729 related but not mergeable or fixed-by-candidate because it is draft, has failing checks, has an unresolved Codex review finding, and the author reported a negative production result for the claimed #91723 fix. Route the hydrated security-sensitive linked refs only, and leave already-closed historical refs untouched.",
+  "actions": [
+    {
+      "target": "#58601",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#91723",
+      "candidate_fix": "#59297",
+      "reason": "Historical closed context only; no mutation planned."
+    },
+    {
+      "target": "#59297",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#91723",
+      "candidate_fix": null,
+      "reason": "Historical merged fix is evidence for the regression lineage, not an open candidate for this plan."
+    },
+    {
+      "target": "#70178",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#91723",
+      "candidate_fix": "#59297",
+      "reason": "Historical closed issue remains only supporting context."
+    },
+    {
+      "target": "#76262",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish cleanup scope; quarantine only this item."
+    },
+    {
+      "target": "#89913",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of ProjectClownfish cleanup scope; quarantine only this item."
+    },
+    {
+      "target": "#90398",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91723",
+      "candidate_fix": null,
+      "reason": "Same Teams streaming duplicate family, but different reported length scope and unresolved reproduction evidence; keep open as related."
+    },
+    {
+      "target": "#91723",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91723",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the long-reply >4000-character regression."
+    },
+    {
+      "target": "#91729",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91723",
+      "candidate_fix": null,
+      "reason": "Related work-in-progress, but not a valid merge or fixed-by-candidate path for #91723."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 2,
+    "keep_related": 2,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

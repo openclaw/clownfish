@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-589-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518885388"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518885388"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516862518"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516862518"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.617Z"
-canonical: "#87733"
-canonical_issue: "#87733"
+published_at: "2026-06-15T02:27:57.057Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
 actions_total: 2
 fix_executed: 0
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 2
 ---
 
 # gitcrawl-589-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518885388](https://github.com/openclaw/clownfish/actions/runs/27518885388)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516862518](https://github.com/openclaw/clownfish/actions/runs/27516862518)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #87733
+Canonical: unknown
 
 ## Summary
 
-Plan-mode classification only. Both hydrated open issue candidates are marked security-sensitive in the preflight artifact and both request changes to OpenClaw trust, authorization, or tenant-isolation boundaries, so the only safe cluster-scoped outcome is to quarantine each item with route_security. No close, label, comment, merge, or fix action is planned.
+Both hydrated open issues are security-boundary FRDs and are out of scope for Clownfish backlog cleanup. Plan is to route each listed item to central OpenClaw security handling without close, label, comment, merge, or fix actions.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification only. Both hydrated open issue candidates are marked se
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 2 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,10 @@ Plan-mode classification only. Both hydrated open issue candidates are marked se
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87733 | route_security | planned | security_sensitive | Security-boundary feature request is outside ProjectClownfish cleanup/fix scope; route to central OpenClaw security handling without dedupe closure or fix planning. |
-| #87734 | route_security | planned | security_sensitive | Security-boundary and tenant-isolation feature request is outside ProjectClownfish cleanup/fix scope; route to central OpenClaw security handling rather than closing as a duplicate of #87733. |
+| #87733 | route_security | planned | security_sensitive | Security-sensitive trust-boundary feature request; route the exact item to central OpenClaw security handling and do not perform cleanup mutations. |
+| #87734 | route_security | planned | security_sensitive | Security-sensitive tenant-isolation and trust-boundary feature request; route the exact item to central OpenClaw security handling and do not perform cleanup mutations. |
 
 ## Needs Human
 
-- none
+- central_security_review:#87733
+- central_security_review:#87734

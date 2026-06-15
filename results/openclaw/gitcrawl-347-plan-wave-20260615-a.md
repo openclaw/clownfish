@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-347-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516759782"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516759782"
-head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
+run_id: "27518814262"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518814262"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:19:38.598Z"
+published_at: "2026-06-15T02:27:57.138Z"
 canonical: "#44540"
 canonical_issue: "#44540"
 canonical_pr: "#92196"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516759782](https://github.com/openclaw/clownfish/actions/runs/27516759782)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518814262](https://github.com/openclaw/clownfish/actions/runs/27518814262)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #44540
 
 ## Summary
 
-#44540 remains the live canonical issue. #92196 is the focused open fix PR for the same root cause, but this plan does not recommend merge because merge is blocked by the job and the PR lacks a successful Codex /review preflight.
+Plan-mode classification only. #44540 remains the live canonical issue for the hybrid-search BM25 penalty affecting vector-backed image/audio results. #92196 is the focused open contributor PR for that issue, but merge and fix actions are blocked by the job frontmatter and merge preflight is incomplete because Codex /review failed and ClawSweeper still calls for maintainer review/compatibility confirmation.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Canonical: #44540
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #44540 | keep_canonical | planned | canonical | The representative is still open, well-scoped, and supported by the linked open fix PR; keep it as the canonical issue until #92196 lands or is rejected. |
-| #92196 | keep_related | planned | related | This is the clear fix path for #44540, but the worker should keep it open for maintainer review rather than plan a merge under this read-only, merge-blocked job. |
+| #44540 | keep_canonical | planned | canonical | The issue is the best surviving canonical report and should stay open until the focused fix path lands or is rejected. |
+| #92196 | keep_related | planned | related | The PR is the focused candidate fix, but this worker cannot recommend merge without complete merge preflight and the job disallows merge/fix mutations. |
 
 ## Needs Human
 

@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-116-plan-ramp",
+  "mode": "plan",
+  "run_id": "27518750927",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518750927",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:29:59Z",
+  "workflow_updated_at": "2026-06-15T01:31:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-116-plan-ramp.md",
+  "published_at": "2026-06-15T02:27:57.093Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for gitcrawl cluster 116. The hinted canonical #75148 is security-sensitive in the hydrated preflight artifact and must be routed to central security handling, so it should not be used as the cleanup canonical. The remaining open PRs split into separate non-security auth/provider regressions, while the listed closed PRs are already closed and require no mutation.",
+  "actions": [
+    {
+      "target": "#75148",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish backlog cleanup scope and should be routed centrally without poisoning unrelated items."
+    },
+    {
+      "target": "#74564",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#74564",
+      "reason": "Separate non-security auth/provider bug; no close or merge action is appropriate in this plan-only cluster."
+    },
+    {
+      "target": "#75223",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#75223",
+      "reason": "Separate non-security CLI auth/probe regression; keep it as an independent candidate rather than forcing it under the security-routed representative."
+    },
+    {
+      "target": "#75388",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#83498",
+      "reason": "Already closed; historical message-delivery follow-up is covered by later merged #83498, but no mutation is allowed or needed."
+    },
+    {
+      "target": "#75397",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on current main; keep as historical context only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

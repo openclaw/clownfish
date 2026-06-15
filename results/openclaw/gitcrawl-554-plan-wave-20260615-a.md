@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-554-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518869276"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518869276"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516848528"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516848528"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.609Z"
+published_at: "2026-06-15T02:27:57.046Z"
 canonical: "#54157"
 canonical_issue: "#54157"
 canonical_pr: null
-actions_total: 2
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518869276](https://github.com/openclaw/clownfish/actions/runs/27518869276)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516848528](https://github.com/openclaw/clownfish/actions/runs/27516848528)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #54157
 
 ## Summary
 
-Plan-only classification: keep #54157 as the live canonical issue for the Doubao/BytePlus cache pricing bug. PR #55913 was already closed as duplicate/superseded and must not receive a close action. No security-sensitive signal was present, and merge/fix actions are blocked by the job frontmatter.
+#54157 remains the live canonical issue for the Doubao/BytePlus cache-pricing bug. #55913 is already closed, unmerged, dirty, and blocked by failed proof/checks, so no close, merge, or fix action is planned in this read-only run.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,8 +66,9 @@ Plan-only classification: keep #54157 as the live canonical issue for the Doubao
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #54157 | keep_canonical | planned | canonical | #54157 remains the best live canonical because it is open, describes the surviving root cause, and the only linked implementation PR is already closed and unmerged. |
-| #55913 | keep_closed | skipped | superseded | Already closed and unmerged; retain historical attribution as a superseded implementation attempt while keeping #54157 open for any replacement fix path. |
+| #54157 | keep_canonical | planned | canonical | #54157 is the best surviving live canonical for this root cause and should stay open for maintainer follow-up or a replacement implementation path. |
+| #55913 | keep_closed | skipped | superseded | Already-closed PRs must not receive closure actions; #55913 remains historical contributor work and evidence for the canonical issue rather than an active merge or close candidate. |
+| #54134 | keep_closed | skipped | related | No action is needed for this already-closed related context item. |
 
 ## Needs Human
 

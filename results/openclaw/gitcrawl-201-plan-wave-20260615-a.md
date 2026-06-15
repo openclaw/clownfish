@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-201-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519873364"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519873364"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518771037"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518771037"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.967Z"
+published_at: "2026-06-15T02:27:57.109Z"
 canonical: "#92474"
 canonical_issue: "#92474"
-canonical_pr: "#92484"
+canonical_pr: null
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519873364](https://github.com/openclaw/clownfish/actions/runs/27519873364)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518771037](https://github.com/openclaw/clownfish/actions/runs/27518771037)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92474
 
 ## Summary
 
-Plan-mode classification only. #92474 remains the open canonical issue. #92484 is the strongest hydrated fix candidate for the same root cause, but it is not merge-ready in this job because merge/fix are blocked and hydrated checks include failures. #92491 is an overlapping narrower contributor PR for the same issue and should stay related rather than be closed in this read-only pass so contributor credit and the competing fix path remain intact.
+Plan-only classification using the hydrated preflight artifact. #92474 remains the canonical open issue. #92484 and #92491 are overlapping candidate PRs for the same root cause; both should remain open in this plan because merge/fix actions are disallowed, #92484 has failing proof/security-fast checks, and #92491 has unresolved review concerns about incomplete coverage.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #92474 remains the open canonical issue. #92484 i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92474 | keep_canonical | planned | canonical | #92474 is still the best canonical tracking thread for the root bug. |
-| #92484 | keep_related | planned | related | #92484 is a plausible leading fix candidate for #92474, but failing checks and blocked merge/fix permissions make only a non-mutating related classification appropriate. |
-| #92491 | keep_related | planned | related | #92491 is related to the same bug but should not be closed as superseded in this pass because it is useful contributor work and the stronger replacement path is not ready. |
+| #92474 | keep_canonical | planned | canonical | #92474 is the clearest surviving issue for the root cause and should remain the canonical thread. |
+| #92484 | keep_related | planned | related | #92484 is a useful candidate fix for the canonical issue, but it is not actionable for merge or fixed-by-candidate closeout in this plan because required checks are failing and merge/fix actions are disallowed. |
+| #92491 | keep_related | planned | related | #92491 overlaps the canonical issue and the broader #92484 fix path, but should remain open rather than be closed as superseded while the better candidate is still blocked and #92491 has useful credited work. |
 
 ## Needs Human
 

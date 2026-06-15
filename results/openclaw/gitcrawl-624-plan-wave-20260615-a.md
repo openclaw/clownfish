@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-624-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518898305"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518898305"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516886987"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516886987"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.623Z"
+published_at: "2026-06-15T02:27:57.064Z"
 canonical: "#90789"
 canonical_issue: "#90789"
 canonical_pr: "#90799"
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-624-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518898305](https://github.com/openclaw/clownfish/actions/runs/27518898305)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516886987](https://github.com/openclaw/clownfish/actions/runs/27516886987)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90789
 
 ## Summary
 
-Plan-mode classification only. #90789 remains the live canonical issue for the Claude CLI synthetic-placeholder silent-turn bug. #90799 is the focused open PR candidate for that canonical issue, but merge and fixed-by-candidate closeout are not recommended in this job because merge/fix actions are blocked by frontmatter and the hydrated PR still carries maintainer/proof review concerns rather than a completed merge preflight.
+Plan-mode classification only: keep #90789 as the live canonical issue and keep #90799 as the related open fix PR. No close, merge, or fix action is planned because the PR is unmerged, merge/fix/raise_pr are blocked by the job, and maintainer review/product decision remains before landing.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification only. #90789 remains the live canonical issue for the C
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #90789 remains the live canonical issue for the C
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90789 | keep_canonical | planned | canonical | #90789 is the best open canonical for this cluster because it is the hydrated open issue tracking the root cause and the remaining product/validation decision. It should stay open while #90799 or another fix path is reviewed. |
-| #90799 | keep_related | planned | related | #90799 is the related candidate fix for #90789, but this plan should not recommend merge or fixed-by-candidate closure. Keep it associated with the canonical issue for maintainer review. |
+| #90789 | keep_canonical | planned | canonical | #90789 remains the best live canonical for this root cause; it should stay open while the focused fix PR and product behavior decision are reviewed. |
+| #90799 | keep_related | planned | related | #90799 is the clear related candidate fix for #90789, but merge is not allowed in this job and the hydrated review evidence does not include the required clean merge preflight. |
 
 ## Needs Human
 
-- Maintainer/product decision remains for #90789/#90799: whether the exact Claude CLI synthetic placeholders should route through existing model fallback as empty_result, stay silent/status-only, or wait for stronger native Telegram proof before merge.
+- none

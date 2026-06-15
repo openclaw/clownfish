@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-567-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518878403"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518878403"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516856539"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516856539"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.613Z"
+published_at: "2026-06-15T02:27:57.053Z"
 canonical: "#84545"
 canonical_issue: null
 canonical_pr: "#84545"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518878403](https://github.com/openclaw/clownfish/actions/runs/27518878403)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516856539](https://github.com/openclaw/clownfish/actions/runs/27516856539)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #84545
 
 ## Summary
 
-Plan-only classification: keep #84545 as the live canonical for Gemini 3.5 Flash forward-compat resolution. Keep #91546 related rather than closing it because it overlaps the resolver fix but carries a distinct static catalog row that may need folding into #84545 or a narrow follow-up, and closeout is not safe while that unique contribution remains unresolved.
+#84545 remains the live canonical PR for the Gemini 3.5 Flash Google resolver failure. #91546 overlaps that same root cause and is superseded by #84545, with its static catalog row preserved as credited follow-up material if maintainers fold it into the canonical path.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #84545 as the live canonical for Gemini 3.5 Flash
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #84545 | keep_canonical | planned | canonical | Best live canonical for the resolver root cause, but not merge-ready in this plan job. |
-| #91546 | keep_related | planned | related | Related overlapping PR with a distinct catalog contribution; leave open for maintainer decision on folding into #84545 versus follow-up. |
+| #84545 | keep_canonical | planned | canonical | #84545 is the older, focused, maintainer-modifiable, proof-positive PR for the shared Gemini 3.5 Flash resolver root cause. |
+| #91546 | close_superseded | planned | superseded | #91546 is superseded by the canonical #84545 resolver fix for the same user-visible Gemini 3.5 Flash runtime failure; its extra catalog row should retain source PR credit if reused. |
 
 ## Needs Human
 

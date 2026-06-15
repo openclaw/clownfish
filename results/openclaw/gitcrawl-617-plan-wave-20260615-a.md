@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-617-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518893145"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518893145"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516881058"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516881058"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.620Z"
+published_at: "2026-06-15T02:27:57.060Z"
 canonical: "#60816"
 canonical_issue: "#60816"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518893145](https://github.com/openclaw/clownfish/actions/runs/27518893145)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516881058](https://github.com/openclaw/clownfish/actions/runs/27516881058)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #60816
 
 ## Summary
 
-Plan-only classification: keep #60816 as the live canonical issue. Keep #77638 related to the canonical issue, but do not merge or close against it because the hydrated PR has failing checks and bot-reviewed target drift to stale pi-tools paths.
+Plan-only classification keeps #60816 as the live canonical issue. #77638 is the linked contributor PR for the same root cause, but it is not merge-ready and should remain open for repair/review rather than be closed or merged in this job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #60816 as the live canonical issue. Keep #77638 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #60816 | keep_canonical | planned | canonical | #60816 remains the best live canonical because it is the open source issue for the shared root cause and the only linked PR is not merge-ready. |
-| #77638 | keep_related | planned | related | #77638 is the linked fix attempt for #60816, but it should remain related rather than become a merge or fixed-by-candidate closeout path until the stale-path review finding and failing checks are resolved. |
+| #60816 | keep_canonical | planned | canonical | #60816 remains the best live canonical because it is the open source report for the root behavior and no landed or merge-ready fix closes it yet. |
+| #77638 | keep_related | planned | related | #77638 is useful related contributor work for the canonical issue, but failing checks, stale target paths, review-bot findings, and disabled merge/fix permissions block merge or closeout. Keep it open for repair/review with #60816 as canonical. |
 
 ## Needs Human
 

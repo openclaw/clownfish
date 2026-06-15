@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-709-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518985436"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518985436"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516941904"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516941904"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.642Z"
+published_at: "2026-06-15T02:27:57.086Z"
 canonical: "#89532"
 canonical_issue: "#89532"
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-709-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518985436](https://github.com/openclaw/clownfish/actions/runs/27518985436)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516941904](https://github.com/openclaw/clownfish/actions/runs/27516941904)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89532
 
 ## Summary
 
-#89532 remains the canonical open issue for the /status channels.modelByChannel effective-model bug. #89602 is a focused related fix PR for that issue, but failing real-behavior proof checks and ClawSweeper's proof blocker prevent merge or fixed-by-candidate closeout. #79131 is only related context for a different /model status auth-label issue that artifact evidence says was already addressed elsewhere.
+Keep #89532 as the live canonical issue. Keep #89602 open as a related candidate fix, but do not recommend merge or fixed-by-candidate closeout because the hydrated PR has failing real-behavior proof checks and the job blocks merge/fix actions. Hydrated linked issue #79131 is related status/auth context with a different root cause and should not be folded into this duplicate family.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Canonical: #89532
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Canonical: #89532
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89532 | keep_canonical | planned | canonical | #89532 is the best surviving canonical report for this cluster's root cause. |
-| #89602 | keep_related | planned | related | #89602 is related to and may become the fix path for #89532, but failing proof checks block merge and fixed-by-candidate closeout. |
-| #79131 | keep_related | planned | related | #79131 is same broad status/auth area but a different root cause and closure path, so it should not be deduped into #89532. |
+| #89532 | keep_canonical | planned | canonical | #89532 remains the clearest live issue for the channels.modelByChannel /status effective-model bug. |
+| #89602 | keep_related | planned | related | #89602 is the relevant candidate fix for #89532, but failing proof checks and blocked merge/fix permissions make merge or fixed-by-candidate closeout unsafe in this plan. |
+| #79131 | keep_related | planned | related | #79131 is useful related context in the Telegram status/model area, but it has a different root cause and should not be closed or merged through the #89532 duplicate family. |
 
 ## Needs Human
 
-- #89602 requires maintainer/proof follow-up before any merge or fixed-by-candidate closeout because Real behavior proof and Run agentic native Telegram proof checks are failing.
+- none

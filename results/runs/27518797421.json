@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-294-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518797421",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518797421",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:31:32Z",
+  "workflow_updated_at": "2026-06-15T01:32:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-294-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.127Z",
+  "canonical": null,
+  "canonical_issue": "#75811",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: the original representative #75811 is already closed, and the remaining open candidate issue/PR refs in this cluster are security-sensitive under the hydrated preflight artifact, so they should be routed to central OpenClaw security handling rather than closed, merged, or repaired by Clownfish.",
+  "actions": [
+    {
+      "target": "#72858",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive browser-surface host exec policy semantics are outside Clownfish cleanup scope."
+    },
+    {
+      "target": "#75811",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#75811",
+      "candidate_fix": null,
+      "reason": "Historical canonical is closed; no mutation is valid in plan mode, and no non-security live canonical remains in the hydrated candidate set."
+    },
+    {
+      "target": "#76370",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes an exec policy boundary and has an unresolved proof blocker, so central security/maintainer handling is required."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-221-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519880678"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519880678"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518776654"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518776654"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.970Z"
+published_at: "2026-06-15T02:27:57.112Z"
 canonical: "#91947"
 canonical_issue: "#91947"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519880678](https://github.com/openclaw/clownfish/actions/runs/27519880678)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518776654](https://github.com/openclaw/clownfish/actions/runs/27518776654)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91947
 
 ## Summary
 
-Plan-mode classification only. #91947 remains the open canonical issue for the hardcoded memory_search 15s deadline. #91958 is already closed and should not receive any close action. #92065 is an open related fix PR for the same root cause, but merge/fixed-by-candidate closeout is blocked by failing checks, dirty mergeability, and the job's no-merge/no-fix permissions.
+Plan mode classification only. #91947 remains the live canonical issue for the hardcoded memory_search 15s timeout. #91958 is already closed and must not receive a close action. #92065 is an open related fix PR for #91947, but failing checks block merge or fixed-by-candidate closeout.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #91947 remains the open canonical issue for the h
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91947 | keep_canonical | planned | canonical | Best live canonical for the shared root cause. |
-| #91958 | keep_closed | skipped | superseded | Closed historical fix attempt; closure actions are invalid for already-closed refs. |
-| #92065 | keep_related | planned | related | Same root-cause fix candidate, but not merge-ready and no mutation/fix path is allowed in this plan job. |
+| #91947 | keep_canonical | planned | canonical | Best surviving canonical is the open source issue describing the user-visible failure and desired configuration behavior. |
+| #91958 | keep_closed | skipped | superseded | Historical closed PR evidence only; no mutation is valid for an already-closed PR. |
+| #92065 | keep_related | planned | related | Related open fix candidate for the canonical issue, but not merge-ready or safe for closeout under plan-mode and failing-check gates. |
 
 ## Needs Human
 

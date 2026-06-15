@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-705-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518983051"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518983051"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516938917"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516938917"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.640Z"
+published_at: "2026-06-15T02:27:57.085Z"
 canonical: "#89598"
 canonical_issue: null
 canonical_pr: "#89598"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518983051](https://github.com/openclaw/clownfish/actions/runs/27518983051)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516938917](https://github.com/openclaw/clownfish/actions/runs/27516938917)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89598
 
 ## Summary
 
-Read-only plan: #89598 remains the open canonical for the MCP tools/list union-schema variant fix. #89611 is related gateway hardening work, but it covers a different /tools/invoke action-schema probe and should not be closed or merged as part of this cluster.
+Plan mode classification only. #89598 remains the open canonical PR for the MCP tools/list union-schema variant failure. #89611 is related gateway unreadable-schema hardening, but it fixes a different /tools/invoke legacy action probe path and should not be closed as a duplicate or superseded by #89598.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Read-only plan: #89598 remains the open canonical for the MCP tools/list union-s
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89598 | keep_canonical | planned | canonical | Representative is still open and remains the best canonical for the tools/list MCP union-schema variant root cause. |
-| #89611 | keep_related | planned | related | Related but not duplicate: it has a distinct affected path, files, and validation surface from #89598. |
+| #89598 | keep_canonical | planned | canonical | #89598 is still open and is the best hydrated representative for the canonical MCP tools/list union-schema variant root cause. |
+| #89611 | keep_related | planned | related | #89611 is in the same gateway unreadable-schema symptom family as #89598, but it fixes a distinct /tools/invoke action-probe root cause and retains unique useful code. |
 
 ## Needs Human
 

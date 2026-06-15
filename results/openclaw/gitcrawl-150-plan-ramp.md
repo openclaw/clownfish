@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-150-plan-ramp"
 mode: "plan"
-run_id: "27519858210"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519858210"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518759478"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518759478"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.959Z"
+published_at: "2026-06-15T02:27:57.100Z"
 canonical: "#89147"
 canonical_issue: "#89147"
 canonical_pr: null
-actions_total: 4
+actions_total: 10
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519858210](https://github.com/openclaw/clownfish/actions/runs/27519858210)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518759478](https://github.com/openclaw/clownfish/actions/runs/27518759478)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #89147
 
 ## Summary
 
-Plan-only classification from the hydrated preflight artifact. #89147 remains the best open canonical for the mid-turn native hook relay starvation family. #89325 is scoped out to central security handling. #90762 and #91009 are related native hook relay reports with distinct subagent/sandbox and CPU-bound relay fan-out scopes, so neither should be closed as a duplicate of #89147 in this run.
+Plan-mode classification only. #89147 remains the best live canonical for the non-security mid-turn native hook relay starvation family. #89325 is explicitly security-sensitive in the hydrated preflight and should be routed to central security handling only. #90762 and #91009 are related but not duplicates because they add distinct subagent/sandbox/MCP and CPU-bound relay fan-out/OOM dimensions. Already-closed linked refs are retained as historical evidence only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 10 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,10 +66,16 @@ Plan-only classification from the hydrated preflight artifact. #89147 remains th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89147 | keep_canonical | planned | canonical | Best surviving open canonical for the mid-turn/progress-driven native hook relay starvation scope. |
-| #89325 | route_security | planned | security_sensitive | Security-sensitive item must be routed to central OpenClaw security handling without poisoning unrelated non-security classification. |
-| #90762 | keep_related | planned | related | Same native hook relay failure family as #89147, but the parent/subagent and sandbox/MCP dimensions are unique enough to keep as a related open issue rather than close as a duplicate. |
-| #91009 | keep_related | planned | related | Related native hook relay stability issue, but not the same root cause as #89147 and not clearly fixed by merged #91550; keep open as a distinct related subcluster. |
+| #73723 | keep_closed | skipped | related | Already closed historical context; keep as related evidence only. |
+| #74240 | keep_closed | skipped | independent | Closed and materially different root cause from the native hook relay starvation cluster. |
+| #77995 | keep_closed | skipped | related | Closed historical event-loop pressure context; not a live duplicate cleanup target. |
+| #87331 | keep_closed | skipped | related | Closed related root-cause history; retain as context. |
+| #89147 | keep_canonical | planned | canonical | Best surviving open canonical for the non-security mid-turn relay starvation family. |
+| #89325 | route_security | planned | security_sensitive | Out of scope for ProjectClownfish cleanup; route only this item to central OpenClaw security handling. |
+| #90762 | keep_related | planned | related | Same native hook relay symptom family, but distinct subagent/sandbox/MCP lifecycle scope; do not close as duplicate. |
+| #90993 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed by hydrated merged PR #91550; historical context only. |
+| #91009 | keep_related | planned | related | Related native hook relay stability bug, but distinct CPU-bound subprocess fan-out/OOM root cause; not a duplicate of #89147 and not fully covered by #91550. |
+| #91550 | keep_closed | skipped | fixed_by_candidate | Already merged fix PR for #90993; no action needed in this cluster plan. |
 
 ## Needs Human
 

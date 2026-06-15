@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-116-plan-ramp"
 mode: "plan"
-run_id: "27516216388"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516216388"
-head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
+run_id: "27518750927"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518750927"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T00:02:45.769Z"
+published_at: "2026-06-15T02:27:57.093Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516216388](https://github.com/openclaw/clownfish/actions/runs/27516216388)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518750927](https://github.com/openclaw/clownfish/actions/runs/27518750927)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan mode only. The hinted representative #75148 is open but must be quarantined as security-sensitive from the hydrated preflight artifact. The remaining live non-security work splits into separate canonical PRs for distinct auth/model root causes (#74564 and #75223). The other listed candidates are already closed in live state, so no close actions are planned.
+Plan-only classification for gitcrawl cluster 116. The hinted canonical #75148 is security-sensitive in the hydrated preflight artifact and must be routed to central security handling, so it should not be used as the cleanup canonical. The remaining open PRs split into separate non-security auth/provider regressions, while the listed closed PRs are already closed and require no mutation.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan mode only. The hinted representative #75148 is open but must be quarantined
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #74564 | keep_canonical | planned | canonical | Keep #74564 as the canonical PR for the separate `/models` provider-data auth-scope subcluster; do not close or merge it from this cluster. |
-| #75148 | route_security | planned | security_sensitive | Route only #75148 to central OpenClaw security handling; continue classifying unrelated non-security candidates. |
-| #75223 | keep_canonical | planned | canonical | Keep #75223 as the canonical PR for the separate CLI auth status/probe subcluster; do not close or merge it from this cluster. |
-| #75388 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the later #83498/current-main behavior; no mutation is valid. |
-| #75397 | keep_closed | skipped | superseded | Already closed as superseded by current-main implementation; no mutation is valid. |
+| #75148 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish backlog cleanup scope and should be routed centrally without poisoning unrelated items. |
+| #74564 | keep_independent | planned | independent | Separate non-security auth/provider bug; no close or merge action is appropriate in this plan-only cluster. |
+| #75223 | keep_independent | planned | independent | Separate non-security CLI auth/probe regression; keep it as an independent candidate rather than forcing it under the security-routed representative. |
+| #75388 | keep_closed | skipped | superseded | Already closed; historical message-delivery follow-up is covered by later merged #83498, but no mutation is allowed or needed. |
+| #75397 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main; keep as historical context only. |
 
 ## Needs Human
 

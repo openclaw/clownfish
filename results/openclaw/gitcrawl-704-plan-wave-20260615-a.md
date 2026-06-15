@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-704-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518982350"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518982350"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516937648"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516937648"
+head_sha: "77927a97323ea285a9cccfa17fb1879be9528a29"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.640Z"
+published_at: "2026-06-15T02:27:57.085Z"
 canonical: "#89630"
 canonical_issue: null
 canonical_pr: "#89630"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518982350](https://github.com/openclaw/clownfish/actions/runs/27518982350)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516937648](https://github.com/openclaw/clownfish/actions/runs/27516937648)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89630
 
 ## Summary
 
-Read-only plan: #89630 remains the best live canonical for shared JSON schema default traversal hardening. #89632 is related config schema lookup traversal hardening, but it is a distinct open draft PR with its own changed files and an actionable ClawSweeper blocker, so it should not be closed as a duplicate or merged in this cluster.
+Plan only: #89630 remains the best live canonical for the shared JSON schema default traversal hardening work. #89632 is related config schema lookup traversal work with distinct files and an unresolved ClawSweeper finding, so it should stay open and separate rather than be closed or merged in this cluster.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Read-only plan: #89630 remains the best live canonical for shared JSON schema de
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89630 | keep_canonical | planned | canonical | Best surviving open canonical for the shared JSON schema default traversal hardening path. |
-| #89632 | keep_related | planned | related | Related schema traversal hardening, but distinct root cause/scope and not safe for duplicate closeout. |
+| #89630 | keep_canonical | planned | canonical | #89630 is the clearest live canonical for the shared JSON schema default traversal root cause and should remain the canonical PR for this cluster. |
+| #89632 | keep_related | planned | related | #89632 belongs in the same schema traversal symptom family but has a different config lookup root cause and must remain a separate related PR. |
 
 ## Needs Human
 

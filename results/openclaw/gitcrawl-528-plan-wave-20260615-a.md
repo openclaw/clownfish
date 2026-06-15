@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-528-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518867406"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518867406"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516846572"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516846572"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.609Z"
+published_at: "2026-06-15T02:27:57.045Z"
 canonical: "#58139"
 canonical_issue: "#58139"
 canonical_pr: "#80683"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518867406](https://github.com/openclaw/clownfish/actions/runs/27518867406)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516846572](https://github.com/openclaw/clownfish/actions/runs/27516846572)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #58139
 
 ## Summary
 
-Keep #58139 as the live canonical issue. #80683 is the focused open PR for the same memory-lancedb Windows Docker bind-mount failure, but this plan-mode job does not allow merge/fix actions, so keep it related as the candidate fix path rather than closing or merging anything. #80868 is already closed and is only historical CI context for a different Docker issue.
+Plan-only classification: keep #58139 as the canonical issue and keep #80683 open as the active candidate fix path. No close, merge, fix, or label mutation is planned. Linked #80868 is already closed historical context and is independent of the memory-lancedb bind-mount failure.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Keep #58139 as the live canonical issue. #80683 is the focused open PR for the s
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58139 | keep_canonical | planned | canonical | The issue remains the best live canonical thread until a fix lands and validates the Windows Docker bind-mount behavior. |
-| #80683 | keep_related | planned | related | The PR is the focused candidate fix for #58139, but this read-only plan job cannot recommend a merge mutation or close the issue before the fix lands. |
-| #80868 | keep_closed | skipped | independent | Closed linked context only; no action needed for this cluster. |
+| #58139 | keep_canonical | planned | canonical | #58139 remains the best canonical user-visible bug report; keep it open until the active fix path is validated and landed. |
+| #80683 | keep_related | planned | related | #80683 is not a duplicate or low-signal PR; keep it open as the active fix candidate for #58139, with merge/fix execution out of scope for this plan job. |
+| #80868 | keep_closed | skipped | independent | #80868 is already closed and independent of the memory-lancedb Windows bind-mount root cause. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-251-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27519890525"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519890525"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518783855"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518783855"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.974Z"
+published_at: "2026-06-15T02:27:57.116Z"
 canonical: "#75299"
 canonical_issue: "#79589"
 canonical_pr: "#75299"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519890525](https://github.com/openclaw/clownfish/actions/runs/27519890525)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518783855](https://github.com/openclaw/clownfish/actions/runs/27518783855)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #75299
 
 ## Summary
 
-Read-only plan: keep #75299 as the canonical starvation-guard PR for the remaining #79589 work. Keep #79589 open as the canonical issue/report until a starvation policy lands. Keep #80199 related but blocked from merge/closeout because it is broader, dirty, maintainer_can_modify=false, and its Real behavior proof check is failing. Closed linked refs #82274 and #82765 are evidence only.
+Plan-only classification: keep #75299 as the live canonical PR for the remaining command-queue starvation-guard work; keep #79589 and #80199 related rather than closing because #79589 is the tracking issue and #80199 is broader/failing proof with potentially useful overlapping work. Closed linked refs are historical evidence only.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Read-only plan: keep #75299 as the canonical starvation-guard PR for the remaini
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #75299 | keep_canonical | planned | canonical | #75299 is the clearest live canonical PR for the remaining starvation-guard root cause, but merge is blocked by proof/policy review requirements and merge is not an allowed action in this job. |
-| #79589 | keep_canonical | planned | canonical | Keep the issue open as the canonical report until #75299 or another maintainer-approved starvation policy lands; fixed-by-candidate closeout is premature before merge. |
-| #80199 | keep_related | planned | related | #80199 is related to the same scheduling area but is not the best canonical path and cannot be closed or superseded safely in this plan because it contains broader useful work and has failing proof/conflict blockers. |
-| #82274 | keep_closed | skipped | related | Closed linked context only; no closure action is valid or needed. |
-| #82765 | keep_closed | skipped | related | Closed merged context that partially fixed the broader issue; it remains evidence for why #75299 is the remaining canonical starvation-guard path. |
+| #75299 | keep_canonical | planned | canonical | Best surviving canonical for the remaining starvation-guard root cause; no mutation planned. |
+| #79589 | keep_related | planned | related | Keep the tracking issue open/related while #75299 owns the remaining validation path; do not close before the canonical fix lands or maintainer policy choice is resolved. |
+| #80199 | keep_related | planned | related | Related overlapping PR, but not safe to close or merge in this plan: failing proof, broader surface, and potential useful work require maintainer/contributor follow-up rather than automated closeout. |
+| #82274 | keep_closed | skipped | related | Already closed linked context; no mutation or closure recommendation. |
+| #82765 | keep_closed | skipped | related | Merged linked context that partially resolved the broader issue; no mutation or closure recommendation. |
 
 ## Needs Human
 

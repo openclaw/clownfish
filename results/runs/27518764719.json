@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-170-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27518764719",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27518764719",
+  "head_sha": "bde7630054b9beb03f7c7699a1f6d7426b906c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:30:24Z",
+  "workflow_updated_at": "2026-06-15T01:31:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-170-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:27:57.103Z",
+  "canonical": "#87213",
+  "canonical_issue": "#87213",
+  "canonical_pr": "#66985",
+  "summary": "Plan-only classification for cluster 170. Keep #87213 as the canonical issue, treat #66985 as the strongest hydrated canonical fix PR, quarantine security-sensitive linked issues #61009 and #72858, supersede weaker overlapping PR #87236 in favor of #66985, and keep #92141 related but separate.",
+  "actions": [
+    {
+      "target": "#61009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exec-routing documentation item is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#72858",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive browser/Control UI host exec allowlist semantics must be routed to central security handling."
+    },
+    {
+      "target": "#87213",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Best surviving issue for the non-security node selector canonicalization bug."
+    },
+    {
+      "target": "#66985",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Strongest hydrated non-security fix path, but merge is blocked by job frontmatter and missing merge_preflight is not supplied in plan mode."
+    },
+    {
+      "target": "#87236",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Overlapping contributor PR is weaker than the hydrated canonical fix path and is blocked by proof/lint failures."
+    },
+    {
+      "target": "#92141",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87213",
+      "candidate_fix": null,
+      "reason": "Same exec/node area, but materially different root cause and product scope from the canonical selector canonicalization bug."
+    },
+    {
+      "target": "#61229",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Already-closed linked context ref; no closure action is valid."
+    },
+    {
+      "target": "#87242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Already-closed linked context PR; no closure action is valid."
+    },
+    {
+      "target": "#89439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked docs PR; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 2,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

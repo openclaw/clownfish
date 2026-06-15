@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-655-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518912559"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518912559"
-head_sha: "8b5df6c0c4c3a62b64e794df55e634c2bee52e4d"
+run_id: "27516903968"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516903968"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.631Z"
+published_at: "2026-06-15T02:27:57.076Z"
 canonical: "#90249"
 canonical_issue: null
 canonical_pr: "#90249"
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-655-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518912559](https://github.com/openclaw/clownfish/actions/runs/27518912559)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516903968](https://github.com/openclaw/clownfish/actions/runs/27516903968)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90249
 
 ## Summary
 
-Plan-mode classification only. Both hydrated refs are open draft PRs for the same Google/Gemini unreadable tool schema failure family. #90249 remains the hinted canonical, but #90406 is a later overlapping implementation with distinct code shape and an unresolved observability comment, so closing or superseding either PR is not safe without maintainer judgment.
+Read-only plan: keep #90249 as the live canonical PR for the Google tool-schema hardening cluster, and keep #90406 as related overlapping draft work rather than close or merge it. The hydrated artifact reports no security-sensitive items, both PRs are open drafts, and merge/fix actions are blocked by job frontmatter.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification only. Both hydrated refs are open draft PRs for the sam
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,9 @@ Plan-mode classification only. Both hydrated refs are open draft PRs for the sam
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90249 | keep_canonical | planned | canonical | Best hinted surviving canonical, but only as a non-mutating canonical anchor because the PR is draft and an overlapping later PR exists. |
-| #90406 | needs_human | blocked | needs_human | Canonical choice is unclear between two useful overlapping draft PRs. #90406 should not be closed as duplicate or superseded until a maintainer decides whether its distinct implementation details or observability question should replace, amend, or remain separate from #90249. |
+| #90249 | keep_canonical | planned | canonical | The representative is still open and remains the best canonical family anchor for this read-only plan. It covers the shared root cause across provider and Google extension request builders; draft state and blocked merge permissions prevent any merge recommendation. |
+| #90406 | keep_related | planned | related | #90406 is in the same root-cause family as #90249, but it is not a safe duplicate or superseded closeout in this plan because it has useful distinct implementation details and an unresolved review concern. Keep it related for maintainer selection or follow-up instead of planning closure. |
 
 ## Needs Human
 
-- Maintainer should choose whether #90249 remains canonical, #90406 becomes the canonical replacement, or both should be combined/split before any closeout.
+- none

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-599-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518887246"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518887246"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516864610"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516864610"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.618Z"
+published_at: "2026-06-15T02:27:57.058Z"
 canonical: "#91408"
 canonical_issue: null
 canonical_pr: "#91408"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518887246](https://github.com/openclaw/clownfish/actions/runs/27518887246)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516864610](https://github.com/openclaw/clownfish/actions/runs/27516864610)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91408
 
 ## Summary
 
-Hydrated state shows both open PRs target the same Telegram ACP direct-message binding gap. #91408 is the better live canonical because it is non-draft, carries supplied/sufficient proof, passes Real behavior proof, includes direct/dm peer-kind handling plus docs/tests, and ClawSweeper marked it ready for maintainer review. #68537 is an earlier draft implementation of the same root cause, has failed real-behavior proof, and is superseded by the fuller #91408 path. No GitHub mutations are executed in plan mode.
+Classified the Telegram ACP direct-message binding PRs in read-only plan mode. #91408 should be the live canonical because it covers the same root cause as #68537, is non-draft, has supplied/sufficient proof, and has passing direct real-behavior proof. #68537 remains related overlap rather than a closure recommendation because it is an open contributor PR with useful code and #91408 still needs maintainer review before any merge path.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Hydrated state shows both open PRs target the same Telegram ACP direct-message b
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91408 | keep_canonical | planned | canonical | Best surviving PR for the shared root cause; keep as canonical but do not recommend merge because merge is blocked by job frontmatter, missing merge_preflight, and failing broad checks. |
-| #68537 | close_superseded | planned | superseded | Same root cause and user-visible failure as #91408, but #68537 is draft and proof-blocked. Superseded closeout is safe to plan only with the included credit-preserving comment and #91408 as the canonical path. |
-| #91507 | keep_closed | skipped | independent | Already closed and unrelated to this cluster's Telegram ACP direct-message binding root cause. |
+| #91408 | keep_canonical | planned | canonical | Best surviving canonical PR for the shared Telegram ACP direct-message binding root cause; merge is not planned because merge is blocked by job frontmatter and merge preflight is incomplete. |
+| #68537 | keep_related | planned | related | Overlaps the canonical root cause but should stay open as related contributor work in this plan because the better canonical PR has not merged and no closeout is needed for read-only classification. |
+| #91507 | keep_closed | skipped | independent | Already-closed unrelated context ref; no closure or other mutation is valid. |
 
 ## Needs Human
 

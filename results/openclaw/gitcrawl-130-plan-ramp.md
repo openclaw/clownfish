@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-130-plan-ramp"
 mode: "plan"
-run_id: "27519853353"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27519853353"
-head_sha: "22d161e1bb6775432f7eb60a80e61685d748f60c"
+run_id: "27518755797"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27518755797"
+head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:12:42.956Z"
+published_at: "2026-06-15T02:27:57.096Z"
 canonical: "#84569"
 canonical_issue: "#84569"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27519853353](https://github.com/openclaw/clownfish/actions/runs/27519853353)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27518755797](https://github.com/openclaw/clownfish/actions/runs/27518755797)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #84569
 
 ## Summary
 
-Plan-mode classification only. The hydrated preflight artifact shows #84569 is still the best live canonical for the narrow WhatsApp incomplete-turn/final-error no-delivery root cause. #84578 remains the focused linked fix candidate but is not merge-ready in this job because merge/fix are blocked and the PR has failing checks plus unresolved proof/readiness blockers. #73496 is already closed, and #91998 should stay related rather than be forced into the duplicate family because it includes an additional burst/embedded_run-at-started session poisoning mode beyond the #84569 final-error delivery gate.
+Plan-mode classification only. No GitHub mutations are proposed beyond non-mutating classifications because #73496 is already closed, #84569 remains the best open canonical, #84578 is related but merge/closeout is blocked by failing checks and job policy, and #91998 contains overlapping WhatsApp symptoms but also distinct burst/session-poisoning modes that should not be folded into #84569.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-mode classification only. The hydrated preflight artifact shows #84569 is s
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #84569 | keep_canonical | planned | canonical | #84569 is open, hydrated, specific to the clustered WhatsApp incomplete-turn/no-reply behavior, and already linked to the focused candidate PR. |
-| #73496 | keep_closed | skipped | duplicate | Already closed in live hydrated state, so no close action should be planned. |
-| #84578 | keep_related | planned | related | This is the focused candidate fix for the canonical issue, but failing checks and proof/readiness blockers prevent merge or fixed-by-candidate closeout in this plan. |
-| #91998 | keep_related | planned | related | Related WhatsApp session-state/message-loss family, but it contains a distinct burst/lane poisoning root cause and should not be closed as a duplicate of #84569. |
+| #73496 | keep_closed | skipped | superseded | Already closed; keep as historical context only. |
+| #84569 | keep_canonical | planned | canonical | Best live canonical for the narrow WhatsApp incomplete-turn final-error delivery gate. |
+| #84578 | keep_related | planned | related | Related candidate fix should remain open for maintainer review/CI repair; no merge or fixed-by closeout is safe in this plan. |
+| #91998 | keep_related | planned | related | Related but not a duplicate; it contains a distinct burst/session-poisoning root-cause candidate that should stay open or be split into its own follow-up review. |
 
 ## Needs Human
 

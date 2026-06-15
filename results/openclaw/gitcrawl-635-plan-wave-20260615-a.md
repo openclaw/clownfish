@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-635-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518904851"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518904851"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516895323"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516895323"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.627Z"
+published_at: "2026-06-15T02:27:57.069Z"
 canonical: "#90599"
 canonical_issue: "#90599"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518904851](https://github.com/openclaw/clownfish/actions/runs/27518904851)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516895323](https://github.com/openclaw/clownfish/actions/runs/27516895323)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90599
 
 ## Summary
 
-Plan-only classification: #90599 remains the live canonical issue. #90625 is a related candidate fix for the same docs gap, but it should not be merged or used for fixed-by closeout in this job because merge/fix actions are blocked, the PR has a failing Real behavior proof check, and the hydrated bot review requests a narrow source-build flow correction.
+Plan-mode classification only. #90599 remains the live canonical issue for the iOS beta-full install-path documentation gap. #90625 is a related candidate docs PR for the same gap, but it is not merge-ready because a required proof check is failing and ClawSweeper reported an actionable docs-flow correction.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #90599 remains the live canonical issue. #90625 is a r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90599 | keep_canonical | planned | canonical | #90599 is the clearest live canonical tracking the documentation gap. |
-| #90625 | keep_related | planned | related | #90625 is related to and potentially useful for #90599, but it is not merge-ready or eligible for fixed-by closeout under this plan-only job. |
+| #90599 | keep_canonical | planned | canonical | The representative is still open and remains the clearest canonical tracking item for the unresolved documentation gap. |
+| #90625 | keep_related | planned | related | The PR is in the same root-cause family and may be a candidate fix after author or maintainer repair, but current checks and review evidence block merge or fixed-by-candidate closeout in this plan. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-641-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518907414"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518907414"
-head_sha: "18a445b074de2172897e0da3a1180d5523dbac1d"
+run_id: "27516898460"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516898460"
+head_sha: "756c7e01926673fc4be49b47719fc3f2b097892a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.628Z"
+published_at: "2026-06-15T02:27:57.070Z"
 canonical: "#69582"
 canonical_issue: "#69582"
 canonical_pr: "#81157"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518907414](https://github.com/openclaw/clownfish/actions/runs/27518907414)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516898460](https://github.com/openclaw/clownfish/actions/runs/27516898460)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #69582
 
 ## Summary
 
-Plan-only classification: #69582 remains the open canonical issue for the malformed process.action/tool-argument loop. #81157 is a related open implementation PR for that issue, but merge and fixed-by-candidate closeout are blocked in this job by policy and by the PR's current failing/rebase-needed state.
+#69582 remains the live canonical issue. #81157 is the related active implementation PR for the same process.action validation problem, but no merge or closeout is planned because this run is plan-only, merge/fix/raise_pr are blocked by job frontmatter, and the PR still has a failing proof check plus a branch-update maintainer note.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #69582 remains the open canonical issue for the malfor
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69582 | keep_canonical | planned | canonical | The canonical hint is still valid: #69582 remains open, captures the user-visible bug, and has a hydrated linked PR that should own the implementation path. |
-| #81157 | keep_related | planned | related | #81157 is the active implementation path for #69582, but it should stay open for maintainer review/rebase rather than be merged, closed, or used for issue closeout in this plan run. |
+| #69582 | keep_canonical | planned | canonical | The issue is the clearest surviving report for the root cause and should stay open while the linked fix PR is reviewed. |
+| #81157 | keep_related | planned | related | Keep the PR associated with the canonical issue, but do not recommend merge or fixed-by-candidate closeout until the proof and branch-update blockers are resolved. |
 
 ## Needs Human
 
