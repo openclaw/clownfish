@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-009",
+  "mode": "plan",
+  "run_id": "27527697094",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527697094",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:15:13Z",
+  "workflow_updated_at": "2026-06-15T06:17:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-009.md",
+  "published_at": "2026-06-15T06:18:11.587Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Security-sensitive PRs #82349 and #82577 are routed to central security handling; #82432 is already closed; other open PRs remain non-mutating classifications because proof, checks, review, or maintainer decision gates block close or merge-style action.",
+  "actions": [
+    {
+      "target": "#80515",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer-owned PR with unresolved review/check blockers; keep open outside this cleanup cluster."
+    },
+    {
+      "target": "#82432",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no planned mutation is valid."
+    },
+    {
+      "target": "#82466",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate or low-signal close candidate; keep open until proof/check blockers are resolved."
+    },
+    {
+      "target": "#82435",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with active proof/review context; no duplicate, superseded, low-signal, or fixed-by-candidate closeout is supported."
+    },
+    {
+      "target": "#82349",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-adjacent setup execution work is out of ProjectClownfish cleanup scope and should go to central OpenClaw security handling."
+    },
+    {
+      "target": "#82520",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone attempted fix for a session-state behavior area; failing proof/checks block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#82514",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is required for a broad partial i18n contribution; no closure or merge action is allowed in this plan."
+    },
+    {
+      "target": "#82536",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not closeable as duplicate solely because the earlier approach #82523 is closed; current PR needs proof, conflict repair, and technical review."
+    },
+    {
+      "target": "#82561",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Feature PR is not a duplicate or low-signal close candidate from the hydrated evidence; keep open pending proof and maintainer review."
+    },
+    {
+      "target": "#82577",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "External plugin/channel discovery with security-boundary labels is out of ProjectClownfish cleanup scope and should be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "keep_closed": 1,
+    "route_security": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82514 requires maintainer/product review for a broad partial Settings i18n contribution before any merge or close-style follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

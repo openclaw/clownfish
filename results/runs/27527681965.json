@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-001",
+  "mode": "plan",
+  "run_id": "27527681965",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527681965",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:14:53Z",
+  "workflow_updated_at": "2026-06-15T06:17:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-001.md",
+  "published_at": "2026-06-15T06:18:11.581Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the 10 open PR inventory candidates using the hydrated preflight artifact. Security-shaped PRs are quarantined with route_security; the remaining non-security PRs are kept non-mutating because this is an inventory shard, merge/fix are blocked, and closure is not boringly safe.",
+  "actions": [
+    {
+      "target": "#62657",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92175",
+      "reason": "The PR appears covered by the hydrated merged fix path, but protected maintainer signal and stale/failing state make non-mutating classification the safe plan outcome."
+    },
+    {
+      "target": "#63123",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish backlog cleanup scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#63456",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped evidence on an open PR requires scoped quarantine instead of dedupe, closeout, merge, or fix planning."
+    },
+    {
+      "target": "#65205",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches Discord Activity auth and gateway surfaces with explicit security findings, so it belongs in central security handling."
+    },
+    {
+      "target": "#66444",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open systemd PR has security-shaped findings and unresolved review blockers, so only security routing is appropriate."
+    },
+    {
+      "target": "#66968",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent formatting PR in an inventory shard, not a duplicate cluster member."
+    },
+    {
+      "target": "#67080",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes gateway plugin route loading with explicit security-shaped findings, so it should be quarantined to central security handling."
+    },
+    {
+      "target": "#67816",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has explicit security-shaped WhatsApp auth/logout evidence, so ProjectClownfish should not close, merge, or repair it."
+    },
+    {
+      "target": "#67818",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related WhatsApp QR work, but the artifact does not prove a safe duplicate/superseded closeout."
+    },
+    {
+      "target": "#67820",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although the compact item matrix did not pre-mark #67820 as security-sensitive, the hydrated PR comments contain explicit security-shaped evidence, so scoped route_security is the conservative boundary action."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "route_security": 7,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
