@@ -1,0 +1,363 @@
+---
+repo: openclaw/openclaw
+cluster_id: pr-inventory-needs_proof-20260615T154534-045
+mode: plan
+allowed_actions:
+  - comment
+  - label
+  - close
+blocked_actions:
+  - force_push
+  - bypass_checks
+  - merge
+  - fix
+  - raise_pr
+require_human_for:
+  - security_sensitive
+  - maintainer_signal
+  - active_author_followup
+  - technical_correctness_judgment
+canonical: []
+candidates:
+  - "#76473"
+  - "#76479"
+  - "#76490"
+  - "#76590"
+  - "#76617"
+  - "#76618"
+  - "#76631"
+  - "#76709"
+  - "#76717"
+  - "#77996"
+  - "#78009"
+  - "#78020"
+  - "#78022"
+  - "#78026"
+  - "#78033"
+  - "#78034"
+  - "#78035"
+  - "#78075"
+  - "#78084"
+  - "#78085"
+  - "#78124"
+  - "#78129"
+  - "#78130"
+  - "#78154"
+  - "#78226"
+cluster_refs:
+  - "#76473"
+  - "#76479"
+  - "#76490"
+  - "#76590"
+  - "#76617"
+  - "#76618"
+  - "#76631"
+  - "#76709"
+  - "#76717"
+  - "#77996"
+  - "#78009"
+  - "#78020"
+  - "#78022"
+  - "#78026"
+  - "#78033"
+  - "#78034"
+  - "#78035"
+  - "#78075"
+  - "#78084"
+  - "#78085"
+  - "#78124"
+  - "#78129"
+  - "#78130"
+  - "#78154"
+  - "#78226"
+security_policy: central_security_only
+security_sensitive: false
+canonical_hint: "This is a PR inventory classification shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical."
+notes: "Generated from local gitcrawl open PR inventory on 2026-06-15T15:45:34.203Z; bucket=needs_proof; no GitHub mutation is possible in plan mode."
+---
+
+# PR Inventory needs_proof 45
+
+This is a high-volume classification shard over open pull requests. It is not a dedupe cluster.
+
+## Goal
+
+Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style planned actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies. For `target_updated_at`, copy only the hydrated value from the Cluster preflight artifact; do not use gitcrawl snapshot timestamps from this job body.
+
+## Inventory
+
+### #76473 Warn on high-frequency cron schedules (<30m)
+
+- bucket: needs_proof
+- author: LindalyX-Lee
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: gateway, cli, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:01:29Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - extract a shared high-frequency `every` warning helper - warn on high-frequency `every` schedules in CLI `cron add` and `cron edit` - warn on high-frequency `every` schedules in Gateway `cron.add` and `cron.update` - align the Gateway warning call
+
+### #76479 docs: add macOS setup notes and common setup troubleshooting
+
+- bucket: needs_proof
+- author: Sujabaral
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: S, triage: low-signal-docs, triage: docs-discoverability, triage: refactor-only, triage: needs-real-behavior-proof, P3, rating: 🧂 unranked krab, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:01:32Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Added macOS setup notes and a common troubleshooting section to improve onboarding for new contributors. ## Changes - Added macOS setup instructions (Xcode tools, Node, Homebrew) - Added common setup errors section - Improved clarity for new develop
+
+### #76490 fix(agents): route sessions_send A2A announce replies back to request…
+
+- bucket: needs_proof
+- author: habib-agentic-engineer
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 message-delivery, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:01:38Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: Fixes inter-agent communication bug where sessions_send replies were not being delivered back to the requesting agent's session. Problem: When agent A sends a message to agent B via sessions_send, agent B processes the message but the reply stays in agent B's 
+
+### #76590 fix(sandbox): bump config hash when buildSandboxCreateArgs flags change
+
+- bucket: needs_proof
+- author: aaajiao
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: S, triage: needs-real-behavior-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 availability, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:01:58Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Adds a `SANDBOX_DOCKER_CREATE_ARGS_EPOCH` constant and a `createArgsEpoch` field to both `SandboxHashInput` and `SandboxBrowserHashInput`, so the existing config-hash recreate path also fires when `buildSandboxCreateArgs` adds, removes, or changes c
+
+### #76617 fix(zalouser): split messages at line boundaries instead of mid-word
+
+- bucket: needs_proof
+- author: vinhnguyenthanhdn
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: zalouser, size: XS, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:02:06Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## TL;DR Long bot responses were split mid-word because the default chunk mode cut at exactly 2000 characters with no regard for word or sentence boundaries. --- ## Problem `DEFAULT_TEXT_CHUNK_MODE = "length"` cuts the outgoing message at exactly the 2000-char
+
+### #76618 fix(comfy): match Comfy Cloud API completion status values
+
+- bucket: needs_proof
+- author: 547895019
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: XS, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:02:10Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Comfy Cloud API returns `"success"` for completed workflows, but OpenClaw only checked for `"completed"`. This caused workflows that succeeded on Comfy Cloud to time out after 300s in OpenClaw. Additionally, Comfy Cloud uses `"error"` as a terminal 
+
+### #76631 docs(prometheus): warn that plugins.allow is strict-mode
+
+- bucket: needs_proof
+- author: RayWoo
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, gateway, size: XS, triage: needs-real-behavior-proof, P3, rating: 🦐 gold shrimp, status: ⏳ waiting on author
+- gitcrawl snapshot updated: 2026-06-14T19:02:17Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Adds a `<Warning>` callout to the Prometheus Quick Start clarifying that `plugins.allow` is **strict-mode** — when set, only listed plugins are eligible to load. The current Quick Start example shows `allow: ["diagnostics-prometheus"]` without warni
+
+### #76709 fix(matrix): add async shared-client stop helpers awaiting final persist
+
+- bucket: needs_proof
+- author: pridelife4evr420
+- author association: FIRST_TIMER
+- draft: no
+- assignees: none
+- labels: channel: matrix, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:02:37Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Problem: The synchronous `stopSharedClient`, `stopSharedClientForAccount`, and `stopSharedClientInstance` helpers in `extensions/matrix/src/matrix/client/shared.ts` kick off the final crypto/sync persist via `MatrixClient.stop()` but return before
+
+### #76717 feat(telegram): add acknowledgement sticker support
+
+- bucket: needs_proof
+- author: okzapradhana
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, channel: telegram, agents, size: L, triage: needs-real-behavior-proof, mantis: telegram-visible-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:02:40Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Problem: Telegram does not support streaming text, so users get no immediate interactive feedback while OpenClaw generates a response. - Why it matters: Ack reactions help, but stickers are more visible and expressive for Telegram conversations. -
+
+### #77996 fix(control-ui): show archived transcripts and images after reset
+
+- bucket: needs_proof
+- author: Rene0422
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: app: web-ui, gateway, size: XL, proof: supplied, P1, rating: 🧂 unranked krab, merge-risk: 🚨 session-state, merge-risk: 🚨 availability, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:04:35Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Fixes #77819. After a session reset, the prior `.jsonl.reset.<ts>` and `.jsonl.deleted.<ts>` transcripts persisted on disk but were unreachable from the Control UI, so the conversation and its image attachments looked deleted even though the data wa
+
+### #78009 docs: split AGENTS.md into CHARTER + CHITTY + OPS companions
+
+- bucket: needs_proof
+- author: chitcommit
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: L, triage: low-signal-docs, triage: needs-real-behavior-proof, P2, rating: 🦪 silver shellfish, merge-risk: 🚨 automation, merge-risk: 🚨 security-boundary, status: ⏳ waiting on author
+- gitcrawl snapshot updated: 2026-06-14T19:04:59Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Split the monolithic root `AGENTS.md` (which had grown to ~204 lines covering everything from boundary rules to mobile pairing footguns) into a slim entrypoint plus three topic-scoped companions: - **`AGENTS.md`** (188 lines) — entrypoint: quick ref
+
+### #78020 Fix Telegram Pinching progress previews
+
+- bucket: needs_proof
+- author: bryce-d-greybeard
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: telegram, scripts, agents, size: L, triage: needs-real-behavior-proof, mantis: telegram-visible-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:05:22Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - suppress Telegram progress-preview drafts that show internal tool/process status such as “Pinching...” - gate early Telegram typing to runs that originate from the same user-visible Telegram chat and are expected to produce visible output - propag
+
+### #78022 Signal: match allowlist on either uuid or e164 alias
+
+- bucket: needs_proof
+- author: fransqaas
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: signal, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:05:30Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary `channels.signal.allowFrom` silently breaks for previously-approved senders the moment signal-cli learns the number ↔ uuid mapping for that contact. The pairing flow re-fires for every inbound message even though the user is on the allowlist — just 
+
+### #78026 fix(control-ui): strip <think>/<final> tags from rendered assistant text
+
+- bucket: needs_proof
+- author: Beandon13
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: app: web-ui, size: XS, triage: mock-only-proof, P2, rating: 🧂 unranked krab, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:05:41Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - `renderGroupedMessage` reads `message.content[].text` directly via `normalizeMessage`, so the streaming bubble and any non-streaming history message can render raw `<think>` / `<final>` scaffolding the model emitted as text. - Run the assembled as
+
+### #78033 fix(feishu): serialize OpenClaw messages into Feishu v3 send payload
+
+- bucket: needs_proof
+- author: bradbox2
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: feishu, size: M, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:05:57Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Add a source-level Feishu serializer for OpenClaw outbound envelopes that contain `payloads`, `to`, and `channel`. - Route Feishu `send` message actions with `payloads` through the serializer before calling the Feishu create-message API. - Add moc
+
+### #78034 fix(control-ui): don't hard-deny local attachments before bootstrap roots load
+
+- bucket: needs_proof
+- author: Beandon13
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: app: web-ui, size: S, triage: mock-only-proof, P2, rating: 🧂 unranked krab, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:06:03Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Skip the client-side `localMediaPreviewRoots` gate while roots are still empty (bootstrap config not yet loaded), so local `MEDIA:` attachments fall through to the authoritative `assistant-media?meta=1` server check instead of being permanently sh
+
+### #78035 fix(memory-core): preserve sibling supplement results when one search rejects (#77897)
+
+- bucket: needs_proof
+- author: lonexreb
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: extensions: memory-core, size: M, proof: supplied, P2, rating: 🦪 silver shellfish, merge-risk: 🚨 compatibility, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:06:08Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Fixes #77897. `searchMemoryCorpusSupplements` (extensions/memory-core/src/tools.shared.ts) used `Promise.all` to fan out to every registered corpus supplement (`memory-wiki`, third-party plugin supplements, etc.). `Promise.all` is fail-fast: a singl
+
+### #78075 fix: preserve plugin hook and tool closure state
+
+- bucket: needs_proof
+- author: bryce-d-greybeard
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:07:41Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Fixes plugin tool resolution so cached descriptor wrappers do not bypass an already-live plugin registry that owns both hooks and tools for the same plugin. That keeps hook handlers and tool factories on the same `register()` closure when a plugin u
+
+### #78084 fix: support dynamic plugin tool contracts
+
+- bucket: needs_proof
+- author: bryce-d-greybeard
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:08:02Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Fixes dynamic plugin tool ownership without reverting the manifest-first plugin contract. Plugins still must declare `contracts.tools`, but they can now declare a bounded terminal wildcard namespace such as `acme_*`. Runtime `api.registerTool()` nam
+
+### #78085 fix(agents): parse prompt_tokens/completion_tokens in CLI usage for llama.cpp compatibility (#77992)
+
+- bucket: needs_proof
+- author: Beandon13
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: XS, triage: needs-real-behavior-proof, P2, rating: 🦪 silver shellfish, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:08:07Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - `toCliUsage()` in `cli-output.ts` only recognized `input_tokens`/`output_tokens` (and camelCase aliases) from CLI runner output. llama.cpp and other OpenAI-compatible local providers return `prompt_tokens`/`completion_tokens` instead, which are th
+
+### #78124 fix(openai-compat): derive stable session from X-Chat-Id / X-Thread-Id headers (#78091)
+
+- bucket: needs_proof
+- author: Beandon13
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: gateway, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 session-state, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:09:37Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Each request to the OpenAI-compat `/v1/chat/completions` endpoint generated a random-UUID session key when the `user` field was absent, causing Open-WebUI (and similar frontends) to create a new isolated session per message instead of reusing one 
+
+### #78129 fix: preserve final replies without block streaming
+
+- bucket: needs_proof
+- author: bryce-d-greybeard
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: XS, triage: needs-real-behavior-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:09:46Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: Fixes #78123. ## Summary - always preserve the final assistant text when block replies are disabled, even if preview/partial callbacks were active - keeps Feishu-style preview/card streaming from being treated as final delivery when no streaming lane/card was 
+
+### #78130 fix(memory-core): exclude session-corpus files from short-term promotion (#77831)
+
+- bucket: needs_proof
+- author: Beandon13
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: extensions: memory-core, size: S, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 session-state, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:09:59Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Dreaming writes session transcripts to `memory/.dreams/session-corpus/` inside the memory tree. The short-term promotion system tracked these paths in the recall store correctly (so dreaming phases can measure organic recall frequency), but also a
+
+### #78154 fix: codex prerelease suffix + clear plugin cache after gateway rebuild
+
+- bucket: needs_proof
+- author: LuoXinData
+- author association: FIRST_TIMER
+- draft: no
+- assignees: none
+- labels: cli, size: XS, extensions: codex, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:10:20Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary Two small fixes: ### 1. fix(codex): remove prerelease suffix from minHostVersion `semver` floor comparison does not support prerelease tags in `minHostVersion`. This removes the prerelease suffix so version checking works correctly. ### 2. feat(upda
+
+### #78226 fix: Node allowlist writeback can restore revoked exec approvals
+
+- bucket: needs_proof
+- author: coygeek
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: gateway, cli, agents, size: L, triage: needs-real-behavior-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- gitcrawl snapshot updated: 2026-06-14T19:12:26Z (ignore for target_updated_at; use hydrated preflight)
+- body excerpt: ## Summary - Fixes a race where execution-side allowlist metadata writeback could save a stale `exec-approvals.json` snapshot after an admin revoked or changed policy. - Adds a hash/CAS guard plus a file-lock-backed write path for exec approval updates that ca
+
