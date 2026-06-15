@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-maintainer_owned-20260615T131654-014"
 mode: "plan"
-run_id: "27549039803"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549039803"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390726"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390726"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.504Z"
+published_at: "2026-06-15T13:46:46.271Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 21
+needs_human_count: 15
 ---
 
 # pr-inventory-maintainer_owned-20260615T131654-014
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549039803](https://github.com/openclaw/clownfish/actions/runs/27549039803)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390726](https://github.com/openclaw/clownfish/actions/runs/27550390726)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory classification. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. No close, merge, label, comment, or fix actions are planned. The hydrated preflight artifact covered 20 open PRs; those are classified conservatively as independent or maintainer-blocked. The remaining listed candidates were not hydrated in the provided preflight artifact, so they are scoped needs_human for missing live state only.
+Plan-only PR inventory classification. No GitHub mutations are planned. Security-sensitive refs are quarantined with route_security; already-closed #93220 is kept closed; hydrated non-security PRs are kept independent for normal maintainer review; unavailable candidates need a refreshed hydrate before classification.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode PR inventory classification. No shared canonical was selected because 
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 21 |
+| Needs human | 15 |
 
 ## Fix Execution Actions
 
@@ -66,67 +66,61 @@ Plan-mode PR inventory classification. No shared canonical was selected because 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89798 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89805 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #93220 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89052 | keep_independent | planned | independent | Standalone draft maintainer PR, not a duplicate or low-signal close candidate. |
-| #89550 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89634 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89810 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #90621 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #12581 | keep_independent | planned | independent | Standalone feature PR with author-followup/check blockers, not a duplicate in this inventory shard. |
-| #46794 | keep_independent | planned | independent | Standalone device-pairing PR with proof blocker; no close-style action is supported. |
-| #79818 | keep_independent | planned | independent | Substantial standalone feature PR; not low-signal and not safely closeable in this shard. |
-| #73399 | keep_independent | planned | independent | Standalone channel fix with a proof blocker, not a duplicate or low-signal PR. |
-| #82145 | keep_independent | planned | independent | Useful standalone contributor PR; no merge allowed by job and no closure rationale. |
-| #84205 | keep_independent | planned | independent | Standalone fix needing proof; no duplicate/superseded evidence. |
-| #84972 | needs_human | blocked | needs_human | Active maintainer changes-requested review requires human/product correctness resolution before any close or merge planning. |
-| #86160 | keep_independent | planned | independent | Broad standalone stack PR; not a dedupe or closeout candidate in this inventory shard. |
-| #86564 | keep_independent | planned | independent | Focused standalone fix, not closeable or mergeable under this plan job. |
-| #86584 | keep_independent | planned | independent | Useful standalone contributor PR with author-followup state; not a duplicate or closure candidate. |
-| #87471 | keep_independent | planned | independent | Standalone draft PR, not actionable for close or merge in plan mode. |
-| #87573 | keep_independent | planned | independent | Substantial standalone fix with validation evidence, not low-signal or duplicate. |
-| #87669 | keep_independent | planned | independent | Broad standalone feature PR with proof blocker; no close-style action is supported. |
-| #88970 | keep_independent | planned | independent | Focused standalone contributor fix, not a cleanup closure candidate. |
-| #89031 | keep_independent | planned | independent | Standalone draft maintainer PR, not mergeable or closeable in this plan. |
-| #89041 | keep_independent | planned | independent | Useful standalone contributor PR in review loop; not a duplicate or closure target. |
-| #89042 | keep_independent | planned | independent | Standalone draft hardening PR with author-followup state; no closure action supported. |
-| #89056 | keep_independent | planned | independent | Standalone draft PR, not a duplicate or low-signal closure candidate. |
-| #89061 | keep_independent | planned | independent | Standalone draft hardening PR, not closeable in this inventory shard. |
-| #89072 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89076 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89077 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89078 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89079 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89081 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89089 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89105 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89113 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89124 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89136 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89141 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
-| #89149 | needs_human | blocked | needs_human | Missing hydrated live state for this listed candidate. |
+| #89798 | keep_independent | planned | independent | Independent plugin hardening PR; keep for normal maintainer review. |
+| #89805 | keep_independent | planned | independent | Independent plugin hardening PR; keep for normal maintainer review. |
+| #93220 | keep_closed | skipped | fixed_by_candidate | Already closed/merged; no closure action is valid. |
+| #89052 | keep_independent | planned | independent | Independent draft PR with unresolved review work. |
+| #89550 | keep_independent | planned | independent | Keep as an independent inventory item; do not infer dedupe closure from unavailable linked refs. |
+| #89634 | keep_independent | planned | independent | Independent LLM-core hardening PR. |
+| #89810 | keep_independent | planned | independent | Independent draft PR with unresolved review/overlap evidence. |
+| #90621 | keep_independent | planned | independent | Independent administrative PR; keep for maintainer review. |
+| #12581 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish backlog-cleanup scope. |
+| #46794 | route_security | planned | security_sensitive | Security-sensitive pairing/auth boundary work must route to central security handling. |
+| #79818 | route_security | planned | security_sensitive | Security-sensitive Slack OAuth/search boundary work is out of scope for this worker. |
+| #73399 | route_security | planned | security_sensitive | Security-sensitive channel identity/prompt-boundary concerns require central handling. |
+| #89041 | route_security | planned | security_sensitive | Security-adjacent dependency limit change must route to central security handling. |
+| #89042 | route_security | planned | security_sensitive | Security-boundary-labeled MCP projection work is out of ProjectClownfish cleanup scope. |
+| #82145 | keep_independent | planned | independent | Independent cron preflight PR with unresolved review status. |
+| #84205 | keep_independent | planned | independent | Independent bugfix candidate needing proof/maintainer review. |
+| #84972 | needs_human | planned | needs_human | Maintainer decision is explicitly requested for the Anthropic long-context classification/failover contract. |
+| #86160 | keep_independent | planned | independent | Large independent feature/fix stack item; keep for normal review. |
+| #86564 | keep_independent | planned | independent | Independent gateway bugfix candidate. |
+| #86584 | keep_independent | planned | independent | Independent session-state PR with unresolved review status. |
+| #87471 | keep_independent | planned | independent | Independent draft PR; keep. |
+| #87573 | keep_independent | planned | independent | Independent plugin install repair PR. |
+| #87669 | keep_independent | planned | independent | Independent feature PR; keep for maintainer/product review. |
+| #88970 | keep_independent | planned | independent | Independent heartbeat scheduler bugfix awaiting maintainer review. |
+| #89031 | keep_independent | planned | independent | Independent plugin hardening PR. |
+| #89056 | keep_independent | planned | independent | Independent MCP hardening PR. |
+| #89061 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89072 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89076 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89077 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89078 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89079 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89081 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89089 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89105 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89113 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89124 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89136 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89141 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
+| #89149 | needs_human | planned | needs_human | Needs refreshed hydration before classification. |
 
 ## Needs Human
 
-- #89798 missing hydrated preflight live state
-- #89805 missing hydrated preflight live state
-- #93220 missing hydrated preflight live state
-- #89550 missing hydrated preflight live state
-- #89634 missing hydrated preflight live state
-- #89810 missing hydrated preflight live state
-- #90621 missing hydrated preflight live state
-- #84972 has active maintainer CHANGES_REQUESTED technical-contract blocker
-- #89072 missing hydrated preflight live state
-- #89076 missing hydrated preflight live state
-- #89077 missing hydrated preflight live state
-- #89078 missing hydrated preflight live state
-- #89079 missing hydrated preflight live state
-- #89081 missing hydrated preflight live state
-- #89089 missing hydrated preflight live state
-- #89105 missing hydrated preflight live state
-- #89113 missing hydrated preflight live state
-- #89124 missing hydrated preflight live state
-- #89136 missing hydrated preflight live state
-- #89141 missing hydrated preflight live state
-- #89149 missing hydrated preflight live state
+- #84972 requires maintainer judgment on the Anthropic long-context compact/failover contract after CHANGES_REQUESTED and active author follow-up.
+- #89061 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89072 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89076 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89077 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89078 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89079 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89081 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89089 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89105 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89113 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89124 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89136 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89141 needs refreshed hydration; preflight has no kind/state/updated_at.
+- #89149 needs refreshed hydration; preflight has no kind/state/updated_at.

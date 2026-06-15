@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T131654-039"
 mode: "plan"
-run_id: "27549044768"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549044768"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390639"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390639"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.651Z"
+published_at: "2026-06-15T13:46:46.269Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 26
+needs_human_count: 14
 ---
 
 # pr-inventory-needs_proof-20260615T131654-039
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549044768](https://github.com/openclaw/clownfish/actions/runs/27549044768)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390639](https://github.com/openclaw/clownfish/actions/runs/27550390639)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory classification only. No GitHub mutations are planned because this shard has no shared canonical, merge/fix actions are blocked, close permissions are disabled for low-signal/instant closeout, and hydrated evidence is missing for the second half of the job refs.
+Plan-mode PR inventory classification. No shared canonical was selected. Seven hydrated security-sensitive PRs are routed to central security handling. Hydrated non-security PRs are kept independently for normal PR review/proof follow-up. Fourteen job-listed PR refs were unavailable in the preflight artifact due GitHub API rate limiting and need a fresh hydrated run before classification.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode PR inventory classification only. No GitHub mutations are planned beca
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 26 |
+| Needs human | 14 |
 
 ## Fix Execution Actions
 
@@ -66,72 +66,60 @@ Plan-mode PR inventory classification only. No GitHub mutations are planned beca
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85716 | needs_human | planned | needs_human | Technical correctness and unresolved review/CI failures require maintainer or repair judgment before any close/merge path. |
-| #85727 | keep_related | planned | related | Docs change may be useful but is not safely closable in this job. |
-| #85745 | keep_related | planned | related | Focused Discord provider change remains a plausible backlog item but lacks proof for merge or closeout. |
-| #85747 | needs_human | planned | needs_human | Broad runtime architecture and overlapping PR content need maintainer technical judgment. |
-| #85758 | needs_human | planned | needs_human | API/behavior change plus failing checks needs maintainer correctness judgment. |
-| #84987 | keep_related | planned | related | Security-shaped hardening is not routed as security per artifact, but proof failed and no fix/merge action is allowed. |
-| #85833 | keep_related | planned | related | Small plausible infrastructure hardening PR should stay open for normal review. |
-| #85932 | keep_related | planned | related | Focused bugfix remains a valid candidate but needs proof/review. |
-| #92751 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #86053 | keep_related | planned | related | Plausible reviewed backlog candidate, but this plan-mode shard cannot merge. |
-| #86064 | keep_related | planned | related | Focused passing PR should remain open for maintainer review or separate merge workflow. |
-| #86079 | keep_related | planned | related | Keep as related non-security hardening candidate; missing merge preflight prevents stronger action. |
-| #86168 | needs_human | planned | needs_human | Automated review findings are unresolved in the hydrated artifact. |
-| #86175 | needs_human | planned | needs_human | Message-delivery behavioral correctness and failing checks require maintainer or repair judgment. |
-| #86421 | keep_related | planned | related | Focused media behavior change remains related but needs proof/review. |
-| #92692 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #86460 | needs_human | planned | needs_human | Draft XL multi-area change is not suitable for automated inventory close/merge. |
-| #86491 | keep_related | planned | related | Plausible candidate with proof, but session/message-delivery risk needs normal review. |
-| #86605 | keep_related | planned | related | Keep as related provider feature candidate for normal maintainer review. |
-| #86622 | keep_related | planned | related | Small provider compatibility fix remains a related candidate but lacks behavior proof. |
-| #86681 | keep_related | planned | related | Comment-only cleanup is not closable by this job; keep for maintainer triage. |
-| #86716 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #86749 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #86936 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #86955 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87046 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #88810 | needs_human | planned | needs_human | Potential supersession cannot be planned safely without hydrated live state and source/canonical refs. |
-| #87083 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87088 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87092 | needs_human | planned | needs_human | Live hydrated state is unavailable; low-signal closeout is disabled. |
-| #87100 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87119 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87122 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87164 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87206 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #87260 | needs_human | planned | needs_human | Live hydrated state is unavailable; waiting-on-author/manual status needs maintainer context. |
-| #87275 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #92455 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
-| #82303 | keep_related | planned | related | Plausible proof-supplied feature PR should remain open for normal maintainer review. |
-| #86711 | needs_human | planned | needs_human | Live hydrated state is unavailable for this ref. |
+| #85716 | route_security | planned | security_sensitive | Security-boundary/auth-adjacent gateway behavior is out of scope for backlog cleanup. |
+| #85727 | keep_independent | planned | independent | Independent docs PR; not closable or mergeable from this shard. |
+| #85745 | keep_independent | planned | independent | Standalone compatibility/config PR needing proof and conflict handling. |
+| #85747 | keep_independent | planned | independent | Broad independent PR; no close or merge action is safe in plan mode. |
+| #85758 | keep_independent | planned | independent | Independent feature PR needing author/maintainer correction. |
+| #84987 | route_security | planned | security_sensitive | Credential/plaintext secret handling belongs to central security review. |
+| #85833 | route_security | planned | security_sensitive | Sandbox image dependency behavior with fail-open install semantics should be quarantined. |
+| #85932 | keep_independent | planned | independent | Independent provider/channel PR awaiting live proof. |
+| #92751 | keep_independent | planned | independent | Independent candidate that may be reviewed separately, but this plan shard cannot merge. |
+| #86053 | keep_independent | planned | independent | Independent Codex extension bugfix needing normal review gates. |
+| #86064 | keep_independent | planned | independent | Independent agent/cron accounting fix needing proof/check follow-up. |
+| #86079 | keep_independent | planned | independent | Independent hardening bugfix; not a dedupe closeout. |
+| #86168 | keep_related | planned | related | Likely superseded, but closure cannot be planned because the replacement canonical #88531 is not hydrated. |
+| #86175 | route_security | planned | security_sensitive | Sensitive data exposure/leak-shaped report must be routed to central security handling. |
+| #86421 | keep_independent | planned | independent | Independent media feature PR awaiting proof. |
+| #92692 | keep_independent | planned | independent | Independent doctor bugfix needing normal review/check handling. |
+| #86460 | keep_independent | planned | independent | Active broad draft PR should remain in normal maintainer review, not backlog cleanup. |
+| #86491 | keep_independent | planned | independent | Independent session-state/message-delivery PR. |
+| #86605 | keep_independent | planned | independent | Independent provider feature PR needing proof. |
+| #86622 | route_security | planned | security_sensitive | API key/auth-provider request handling is security-sensitive for this workflow. |
+| #86681 | keep_independent | planned | independent | Independent low-risk cleanup, not duplicate or canonical work. |
+| #86716 | keep_independent | planned | independent | Independent candidate needing normal review/preflight. |
+| #86749 | route_security | planned | security_sensitive | Sandbox image/runtime environment changes are quarantined by this job. |
+| #86936 | keep_independent | planned | independent | Independent bugfix with unresolved review-bot findings. |
+| #86955 | keep_independent | planned | independent | Independent broad runtime PR with source blocker and conflicts. |
+| #87046 | route_security | planned | security_sensitive | Plugin/harness registry boundary behavior is routed out of backlog cleanup. |
+| #87083 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87088 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87092 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87100 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87119 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87122 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87164 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87206 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87260 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #87275 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #92455 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #82303 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #86711 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
+| #88810 | needs_human | blocked | needs_human | Fresh hydrated live state is required before classification. |
 
 ## Needs Human
 
-- #85716
-- #85747
-- #85758
-- #92751
-- #92692
-- #86168
-- #86175
-- #86460
-- #86716
-- #86749
-- #86936
-- #86955
-- #87046
-- #88810
-- #87083
-- #87088
-- #87092
-- #87100
-- #87119
-- #87122
-- #87164
-- #87206
-- #87260
-- #87275
-- #92455
-- #86711
+- #87083 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87088 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87092 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87100 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87119 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87122 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87164 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87206 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87260 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #87275 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #92455 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #82303 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #86711 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
+- #88810 unavailable in preflight due GitHub API rate limit; rerun hydration before classification.
