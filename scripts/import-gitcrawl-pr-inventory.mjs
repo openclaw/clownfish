@@ -207,7 +207,7 @@ function candidateBlock(candidate) {
     `- assignees: ${candidate.assignees.join(", ") || "none"}`,
     `- labels: ${candidate.labels.join(", ") || "none"}`,
     `- gitcrawl snapshot updated: ${candidate.updated_at || "unknown"} (ignore for target_updated_at; use hydrated preflight)`,
-    `- body excerpt: ${candidate.body_excerpt || "none"}`,
+    `- body excerpt: ${scrubExcerpt(candidate.body_excerpt) || "none"}`,
     "",
   ];
 }
@@ -299,4 +299,12 @@ function sqlString(value) {
 
 function excerpt(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, 260);
+}
+
+function scrubExcerpt(value) {
+  return String(value ?? "")
+    .replace(/\/Users\/[A-Za-z0-9._-]+/g, "/Users/<user>")
+    .replace(/\/home\/[A-Za-z0-9._-]+/g, "/home/<user>")
+    .replace(/\b(token|secret|password)=\S+/gi, "$1=<redacted>")
+    .replace(/\b(token|secret|password):\s*\S+/gi, "$1: <redacted>");
 }
