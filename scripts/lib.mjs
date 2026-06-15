@@ -109,7 +109,7 @@ export function waitForLiveWorkerCapacity(options = {}) {
 export function listActiveWorkflowRuns({ repo = currentProjectRepo(), workflow = "cluster-worker.yml" } = {}) {
   const runs = [];
   for (const status of ACTIVE_WORKFLOW_STATUSES) {
-    const workflowRuns = ghJsonLines([
+    const workflowPages = ghJson([
       "api",
       "--method",
       "GET",
@@ -119,9 +119,9 @@ export function listActiveWorkflowRuns({ repo = currentProjectRepo(), workflow =
       "-f",
       "per_page=100",
       "--paginate",
-      "--jq",
-      ".workflow_runs[]",
+      "--slurp",
     ]);
+    const workflowRuns = workflowPages.flatMap((page) => page.workflow_runs ?? []);
     if (Array.isArray(workflowRuns)) runs.push(...workflowRuns.map((run) => normalizeWorkflowRun(run, status)));
   }
   return [...new Map(runs.map((run) => [String(run.databaseId ?? run.id), run])).values()].sort(
@@ -149,15 +149,6 @@ function repoFromOriginRemote() {
 function ghJson(ghArgs) {
   const text = ghRaw(ghArgs);
   return JSON.parse(stripAnsi(text) || "null");
-}
-
-function ghJsonLines(ghArgs) {
-  const text = stripAnsi(ghRaw(ghArgs)).trim();
-  if (!text) return [];
-  return text
-    .split(/\r?\n/)
-    .filter(Boolean)
-    .map((line) => JSON.parse(line));
 }
 
 function ghRaw(ghArgs) {
