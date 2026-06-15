@@ -119,6 +119,15 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          summarize_gh_error() {
+            if [ ! -s /tmp/clownfish-gh-token-check.err ]; then
+              return 0
+            fi
+            head -n 5 /tmp/clownfish-gh-token-check.err |
+              sed -E \
+                -e 's/(authorization|bearer|token)[^[:space:]]+/\1=[redacted]/Ig' \
+                -e 's/[A-Za-z0-9_=-]{40,}/[redacted]/g'
+          }
           for candidate in CLOWNFISH_READ_GH_TOKEN CLOWNFISH_WRITE_GH_TOKEN CLOWNFISH_APP_GH_TOKEN GITHUB_TOKEN; do
             token="${!candidate:-}"
             if [ -z "$token" ]; then
@@ -130,7 +139,7 @@ jobs:
               exit 0
             fi
             echo "::warning::$candidate failed GitHub read probe"
-            sed 's/./*/g' /tmp/clownfish-gh-token-check.err | head -n 1 || true
+            summarize_gh_error || true
           done
           echo "no GitHub token could read repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw"
           exit 1
@@ -271,6 +280,15 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          summarize_gh_error() {
+            if [ ! -s /tmp/clownfish-gh-token-check.err ]; then
+              return 0
+            fi
+            head -n 5 /tmp/clownfish-gh-token-check.err |
+              sed -E \
+                -e 's/(authorization|bearer|token)[^[:space:]]+/\1=[redacted]/Ig' \
+                -e 's/[A-Za-z0-9_=-]{40,}/[redacted]/g'
+          }
           for candidate in CLOWNFISH_WRITE_GH_TOKEN CLOWNFISH_WORKFLOW_APP_GH_TOKEN CLOWNFISH_APP_GH_TOKEN GITHUB_TOKEN; do
             token="${!candidate:-}"
             if [ -z "$token" ]; then
@@ -282,7 +300,7 @@ jobs:
               exit 0
             fi
             echo "::warning::$candidate failed GitHub write/apply probe"
-            sed 's/./*/g' /tmp/clownfish-gh-token-check.err | head -n 1 || true
+            summarize_gh_error || true
           done
           echo "no GitHub token could reach repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw"
           exit 1
