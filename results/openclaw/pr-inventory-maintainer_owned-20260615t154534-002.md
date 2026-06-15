@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-maintainer_owned-20260615T154534-002"
 mode: "plan"
-run_id: "27559995968"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27559995968"
-head_sha: "dce8233306a90d6d52f9fcaa41728838a8e657e7"
+run_id: "27560323972"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27560323972"
+head_sha: "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T16:19:34.839Z"
+published_at: "2026-06-15T16:28:28.807Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 5
+needs_human_count: 0
 ---
 
 # pr-inventory-maintainer_owned-20260615T154534-002
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27559995968](https://github.com/openclaw/clownfish/actions/runs/27559995968)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27560323972](https://github.com/openclaw/clownfish/actions/runs/27560323972)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Planned conservative PR-inventory classification only. No GitHub mutations are planned because this shard has no shared canonical, merge/fix/low-signal closeout are disabled, and several PRs require maintainer/product review rather than automated closure.
+Plan-only PR inventory classification shard. No shared canonical is selected; no GitHub mutations, merge, fix, or low-signal closeout are planned.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Planned conservative PR-inventory classification only. No GitHub mutations are p
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 5 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,36 +66,32 @@ Planned conservative PR-inventory classification only. No GitHub mutations are p
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90268 | keep_independent | planned | independent | Narrow draft maintainer PR with its own scope; no shared canonical exists in this inventory shard. |
-| #90383 | keep_independent | planned | independent | Provider-specific draft with nontrivial implementation; keep as independent maintainer review work. |
-| #90386 | keep_independent | planned | independent | Narrow draft PR with its own MCP scope; no dedupe or closeout path is established. |
-| #90431 | needs_human | planned | needs_human | Broad compatibility-impacting feature plus unresolved bot review context requires maintainer judgment; no merge or close action is allowed. |
-| #90505 | keep_independent | planned | independent | Substantive contributor fix candidate with passing checks; keep as independent review/repair work rather than close or merge in this plan shard. |
-| #91293 | keep_independent | planned | independent | Clear independent implementation candidate; no hydrated duplicate/superseded target supports closure. |
-| #91325 | keep_independent | planned | independent | Focused availability fix candidate with passing checks; keep as independent maintainer review work. |
-| #91452 | needs_human | planned | needs_human | Large automation/skill import needs maintainer product and review-bot judgment; not appropriate for automated closeout. |
-| #91510 | needs_human | planned | needs_human | Possible overlap with #91452 requires maintainer sequencing/product judgment before any superseded or independent decision. |
-| #91519 | needs_human | planned | needs_human | QA automation expansion with proof and review-bot context still pending requires maintainer review. |
-| #91370 | keep_independent | planned | independent | Specific bug-fix candidate with its own linked issue; keep independent rather than close or merge in this disabled-merge plan. |
-| #91570 | needs_human | planned | needs_human | Broad draft QA/installer change needs maintainer judgment; no close, merge, or fix action is allowed. |
-| #91786 | keep_independent | planned | independent | Classified conservatively as an independent plugin fix candidate from job evidence only; live artifact absence blocks any close-style action. |
-| #91673 | keep_independent | planned | independent | Independent channel-specific compatibility fix candidate; live artifact absence blocks close-style planning. |
-| #91906 | keep_independent | planned | independent | Independent performance candidate with proof still needed; live artifact absence blocks any stronger action. |
-| #87695 | keep_independent | planned | independent | Small draft type/gate fix with no hydrated duplicate relation; keep independent. |
-| #88121 | keep_independent | planned | independent | Small contributor PR needing proof/review, not low-signal closeout because low-signal closure is disabled and the diff is concrete. |
-| #88292 | keep_independent | planned | independent | Draft conflict/dirty state blocks merge but not conservative independent classification. |
-| #91957 | keep_independent | planned | independent | Independent sessions performance candidate; live artifact absence blocks any close-style action. |
-| #88533 | keep_independent | planned | independent | Parked draft test cleanup is not closeable under this job because low-signal and instant closeout are disabled; keep independent. |
-| #88589 | route_security | planned | security_sensitive | The PR changes auth override behavior involving token/password inputs and is explicitly labeled security-boundary, so quarantine only this item for central security handling. |
-| #88621 | keep_independent | planned | independent | Small independent type/runtime fix candidate with no duplicate relation in this inventory shard. |
-| #88649 | keep_independent | planned | independent | Independent test hygiene PR with sufficient proof; no close or merge action is allowed in this plan. |
-| #91878 | keep_independent | planned | independent | Independent Codex validation/automation PR from job evidence only; live artifact absence blocks any close-style action. |
-| #88673 | keep_independent | planned | independent | Small independent test alignment PR; no dedupe or closeout path is established. |
+| #90268 | keep_related | planned | related | Distinct draft hardening PR; keep grouped as related, not duplicate. |
+| #90383 | keep_related | planned | related | Related provider-specific hardening; no close or merge action in plan mode. |
+| #90386 | keep_related | planned | related | Related surface-specific hardening; keep open. |
+| #90431 | keep_independent | planned | independent | Broad unique feature PR requiring maintainer review; not a dedupe or closeout candidate. |
+| #90505 | keep_independent | planned | independent | Unique fix PR; keep open for maintainer review outside this classification shard. |
+| #91293 | keep_related | planned | related | Related to tool-definition hardening, with distinct session/runtime scope. |
+| #91325 | keep_independent | planned | independent | Unique focused fix; no inventory closeout. |
+| #91452 | keep_related | planned | related | Related claw-score work; keep for maintainer/product review. |
+| #91510 | keep_related | planned | related | Related taxonomy-only PR; keep open rather than close as superseded in this shard. |
+| #91519 | keep_independent | planned | independent | Unique QA-lab automation PR; not a dedupe closeout candidate. |
+| #91370 | keep_independent | planned | independent | Unique message-delivery fix requiring normal review. |
+| #91570 | keep_independent | planned | independent | Broad draft QA hardening PR; keep independent. |
+| #91786 | keep_independent | planned | independent | Classification from job inventory only; keep independent and require hydration before any mutation. |
+| #91673 | keep_independent | planned | independent | Unique provider/config PR based on inventory; keep independent. |
+| #91906 | keep_independent | planned | independent | Unique performance PR with missing hydration; keep independent. |
+| #87695 | keep_independent | planned | independent | Unique changed-gate/types fix; keep open. |
+| #88121 | keep_independent | planned | independent | Small but unique contributor PR; keep independent. |
+| #88292 | keep_independent | planned | independent | Unique Windows update availability fix; keep open. |
+| #91957 | keep_independent | planned | independent | Unique performance PR from job inventory; keep independent pending hydration. |
+| #88533 | keep_independent | planned | independent | Parked draft test cleanup; keep independent rather than close in this plan. |
+| #88589 | route_security | planned | security_sensitive | Auth/token/password override behavior should be handled by central OpenClaw security review, scoped only to this PR. |
+| #88621 | keep_independent | planned | independent | Unique types fix; keep open. |
+| #88649 | keep_independent | planned | independent | Independent test hygiene PR; keep open. |
+| #91878 | keep_independent | planned | independent | Unique validation/automation PR from job inventory; keep independent pending hydration. |
+| #88673 | keep_independent | planned | independent | Independent test alignment PR; keep open. |
 
 ## Needs Human
 
-- #90431: broad node-hosted plugin tools feature has unresolved maintainer/review-bot judgment.
-- #91452: large claw-score skill import needs maintainer product and automation review.
-- #91510: overlaps claw-score taxonomy with #91452 and needs maintainer sequencing judgment.
-- #91519: QA-lab Slack approval automation needs proof/review-bot judgment.
-- #91570: broad draft installer/plugin QA assertion change needs maintainer review.
+- none
