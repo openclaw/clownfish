@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-537-feature-clean-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27524018634",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27524018634",
+  "head_sha": "fc2924d3375976d8b61faa8176b6388b80ad611f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:27:43Z",
+  "workflow_updated_at": "2026-06-15T04:28:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-537-feature-clean-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:29:24.285Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan mode result. The hydrated artifact marks the canonical candidate #52789 and candidate #92653 as security-sensitive session-routing feature requests, so they are routed to central OpenClaw security handling instead of dedupe closure. The only non-security hydrated linked item, #44309, is related session/A2A delivery work but has a distinct product contract and should remain open as related, not folded into #52789.",
+  "actions": [
+    {
+      "target": "#52789",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive cross-session delivery/API design is out of scope for Clownfish backlog cleanup and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92653",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive inbound session routing should not be deduped or closed by Clownfish automation."
+    },
+    {
+      "target": "#7524",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This linked issue affects session consolidation across group contexts and is security-sensitive, so only the affected item is quarantined."
+    },
+    {
+      "target": "#19929",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Selective shared-session routing and sandbox semantics are security-sensitive and should be handled centrally."
+    },
+    {
+      "target": "#79607",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Identity-based cross-channel session unification is security-sensitive and outside Clownfish cleanup mutation scope."
+    },
+    {
+      "target": "#44309",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52789",
+      "candidate_fix": null,
+      "reason": "Related session/A2A delivery area, but not the same root cause or user-visible failure as cron delivery.mode=\"session\"."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
