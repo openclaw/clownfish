@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-236",
+  "mode": "plan",
+  "run_id": "27528304516",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528304516",
+  "head_sha": "c2ef9909712ef6471a22cf34eee72da84a63452c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:29:55Z",
+  "workflow_updated_at": "2026-06-15T06:32:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-236.md",
+  "published_at": "2026-06-15T06:34:53.532Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification. No canonical was chosen because the job explicitly identifies this as an inventory shard, not a dedupe cluster. Security-sensitive open PRs are routed to central security handling; already-closed candidates are kept closed; remaining open non-security PRs are kept independently for maintainer review.",
+  "actions": [
+    {
+      "target": "#79982",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive open PRs are out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#89721",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused non-security test coverage PR with passing checks; keep for normal maintainer review rather than close or merge from this inventory shard."
+    },
+    {
+      "target": "#86224",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid-looking non-security bugfix PR with unresolved review/change requirements; keep independently for maintainer or author follow-up."
+    },
+    {
+      "target": "#86233",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-security candidate fix for an open Codex log-retention issue, but review findings remain and this job cannot merge or raise fixes."
+    },
+    {
+      "target": "#86272",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Scope and permission-boundary changes should be routed to central OpenClaw security handling rather than backlog cleanup."
+    },
+    {
+      "target": "#86335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "URL sanitization allowlist changes are security-sensitive and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#86365",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned non-security PR with review pending; keep independently for normal maintainer review."
+    },
+    {
+      "target": "#86386",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Proxy routing and security-boundary-labeled channel changes should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#86411",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan; no closure action is allowed."
+    },
+    {
+      "target": "#86413",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep closed and do not plan any mutation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_independent": 4,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

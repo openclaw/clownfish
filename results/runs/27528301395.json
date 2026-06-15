@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-234",
+  "mode": "plan",
+  "run_id": "27528301395",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528301395",
+  "head_sha": "c2ef9909712ef6471a22cf34eee72da84a63452c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:29:50Z",
+  "workflow_updated_at": "2026-06-15T06:33:12Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-234.md",
+  "published_at": "2026-06-15T06:34:53.524Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are planned. Security-sensitive open PRs are routed to central security handling; non-security PRs are kept as related or independent inventory items unless the hydrated evidence leaves a maintainer/product decision unresolved. Several compacted candidate records lack hydrated updated_at in the prompt, so no mutating close actions are emitted for those items.",
+  "actions": [
+    {
+      "target": "#89442",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84567",
+      "candidate_fix": "#89442",
+      "reason": "Useful focused candidate for the hydrated #84567 bug, but this inventory shard cannot merge or close and maintainer review remains the owning path."
+    },
+    {
+      "target": "#91729",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#59297",
+      "candidate_fix": "#91729",
+      "reason": "Related to the Teams long-reply fallback family, but not closeable or mergeable in this plan because proof/checks fail and live updated_at was not available in the compacted artifact."
+    },
+    {
+      "target": "#90192",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90177",
+      "candidate_fix": "#90192",
+      "reason": "Focused candidate for the hydrated #90177 Feishu issue; keep it associated with that issue for maintainer review rather than closing or merging from this inventory shard."
+    },
+    {
+      "target": "#90367",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86152",
+      "candidate_fix": "#90367",
+      "reason": "Related narrow UI fix, but proof failure and broader product scope mean it should stay open for maintainer/product review."
+    },
+    {
+      "target": "#91028",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out of scope for ProjectClownfish backlog cleanup because the hydrated artifact flags it as security-sensitive."
+    },
+    {
+      "target": "#91308",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed on whether to accept or split a broad new xAI realtime voice provider PR."
+    },
+    {
+      "target": "#84708",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84134",
+      "candidate_fix": "#84708",
+      "reason": "Useful related session-state/message-tool fix candidate, but the plan must preserve it for maintainer review rather than mutating."
+    },
+    {
+      "target": "#91690",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure, label, or comment action is valid."
+    },
+    {
+      "target": "#91758",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out of scope for ProjectClownfish because the hydrated artifact flags this PR as security-sensitive."
+    },
+    {
+      "target": "#80453",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out of scope for ProjectClownfish because it involves credential/token propagation and is explicitly marked security-sensitive in the hydrated artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "route_security": 3,
+    "needs_human": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91308 requires maintainer/product judgment on whether a broad XL xAI realtime voice provider with dependency changes and boundary-risk labels should be accepted, split, or closed outside this inventory shard."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
