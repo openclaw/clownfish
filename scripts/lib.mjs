@@ -109,7 +109,7 @@ export function waitForLiveWorkerCapacity(options = {}) {
 export function listActiveWorkflowRuns({ repo = currentProjectRepo(), workflow = "cluster-worker.yml" } = {}) {
   const runs = [];
   for (const status of ACTIVE_WORKFLOW_STATUSES) {
-    const workflowRuns = ghJson([
+    const workflowRuns = ghJsonLines([
       "api",
       "--method",
       "GET",
@@ -118,8 +118,9 @@ export function listActiveWorkflowRuns({ repo = currentProjectRepo(), workflow =
       `status=${status}`,
       "-f",
       "per_page=100",
+      "--paginate",
       "--jq",
-      ".workflow_runs",
+      ".workflow_runs[]",
     ]);
     if (Array.isArray(workflowRuns)) runs.push(...workflowRuns.map((run) => normalizeWorkflowRun(run, status)));
   }
@@ -146,16 +147,29 @@ function repoFromOriginRemote() {
 }
 
 function ghJson(ghArgs) {
+  const text = ghRaw(ghArgs);
+  return JSON.parse(stripAnsi(text) || "null");
+}
+
+function ghJsonLines(ghArgs) {
+  const text = stripAnsi(ghRaw(ghArgs)).trim();
+  if (!text) return [];
+  return text
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+}
+
+function ghRaw(ghArgs) {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
-  const text = execFileSync("gh", ghArgs, {
+  return execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     env,
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
     maxBuffer: 64 * 1024 * 1024,
   });
-  return JSON.parse(stripAnsi(text) || "null");
 }
 
 function stripAnsi(text) {
