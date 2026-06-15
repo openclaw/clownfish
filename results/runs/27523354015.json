@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-803-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523354015",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523354015",
+  "head_sha": "7085a31ba476fe810cf6138882445a069aabed15",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:07:38Z",
+  "workflow_updated_at": "2026-06-15T04:08:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-803-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:10:12.114Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. #75860 is an open security-sensitive PR from the hydrated artifact and should be routed to central security handling. #87076 is a related but distinct non-security QMD scope-denial PR; it should stay open because it is not a duplicate and is blocked for merge by missing real behavior proof and dirty merge state.",
+  "actions": [
+    {
+      "target": "#75860",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#75860 is explicitly identified by the job and preflight artifact as security-sensitive, so it is out of ProjectClownfish backlog-cleanup scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#87076",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep #87076 open as related work rather than closing or merging it. It is a distinct non-security PR with useful scope-denial behavior, but it lacks real behavior proof and is dirty, so no merge or fixed-by-candidate closeout is appropriate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

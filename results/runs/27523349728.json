@@ -1,0 +1,53 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-795-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523349728",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523349728",
+  "head_sha": "3f2168d9de7a3d9495239c95a6f949c58027bccd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:07:29Z",
+  "workflow_updated_at": "2026-06-15T04:08:17Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-795-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:10:12.112Z",
+  "canonical": "#77343",
+  "canonical_issue": "#77343",
+  "canonical_pr": null,
+  "summary": "Plan mode only. #77343 remains the live canonical issue for the stale Barnacle label bug. #77361 is an open linked PR for the same Barnacle path, but the job explicitly marks it as a security-signal ref requiring central security routing, so no merge, close, label, comment, or fix action is planned for that PR.",
+  "actions": [
+    {
+      "target": "#77343",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77343",
+      "candidate_fix": null,
+      "reason": "#77343 is the best surviving non-security canonical issue for the reported stale-label bug and should remain open."
+    },
+    {
+      "target": "#77361",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#77343",
+      "candidate_fix": null,
+      "reason": "The job explicitly marks #77361 as a security-signal ref requiring central security handling, so ProjectClownfish should quarantine only this PR and keep unrelated non-security classification moving."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77361 is routed to central OpenClaw security handling because the job explicitly marks it as a security-signal ref; ProjectClownfish should not close, merge, label, comment on, or repair that PR in this cluster."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
