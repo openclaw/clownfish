@@ -20,6 +20,7 @@ const DEFAULT_WORKFLOW = "cluster-worker.yml";
 const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const DEFAULT_OBSERVE_TIMEOUT_MS = 60 * 1000;
+const DEFAULT_GATE_CAPTURE_TIMEOUT_MS = 5 * 60 * 1000;
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? DEFAULT_REPO);
@@ -107,6 +108,16 @@ try {
     created_at: run.createdAt,
     url: run.url,
   }));
+  if (openExecuteWindow && ["execute", "autonomous"].includes(mode)) {
+    const startedRuns = waitForRunsStarted(observedRuns.map((run) => run.databaseId));
+    summary.gate_capture_runs = startedRuns.map((run) => ({
+      run_id: String(run.databaseId),
+      status: run.status,
+      conclusion: run.conclusion ?? null,
+      created_at: run.createdAt,
+      url: run.url,
+    }));
+  }
   console.log(JSON.stringify(summary, null, 2));
 } finally {
   for (const gate of gateRestores.reverse()) {
@@ -220,6 +231,23 @@ function waitForObservedRuns({ expectedCount, headSha, since }) {
     sleepMs(5_000);
   }
   return latest.slice(-expectedCount);
+}
+
+function waitForRunsStarted(runIds) {
+  const timeoutMs = Number(process.env.CLOWNFISH_REQUEUE_GATE_CAPTURE_TIMEOUT_MS ?? DEFAULT_GATE_CAPTURE_TIMEOUT_MS);
+  const deadline = Date.now() + (Number.isInteger(timeoutMs) && timeoutMs > 0 ? timeoutMs : DEFAULT_GATE_CAPTURE_TIMEOUT_MS);
+  const wanted = new Set(runIds.map((runId) => Number(runId)));
+  let latest = [];
+  while (Date.now() < deadline) {
+    latest = listClusterRuns().filter((run) => wanted.has(Number(run.databaseId)));
+    if (latest.length === wanted.size && latest.every((run) => run.status !== "queued")) {
+      return latest;
+    }
+    sleepMs(5_000);
+  }
+  throw new Error(
+    `timed out waiting for dispatched run(s) to start before restoring execute window: ${[...wanted].join(", ")}`,
+  );
 }
 
 function assertGateOpenIfNeeded(mode) {
