@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-356",
+  "mode": "plan",
+  "run_id": "27528664821",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528664821",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:33Z",
+  "workflow_updated_at": "2026-06-15T06:40:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-356.md",
+  "published_at": "2026-06-15T10:17:45.372Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Security-sensitive PRs were routed to central security handling; open non-security PRs were kept as independent review items; the already-closed PR was kept closed.",
+  "actions": [
+    {
+      "target": "#89017",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with useful focused code and passing evidence; no inventory-shard close or merge action is allowed."
+    },
+    {
+      "target": "#89028",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with focused implementation and tests; no duplicate/supersede evidence in this shard."
+    },
+    {
+      "target": "#89029",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#90450",
+      "reason": "Already closed; preserve as historical superseded context only."
+    },
+    {
+      "target": "#89031",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned hardening PR with useful focused work, but no close/merge path in this plan job."
+    },
+    {
+      "target": "#89033",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary WhatsApp group-management capability must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#89038",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open contributor PR appears useful and reviewable, but this plan job cannot merge and should not close it."
+    },
+    {
+      "target": "#89042",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "MCP catalog projection/request-boundary hardening is explicitly marked security-sensitive in preflight and must be routed centrally."
+    },
+    {
+      "target": "#89044",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security UI PR is independent and still waiting on author/maintainer review; no low-signal close is allowed."
+    },
+    {
+      "target": "#89045",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open active contributor PR with substantial useful implementation and proof; keep as independent maintainer-review item."
+    },
+    {
+      "target": "#89052",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned focused hardening PR; keep as an independent review item rather than closing or merging."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 7,
+    "keep_closed": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

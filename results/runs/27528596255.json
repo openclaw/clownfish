@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-313",
+  "mode": "plan",
+  "run_id": "27528596255",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528596255",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:48Z",
+  "workflow_updated_at": "2026-06-15T06:39:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-313.md",
+  "published_at": "2026-06-15T10:17:45.212Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No shared canonical was selected because the job is explicitly an inventory shard. Eight open non-security PRs should stay open for maintainer/review/proof follow-up, one open security-sensitive PR is routed to central security handling, and one already-closed security-sensitive PR is recorded as routed/read-only context.",
+  "actions": [
+    {
+      "target": "#67946",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#67946",
+      "reason": "Valid focused fix candidate, but merge is blocked by plan mode and maintainer-review gates."
+    },
+    {
+      "target": "#68046",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68046",
+      "reason": "Related fix candidate should remain open, but unresolved review findings and failed proof block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#68801",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68801",
+      "reason": "The area and bug are plausible, but current implementation has unresolved correctness findings and proof is failing."
+    },
+    {
+      "target": "#68384",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68384",
+      "reason": "Keep as a non-security related hardening/fix candidate; proof and maintainer-review gates still block merge."
+    },
+    {
+      "target": "#65962",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#65962",
+      "reason": "Focused candidate should remain open, but it needs rebase/proof and a small review-bot cleanup before merge."
+    },
+    {
+      "target": "#68422",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68422",
+      "reason": "Keep as the existing focused UI fix candidate; plan mode, failed proof, and rebase requirement block merge."
+    },
+    {
+      "target": "#69199",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#69199",
+      "reason": "This appears to be the clean current fix candidate for the sqlite-unavailable UX issue; keep it open for normal maintainer merge review."
+    },
+    {
+      "target": "#69494",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive SecretRef/token handling item must be routed to central OpenClaw security handling and kept out of ProjectClownfish cleanup."
+    },
+    {
+      "target": "#67350",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive context should not be mutated, but should remain quarantined to central security handling rather than normal backlog cleanup."
+    },
+    {
+      "target": "#66685",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#66685",
+      "reason": "Valid focused non-security candidate with proof supplied; keep open for maintainer review."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 8,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

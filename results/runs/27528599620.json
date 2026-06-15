@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-315",
+  "mode": "plan",
+  "run_id": "27528599620",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528599620",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:53Z",
+  "workflow_updated_at": "2026-06-15T06:39:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-315.md",
+  "published_at": "2026-06-15T10:17:45.218Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations, merges, closes, labels, comments, or fix PRs are planned. Security-sensitive refs are quarantined individually; unrelated open PRs are kept open or escalated only where the hydrated artifact shows unresolved maintainer/review judgment.",
+  "actions": [
+    {
+      "target": "#69413",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR that should remain in backlog pending proof; no close or merge action is safe or allowed."
+    },
+    {
+      "target": "#70409",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out of scope for Clownfish backlog cleanup; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#70268",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#70268",
+      "reason": "Related valid implementation candidate, but not merge-ready and not closable in this inventory shard."
+    },
+    {
+      "target": "#40782",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#40782",
+      "reason": "Maintainer and technical-correctness judgment is required before any close, merge, or replacement path."
+    },
+    {
+      "target": "#68843",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#68843",
+      "reason": "Proof exists, but latest review found unresolved merge blockers requiring maintainer or author follow-up."
+    },
+    {
+      "target": "#82160",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#82160",
+      "reason": "Independent open candidate that should remain available for normal maintainer review; merge is blocked by job policy, not by classification."
+    },
+    {
+      "target": "#71062",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#71062",
+      "reason": "Independent open PR pending proof; no duplicate, close, or merge action is appropriate."
+    },
+    {
+      "target": "#70676",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Out of scope for Clownfish backlog cleanup; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#69822",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#69822",
+      "reason": "Valid related implementation candidate, but unresolved review/security-tool findings require maintainer or author judgment before any action."
+    },
+    {
+      "target": "#70306",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#70306",
+      "reason": "Broad mixed-scope PR with maintainer hold, dirty state, failed proof, and unresolved correctness findings."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 2,
+    "keep_related": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#40782 requires maintainer/technical judgment on the Feishu identity decision surface after changes requested and failed proof.",
+    "#68843 requires maintainer/author follow-up because latest ClawSweeper review found issues despite proof success.",
+    "#69822 requires maintainer/author follow-up on unresolved review/security-tool findings before any merge path.",
+    "#70306 requires maintainer/product judgment because it is dirty, broad, failed proof, and has maintainer hold plus unresolved review findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

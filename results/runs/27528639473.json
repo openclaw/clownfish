@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-340",
+  "mode": "plan",
+  "run_id": "27528639473",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528639473",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:53Z",
+  "workflow_updated_at": "2026-06-15T06:41:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-340.md",
+  "published_at": "2026-06-15T10:17:45.315Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned one conservative classification for each PR in the mixed inventory shard. Security-sensitive PRs are routed to central security handling. Already-closed PRs are kept closed with skipped closeout. Open non-security PRs are kept open as independent or related review work; no close, merge, fix, label, or comment mutations are planned in plan mode.",
+  "actions": [
+    {
+      "target": "#39102",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR changes an agent-to-agent/session visibility authorization boundary and is explicitly marked security-sensitive in the hydrated artifact, so only scoped security routing is appropriate."
+    },
+    {
+      "target": "#43469",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR directly concerns injection-threat detection and security scanner behavior, so it is outside ProjectClownfish backlog cleanup and should route to central security handling."
+    },
+    {
+      "target": "#44111",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Encrypted backup/restore changes plus explicit security findings make this security-sensitive; route only this PR while continuing unrelated classifications."
+    },
+    {
+      "target": "#92738",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is already closed/landed, so no mutation is valid in this plan."
+    },
+    {
+      "target": "#90872",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The target is already closed and remains historical context only."
+    },
+    {
+      "target": "#89985",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone update-flow PR, not a duplicate or low-signal cleanup target; keep it open for its normal review path."
+    },
+    {
+      "target": "#89279",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84022",
+      "candidate_fix": "#89279",
+      "reason": "This is a focused candidate related to #84022, but plan mode and blocked merge/fix actions mean the safe outcome is to keep it related and open."
+    },
+    {
+      "target": "#85509",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a small standalone provider fix that should remain on the maintainer review path, not be closed or merged by this plan."
+    },
+    {
+      "target": "#89451",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89437",
+      "candidate_fix": null,
+      "reason": "This is related to the broader Google tool-schema hardening line but not a duplicate; keep it open and related rather than closing or merging."
+    },
+    {
+      "target": "#89201",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88838",
+      "candidate_fix": null,
+      "reason": "This PR is a related slice of the active transcript migration tracker and should remain open; merge/conflict repair is outside this plan job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 2,
+    "keep_independent": 2,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-354",
+  "mode": "plan",
+  "run_id": "27528661695",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528661695",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:28Z",
+  "workflow_updated_at": "2026-06-15T06:41:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-354.md",
+  "published_at": "2026-06-15T10:17:45.367Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No GitHub mutations are planned. Security-sensitive PRs are routed to central handling; already-closed PR #48834 is kept closed; remaining open non-security PRs are kept as independent or related work with merge/close blocked by policy, review state, author status, or lack of a shared canonical.",
+  "actions": [
+    {
+      "target": "#51762",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR that should remain open for maintainer/review follow-up."
+    },
+    {
+      "target": "#92725",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Remote/external reranker support is flagged by the hydrated artifact for central security handling."
+    },
+    {
+      "target": "#92751",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91868",
+      "candidate_fix": "#92751",
+      "reason": "Related implementation PR for hydrated issue #91868; keep open for normal review/merge path."
+    },
+    {
+      "target": "#52120",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45082",
+      "candidate_fix": "#52120",
+      "reason": "Useful but abandoned related PR for open issue #45082; keep related rather than close or escalate the whole shard."
+    },
+    {
+      "target": "#51868",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific human maintainer verdict requested by the author and required before deciding whether to repair, replace, or keep waiting."
+    },
+    {
+      "target": "#81443",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated security-sensitive PR; route only."
+    },
+    {
+      "target": "#90305",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; keep open for normal maintainer review."
+    },
+    {
+      "target": "#50051",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated security-sensitive PR; route only."
+    },
+    {
+      "target": "#47523",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-owned hardening PR; keep open for maintainer review rather than route or close."
+    },
+    {
+      "target": "#48834",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#46819",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded; record skipped keep_closed only."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 3,
+    "keep_related": 2,
+    "needs_human": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#51868 needs a human maintainer verdict because the author explicitly requested one and the PR remains dirty/unmergeable with unresolved review concerns."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

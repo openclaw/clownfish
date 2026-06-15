@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-325",
+  "mode": "plan",
+  "run_id": "27528614895",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528614895",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:17Z",
+  "workflow_updated_at": "2026-06-15T06:40:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-325.md",
+  "published_at": "2026-06-15T10:17:45.259Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification shard. No shared canonical was selected. Hydrated preflight state supports non-mutating classification for #75857, #85543, and #87111; the remaining listed seed PRs were not present in the compacted hydrated item matrix, so they are kept non-mutating with live-state ambiguity called out rather than planned for close/label/comment.",
+  "actions": [
+    {
+      "target": "#87111",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned broad WebChat/Gateway pagination PR with dirty merge state and unresolved review-bot findings; job blocks merge and fix actions, so maintainer judgment or a separate repair job is needed."
+    },
+    {
+      "target": "#91767",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct app-server teardown PR; with no hydrated live item in the provided artifact, keep non-mutating and independent."
+    },
+    {
+      "target": "#92625",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct Codex/plugin approval feature PR; no close/merge/fix action is allowed or justified from the provided hydrated state."
+    },
+    {
+      "target": "#75857",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears useful but not merge-ready per current ClawSweeper evidence; deciding whether to request author changes or split the callback-path fix is maintainer/technical judgment."
+    },
+    {
+      "target": "#88743",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent documentation PR; low-signal closure is not allowed in this job and live hydrated state is unavailable in the supplied artifact."
+    },
+    {
+      "target": "#85543",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-adjacent exec fallback work is explicitly marked route-only by the preflight artifact; quarantine this item from ProjectClownfish backlog cleanup."
+    },
+    {
+      "target": "#91192",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct TTS/message-tool-only fix path tied to an open issue; keep independent/non-mutating because live PR state for #91192 is not available in the supplied artifact."
+    },
+    {
+      "target": "#90998",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct SMS command authorization PR; no duplicate/superseded evidence or live hydrated state supports a close action."
+    },
+    {
+      "target": "#92230",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct command/menu feature PR; keep independent because there is no hydrated evidence supporting closure or merge planning."
+    },
+    {
+      "target": "#92558",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct maintainer QA-lab/scripts refactor PR; keep independent/non-mutating from the provided evidence."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 7,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87111 requires maintainer/technical judgment because it is broad, dirty, unmergeable in this job, and has unresolved review-bot findings.",
+    "#75857 requires maintainer/technical judgment because ClawSweeper says the bug is real but the current implementation is not merge-ready."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

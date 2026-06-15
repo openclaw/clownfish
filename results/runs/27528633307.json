@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-336",
+  "mode": "plan",
+  "run_id": "27528633307",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528633307",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:43Z",
+  "workflow_updated_at": "2026-06-15T06:41:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-336.md",
+  "published_at": "2026-06-15T10:17:45.299Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard. Security-sensitive PRs are routed to central security handling, the already-closed PR is kept closed, and ordinary open PRs are kept as independent/related active review items rather than closed or merged.",
+  "actions": [
+    {
+      "target": "#90184",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active focused PR; no close, merge, or fix action is available in this plan shard."
+    },
+    {
+      "target": "#92654",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#16896",
+      "reason": "Related implementation PR for hydrated issue #16896, but not safe to close or merge in this job."
+    },
+    {
+      "target": "#92748",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#85651",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope and should be handled centrally."
+    },
+    {
+      "target": "#92764",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone PR; no duplicate or low-signal close evidence in this shard."
+    },
+    {
+      "target": "#92755",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with a failing lint gate; keep for author/maintainer follow-up."
+    },
+    {
+      "target": "#91049",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active substantial PR; classify independently rather than close or merge."
+    },
+    {
+      "target": "#89702",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-adjacent gateway pairing change is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#91800",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security/policy-hook sensitive PR should go to central OpenClaw security handling."
+    },
+    {
+      "target": "#92341",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused active PR; no duplicate, superseded, fixed-by-candidate, or low-signal close basis."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

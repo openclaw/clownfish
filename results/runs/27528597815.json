@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-314",
+  "mode": "plan",
+  "run_id": "27528597815",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528597815",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:50Z",
+  "workflow_updated_at": "2026-06-15T06:39:42Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-314.md",
+  "published_at": "2026-06-15T10:17:45.214Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected. Security-sensitive PRs are routed to central security handling; non-security PRs are kept open or sent to maintainer review based on hydrated comments, review-bot findings, checks, and proof status.",
+  "actions": [
+    {
+      "target": "#65359",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is required before any merge or closeout decision; job mode and blocked_actions also prohibit merge or fix work."
+    },
+    {
+      "target": "#70630",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#70630",
+      "reason": "Keep the PR open as related focused work; proof failures block merge or issue closeout but do not make the PR low-signal or closable."
+    },
+    {
+      "target": "#70876",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive MCP/tool-boundary work is out of ProjectClownfish backlog cleanup scope and must be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#70332",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary/session-state memory hardening work is routed to central OpenClaw security handling rather than backlog cleanup."
+    },
+    {
+      "target": "#68443",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The closed PR remains security-sensitive historical context; no mutation is planned."
+    },
+    {
+      "target": "#70605",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up plus unresolved technical correctness/review-bot validation requires human review before closing, merging, or superseding."
+    },
+    {
+      "target": "#69495",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#69495",
+      "reason": "Keep as related open implementation work; failing proof/checks and unresolved review-bot findings block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#70497",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#70497",
+      "reason": "Keep open as related follow-up work; proof failure and unrelated test churn block merge, but the PR is not a duplicate/low-signal close candidate in this shard."
+    },
+    {
+      "target": "#70944",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is ready for maintainer/product review rather than automated closeout or merge in plan mode."
+    },
+    {
+      "target": "#70895",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Webhook/session identity behavior is security-sensitive in this cluster and must be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_related": 3,
+    "route_security": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#65359 needs maintainer review and review-bot/schema-artifact judgment before merge or closeout.",
+    "#70605 has active author follow-up plus unresolved technical correctness/review-bot validation around strikethrough sanitization.",
+    "#70944 needs maintainer/product review for Discord trusted-principal identity-links behavior before any merge decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

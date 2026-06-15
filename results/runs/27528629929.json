@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-334",
+  "mode": "plan",
+  "run_id": "27528629929",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528629929",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:38Z",
+  "workflow_updated_at": "2026-06-15T06:40:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-334.md",
+  "published_at": "2026-06-15T10:17:45.293Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No GitHub mutations are recommended. Security-sensitive/token/exec-boundary items are routed to central security handling; closed candidates are kept closed; the remaining open PRs are kept as independent backlog/maintainer-review items rather than deduped or closed.",
+  "actions": [
+    {
+      "target": "#90868",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Codex exec hook policy changes touch a security boundary and must be handled by central OpenClaw security review, not inventory cleanup."
+    },
+    {
+      "target": "#40877",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone iOS behavior PR with proof/review blockers, not a duplicate or closeout candidate."
+    },
+    {
+      "target": "#92584",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR concerns token/secret handling and URL token exposure, so it should be routed to central security handling even though it is otherwise small and proof-supplied."
+    },
+    {
+      "target": "#92524",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone candidate fix path for a memory-core issue, not a dedupe/closure target in this inventory shard."
+    },
+    {
+      "target": "#43951",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is useful but blocked on proof and branch ownership; no allowed fix/merge/close action is appropriate in plan mode."
+    },
+    {
+      "target": "#73060",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#92730",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#42637",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone skills PR with review/rebase blockers; it should remain open for author/maintainer follow-up."
+    },
+    {
+      "target": "#92647",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone memory-core candidate that should remain open for normal maintainer/author flow."
+    },
+    {
+      "target": "#92726",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Restart subprocess/handoff behavior is security-boundary shaped and must be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_independent": 5,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-330",
+  "mode": "plan",
+  "run_id": "27528623512",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528623512",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:29Z",
+  "workflow_updated_at": "2026-06-15T06:40:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-330.md",
+  "published_at": "2026-06-15T10:17:45.278Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected. One security-sensitive PR is routed to central security handling; closed PR #88687 is kept closed; the remaining open PRs are kept for independent or related maintainer triage, with exact human-review blockers scoped per PR.",
+  "actions": [
+    {
+      "target": "#41375",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped review evidence and explicit preflight routing require central OpenClaw security handling, not ProjectClownfish cleanup."
+    },
+    {
+      "target": "#40311",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate or close candidate; keep as its own feature PR until proof/check blockers are resolved."
+    },
+    {
+      "target": "#41299",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not safely closable in this shard, but it is blocked on proof and should remain independent for follow-up."
+    },
+    {
+      "target": "#88686",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed to choose or combine the overlapping WebChat replay fix paths before any close or merge recommendation."
+    },
+    {
+      "target": "#88687",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#90745",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed on the durable reply-metadata contract and overlap with adjacent runtime-context work."
+    },
+    {
+      "target": "#82145",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not a cleanup close candidate; maintainer review is the remaining gate."
+    },
+    {
+      "target": "#92665",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as the active related PR for the LiteLLM cacheRetention bug family; do not close or merge in this inventory shard."
+    },
+    {
+      "target": "#92686",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft/proof-blocked feature work should remain independent; no low-signal or duplicate close is supported."
+    },
+    {
+      "target": "#41275",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep related to the cron no-timeout issue; proof/check blockers prevent fixed-by-candidate closeout or merge planning."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 3,
+    "needs_human": 3,
+    "keep_closed": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88686: maintainer must choose or combine overlapping WebChat replay fix paths with #87471 before merge/close decisions.",
+    "#90745: maintainer/product decision needed on durable reply metadata contract and overlap with #88032/#89428.",
+    "#82145: maintainer review is the remaining explicit gate for a ready but cross-surface cron local-model preflight PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

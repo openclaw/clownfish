@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-358",
+  "mode": "plan",
+  "run_id": "27528667386",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528667386",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:37Z",
+  "workflow_updated_at": "2026-06-15T06:40:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-358.md",
+  "published_at": "2026-06-15T10:17:45.376Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned. Security-sensitive refs are routed narrowly; unrelated PRs are kept open or escalated only for specific maintainer/product decisions.",
+  "actions": [
+    {
+      "target": "#92819",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the current related contributor PR for the #92776 stale fallback-origin family; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#89041",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item is explicitly marked security-sensitive in live preflight state, so ProjectClownfish should not close, merge, label, comment, or otherwise triage it."
+    },
+    {
+      "target": "#83933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related to hydrated issue #83538; no duplicate/superseded closeout is safe from this inventory shard."
+    },
+    {
+      "target": "#85249",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the related candidate PR for #85051; merge readiness is outside this plan-only inventory job."
+    },
+    {
+      "target": "#81417",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR with proof/check blockers; keep it independent rather than closing or tying it to an invented canonical."
+    },
+    {
+      "target": "#82540",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific unresolved maintainer judgment: whether to accept the available regression proof despite missing live WeChat provider proof, or keep requesting provider evidence."
+    },
+    {
+      "target": "#86338",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related to #84872 and coordination with #85828; draft state and cross-PR overlap make closure or merge inappropriate."
+    },
+    {
+      "target": "#92867",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the related candidate PR for #92302; no closeout is appropriate in this plan-only inventory shard."
+    },
+    {
+      "target": "#47706",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item is explicitly marked security-sensitive in live preflight state, so it is out of ProjectClownfish backlog cleanup scope."
+    },
+    {
+      "target": "#47754",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is related historical implementation work for the closed memory-snippet issue, but this job does not permit low-signal closeout and the evidence supports keeping it open rather than closing from inventory classification."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 6,
+    "route_security": 2,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82540 requires maintainer judgment on whether the available regression proof is enough without live WeChat A+B provider proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

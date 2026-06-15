@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T060018-360"
 mode: "plan"
-run_id: "178150942423894"
-run_url: null
-head_sha: "ab8f3381c8b4c7ae549806f637732c055ad16c09"
+run_id: "27528670199"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27528670199"
+head_sha: "de62578a13281bebeb7850dbe15ddc33d7f2b81e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T07:49:48.576Z"
-canonical: "#81156"
-canonical_issue: "#81156"
+published_at: "2026-06-15T10:17:45.380Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
-actions_total: 6
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: unknown
+Run: [https://github.com/openclaw/clownfish/actions/runs/27528670199](https://github.com/openclaw/clownfish/actions/runs/27528670199)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #81156
+Canonical: unknown
 
 ## Summary
 
-Plan-mode inventory classification only. Route the security-sensitive linked issue #92077 and the security-linked partial sourceUrl PR #92860 to central security handling, keep #81156 as the MiniMax canonical issue, and close/supersede #87259 against #81156.
+Plan-only classification for two open PR inventory candidates using the hydrated preflight artifact. No GitHub mutations are executed.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,12 +66,9 @@ Plan-mode inventory classification only. Route the security-sensitive linked iss
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #1 | keep_closed | skipped | superseded | Already closed historical context item. |
-| #81156 | keep_canonical | planned | canonical | Best surviving MiniMax thread with live evidence and explicit maintainer/product verification still required. |
-| #87184 | keep_closed | skipped | superseded | Already closed overlapping MiniMax PR; no close action is valid. |
-| #87259 | close_superseded | planned | superseded | Open contributor PR is superseded by the canonical issue and blocked by failed real-behavior proof; closeout preserves credit and points to the canonical path. |
-| #92077 | route_security | planned | security_sensitive | Security-sensitive linked issue is out of ProjectClownfish mutation scope and should go to central OpenClaw security handling. |
-| #92860 | route_security | planned | security_sensitive | Security-linked partial sourceUrl PR should be quarantined with central OpenClaw security handling rather than classified with needs_human or merge/close actions. |
+| #92860 | keep_related | planned | related | Keep as related/non-mutating: the PR is a narrow partial implementation with proof supplied, but still needs review completion and maintainer/security-product handling around the linked broader issue. |
+| #87259 | close_superseded | planned | superseded | The open PR is a blocked landing vehicle for work now centralized on hydrated canonical issue #81156, with an existing clear ClawSweeper close rationale and no unique active author follow-up beyond proof nudges. |
+| #92077 | route_security | planned | security_sensitive | Exact linked security-sensitive issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling. |
 
 ## Needs Human
 

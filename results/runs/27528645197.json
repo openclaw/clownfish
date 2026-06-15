@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-344",
+  "mode": "plan",
+  "run_id": "27528645197",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528645197",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:02Z",
+  "workflow_updated_at": "2026-06-15T06:41:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-344.md",
+  "published_at": "2026-06-15T10:17:45.332Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed open PR candidates. No close, merge, label, comment, or fix action is planned. The shard is not a dedupe cluster, so each PR is classified independently; one credential-privacy PR is routed to central security handling, and one listed PR needs human follow-up because no hydrated live artifact entry was available for its target_updated_at.",
+  "actions": [
+    {
+      "target": "#88192",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related diagnostic-session recovery work, but failing proof and unique behavior surface make closure or fixed-by-candidate closeout unsafe."
+    },
+    {
+      "target": "#89634",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the unreadable tool-schema family, but draft/maintainer-owned state and missing merge preflight require keeping it non-mutating."
+    },
+    {
+      "target": "#89744",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#77429",
+      "reason": "This is the active Discord startup-priority fix path, but merge and post-merge closeout are blocked in this plan shard and maintainer review remains pending."
+    },
+    {
+      "target": "#89898",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plugin-service metadata hardening work; draft state and maintainer review prevent close or merge planning."
+    },
+    {
+      "target": "#90633",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Codex policy/tool-surface work with broad draft diff and review history; keep non-mutating rather than treating it as a dedupe close or merge candidate."
+    },
+    {
+      "target": "#92813",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential privacy and API/OAuth token storage concerns must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#92731",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92684",
+      "reason": "Related doctor false-positive fix with proof, but waiting-on-author status and no merge/fix permission mean it should remain open."
+    },
+    {
+      "target": "#91770",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91718",
+      "reason": "A plausible linked fix path for #91718, but still waiting on author and not eligible for merge or fixed-by-candidate closeout in this plan shard."
+    },
+    {
+      "target": "#75165",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#77981",
+      "reason": "Broad feature PR with its own review path; keep independent from the mixed inventory shard and avoid close/merge planning."
+    },
+    {
+      "target": "#92815",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#46184",
+      "reason": "Needs a refreshed preflight/hydration pass for #92815 and #46184 before classification."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 7,
+    "route_security": 1,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92815 requires refreshed hydrated live state because target_updated_at and linked #46184 details are unavailable in the provided compacted preflight artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

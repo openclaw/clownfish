@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-328",
+  "mode": "plan",
+  "run_id": "27528619928",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528619928",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:24Z",
+  "workflow_updated_at": "2026-06-15T06:41:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-328.md",
+  "published_at": "2026-06-15T10:17:45.270Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 open PRs. No shared canonical was selected. Security-sensitive PRs are scoped to route_security; unrelated non-security PRs are kept, marked related, or flagged for exact maintainer review.",
+  "actions": [
+    {
+      "target": "#90968",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct non-security PR with missing behavior proof; keep as its own review item."
+    },
+    {
+      "target": "#92356",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed to choose the canonical heartbeat reasoning fix path before any close or merge recommendation."
+    },
+    {
+      "target": "#83942",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-labeled Voice Call objective work is out of scope for ProjectClownfish cleanup automation."
+    },
+    {
+      "target": "#90231",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful non-security PR with active maintainer review; not a duplicate or inventory close target."
+    },
+    {
+      "target": "#92613",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to other tool-result truncation work but distinct in root cause and scope; keep open rather than closing in this shard."
+    },
+    {
+      "target": "#79148",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-security PR is blocked on proof/checks but is not a duplicate, superseded, or low-signal close target under this job."
+    },
+    {
+      "target": "#82434",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Approval verification changes cross a security boundary and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#60328",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec approval UI and authorization-path work is security-boundary-sensitive and out of scope for ProjectClownfish cleanup automation."
+    },
+    {
+      "target": "#79397",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking non-security PR still requires maintainer technical review; merge is blocked by job policy and missing merge preflight."
+    },
+    {
+      "target": "#74163",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer tracker/generator PR has review blockers and dirty merge state; keep as an independent maintainer-owned item rather than closing in inventory cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 2,
+    "route_security": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92356 needs maintainer selection of the canonical heartbeat reasoning fix path because hydrated #92263 overlaps and no canonical was designated.",
+    "#79397 needs maintainer technical review before any merge path; proof and automated review look clean, but merge is blocked in this job and no merge preflight is present."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

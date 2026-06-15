@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-341",
+  "mode": "plan",
+  "run_id": "27528640989",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528640989",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:55Z",
+  "workflow_updated_at": "2026-06-15T06:41:17Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-341.md",
+  "published_at": "2026-06-15T10:17:45.319Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for ten listed candidates. No shared canonical was selected. Routed #89178 to security, kept four open PRs as related or independent, recorded two already-closed PRs as skipped keep_closed, and scoped human review to three PRs missing hydrated live target state in the compacted preflight artifact.",
+  "actions": [
+    {
+      "target": "#89178",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR #89178 is explicitly marked security-sensitive in the live preflight artifact and is out of scope for ProjectClownfish mutation."
+    },
+    {
+      "target": "#89124",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88838",
+      "candidate_fix": null,
+      "reason": "This is an active migration-slice PR related to tracker #88838, not a duplicate or closeout target in this inventory shard."
+    },
+    {
+      "target": "#89122",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed candidate; no mutation is valid or needed."
+    },
+    {
+      "target": "#89121",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88838",
+      "candidate_fix": null,
+      "reason": "This is a legitimate active slice related to #88838, with proof/review still outstanding, so it should remain open."
+    },
+    {
+      "target": "#90463",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed candidate in the preflight artifact; skipped without mutation."
+    },
+    {
+      "target": "#92805",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cannot safely classify or plan any close-style action for #92805 without hydrated live PR state."
+    },
+    {
+      "target": "#92251",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cannot safely classify #92251 beyond a scoped human review request because hydrated live PR state is missing from the provided artifact."
+    },
+    {
+      "target": "#91724",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cannot safely decide whether #91724 is independent, related, or superseded without hydrated live PR state."
+    },
+    {
+      "target": "#90610",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#90610 appears to be a standalone feature PR awaiting maintainer review; it should not be closed or merged by this plan-mode inventory job."
+    },
+    {
+      "target": "#88159",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#88159 is a real, focused follow-up PR with proof; keep it open as independent maintainer review work."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 2,
+    "keep_closed": 2,
+    "needs_human": 3,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92805 missing hydrated live PR state and target_updated_at in the compacted preflight artifact.",
+    "#92251 missing hydrated live PR state and target_updated_at in the compacted preflight artifact.",
+    "#91724 missing hydrated live PR state and target_updated_at in the compacted preflight artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

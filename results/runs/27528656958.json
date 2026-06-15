@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-351",
+  "mode": "plan",
+  "run_id": "27528656958",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528656958",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:20Z",
+  "workflow_updated_at": "2026-06-15T06:40:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-351.md",
+  "published_at": "2026-06-15T10:17:45.356Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected because the job is an independent PR inventory shard. Open non-security PRs are kept open for their own maintainer/author review paths; already-closed PRs are recorded as skipped keep-closed; Telegram bot-authored-message security-boundary work is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#88959",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique small provider-runtime PR; no duplicate or close path in this inventory shard."
+    },
+    {
+      "target": "#88961",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for author/review follow-up; not a low-signal or duplicate close candidate."
+    },
+    {
+      "target": "#88968",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#85645",
+      "reason": "Related candidate fix for #85645, but it must remain open for author changes."
+    },
+    {
+      "target": "#88970",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#85871",
+      "reason": "Related ready-for-review fix path for #85871; no close or merge action is permitted in this plan shard."
+    },
+    {
+      "target": "#88979",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#88967",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive linked issue without affecting unrelated non-security classifications."
+    },
+    {
+      "target": "#88980",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": "#88967",
+      "reason": "This PR depends on the security-sensitive Telegram boundary item, so route it to central security handling rather than closing, merging, or continuing backlog cleanup."
+    },
+    {
+      "target": "#90468",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid independent bugfix PR, but active maintainer change requests make it not merge-ready and not closable as duplicate/superseded."
+    },
+    {
+      "target": "#89123",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88838",
+      "reason": "Keep as a related active slice under #88838; not superseded by the landed gateway-consumer seam PR."
+    },
+    {
+      "target": "#92837",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Android UI/runtime fix awaiting maintainer review; no duplicate, superseded, or low-signal close path."
+    },
+    {
+      "target": "#89204",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#90463",
+      "reason": "Already closed historical PR; record as skipped keep-closed only."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 3,
+    "keep_closed": 2,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

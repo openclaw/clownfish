@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-339",
+  "mode": "plan",
+  "run_id": "27528637965",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528637965",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:51Z",
+  "workflow_updated_at": "2026-06-15T06:40:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-339.md",
+  "published_at": "2026-06-15T10:17:45.310Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations planned. Non-security open PRs are kept as independent active PRs needing their normal maintainer/proof/review paths; security-sensitive PRs are routed to central OpenClaw security handling; already closed candidates are recorded as skipped keep-closed context.",
+  "actions": [
+    {
+      "target": "#92578",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open WhatsApp refactor PR with live proof/check signal should remain on its own maintainer-review path."
+    },
+    {
+      "target": "#18889",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open maintainer PR with review/check blockers is independent; merge and fix are blocked by job frontmatter and current evidence."
+    },
+    {
+      "target": "#24661",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft Cohere provider onboarding PR is active independent work; keep open for author/maintainer follow-up."
+    },
+    {
+      "target": "#38290",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway origin allowlist/security-boundary PR is out of ProjectClownfish backlog-cleanup scope and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#39617",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#39617",
+      "reason": "Candidate is already closed; no plan-mode mutation applies."
+    },
+    {
+      "target": "#18860",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open plugin API PR is distinct work and should stay open for maintainer/review follow-up rather than inventory closeout."
+    },
+    {
+      "target": "#43493",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open custom provider metadata PR is independent active feature work and should remain on normal author/maintainer follow-up."
+    },
+    {
+      "target": "#92787",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Even though already closed, the candidate is explicitly security-sensitive and should remain routed to central security handling for any further review."
+    },
+    {
+      "target": "#41067",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open dashboard reconnect reliability PR is independent active work and should stay open for proof/maintainer review."
+    },
+    {
+      "target": "#39059",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth store sealing and gateway hardening PR contains security-sensitive review findings and belongs in central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

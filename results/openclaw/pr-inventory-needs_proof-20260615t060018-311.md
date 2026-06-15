@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T060018-311"
 mode: "plan"
-run_id: "178151418618"
-run_url: null
-head_sha: null
-workflow_conclusion: null
+run_id: "27528593107"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27528593107"
+head_sha: "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T09:03:14.273Z"
+published_at: "2026-06-15T10:17:45.209Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,9 +25,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: unknown
+Run: [https://github.com/openclaw/clownfish/actions/runs/27528593107](https://github.com/openclaw/clownfish/actions/runs/27528593107)
 
-Workflow conclusion: unknown
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected. Open non-security PRs are kept as useful but not merge-ready because each still lacks proof, has stale/unknown merge state, or has unresolved review/maintainer blockers. Security-sensitive refs are routed to central security handling. Already-closed non-security refs are kept closed without closure actions.
+Plan-mode PR inventory classification for 10 candidate PRs. No GitHub mutations are planned; open PRs are retained independently because each still needs proof, repair, or maintainer review, closed PRs are not closure targets, and security-sensitive refs are routed to central security handling.
 
 ## Impact
 
@@ -66,16 +66,16 @@ Plan-only PR inventory classification for 10 listed PRs. No shared canonical was
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61112 | keep_related | planned | related | Useful related localization work, but no closure or merge is safe in plan mode; keep open for proof/rebase or a future narrowed repair. |
-| #60048 | keep_related | planned | related | Open docs PR still has useful work but unresolved documentation correctness and rebase/proof blockers; keep it open rather than close or merge. |
-| #61051 | route_security | planned | security_sensitive | Approval-routing/security-boundary work is out of ProjectClownfish backlog cleanup scope; route this exact item to central OpenClaw security handling. |
-| #65058 | keep_related | planned | related | Focused useful Google Chat fix, but unresolved review/proof/rebase blockers make merge or fixed-by closeout unsafe. |
-| #67008 | keep_related | planned | related | Provider catalog update may be useful, but current model/pricing proof and branch freshness are unresolved; keep open without inventing a canonical. |
-| #65382 | keep_related | planned | related | Useful UI improvement, but unresolved technical review findings and stale/proof blockers prevent merge or closure. |
-| #66213 | keep_related | planned | related | Release automation idea is relevant, but workflow correctness and rebase/proof blockers remain unresolved. |
-| #67796 | keep_closed | skipped | fixed_by_candidate | Already closed; preserve historical context only. |
-| #66400 | keep_closed | skipped | fixed_by_candidate | Already closed after useful parts were determined mostly implemented on main; keep as historical evidence. |
-| #67333 | route_security | planned | security_sensitive | Sandbox/parity work linked to a security-sensitive dependency is out of ProjectClownfish backlog cleanup scope; route this exact item to central OpenClaw security handling. |
+| #61112 | keep_independent | planned | independent | Useful but not ready for close, merge, or low-signal cleanup in this plan-only inventory shard. |
+| #60048 | keep_independent | planned | independent | Open docs PR has unresolved correctness/review proof and should remain open rather than be closed or merged. |
+| #61051 | route_security | planned | security_sensitive | Security-boundary approval-routing work is out of ProjectClownfish backlog cleanup scope. |
+| #65058 | keep_independent | planned | independent | Useful focused PR, but unresolved review/proof/rebase blockers prevent merge or fixed-by closeout. |
+| #67008 | keep_independent | planned | independent | Provider catalog update may be useful, but current evidence shows stale metadata/proof/rebase blockers. |
+| #65382 | keep_independent | planned | independent | Useful UI improvement, but unresolved review and proof blockers make it non-mergeable. |
+| #66213 | keep_independent | planned | independent | Release automation PR remains potentially useful but blocked by workflow review and proof. |
+| #67796 | keep_closed | skipped | fixed_by_candidate | Already-closed candidate cannot receive a closure action in plan mode. |
+| #66400 | keep_closed | skipped | fixed_by_candidate | Already-closed candidate cannot receive a closure action in plan mode. |
+| #67333 | route_security | planned | security_sensitive | Sandbox readiness/parity work linked to security-sensitive #67332 is out of ProjectClownfish backlog cleanup scope. |
 
 ## Needs Human
 

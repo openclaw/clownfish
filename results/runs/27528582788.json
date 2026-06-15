@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-305",
+  "mode": "plan",
+  "run_id": "27528582788",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528582788",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:28Z",
+  "workflow_updated_at": "2026-06-15T06:40:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-305.md",
+  "published_at": "2026-06-15T10:17:45.200Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. Security-sensitive refs are routed only; already-closed PRs are kept closed; remaining open non-security PRs are kept independent because this shard is not a dedupe cluster and low-signal/fix/merge actions are disabled or unsupported by the current evidence.",
+  "actions": [
+    {
+      "target": "#92243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive provider/auth/dependency boundary item must be routed to central OpenClaw security handling, not closed, merged, or otherwise mutated by this worker."
+    },
+    {
+      "target": "#92484",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct non-security PR lane, not a duplicate or closeout candidate in this inventory shard."
+    },
+    {
+      "target": "#92520",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive auth/status boundary item is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#91629",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91629",
+      "reason": "Already closed and merged; no action is available or needed in plan mode."
+    },
+    {
+      "target": "#92307",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec security-boundary work must be routed to central security handling, not handled by inventory cleanup."
+    },
+    {
+      "target": "#92542",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct session-maintenance PR with insufficient proof; keep it in its own review lane rather than closing or merging."
+    },
+    {
+      "target": "#92543",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal docs PR cannot be closed under this job's permissions and remains an independent maintainer/docs decision."
+    },
+    {
+      "target": "#92544",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal docs/provider-support PR is not closable by this inventory job and should remain an independent maintainer decision."
+    },
+    {
+      "target": "#92362",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92362",
+      "reason": "Already closed and merged; no mutation should be planned."
+    },
+    {
+      "target": "#92541",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct plugin behavior fix with unresolved review/proof state; keep it independent rather than closing or merging."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_independent": 5,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

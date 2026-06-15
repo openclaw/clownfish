@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-320",
+  "mode": "plan",
+  "run_id": "27528607306",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528607306",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:05Z",
+  "workflow_updated_at": "2026-06-15T06:39:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-320.md",
+  "published_at": "2026-06-15T10:17:45.236Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed open PRs. Two security-sensitive PRs are routed to central security handling; seven useful open PRs are kept independent for normal author/maintainer follow-up; one PR needs maintainer judgment because a hydrated maintainer comment identifies a blocking correctness race.",
+  "actions": [
+    {
+      "target": "#88718",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope and should be quarantined only for this PR."
+    },
+    {
+      "target": "#88885",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open fix candidate should remain open for normal maintainer review; no dedupe or close action is supported."
+    },
+    {
+      "target": "#88977",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent draft maintainer work item."
+    },
+    {
+      "target": "#89006",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent draft maintainer work item pending normal review."
+    },
+    {
+      "target": "#92003",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical correctness judgment is required for the unresolved stale-run race before any stronger action."
+    },
+    {
+      "target": "#89113",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as independent draft work waiting on author/review follow-up."
+    },
+    {
+      "target": "#89239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent contributor work pending requested proof."
+    },
+    {
+      "target": "#89526",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive gateway/auth diagnostics work is outside ProjectClownfish backlog cleanup scope."
+    },
+    {
+      "target": "#89596",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent contributor work pending author/review changes."
+    },
+    {
+      "target": "#89717",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as independent draft maintainer work pending author/review follow-up."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 7,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92003 requires maintainer technical correctness judgment on the hydrated stale-run race blocker before merge, closeout, or fixed-by-candidate classification."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

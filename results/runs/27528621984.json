@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-329",
+  "mode": "plan",
+  "run_id": "27528621984",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528621984",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:27Z",
+  "workflow_updated_at": "2026-06-15T06:40:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-329.md",
+  "published_at": "2026-06-15T10:17:45.274Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification shard. No GitHub mutations are planned. Each listed PR was classified independently from the hydrated preflight artifact; #39496 is quarantined to central security handling and unrelated non-security PRs remain classified normally.",
+  "actions": [
+    {
+      "target": "#91712",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related logging/session-state work exists, but this inventory shard should not pick a canonical or close competing PRs."
+    },
+    {
+      "target": "#61960",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with explicit maintainer-review signal; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#83010",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open PR with proof supplied, but not merge-plannable here because merge is blocked and rebase/dependency-guard work is outside allowed actions."
+    },
+    {
+      "target": "#39386",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active maintainer-owned draft with unresolved review/check blockers; maintainer or author follow-up is required."
+    },
+    {
+      "target": "#39496",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be routed to central OpenClaw security handling; no close, comment, merge, or fix action is planned."
+    },
+    {
+      "target": "#92204",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to track a distinct open issue, but live hydrated details are insufficient for a stronger action in plan mode."
+    },
+    {
+      "target": "#92663",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to track a distinct open memory-core issue; keep it independent pending full PR hydration in a later shard."
+    },
+    {
+      "target": "#91448",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open PR tied to an open behavior issue; no closure, merge, or fix mutation is allowed in this plan job."
+    },
+    {
+      "target": "#83043",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small focused performance PR should remain open for normal review; no merge action is allowed by the job."
+    },
+    {
+      "target": "#92602",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct Android queueing PR with insufficient hydrated detail for stronger action; keep independent in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "needs_human": 2,
+    "keep_independent": 6,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#61960: maintainer-owned draft explicitly requires maintainer review and has failing Real behavior proof.",
+    "#39386: maintainer-owned draft is waiting on author with unresolved review/check blockers."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

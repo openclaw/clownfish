@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-327",
+  "mode": "plan",
+  "run_id": "27528618351",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528618351",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:37:22Z",
+  "workflow_updated_at": "2026-06-15T06:39:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-327.md",
+  "published_at": "2026-06-15T10:17:45.266Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations, merge, fix PR, or closure actions are planned. Security-sensitive PRs are quarantined individually; ordinary PRs are kept open for their own proof/review paths.",
+  "actions": [
+    {
+      "target": "#88680",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "External provider registration crosses auth/provider trust-boundary review territory and is explicitly flagged security-sensitive by preflight."
+    },
+    {
+      "target": "#80921",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80920",
+      "candidate_fix": "#80921",
+      "reason": "This is a plausible linked fix for #80920, but it is not merge-ready and should remain attached to its issue rather than being closed or merged in this inventory shard."
+    },
+    {
+      "target": "#80651",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft feature/bugfix PR with missing proof; no closure, merge, or fix action is permitted or justified."
+    },
+    {
+      "target": "#81147",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58",
+      "candidate_fix": "#81147",
+      "reason": "Related to a historical portability issue, but still an open independent PR needing proof; no close or merge path is available."
+    },
+    {
+      "target": "#87793",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87781",
+      "candidate_fix": "#87793",
+      "reason": "Related to the already-landed Codex completion-stall family, but it has its own narrower diagnostics scope and active blockers."
+    },
+    {
+      "target": "#87344",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87312",
+      "candidate_fix": "#87344",
+      "reason": "Linked fix candidate for #87312, but failing checks and missing proof block any merge or fixed-by-candidate closure."
+    },
+    {
+      "target": "#74564",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#74564",
+      "reason": "Viable independent replacement PR already preserving credit, but this plan shard cannot merge or fix it and no closure is needed."
+    },
+    {
+      "target": "#75403",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#75403",
+      "reason": "Independent fix candidate that needs maintainer proof/review decision; no inventory closeout is justified."
+    },
+    {
+      "target": "#90618",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42213",
+      "candidate_fix": "#90618",
+      "reason": "Related replacement/candidate fix for the #42213 stuck Control UI chat issue, but not actionable for merge or closure in plan mode."
+    },
+    {
+      "target": "#91462",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The linked issue and PR involve possible sensitive internal reasoning content exposure, so the item is routed out of ProjectClownfish cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 5,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

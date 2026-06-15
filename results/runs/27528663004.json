@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-355",
+  "mode": "plan",
+  "run_id": "27528663004",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528663004",
+  "head_sha": "de62578a13281bebeb7850dbe15ddc33d7f2b81e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:38:30Z",
+  "workflow_updated_at": "2026-06-15T06:40:58Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-355.md",
+  "published_at": "2026-06-15T10:17:45.369Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected; security-sensitive PRs are routed, already-closed PRs are kept closed, and open non-security PRs are kept independent for maintainer/author follow-up rather than closed or merged.",
+  "actions": [
+    {
+      "target": "#88915",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR has a plausible narrow fix but lacks required behavior proof; keep it for maintainer/proof follow-up."
+    },
+    {
+      "target": "#88916",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft PR with unresolved review/author follow-up should not be closed or merged by this plan worker."
+    },
+    {
+      "target": "#49083",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#92857",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#88988",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR appears viable but requires maintainer review; keep independent in plan mode."
+    },
+    {
+      "target": "#88992",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#89002",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft non-security PR has active useful code and should be kept for maintainer/author follow-up."
+    },
+    {
+      "target": "#89004",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR appears viable but requires maintainer review; keep independent in plan mode."
+    },
+    {
+      "target": "#89013",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92921",
+      "reason": "Already closed as superseded; no mutation should be planned."
+    },
+    {
+      "target": "#89016",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92921",
+      "reason": "Already closed as superseded; no mutation should be planned."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "route_security": 2,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
