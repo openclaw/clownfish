@@ -1,0 +1,168 @@
+---
+repo: openclaw/openclaw
+cluster_id: pr-inventory-needs_proof-20260615T0529-016
+mode: plan
+allowed_actions:
+  - comment
+  - label
+  - close
+blocked_actions:
+  - force_push
+  - bypass_checks
+  - merge
+  - fix
+  - raise_pr
+require_human_for:
+  - security_sensitive
+  - maintainer_signal
+  - active_author_followup
+  - technical_correctness_judgment
+canonical: []
+candidates:
+  - "#71205"
+  - "#71235"
+  - "#71249"
+  - "#71589"
+  - "#71678"
+  - "#71839"
+  - "#71885"
+  - "#71887"
+  - "#71902"
+  - "#71940"
+cluster_refs:
+  - "#71205"
+  - "#71235"
+  - "#71249"
+  - "#71589"
+  - "#71678"
+  - "#71839"
+  - "#71885"
+  - "#71887"
+  - "#71902"
+  - "#71940"
+security_policy: central_security_only
+security_sensitive: false
+canonical_hint: "This is a PR inventory classification shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical."
+notes: "Generated from local gitcrawl open PR inventory on 2026-06-15T05:29:43.601Z; bucket=needs_proof; no GitHub mutation is possible in plan mode."
+---
+
+# PR Inventory needs_proof 16
+
+This is a high-volume classification shard over open pull requests. It is not a dedupe cluster.
+
+## Goal
+
+Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style planned actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies.
+
+## Inventory
+
+### #71205 config(io): add OPENCLAW_SKIP_STATE_DIR_HARDEN opt-out for multi-uid sidecar deployments (AI-assisted)
+
+- bucket: needs_proof
+- author: chrislangston
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: XS, triage: needs-real-behavior-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 security-boundary, status: 📣 needs proof
+- updated: 2026-05-22T19:43:49Z
+- body excerpt: ## Summary - **Problem:** `tightenStateDirPermissionsIfNeeded` in `src/config/io.ts` unconditionally calls `chmod(configDir, 0o700)` on every config save when the config dir matches the state dir. Multi-uid shared-volume deployments (e.g. Fly Machines running 
+
+### #71235 Dockerfile: add python -> python3 symlink for bookworm
+
+- bucket: needs_proof
+- author: boundedagency
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docker, size: XS, triage: risky-infra, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, status: 📣 needs proof
+- updated: 2026-05-22T19:43:55Z
+- body excerpt: ## Summary Add a conditional `python` → `python3` symlink to every Debian-based OpenClaw Dockerfile so agents that default to `python` (rather than `python3`) don't waste a tool round trip on `command not found`. ## Problem Debian bookworm dropped the unversio
+
+### #71249 fix(plugins): clear stale plugin debug banners
+
+- bucket: needs_proof
+- author: hoppsen
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: M, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 session-state, status: 📣 needs proof, proof: 📸 screenshot
+- updated: 2026-05-22T19:44:02Z
+- body excerpt: ## Summary Describe the problem and fix in 2–5 bullets: - Problem: turn-scoped `pluginDebugEntries` could outlive the turn that produced them, and the initial stale-banner cleanup fix still had two regressions: metadata-only clears touched `updatedAt`, and ver
+
+### #71589 fix(agent): suppress tool-use assistant text
+
+- bucket: needs_proof
+- author: deepkilo
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: commands, agents, size: M, extensions: qa-lab, triage: needs-real-behavior-proof, mantis: telegram-visible-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- updated: 2026-05-22T19:46:14Z
+- body excerpt: ## Summary - suppress assistant messages that are tool-use continuations (`stopReason: "toolUse"` or tool-call content) from user-visible assistant output - keep explicit `final_answer` phase output deliverable - add regression coverage for unphased tool-use a
+
+### #71678 Fix: Issue 71522 memory embeddings
+
+- bucket: needs_proof
+- author: sahilsatralkar
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, extensions: memory-core, size: L, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- updated: 2026-05-22T20:28:10Z
+- body excerpt: ## Summary Describe the problem and fix in 2–5 bullets: If this PR fixes a plugin beta-release blocker, title it `fix(<plugin-id>): beta blocker - <summary>` and link the matching `Beta blocker: <plugin-name> - <summary>` issue labeled `beta-blocker`. Contribu
+
+### #71839 fix(telegram): avoid routine reply quoting
+
+- bucket: needs_proof
+- author: Zozi96
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: telegram, agents, size: S, extensions: qa-lab, triage: needs-real-behavior-proof, mantis: telegram-visible-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 message-delivery, status: 📣 needs proof
+- updated: 2026-05-22T20:28:56Z
+- body excerpt: ## Summary Stops Telegram draft previews and default assistant guidance from causing routine replies to quote the triggering message. This keeps native Telegram quoting available when explicitly useful, without making the first streamed paragraph appear as an 
+
+### #71885 fix(tasks): serialize structured task values for sqlite
+
+- bucket: needs_proof
+- author: likewen-tech
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: XS, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 session-state, status: 📣 needs proof
+- updated: 2026-05-22T20:29:24Z
+- body excerpt: ## Summary - serialize structured `TaskRecord.task` values before binding them into sqlite - preserve existing string task values unchanged - add regression coverage that object task payloads are stored as JSON strings instead of throwing during sqlite binding
+
+### #71887 fix(channels): remove stale --deep guidance
+
+- bucket: needs_proof
+- author: yangxiyucs
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, cli, commands, size: XS, triage: needs-real-behavior-proof, P3, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, status: 📣 needs proof
+- updated: 2026-05-22T20:29:32Z
+- body excerpt: ## Summary - remove stale `--deep` guidance from `channels status` help and runtime tips - clarify that broader gateway health probes live on top-level `openclaw status --deep` - add a regression test covering the config-only status footer ## Why `openclaw cha
+
+### #71902 Add managed flow residue resolution
+
+- bucket: needs_proof
+- author: smartpurchasingexpert-droid
+- author association: FIRST_TIMER
+- draft: no
+- assignees: none
+- labels: cli, commands, agents, size: L, extensions: qa-lab, triage: refactor-only, triage: dirty-candidate, triage: needs-real-behavior-proof, P2, rating: 🧂 unranked krab, merge-risk: 🚨 automation, merge-risk: 🚨 session-state, status: 📣 needs proof
+- updated: 2026-05-22T20:29:39Z
+- body excerpt: ## Summary - add source-level resolution for managed TaskFlow terminal residue - expose `openclaw tasks flow resolve-residue` and residue readback/audit coverage - keep flow terminal residue resolution distinct from linked child task cleanup - allow queued non
+
+### #71940 fix(browser): fall back to Hyprland grim capture for headed viewport screenshots
+
+- bucket: needs_proof
+- author: Angfr95
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, scripts, size: L, triage: needs-real-behavior-proof, P1, rating: 🧂 unranked krab, merge-risk: 🚨 security-boundary, merge-risk: 🚨 availability, status: 📣 needs proof
+- updated: 2026-05-22T20:29:51Z
+- body excerpt: Closes #54470 ### Problem On native Windows, `openclaw webhooks gmail setup --account` crashed immediately with `Error: spawn gcloud ENOENT`. Node's `child_process.spawn` with `shell: false` does not consult `PATHEXT`, so bare `gcloud`, `gog`, and `tailscale` 
+

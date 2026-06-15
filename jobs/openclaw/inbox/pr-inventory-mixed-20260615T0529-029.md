@@ -1,0 +1,168 @@
+---
+repo: openclaw/openclaw
+cluster_id: pr-inventory-mixed-20260615T0529-029
+mode: plan
+allowed_actions:
+  - comment
+  - label
+  - close
+blocked_actions:
+  - force_push
+  - bypass_checks
+  - merge
+  - fix
+  - raise_pr
+require_human_for:
+  - security_sensitive
+  - maintainer_signal
+  - active_author_followup
+  - technical_correctness_judgment
+canonical: []
+candidates:
+  - "#75716"
+  - "#86127"
+  - "#80649"
+  - "#81415"
+  - "#81362"
+  - "#80770"
+  - "#81300"
+  - "#79962"
+  - "#85362"
+  - "#87761"
+cluster_refs:
+  - "#75716"
+  - "#86127"
+  - "#80649"
+  - "#81415"
+  - "#81362"
+  - "#80770"
+  - "#81300"
+  - "#79962"
+  - "#85362"
+  - "#87761"
+security_policy: central_security_only
+security_sensitive: false
+canonical_hint: "This is a PR inventory classification shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical."
+notes: "Generated from local gitcrawl open PR inventory on 2026-06-15T05:29:43.603Z; bucket=mixed; no GitHub mutation is possible in plan mode."
+---
+
+# PR Inventory mixed 29
+
+This is a high-volume classification shard over open pull requests. It is not a dedupe cluster.
+
+## Goal
+
+Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style planned actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies.
+
+## Inventory
+
+### #75716 fix(googlechat): preserve unresolved service account refs
+
+- bucket: ready_for_maintainer
+- author: goldmar
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: channel: googlechat, size: XS, proof: supplied, proof: sufficient, P2, rating: 🐚 platinum hermit, merge-risk: 🚨 compatibility, merge-risk: 🚨 auth-provider, status: 👀 ready for maintainer look
+- updated: 2026-05-28T17:24:26Z
+- body excerpt: ## Summary - Preserve unresolved Google Chat `serviceAccountRef` as an error instead of silently falling back to legacy inline `serviceAccount` credentials. - Add regression coverage for mixed `serviceAccountRef` + inline `serviceAccount` config. ## Real behav
+
+### #86127 fix(ui): do not inject copy-button chrome into user-message code blocks (#85926)
+
+- bucket: needs_proof
+- author: Jefsky
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: app: web-ui, size: S, triage: needs-real-behavior-proof
+- updated: 2026-05-29T00:01:42Z
+- body excerpt: ## Summary Dashboard rendering was injecting visible 'Copy' button text into multiline shell/heredoc commands submitted as user messages. The markdown renderer's `fence`/`code_block` rules added a copy button with visible span text, and DOMPurify allowed the s
+
+### #80649 i18n: improve Indonesian Control UI labels
+
+- bucket: needs_proof
+- author: aqilaziz
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: app: web-ui, agents, size: M, proof: supplied, P3, rating: 🦪 silver shellfish, merge-risk: 🚨 availability, status: 📣 needs proof
+- updated: 2026-05-29T04:17:53Z
+- body excerpt: ## Summary - Improve Indonesian Control UI copy that was still English in the Agents, Debug, and exec approval panels. - Keep placeholders unchanged for translated strings. - Add a changelog entry for the user-facing locale fix. ## Verification - `pnpm install
+
+### #81415 fix(agents): attach read tool images to replies
+
+- bucket: ready_for_maintainer
+- author: aqilaziz
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: S, proof: supplied, proof: sufficient, P1, rating: 🦪 silver shellfish, merge-risk: 🚨 security-boundary, status: ⏳ waiting on author
+- updated: 2026-05-29T04:51:09Z
+- body excerpt: ## Summary - Persist trusted `read` tool image content into the inbound media store when the tool result has image blocks but no `MEDIA:` path or `details.path`. - Queue the saved `media://inbound/...` reference for the next assistant reply so shared outbound 
+
+### #81362 fix(infra): guard workspace skill scanning against filesystem errors
+
+- bucket: stale_unassigned
+- author: davidangularme
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: size: S, proof: supplied, P2, rating: 🌊 off-meta tidepool, merge-risk: 🚨 compatibility, merge-risk: 🚨 security-boundary
+- updated: 2026-05-29T04:54:16Z
+- body excerpt: ## What bug this fixes In `refreshRemoteNodeBinsUncoalesced` (`src/infra/skills-remote.ts`), the workspace directory scanning — `listAgentWorkspaceDirs` + the `loadWorkspaceSkillEntries` loop (old lines 332–342) — ran **before** the `try` block that starts wit
+
+### #80770 fix(tools): let apply_patch inherit trusted exec mode
+
+- bucket: ready_for_maintainer
+- author: demonbane
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, agents, size: S, proof: supplied, proof: sufficient, P2, rating: 🦪 silver shellfish, merge-risk: 🚨 compatibility, merge-risk: 🚨 security-boundary, status: ⏳ waiting on author
+- updated: 2026-05-29T04:55:20Z
+- body excerpt: ## Summary - Problem: `apply_patch` stayed workspace-contained even when `exec` was explicitly configured as `security=full` and `ask=off`, forcing trusted owner/operator setups to manage a second, protected `tools.exec.applyPatch.workspaceOnly=false` knob. - 
+
+### #81300 codex: plumb session reasoningLevel into codex model_reasoning_summary
+
+- bucket: ready_for_maintainer
+- author: iYoungblood
+- author association: FIRST_TIMER
+- draft: no
+- assignees: none
+- labels: size: S, extensions: codex, proof: sufficient, P2, rating: 🦐 gold shrimp, merge-risk: 🚨 compatibility, status: ⏳ waiting on author
+- updated: 2026-05-29T04:55:33Z
+- body excerpt: ## Problem The codex app-server defaults `model_reasoning_summary` to `"none"` when it isnt explicitly configured. As a result codex still produces reasoning items internally (visible in its rollout `.jsonl`) but never emits `item/reasoning/summaryTextDelta` n
+
+### #79962 feat(gateway): expose session resolve lineage
+
+- bucket: needs_proof
+- author: Helios531
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, app: web-ui, gateway, agents, size: M, proof: supplied, P2, rating: 🧂 unranked krab, merge-risk: 🚨 compatibility, merge-risk: 🚨 session-state, status: 📣 needs proof
+- updated: 2026-05-29T04:55:51Z
+- body excerpt: ## Summary - Problem: `sessions.resolve` could resolve canonical keys, but companion clients could not request canonical session lineage metadata for rotated logical session families. - Why it matters: clients needing durable continuity had to inspect raw sess
+
+### #85362 Fix replay-invalid session recovery
+
+- bucket: ready_for_maintainer
+- author: dredozubov
+- author association: FIRST_TIME_CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: agents, size: S, proof: supplied, proof: sufficient, P2, rating: 🐚 platinum hermit, merge-risk: 🚨 session-state, status: 👀 ready for maintainer look
+- updated: 2026-05-29T04:59:53Z
+- body excerpt: ## Summary - Classify OpenAI/Codex `invalid_encrypted_content` failures as replay-invalid session state. - Return the specific stale-session recovery message instead of the generic runner failure copy. - Reset/rotate the poisoned reply session with the existin
+
+### #87761 Forward-port Tideclaw alpha release fixes
+
+- bucket: stale_unassigned
+- author: clawsweeper[bot]
+- author association: CONTRIBUTOR
+- draft: no
+- assignees: none
+- labels: docs, channel: imessage, scripts, commands, docker, size: M, extensions: qa-lab, dependencies-changed, P2, rating: 🌊 off-meta tidepool, merge-risk: 🚨 automation, merge-risk: 🚨 compatibility
+- updated: 2026-05-29T05:09:34Z
+- body excerpt: ## Summary Forward-ports the real fixes from the Tideclaw `v2026.5.28-alpha.1` release branch back to `main`, excluding the alpha version-prep commit. Includes fixes for: - release workflow alpha/publish proof handling and release-gate stability - package tarb
+
