@@ -19,7 +19,7 @@ const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
 const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
-const QUEUED_STATUSES = new Set(["queued", "requested", "waiting", "pending"]);
+const DEFAULT_OBSERVE_TIMEOUT_MS = 60 * 1000;
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? DEFAULT_REPO);
@@ -93,7 +93,7 @@ try {
     ? waitForLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers })
     : assertLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers });
   dispatchJob(job.relativePath, mode);
-  const observedRuns = waitForStartedRuns({ headSha, since: dispatchStartedAt, expectedCount: 1 });
+  const observedRuns = waitForObservedRuns({ headSha, since: dispatchStartedAt, expectedCount: 1 });
 
   summary.status = "dispatched";
   summary.observed_runs = observedRuns.map((run) => ({
@@ -174,15 +174,16 @@ function dispatchJob(jobPath, mode) {
   }
 }
 
-function waitForStartedRuns({ expectedCount, headSha, since }) {
-  const deadline = Date.now() + 5 * 60 * 1000;
+function waitForObservedRuns({ expectedCount, headSha, since }) {
+  const timeoutMs = Number(process.env.CLOWNFISH_REQUEUE_OBSERVE_TIMEOUT_MS ?? DEFAULT_OBSERVE_TIMEOUT_MS);
+  const deadline = Date.now() + (Number.isInteger(timeoutMs) && timeoutMs > 0 ? timeoutMs : DEFAULT_OBSERVE_TIMEOUT_MS);
   let latest = [];
   while (Date.now() < deadline) {
     latest = listClusterRuns()
       .filter((run) => run.headSha === headSha)
       .filter((run) => Date.parse(run.createdAt) >= Date.parse(since))
       .sort((left, right) => Date.parse(left.createdAt) - Date.parse(right.createdAt));
-    if (latest.length >= expectedCount && latest.every((run) => !QUEUED_STATUSES.has(run.status))) {
+    if (latest.length >= expectedCount) {
       return latest.slice(-expectedCount);
     }
     sleepMs(5_000);
