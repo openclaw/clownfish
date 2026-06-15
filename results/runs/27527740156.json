@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-034",
+  "mode": "plan",
+  "run_id": "27527740156",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527740156",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:16Z",
+  "workflow_updated_at": "2026-06-15T06:18:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-034.md",
+  "published_at": "2026-06-15T06:20:46.563Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative PR-inventory classification for 10 listed PRs. Closed PRs are kept closed, the security-sensitive PR is routed to central security handling, and open non-security PRs are kept related or escalated only where maintainer-signal policy blocks automation.",
+  "actions": [
+    {
+      "target": "#85751",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state; no further action in plan mode."
+    },
+    {
+      "target": "#74114",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "Already closed; the surviving work belongs with the hydrated open issue #72021, not this closed PR."
+    },
+    {
+      "target": "#84602",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84536",
+      "candidate_fix": null,
+      "reason": "Related fix candidate for #84536, but failing proof/checks and active review state block any close or merge recommendation."
+    },
+    {
+      "target": "#74068",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#74459",
+      "candidate_fix": null,
+      "reason": "Related cron work with unresolved correctness/review/check blockers; not safe for close or merge classification."
+    },
+    {
+      "target": "#77325",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77260",
+      "candidate_fix": null,
+      "reason": "Related message-delivery fix candidate, but current state is waiting on author with a failing check and no merge permission."
+    },
+    {
+      "target": "#85837",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state; no further action in plan mode."
+    },
+    {
+      "target": "#80590",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#83667",
+      "candidate_fix": "#83667",
+      "reason": "Likely superseded by merged #83667, but protected maintainer-label signal blocks automated close planning."
+    },
+    {
+      "target": "#18196",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling and not triaged through backlog cleanup."
+    },
+    {
+      "target": "#84352",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#84352",
+      "reason": "Related session-state PR with unresolved review-bot and check blockers; not eligible for close or merge planning."
+    },
+    {
+      "target": "#81278",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79558",
+      "candidate_fix": "#81278",
+      "reason": "Related docs/install fix candidate for #79558, but waiting-on-author review state blocks stronger action."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_related": 5,
+    "needs_human": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80590: likely superseded by merged #83667, but the open draft PR has a protected maintainer label and the job requires human handling for maintainer_signal."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

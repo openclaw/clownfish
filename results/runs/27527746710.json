@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-038",
+  "mode": "plan",
+  "run_id": "27527746710",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527746710",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:25Z",
+  "workflow_updated_at": "2026-06-15T06:18:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-038.md",
+  "published_at": "2026-06-15T06:20:46.569Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only; no GitHub mutations are planned as executed. Security-sensitive PRs are routed to central OpenClaw security handling, already-closed PR #86078 is left closed, and non-security open PRs are kept open unless one has a hydrated replacement and prior closeout evidence.",
+  "actions": [
+    {
+      "target": "#78334",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary workflow ownership and permissions hardening is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#74302",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone non-security PR should stay open for maintainer review and validation, not be closed or merged from this inventory shard."
+    },
+    {
+      "target": "#79478",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-audit detection for sensitive skill markdown/network behavior belongs to central OpenClaw security handling."
+    },
+    {
+      "target": "#79481",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open dmPolicy exposure audit work is security-sensitive and should be quarantined to central security triage."
+    },
+    {
+      "target": "#84853",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to a live issue family but not closable or mergeable from this shard because validation/check status still needs maintainer handling."
+    },
+    {
+      "target": "#81786",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad automation/runtime guardrail PR with dependency changes and current review blockers needs maintainer judgment; it should not be closed as inventory cleanup."
+    },
+    {
+      "target": "#85932",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to an open voice-call issue but not closable or mergeable because required real behavior proof is missing."
+    },
+    {
+      "target": "#86078",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#85942",
+      "reason": "Already closed in live preflight state; no close action is valid."
+    },
+    {
+      "target": "#86168",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#88531",
+      "candidate_fix": "#88531",
+      "reason": "Fresh hydrated evidence shows a clearer open replacement and prior closeout rationale; closure is allowed for this open PR with target_updated_at."
+    },
+    {
+      "target": "#86175",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potential sensitive data exposure must route to central OpenClaw security handling, not backlog cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_independent": 1,
+    "keep_related": 2,
+    "needs_human": 1,
+    "keep_closed": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81786 requires maintainer judgment because it is a large automation/runtime guardrail PR with dependency changes and current ClawSweeper review blockers."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

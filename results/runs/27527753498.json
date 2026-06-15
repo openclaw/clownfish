@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-042",
+  "mode": "plan",
+  "run_id": "27527753498",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527753498",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:35Z",
+  "workflow_updated_at": "2026-06-15T06:19:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-042.md",
+  "published_at": "2026-06-15T06:20:46.577Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations, merge, fix, or raise-PR actions are planned. Security-sensitive PRs are routed to central security handling; already-closed PRs are left closed; remaining open PRs are kept in review/backlog with specific blockers from the hydrated preflight artifact.",
+  "actions": [
+    {
+      "target": "#81198",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive route-only item; non-mutating quarantine is required and unrelated PRs can still be classified."
+    },
+    {
+      "target": "#80965",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive route-only item; do not close, merge, comment, label, or fix through ProjectClownfish."
+    },
+    {
+      "target": "#81045",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid in this plan run."
+    },
+    {
+      "target": "#80916",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80916",
+      "reason": "Useful focused contributor PR with passing proof, but maintainer review/merge decision is required and merge is blocked for this job."
+    },
+    {
+      "target": "#81076",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81076",
+      "reason": "Related active fix candidate, but proof failure blocks stronger action."
+    },
+    {
+      "target": "#81136",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81136",
+      "reason": "The PR appears useful and proof is now green, but final readiness requires maintainer judgment; merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#80985",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80985",
+      "reason": "Active contributor PR with passing proof but unresolved review/technical-correctness judgment; no close or merge action is safe."
+    },
+    {
+      "target": "#81190",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81190",
+      "reason": "Potentially useful focused PR with green checks, but final technical correctness and merge readiness require maintainer review."
+    },
+    {
+      "target": "#80889",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80889",
+      "reason": "Active linked implementation PR, but unresolved review/author-follow-up blocks merge or closeout."
+    },
+    {
+      "target": "#80982",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80982",
+      "reason": "Broad feature PR with updated proof but maintainer product/API decision is still required; no low-signal or superseded closeout is supported."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "needs_human": 6,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80916 maintainer review/merge-readiness decision required.",
+    "#81136 maintainer correctness/readiness decision required after proof state changed from label to green check.",
+    "#80985 unresolved ClawSweeper review findings require maintainer or author follow-up.",
+    "#81190 maintainer review/technical correctness decision required before any merge path.",
+    "#80889 unresolved ClawSweeper issues and waiting-on-author state require follow-up.",
+    "#80982 broad plugin SDK/product/API decision required despite proof success."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

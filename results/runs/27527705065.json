@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-013",
+  "mode": "plan",
+  "run_id": "27527705065",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527705065",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:15:24Z",
+  "workflow_updated_at": "2026-06-15T06:19:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-013.md",
+  "published_at": "2026-06-15T06:20:46.534Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected because the job is an inventory shard. Security-sensitive refs are routed individually; already-closed refs are kept closed; remaining open non-security PRs are left for maintainer/proof/check decisions without mutation.",
+  "actions": [
+    {
+      "target": "#83296",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider credential persistence behavior is merge-sensitive and the hydrated review explicitly leaves this at maintainer review before merge; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#83436",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is already closed in live preflight state, so no closure action is valid."
+    },
+    {
+      "target": "#83440",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec approval resolution touches the documented approval/security boundary and is marked security-sensitive by preflight, so it must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#83446",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is already closed in live preflight state, so no closure action is valid."
+    },
+    {
+      "target": "#83295",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Preflight marks this PR security-sensitive; route only this item and continue unrelated inventory classification."
+    },
+    {
+      "target": "#75427",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is explicitly maintainer-owned: close as superseded by existing main behavior or refresh the PR for the broader behavior."
+    },
+    {
+      "target": "#83383",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is draft and maintainer-owned with an explicit ready-for-maintainer-review state; plan mode cannot merge or repair it."
+    },
+    {
+      "target": "#83081",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an explicit maintainer merge/product decision for a broad draft replacement PR; no merge, close, or fix action is allowed by the job."
+    },
+    {
+      "target": "#83458",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not a duplicate or superseded cleanup target in this shard; it should remain open until proof and check blockers are addressed."
+    },
+    {
+      "target": "#83537",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes diagnostic logging around potentially sensitive auth/workspace identifiers and is marked security-sensitive by preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_closed": 2,
+    "route_security": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83296 requires maintainer review for auth-provider credential persistence behavior before any merge decision.",
+    "#75427 requires maintainer judgment on whether the Signal SSE PR is superseded by existing main/release behavior or should be refreshed for broader behavior.",
+    "#83383 requires maintainer review/rebase decision for the draft OAuth diagnostics PR.",
+    "#83081 requires maintainer merge/product decision for the broad draft channel config replacement PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

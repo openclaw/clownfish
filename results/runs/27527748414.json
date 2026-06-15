@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-039",
+  "mode": "plan",
+  "run_id": "27527748414",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527748414",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:28Z",
+  "workflow_updated_at": "2026-06-15T06:19:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-039.md",
+  "published_at": "2026-06-15T06:20:46.571Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification completed for the 10 listed PRs. No shared canonical was selected because the job is an inventory shard. Security-sensitive PRs are quarantined individually; closed PR #85116 is kept closed; non-security open PRs are kept as independent or related active review items without mutation.",
+  "actions": [
+    {
+      "target": "#84823",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open focused non-security PR; no duplicate/superseded evidence in this inventory shard."
+    },
+    {
+      "target": "#85116",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no mutation planned."
+    },
+    {
+      "target": "#72548",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Secrets/auth-provider boundary work is out of scope for ProjectClownfish backlog cleanup."
+    },
+    {
+      "target": "#84848",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open active non-security PR with no clear duplicate or superseding item in this shard."
+    },
+    {
+      "target": "#79655",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to prior Responses replay work, but not a proven duplicate or safe closeout."
+    },
+    {
+      "target": "#79880",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Warning suppression around security/state-integrity diagnostics needs central OpenClaw security handling."
+    },
+    {
+      "target": "#80293",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active focused non-security PR awaiting maintainer review; no closure path."
+    },
+    {
+      "target": "#80532",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec symlink approval behavior is security-boundary-adjacent and must route to central security handling."
+    },
+    {
+      "target": "#80243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-labeled Telegram media/cache changes are out of scope for ProjectClownfish mutation."
+    },
+    {
+      "target": "#85035",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plugin hook changes on queue behavior are security-boundary-labeled and must route to central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_closed": 1,
+    "route_security": 5,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

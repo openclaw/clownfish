@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-043",
+  "mode": "plan",
+  "run_id": "27527755011",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527755011",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:37Z",
+  "workflow_updated_at": "2026-06-15T06:19:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-043.md",
+  "published_at": "2026-06-15T06:20:46.580Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Security-sensitive PRs are scoped to route_security; already-closed PRs are kept closed; remaining open non-security PRs are kept independently for normal maintainer/author follow-up.",
+  "actions": [
+    {
+      "target": "#80957",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open PR with unresolved review follow-up; keep as an independent inventory item."
+    },
+    {
+      "target": "#81053",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Authorization-boundary PR is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#81019",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but unresolved contributor PR; keep independent rather than closing, merging, or escalating the whole shard."
+    },
+    {
+      "target": "#81176",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR with product/proof follow-up; keep independently."
+    },
+    {
+      "target": "#81154",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused installer PR with unresolved proof/readiness state; keep independently."
+    },
+    {
+      "target": "#84703",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#88946",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#84867",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped boundary classification requires central security handling."
+    },
+    {
+      "target": "#84479",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Automation/security-boundary PR must be quarantined to central security review."
+    },
+    {
+      "target": "#85176",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#85355",
+      "reason": "Already closed; compacted artifact did not include a hydrated updated_at for this target."
+    },
+    {
+      "target": "#85183",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned XL config-intent PR needs maintainer technical review outside this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 3,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85183 requires maintainer technical review; compacted artifact lacks target_updated_at and the PR carries maintainer-owned/XL signals."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

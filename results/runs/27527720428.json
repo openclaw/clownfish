@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-022",
+  "mode": "plan",
+  "run_id": "27527720428",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527720428",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:15:46Z",
+  "workflow_updated_at": "2026-06-15T06:18:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-022.md",
+  "published_at": "2026-06-15T06:20:46.539Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed open PRs. Six security-sensitive PRs are routed to central OpenClaw security handling. Four non-security PRs are kept independent for their own maintainer/review cycles; no close, merge, label, comment, or fix PR is planned.",
+  "actions": [
+    {
+      "target": "#76140",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped memory isolation work is out of scope for ProjectClownfish cleanup and should be handled centrally."
+    },
+    {
+      "target": "#84934",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider/auth and workspace-routing changes are security-sensitive under the provided preflight boundary."
+    },
+    {
+      "target": "#84987",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plaintext API key handling is security-sensitive and must be routed to central security handling."
+    },
+    {
+      "target": "#85073",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Authorization behavior around isolated tool execution is security-sensitive for this worker."
+    },
+    {
+      "target": "#82354",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone PR with unresolved review/proof gates; not a duplicate or closure candidate in this inventory shard."
+    },
+    {
+      "target": "#84902",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone provider behavior PR with failing validation; no hydrated open canonical supports closure."
+    },
+    {
+      "target": "#83244",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small standalone config compatibility PR that should remain in its own review queue; draft status and proof failure block merge/closure conclusions."
+    },
+    {
+      "target": "#84389",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway endpoint exposure around agent heartbeat state is security-sensitive under the preflight boundary."
+    },
+    {
+      "target": "#84547",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone performance PR with unresolved review-bot findings and proof failure; not low-signal or closable under this job."
+    },
+    {
+      "target": "#61519",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "CI/security-analysis findings and security-sensitive preflight marking require central handling, not ProjectClownfish cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 6,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

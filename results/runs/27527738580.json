@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-033",
+  "mode": "plan",
+  "run_id": "27527738580",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527738580",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:14Z",
+  "workflow_updated_at": "2026-06-15T06:18:37Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-033.md",
+  "published_at": "2026-06-15T06:20:46.561Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations planned beyond non-mutating recommendations; security-sensitive open PRs are routed to central security handling, already-closed PRs are kept closed, and open non-security PRs are left open for their own review/author/maintainer paths.",
+  "actions": [
+    {
+      "target": "#83573",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security feature PR with its own review path; not a duplicate or close candidate."
+    },
+    {
+      "target": "#83612",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad non-security config/runtime PR with maintainer-review and CI/mergeability blockers; keep open rather than close or merge."
+    },
+    {
+      "target": "#83633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#89855",
+      "reason": "Already closed; no planned mutation is valid."
+    },
+    {
+      "target": "#81360",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81360",
+      "reason": "Narrow related fix candidate remains open; no merge or close action is allowed in this plan shard."
+    },
+    {
+      "target": "#83760",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with failed proof/review blockers; keep open on its own author/review path."
+    },
+    {
+      "target": "#84161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#85598",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented; no planned mutation is valid."
+    },
+    {
+      "target": "#85136",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive automation/auth workflow PR is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#85055",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with unresolved automated review findings; keep open for author/maintainer follow-up."
+    },
+    {
+      "target": "#85678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Telegram ingress PR is out of scope for backlog cleanup automation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_closed": 2,
+    "keep_related": 1,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

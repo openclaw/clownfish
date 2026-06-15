@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-029",
+  "mode": "plan",
+  "run_id": "27527731959",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527731959",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:04Z",
+  "workflow_updated_at": "2026-06-15T06:18:37Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-029.md",
+  "published_at": "2026-06-15T06:20:46.555Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the ten PR-inventory candidates independently. No shared canonical was selected. Security-sensitive open PRs are routed to central security handling; already-closed PRs are kept closed; remaining open PRs are retained for maintainer/proof follow-up rather than closed or merged.",
+  "actions": [
+    {
+      "target": "#72404",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR touches a security-boundary-shaped model capability path, so ProjectClownfish should not close, merge, or repair it."
+    },
+    {
+      "target": "#72428",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is available or needed in plan mode."
+    },
+    {
+      "target": "#72449",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive candidate is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#85368",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears to be a viable focused PR, but the current job can only plan non-mutating classification."
+    },
+    {
+      "target": "#72454",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as obsolete; no closure action may be emitted."
+    },
+    {
+      "target": "#72495",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72406",
+      "candidate_fix": null,
+      "reason": "Related follow-up remains open but is not merge-ready or closable in this plan shard."
+    },
+    {
+      "target": "#72510",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#56692",
+      "candidate_fix": null,
+      "reason": "Real linked issue and useful code path, but proof, conflicts, and review findings block merge/fixed-by closeout."
+    },
+    {
+      "target": "#72513",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71930",
+      "candidate_fix": null,
+      "reason": "Linked candidate fix should stay open for validation, not closeout."
+    },
+    {
+      "target": "#72690",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#71428",
+      "candidate_fix": null,
+      "reason": "Already closed as a non-viable landing candidate; no closure action may be emitted."
+    },
+    {
+      "target": "#72792",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72584",
+      "candidate_fix": null,
+      "reason": "Related open follow-up needs proof/check repair before maintainers can decide whether it is redundant or still useful."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 3,
+    "needs_human": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85368 is ready-for-maintainer with sufficient proof but merge is blocked by job frontmatter; maintainer review is needed.",
+    "#72510, #72513, #72495, and #72792 remain open related candidates with proof/check/conflict blockers rather than safe closeout targets."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

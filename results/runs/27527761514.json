@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-047",
+  "mode": "plan",
+  "run_id": "27527761514",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527761514",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:47Z",
+  "workflow_updated_at": "2026-06-15T06:19:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-047.md",
+  "published_at": "2026-06-15T06:20:46.583Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification shard. No canonical was selected because the job is explicitly not a dedupe cluster. Open security-sensitive PRs are routed to central OpenClaw security handling; unrelated non-security PRs are kept for normal maintainer/backlog handling. No GitHub mutations, merge recommendations, fix artifacts, or close actions are planned.",
+  "actions": [
+    {
+      "target": "#77339",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#77339",
+      "reason": "Useful focused PR related to #77322, but this inventory job cannot merge or raise a fix and no closure target is appropriate."
+    },
+    {
+      "target": "#80649",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent mixed-surface PR that should stay open for normal review/proof handling; it is not a duplicate or safe closeout target in this shard."
+    },
+    {
+      "target": "#81415",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The preflight artifact explicitly marks this PR security-sensitive, so it must be routed to central OpenClaw security handling without close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#81362",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent contributor PR with active attribution/merge comments and failing checks. It should remain open for maintainer review rather than be closed or merged in this plan shard."
+    },
+    {
+      "target": "#81184",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81184",
+      "reason": "Related to the subagent completion announcement issue family, but not safe to close or merge from this inventory plan because review says changes are still needed and checks include a failure."
+    },
+    {
+      "target": "#80770",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The preflight artifact explicitly marks this PR security-sensitive, so it must be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "#81300",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Codex extension PR with failing proof and pending review changes; no close or merge action is justified in this plan shard."
+    },
+    {
+      "target": "#79962",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79962",
+      "reason": "Related to the session lineage feature family, but it is an open feature PR for maintainer review, not a duplicate or closure candidate."
+    },
+    {
+      "target": "#81376",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The preflight artifact explicitly marks this PR security-sensitive, so it must be routed to central OpenClaw security handling without close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#85362",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Listed candidate is already closed in hydrated/preflight state, so no close-style action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 3,
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

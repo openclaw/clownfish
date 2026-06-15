@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-041",
+  "mode": "plan",
+  "run_id": "27527752004",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527752004",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:33Z",
+  "workflow_updated_at": "2026-06-15T06:19:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-041.md",
+  "published_at": "2026-06-15T06:20:46.575Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Security-sensitive PRs are scoped to route_security; closed PR #83527 is kept closed; all other open PRs are non-mutating keep classifications because close, merge, and fix paths are either disabled or blocked by draft state, review findings, checks, maintainer comments, or product/technical review needs.",
+  "actions": [
+    {
+      "target": "#80246",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated cron event-time issue, but not closable or mergeable in this plan shard."
+    },
+    {
+      "target": "#80716",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs contribution with insufficient proof and review blockers; no low-signal close action is allowed."
+    },
+    {
+      "target": "#80235",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated Discord issue and potentially useful, but not a close or merge candidate in plan mode."
+    },
+    {
+      "target": "#80710",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive/risky infrastructure item is out of scope for ProjectClownfish mutation and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#80670",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad feature/fix PR that should remain open for maintainer review rather than be closed or merged by this inventory shard."
+    },
+    {
+      "target": "#80632",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Slack routing work is marked security-sensitive by live preflight and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#84908",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-tagged Slack reply broadcast behavior is out of scope for ProjectClownfish cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#84140",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to closed generated-runtime cleanup #87405 for the stale ignore entry, but the remaining broad formatting PR needs author/maintainer follow-up."
+    },
+    {
+      "target": "#83527",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#75270",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the model fallback/session-state issue family, but merge/fixed-by-candidate closeout is blocked by dirty mergeability and unresolved review-bot findings."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_independent": 2,
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-040",
+  "mode": "plan",
+  "run_id": "27527750072",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527750072",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:16:30Z",
+  "workflow_updated_at": "2026-06-15T06:19:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-040.md",
+  "published_at": "2026-06-15T06:20:46.574Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations, merges, closes, labels, comments, or fix PRs are planned. Open PRs are kept for their normal review/proof paths; already-closed PRs are skipped; security-sensitive linked/candidate refs are routed to central security handling.",
+  "actions": [
+    {
+      "target": "#62077",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#80829",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related, plausible fix work remains open, but proof/check/review blockers make any close or merge action unsafe in this plan-only inventory shard."
+    },
+    {
+      "target": "#84031",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#72749",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related work; it is neither a duplicate nor safe to close or merge from this inventory pass."
+    },
+    {
+      "target": "#80749",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#79068",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate is out of scope for Clownfish; route only this item and continue classifying unrelated PRs."
+    },
+    {
+      "target": "#81341",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related open work; proof and failing checks block fixed-by-candidate or merge-style classification."
+    },
+    {
+      "target": "#81243",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product/API acceptance is the remaining decision; no close or merge action should be planned by this inventory worker."
+    },
+    {
+      "target": "#80604",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related fix work; blockers are specific to the PR and do not require whole-cluster escalation."
+    },
+    {
+      "target": "#79593",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open fix PR with author-change blocker; no close, merge, or fix action is allowed or justified."
+    },
+    {
+      "target": "#80455",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related fix work pending review/changes; it is not a duplicate or low-signal close candidate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 6,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81243 requires maintainer product/API acceptance for adding the Discord message fetch action; the artifact has passing proof/checks but no hydrated maintainer decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,166 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-023",
+  "mode": "plan",
+  "run_id": "27527721885",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527721885",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:15:48Z",
+  "workflow_updated_at": "2026-06-15T06:19:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-023.md",
+  "published_at": "2026-06-15T06:20:46.544Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for openclaw/openclaw. No GitHub mutations are planned. Closed candidate PRs are kept closed; open PRs are classified conservatively; security-sensitive linked refs are quarantined with route_security.",
+  "actions": [
+    {
+      "target": "#39680",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive sandbox credential heuristic issue is out of ProjectClownfish cleanup scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#77447",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive memory hygiene design work requires central security handling."
+    },
+    {
+      "target": "#77448",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive outbound artifact guard design belongs in central OpenClaw security handling."
+    },
+    {
+      "target": "#85017",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Matrix routing report should remain quarantined from ProjectClownfish cleanup automation."
+    },
+    {
+      "target": "#85098",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#85455",
+      "candidate_fix": "#85455",
+      "reason": "Already closed; no close action is valid for this target."
+    },
+    {
+      "target": "#77445",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open contributor PR with useful code and unresolved review/compatibility considerations; do not close or merge in this inventory shard."
+    },
+    {
+      "target": "#85147",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85454",
+      "candidate_fix": "#85454",
+      "reason": "Already closed after being classified as implemented on main; no further close action is valid."
+    },
+    {
+      "target": "#85148",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85378",
+      "candidate_fix": "#85378",
+      "reason": "Already closed after being classified as implemented on main; no further close action is valid."
+    },
+    {
+      "target": "#85159",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85088",
+      "candidate_fix": "#85159",
+      "reason": "Related open candidate for #85088 with unresolved proof and technical review issues; keep it open for normal PR review."
+    },
+    {
+      "target": "#85172",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#85137",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on whether the remaining narrow helper-level Matrix behavior is desirable after #85137; do not close or merge automatically."
+    },
+    {
+      "target": "#85166",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#39680",
+      "candidate_fix": "#85166",
+      "reason": "The PR itself is a small hardening/false-positive fix, but landing it requires maintainer/security policy approval; no cleanup mutation is appropriate."
+    },
+    {
+      "target": "#85195",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85071",
+      "candidate_fix": "#85071",
+      "reason": "Already closed after being classified as implemented by the canonical Gemini fix; no close action is valid."
+    },
+    {
+      "target": "#80915",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#73574",
+      "candidate_fix": "#80915",
+      "reason": "Related open candidate for #73574 with unresolved review-bot feedback; keep it open for normal PR review."
+    },
+    {
+      "target": "#84819",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive broad PR is out of ProjectClownfish cleanup scope; no closure mutation is valid because the PR is already closed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_closed": 4,
+    "keep_independent": 1,
+    "keep_related": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85172: maintainer scope decision required for the remaining narrow Matrix isStrictDirectRoom false-veto behavior after merged PR #85137.",
+    "#85166: maintainer/security policy approval required before changing sandbox credential-warning heuristics."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

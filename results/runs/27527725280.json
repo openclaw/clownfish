@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-025",
+  "mode": "plan",
+  "run_id": "27527725280",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527725280",
+  "head_sha": "80e95d189d90cd2eb7c81cfd29f8509fb8a0549d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:15:54Z",
+  "workflow_updated_at": "2026-06-15T06:19:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-025.md",
+  "published_at": "2026-06-15T06:20:46.548Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed refs. No GitHub mutations were performed. Security-sensitive refs are quarantined; already-closed refs are not closed again; two open non-security PRs have close-style recommendations backed by hydrated replacement evidence.",
+  "actions": [
+    {
+      "target": "#84769",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive auth-provider/credential-sync work is out of ProjectClownfish backlog-cleanup scope."
+    },
+    {
+      "target": "#85467",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87409",
+      "candidate_fix": "#87409",
+      "reason": "Already closed; historical evidence points to #87409/current main as the stronger implementation."
+    },
+    {
+      "target": "#85464",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#85619",
+      "reason": "Open PR is already covered by a hydrated replacement/current-main implementation; close is allowed by job frontmatter and includes target_updated_at."
+    },
+    {
+      "target": "#84894",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with supplied proof should remain available for maintainer review; no close or merge action is safe in this plan job."
+    },
+    {
+      "target": "#44476",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a standalone candidate with unresolved proof/review blockers; no shared canonical or close path is clear."
+    },
+    {
+      "target": "#46793",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Tool-policy boundary work is security-sensitive under the cluster security boundary and must be routed, not backlog-cleaned."
+    },
+    {
+      "target": "#49022",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Inline image rendering touches security-boundary-labeled media handling; route the exact item and avoid close/merge/fix mutation."
+    },
+    {
+      "target": "#85402",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#87409",
+      "candidate_fix": "#87409",
+      "reason": "Open PR targets an obsolete runtime path and is superseded by a hydrated current-main implementation."
+    },
+    {
+      "target": "#71135",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "New session sidecar state/storage is security-sensitive for this workflow; route exact PR and continue unrelated classifications."
+    },
+    {
+      "target": "#55997",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway admin/reset authorization work is security-sensitive and must go to central security handling, not ProjectClownfish closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_closed": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_independent": 2,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
