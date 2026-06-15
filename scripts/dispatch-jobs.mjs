@@ -23,6 +23,7 @@ const executionRunner = args["execution-runner"] ?? args.execution_runner ?? def
 const workflow = args.workflow ?? "cluster-worker.yml";
 const repo = String(args.repo ?? currentProjectRepo());
 const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
+const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
 const maxLiveWorkers = readMaxLiveWorkers(args);
 const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const dispatchBatchSize = numberArg(
@@ -63,7 +64,7 @@ const headSha = currentHeadSha();
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--publish-backlog-threshold 25] [--skip-token-secret-check]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--publish-backlog-threshold 25] [--skip-token-secret-check]",
   );
   process.exit(2);
 }
@@ -239,7 +240,7 @@ function assertRequiredTokenSecrets() {
 }
 
 function listRepoSecrets(dispatchRepo) {
-  const result = spawnSync("ghx", ["secret", "list", "--repo", dispatchRepo, "--json", "name"], {
+  const result = spawnSync(ghCommand, ["secret", "list", "--repo", dispatchRepo, "--json", "name"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: "pipe",
@@ -289,7 +290,7 @@ function dispatchBatch(batch, concurrency) {
 
 function dispatchJob(relative, position) {
   return runCommand(
-    "gh",
+    ghCommand,
     [
       "workflow",
       "run",
@@ -397,6 +398,14 @@ function sleepMs(milliseconds) {
 }
 
 if (failed) process.exit(1);
+
+function firstAvailableCommand(commands) {
+  for (const command of commands) {
+    const result = spawnSync(command, ["--version"], { cwd: repoRoot(), stdio: "ignore" });
+    if (result.status === 0) return command;
+  }
+  return commands.at(-1);
+}
 
 function readJobsFile(file) {
   if (!file) return [];
