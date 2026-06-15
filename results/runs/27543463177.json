@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T113240-001",
+  "mode": "plan",
+  "run_id": "27543463177",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27543463177",
+  "head_sha": "a680c8599023c65b8fd5ac318261dc9fe3e4595c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T11:35:25Z",
+  "workflow_updated_at": "2026-06-15T11:36:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T113240-001.md",
+  "published_at": "2026-06-15T11:38:28.209Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected; each hydrated PR was classified independently. No mutating close, label, comment, merge, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#93220",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and merged; no action needed."
+    },
+    {
+      "target": "#93241",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone candidate PR with supplied proof; keep for normal review rather than close or merge from this shard."
+    },
+    {
+      "target": "#93244",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone broad feature PR with conflicts; keep it open for separate review/repair, not closeout."
+    },
+    {
+      "target": "#93209",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-signal and technical-correctness judgment are explicitly human-gated by the job; no close or merge action is appropriate."
+    },
+    {
+      "target": "#93249",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR with failing proof checks; keep open for author/maintainer follow-up rather than close from this shard."
+    },
+    {
+      "target": "#93253",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated metadata has a title/body scope mismatch and pending checks; this needs maintainer judgment, not automated closeout."
+    },
+    {
+      "target": "#93256",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone candidate PR with failing proof; keep open for normal proof/maintainer follow-up."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 4,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93209 requires maintainer review because the hydrated PR is maintainer-owned, human-review labeled, unstable, and has failing checks.",
+    "#93253 requires maintainer judgment because hydrated title/body evidence appears inconsistent and checks are still pending."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
