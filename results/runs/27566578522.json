@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-57-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566578522",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566578522",
+  "head_sha": "ae1c7cf7c1a1b97a4219aaaa656466939795d637",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:11:54Z",
+  "workflow_updated_at": "2026-06-15T18:13:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-57-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:15:19.914Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/85867",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/85867",
+  "canonical_pr": null,
+  "summary": "Classified the live open candidate refs from the hydrated preflight artifact. No GitHub mutations are planned: #85867 remains the canonical open issue for the phone-code fallback lane, #74413 is a separate WhatsApp onboarding/docs lane already owned by hydrated context PR #81832, and #85868 is related session-state follow-up work that should stay open until the phone-code implementation lane is reviewed or split. Closed context #81889 remains closed.",
+  "actions": [
+    {
+      "target": "#74413",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81832",
+      "candidate_fix": null,
+      "reason": "Separate WhatsApp onboarding/docs work already has a live hydrated implementation lane; keep the issue open for that lane rather than mixing it into the phone-code fallback cluster."
+    },
+    {
+      "target": "#85867",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85867",
+      "candidate_fix": "#85866",
+      "reason": "Best live canonical from the remaining open actionable refs is #85867; the active PR path is known but excluded from this cluster's mutation scope."
+    },
+    {
+      "target": "#85868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85867",
+      "candidate_fix": null,
+      "reason": "Related WhatsApp auth-provider/session-state follow-up; keep open because it has distinct recovery behavior and is not proven fixed by the phone-code PR."
+    },
+    {
+      "target": "#81889",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#85867",
+      "candidate_fix": null,
+      "reason": "Already closed; included only to preserve the cluster audit trail."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_canonical": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

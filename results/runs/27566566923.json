@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-53-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566566923",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566566923",
+  "head_sha": "a782f35d928f2ff0b9deeafdd3e83b2863087158",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:11:43Z",
+  "workflow_updated_at": "2026-06-15T18:14:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-53-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:15:19.911Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/85030",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/85030",
+  "canonical_pr": null,
+  "summary": "Classified the hydrated cluster without GitHub mutation. Security-signaled tool-boundary refs are routed to central security handling, while unrelated non-security work remains split: #77426 stays with open PR #90861 pending maintainer review, #85637 remains an independent needs-info report, and #92521 is blocked on maintainer/security-boundary review rather than merge-ready.",
+  "actions": [
+    {
+      "target": "#44253",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary policy/config-surface work is outside Clownfish backlog cleanup and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#85030",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The representative remains a real subagent MCP inheritance issue, but its authorization-boundary aspect must be handled by central security review."
+    },
+    {
+      "target": "#92189",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context receives no close/comment action, but the security signal is preserved for central routing."
+    },
+    {
+      "target": "#84811",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No closure mutation is valid because the issue is already closed; route only preserves the security-sensitive classification."
+    },
+    {
+      "target": "#89658",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": "#92521",
+      "reason": "No close action is valid on an already closed PR; the security-boundary signal is preserved and #92521 remains the safer hydrated successor path."
+    },
+    {
+      "target": "#77426",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77426",
+      "candidate_fix": "#90861",
+      "reason": "#77426 is a separate sessions_yield/session-context bug, not a duplicate of the security-routed subagent MCP inheritance issue."
+    },
+    {
+      "target": "#90861",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#77426",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on the lifecycle/yield ownership invariant before Clownfish can recommend merge or post-merge closeout."
+    },
+    {
+      "target": "#85637",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue has a distinct reproduction scope and remains needs-info/no-new-fix-pr rather than duplicate-closeable in this cluster."
+    },
+    {
+      "target": "#92521",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#85030",
+      "candidate_fix": null,
+      "reason": "The exact unresolved decision is maintainer/security-boundary approval of the selector-preservation design; this blocks merge recommendation only for #92521."
+    },
+    {
+      "target": "#63399",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no close/comment action is valid."
+    },
+    {
+      "target": "#68246",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no close/comment action is valid."
+    },
+    {
+      "target": "#68875",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no close/comment action is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_independent": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "blocked": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90861: maintainer decision required on the sessionId-keyed process-local yield owner invariant before any merge or fixed-by-candidate closeout for #77426.",
+    "#92521: maintainer/security-boundary decision required on selector-policy parity before any merge path for the #85030 subagent MCP inheritance fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-55-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566575841",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566575841",
+  "head_sha": "a782f35d928f2ff0b9deeafdd3e83b2863087158",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:11:51Z",
+  "workflow_updated_at": "2026-06-15T18:13:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-55-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:15:19.913Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/81410",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/81410",
+  "canonical_pr": null,
+  "summary": "Autonomous read-only classification using the hydrated preflight artifact. The actionable non-security canonical path is #81410 with a narrow new fix PR for the root-shell stale SUDO_USER systemd user-scope bug. #79515 stays related but not duplicate, #79488 is independent, and security-signaled refs are routed without poisoning the non-security fix path.",
+  "actions": [
+    {
+      "target": "#79488",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different product area and root cause; leave open outside this systemd cluster."
+    },
+    {
+      "target": "#79515",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81410",
+      "candidate_fix": null,
+      "reason": "Related systemd status bug, but not the same precise root cause as #81410 and not safe to close or merge against #79538."
+    },
+    {
+      "target": "#81410",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81410",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical issue for a narrow queueable fix in this cluster."
+    },
+    {
+      "target": "#90113",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-signaled item must be quarantined to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#79538",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive broad PR is routed only; do not merge, close, or use it as candidate_fix in this cluster."
+    },
+    {
+      "target": "cluster:gitcrawl-55-autonomous-issue-wave",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81410",
+      "candidate_fix": null,
+      "reason": "Queue a narrow credited fix PR for the canonical #81410 root-shell stale SUDO_USER systemd scope bug."
+    },
+    {
+      "target": "cluster:gitcrawl-55-autonomous-issue-wave",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81410",
+      "candidate_fix": null,
+      "reason": "Executable fix artifact is needed before any duplicate or post-fix closeout can be planned."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 1,
+    "keep_canonical": 1,
+    "route_security": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

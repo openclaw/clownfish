@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-592-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566580612",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566580612",
+  "head_sha": "ae1c7cf7c1a1b97a4219aaaa656466939795d637",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:11:57Z",
+  "workflow_updated_at": "2026-06-15T18:13:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-592-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:15:19.915Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/70953",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/70953",
+  "canonical_pr": null,
+  "summary": "Security-sensitive hydrated refs were quarantined for central OpenClaw security handling. No close, merge, label, comment, or fix PR action is safe in this cluster because both open candidate issues are marked security-sensitive and the linked exec-routing issue is also security-sensitive in the preflight artifact.",
+  "actions": [
+    {
+      "target": "#70953",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#70953",
+      "candidate_fix": null,
+      "reason": "Open canonical candidate involves exec approval scheduling across host command execution paths and is marked security-sensitive in live preflight state; route to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#77278",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The open feature request concerns sudo password capture and handoff behavior, so it must be quarantined rather than closed, fixed, or merged by Clownfish."
+    },
+    {
+      "target": "#46786",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The linked issue concerns elevated exec routing to host execution and is explicitly marked security-sensitive, so only central security routing is appropriate."
+    },
+    {
+      "target": "#46810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context item; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#70953 remains a central OpenClaw security/product decision because changing approval scheduling affects exec approval semantics across gateway, node, channel, heartbeat, and background surfaces.",
+    "#77278 remains a central OpenClaw security/product decision because sudo password capture, transport, retry, cancellation, and TUI-only scoping are trust-boundary decisions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
