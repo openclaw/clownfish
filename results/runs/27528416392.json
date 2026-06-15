@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-254",
+  "mode": "plan",
+  "run_id": "27528416392",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528416392",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:31Z",
+  "workflow_updated_at": "2026-06-15T06:34:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-254.md",
+  "published_at": "2026-06-15T06:36:00.310Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 open pull requests. No shared canonical was selected because the job is an inventory shard. Security-sensitive refs #87771 and #87824 are quarantined to central security handling; unrelated non-security PRs are left open for maintainer review, proof, or independent handling.",
+  "actions": [
+    {
+      "target": "#87691",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related fix candidate, but proof is incomplete and the job blocks merge/fix actions."
+    },
+    {
+      "target": "#87695",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer-owned maintenance PR; leave open for normal maintainer handling."
+    },
+    {
+      "target": "#87702",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related fix candidate for an open issue, but this plan job cannot merge."
+    },
+    {
+      "target": "#87707",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific maintainer/product judgment is required because the linked issue carries a product-decision label and the PR's real behavior proof failed."
+    },
+    {
+      "target": "#87709",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related fix candidate for a live Feishu bug, but proof failure blocks stronger action."
+    },
+    {
+      "target": "#87771",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined out of backlog cleanup."
+    },
+    {
+      "target": "#87800",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider fix candidate with proof, but this inventory plan cannot merge and should not collapse adjacent Vertex history into a duplicate closeout."
+    },
+    {
+      "target": "#87814",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned PR with mixed proof and failing relevant checks needs specific human judgment rather than automated closure or merge planning."
+    },
+    {
+      "target": "#87824",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive feed discovery PR must be quarantined out of backlog cleanup."
+    },
+    {
+      "target": "#87827",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related feed tooling PR should remain open for maintainer review; it is not itself quarantined by the preflight security list."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "keep_independent": 1,
+    "needs_human": 2,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87707 requires maintainer/product decision because the linked issue carries clawsweeper:needs-product-decision and the PR's Real behavior proof failed.",
+    "#87814 requires maintainer technical correctness judgment because it is maintainer-owned and has mixed proof with failing type/boundary gates."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

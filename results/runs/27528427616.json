@@ -1,0 +1,174 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-260",
+  "mode": "plan",
+  "run_id": "27528427616",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528427616",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:47Z",
+  "workflow_updated_at": "2026-06-15T06:34:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-260.md",
+  "published_at": "2026-06-15T06:36:00.316Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected; open PRs are classified independently. Security-sensitive hydrated refs are routed only where they appear in scope, and no GitHub mutations are executed.",
+  "actions": [
+    {
+      "target": "#80040",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue; read-only quarantine only."
+    },
+    {
+      "target": "#86599",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context item."
+    },
+    {
+      "target": "#88111",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue; quarantine exact item."
+    },
+    {
+      "target": "#88150",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open PR with maintainer-review path; no duplicate/supersession evidence in this shard."
+    },
+    {
+      "target": "#88163",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad maintainer-owned draft touching auth/provider/security-boundary-adjacent surfaces; keep related for maintainer follow-up."
+    },
+    {
+      "target": "#88175",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused provider bugfix with its own validation path; no shared canonical in this inventory shard."
+    },
+    {
+      "target": "#88181",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to local-model lean work but distinct from #88212 and #88789; keep open for maintainer review."
+    },
+    {
+      "target": "#88189",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate; route exact item and avoid backlog-cleanup actions."
+    },
+    {
+      "target": "#88193",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active draft channel fix with proof/follow-up context; keep related rather than close."
+    },
+    {
+      "target": "#88203",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#88111",
+      "reason": "Narrow non-security fix candidate linked to a routed security-sensitive issue; keep independently for maintainer review."
+    },
+    {
+      "target": "#88206",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#80040",
+      "reason": "Focused non-security PR with its own review path; not a duplicate or close candidate."
+    },
+    {
+      "target": "#88210",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open proof-needed PR; failing proof blocks merge/fixed-by closeout but not non-mutating classification."
+    },
+    {
+      "target": "#88212",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active maintainer product-direction signal plus unresolved review-bot findings require maintainer judgment."
+    },
+    {
+      "target": "#88789",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related local-model lean work; no closure because it is linked context and maintainer-owned draft."
+    },
+    {
+      "target": "#90004",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; route exact item only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_closed": 1,
+    "keep_independent": 4,
+    "keep_related": 5,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 14,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88212 requires maintainer judgment because there is active maintainer product-direction signal and unresolved Copilot review findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

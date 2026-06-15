@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-261",
+  "mode": "plan",
+  "run_id": "27528429473",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528429473",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:50Z",
+  "workflow_updated_at": "2026-06-15T06:34:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-261.md",
+  "published_at": "2026-06-15T06:36:00.317Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative classification for 10 open PR inventory candidates. No shared canonical was selected for this mixed inventory shard. Security-sensitive PRs #88240 and #88249 are routed to central security handling; all other PRs are kept open as independent or related work because merge, fix PR, low-signal closure, and post-merge closeout are disabled or blocked by evidence.",
+  "actions": [
+    {
+      "target": "#88224",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88224",
+      "reason": "Related to open issue #87889, but not closable or mergeable in this plan shard because proof is still failing and no shared canonical exists."
+    },
+    {
+      "target": "#88239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone contributor PR with useful code and proof; keep open for normal review rather than dedupe cleanup."
+    },
+    {
+      "target": "#88240",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary and auth-adjacent changes are out of scope for ProjectClownfish cleanup; route this exact PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#88249",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Desktop app, dependency graph, credential handling, and security-boundary signals make this PR unsuitable for backlog cleanup automation."
+    },
+    {
+      "target": "#88270",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone gateway behavior PR; failing proof blocks merge-style conclusions but does not justify closure."
+    },
+    {
+      "target": "#91943",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91943",
+      "reason": "Related Feishu streaming follow-up to #91941/#88597, but not a duplicate or superseded item in this inventory shard."
+    },
+    {
+      "target": "#88103",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small standalone docs PR with proof supplied; no closure action is allowed or justified by the artifact."
+    },
+    {
+      "target": "#89739",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned active work with unresolved review findings and waiting-on-author status requires maintainer or author judgment, not cleanup classification."
+    },
+    {
+      "target": "#88292",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#88292",
+      "reason": "Draft maintainer-owned PR tied to an open Windows updater issue is not a dedupe or closure candidate; maintainer judgment is needed before any close or merge path."
+    },
+    {
+      "target": "#91885",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91885",
+      "reason": "Likely candidate fix for open issue #91860, but in plan mode with merge/post-merge close disabled it should remain open for normal maintainer review."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 3,
+    "route_security": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89739: maintainer-owned active PR has unresolved ClawSweeper findings and waiting-on-author status after a maintainer re-review request.",
+    "#88292: draft maintainer-owned PR is tied to open issue #87993 and requires maintainer judgment before any close or merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

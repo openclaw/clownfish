@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-248",
+  "mode": "plan",
+  "run_id": "27528406945",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528406945",
+  "head_sha": "c2ef9909712ef6471a22cf34eee72da84a63452c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:17Z",
+  "workflow_updated_at": "2026-06-15T06:34:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-248.md",
+  "published_at": "2026-06-15T06:36:00.307Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Already-closed PRs are kept closed without mutation, security-sensitive PRs are routed to central security handling, and the one open non-security PR is kept related because it is not merge-ready and the job disallows merge/fix work.",
+  "actions": [
+    {
+      "target": "#58333",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; retain historical classification only."
+    },
+    {
+      "target": "#59484",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed after the useful behavior was reported as covered elsewhere."
+    },
+    {
+      "target": "#59137",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92881",
+      "reason": "Already closed and covered by the hydrated replacement path."
+    },
+    {
+      "target": "#58735",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive control-plane rate-limit work is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#59884",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; any remaining auth-fallback work would need a separate hydrated follow-up."
+    },
+    {
+      "target": "#56509",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#56488",
+      "candidate_fix": null,
+      "reason": "Already closed as an unsafe mixed branch while the canonical issue remains open."
+    },
+    {
+      "target": "#58640",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#58570",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by the broader open issue."
+    },
+    {
+      "target": "#60643",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-adjacent agent prompt/memory work is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#59522",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as superseded; no hydrated canonical ref is available for a stronger close payload."
+    },
+    {
+      "target": "#60445",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related non-mutating inventory item; it is open but not merge-ready and not safely closable from this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 7,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 7,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
