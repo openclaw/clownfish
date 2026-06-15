@@ -1,0 +1,183 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1921-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25130811320",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25130811320",
+  "head_sha": "e60ec11ddea49c43b3b3d13770368f7be20dc559",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:59:26Z",
+  "workflow_updated_at": "2026-04-29T20:05:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1921-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.892Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/29736",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/29736",
+  "canonical_pr": null,
+  "summary": "Classified the live hydrated cluster against main f05b789736004a8ee93b7a8b44907b5f7f72ee1a. The obsolete representative #64663 is already covered by merged replacement #72377; the best remaining open non-security canonical for exec-approvals state-root reports is #29736. Planned one duplicate close for #62917, kept distinct workspace-symlink reports open, and quarantined PRs whose hydrated review evidence touches approval or workspace boundary security concerns.",
+  "actions": [
+    {
+      "target": "#29736",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#29736",
+      "candidate_fix": null,
+      "reason": "Best open canonical issue for the remaining non-security exec-approvals state-root bug."
+    },
+    {
+      "target": "#62917",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#29736",
+      "candidate_fix": null,
+      "reason": "Same root cause and same user-visible state-dir drift as #29736, with no unique remaining work outside the canonical issue."
+    },
+    {
+      "target": "#62938",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this PR because its approval-store symlink validation changes cross the security review boundary."
+    },
+    {
+      "target": "#64472",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "reason": "Related workspace bootstrap symlink subfamily, not a duplicate of the exec-approvals canonical issue and not safe to close in this cluster."
+    },
+    {
+      "target": "#64473",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this PR because review evidence frames the boundary-path relaxation as security-sensitive."
+    },
+    {
+      "target": "#73401",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this PR for central security/maintainer review rather than dedupe mutation."
+    },
+    {
+      "target": "#73988",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive workspace file-read expansion; route the PR without closing or merging it."
+    },
+    {
+      "target": "#74002",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive approval-path behavior; route the PR and keep issue #29736 as the non-security canonical thread."
+    },
+    {
+      "target": "#38650",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38622",
+      "candidate_fix": "#73401",
+      "reason": "Historical closed contributor PR; no mutation valid in this run."
+    },
+    {
+      "target": "#40230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38622",
+      "candidate_fix": "#73988",
+      "reason": "Historical closed PR retained as evidence only."
+    },
+    {
+      "target": "#51277",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR with unrelated/broad churn; evidence only."
+    },
+    {
+      "target": "#52522",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38622",
+      "candidate_fix": "#73988",
+      "reason": "Historical closed workspace bootstrap PR retained as evidence only."
+    },
+    {
+      "target": "#64663",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#72377",
+      "reason": "Obsolete representative already replaced and merged; evidence only."
+    },
+    {
+      "target": "#65736",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#29736",
+      "candidate_fix": "#74002",
+      "reason": "Historical closed contributor PR; replacement exists but is not merge/close evidence in this dedupe run."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "route_security": 5,
+    "keep_related": 1,
+    "keep_closed": 6
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#62917",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#29736",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-1921:#62917:close_duplicate:#29736:2026-04-28T06-28-02Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T20:05:05Z"
+    }
+  ]
+}

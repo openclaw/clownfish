@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238800-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103814776"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103814776"
-head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
+run_id: "25107663920"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107663920"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.372Z"
+published_at: "2026-06-15T04:57:52.635Z"
 canonical: "https://github.com/openclaw/openclaw/issues/55334"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/55334"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103814776](https://github.com/openclaw/clownfish/actions/runs/25103814776)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107663920](https://github.com/openclaw/clownfish/actions/runs/25107663920)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/55334
 
 ## Summary
 
-#55334 remains the best live canonical issue for the skillsSnapshot/session-store bloat family. #51977 is already closed as a duplicate of #55334. The other open seed issues are related but not safe duplicate closeouts because they track distinct mechanisms, symptoms, or additional task-storage scope.
+Hydrated state supports #55334 as the live canonical issue for sessions.json/skillsSnapshot bloat. #51977 is already closed as its duplicate. #45438, #54155, #71227, and #73114 are related but not closable because each preserves a distinct structuredClone, broad RSS/soak, latency/run-budget, or task-record sub-scope. No security-sensitive refs, merge path, closure mutation, or fix artifact is planned for this dedupe-only job.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Canonical: https://github.com/openclaw/openclaw/issues/55334
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #55334 | keep_canonical | planned | canonical | Best surviving canonical issue for the core retained skillsSnapshot/session-store bloat root cause. |
-| #51977 | keep_closed | skipped | duplicate | Already closed as the duplicate path this cluster would otherwise choose. |
-| #45438 | keep_related | planned | related | Related structuredClone memory-pressure issue, not a true duplicate of the skillsSnapshot persistence canonical. |
-| #54155 | keep_related | planned | related | Related broad memory/RSS tracker with distinct remaining validation and runtime surfaces. |
-| #71227 | keep_related | planned | related | Related session metadata bloat issue with distinct latency/run-budget symptoms, so it should stay open. |
-| #73114 | keep_related | planned | related | Related mixed session/task accumulation report, not a pure duplicate of the skillsSnapshot canonical. |
+| #55334 | keep_canonical | planned | canonical | Best live canonical for the retained skillsSnapshot/systemPromptReport duplication and unbounded sessions.json growth family. |
+| #51977 | keep_closed | skipped | duplicate | Already closed as a duplicate of #55334; keep as historical evidence only. |
+| #45438 | keep_related | planned | related | Related Gateway OOM family, but not a duplicate of #55334 because the remaining work is the structuredClone/auth-profile path and validation proof. |
+| #54155 | keep_related | planned | related | Related broad memory tracker with distinct soak/profiling and non-skillsSnapshot contributors; leave open. |
+| #71227 | keep_related | planned | related | Related session-store bloat issue, but not a true duplicate because it preserves a distinct run-budget/latency failure mode. |
+| #73114 | keep_related | planned | related | Related mixed session/task accumulation report; leave open because it contains unique task-record scope. |
 
 ## Needs Human
 

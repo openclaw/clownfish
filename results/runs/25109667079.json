@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1255-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25109667079",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25109667079",
+  "head_sha": "7ac7590296085c93e29434b3af3e919aa257e029",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:46:45Z",
+  "workflow_updated_at": "2026-04-29T13:14:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1255-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.714Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/54559",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54559",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/60248",
+  "summary": "Selected #54559 as the live canonical issue because the hinted representative #70546 is already closed and #60111/#70546 were already closed as duplicates. #60248 is the hydrated open PR path for the same generic_repeat critical-threshold bug, but this dedupe-only job cannot fix or merge and the PR still has failing-check/review follow-up, so no close, merge, or fix actions are planned.",
+  "actions": [
+    {
+      "target": "#54559",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54559",
+      "candidate_fix": "#60248",
+      "reason": "#54559 is the best surviving canonical issue for the generic_repeat critical-threshold bug."
+    },
+    {
+      "target": "#60248",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60248",
+      "candidate_fix": null,
+      "reason": "#60248 should stay open as the canonical PR path, but this worker cannot merge or repair it and failing checks block any fixed-by-candidate closeout."
+    },
+    {
+      "target": "#34574",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; related loop-detection work but not the live canonical item for this cluster."
+    },
+    {
+      "target": "#60111",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#54559",
+      "candidate_fix": "#60248",
+      "reason": "Already closed duplicate context; no closure action is valid."
+    },
+    {
+      "target": "#70546",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#54559",
+      "candidate_fix": "#60248",
+      "reason": "Already closed duplicate context; #54559 is the live canonical issue."
+    },
+    {
+      "target": "#70549",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#60248",
+      "candidate_fix": "#60248",
+      "reason": "Closed historical implementation attempt; no action beyond keeping it closed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

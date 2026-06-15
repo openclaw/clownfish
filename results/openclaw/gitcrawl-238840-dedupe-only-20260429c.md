@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238840-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103997625"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103997625"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107728012"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107728012"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.393Z"
+published_at: "2026-06-15T04:57:52.655Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72328"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72328"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103997625](https://github.com/openclaw/clownfish/actions/runs/25103997625)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107728012](https://github.com/openclaw/clownfish/actions/runs/25107728012)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72328
 
 ## Summary
 
-Hydrated state shows #72328 is the merged canonical fix for the narrow agent-switch stale model selector bug. #43013 and #54724 are related but not safe closeouts because they carry distinct default-selector and broader catalog-hydration scope, while #46275 is already closed.
+Representative #46275 is obsolete and already closed. The narrow agent-switch stale dropdown fix has landed via merged PR #72328, but the remaining open PRs are not safe duplicate closeouts: #43013 covers a related initial-load/default selector path with unresolved review concerns, and #54724 is a broader related catalog-hydration/model-selection follow-up. No GitHub mutations are recommended for this pass.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Hydrated state shows #72328 is the merged canonical fix for the narrow agent-swi
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #43013 | keep_related | planned | related | Keep open as related follow-up work; it is not a duplicate of the merged switch-remount fix. |
-| #46275 | keep_closed | skipped | superseded | Historical closed candidate only; no mutation planned. |
-| #54724 | keep_related | planned | related | Keep open as related broader follow-up; not a high-confidence duplicate or fixed-by-candidate closeout. |
-| #72328 | keep_closed | skipped | canonical | Merged canonical fix path; already closed, so no mutation planned. |
+| #43013 | keep_related | planned | related | Related selector-state work remains distinct and has unresolved review/check blockers, so it should stay open rather than be closed as fixed or duplicate. |
+| #46275 | keep_closed | skipped | superseded | Already-closed historical candidate; keep as evidence only. |
+| #54724 | keep_related | planned | related | Related but broader follow-up scope with unique catalog-hydration work; leave open for maintainer review rather than closing as fixed by #72328. |
+| #72328 | keep_closed | skipped | canonical | Merged canonical path for the narrow agent-switch stale model-selection bug; already closed, so no mutation is needed. |
 
 ## Needs Human
 

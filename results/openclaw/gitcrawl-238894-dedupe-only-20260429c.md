@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238894-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104094279"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104094279"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108035523"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108035523"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.415Z"
+published_at: "2026-06-15T04:57:52.682Z"
 canonical: "https://github.com/openclaw/openclaw/issues/47555"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/47555"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/66000"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104094279](https://github.com/openclaw/clownfish/actions/runs/25104094279)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108035523](https://github.com/openclaw/clownfish/actions/runs/25108035523)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/47555
 
 ## Summary
 
-Classified the cluster without mutations. #47555 remains the canonical open issue for the restart surface, #66000 is the active canonical implementation candidate, #65643 is related and should stay open because it carries the status-specific reproduction linked to #66000, and #65982 is already closed so no action is planned for it.
+No closure is safe in this pass. #47555 remains the live canonical restart issue, #65643 is a related stale-launchd-label/status report that should stay open with active PR #66000, #66000 remains the canonical implementation candidate, and #65982 is already closed in hydrated state.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Classified the cluster without mutations. #47555 remains the canonical open issu
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #47555 | keep_canonical | planned | canonical | #47555 is still the best live canonical issue for the cluster because it covers the destructive gateway restart surface and remains open on the hydrated state. |
-| #65643 | keep_related | planned | related | Keep open as related to #47555 and covered by the active #66000 candidate; closing now would discard useful status-specific reproduction while the PR remains unmerged. |
-| #66000 | keep_canonical | planned | canonical | #66000 is the active canonical PR candidate for the stale launchd label/profile fix, but this dedupe-only job is not allowed to merge or create fix work. |
-| #65982 | keep_closed | skipped | related | Already closed in hydrated state; no mutation is valid or needed. |
+| #47555 | keep_canonical | planned | canonical | Keep #47555 open as the canonical issue for the restart/lifecycle surface until the active fix path lands or is rejected. |
+| #65643 | keep_related | planned | related | Leave #65643 open as related work covered by active candidate #66000; closing would be premature before the PR lands or is rejected. |
+| #66000 | keep_canonical | planned | canonical | Keep #66000 as the canonical implementation candidate, but do not emit merge or fix actions under this job's gates. |
+| #65982 | keep_closed | skipped | related | No action: already closed in hydrated state and kept only as historical related evidence. |
 
 ## Needs Human
 

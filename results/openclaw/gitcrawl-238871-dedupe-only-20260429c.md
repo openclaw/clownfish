@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238871-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104042690"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104042690"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107760143"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107760143"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.401Z"
-canonical: "https://github.com/openclaw/openclaw/pull/48945"
+published_at: "2026-06-15T04:57:52.662Z"
+canonical: null
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/48945"
+canonical_pr: null
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 2
 ---
 
 # gitcrawl-238871-dedupe-only-20260429c
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104042690](https://github.com/openclaw/clownfish/actions/runs/25104042690)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107760143](https://github.com/openclaw/clownfish/actions/runs/25107760143)
 
 Workflow conclusion: success
 
 Worker result: needs_human
 
-Canonical: https://github.com/openclaw/openclaw/pull/48945
+Canonical: unknown
 
 ## Summary
 
-Hydrated state supports keeping #48945 as the current best representative for the Feishu group thread-follow-up mention policy, but no close or merge action is safe. #40530 is an overlapping useful implementation with a different API, and #63148 is a related but distinct DM topic-session isolation PR. Maintainer judgment is needed before superseding either group-thread implementation.
+No close/comment/label mutations are planned. #48945 and #40530 are conflicting open implementations for the same Feishu group thread mention policy, and the hydrated artifact shows unresolved review/CI blockers plus a maintainer product choice between the threadFollowUp and requireMentionInThread APIs. #63148 is related Feishu topic work but covers a distinct DM topic session-isolation gap and should stay open.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Hydrated state supports keeping #48945 as the current best representative for th
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 2 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,11 @@ Hydrated state supports keeping #48945 as the current best representative for th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48945 | keep_canonical | planned | canonical | #48945 is the best current representative for the group-thread mention policy, but it is not merge-ready and cannot be used to close overlapping contributor work. |
-| #40530 | keep_related | planned | related | #40530 is a useful overlapping contributor implementation, not a high-confidence duplicate or superseded PR. Keep it open pending maintainer selection of the Feishu thread mention API. |
-| #63148 | keep_related | planned | related | #63148 belongs to the same Feishu topic/thread family but is a separate DM-session isolation subproblem, so it should remain open as related work rather than be closed under #48945. |
+| #48945 | needs_human | blocked | needs_human | Maintainer judgment is needed to choose the canonical Feishu group thread mention API and repair path before this PR can become the canonical close/merge target. |
+| #40530 | needs_human | blocked | needs_human | Do not close or supersede #40530 until a maintainer chooses whether #40530's boolean API or #48945's active-topic policy is canonical. |
+| #63148 | keep_related | planned | related | Keep #63148 open as related Feishu topic-session work with distinct DM-topic scope; it is not a duplicate or superseded by the group thread mention PRs. |
 
 ## Needs Human
 
-- Maintainer decision needed before any closeout in the group-thread mention subcluster: choose #48945's threadFollowUp active-topic model or #40530's requireMentionInThread boolean API, then repair/validate the chosen PR before superseding the other.
+- Choose the canonical Feishu group thread mention API between #48945 threadFollowUp and #40530 requireMentionInThread before any superseded closeout or landing path.
+- If #48945 is selected, address the latest Codex P1 skipMentionForThread scope/reference blocker plus relevant CI failures before merge consideration.

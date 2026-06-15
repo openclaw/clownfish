@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238888-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107790435",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107790435",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:57Z",
+  "workflow_updated_at": "2026-04-29T12:08:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238888-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.670Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73949",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73949",
+  "summary": "Hydrated live state shows the original cluster refs #45712, #58216, and #58988 are already closed, so no closure actions are valid for them. The representative #58216 has been replaced by hydrated open PR #73949, which is the current canonical path for the reconnect-exhausted stale-socket restart crash. Hydrated open PR #73989 is related but belongs to the separate reconnect-grace subfamily from #45712, so it should remain open outside this closeout.",
+  "actions": [
+    {
+      "target": "#73949",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73949",
+      "candidate_fix": "#73949",
+      "reason": "Representative #58216 is closed and was replaced by #73949. #73949 is the clearest surviving canonical path for the reconnect-exhausted stale-socket restart crash; merge is not emitted because this job blocks merge actions."
+    },
+    {
+      "target": "#58216",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73949",
+      "candidate_fix": "#73949",
+      "reason": "Already closed and superseded by hydrated replacement PR #73949."
+    },
+    {
+      "target": "#45712",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73989",
+      "candidate_fix": "#73989",
+      "reason": "Already closed and superseded by hydrated replacement PR #73989, which is a related reconnect-grace subfamily rather than the canonical #73949 reconnect-exhausted crash fix."
+    },
+    {
+      "target": "#73989",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#73949",
+      "candidate_fix": "#73989",
+      "reason": "Related but not a duplicate of #73949; it addresses reconnect-grace semantics and should stay open as its own candidate path."
+    },
+    {
+      "target": "#58988",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73949",
+      "candidate_fix": "#73949",
+      "reason": "Already closed historical alternative for the same Discord abort/crash symptom family; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

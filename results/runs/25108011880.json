@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238881-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25108011880",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25108011880",
+  "head_sha": "3ec6a205eb986741424344762fbc94babbdc2937",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:10:02Z",
+  "workflow_updated_at": "2026-04-29T12:12:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238881-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.679Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73799",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54176",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73799",
+  "summary": "Hydrated preflight state shows #73799 is the only open canonical PR for the legacy Word/OLE binary MIME guard. The original representative #54380 and source PR #44068 are already closed as superseded, #54176 should remain open until the canonical fix lands, and the security-sensitive linked context #9795 is quarantined separately. No close, merge, or fix PR mutation is planned.",
+  "actions": [
+    {
+      "target": "#9795",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context is outside ProjectClownfish dedupe cleanup and should remain routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#73799",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73799",
+      "candidate_fix": null,
+      "reason": "#73799 is the best current canonical path, but this dedupe-only job must not merge or raise/fix PRs."
+    },
+    {
+      "target": "#54176",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73799",
+      "candidate_fix": "#73799",
+      "reason": "The issue is covered by the canonical candidate PR but should remain open until #73799 or an equivalent fix lands."
+    },
+    {
+      "target": "#44068",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73799",
+      "candidate_fix": "#73799",
+      "reason": "Already closed PR; no close action is valid or needed."
+    },
+    {
+      "target": "#54380",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73799",
+      "candidate_fix": "#73799",
+      "reason": "Canonical hint is obsolete because #54380 was replaced by the open #73799 path."
+    },
+    {
+      "target": "#54190",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73799",
+      "candidate_fix": "#73799",
+      "reason": "Closed historical source PR in the same fix family; no mutation is valid."
+    },
+    {
+      "target": "#54234",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73799",
+      "candidate_fix": "#73799",
+      "reason": "Closed historical source PR in the same fix family; no mutation is valid."
+    },
+    {
+      "target": "#73229",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#73799",
+      "candidate_fix": null,
+      "reason": "Closed independent sanitizer context; it should not affect the legacy Word/OLE dedupe decisions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

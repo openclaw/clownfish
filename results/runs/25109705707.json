@@ -1,0 +1,97 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13578-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25109705707",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25109705707",
+  "head_sha": "7ac7590296085c93e29434b3af3e919aa257e029",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:47:34Z",
+  "workflow_updated_at": "2026-04-29T13:14:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13578-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.730Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/40770",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/40770",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/34262",
+  "summary": "Representative #40770 is closed and remains the historical canonical issue for the Feishu Chinese filename upload bug; merged #34262 is the hydrated canonical PR for that fixed path. No open item is a safe duplicate closeout. Open refs split into related subclusters: #41860/#41880 for Feishu underscore URLs, #48788 for a broader filename utility, and #59744/#59783 for Discord filename metadata. #58272 is independent. #43239 is quarantined because hydrated review comments describe boundary-sensitive local-root/CODEOWNERS regressions.",
+  "actions": [
+    {
+      "target": "#41860",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41860",
+      "candidate_fix": "#41880",
+      "reason": "Keep open as the canonical issue for the related Feishu underscore-URL subcluster; it is not a duplicate of the closed #40770 filename upload bug."
+    },
+    {
+      "target": "#41880",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41860",
+      "candidate_fix": "#41880",
+      "reason": "Keep as the focused implementation candidate for #41860; do not merge or close in this dedupe-only job."
+    },
+    {
+      "target": "#43239",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR to central OpenClaw security handling instead of dedupe mutation."
+    },
+    {
+      "target": "#48788",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40770",
+      "candidate_fix": null,
+      "reason": "Keep open as a related follow-up feature/design tracker, not a duplicate of the already-fixed #40770 upload regression."
+    },
+    {
+      "target": "#58272",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent bug report with unique platform and reproduction scope; do not close or fold into the Feishu filename cluster."
+    },
+    {
+      "target": "#59744",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#59744",
+      "candidate_fix": "#59783",
+      "reason": "Keep open as the Discord filename metadata tracker until #59783 or another hydrated fix lands cleanly."
+    },
+    {
+      "target": "#59783",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#59744",
+      "candidate_fix": "#59783",
+      "reason": "Useful but not merge-ready related Discord PR; keep open for its own subcluster and do not close as part of this Feishu dedupe pass."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "route_security": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

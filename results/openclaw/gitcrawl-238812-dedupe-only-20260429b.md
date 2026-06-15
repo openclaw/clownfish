@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238812-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103908788"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103908788"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107683138"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107683138"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.377Z"
+published_at: "2026-06-15T04:57:52.640Z"
 canonical: "https://github.com/openclaw/openclaw/issues/52618"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/52618"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73739"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103908788](https://github.com/openclaw/clownfish/actions/runs/25103908788)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107683138](https://github.com/openclaw/clownfish/actions/runs/25107683138)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/52618
 
 ## Summary
 
-Canonical remains the open issue #52618, with #73739 as the current open implementation candidate. #72828 is a high-confidence duplicate planned for close; #42354 and #55532 remain related but not duplicate-clean; #68766 is already closed and is kept as historical fixed-by-#72411 evidence.
+Hydrated state keeps #52618 as the canonical Feishu WebSocket retry-exhaustion issue and #73739 as the current open implementation candidate. Planned one high-confidence duplicate close for #72828; kept #42354 and #55532 open as related because they carry distinct setup/backoff/token details; treated #68766 as already closed by the merged #72411 path.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Canonical remains the open issue #52618, with #73739 as the current open impleme
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #52618 | keep_canonical | planned | canonical | Best live canonical issue for the Feishu WebSocket retry-exhaustion recovery report. |
-| #73739 | keep_canonical | planned | canonical | Current canonical implementation candidate should stay open for maintainer review; merge is out of scope and review-bot P2 proof remains before any future merge gate. |
-| #42354 | keep_related | planned | related | Related Feishu WebSocket transport family, but it has unique initial-connection/domain/readiness details and is not a high-confidence duplicate of #52618. |
-| #55532 | keep_related | planned | related | Related Feishu reconnect/backoff family, but unique token-cache poisoning and an unhydrated replacement path make duplicate closure unsafe. |
-| #68766 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; included only as historical fixed-by-#72411 evidence. |
-| #72828 | close_duplicate | planned | duplicate | High-confidence duplicate of the open canonical issue #52618; closure is allowed because require_fix_before_close is false and the canonical thread remains open. |
+| #42354 | keep_related | planned | related | Same Feishu WebSocket failure family, but it includes initial connection and Lark-domain setup details that are not fully covered by the canonical runtime retry-exhaustion issue. |
+| #52618 | keep_canonical | planned | canonical | Best surviving canonical issue for the runtime Feishu WebSocket retry-exhaustion and dead-client recovery failure. |
+| #55532 | keep_related | planned | related | Related Feishu reconnect/backoff work remains, but the token-cache and replacement-PR details make duplicate or fixed-by closure unsafe in this run. |
+| #68766 | keep_closed | skipped | fixed_by_candidate | Already closed by the merged Feishu reconnect and heartbeat repair path. |
+| #72828 | close_duplicate | planned | duplicate | High-confidence duplicate of the canonical #52618 runtime retry-exhaustion failure, with no unique reproduction detail remaining in the hydrated artifact. |
+| #73739 | keep_canonical | planned | canonical | Current canonical implementation candidate for #52618; keep open because this worker is not allowed to merge or repair it and the remaining review point must be resolved before any future merge action. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238893-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104092004"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104092004"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108033294"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108033294"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.414Z"
+published_at: "2026-06-15T04:57:52.681Z"
 canonical: "https://github.com/openclaw/openclaw/issues/46776"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/46776"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104092004](https://github.com/openclaw/clownfish/actions/runs/25104092004)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108033294](https://github.com/openclaw/clownfish/actions/runs/25108033294)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/46776
 
 ## Summary
 
-Hydrated state leaves #46776 as the current open canonical issue. #43563 is related but not a duplicate. #58107 and #67687 are already closed, and #67508 is merged historical fix evidence only; no close, comment, label, merge, or fix mutation is planned.
+Hydrated state has no security-sensitive refs. #46776 remains the best live canonical issue for this dedupe cluster; #43563 is related but not a duplicate; #58107, #67687, and merged PR #67508 are already closed and receive no close mutations.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Hydrated state leaves #46776 as the current open canonical issue. #43563 is rela
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46776 | keep_canonical | planned | canonical | #46776 remains the live canonical issue for the unresolved Feishu group multi-agent delivery/session-continuity behavior. |
-| #43563 | keep_related | planned | related | #43563 should stay open as a related Feishu cross-bot broadcast feature gap, coordinated with but not closed into #46776. |
-| #58107 | keep_closed | skipped | fixed_by_candidate | #58107 is already closed and covered by hydrated merged PR #67508; no mutation is valid. |
-| #67508 | keep_closed | skipped | related | #67508 is historical merged fix evidence, not an actionable target in this dedupe-only cluster. |
-| #67687 | keep_closed | skipped | related | #67687 is already closed and related, not a live duplicate target for this cluster. |
+| #46776 | keep_canonical | planned | canonical | The representative is still open and is the clearest canonical thread for this cluster; keep it open for maintainer product decisions and follow-up rather than closing or replacing it. |
+| #43563 | keep_related | planned | related | Related Feishu multi-bot work, but not the same root cause as #46776's @all/multi-mention delivery and DM/group session-continuity report. |
+| #58107 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by hydrated merged PR #67508; preserve as historical fixed-by-candidate evidence only. |
+| #67687 | keep_closed | skipped | related | Related Feishu group delivery area, but it has a distinct requireMention/group-allowlist admission root cause and is already closed. |
+| #67508 | keep_closed | skipped | related | Merged historical evidence for #58107 only; no merge, close, or post-merge action is allowed or needed here. |
 
 ## Needs Human
 

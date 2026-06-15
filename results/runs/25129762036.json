@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14112-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25129762036",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25129762036",
+  "head_sha": "57b657bc4ce868d681ea2ae867230254e2cbce60",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:36:07Z",
+  "workflow_updated_at": "2026-04-29T19:44:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14112-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.832Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/59685",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/57256",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59685",
+  "summary": "Classified the hydrated cluster as two related status subfamilies. The memory false-negative path is best represented by open PR #59685 with open issue #57256 retained until a fix lands; #60777 is superseded by #59685 and can be closed with credit preserved. The bootstrap wording PR #43614 and issue #43527 are related but separate and should stay open. No merge or fix PR is planned because the job blocks merge, fix, and raise_pr actions.",
+  "actions": [
+    {
+      "target": "#59685",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59685",
+      "candidate_fix": null,
+      "reason": "Best surviving open PR for the memory-plugin false-negative family; keep as canonical implementation candidate without merging."
+    },
+    {
+      "target": "#57256",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#57256",
+      "candidate_fix": "#59685",
+      "reason": "Canonical issue should stay open until the canonical fix reaches main; no close action is safe in this run."
+    },
+    {
+      "target": "#60777",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#59685",
+      "candidate_fix": "#59685",
+      "reason": "Superseded by the broader passing canonical PR #59685; closeout preserves @pdurlej credit and provides a reopen path."
+    },
+    {
+      "target": "#43614",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate status wording subfamily; keep open and out of this closeout."
+    },
+    {
+      "target": "#43527",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43614",
+      "candidate_fix": "#43614",
+      "reason": "Related status output issue with a separate canonical PR path through #43614; keep open."
+    },
+    {
+      "target": "#57285",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59685",
+      "candidate_fix": "#59685",
+      "reason": "Already closed historical PR; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "close_superseded": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#60777",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#59685",
+      "candidate_fix": "#59685",
+      "title": null,
+      "idempotency_key": "clownfish:gitcrawl-14112-dedupe-only-20260429-remote:close-superseded:#60777@2026-04-04T13:08:39Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T19:44:43Z"
+    }
+  ]
+}

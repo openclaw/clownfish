@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238798-dedupe-only-20260429b",
+  "mode": "autonomous",
+  "run_id": "25107660174",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107660174",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:02:00Z",
+  "workflow_updated_at": "2026-04-29T12:08:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238798-dedupe-only-20260429b.md",
+  "published_at": "2026-06-15T04:57:52.633Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72614",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/43556",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72614",
+  "summary": "Hydrated preflight state shows all six job candidates are already closed. The current canonical fix path is merged PR #72614 on main; no close, label, merge, or fix action is needed. Security-sensitive linked PR #47115 is quarantined to central security handling only.",
+  "actions": [
+    {
+      "target": "#47115",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact linked security-sensitive PR to central OpenClaw security handling; do not mutate it in this cluster."
+    },
+    {
+      "target": "#72614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#72614",
+      "candidate_fix": null,
+      "reason": "Already-merged canonical fix; no merge or post-merge action is allowed or needed."
+    },
+    {
+      "target": "#43556",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Historical canonical issue is already closed and the canonical fix has landed."
+    },
+    {
+      "target": "#56326",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Already closed as covered by merged canonical fix #72614."
+    },
+    {
+      "target": "#61724",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Already closed as covered by merged canonical fix #72614."
+    },
+    {
+      "target": "#63120",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Already closed as covered by merged canonical fix #72614."
+    },
+    {
+      "target": "#64714",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Already closed as implemented by the canonical sessions_spawn fix path."
+    },
+    {
+      "target": "#67248",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43556",
+      "candidate_fix": "#72614",
+      "reason": "Already closed and covered by merged canonical fix #72614."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 7
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

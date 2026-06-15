@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238874-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107766162",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107766162",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:24Z",
+  "workflow_updated_at": "2026-04-29T12:08:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238874-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.664Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/41265",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41256",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/41265",
+  "summary": "Hydrated state keeps #41256 as the open bug thread and #41265 as the best live canonical PR. #41419 and #41714 are already closed as superseded by #41265, so this run emits only non-mutating keep classifications.",
+  "actions": [
+    {
+      "target": "#41256",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41256",
+      "candidate_fix": "#41265",
+      "reason": "Keep the underlying bug issue open while canonical PR #41265 owns the active fix path; no fix has landed on main and post-merge closeout is disabled for this job."
+    },
+    {
+      "target": "#41265",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41265",
+      "candidate_fix": null,
+      "reason": "Keep #41265 as the canonical active implementation candidate; do not merge, fix, or close from this job."
+    },
+    {
+      "target": "#41419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41265",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by #41265; keep it closed and do not emit a close mutation."
+    },
+    {
+      "target": "#41714",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41265",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by #41265; keep it closed and do not emit a close mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2503-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25133525470",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25133525470",
+  "head_sha": "70c8a777fa9eb04b416c45f07c80bfc38f2df21b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T20:58:25Z",
+  "workflow_updated_at": "2026-04-29T21:02:24Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2503-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.983Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Closed representative #53186 is obsolete and already implemented by hydrated merged PR #72659. The hydrated open items do not share one clear canonical root cause: they split into shared-session design (#19929/#43286), Slack DM auto-thread behavior (#58832), Slack channel replyToMode=all dual-session bug with open PR #64080 (#64078), and independent Mattermost reliability work (#65729). No close/merge/fix action is safe in this dedupe-only job.",
+  "actions": [
+    {
+      "target": "#53186",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#72659",
+      "reason": "Closed representative is historical evidence only; the current open candidates are not duplicates of this already-fixed Mattermost issue."
+    },
+    {
+      "target": "#19929",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#19929",
+      "candidate_fix": null,
+      "reason": "Canonical only for the broader shared-session design subfamily, not for the whole over-broad cluster."
+    },
+    {
+      "target": "#43286",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#19929",
+      "candidate_fix": null,
+      "reason": "Related to the #19929 shared-session design family, but it has Slack-specific scope and should remain open."
+    },
+    {
+      "target": "#58832",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43286",
+      "candidate_fix": null,
+      "reason": "Keep open as related Slack session-routing/product-behavior input rather than closing against a fix that intentionally preserves the reported behavior."
+    },
+    {
+      "target": "#64078",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#64078",
+      "candidate_fix": "#64080",
+      "reason": "Canonical for the Slack channel replyToMode=all dual-session subfamily; do not close before the candidate fix is merged and validated."
+    },
+    {
+      "target": "#64080",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#64078",
+      "candidate_fix": null,
+      "reason": "Keep open as the candidate implementation for #64078; failing checks and actionable bot feedback block fixed-by closeout or merge recommendation."
+    },
+    {
+      "target": "#65729",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Mattermost reliability work; not closable as part of this Slack/session dedupe pass."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "keep_related": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "No single cluster-level canonical can be selected safely from the hydrated state: the closed representative #53186 is fixed by #72659, while the open items split into distinct subfamilies (#19929/#43286, #58832, #64078/#64080, and #65729).",
+    "#64080 is a useful candidate for #64078 but is not merge-ready: relevant checks are failing and Greptile has an actionable P1 finding; this job forbids repair, merge, and fix PR actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

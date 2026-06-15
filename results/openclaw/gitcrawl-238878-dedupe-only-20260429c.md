@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238878-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104057544"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104057544"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108005524"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108005524"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.404Z"
+published_at: "2026-06-15T04:57:52.677Z"
 canonical: "https://github.com/openclaw/openclaw/pull/42904"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/42904"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104057544](https://github.com/openclaw/clownfish/actions/runs/25104057544)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108005524](https://github.com/openclaw/clownfish/actions/runs/25108005524)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/42904
 
 ## Summary
 
-No GitHub mutations are needed. The hydrated preflight artifact shows all cluster PRs are already closed, with #42904 merged as the canonical fix path and the other candidate PRs already closed as historical context.
+Hydrated preflight shows the original open-candidate view is stale: canonical PR #42904 is now merged and all three cluster PR targets are already closed. No GitHub mutations, fix PRs, merges, labels, or comments are planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ No GitHub mutations are needed. The hydrated preflight artifact shows all cluste
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42904 | keep_closed | skipped | canonical | Canonical PR is already merged and closed; already-closed refs must not receive close/comment/label mutations. |
-| #43043 | keep_closed | skipped | superseded | Superseded candidate is already closed; keep as historical evidence only. |
-| #43093 | keep_closed | skipped | fixed_by_candidate | The reported logs --follow path was already implemented on main, and the remaining channel-log parity work landed through #42904; target is already closed. |
+| #42904 | keep_closed | skipped | canonical | Canonical PR is already merged and closed in hydrated live state. |
+| #43043 | keep_closed | skipped | superseded | Already-closed contributor PR is superseded by merged canonical #42904; no mutation is allowed. |
+| #43093 | keep_closed | skipped | superseded | Already-closed overlapping PR is superseded by current main behavior and the merged canonical cluster path. |
 
 ## Needs Human
 

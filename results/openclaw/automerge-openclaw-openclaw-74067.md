@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-74067"
 mode: "autonomous"
-run_id: "25107070335"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25107070335"
-head_sha: "a14a8befafcf4ce9dbd30c48c74f79b09a1342fe"
+run_id: "25107807661"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107807661"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.426Z"
+result_status: "planned"
+published_at: "2026-06-15T04:57:52.673Z"
 canonical: "https://github.com/openclaw/openclaw/pull/74067"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/74067"
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # automerge-openclaw-openclaw-74067
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25107070335](https://github.com/openclaw/clownfish/actions/runs/25107070335)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107807661](https://github.com/openclaw/clownfish/actions/runs/25107807661)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/74067
 
 ## Summary
 
-Hydrated state shows #74067 already merged, but the latest ClawSweeper verdict in the artifact asked for maintainer review before merge on the recursive compile-cache deletion scope. No close or merge is allowed, and a follow-up fix cannot be made safely without a maintainer decision on whether the merged deletion scope is acceptable.
+The only hydrated target, #74067, is already closed because it merged. No close, merge, comment, label, or fix PR action is permitted or needed for this cluster; the canonical path is the merged PR.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Hydrated state shows #74067 already merged, but the latest ClawSweeper verdict i
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,8 +66,8 @@ Hydrated state shows #74067 already merged, but the latest ClawSweeper verdict i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #74067 | keep_closed | skipped | canonical | #74067 is the hydrated canonical PR and is already closed/merged; closed refs must not receive close or merge actions. |
+| #74067 | keep_closed | skipped | canonical | No repair artifact is needed because the automerge candidate already landed before this worker result; this worker must not mutate or emit merge/close actions for a closed PR. |
 
 ## Needs Human
 
-- Decide whether the deletion scope merged in #74067 is acceptable for shared NODE_COMPILE_CACHE directories, or whether a narrow follow-up fix should tighten the ownership boundary; ClawSweeper requested maintainer review on that point before merge.
+- none

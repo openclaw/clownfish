@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238870-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104040334"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104040334"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107757999"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107757999"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.400Z"
+published_at: "2026-06-15T04:57:52.661Z"
 canonical: "https://github.com/openclaw/openclaw/issues/39923"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/39923"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104040334](https://github.com/openclaw/clownfish/actions/runs/25104040334)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107757999](https://github.com/openclaw/clownfish/actions/runs/25107757999)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/39923
 
 ## Summary
 
-No GitHub mutation is safe for this cluster. #39923 remains the canonical issue for the datetime config-backup suffix request, while #39982 and #40392 are parallel useful implementation PRs with unresolved review/design blockers. #20460 is related but broader because it also asks for a dedicated backup directory.
+Classified the hydrated open items without mutating GitHub. #39923 is the best canonical issue for the datetime-suffix backup request, but the canonical PR choice remains ambiguous because #39982 and #40392 are parallel open implementations with unresolved review/product questions; no close, merge, label, or fix action is safe from this cluster result.
 
 ## Impact
 
@@ -66,11 +66,11 @@ No GitHub mutation is safe for this cluster. #39923 remains the canonical issue 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39923 | keep_canonical | planned | canonical | Canonical issue stays open until maintainers choose and land one implementation or decide to retain numeric rotation. |
-| #39982 | needs_human | blocked | needs_human | Canonical implementation choice is unclear because #40392 is a parallel open implementation and #39982 still has failing checks/review-bot blockers. |
-| #40392 | needs_human | blocked | needs_human | This PR is useful but cannot be closed or selected automatically while #39982 remains a competing implementation and legacy-backup migration policy is unresolved. |
-| #20460 | keep_related | planned | related | Related follow-up scope, not a duplicate of the narrower #39923 datetime-suffix request. |
+| #39923 | keep_canonical | planned | canonical | Canonical issue remains open until maintainers choose and land one datetime-suffix implementation, or explicitly decide to retain numeric rotation. |
+| #39982 | needs_human | blocked | needs_human | Maintainer judgment is required to choose whether #39982 should be the canonical implementation or be superseded by #40392 after review blockers are resolved. |
+| #40392 | needs_human | blocked | needs_human | Maintainer judgment is required to choose whether #40392 should be the canonical implementation or be superseded by #39982 after review blockers are resolved. |
+| #20460 | keep_related | planned | related | Keep #20460 open as a related broader config-backup ergonomics request, not a duplicate of the narrower datetime-suffix rotation issue. |
 
 ## Needs Human
 
-- Maintainer must choose the canonical implementation path for #39923 between #39982 and #40392, including timestamp precision, collision handling, and legacy `.bak.N` migration/retention policy.
+- Choose the canonical implementation path for #39923 between #39982 and #40392, including timestamp precision, collision handling, pruning order, and legacy `.bak.N` migration policy. Until that decision is made, neither PR is safe to close as superseded or use as a candidate fix.

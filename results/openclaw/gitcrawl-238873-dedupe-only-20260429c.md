@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238873-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104046903"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104046903"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107995515"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107995515"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.402Z"
+published_at: "2026-06-15T04:57:52.675Z"
 canonical: "https://github.com/openclaw/openclaw/issues/55917"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/55917"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104046903](https://github.com/openclaw/clownfish/actions/runs/25104046903)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107995515](https://github.com/openclaw/clownfish/actions/runs/25107995515)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/55917
 
 ## Summary
 
-Classified the hydrated cluster without planning mutations. #55917 remains the document-specific canonical issue; #40991 remains a related but distinct video/null-media thread; #56312 is already closed as a duplicate of #40991. Linked PRs are useful context but not merge-ready or closable in this dedupe-only job.
+The hydrated state shows an over-broad Telegram media cluster, not a clean duplicate set. #55917 remains the document fallback canonical issue, while #40991 should stay open as the related video failure thread. #56312 is already closed as a duplicate of #40991. Linked PRs are useful context but are not merge/close candidates here because review comments, failing checks, stale layout, or broad scope block fixed-by or superseded closeout.
 
 ## Impact
 
@@ -66,13 +66,13 @@ Classified the hydrated cluster without planning mutations. #55917 remains the d
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #55917 | keep_canonical | planned | canonical | #55917 is still the best live canonical for the document fallback issue and should stay open for the linked implementation path or an equivalent scoped fix. |
-| #40991 | keep_related | planned | related | Related Telegram media-resolution bug, but not a true duplicate of the document-specific canonical issue. |
-| #41048 | keep_related | planned | related | Useful video implementation candidate, but this dedupe-only job cannot merge or repair it and it is not a closure target. |
-| #42059 | keep_related | planned | related | Related broad implementation context, not a duplicate/closure target and not merge-ready. |
-| #55970 | keep_related | planned | related | Implementation candidate for the canonical issue, but failing checks and unresolved review findings block any fixed-by-candidate or merge conclusion. |
-| #56312 | keep_closed | skipped | duplicate | Already closed; no mutation is valid or needed. |
-| #18577 | keep_closed | skipped | related | Historical related context only; no action. |
+| #55917 | keep_canonical | planned | canonical | #55917 is still the best live canonical issue for the document-specific Telegram fallback behavior. |
+| #40991 | keep_related | planned | related | Keep #40991 open as the video subfamily canonical; it is related to #55917 but not a high-confidence duplicate. |
+| #56312 | keep_closed | skipped | duplicate | Already closed; no mutation should be emitted. |
+| #55970 | keep_related | planned | related | Keep the useful contributor PR open for maintainer follow-up; it is not merge-ready and this dedupe-only job cannot repair it. |
+| #41048 | keep_related | planned | related | Keep #41048 open as useful #40991 implementation context; unresolved bot findings and stale layout block merge or fixed-by-candidate closeout. |
+| #42059 | keep_related | planned | related | Keep #42059 open as related implementation context only; broad scope and unresolved review/check blockers make it unsuitable for duplicate closeout or canonical merge. |
+| #18577 | keep_closed | skipped | related | Closed historical context only. |
 
 ## Needs Human
 

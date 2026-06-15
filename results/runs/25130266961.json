@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14436-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25130266961",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25130266961",
+  "head_sha": "d8402244adeff9d7d53d01dc45e960e2851caca3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:47:17Z",
+  "workflow_updated_at": "2026-04-29T19:50:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14436-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.849Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/54475",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/54475",
+  "summary": "Planned dedupe classification only. #54475 remains the canonical focused gateway PR for transient pre-hello close handling. #54774 is an overlapping PR by the same author and can be closed as superseded by #54475. #65641 is a related but independent gateway diagnostics/auth-semantics PR and should stay open. The linked #49109 is broader related cron/CLI work and should stay open outside this closeout. No merge or fix PR was planned because those actions are blocked by the job.",
+  "actions": [
+    {
+      "target": "#54475",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54475",
+      "candidate_fix": null,
+      "reason": "Best canonical path for the duplicate gateway pre-hello close family; merge remains out of scope because the job blocks merge actions and checks include failures/unknown mergeability."
+    },
+    {
+      "target": "#54774",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#54475",
+      "candidate_fix": null,
+      "reason": "High-confidence superseded PR: same author, same gateway root cause, overlapping files and tests, with #54475 selected as the canonical repaired branch."
+    },
+    {
+      "target": "#65641",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54475",
+      "candidate_fix": null,
+      "reason": "Related gateway diagnostics/auth-semantics work with unique remaining scope; keep open for revision or separate maintainer handling."
+    },
+    {
+      "target": "#49109",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54475",
+      "candidate_fix": null,
+      "reason": "Open linked related PR with unique cron helper work and broad scope; leave it open outside this dedupe closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#54774",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#54475",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-14436-dedupe-only-20260429-remote:#54774:close_superseded-by-#54475:2026-04-28T06:26:52Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T19:50:35Z"
+    }
+  ]
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238876-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104053176"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104053176"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108001422"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108001422"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.403Z"
+published_at: "2026-06-15T04:57:52.676Z"
 canonical: "https://github.com/openclaw/openclaw/pull/41880"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/41860"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/41880"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104053176](https://github.com/openclaw/clownfish/actions/runs/25104053176)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108001422](https://github.com/openclaw/clownfish/actions/runs/25108001422)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/41880
 
 ## Summary
 
-Classified the hydrated Feishu underscore-URL cluster without planning any direct GitHub mutation. #41880 remains the canonical focused PR for the original bare-URL reproduction; #41860 remains the linked tracking issue; #68514 is related broader URL-boundary work with unresolved review feedback; #41946 is already closed and must not receive another close action.
+Classified #41880 as the narrow live canonical PR and #41860 as the open tracking issue for the Feishu underscore URL bug. #68514 stays open as broader related URL-boundary work with an unresolved Codex review finding, and #41946 is already closed as superseded. No close, merge, or fix PR action is planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Classified the hydrated Feishu underscore-URL cluster without planning any direc
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41860 | keep_canonical | planned | canonical | Keep the linked tracking issue open; the bug is not fixed on current main and no post-merge closeout is allowed in this job. |
-| #41880 | keep_canonical | planned | canonical | The representative is still the best focused canonical PR, but this dedupe-only job blocks merge and fix work. |
+| #41860 | keep_canonical | planned | canonical | Tracking issue should remain open until the canonical Feishu fix lands; post-merge closeout is disabled for this job. |
+| #41880 | keep_canonical | planned | canonical | Best narrow live canonical path for the original bare URL-only Feishu underscore bug; keep open for maintainer review or branch repair outside this dedupe-only job. |
 | #41946 | keep_closed | skipped | superseded | Already closed as superseded; no additional mutation is valid. |
-| #68514 | keep_related | planned | related | Keep open as related broader work; it is not a high-confidence duplicate/superseded close target while useful code and unresolved review feedback remain. |
+| #68514 | keep_related | planned | related | Related broader implementation candidate; keep open for maintainer review rather than closing against #41880. |
 
 ## Needs Human
 

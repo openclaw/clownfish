@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238803-dedupe-only-20260429b",
+  "mode": "autonomous",
+  "run_id": "25107668920",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107668920",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:02:11Z",
+  "workflow_updated_at": "2026-04-29T12:05:11Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238803-dedupe-only-20260429b.md",
+  "published_at": "2026-06-15T04:57:52.636Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations are safe from this dedupe-only pass. The hydrated artifact shows no security-sensitive refs, but the open PRs are useful, overlapping, and not closeable without a settled canonical path. #62775 remains the representative, but its broad unrelated delta and unresolved P1/P2 bot findings make the canonical/repair choice a maintainer decision.",
+  "actions": [
+    {
+      "target": "#52126",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live state; keep as historical evidence only."
+    },
+    {
+      "target": "#52759",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same symptom family, but it carries distinct read-offset scope and unresolved review/check blockers; it is not a high-confidence duplicate close."
+    },
+    {
+      "target": "#56403",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Overlaps the default-enable/generic_repeat family but remains a useful, blocked implementation candidate rather than a safe close target."
+    },
+    {
+      "target": "#62775",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical choice is unclear because the representative is broad, unresolved, and conflicts with narrower open candidates."
+    },
+    {
+      "target": "#68673",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same subsystem but a distinct root cause; keep open outside the default-enable dedupe decision."
+    },
+    {
+      "target": "#70877",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same symptom family but incomplete and blocked; without a settled canonical or replacement path, it should stay open."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for the canonical path: whether to split/repair #62775 despite broad unrelated changes, prefer a narrower open candidate such as #56403/#52759/#70877, or create a separate follow-up job for a narrow loop-detection default/generic_repeat fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

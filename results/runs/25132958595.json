@@ -1,0 +1,167 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2329-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25132958595",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25132958595",
+  "head_sha": "e5e8212693f31b1f59eff0d60675a97be8c33e90",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T20:46:14Z",
+  "workflow_updated_at": "2026-04-29T20:56:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2329-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.963Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/54253",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54253",
+  "canonical_pr": null,
+  "summary": "Autonomous dedupe-only classification selected #54253 as the current open canonical for the closed RISC-V64 representative #58150. No instant close actions are planned: the other open refs are separate provider, reasoning, history, or TUI subfamilies, #58150 is already closed, and #69337 has unresolved maintainer-review and failing-check blockers.",
+  "actions": [
+    {
+      "target": "#54253",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54253",
+      "candidate_fix": null,
+      "reason": "Best surviving open canonical for the RISC-V64 provider transport failure family."
+    },
+    {
+      "target": "#58150",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#54253",
+      "candidate_fix": null,
+      "reason": "Closed representative retained only as evidence for replacing the canonical with #54253."
+    },
+    {
+      "target": "#46758",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive linked PR; no backlog mutation or technical closeout is planned for it."
+    },
+    {
+      "target": "#46080",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid empty-assistant-turn provider/tool subfamily, but not the same root cause as the RISC-V64 transport canonical #54253."
+    },
+    {
+      "target": "#46637",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related reasoning-content replay policy bug; it should stay open as a separate subfamily rather than close under #54253."
+    },
+    {
+      "target": "#50178",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider-specific reasoning-content replay gap; not a duplicate of #54253 or #46637 because it has Qianfan-specific scope and product-routing uncertainty."
+    },
+    {
+      "target": "#70563",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider-owned replay issue with Kimi/subagent-specific scope; keep open separately."
+    },
+    {
+      "target": "#55520",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related stream classification subfamily, broader than and distinct from #64267's tag-scanner bug and #54253's transport failure."
+    },
+    {
+      "target": "#64267",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but distinct core streaming sanitizer bug; no high-confidence duplicate closeout is available."
+    },
+    {
+      "target": "#64613",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related transcript hygiene issue, not a duplicate of the RISC-V64 transport canonical or the reasoning-content replay bugs."
+    },
+    {
+      "target": "#66125",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider transport/fallback diagnostic issue, but not a proven duplicate of #54253 because it is not RISC-V64-specific and still needs proxy capture evidence."
+    },
+    {
+      "target": "#68970",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related TUI visibility/reconnect issue with unique reproduction; keep open separately."
+    },
+    {
+      "target": "#69337",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is required before any merge or repair path because the current PR changes shared visibility semantics and has unresolved actionable bot findings plus failing relevant checks."
+    },
+    {
+      "target": "#59416",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent thinking-level/capability UI issue; not a duplicate of the RISC-V64 provider transport canonical."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "route_security": 1,
+    "keep_related": 9,
+    "needs_human": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 12,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#69337 requires maintainer review before any merge or repair: Codex flagged the global commentary fallback as unsafe outside TUI-specific rendering, Greptile flagged a stale failing test expectation, and relevant checks are failing."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

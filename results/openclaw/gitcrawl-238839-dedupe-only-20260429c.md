@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238839-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103995096"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103995096"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107726052"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107726052"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.392Z"
+published_at: "2026-06-15T04:57:52.654Z"
 canonical: "https://github.com/openclaw/openclaw/pull/42908"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/42754"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/42908"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103995096](https://github.com/openclaw/clownfish/actions/runs/25103995096)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107726052](https://github.com/openclaw/clownfish/actions/runs/25107726052)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/42908
 
 ## Summary
 
-Kept #42908 as the canonical open Feishu card-action PR. #43953 and #43202 remain related because they include broader input_value/name scope that #42908 does not fully cover. #73514 and #74191 are already closed, so no close action is planned for them. No security-sensitive items were present, and no merge or fix PR action is allowed by this job.
+Classified the Feishu card-action cluster from the hydrated preflight artifact. #42908 remains the canonical PR and #42754 is the paired canonical issue; #43953/#43202 are related broader input_value/name work, and #73514/#74191 are already closed historical context. No close, merge, fix, or label mutations are planned.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Kept #42908 as the canonical open Feishu card-action PR. #43953 and #43202 remai
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42754 | keep_related | planned | fixed_by_candidate | #42754 is covered by the canonical candidate #42908, but should remain open until the candidate lands because current main is not fixed and post-merge closeout is disabled for this job. |
-| #42908 | keep_canonical | planned | canonical | #42908 remains the best canonical path for the option/options/form_value Feishu card-action data-loss cluster, but this autonomous dedupe-only job cannot merge or repair it. |
-| #43202 | keep_related | planned | related | #43202 is related to the Feishu callback-field family but has unique input_value/name scope, so it should not be closed as a duplicate of #42908. |
-| #43953 | keep_related | planned | related | #43953 is related, not a high-confidence duplicate or superseded PR for this cluster; keep it open for the broader #43202 scope. |
-| #73514 | keep_closed | skipped | superseded | Already closed in live hydrated state; no mutation is valid. Historical classification is superseded by the canonical #42908 path. |
-| #74191 | keep_closed | skipped | superseded | Already closed in live hydrated state with a prior Clownfish superseded-by-#42908 closeout, so this worker only records the skipped closed classification. |
+| #42754 | keep_canonical | planned | canonical | Keep the source issue open while canonical PR #42908 remains under review and unmerged. |
+| #42908 | keep_canonical | planned | canonical | Canonical contributor PR, but this dedupe-only job should keep it open for maintainer review rather than merge or repair it. |
+| #43202 | keep_related | planned | related | Related Feishu callback-field work with unique broader scope; not a true duplicate of #42908. |
+| #43953 | keep_related | planned | related | Keep open as related broader work; closing it as superseded would lose the input_value/name scope and active contributor context. |
+| #73514 | keep_closed | skipped | superseded | Already closed historical context; superseded by the broader canonical path #42908. |
+| #74191 | keep_closed | skipped | superseded | Already closed by prior Clownfish superseded closeout; retain only as evidence. |
 
 ## Needs Human
 

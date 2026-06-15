@@ -2,53 +2,53 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238875-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104051063"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104051063"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107999555"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107999555"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.403Z"
-canonical: null
+result_status: "planned"
+published_at: "2026-06-15T04:57:52.676Z"
+canonical: "https://github.com/openclaw/openclaw/pull/51371"
 canonical_issue: null
-canonical_pr: null
-actions_total: 3
+canonical_pr: "https://github.com/openclaw/openclaw/pull/51371"
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-238875-dedupe-only-20260429c
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104051063](https://github.com/openclaw/clownfish/actions/runs/25104051063)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107999555](https://github.com/openclaw/clownfish/actions/runs/25107999555)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
-Canonical: unknown
+Canonical: https://github.com/openclaw/openclaw/pull/51371
 
 ## Summary
 
-No close actions are high-confidence in this pass. #41653 is not a safe canonical because it bundles an out-of-scope Swift workflow change, has unresolved Codex workflow feedback, and has failing checks. #51311 and #51371 are both narrow one-file fixes for the same WebSocketTaskBox.sendPing() double-resume crash; choosing OSAllocatedUnfairLock vs the OneShotContinuation helper remains a maintainer selection.
+Hydrated state shows #51371 is the surviving open canonical PR for the WebSocketTaskBox.sendPing checked-continuation double-resume crash. #41653 and #51311 are already closed as superseded by #51371, and the unrelated linked #1 is closed context only. No close, merge, fix, or PR actions are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,11 @@ No close actions are high-confidence in this pass. #41653 is not a safe canonica
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41653 | keep_related | planned | related | #41653 tracks the same crash family, but it is not a clean canonical candidate and should stay open until maintainers choose the canonical implementation between the narrower PRs. |
-| #51311 | needs_human | planned | needs_human | #51311 is a viable canonical candidate, but selecting it over #51371 requires maintainer judgment. |
-| #51371 | needs_human | planned | needs_human | #51371 is also a viable canonical candidate, but choosing its OneShotContinuation implementation over #51311 needs maintainer selection. |
+| #51371 | keep_canonical | planned | canonical | Representative #41653 is obsolete because it is now closed; #51371 is the only open focused canonical path in the hydrated cluster. Merge and fix actions are disabled for this job, so the correct worker action is to keep #51371 open as canonical. |
+| #41653 | keep_closed | skipped | superseded | Already closed refs are historical evidence only. #41653 remains superseded by the open canonical #51371. |
+| #51311 | keep_closed | skipped | superseded | Already closed refs are historical evidence only. #51311 remains superseded by the open canonical #51371. |
+| #1 | keep_closed | skipped | independent | Closed unrelated context ref; no cluster action is appropriate. |
 
 ## Needs Human
 
-- Choose the canonical implementation for the WebSocketTaskBox.sendPing at-most-once continuation guard: #51311 is the smaller OSAllocatedUnfairLock patch with an import os follow-up, while #51371 has addressed review comments but adds a OneShotContinuation helper. After that choice is explicit, Clownfish can close the remaining superseded PRs with contributor credit.
+- none

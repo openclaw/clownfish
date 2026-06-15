@@ -1,0 +1,109 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14100-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25129754594",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25129754594",
+  "head_sha": "57b657bc4ce868d681ea2ae867230254e2cbce60",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:35:57Z",
+  "workflow_updated_at": "2026-04-29T19:50:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14100-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.831Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/62308",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/62308",
+  "summary": "Canonical remains open PR #62308 for the narrow macOS LaunchAgent ProcessType=Interactive fix. #58061 is a high-confidence duplicate issue and can be closed with credit preserved; #58070 is an overlapping useful contributor PR and should stay open as related rather than be closed. #62294/#62310 and #59710 are separate heartbeat reliability follow-ups and should stay open.",
+  "actions": [
+    {
+      "target": "#62308",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62308",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical path for the ProcessType=Interactive work, but not merge-ready or merge-eligible in this dedupe-only job."
+    },
+    {
+      "target": "#58061",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "reason": "Same user-visible macOS launchd/App Nap ProcessType root cause as canonical PR #62308, with no separate issue-thread work needed after #58070 is kept open for contributor credit and WorkingDirectory context."
+    },
+    {
+      "target": "#58070",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62308",
+      "candidate_fix": null,
+      "reason": "Overlapping but not safe to close as superseded in this pass; keep open for maintainer reconciliation and contributor credit."
+    },
+    {
+      "target": "#62294",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#62310",
+      "reason": "Related macOS heartbeat/App Nap family, but broader scheduler behavior remains a separate follow-up and should not be closed into this ProcessType-only dedupe cluster."
+    },
+    {
+      "target": "#62310",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate heartbeat scheduler implementation candidate with unresolved review/check blockers; keep it open outside this launchd plist dedupe cleanup."
+    },
+    {
+      "target": "#59710",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different platform and likely different root cause from the macOS launchd ProcessType cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "keep_related": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#58061",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#62308",
+      "candidate_fix": "#62308",
+      "title": null,
+      "idempotency_key": "gitcrawl-14100-dedupe-only-20260429-remote:#58061:close_duplicate:#62308:2026-03-31T02:35:41Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T19:50:30Z"
+    }
+  ]
+}

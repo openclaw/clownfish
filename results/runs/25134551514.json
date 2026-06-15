@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2866-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25134551514",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25134551514",
+  "head_sha": "b9f5ebae325b39171f8129a731bbca8bf5b88966",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T21:21:37Z",
+  "workflow_updated_at": "2026-04-29T21:27:41Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2866-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:53.009Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/75",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/75",
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows #44013 is security-sensitive and must be routed to central security handling. #75 remains the live umbrella canonical for Linux/Windows desktop support. #73315, #59859, and #61576 are active, broad, overlapping implementation tracks, so no high-confidence close, merge, or fix action is safe in this job.",
+  "actions": [
+    {
+      "target": "#75",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "#75 is the clearest surviving canonical issue; keep it open as the product/validation hub."
+    },
+    {
+      "target": "#44013",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of ProjectClownfish cleanup scope; route only #44013 and continue classifying unrelated items."
+    },
+    {
+      "target": "#59075",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive close actions."
+    },
+    {
+      "target": "#59859",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "Useful active Linux implementation with unique scope and unresolved review; keep open and related to #75."
+    },
+    {
+      "target": "#61576",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "Not a true duplicate; it is a useful alternative Linux implementation requiring maintainer choice, so keep it open as related."
+    },
+    {
+      "target": "#73315",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "Active linked Tauri successor, but not a high-confidence closure or merge target in this dedupe-only job."
+    },
+    {
+      "target": "cluster:gitcrawl-2866-dedupe-only-20260429-remote",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#75",
+      "candidate_fix": null,
+      "reason": "Maintainers need to choose the canonical platform direction before any superseded closeout is safe."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_related": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed: choose the canonical implementation direction for #75 among #73315 Tauri v2 desktop, #59859 C/GTK native Linux, and #61576 Rust/GTK alternative. #44013 is quarantined to central security handling and cannot be the cleanup canonical."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

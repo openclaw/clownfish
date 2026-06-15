@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238880-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104062030"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104062030"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108009774"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108009774"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T03:54:22.405Z"
-canonical: "https://github.com/openclaw/openclaw/pull/44023"
+result_status: "needs_human"
+published_at: "2026-06-15T04:57:52.678Z"
+canonical: null
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/44023"
+canonical_pr: null
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-238880-dedupe-only-20260429c
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104062030](https://github.com/openclaw/clownfish/actions/runs/25104062030)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108009774](https://github.com/openclaw/clownfish/actions/runs/25108009774)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
-Canonical: https://github.com/openclaw/openclaw/pull/44023
+Canonical: unknown
 
 ## Summary
 
-Classified the cluster without planning mutations. #44023 remains the best canonical implementation path, but the overlapping open PRs and linked issue carry useful unique context or review blockers, so they should stay open rather than be closed by dedupe automation.
+No GitHub mutations are planned. The hydrated artifact confirms the root bug remains on main at 40f820bda2255e50bda769ba8b6d9f4fdc05e9b5, but the open PRs each carry useful, non-identical pieces: #44023 is the hinted representative, #45871 updates more current config/help surfaces, and #52400 adds tests but has unresolved bot findings, broad docs/generated churn, and one failing check. A maintainer should choose the canonical/combine path before any PR is closed as superseded.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Classified the cluster without planning mutations. #44023 remains the best canon
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,12 +66,12 @@ Classified the cluster without planning mutations. #44023 remains the best canon
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #44023 | keep_canonical | planned | canonical | Best surviving canonical path for this dedupe-only cluster, but not merge-ready and merge/fix actions are blocked by the job. |
-| #45871 | keep_related | planned | related | Overlaps the canonical fix family but has useful implementation and discussion details; keep open for maintainer comparison or later repair. |
-| #52400 | keep_related | planned | related | Related implementation candidate with useful tests but unresolved bot findings, broader churn, and a failing check; keep open rather than close as a duplicate. |
-| #52382 | keep_related | planned | related | Same family as the canonical cap increase, but it has unique incident and product-scope details, so it should remain open. |
-| #43972 | keep_closed | skipped | superseded | Already closed; included only to record that no further action is planned. |
+| #43972 | keep_closed | skipped |  | Already closed items must not receive close/comment/label actions in this worker result. |
+| #44023 | needs_human | blocked | needs_human | Potential canonical PR, but it is not clearly the best surviving path because it misses useful surfaces covered by other open PRs. |
+| #45871 | needs_human | blocked | needs_human | Viable alternative canonical or source of useful updates; closing it as superseded would lose contributor credit and implementation details before a maintainer chooses the canonical path. |
+| #52382 | keep_related | planned | related | Related to the same cap family, but not safe to close in this dedupe-only pass while the canonical PR path is unresolved. |
+| #52400 | keep_related | planned | related | Keep open as related implementation evidence; it is not merge-ready and not safe to close as superseded until a maintainer chooses how to carry forward its useful tests and generated-schema work. |
 
 ## Needs Human
 
-- none
+- Choose the canonical/combine path for the maxPingPongTurns cap increase before closing any open PR as superseded. #44023 is the hinted representative but incomplete, #45871 covers more config/help surfaces, and #52400 adds tests but has broad churn, unresolved bot findings, and a failing check.

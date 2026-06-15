@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-14031-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25129092231"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25129092231"
+run_id: "25129087649"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25129087649"
 head_sha: "c6792f0250a6710fb4bca0bf6ba7777e5c4f0fbc"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T19:31:21.619Z"
-canonical: "https://github.com/openclaw/openclaw/pull/68554"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/70857"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/68554"
-actions_total: 7
+published_at: "2026-06-15T04:57:52.799Z"
+canonical: "https://github.com/openclaw/openclaw/pull/51553"
+canonical_issue: null
+canonical_pr: "https://github.com/openclaw/openclaw/pull/51553"
+actions_total: 6
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,28 +25,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25129092231](https://github.com/openclaw/clownfish/actions/runs/25129092231)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25129087649](https://github.com/openclaw/clownfish/actions/runs/25129087649)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/68554
+Canonical: https://github.com/openclaw/openclaw/pull/51553
 
 ## Summary
 
-Representative #46561 is already closed and fixed on current main. The hydrated open set is over-broad rather than duplicate-clean: #68554 is the clearest open canonical PR for the lock-held/skipCache reread latency subfamily, #70857 stays open against it, and #51553, #60595, #68036, and #45438 remain related but not safe to close from this dedupe-only job. No GitHub mutations were performed or recommended beyond non-mutating keep classifications.
+Closed representative #46561 is historical. The open cluster splits into separate session-store subfamilies: #51553 is the current open canonical for the updateLastRoute stale-cache read, #68554/#70857 are a related locked skipCache latency path, and #45438/#60595/#68036 are structuredClone/session-store clone work where merged #73737 supersedes only #60595. No GitHub mutation was performed by the worker.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 7 |
+| Worker actions | 6 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,19 +60,18 @@ Representative #46561 is already closed and fixed on current main. The hydrated 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #60595 | close_superseded | blocked | superseded | canonical is not listed in job refs |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46561 | keep_closed | skipped | fixed_by_candidate | Already closed in hydrated state; retained only to document that the representative is obsolete. |
-| #68554 | keep_canonical | planned | canonical | Best open canonical PR for the session-store lock-held/skipCache reread latency subfamily; not mergeable by this job because merge and fix actions are blocked. |
-| #70857 | keep_related | planned | related | Related issue should stay open until #68554 or an equivalent maintainer-owned fix lands and is validated. |
-| #51553 | keep_related | planned | related | Useful related PR with distinct scope; keep open for maintainer review instead of dedupe closure. |
-| #60595 | keep_related | planned | related | Related clone-performance PR; not safe to close as fixed or superseded from the hydrated evidence alone. |
-| #68036 | keep_related | planned | related | Related performance PR with unresolved bot findings and failing checks; keep open for normal maintainer review. |
-| #45438 | keep_related | planned | related | Related issue remains intentionally open after partial fix #73737; no close action is safe. |
+| #51553 | keep_canonical | planned | canonical | Best surviving open PR for the updateLastRoute stale-cache-read subfamily; keep open for maintainer review and validation. |
+| #60595 | close_superseded | planned | superseded | #60595's useful session-store clone optimization is covered by the merged #73737 path, so the open PR can be closed as superseded with contributor credit preserved. |
+| #68036 | keep_related | planned | related | Related session-store clone/performance work with unique API and unresolved review/check signals; leave open rather than dedupe-close. |
+| #68554 | keep_related | planned | related | Related but distinct locked-reread latency subfamily; keep open for maintainer review rather than close or merge in this dedupe-only job. |
+| #45438 | keep_related | planned | related | Related issue remains intentionally open with unique remaining work after #73737; do not close as fixed by the session-store-only landed PR. |
+| #70857 | keep_related | planned | fixed_by_candidate | The issue is covered by the open #68554 candidate path, but the candidate is not merged; keep the issue open rather than closing ahead of the fix. |
 
 ## Needs Human
 

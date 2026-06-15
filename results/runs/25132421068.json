@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2203-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25132421068",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25132421068",
+  "head_sha": "2a25e72cd9df0710ef893de8f25823a6a78be854",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T20:34:41Z",
+  "workflow_updated_at": "2026-04-29T20:40:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2203-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.946Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/65636",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/65636",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/66023",
+  "summary": "Classified the open candidates from the hydrated preflight artifact. The closed representative #65669 is historical; the custom-job-ID family should stay centered on open issue #65636 with #66023 as the editable but not merge-ready implementation lane. Planned closeouts only for open issues clearly covered by hydrated candidate fixes: #50982 by merged #73379 and #59441 by active scoped PR #70046. No merge or fix actions are emitted.",
+  "actions": [
+    {
+      "target": "#40218",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65636",
+      "candidate_fix": "#66023",
+      "reason": "Same custom-job-ID feature family, but keep open for credit and review history; do not close a useful contributor PR while the canonical implementation lane is still under repair."
+    },
+    {
+      "target": "#42327",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42327",
+      "candidate_fix": null,
+      "reason": "Related cron CLI ID work, but not a duplicate of the custom job ID creation feature and not safe to merge in this dedupe-only job."
+    },
+    {
+      "target": "#50982",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73379",
+      "candidate_fix": "#73379",
+      "reason": "The open issue is covered by a hydrated merged PR on the same thread-id feature path, so closeout can be replayed safely if the applicator re-fetch confirms the issue is unchanged."
+    },
+    {
+      "target": "#59441",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#70046",
+      "candidate_fix": "#70046",
+      "reason": "The issue has no unique remaining scope beyond hydrated candidate PR #70046, and require_fix_before_close is false for this dedupe job."
+    },
+    {
+      "target": "#65636",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65636",
+      "candidate_fix": "#66023",
+      "reason": "This is the clearest open canonical issue for the obsolete #65669 representative and should stay open until #66023 or an equivalent fix lands."
+    },
+    {
+      "target": "#66023",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65636",
+      "candidate_fix": "#66023",
+      "reason": "Best current implementation lane for the custom-job-ID family, but merge and fixed-by-candidate closeout are blocked by review findings and failing checks."
+    },
+    {
+      "target": "#69975",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69975",
+      "candidate_fix": null,
+      "reason": "Related cron CLI UX work with actionable review feedback; keep open and do not merge or close in this cluster."
+    },
+    {
+      "target": "#70046",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#70046",
+      "candidate_fix": "#70046",
+      "reason": "Keep the candidate PR open as the validation and implementation path for #59441; no merge action is allowed by this job."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "close_fixed_by_candidate": 2,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 2
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#50982",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73379",
+      "candidate_fix": "#73379",
+      "title": null,
+      "idempotency_key": "gitcrawl-2203-dedupe-only-20260429-remote:#50982:close_fixed_by_candidate:#73379",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "canonical is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#59441",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#70046",
+      "candidate_fix": "#70046",
+      "title": null,
+      "idempotency_key": "gitcrawl-2203-dedupe-only-20260429-remote:#59441:close_fixed_by_candidate:#70046",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "target changed since worker review",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": "closed",
+      "live_updated_at": "2026-04-29T20:39:53Z"
+    }
+  ]
+}

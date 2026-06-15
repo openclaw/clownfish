@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238853-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104015172"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104015172"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107739989"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107739989"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.396Z"
+published_at: "2026-06-15T04:57:52.658Z"
 canonical: "https://github.com/openclaw/openclaw/issues/61653"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/61653"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104015172](https://github.com/openclaw/clownfish/actions/runs/25104015172)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107739989](https://github.com/openclaw/clownfish/actions/runs/25107739989)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/61653
 
 ## Summary
 
-All hydrated refs are already closed in the preflight artifact. No close, label, merge, fix, or PR action is valid for this run. The representative #61667 is no longer the live canonical; it was closed as a duplicate of hydrated issue #61653, which carries the implemented closeout for the exact-command-hash allow-always bug. Security-sensitive #59708 is quarantined only.
+All hydrated refs in this cluster are already closed in the provided live preflight artifact, so no close/comment/label/merge/fix mutation is planned. The security-sensitive closed ref is quarantined non-mutatingly, and the remaining closed refs are recorded as skipped historical context.
 
 ## Impact
 
@@ -66,12 +66,12 @@ All hydrated refs are already closed in the preflight artifact. No close, label,
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #59708 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish dedupe mutation scope. |
-| #61233 | keep_closed | skipped | duplicate | Already closed duplicate; closed refs must not receive close actions. |
-| #61451 | keep_closed | skipped | related | Related closed context only; no live ProjectClownfish mutation is valid. |
-| #61647 | keep_closed | skipped | duplicate | Already closed duplicate context; no closure action allowed. |
-| #61653 | keep_closed | skipped | canonical | Canonical issue is already closed as implemented; no mutation is valid. |
-| #61667 | keep_closed | skipped | duplicate | Representative is obsolete and already closed as duplicate of hydrated canonical #61653. |
+| #59708 | route_security | planned | security_sensitive | Closed security-sensitive item is out of scope for backlog cleanup and should be routed to central OpenClaw security handling without mutating it. |
+| #61233 | keep_closed | skipped | duplicate | Already closed before this run; no GitHub mutation is permitted or needed. |
+| #61451 | keep_closed | skipped | related | Related closed issue, not an open duplicate target for this run. |
+| #61647 | keep_closed | skipped | duplicate | Already closed before this run; no GitHub mutation is permitted or needed. |
+| #61653 | keep_closed | skipped | canonical | Historical canonical issue is already closed as implemented; no further mutation is permitted or needed. |
+| #61667 | keep_closed | skipped | duplicate | Representative became obsolete because it was already closed as duplicate of #61653 before this run. |
 
 ## Needs Human
 

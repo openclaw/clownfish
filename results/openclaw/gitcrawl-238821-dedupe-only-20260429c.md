@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238821-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103966097"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103966097"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107699085"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107699085"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.383Z"
+published_at: "2026-06-15T04:57:52.645Z"
 canonical: "https://github.com/openclaw/openclaw/issues/57306"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/57306"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103966097](https://github.com/openclaw/clownfish/actions/runs/25103966097)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107699085](https://github.com/openclaw/clownfish/actions/runs/25107699085)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/57306
 
 ## Summary
 
-The live preflight artifact shows every job candidate is already closed. No GitHub mutation is safe or needed in this run; the canonical issue #57306 was already closed as implemented on current main, and the remaining cluster candidates were also already closed as implemented.
+Hydrated live state shows every seed ref in this dedupe-only cluster is already closed. #57306 remains the historical canonical representative for the sessions_spawn initial-model/live-switch family, but no close/comment/label mutation is valid or needed for closed targets.
 
 ## Impact
 
@@ -66,11 +66,11 @@ The live preflight artifact shows every job candidate is already closed. No GitH
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57306 | keep_closed | skipped | canonical | Representative canonical is no longer open; keep as historical canonical context only. |
-| #57900 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further action in this dedupe-only run. |
-| #58305 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further action in this dedupe-only run. |
-| #58539 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further action in this dedupe-only run. |
-| #65519 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further action in this dedupe-only run. |
+| #57306 | keep_closed | skipped | canonical | Already closed in hydrated GitHub state; closure actions are invalid for closed targets. |
+| #57900 | keep_closed | skipped | related | Already closed in hydrated GitHub state; no mutation is valid. Kept as related rather than duplicate because the rate-limit fallback path is a distinct scope. |
+| #58305 | keep_closed | skipped | duplicate | Already closed in hydrated GitHub state; closure actions are invalid for closed targets. |
+| #58539 | keep_closed | skipped | duplicate | Already closed in hydrated GitHub state; closure actions are invalid for closed targets. |
+| #65519 | keep_closed | skipped | related | Already closed in hydrated GitHub state; no mutation is valid. Kept as related rather than duplicate because the nested provider/model rewrite symptom is distinct. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238857-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104024390"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104024390"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107743587"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107743587"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.397Z"
+published_at: "2026-06-15T04:57:52.659Z"
 canonical: "https://github.com/openclaw/openclaw/pull/67023"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/67023"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104024390](https://github.com/openclaw/clownfish/actions/runs/25104024390)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107743587](https://github.com/openclaw/clownfish/actions/runs/25107743587)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/67023
 
 ## Summary
 
-Hydrated live state shows no open candidates remain. The original canonical hint #65654 is closed and non-actionable, while hydrated merged PR #67023 is the canonical fix path for the dreaming session leak reports that remain relevant. No GitHub mutations are planned because every target in the cluster is already closed.
+All job refs hydrated by the preflight artifact are already closed, so no close/comment/label mutation is valid. The live canonical hint #65654 is obsolete because its body is only `test`; the concrete resolved path for the memory-core dreaming session cleanup family is the already-merged #67023/current main.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Hydrated live state shows no open candidates remain. The original canonical hint
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65653 | keep_closed | skipped | fixed_by_candidate | Already closed in live hydrated state, so closure/comment/label mutations are invalid for this worker result. |
-| #65654 | keep_closed | skipped | independent | The canonical hint is obsolete because #65654 is closed and does not contain actionable duplicate evidence. |
-| #66358 | keep_closed | skipped | fixed_by_candidate | Already closed in live hydrated state and covered by the hydrated merged fix path #67023. |
-| #67023 | keep_closed | skipped | canonical | This is the best hydrated canonical fix path, but it is already merged and closed. |
-| #67611 | keep_closed | skipped | fixed_by_candidate | Already closed in live hydrated state; no further closeout is valid in this cluster run. |
+| #65653 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by the hydrated merged dreaming session cleanup path; no mutation planned. |
+| #65654 | keep_closed | skipped | independent | The representative is obsolete as a canonical issue because its live body has no actionable bug evidence. |
+| #66358 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the hydrated merged canonical PR #67023. |
+| #67611 | keep_closed | skipped | related | Already closed as implemented; related to the canonical cleanup family with no remaining mutation. |
+| #67023 | keep_closed | skipped | canonical | Already merged canonical fix path; no merge, post-merge close, or fix PR action is allowed or needed. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238883-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104069213"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104069213"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107784126"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107784126"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.406Z"
+published_at: "2026-06-15T04:57:52.668Z"
 canonical: "https://github.com/openclaw/openclaw/issues/50165"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/50165"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104069213](https://github.com/openclaw/clownfish/actions/runs/25104069213)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107784126](https://github.com/openclaw/clownfish/actions/runs/25107784126)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/50165
 
 ## Summary
 
-Kept #50165 as the live canonical issue. No close, merge, or fix actions are safe for this dedupe-only run: #44925 and #69767 have unique remaining scope, #68464 is an active related PR but is blocked by failing checks and unresolved bot review findings, and #43367 is a broader related orchestration issue.
+Autonomous dedupe-only pass found #50165 remains the best live canonical issue. #44925 and #69767 are related but retain unique retry, delivery, and payload-availability scopes, so no high-confidence duplicate closures are planned. Linked #68464 remains an active related PR but failing checks and unresolved Greptile/Codex P1 findings block fixed-by-candidate or merge treatment; #43367 is a broader related orchestration issue.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Kept #50165 as the live canonical issue. No close, merge, or fix actions are saf
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #50165 | keep_canonical | planned | canonical | The representative remains the best live canonical for the completion-state semantics family, but it should stay open for maintainer product/architecture follow-up. |
-| #44925 | keep_related | planned | related | Related to the canonical family, but not a true duplicate because it carries unique recovery and transport-delivery scope. |
-| #69767 | keep_related | planned | related | Related to #50165, but it has a narrower payload-durability failure and active PR context, so closing it as a duplicate would lose useful validation scope. |
-| #68464 | keep_related | planned | related | Active related implementation candidate, but not merge-ready and not closable/supersedable in this dedupe-only job. |
-| #43367 | keep_related | planned | related | Related follow-up cluster, not a duplicate target for this dedupe-only run. |
+| #50165 | keep_canonical | planned | canonical | #50165 is the best surviving canonical issue for the broad false-completion lifecycle semantics, and it must remain open. |
+| #44925 | keep_related | planned | related | Related subagent completion-recovery work with unique retry, timeout, and channel-delivery details; not a safe duplicate close. |
+| #69767 | keep_related | planned | related | Related payload-availability race. It should stay open until #68464 or a successor is validated; no close_fixed_by_candidate action is safe. |
+| #68464 | keep_related | planned | related | Active related implementation candidate, but not merge-ready and not safe as fixed-by-candidate evidence in this dedupe-only run. |
+| #43367 | keep_related | planned | related | Broader related follow-up cluster; keep open and do not fold it into #50165. |
 
 ## Needs Human
 

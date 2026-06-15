@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238834-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103983201"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103983201"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107715988"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107715988"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.390Z"
+published_at: "2026-06-15T04:57:52.652Z"
 canonical: "https://github.com/openclaw/openclaw/pull/39489"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/39489"
-actions_total: 9
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103983201](https://github.com/openclaw/clownfish/actions/runs/25103983201)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107715988](https://github.com/openclaw/clownfish/actions/runs/25107715988)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: https://github.com/openclaw/openclaw/pull/39489
 
 ## Summary
 
-Hydrated state shows no security-sensitive items. The original representative #41940 and overlapping #39487 are already closed as superseded by #39489, and #39489 is now the open canonical maintainer-repaired Feishu health-status branch. No merge, fix, or post-merge close is permitted by the job; #53533 and #43765 remain open as related useful but non-canonical work rather than cleanup-closeable duplicates.
+Chose #39489 as the current canonical Feishu health-monitor PR. The previous representative #41940 and overlapping #39487 are already closed, #53533 remains useful related work rather than cleanup-closeable, and linked broad PR #43765 is related but outside this narrow cluster.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 9 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,15 +66,11 @@ Hydrated state shows no security-sensitive items. The original representative #4
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #35532 | keep_closed | skipped | related | Already closed; no mutation is valid. |
-| #39486 | keep_closed | skipped | related | Already closed; no mutation is valid. |
-| #39487 | keep_closed | skipped | superseded | Already closed as superseded by the hydrated canonical PR #39489; do not emit another close action. |
-| #39488 | keep_closed | skipped | related | Already closed; no mutation is valid. |
-| #39489 | keep_canonical | planned | canonical | Best live canonical path, but this dedupe-only job cannot repair or merge it. |
-| #41940 | keep_closed | skipped | superseded | Already closed as superseded by hydrated canonical PR #39489; do not emit another close action. |
-| #43765 | keep_related | planned | related | Related but not a true duplicate or safe superseded close target for this dedupe-only cluster. |
-| #53533 | keep_related | planned | related | Related useful contributor work; not high-confidence duplicate/superseded closure while canonical #39489 is still open. |
-| #72411 | keep_closed | skipped | related | Already merged/closed related context; no mutation is valid. |
+| #39487 | keep_closed | skipped | superseded | Already closed as superseded by the current canonical PR #39489. |
+| #39489 | keep_canonical | planned | canonical | Best live canonical path, but not merge-ready and merge/fix actions are blocked by job frontmatter. |
+| #41940 | keep_closed | skipped | superseded | Former canonical hint is now closed and superseded by #39489. |
+| #53533 | keep_related | planned | related | Related Feishu health-state candidate, not a true duplicate or safe superseded close while the canonical PR remains open. |
+| #43765 | keep_related | planned | related | Broad related follow-up work, not cleanup-closeable in this cluster. |
 
 ## Needs Human
 

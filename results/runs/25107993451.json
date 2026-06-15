@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238872-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107993451",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107993451",
+  "head_sha": "3ec6a205eb986741424344762fbc94babbdc2937",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:09:37Z",
+  "workflow_updated_at": "2026-04-29T12:12:23Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238872-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.674Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/73186",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/73186",
+  "canonical_pr": null,
+  "summary": "Kept #73186 as the current open issue canonical for the cron announce reasoning leak. Both open PRs are useful overlapping fix candidates, but #40534 and #73363 need maintainer choice or reconciliation before any PR closeout or merge path; no close/comment/label mutations are planned.",
+  "actions": [
+    {
+      "target": "#73186",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73186",
+      "candidate_fix": null,
+      "reason": "This is the best live user-facing canonical thread for the still-open cron announce leak; keep it open until the chosen fix lands and duplicate-delivery scope is confirmed."
+    },
+    {
+      "target": "#40534",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#73186",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed to choose #40534, #73363, or a combined path; #40534 should not be closed or merged by this dedupe-only run."
+    },
+    {
+      "target": "#73363",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#73186",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed to choose #73363, #40534, or a combined path; #73363 should stay open for review rather than be closed or treated as merge-ready."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical PR path for the two useful overlapping fixes: #40534 has stricter end-to-end/error-recovery handling but needs rebase/adaptation, while #73363 is newer and includes Feishu delivery-picker coverage but still has failing checks, no post-fix-up review, and an unresolved reasoning-only fallback policy."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

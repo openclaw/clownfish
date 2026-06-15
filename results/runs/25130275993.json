@@ -1,0 +1,111 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1468-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25130275993",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25130275993",
+  "head_sha": "d8402244adeff9d7d53d01dc45e960e2851caca3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:47:28Z",
+  "workflow_updated_at": "2026-04-29T19:51:39Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1468-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.854Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/70479",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/70330",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/70479",
+  "summary": "Classified the live open items into related subfamilies. #70479 is the canonical PR candidate for the compaction/orphaned WebChat session path tracked by #70472, #70330 remains the canonical open issue for restart/reconnect-driven silent rotation, and no high-confidence close action is safe. The only unresolved maintainer decision is how to handle #68575 because it overlaps the same reset/overflow surface but has an unresolved P1 Codex review finding and conflicts with #70479's preserve-session direction.",
+  "actions": [
+    {
+      "target": "#67619",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#70479",
+      "candidate_fix": null,
+      "reason": "Closed representative is obsolete for live cleanup; keep it as historical evidence only."
+    },
+    {
+      "target": "#40125",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#70330",
+      "candidate_fix": null,
+      "reason": "Related follow-up enhancement with distinct scope; keep open rather than deduping into the WebChat rotation bug."
+    },
+    {
+      "target": "#59839",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#70330",
+      "candidate_fix": null,
+      "reason": "Same WebChat session-continuity family, but the explicit New session trigger is not a true duplicate of #70330 or #70472."
+    },
+    {
+      "target": "#68494",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#70479",
+      "candidate_fix": "#68575",
+      "reason": "Related but not duplicate: #68494 has Telegram-specific transport and recovery evidence, and its candidate PR #68575 is still unresolved."
+    },
+    {
+      "target": "#68575",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#70479",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether #68575 should be repaired as a Telegram-specific overflow-reset PR, superseded by #70479's preserve-session strategy, or replaced by a narrower follow-up."
+    },
+    {
+      "target": "#70330",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#70330",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open issue for restart/reconnect silent-rotation provenance; no hydrated fix PR currently owns this exact scope."
+    },
+    {
+      "target": "#70472",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#70479",
+      "candidate_fix": "#70479",
+      "reason": "Keep open while #70479 remains unmerged; do not close as fixed before the candidate lands or is otherwise resolved."
+    },
+    {
+      "target": "#70479",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#70479",
+      "candidate_fix": null,
+      "reason": "Canonical contributor PR for the #70472 compaction-failure WebChat orphaning path; keep open for maintainer review/landing rather than closing related issues now."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 4,
+    "needs_human": 1,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 6,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#68575 needs maintainer direction because it expands automatic session reset on the same overflow surface where #70479 preserves session mapping, and it has an unresolved P1 Codex review finding about mixed fallback failures causing avoidable session loss."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

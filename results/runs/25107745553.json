@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238861-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107745553",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107745553",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:03:56Z",
+  "workflow_updated_at": "2026-04-29T12:08:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238861-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.659Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73228",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/24693",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73228",
+  "summary": "The hydrated artifact shows the original representative #68667 is already closed and superseded by merged replacement PR #73228. Quarantine the closed security-sensitive issue #24693 to central security handling, keep closed historical refs as evidence only, and plan closure only for the remaining open draft PR #39046 as superseded by #73228.",
+  "actions": [
+    {
+      "target": "#24016",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related context only; no mutation planned."
+    },
+    {
+      "target": "#24693",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is quarantined to central security handling without mutating it."
+    },
+    {
+      "target": "#39046",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "reason": "The only open PR in the cluster is an obsolete draft covering the same root cause already merged through hydrated replacement PR #73228."
+    },
+    {
+      "target": "#68667",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "reason": "Closed source PR is already superseded by hydrated replacement PR #73228 with credit preserved."
+    },
+    {
+      "target": "#73228",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#73228",
+      "candidate_fix": null,
+      "reason": "Merged replacement PR is the canonical fixed path on current main."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#39046",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "title": null,
+      "idempotency_key": "gitcrawl-238861-dedupe-only-20260429c:#39046:close_superseded:#73228:2026-03-24T20:16:32Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "canonical is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

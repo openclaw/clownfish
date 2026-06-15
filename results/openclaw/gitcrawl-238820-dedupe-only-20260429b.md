@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238820-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103963894"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103963894"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107697160"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107697160"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.383Z"
+published_at: "2026-06-15T04:57:52.645Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72393"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72393"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103963894](https://github.com/openclaw/clownfish/actions/runs/25103963894)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107697160](https://github.com/openclaw/clownfish/actions/runs/25107697160)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72393
 
 ## Summary
 
-Hydrated state makes the original canonical hint #64661 obsolete because it is already closed. The merged maintainer replacement #72393 is the canonical landed fix for the core Windows exec/process CJK mojibake family. The only open cluster ref, #73751, should stay open as related follow-up work because it is maintainer/member-authored, covers additional TUI/QMD streaming surfaces, has failing checks, and has an unresolved Greptile P1 test finding. No close, label, merge, or fix action is planned.
+Live preflight shows representative #64661 is already closed. The current canonical landed path for this dedupe family is merged maintainer PR #72393 on main 579334f9f8a02d264c2a4d421ab94e37fb8b6244. #73751 remains a related open maintainer follow-up with unique remaining qmd/tui streaming coverage, failing checks, and an unresolved Greptile finding, so no close/comment/label mutation is safe or needed.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Hydrated state makes the original canonical hint #64661 obsolete because it is a
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #56538 | keep_closed | skipped | superseded | Already closed; leave historical superseded PR closed. |
-| #64661 | keep_closed | skipped | superseded | Canonical hint is stale; #64661 is a closed superseded contributor PR. |
-| #64709 | keep_closed | skipped | superseded | Already closed; leave historical superseded PR closed. |
-| #72393 | keep_closed | skipped | canonical | Merged canonical fix; no post-merge close action is allowed or needed for this closed PR. |
-| #73751 | keep_related | planned | related | Keep open for maintainer follow-up; it has unique follow-up scope and unresolved validation/review blockers. |
+| #56538 | keep_closed | skipped | superseded | Already closed; preserve as historical superseded contributor work and emit no mutation. |
+| #64661 | keep_closed | skipped | superseded | Already closed as superseded by the maintainer replacement path; no close/comment/label mutation should be emitted. |
+| #64709 | keep_closed | skipped | superseded | Already closed as superseded; keep it as historical evidence only. |
+| #72393 | keep_closed | skipped | canonical | This is the landed canonical fix for the closed duplicate/superseded PR family; it is already closed and merged, so no mutation is valid. |
+| #73751 | keep_related | planned | related | Keep open as related follow-up work; it is not a high-confidence duplicate of #72393 and is not safe to close. |
 
 ## Needs Human
 

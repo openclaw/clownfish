@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14052-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25129113375",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25129113375",
+  "head_sha": "c6792f0250a6710fb4bca0bf6ba7777e5c4f0fbc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:21:51Z",
+  "workflow_updated_at": "2026-04-29T19:29:09Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14052-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.826Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/54559",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54559",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/60248",
+  "summary": "Hydrated preflight shows no security-sensitive refs. The representative #52126 is already closed, so it is not a live canonical. The clearest live canonical path for the generic_repeat critical-threshold subfamily is open issue #54559 with open PR #60248 as the implementation candidate, but no merge or fixed-by closeout is allowed here because merge/fix actions are blocked and #60248 still has failing checks. The default-enable PRs and the update_plan churn PR are related but not safe duplicate/superseded closures.",
+  "actions": [
+    {
+      "target": "#52126",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Representative is obsolete as a live canonical because it is already closed."
+    },
+    {
+      "target": "#54559",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54559",
+      "candidate_fix": "#60248",
+      "reason": "Best live canonical issue for the generic_repeat critical-threshold subfamily."
+    },
+    {
+      "target": "#60248",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60248",
+      "candidate_fix": null,
+      "reason": "Canonical implementation candidate for #54559, but this dedupe-only job cannot merge or repair it."
+    },
+    {
+      "target": "#52759",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but not a high-confidence duplicate or superseded close target."
+    },
+    {
+      "target": "#56403",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related overlapping PR with unresolved review/check blockers and unique default-enable scope."
+    },
+    {
+      "target": "#62775",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad related PR, not a safe duplicate/superseded closure in this cluster."
+    },
+    {
+      "target": "#68673",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related loop-detection follow-up with distinct root cause and unresolved review comments."
+    },
+    {
+      "target": "#70877",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related default-enable PR; no high-confidence superseded close because canonical selection remains a maintainer decision."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer selection/scope split is still needed for the default-enable loop-detection PR family (#52759, #56403, #70877, and the loop-related portion of #62775).",
+    "#60248 is the clearest generic_repeat implementation candidate for #54559, but merge/fixed-by closeout is blocked by failing checks and this job explicitly blocks merge/fix/raise_pr actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

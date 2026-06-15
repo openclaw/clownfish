@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13639-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25109732554",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25109732554",
+  "head_sha": "7ac7590296085c93e29434b3af3e919aa257e029",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:48:09Z",
+  "workflow_updated_at": "2026-04-29T13:14:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13639-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.739Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/52449",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/52449",
+  "summary": "Closed representative #52063 is obsolete. Hydrated merged PR #52449 is the historical canonical for the closed general --json stdout-log family, but no open candidate safely replaces it for the whole cluster: #49085 and #68800 are related stdout-isolation subfamilies that should stay open, while #56176/#56102 are independent protocol-version work. No close/comment/label action is high-confidence for this run.",
+  "actions": [
+    {
+      "target": "#52449",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#52449",
+      "candidate_fix": null,
+      "reason": "Historical canonical is already merged/closed; keep only as context for the obsolete representative."
+    },
+    {
+      "target": "#49085",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52449",
+      "candidate_fix": null,
+      "reason": "Same stdout/JSON-RPC cleanliness family, but it has unique ACP CLI startup work not covered by merged #52449, so it should remain open."
+    },
+    {
+      "target": "#56102",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#56176",
+      "reason": "Different root cause and user-visible failure from the log-to-stderr dedupe cluster."
+    },
+    {
+      "target": "#56176",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#56102",
+      "candidate_fix": null,
+      "reason": "Independent protocol-version compatibility PR with unresolved validation/review blockers."
+    },
+    {
+      "target": "#68587",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68800",
+      "reason": "Related MCP stdout-isolation follow-up with an open candidate PR; keep open pending that path."
+    },
+    {
+      "target": "#68800",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but distinct MCP channel-server stdout-isolation candidate; keep open because the job disallows merge/fix and a review-bot test concern remains."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 3,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

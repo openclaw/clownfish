@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238868-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104035800"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104035800"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107753754"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107753754"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.399Z"
+published_at: "2026-06-15T04:57:52.661Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73976"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73976"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104035800](https://github.com/openclaw/clownfish/actions/runs/25104035800)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107753754](https://github.com/openclaw/clownfish/actions/runs/25107753754)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/73976
 
 ## Summary
 
-Hydrated state changes the canonical path from closed #39555 to open replacement PR #73976. #48112 is related memory hybrid fallback work with distinct scope and unresolved review/check gates, so no open ref is safe to close in this dedupe-only run.
+Canonical drift resolved without mutation: #39555 is already closed and has a hydrated replacement path in open PR #73976. #73976 remains the canonical repair PR for the per-keyword hybrid FTS bug; #48112 stays open as related but distinct hybrid fallback scoring work.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Hydrated state changes the canonical path from closed #39555 to open replacement
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39555 | keep_closed | skipped | superseded | Already closed in live state; closed refs must not receive close/comment mutations. |
-| #48112 | keep_related | planned | related | Same memory hybrid area, but materially different root cause and remaining work; not a true duplicate or safe superseded close. |
-| #73976 | keep_canonical | planned | canonical | Best current canonical path, but this dedupe-only job cannot merge or repair it and should keep it open for maintainer review. |
+| #39555 | keep_closed | skipped | superseded | The representative canonical hint is obsolete because #39555 is already closed; keep it as historical superseded evidence and use hydrated open replacement #73976 as the canonical path. |
+| #73976 | keep_canonical | planned | canonical | #73976 is the best live canonical path for the #39484/#39555 per-keyword hybrid FTS bug, but it is not merge-ready in this dedupe-only job. |
+| #48112 | keep_related | planned | related | #48112 belongs to the same hybrid memory-search family but is not the same root cause as #73976; keep it open as related follow-up work. |
 
 ## Needs Human
 

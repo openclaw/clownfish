@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238870-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107757999",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107757999",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:13Z",
+  "workflow_updated_at": "2026-04-29T12:08:23Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238870-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.661Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39923",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39923",
+  "canonical_pr": null,
+  "summary": "Classified the hydrated open items without mutating GitHub. #39923 is the best canonical issue for the datetime-suffix backup request, but the canonical PR choice remains ambiguous because #39982 and #40392 are parallel open implementations with unresolved review/product questions; no close, merge, label, or fix action is safe from this cluster result.",
+  "actions": [
+    {
+      "target": "#39923",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Canonical issue remains open until maintainers choose and land one datetime-suffix implementation, or explicitly decide to retain numeric rotation."
+    },
+    {
+      "target": "#39982",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required to choose whether #39982 should be the canonical implementation or be superseded by #40392 after review blockers are resolved."
+    },
+    {
+      "target": "#40392",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required to choose whether #40392 should be the canonical implementation or be superseded by #39982 after review blockers are resolved."
+    },
+    {
+      "target": "#20460",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Keep #20460 open as a related broader config-backup ergonomics request, not a duplicate of the narrower datetime-suffix rotation issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical implementation path for #39923 between #39982 and #40392, including timestamp precision, collision handling, pruning order, and legacy `.bak.N` migration policy. Until that decision is made, neither PR is safe to close as superseded or use as a candidate fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

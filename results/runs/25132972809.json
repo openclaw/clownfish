@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2347-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25132972809",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25132972809",
+  "head_sha": "e5e8212693f31b1f59eff0d60675a97be8c33e90",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T20:46:32Z",
+  "workflow_updated_at": "2026-04-29T20:48:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2347-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.967Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39923",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39923",
+  "canonical_pr": null,
+  "summary": "Canonical issue #39923 is still the live datetime-suffix backup request. The two open PRs, #39982 and #40392, are overlapping implementation candidates touching the same config backup files; choosing or repairing one is a maintainer decision because #39982 has a failing check in the hydrated artifact and #40392 has unresolved bot review concerns about migration-time data loss/collision behavior. No close, merge, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#39923",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Keep the issue open as the canonical tracking thread until maintainers choose and land one implementation or decide to keep numeric rotation."
+    },
+    {
+      "target": "#39982",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision on whether #39982 should be the canonical implementation, and it cannot be closed or merged in this dedupe-only job."
+    },
+    {
+      "target": "#40392",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision on whether #40392 is the canonical implementation or should be superseded after a chosen fix path exists."
+    },
+    {
+      "target": "#20460",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39923",
+      "candidate_fix": null,
+      "reason": "Related follow-up scope, not a duplicate of the narrower datetime suffix cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical implementation path for #39923 between #39982 and #40392, or direct a combined repair. The hydrated artifact shows two overlapping open PRs against the same backup rotation files; #39982 has a failing `check` job and #40392 has unresolved bot review concerns about legacy backup retention and collision behavior."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

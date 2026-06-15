@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238799-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103812418"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103812418"
-head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
+run_id: "25107662020"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107662020"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.372Z"
+published_at: "2026-06-15T04:57:52.634Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72658"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/37706"
+canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72658"
 actions_total: 9
 fix_executed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103812418](https://github.com/openclaw/clownfish/actions/runs/25103812418)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107662020](https://github.com/openclaw/clownfish/actions/runs/25107662020)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72658
 
 ## Summary
 
-Hydrated preflight shows the representative #49767 and every job candidate are already closed. The current canonical path is the already-merged replacement PR #72658 on main, so this run plans no comments, labels, closes, merges, or fixes.
+All seed PRs are already closed in the hydrated preflight state. The representative #49767 is obsolete; the hydrated replacement #72658 is merged on main and is the canonical fix path, so no close, label, merge, or fix action is planned.
 
 ## Impact
 
@@ -66,15 +66,15 @@ Hydrated preflight shows the representative #49767 and every job candidate are a
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #37706 | keep_closed | skipped | fixed_by_candidate | Already closed before this run; no mutation is valid. |
-| #44256 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #49761 | keep_closed | skipped | duplicate | Already closed as a duplicate/follow-up of the same bug family; no additional action is valid. |
-| #49767 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #50144 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #50394 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #50801 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #58867 | keep_closed | skipped | superseded | Already closed as superseded by the landed replacement #72658. |
-| #72658 | keep_closed | skipped | canonical | Canonical fix is already merged; merge and post-merge close actions are not needed and are disabled by the job. |
+| #37706 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by the landed canonical fix #72658. |
+| #44256 | keep_closed | skipped | superseded | Already closed as superseded by the hydrated replacement fix #72658. |
+| #49761 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by the landed canonical fix #72658. |
+| #49767 | keep_closed | skipped | superseded | Representative PR is obsolete and already closed as superseded by #72658. |
+| #50144 | keep_closed | skipped | superseded | Already closed as superseded by #72658. |
+| #50394 | keep_closed | skipped | superseded | Already closed as superseded by #72658. |
+| #50801 | keep_closed | skipped | superseded | Already closed as superseded by #72658. |
+| #58867 | keep_closed | skipped | superseded | Already closed as superseded by #72658. |
+| #72658 | keep_closed | skipped | canonical | Merged canonical replacement already landed on main; no mutation is needed. |
 
 ## Needs Human
 

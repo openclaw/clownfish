@@ -1,0 +1,69 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2275-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25132454647",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25132454647",
+  "head_sha": "8b6ee7ffa77533bbae10cb97289fd78b142edfab",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T20:35:24Z",
+  "workflow_updated_at": "2026-04-29T20:37:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2275-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.957Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/56726",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/56635",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/56726",
+  "summary": "Hydrated preflight shows #56635 is the open root issue and #56726 remains the narrowest live canonical PR for the Gmail watcher --exclude-labels regression. No close actions are planned because #56720 and #56736 overlap the same bug but carry broader config/test scope that is not a high-confidence duplicate closeout in this dedupe-only job.",
+  "actions": [
+    {
+      "target": "#56635",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#56635",
+      "candidate_fix": "#56726",
+      "reason": "Root bug report remains the canonical issue; it should not be closed before a fix lands."
+    },
+    {
+      "target": "#56726",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#56726",
+      "candidate_fix": "#56726",
+      "reason": "#56726 remains the best canonical PR for dedupe purposes: it is focused, matches the original regression, and has no unresolved hydrated review comments."
+    },
+    {
+      "target": "#56720",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#56726",
+      "candidate_fix": null,
+      "reason": "Related implementation of the same regression, but not a high-confidence closeout target because it has unique config/test scope and failing checks."
+    },
+    {
+      "target": "#56736",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#56726",
+      "candidate_fix": null,
+      "reason": "Related broader implementation of the same bug; not closed because it carries unique config behavior outside the canonical one-line restore."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

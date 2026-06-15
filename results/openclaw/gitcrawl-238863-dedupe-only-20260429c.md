@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238863-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104028983"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104028983"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107747621"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107747621"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.398Z"
+published_at: "2026-06-15T04:57:52.660Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73972"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/38806"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73972"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104028983](https://github.com/openclaw/clownfish/actions/runs/25104028983)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107747621](https://github.com/openclaw/clownfish/actions/runs/25107747621)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/73972
 
 ## Summary
 
-Canonical path is open PR #73972, the hydrated replacement for closed source PR #38808 and the active fix path for #38806. No merge or fix PR is planned because this job blocks merge/fix/raise_pr; #74001 is routed to security because its hydrated Aisle comment contains a security-shaped finding; #66631 is related Feishu topic-thread work but out of scope.
+Representative #38808 is already closed. The current canonical path is open replacement PR #73972 for issue #38806. #74001 overlaps the same fix family but has a security-shaped Aisle DoS finding, so it is routed to central security handling instead of dedupe closeout. #66631 is related Feishu threading work but a different topic-group root-resolution bug.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Canonical path is open PR #73972, the hydrated replacement for closed source PR 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #73972 | keep_canonical | planned | canonical | Best live canonical PR for this cluster; keep open for the guarded merge path outside this dedupe-only job. |
-| #38808 | keep_closed | skipped | superseded | Already closed refs must not receive close actions; #73972 is the explicit replacement path. |
-| #74001 | route_security | planned | security_sensitive | Security-shaped bot finding requires central OpenClaw security triage for this exact PR before ordinary dedupe closure. |
-| #38806 | keep_related | planned | fixed_by_candidate | Keep the issue open until the canonical fix PR lands; no post-merge close action is allowed in this job. |
-| #66631 | keep_related | planned | related | Same Feishu reply area, but different root cause and scope; keep as related follow-up work. |
+| #38808 | keep_closed | skipped | superseded | Already-closed primary candidate; no closure mutation is valid. Replacement #73972 is the surviving canonical path. |
+| #73972 | keep_canonical | planned | canonical | Best surviving canonical PR for the P2P direct-message thread reply regression. Merge is not emitted because this job blocks merge actions. |
+| #74001 | route_security | planned | security_sensitive | Security-shaped review finding requires central security handling for this exact PR, so dedupe closeout is not safe in this worker result. |
+| #38806 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical open PR path but must remain open until a fix lands. |
+| #66631 | keep_related | planned | related | Related Feishu threading area, but different root cause and scope from the P2P direct-message thread regression handled by #73972. |
 
 ## Needs Human
 

@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238895-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25108037759",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25108037759",
+  "head_sha": "3ec6a205eb986741424344762fbc94babbdc2937",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:10:35Z",
+  "workflow_updated_at": "2026-04-29T12:16:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238895-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.682Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/47613",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/47613",
+  "summary": "Canonical non-security path is #47613: it is the narrow focused PR for the gateway/WebSocket no-callback reasoning stream gap. #52642 and #61469 are not safe dedupe closeouts in this run because hydrated review comments raise auth/trust-boundary or hidden-reasoning exposure concerns; those exact PRs are routed to central security handling, while #47613 remains open for maintainer review.",
+  "actions": [
+    {
+      "target": "#47613",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#47613",
+      "candidate_fix": null,
+      "reason": "Best surviving focused PR for the non-security gateway/WebSocket no-callback reasoning-stream gap; merge and fix actions are blocked by the job, so keep it open as canonical."
+    },
+    {
+      "target": "#52642",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated review comments raise auth/trust-boundary regressions in this candidate branch. Quarantine this exact PR for central OpenClaw security handling; do not close, label, comment, merge, or use it as the dedupe canonical."
+    },
+    {
+      "target": "#61469",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated review comments raise hidden/suppressed reasoning exposure concerns in this candidate branch. Quarantine this exact PR for central OpenClaw security handling instead of closing it as a duplicate or superseded PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

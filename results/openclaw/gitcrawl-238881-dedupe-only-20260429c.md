@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238881-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104064477"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104064477"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108011880"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108011880"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.406Z"
+published_at: "2026-06-15T04:57:52.679Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73799"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/54176"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73799"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104064477](https://github.com/openclaw/clownfish/actions/runs/25104064477)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108011880](https://github.com/openclaw/clownfish/actions/runs/25108011880)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/73799
 
 ## Summary
 
-Hydrated state makes #73799 the current canonical open PR for the legacy .doc/OLE binary MIME guard. #54380 and #44068 are already closed or superseded, #54176 remains open until the canonical fix lands, and security-linked #9795 is quarantined without blocking the non-security classification. No close, merge, or fix mutations are emitted.
+Hydrated preflight state shows #73799 is the only open canonical PR for the legacy Word/OLE binary MIME guard. The original representative #54380 and source PR #44068 are already closed as superseded, #54176 should remain open until the canonical fix lands, and the security-sensitive linked context #9795 is quarantined separately. No close, merge, or fix PR mutation is planned.
 
 ## Impact
 
@@ -66,14 +66,14 @@ Hydrated state makes #73799 the current canonical open PR for the legacy .doc/OL
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #9795 | route_security | planned | security_sensitive | Security-sensitive sanitizer report is outside Clownfish dedupe closeout and should route to central OpenClaw security handling. |
-| #44068 | keep_closed | skipped | superseded | Already closed; closed refs are evidence only and must not receive another close action. |
-| #54176 | keep_canonical | planned | canonical | Canonical bug issue should remain open until #73799 or an equivalent fix lands. |
-| #54190 | keep_closed | skipped | superseded | Already closed as superseded; no mutation is valid for this closed ref. |
-| #54234 | keep_closed | skipped | superseded | Historical closed PR in the same fix family; no close action is valid. |
-| #54380 | keep_closed | skipped | superseded | Representative is obsolete because it was replaced by #73799. |
-| #73229 | keep_closed | skipped | independent | Independent closed sanitizer PR outside this legacy Word/OLE dedupe family. |
-| #73799 | keep_canonical | planned | canonical | Current canonical open PR; keep it open for maintainer or applicator follow-up rather than closing or merging in this dedupe-only job. |
+| #9795 | route_security | planned | security_sensitive | Security-sensitive linked context is outside ProjectClownfish dedupe cleanup and should remain routed to central OpenClaw security handling. |
+| #73799 | keep_canonical | planned | canonical | #73799 is the best current canonical path, but this dedupe-only job must not merge or raise/fix PRs. |
+| #54176 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical candidate PR but should remain open until #73799 or an equivalent fix lands. |
+| #44068 | keep_closed | skipped | superseded | Already closed PR; no close action is valid or needed. |
+| #54380 | keep_closed | skipped | superseded | Canonical hint is obsolete because #54380 was replaced by the open #73799 path. |
+| #54190 | keep_closed | skipped | superseded | Closed historical source PR in the same fix family; no mutation is valid. |
+| #54234 | keep_closed | skipped | superseded | Closed historical source PR in the same fix family; no mutation is valid. |
+| #73229 | keep_closed | skipped | independent | Closed independent sanitizer context; it should not affect the legacy Word/OLE dedupe decisions. |
 
 ## Needs Human
 

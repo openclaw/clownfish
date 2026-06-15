@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3393-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25135571598",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25135571598",
+  "head_sha": "f12a87189d5d814fe7dfd1bed3ac0e65f75e8fe3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T21:46:16Z",
+  "workflow_updated_at": "2026-04-29T21:49:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3393-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:53.021Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/63321",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63321",
+  "summary": "Using the hydrated preflight artifact as live state, #63321 remains the best open canonical PR for the Tailscale JSON parsing family, but it is not merge-ready because Codex/ClawSweeper review identified unresolved semantic regressions. #58309 is quarantined only for its security-shaped device-identity key-material review signal; that does not block classification of the rest of the cluster. #58940 and #64630 are separate Tailscale/logging work, and the closed context PRs are left closed with no mutation.",
+  "actions": [
+    {
+      "target": "#46578",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation planned."
+    },
+    {
+      "target": "#58309",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine #58309 only because the hydrated review comments introduce key-material handling concerns outside ordinary dedupe cleanup; continue with the non-security Tailscale JSON parsing cluster."
+    },
+    {
+      "target": "#58940",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate of the JSON parsing cluster; it should remain open or be handled in its own process-lifecycle cluster."
+    },
+    {
+      "target": "#63321",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63321",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and should stay open, but allowed_actions excludes merge/fix/raise_pr and unresolved review findings block any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#63322",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation planned."
+    },
+    {
+      "target": "#64630",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked-only context from an adjacent logging cleanup; keep it out of this dedupe cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1,
+    "keep_independent": 2,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

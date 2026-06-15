@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238836-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103987778"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103987778"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107720391"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107720391"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.391Z"
-canonical: "https://github.com/openclaw/openclaw/pull/40423"
-canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/40423"
+published_at: "2026-06-15T04:57:52.653Z"
+canonical: "https://github.com/openclaw/openclaw/issues/66705"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/66705"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/73349"
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103987778](https://github.com/openclaw/clownfish/actions/runs/25103987778)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107720391](https://github.com/openclaw/clownfish/actions/runs/25107720391)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/40423
+Canonical: https://github.com/openclaw/openclaw/issues/66705
 
 ## Summary
 
-Representative #40423 remains the broad canonical PR for the runtime marker family. No close actions are safe: #72980 and #73349 are useful overlapping exec-focused PRs with different scope/semantics, #73349 has failing checks, and bot review comments remain unresolved. #68859 is already closed and should not receive a closure action.
+Hydrated state shows #66705 is the live exec-environment issue and #73349 is the best current focused PR candidate. The original representative #40423 remains useful but is broader runtime work with unique ACP/TUI scope, so it should stay open as related. #72980 is a useful session-key-only PR and should also stay open; #68859 is already closed. No close, merge, or fix action is high-confidence for this job.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Representative #40423 remains the broad canonical PR for the runtime marker fami
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #40423 | keep_canonical | planned | canonical | Open broad canonical PR remains useful but cannot be merged or used to close related items in this dedupe-only job. |
-| #66705 | keep_related | planned | related | Same feature family as #40423, but it is the open exec-specific tracking issue and should remain open until a fix lands. |
-| #68859 | keep_closed | skipped | superseded | Already closed; record as historical superseded context only. |
-| #72980 | keep_related | planned | related | Useful focused PR with distinct scope and semantics; keep open as related rather than closing as superseded. |
-| #73349 | keep_related | planned | related | Focused exec candidate remains useful but failing checks and unresolved bot comments block any fixed-by-candidate closeout or merge recommendation. |
+| #66705 | keep_canonical | planned | canonical | Keep #66705 as the canonical exec-environment issue while #73349 remains the focused implementation candidate. |
+| #73349 | keep_canonical | planned | canonical | Best current focused PR candidate for #66705, but not merge-ready in this dedupe-only job because checks and review-comment evidence remain unresolved. |
+| #40423 | keep_related | planned | related | Do not close #40423 as duplicate or superseded; it has broader unique ACP/TUI scope and useful contributor work. |
+| #72980 | keep_related | planned | related | Keep as related useful session-key-only contributor work until maintainers choose the final implementation path or a clean canonical PR lands. |
+| #68859 | keep_closed | skipped | superseded | Already closed; retain only as historical superseded context. |
 
 ## Needs Human
 

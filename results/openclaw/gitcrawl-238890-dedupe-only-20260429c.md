@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238890-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104085192"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104085192"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108027189"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108027189"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.413Z"
+published_at: "2026-06-15T04:57:52.681Z"
 canonical: "https://github.com/openclaw/openclaw/pull/45912"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/45912"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104085192](https://github.com/openclaw/clownfish/actions/runs/25104085192)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108027189](https://github.com/openclaw/clownfish/actions/runs/25108027189)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/45912
 
 ## Summary
 
-Kept #45912 as the current open canonical PR for the configured-root skills symlink family. No close actions are planned because #45912 still has an unresolved Codex review blocker, #59688 contains useful overlapping contributor work with failing checks, and #63312 is a related but distinct user-managed .agents/skills policy change.
+Classified #45912 as the current canonical PR for the configured-root skill symlink family. No close/comment/label mutation is planned: #45912 is useful but not merge-ready because of an unresolved Codex bundled-skill allowlist finding, #59688 overlaps but has failing/cancelled checks, and #63312 is related but covers a distinct user-managed .agents/skills symlink policy question. Linked #44051 stays open as the source bug, #46690 is independent product follow-up, and closed #61585 remains historical evidence only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Kept #45912 as the current open canonical PR for the configured-root skills syml
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45912 | keep_canonical | planned | canonical | Best live canonical for this dedupe cluster, but not merge-ready and merge/fix actions are blocked by the job. |
-| #59688 | keep_related | planned | related | Related overlapping contributor PR; keep open rather than close as duplicate or superseded. |
-| #63312 | keep_related | planned | related | Related same skills realpath family, but not a true duplicate of the configured-root canonical PR. |
-| #44051 | keep_related | planned | related | Same root-cause family as the canonical PR, but the issue should remain open until the canonical fix is repaired and landed. |
-| #46690 | keep_related | planned | related | Related skills-root area, but not a duplicate or closeout target for this cluster. |
-| #61585 | keep_closed | skipped | fixed_by_candidate | Already closed; included only to record that it is not a live mutation target. |
+| #45912 | keep_canonical | planned | canonical | Best live canonical for the configured-root symlink gap, but this dedupe-only job cannot merge or repair it and the unresolved bot finding blocks any merge recommendation. |
+| #59688 | keep_related | planned | related | Related overlapping PR that should remain open for consolidation or credit; not a high-confidence close target. |
+| #63312 | keep_related | planned | related | Related but distinct PR; keep open rather than closing or treating it as covered by #45912. |
+| #44051 | keep_related | planned | related | Source issue for the same family; keep open until a canonical fix lands and post-merge closeout is allowed. |
+| #46690 | keep_independent | planned | independent | Independent follow-up outside this dedupe cluster; leave open. |
+| #61585 | keep_closed | skipped | related | Already closed related context; no action. |
 
 ## Needs Human
 

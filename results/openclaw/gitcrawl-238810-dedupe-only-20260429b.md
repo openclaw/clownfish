@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238810-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103904523"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103904523"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107679279"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107679279"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.376Z"
-canonical: "https://github.com/openclaw/openclaw/pull/72391"
+published_at: "2026-06-15T04:57:52.638Z"
+canonical: "https://github.com/openclaw/openclaw/tree/579334f9f8a02d264c2a4d421ab94e37fb8b6244"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/72391"
+canonical_pr: null
 actions_total: 11
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103904523](https://github.com/openclaw/clownfish/actions/runs/25103904523)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107679279](https://github.com/openclaw/clownfish/actions/runs/25107679279)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/72391
+Canonical: https://github.com/openclaw/openclaw/tree/579334f9f8a02d264c2a4d421ab94e37fb8b6244
 
 ## Summary
 
-Representative #46069 is obsolete in live preflight: it is closed, and the memory-lancedb Ollama/base64 dimension-mismatch path is now carried on main via the replacement fix #72391. No open candidate is a high-confidence duplicate to close: #41670, #43910, and #69707 are related provider-compatibility work with distinct remaining scope, while #59130/#59141 are an independent recency/provenance subcluster. Closed refs remain historical evidence only.
+Representative #46069 is obsolete because it is already closed. The memory-lancedb float/dimension family is now fixed on current main; the remaining open hydrated refs are related or independent follow-up work and should stay open. No close, merge, or fix mutation is safe or needed for this dedupe-only run.
 
 ## Impact
 
@@ -66,17 +66,17 @@ Representative #46069 is obsolete in live preflight: it is closed, and the memor
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41670 | keep_related | planned | related | Related encoding_format provider compatibility PR; keep open outside the memory-lancedb landed-fix closeout. |
-| #42531 | keep_closed | skipped | fixed_by_candidate | Already closed; no close/comment mutation is valid for this ref. |
-| #45986 | keep_closed | skipped | superseded | Already closed as superseded by the cleaner scoped PR; no action remains. |
-| #46069 | keep_closed | skipped | superseded | Representative is obsolete and already closed; use current main/#72391 as the canonical path, but do not mutate this closed PR. |
-| #59141 | keep_independent | planned | independent | Different root cause and unresolved review feedback; keep open as an independent recency subcluster. |
-| #43910 | keep_related | planned | related | Related but broader feature/config work; not a high-confidence duplicate close. |
-| #45982 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on main; no mutation is valid. |
-| #59048 | keep_closed | skipped | superseded | Already closed by replacement path; no action remains. |
-| #59130 | keep_independent | planned | independent | Different product bug; keep open as the issue for the recency subcluster. |
-| #63655 | keep_closed | skipped | fixed_by_candidate | Already fixed and closed; no mutation is valid. |
-| #69707 | keep_related | planned | related | Related dimensions-forwarding follow-up; keep open rather than close or merge. |
+| #41670 | keep_related | planned | related | Keep open as related provider-compatibility work; no duplicate closeout is justified. |
+| #42531 | keep_closed | skipped | fixed_by_candidate | Already closed; no mutation may be planned for this target. |
+| #43910 | keep_related | planned | related | Keep open as related broader feature work; it is not a duplicate closeout candidate. |
+| #45982 | keep_closed | skipped | fixed_by_candidate | Already closed; #72391 was mentioned in comments but not hydrated, so it remains evidence only. |
+| #45986 | keep_closed | skipped | superseded | Already closed; no close action may be emitted. |
+| #46069 | keep_closed | skipped | superseded | Representative is obsolete and already closed. |
+| #59048 | keep_closed | skipped | fixed_by_candidate | Already closed after credited replacement; no mutation may be planned. |
+| #59130 | keep_independent | planned | independent | Different root cause and user-visible failure; keep open outside this dedupe cluster. |
+| #59141 | keep_independent | planned | independent | Keep open as an independent PR with its own review blockers. |
+| #63655 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on main; no action required. |
+| #69707 | keep_related | planned | related | Keep open as related follow-up work; no closeout is justified. |
 
 ## Needs Human
 

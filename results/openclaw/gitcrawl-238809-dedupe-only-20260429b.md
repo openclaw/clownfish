@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238809-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103902622"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103902622"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107677207"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107677207"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.375Z"
+published_at: "2026-06-15T04:57:52.637Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73923"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/41545"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73923"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103902622](https://github.com/openclaw/clownfish/actions/runs/25103902622)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107677207](https://github.com/openclaw/clownfish/actions/runs/25107677207)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/73923
 
 ## Summary
 
-Hydrated state shows the original canonical hint #41546 and overlapping PRs #41552, #41718, and #42001 are already closed as superseded. The surviving canonical path is open issue #41545 with open PR #73923 as the canonical fix candidate; no new close/comment/label mutations are planned for this dedupe-only run.
+Hydrated state shows the original representative #41546 is already closed and superseded. The current canonical path is open PR #73923 for open issue #41545. No new close/comment/label actions are needed because #41546, #41552, #41718, and #42001 are already closed, merge/fix/post-merge closeout are disabled, and #73923 remains the live canonical fix path with green checks.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Hydrated state shows the original canonical hint #41546 and overlapping PRs #415
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41545 | keep_canonical | planned | canonical | Keep the root bug issue open as the canonical issue while #73923 owns fix validation. |
-| #41546 | keep_closed | skipped | superseded | Already closed as superseded by the current canonical PR #73923. |
-| #41552 | keep_closed | skipped | superseded | Already closed as superseded by the current canonical PR #73923. |
-| #41718 | keep_closed | skipped | superseded | Already closed as superseded by the current canonical PR #73923. |
-| #42001 | keep_closed | skipped | superseded | Already closed as superseded by replacement PR #73923 with contributor credit preserved. |
-| #73923 | keep_canonical | planned | canonical | Open canonical fix PR remains the best surviving path; no mutation is needed from this dedupe-only worker. |
+| #41545 | keep_canonical | planned | canonical | Keep the root bug issue open until the canonical fix lands. |
+| #73923 | keep_canonical | planned | canonical | #73923 is the current canonical PR, but this worker may only keep it open for review because merge is blocked by job policy. |
+| #41546 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #41552 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #41718 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #42001 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
 
 ## Needs Human
 

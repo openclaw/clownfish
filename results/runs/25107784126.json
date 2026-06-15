@@ -1,0 +1,78 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238883-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107784126",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107784126",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:48Z",
+  "workflow_updated_at": "2026-04-29T12:08:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238883-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.668Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/50165",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/50165",
+  "canonical_pr": null,
+  "summary": "Autonomous dedupe-only pass found #50165 remains the best live canonical issue. #44925 and #69767 are related but retain unique retry, delivery, and payload-availability scopes, so no high-confidence duplicate closures are planned. Linked #68464 remains an active related PR but failing checks and unresolved Greptile/Codex P1 findings block fixed-by-candidate or merge treatment; #43367 is a broader related orchestration issue.",
+  "actions": [
+    {
+      "target": "#50165",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50165",
+      "candidate_fix": null,
+      "reason": "#50165 is the best surviving canonical issue for the broad false-completion lifecycle semantics, and it must remain open."
+    },
+    {
+      "target": "#44925",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50165",
+      "candidate_fix": null,
+      "reason": "Related subagent completion-recovery work with unique retry, timeout, and channel-delivery details; not a safe duplicate close."
+    },
+    {
+      "target": "#69767",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50165",
+      "candidate_fix": "#68464",
+      "reason": "Related payload-availability race. It should stay open until #68464 or a successor is validated; no close_fixed_by_candidate action is safe."
+    },
+    {
+      "target": "#68464",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50165",
+      "candidate_fix": null,
+      "reason": "Active related implementation candidate, but not merge-ready and not safe as fixed-by-candidate evidence in this dedupe-only run."
+    },
+    {
+      "target": "#43367",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broader related follow-up cluster; keep open and do not fold it into #50165."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238827-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103977005"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103977005"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107709737"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107709737"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.387Z"
+published_at: "2026-06-15T04:57:52.649Z"
 canonical: "https://github.com/openclaw/openclaw/issues/65584"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/65584"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103977005](https://github.com/openclaw/clownfish/actions/runs/25103977005)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107709737](https://github.com/openclaw/clownfish/actions/runs/25107709737)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/65584
 
 ## Summary
 
-Hydrated live state shows all five job refs are already closed. #65584 remains the historical canonical issue for the cron CLI/Gateway teardown hang family, current main is 6cea2769760fe330b9bbb3b7854257041052773f, and no close/comment/label/fix/merge action is planned.
+Hydrated preflight shows no open cluster candidates remain. The hinted canonical #65584 and all job-provided candidates are already closed, current main is 579334f9f8a02d264c2a4d421ab94e37fb8b6244, and no security-sensitive signal was detected. No close, comment, label, merge, or fix action is planned.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Hydrated live state shows all five job refs are already closed. #65584 remains t
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61015 | keep_closed | skipped | duplicate | Already closed in hydrated live state; closure actions are invalid for this target. |
-| #61171 | keep_closed | skipped | duplicate | Already closed in hydrated live state; closure actions are invalid for this target. |
-| #65584 | keep_closed | skipped | canonical | Representative issue is already closed; it remains the historical canonical issue for the cluster, but no mutation is valid. |
-| #66227 | keep_closed | skipped | fixed_by_candidate | Already closed in hydrated live state; closure actions are invalid for this target. |
-| #67439 | keep_closed | skipped | fixed_by_candidate | Already closed in hydrated live state; closure actions are invalid for this target. |
+| #61015 | keep_closed | skipped | duplicate | Already closed in hydrated live state; no mutation is valid. |
+| #61171 | keep_closed | skipped | duplicate | Already closed in hydrated live state; no mutation is valid. |
+| #65584 | keep_closed | skipped | canonical | The representative is no longer open, so it is kept closed as the historical canonical rather than used for any mutation. |
+| #66227 | keep_closed | skipped | duplicate | Already closed in hydrated live state; no mutation is valid. |
+| #67439 | keep_closed | skipped | duplicate | Already closed in hydrated live state; no mutation is valid. |
 
 ## Needs Human
 

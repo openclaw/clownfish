@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14048-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25129107675",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25129107675",
+  "head_sha": "c6792f0250a6710fb4bca0bf6ba7777e5c4f0fbc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:21:42Z",
+  "workflow_updated_at": "2026-04-29T19:29:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14048-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.819Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No high-confidence closeout is safe. The closed representative #66523 is historical for the Windows OPENCLAW_STATE_DIR report, while the live refs split into distinct path/config subfamilies with open bugs or unresolved PR review blockers.",
+  "actions": [
+    {
+      "target": "#66523",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#66523",
+      "candidate_fix": null,
+      "reason": "The representative is closed and no open candidate shares that exact OPENCLAW_STATE_DIR-on-Windows root cause."
+    },
+    {
+      "target": "#44599",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#44599",
+      "candidate_fix": "#44671",
+      "reason": "This is a live Docker whitespace bug, not a duplicate of the closed Windows OPENCLAW_STATE_DIR representative."
+    },
+    {
+      "target": "#44671",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#44599",
+      "candidate_fix": null,
+      "reason": "Useful candidate PR for #44599, but not merge-ready or closeable in this dedupe-only job."
+    },
+    {
+      "target": "#45765",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45765",
+      "candidate_fix": "#45784",
+      "reason": "This is a live OPENCLAW_HOME nesting bug with unique reproduction details, so it should remain open as the canonical issue for that subfamily."
+    },
+    {
+      "target": "#45784",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45765",
+      "candidate_fix": null,
+      "reason": "Useful but incomplete contributor PR; keep open for repair rather than closing or treating the issue as fixed."
+    },
+    {
+      "target": "#51429",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related path/config portability issue, but not the same root cause as #66523, #44599, or #45765."
+    },
+    {
+      "target": "#54014",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related broad OPENCLAW_HOME contract issue; not a true duplicate and not safe to close in this cluster."
+    },
+    {
+      "target": "#65536",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54014",
+      "candidate_fix": null,
+      "reason": "Related focused PR for one OPENCLAW_HOME/HOME path-resolution facet; keep open because merge is disallowed and maintainer review is still needed."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

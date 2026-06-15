@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238844-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104005269"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104005269"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107731811"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107731811"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.394Z"
+published_at: "2026-06-15T04:57:52.656Z"
 canonical: "https://github.com/openclaw/openclaw/issues/48238"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/48238"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104005269](https://github.com/openclaw/clownfish/actions/runs/25104005269)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107731811](https://github.com/openclaw/clownfish/actions/runs/25107731811)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/48238
 
 ## Summary
 
-Classified the hydrated cluster as active stacked loop-aware compaction guard work, not a duplicate/closeout set. #48238 is the best canonical tracker; the PRs each carry distinct staged implementation work and should stay open for review or an explicit maintainer consolidation decision. No merge, close, label, or fix artifact is planned.
+No closure, merge, or fix actions are safe for this dedupe-only cluster. The hydrated umbrella issue #48238 is the best canonical tracker; #48278, #48293, #48312, #48335, #48350, and #48368 are useful staged implementation PRs with distinct scopes, draft or failing-check blockers, and no duplicate/superseded closeout target.
 
 ## Impact
 
@@ -66,13 +66,13 @@ Classified the hydrated cluster as active stacked loop-aware compaction guard wo
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48238 | keep_canonical | planned | canonical | Open umbrella issue #48238 covers the complete root cause and staged implementation path better than representative PR #48312, which is only one scorer-layer PR in the stack. |
-| #48278 | keep_related | planned | related | Useful contributor PR with a narrow prerequisite scope should remain open for review/repair rather than be closed or superseded without a concrete replacement. |
-| #48293 | keep_related | planned | related | Distinct detector-layer work in the same implementation family; keep related to #48238 rather than close as duplicate. |
-| #48312 | keep_related | planned | related | The gitcrawl representative is related implementation work but not the best canonical tracker for the whole cluster; keep it open under #48238. |
-| #48335 | keep_related | planned | related | Distinct later-stage runtime hook work; keep related to the canonical #48238 tracker. |
-| #48350 | keep_related | planned | related | Distinct validator-layer work in the same feature stack; keep related to #48238. |
-| #48368 | keep_related | planned | related | Linked later-stage escalation work should stay related to #48238 and should not be swept as duplicate or superseded. |
+| #48238 | keep_canonical | planned | canonical | #48238 is the broad live tracker for the stacked compaction guard work; it should remain open. |
+| #48278 | keep_related | planned | related | Keep as the prerequisite config PR in the #48238 implementation stack; do not close useful contributor work. |
+| #48293 | keep_related | planned | related | Keep as the detector layer in the related stacked series; it has unique scope and is not a duplicate of the scorer or validator PRs. |
+| #48312 | keep_related | planned | related | Keep as the scorer-layer implementation candidate under #48238; it is not merge-ready and should not be used to close sibling staged PRs. |
+| #48335 | keep_related | planned | related | Keep as a related runtime-hook stage with unique work; no high-confidence duplicate or superseded closeout is available. |
+| #48350 | keep_related | planned | related | Keep as a related validator stage with unique scope; it should not be closed as a duplicate or superseded by the scorer/runtime-hook PRs. |
+| #48368 | keep_related | planned | related | Keep as a related follow-up escalation stage; it is not part of the closeable dedupe surface for this cluster. |
 
 ## Needs Human
 

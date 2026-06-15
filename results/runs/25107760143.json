@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238871-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107760143",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107760143",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:16Z",
+  "workflow_updated_at": "2026-04-29T12:08:24Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238871-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.662Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No close/comment/label mutations are planned. #48945 and #40530 are conflicting open implementations for the same Feishu group thread mention policy, and the hydrated artifact shows unresolved review/CI blockers plus a maintainer product choice between the threadFollowUp and requireMentionInThread APIs. #63148 is related Feishu topic work but covers a distinct DM topic session-isolation gap and should stay open.",
+  "actions": [
+    {
+      "target": "#48945",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed to choose the canonical Feishu group thread mention API and repair path before this PR can become the canonical close/merge target."
+    },
+    {
+      "target": "#40530",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not close or supersede #40530 until a maintainer chooses whether #40530's boolean API or #48945's active-topic policy is canonical."
+    },
+    {
+      "target": "#63148",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep #63148 open as related Feishu topic-session work with distinct DM-topic scope; it is not a duplicate or superseded by the group thread mention PRs."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical Feishu group thread mention API between #48945 threadFollowUp and #40530 requireMentionInThread before any superseded closeout or landing path.",
+    "If #48945 is selected, address the latest Codex P1 skipMentionForThread scope/reference blocker plus relevant CI failures before merge consideration."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

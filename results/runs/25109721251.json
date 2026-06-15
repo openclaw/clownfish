@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13611-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25109721251",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25109721251",
+  "head_sha": "7ac7590296085c93e29434b3af3e919aa257e029",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:47:54Z",
+  "workflow_updated_at": "2026-04-29T13:14:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13611-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.736Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/43300",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/43300",
+  "canonical_pr": null,
+  "summary": "Autonomous classification used the hydrated preflight artifact at main 9881a808f2fc0d5302f98a040a9efaad00336097. The closed representative #17761 is obsolete; #43300 is the current open trusted-proxy/internal-self-connection canonical. #50630/#50631 are quarantined because the hydrated issue and PR explicitly frame a CVSS/gateway-auth boundary vulnerability. #57241 is related Tailscale gateway work but not a duplicate. No close/comment/label mutation is planned.",
+  "actions": [
+    {
+      "target": "#43300",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#43300",
+      "candidate_fix": null,
+      "reason": "Closed #17761 cannot be the live canonical. #43300 is the clearest open canonical for the trusted-proxy internal self-connection root family and should remain open."
+    },
+    {
+      "target": "#50630",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated issue text contains explicit vulnerability/CVSS and gateway-auth boundary claims, so this item is routed to central OpenClaw security handling with no mutation."
+    },
+    {
+      "target": "#50631",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR implements the security-shaped #50630 report, so it is quarantined with the issue and left for central security/review handling."
+    },
+    {
+      "target": "#57241",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related gateway/Tailscale work, but not a true duplicate of the trusted-proxy fallback canonical and not safe to close in this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

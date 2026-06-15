@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1773-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25130781175",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25130781175",
+  "head_sha": "e60ec11ddea49c43b3b3d13770368f7be20dc559",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T19:58:46Z",
+  "workflow_updated_at": "2026-04-29T20:01:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1773-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.869Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/38502",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38501",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/38502",
+  "summary": "Hydrated preflight shows #38502 remains the narrow canonical PR for #38501's Ctrl+C active-run status-hint issue. #44223 is related but changes the TUI Ctrl+C contract to abort active runs, so it should stay open for maintainer review rather than be dedupe-closed. Closed context PR #38540 has a sensitive committed-log signal and is routed only to central security handling. No close, merge, or fix actions are planned.",
+  "actions": [
+    {
+      "target": "#38502",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38502",
+      "candidate_fix": null,
+      "reason": "#38502 is still the best live canonical path for the cluster's narrow status-text clarification, but this autonomous dedupe-only job should only keep it open."
+    },
+    {
+      "target": "#44223",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#38502",
+      "candidate_fix": null,
+      "reason": "Keep #44223 open as a related alternative pending maintainer product decision; do not close it against the narrower #38502 canonical path."
+    },
+    {
+      "target": "#38540",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the closed context PR #38540 to central OpenClaw security handling because its hydrated review comments describe sensitive committed-log data."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

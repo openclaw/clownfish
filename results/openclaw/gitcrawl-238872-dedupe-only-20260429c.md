@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238872-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104044937"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104044937"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107993451"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107993451"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.401Z"
+published_at: "2026-06-15T04:57:52.674Z"
 canonical: "https://github.com/openclaw/openclaw/issues/73186"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/73186"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104044937](https://github.com/openclaw/clownfish/actions/runs/25104044937)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107993451](https://github.com/openclaw/clownfish/actions/runs/25107993451)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/73186
 
 ## Summary
 
-Open issue #73186 is the clearest live canonical report for the current Matrix/Feishu cron announce reasoning leak. Two useful overlapping contributor PRs, #40534 and #73363, remain open and require maintainer selection/reconciliation before any close or merge path is safe. No GitHub mutations are planned.
+Kept #73186 as the current open issue canonical for the cron announce reasoning leak. Both open PRs are useful overlapping fix candidates, but #40534 and #73363 need maintainer choice or reconciliation before any PR closeout or merge path; no close/comment/label mutations are planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Open issue #73186 is the clearest live canonical report for the current Matrix/F
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #73186 | keep_canonical | planned | canonical | Keep the live bug report open as the canonical thread while maintainers choose between the overlapping PR implementations. |
-| #40534 | needs_human | blocked | needs_human | Maintainer needs to decide whether #40534 remains the preferred implementation, should be adapted, or is superseded by #73363. Do not close this useful contributor PR in this dedupe-only run. |
-| #73363 | needs_human | blocked | needs_human | Maintainer needs to choose whether #73363 is the canonical implementation and confirm the reasoning-only fallback policy versus #40534 before any supersede or merge path. |
+| #73186 | keep_canonical | planned | canonical | This is the best live user-facing canonical thread for the still-open cron announce leak; keep it open until the chosen fix lands and duplicate-delivery scope is confirmed. |
+| #40534 | needs_human | blocked | needs_human | Maintainer decision needed to choose #40534, #73363, or a combined path; #40534 should not be closed or merged by this dedupe-only run. |
+| #73363 | needs_human | blocked | needs_human | Maintainer decision needed to choose #73363, #40534, or a combined path; #73363 should stay open for review rather than be closed or treated as merge-ready. |
 
 ## Needs Human
 
-- Choose/reconcile the canonical implementation between #40534 and #73363. Both are useful open contributor PRs for the same cron announce reasoning-leak root cause, #73363 is unstable with failing checks, and ClawSweeper asked maintainers to reconcile its behavior with the stricter #40534 path before merge or supersede closeout.
+- Choose the canonical PR path for the two useful overlapping fixes: #40534 has stricter end-to-end/error-recovery handling but needs rebase/adaptation, while #73363 is newer and includes Feishu delivery-picker coverage but still has failing checks, no post-fix-up review, and an unresolved reasoning-only fallback policy.

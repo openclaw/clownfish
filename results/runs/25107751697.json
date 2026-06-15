@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238866-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25107751697",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25107751697",
+  "head_sha": "904a86eec936498f7b09cd1b845053509b2c784e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:04:05Z",
+  "workflow_updated_at": "2026-04-29T12:08:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238866-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.660Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/60677",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/60274",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/60677",
+  "summary": "Classified #60677 as the canonical implementation path for the #60274 imsg RPC tapback filtering bug. #60274 is covered by #60677 but closeout is blocked until the canonical fix path is landed or otherwise validated cleanly, because #60677 is still open and has failing checks in the hydrated artifact. #39322 and linked #39031 remain related feature-forwarding work, not duplicates of the filter-only bug.",
+  "actions": [
+    {
+      "target": "#60677",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60677",
+      "candidate_fix": null,
+      "reason": "#60677 is the best live canonical implementation path for the imsg RPC tapback filtering bug, but this worker should only keep it canonical rather than merge or repair it."
+    },
+    {
+      "target": "#60274",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60677",
+      "candidate_fix": "#60677",
+      "reason": "Blocked by canonical fix path #60677 not yet landed or validated cleanly; keep #60274 open until #60677 merges or a refreshed hydrated artifact proves the fix is already present on main."
+    },
+    {
+      "target": "#39322",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39031",
+      "candidate_fix": null,
+      "reason": "#39322 is related tapback feature work, not a duplicate of the #60677 filtering fix; keep it open with #39031 as the feature-forwarding canonical thread."
+    },
+    {
+      "target": "#39031",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#39031 is a related follow-up feature family and should remain open separately from the #60677 filter-only fix path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#60274",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60677",
+      "candidate_fix": "#60677",
+      "title": null,
+      "idempotency_key": "gitcrawl-238866-dedupe-only-20260429c/#60274/close_fixed_by_candidate/#60677/2026-04-28T17:33:39Z",
+      "source_status": "blocked",
+      "source_reason": null,
+      "reason": "Blocked by canonical fix path #60677 not yet landed or validated cleanly; keep #60274 open until #60677 merges or a refreshed hydrated artifact proves the fix is already present on main.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

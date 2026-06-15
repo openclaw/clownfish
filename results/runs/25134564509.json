@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2964-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25134564509",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25134564509",
+  "head_sha": "b9f5ebae325b39171f8129a731bbca8bf5b88966",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T21:21:55Z",
+  "workflow_updated_at": "2026-04-29T21:27:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2964-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:53.011Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/12590",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/12590",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/51421",
+  "summary": "Hydrated state splits this over-broad memory-flush cluster into two live subfamilies. #12590 with open PR #51421 is the canonical path for the alternating compaction-cycle memoryFlush bug. #47143 remains a related but distinct zero-initialization/cycle-0 dedup issue. No close, merge, or fix-PR action is safe from this dedupe-only job; closed refs remain historical evidence only.",
+  "actions": [
+    {
+      "target": "#12590",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#12590",
+      "candidate_fix": "#51421",
+      "reason": "Keep #12590 open as the canonical issue until #51421 or another validated fix lands."
+    },
+    {
+      "target": "#51421",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#12590",
+      "candidate_fix": "#51421",
+      "reason": "#51421 is the best surviving fix PR for #12590, but this worker should only keep it canonical because merge and repair are out of scope and failing checks block finalization."
+    },
+    {
+      "target": "#47143",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47143",
+      "candidate_fix": null,
+      "reason": "Related memory-flush dedup subfamily with unique reproduction; do not close it as a duplicate of #12590 or #51421."
+    },
+    {
+      "target": "#45424",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context ref; no close action is valid."
+    },
+    {
+      "target": "#47174",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#47143",
+      "candidate_fix": null,
+      "reason": "Closed representative remains evidence for the #47143 subfamily only."
+    },
+    {
+      "target": "#66845",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#47143",
+      "candidate_fix": null,
+      "reason": "Already closed context ref for the related #47143 subfamily; no close action is valid."
+    },
+    {
+      "target": "#69138",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#12590",
+      "candidate_fix": "#51421",
+      "reason": "Already closed superseded PR; no close action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

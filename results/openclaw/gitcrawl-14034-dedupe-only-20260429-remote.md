@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-14034-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25129095711"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25129095711"
+run_id: "25129091444"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25129091444"
 head_sha: "c6792f0250a6710fb4bca0bf6ba7777e5c4f0fbc"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T19:29:17.241Z"
-canonical: "https://github.com/openclaw/openclaw/pull/73890"
-canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/73890"
+published_at: "2026-06-15T04:57:52.802Z"
+canonical: "https://github.com/openclaw/openclaw/issues/40839"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/40839"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/40850"
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25129095711](https://github.com/openclaw/clownfish/actions/runs/25129095711)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25129091444](https://github.com/openclaw/clownfish/actions/runs/25129091444)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/73890
+Canonical: https://github.com/openclaw/openclaw/issues/40839
 
 ## Summary
 
-Dedupe-only pass found no safe close actions. The original representative #40850 is already closed as implemented on current main, and the only current open canonical path in this hydrated set is replacement PR #73890 for the #50479/#44365 npm-prefix warning subfamily. #44986, #58340, and #67795 are distinct installer PRs with unique scopes, so they should stay open outside this cluster.
+Hydrated state shows the representative multi-Node installer family (#40839/#40850) is already closed as implemented on current main, with no open replacement canonical needed. The live open PRs are separate installer subfamilies or independent work, so no high-confidence close/comment/label mutation is planned.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Dedupe-only pass found no safe close actions. The original representative #40850
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #73890 | keep_canonical | planned | canonical | Keep #73890 open as the canonical replacement PR for the npm prefix redirection warning subfamily; do not merge in this dedupe-only job. |
-| #50479 | keep_closed | skipped | superseded | Already closed refs must not receive close actions; record #50479 as closed and superseded by hydrated replacement #73890. |
-| #44986 | keep_related | planned | related | Different installer root cause from the closed representative; keep open as related follow-up work. |
-| #58340 | keep_independent | planned | independent | This is a separate product/content PR with unresolved review/check issues; keep it open outside this dedupe cluster. |
-| #67795 | keep_related | planned | related | Different installer compatibility issue with unique platform evidence; keep open as related follow-up work. |
+| #50479 | keep_closed | skipped | superseded | Already closed live; keep as historical evidence and route any ongoing prefix-warning work through hydrated replacement #73890. |
+| #44986 | keep_related | planned | related | Keep open as a related installer PR with a unique feature scope and unresolved review blocker; it is not a duplicate of the closed multi-Node canonical family. |
+| #58340 | keep_independent | planned | independent | This is independent product/copy work in the installer, not a duplicate or superseded fix for the canonical installer bug family. |
+| #67795 | keep_related | planned | related | Keep open as related installer compatibility work with a unique reproduction path; failing install-smoke blocks merge, not classification. |
+| #73890 | keep_related | planned | related | Keep open as a related replacement PR for a separate npm-prefix-warning subfamily; no merge or post-merge close action is allowed in this job. |
 
 ## Needs Human
 

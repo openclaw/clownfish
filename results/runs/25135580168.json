@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3503-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25135580168",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25135580168",
+  "head_sha": "f12a87189d5d814fe7dfd1bed3ac0e65f75e8fe3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T21:46:28Z",
+  "workflow_updated_at": "2026-04-29T21:48:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3503-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:53.024Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69312",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69312",
+  "summary": "Hydrated state shows the closed representative #69311 has already been superseded by open PR #69312. #69312 is the current canonical path for the indented-code-block false-positive parser bug, but merge/fix work is out of scope for this dedupe-only job and is also blocked by failing checks plus unresolved review-bot findings. #41966 is a related but distinct fenced-code-block contract issue and should stay open.",
+  "actions": [
+    {
+      "target": "#69312",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69312",
+      "candidate_fix": null,
+      "reason": "Use #69312 as the current canonical implementation path, but do not merge or repair it in this dedupe-only run."
+    },
+    {
+      "target": "#41966",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69312",
+      "candidate_fix": null,
+      "reason": "Same media parser area, but different root cause and product contract; do not close #41966 as part of the indented-code-block cluster."
+    },
+    {
+      "target": "#69311",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69312",
+      "candidate_fix": "#69312",
+      "reason": "Already closed as superseded by #69312; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

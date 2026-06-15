@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238814-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103911284"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103911284"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107685222"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107685222"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.378Z"
+published_at: "2026-06-15T04:57:52.640Z"
 canonical: "https://github.com/openclaw/openclaw/issues/57256"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/57256"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/59685"
@@ -16,7 +16,7 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103911284](https://github.com/openclaw/clownfish/actions/runs/25103911284)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107685222](https://github.com/openclaw/clownfish/actions/runs/25107685222)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/57256
 
 ## Summary
 
-Canonical issue #57256 remains open for the live-gateway memory status false-negative family, with #59685 as the best hydrated implementation candidate. Planned one duplicate close for #62599; all already-closed refs stay skipped as evidence, and overlapping PR #60777 stays open as related contributor work.
+#57256 remains the live canonical issue for the memory-status false-negative family. #59685 is the strongest hydrated open PR candidate, but this job blocks merge/fix actions and there is no fresh merge preflight, so no merge or closeout is planned. #62599 is related but not a true duplicate because it adds read-only/local plugin startup side-effect scope. No high-confidence close/comment/label mutations are emitted.
 
 ## Impact
 
@@ -46,7 +46,7 @@ Canonical issue #57256 remains open for the live-gateway memory status false-neg
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,20 +60,20 @@ Canonical issue #57256 remains open for the live-gateway memory status false-neg
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #62599 | close_duplicate | blocked | duplicate | candidate fix is not listed in job refs |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57256 | keep_canonical | planned | canonical | Best live canonical issue; keep open while implementation candidates are resolved. |
-| #59685 | keep_canonical | planned | canonical | Best hydrated implementation candidate, but this dedupe-only job cannot merge or repair it. |
-| #60777 | keep_related | planned | related | Related overlapping implementation candidate; not safe to close useful contributor work in this dedupe-only pass. |
-| #62599 | close_duplicate | planned | duplicate | Same user-visible false status state and same status-memory runtime/probe family; canonical issue remains open with a clear reopen/split path. |
-| #44426 | keep_closed | skipped | related | Already closed; evidence only. |
-| #56968 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; evidence only. |
-| #59894 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; evidence only. |
-| #62585 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; evidence only. |
+| #44426 | keep_closed | skipped | related | Already closed in live preflight; no action planned. |
+| #56968 | keep_closed | skipped | related | Already closed in live preflight; no action planned. |
+| #57256 | keep_canonical | planned | canonical | Keep the canonical issue open until the implementation candidate is resolved and validated. |
+| #59685 | keep_canonical | planned | canonical | Best hydrated open implementation candidate, but this autonomous dedupe-only job cannot merge or repair it. |
+| #59894 | keep_closed | skipped | related | Already closed in live preflight; no action planned. |
+| #60777 | keep_related | planned | related | Keep open as a related implementation candidate; do not close a useful contributor PR without a clear landed or replacement path. |
+| #62585 | keep_closed | skipped | related | Already closed in live preflight; no action planned. |
+| #62599 | keep_related | planned | related | Related but not duplicate; no close action meets the closure policy. |
 
 ## Needs Human
 

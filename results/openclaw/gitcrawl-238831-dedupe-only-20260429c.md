@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238831-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25103981042"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103981042"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107713986"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107713986"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.390Z"
+published_at: "2026-06-15T04:57:52.651Z"
 canonical: "https://github.com/openclaw/openclaw/issues/25592"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/25592"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103981042](https://github.com/openclaw/clownfish/actions/runs/25103981042)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107713986](https://github.com/openclaw/clownfish/actions/runs/25107713986)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/25592
 
 ## Summary
 
-Canonical drift verified: #51065 is already closed, so #25592 is the best live canonical issue for the broad messaging-channel text leak family. No close actions are safe in this pass: #71575 is related but has a distinct Telegram tool-progress-preview path that current hydrated review says should stay open, while #51065 and #66161 are already closed and must not receive closure actions.
+Hydrated preflight shows the original representative #51065 is now closed. #25592 is the best live canonical for the broad channel text/tool-call leakage family. No close/comment/label mutations are planned because #71575 has distinct Telegram tool-progress behavior and the other candidate refs are already closed.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Canonical drift verified: #51065 is already closed, so #25592 is the best live c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #25592 | keep_canonical | planned | canonical | Best surviving live canonical for the broad messaging-channel intermediate-text leak family. |
-| #51065 | keep_closed | skipped | duplicate | Already closed; treat as historical duplicate evidence for #25592 without mutation. |
-| #66161 | keep_closed | skipped | duplicate | Already closed; retain as historical duplicate/implemented context under the #25592 family. |
-| #71575 | keep_related | planned | related | Related Telegram-specific follow-up remains open; duplicate closeout would lose unique behavior and product-scope detail. |
+| #25592 | keep_canonical | planned | canonical | #25592 is the current live canonical issue for the broad messaging-channel intermediate text leakage family. |
+| #51065 | keep_closed | skipped | duplicate | Already closed; keep as historical duplicate evidence under the live canonical #25592. |
+| #66161 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no mutation is valid, and the referenced main commit is not a hydrated PR ref for candidate_fix. |
+| #71575 | keep_related | planned | related | Related to #25592's channel-leak family, but not a safe duplicate closeout because it tracks a distinct Telegram-owned tool-progress/default-preview behavior with unique current-main evidence. |
 
 ## Needs Human
 

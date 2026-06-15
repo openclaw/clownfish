@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2665-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25134047466",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25134047466",
+  "head_sha": "d0688cc86ec05c840c9f64b264bd897e9b409ff3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T21:09:59Z",
+  "workflow_updated_at": "2026-04-29T21:16:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2665-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:57:52.991Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38235",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38235",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/38237",
+  "summary": "Closed representative #37763 stays historical. #38235 is the current open canonical issue for Slack draft/streaming identity passthrough, with #38237 as the open repair candidate but not merge-ready in this dedupe-only job. #58737 and #58800 are related Slack identity edit-flow work, not true duplicates of #38235, so no close action is planned.",
+  "actions": [
+    {
+      "target": "#37763",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38235",
+      "candidate_fix": "#38237",
+      "reason": "Closed representative is historical evidence only; #38235 replaces it as the live canonical issue for this cluster."
+    },
+    {
+      "target": "#38235",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38235",
+      "candidate_fix": "#38237",
+      "reason": "This is the best live canonical issue for the closed #37763 root cause."
+    },
+    {
+      "target": "#38237",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38235",
+      "candidate_fix": "#38237",
+      "reason": "#38237 is the open repair candidate for #38235, but merge/fix work is outside this job and current evidence blocks fixed-by-candidate closeout."
+    },
+    {
+      "target": "#58737",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#38235",
+      "candidate_fix": "#58800",
+      "reason": "Same Slack identity area, but the reported edit-flow failure has distinct behavior and its own open PR path."
+    },
+    {
+      "target": "#58800",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58737",
+      "candidate_fix": "#58800",
+      "reason": "This PR belongs with the related #58737 edit-flow subcluster and should remain open for repair/review, not be deduped into #38235."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238816-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103954695"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103954695"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107689043"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107689043"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.380Z"
+published_at: "2026-06-15T04:57:52.641Z"
 canonical: "https://github.com/openclaw/openclaw/issues/47558"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/47558"
 canonical_pr: null
-actions_total: 6
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103954695](https://github.com/openclaw/clownfish/actions/runs/25103954695)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107689043](https://github.com/openclaw/clownfish/actions/runs/25107689043)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/47558
 
 ## Summary
 
-Canonical issue #47558 remains the live root thread. The representative PR #59658 is focused but not a safe canonical PR yet because hydrated review comments still flag docs inaccuracies, and the other open PRs are stale, blocked, or broad. No close/comment/label mutation is planned until a maintainer chooses or refreshes one canonical repair path.
+No GitHub mutations planned. #47558 remains the canonical open issue because current main is only partially fixed and no PR is merge-ready. The hinted PR #59658 is focused, but the hydrated review state does not prove it is the best canonical PR; maintainer selection is needed before superseding useful contributor PRs.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,13 +66,12 @@ Canonical issue #47558 remains the live root thread. The representative PR #5965
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #47558 | keep_canonical | planned | canonical | Keep the issue open as the canonical root thread; closing is blocked because no canonical fix has landed. |
-| #47935 | keep_related | planned | related | Same root cause as #47558, but not safe to close or treat as fixed before a refreshed canonical PR lands. |
-| #49430 | keep_related | planned | related | Related repair candidate, but not a safe canonical closeout target while review-bot and current-main refresh blockers remain. |
-| #56157 | keep_related | planned | related | Related but broad and blocked; keep open rather than close a useful contributor PR without a clean replacement path. |
-| #59658 | keep_related | planned | related | Representative is useful but obsolete as an automatic canonical PR; it needs maintainer selection plus refresh before any superseding closeout. |
-| cluster:gitcrawl-238816-dedupe-only-20260429b | needs_human | blocked | needs_human | Maintainer should choose or request a refreshed narrow canonical docs PR before Clownfish closes or supersedes any contributor PRs. |
+| #47558 | keep_canonical | planned | canonical | Original report remains open and current; no candidate PR has landed or cleared review. |
+| #47935 | keep_related | planned | related | Useful overlapping repair candidate; keep open because no canonical PR has been selected and closing would risk losing contributor credit. |
+| #49430 | keep_related | planned | related | Useful overlapping repair candidate; keep open pending maintainer selection of the canonical branch. |
+| #56157 | keep_related | planned | related | Related to #47558 but too broad and not safe as the canonical dedupe target; keep open rather than close without a selected replacement path. |
+| #59658 | needs_human | blocked | needs_human | #59658 may be repairable, but the hydrated evidence does not verify it as the best live canonical PR among #47935, #49430, and #59658. |
 
 ## Needs Human
 
-- Choose the canonical repair path for #47558 before closeout. The issue is canonical, but no open PR is clean enough to become the automatic canonical PR from the hydrated evidence.
+- Choose the canonical repair path for #47558 among #47935, #49430, and #59658, or direct a replacement. #59658 is the gitcrawl hint, but hydrated review comments still flag depth policy, ACP-only streamTo, and deny-list issues; #56157 is related but broad and failing checks.

@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238899-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25104105976"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25104105976"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25108045834"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25108045834"
+head_sha: "3ec6a205eb986741424344762fbc94babbdc2937"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.417Z"
+published_at: "2026-06-15T04:57:52.685Z"
 canonical: "https://github.com/openclaw/openclaw/pull/66225"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/65867"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/66225"
-actions_total: 4
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25104105976](https://github.com/openclaw/clownfish/actions/runs/25104105976)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25108045834](https://github.com/openclaw/clownfish/actions/runs/25108045834)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: https://github.com/openclaw/openclaw/pull/66225
 
 ## Summary
 
-Hydrated state supports keeping #66225 as the current narrow canonical PR for the Gemini <final/> self-closing and attributed final-tag leak. No close, label, merge, or fix mutations are planned: #65867 should stay open until #66225 lands or is replaced, #48593 remains a related overlapping PR with unresolved review/check blockers, and #41494 remains the broader Gemini plain-text reasoning leak tracker.
+Classified the narrow Gemini final-tag leak family without GitHub mutations. #65867 remains the live canonical issue tracker and #66225 is the best live canonical fix candidate; #48593 is an older overlapping PR that should stay open for maintainer reconciliation and contributor-credit preservation. No close, merge, fix, or label action is high-confidence for this run.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,10 +66,9 @@ Hydrated state supports keeping #66225 as the current narrow canonical PR for th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #66225 | keep_canonical | planned | canonical | Current canonical narrow PR, but not merge-ready or merge-allowed in this job. |
-| #65867 | keep_related | planned | fixed_by_candidate | Covered by #66225 but not safe to close before the candidate fix lands or is otherwise finalized. |
-| #48593 | keep_related | planned | related | Do not close a useful contributor PR while overlap with #66225 still needs maintainer review. |
-| #41494 | keep_related | planned | related | Related follow-up tracker, not a duplicate of the narrow final-tag cluster. |
+| #65867 | keep_canonical | planned | canonical | Keep #65867 open as the canonical issue tracker until the canonical fix candidate #66225 is reviewed, landed, or explicitly replaced. |
+| #66225 | keep_canonical | planned | canonical | #66225 is the clearest current canonical fix candidate for the narrow final-tag leak, but it is not merge-ready in this worker result because maintainer review and review-bot concerns remain outside the allowed mutation set. |
+| #48593 | keep_related | planned | related | Keep #48593 open as related overlapping implementation evidence; do not close or supersede it automatically until the #66225 path is reviewed and contributor credit is preserved. |
 
 ## Needs Human
 

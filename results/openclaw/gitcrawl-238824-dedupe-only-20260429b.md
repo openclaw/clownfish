@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238824-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103970526"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103970526"
-head_sha: "562a0387cfb8012d9de7c90b4ae662dc281c2fff"
+run_id: "25107703512"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107703512"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T03:54:22.387Z"
+published_at: "2026-06-15T04:57:52.648Z"
 canonical: "https://github.com/openclaw/openclaw/pull/72614"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/72614"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103970526](https://github.com/openclaw/clownfish/actions/runs/25103970526)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107703512](https://github.com/openclaw/clownfish/actions/runs/25107703512)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/72614
 
 ## Summary
 
-Representative #64787 is obsolete and already closed. The current canonical streamTo/resumeSessionId fix is merged PR https://github.com/openclaw/openclaw/pull/72614. Closed duplicate/superseded PRs remain closed; #72101 stays open as a related follow-up for distinct model="default" handling; #47115 is routed to security because the hydrated artifact marks it security-sensitive.
+Canonical hint #64787 is obsolete because it is closed. The current canonical path is merged PR #72614 on main. Closed seed PRs stay closed, #72101 remains open as related follow-up work for the distinct model='default' behavior, and security-sensitive linked PR #47115 is quarantined only for central security handling. No close/comment/label/merge/fix mutation is planned.
 
 ## Impact
 
@@ -66,13 +66,13 @@ Representative #64787 is obsolete and already closed. The current canonical stre
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #47115 | route_security | planned | security_sensitive | Security-sensitive linked ref is outside ProjectClownfish cleanup scope and should be quarantined to central OpenClaw security handling. |
-| #72614 | keep_closed | skipped | canonical | Canonical fix is already merged and closed; no mutation is valid for the canonical PR. |
-| #58686 | keep_closed | skipped | superseded | Already closed as superseded by the landed canonical fix. |
-| #63121 | keep_closed | skipped | superseded | Already closed as superseded by the landed canonical fix. |
-| #64787 | keep_closed | skipped | superseded | Already closed; current canonical path is the later landed #72614. |
-| #72331 | keep_closed | skipped | superseded | Already merged/closed and superseded as canonical by the later landed #72614. |
-| #72101 | keep_related | planned | related | Not a duplicate of the streamTo canonical; keep open as related follow-up for default-model handling and failing checks. |
+| #47115 | route_security | planned | security_sensitive | Route the security-sensitive linked ref to central OpenClaw security handling; do not use it as canonical evidence for this dedupe cluster. |
+| #72614 | keep_closed | skipped | canonical | Current canonical fix path is already merged and closed; no mutation is needed or allowed. |
+| #58686 | keep_closed | skipped | superseded | Already closed as superseded by the merged canonical #72614; no close action may be emitted. |
+| #63121 | keep_closed | skipped | superseded | Already closed as superseded by #72614; no further mutation is valid. |
+| #64787 | keep_closed | skipped | superseded | Representative is obsolete and already closed; keep it as historical superseded evidence only. |
+| #72331 | keep_closed | skipped | superseded | Historical merged predecessor; final canonical path for this cluster is #72614. |
+| #72101 | keep_related | planned | related | Keep open as related follow-up work, not a true duplicate of the streamTo canonical fix. |
 
 ## Needs Human
 

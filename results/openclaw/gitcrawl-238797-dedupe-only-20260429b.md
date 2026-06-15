@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238797-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25103807257"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103807257"
-head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
+run_id: "25107658390"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25107658390"
+head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T03:54:22.368Z"
+published_at: "2026-06-15T04:57:52.630Z"
 canonical: "https://github.com/openclaw/openclaw/pull/42873"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/42472"
+canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/42873"
 actions_total: 6
 fix_executed: 0
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103807257](https://github.com/openclaw/clownfish/actions/runs/25103807257)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25107658390](https://github.com/openclaw/clownfish/actions/runs/25107658390)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/42873
 
 ## Summary
 
-Classified the six job refs from the hydrated preflight artifact at main 99950c7f1272dff6e2c34c2be45dfc5f89e62a60. No close/comment/label mutations are high-confidence: #42873 remains the narrow canonical PR for the own-line NO_REPLY leak, #46626/#66755/#73153 are useful related PRs that should stay open, #69472 is already closed, and #69394 needs a maintainer policy decision before it can be treated as a canonical or superseded fix.
+No GitHub mutations are planned. #42873 remains the narrow live canonical PR for the own-line NO_REPLY leak. #46626 is a related broader follow-up, #66755/#69394/#73153 form a separate reasoning/trailing-token subfamily that needs maintainer choice before any duplicate closeout, and #69472 is already closed as superseded by #73153.
 
 ## Impact
 
@@ -66,13 +66,13 @@ Classified the six job refs from the hydrated preflight artifact at main 99950c7
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42873 | keep_canonical | planned | canonical | Representative remains the best live canonical for the narrow own-line NO_REPLY behavior, but this autonomous dedupe-only job should not merge or repair it. |
-| #46626 | keep_related | planned | related | Related broader follow-up to #42873; keep open for repair/review rather than closing. |
-| #66755 | keep_related | planned | related | Useful related reasoning-preface candidate for #66701; keep open. |
-| #69394 | needs_human | blocked | needs_human | Maintainer product-policy decision required for #69394: confirm whether broad trailing-NO_REPLY suppression should replace the current strip-and-deliver behavior before this PR can be canonicalized, closed as superseded, or repaired. |
-| #69472 | keep_closed | skipped | superseded | Already closed; mention only to preserve the live candidate matrix and supersession evidence. |
-| #73153 | keep_related | planned | related | Related end-to-end candidate for #66701; keep open because it has unique runner scope and failing checks must be resolved outside this close-only pass. |
+| #42873 | keep_canonical | planned | canonical | Best live canonical for the narrow own-line NO_REPLY root cause; merge/fix actions are blocked by job policy and review coordination remains. |
+| #46626 | keep_related | planned | related | Related useful follow-up, not a safe duplicate close. Keep open until the canonical own-line fix and all-delivery-path behavior are coordinated. |
+| #66755 | keep_related | planned | related | Related competing implementation for the reasoning-prefaced subfamily; not safe to close while useful code and unresolved review findings remain. |
+| #69394 | keep_related | planned | related | Related competing implementation with unresolved product-policy and review-bot concerns; no high-confidence superseded closeout. |
+| #69472 | keep_closed | skipped | superseded | Already closed historical context; kept only to record the supersession evidence. |
+| #73153 | keep_related | planned | related | Related broader reasoning-prefaced candidate. Failing checks and missing Codex review block any fixed-by-candidate or superseding closeout in this dedupe-only job. |
 
 ## Needs Human
 
-- #69394 needs maintainer policy confirmation on whether broad trailing-NO_REPLY suppression should replace the previous #30916 strip-and-deliver behavior.
+- Maintainer choice is needed for the reasoning/trailing-token subfamily before any open PR can be closed as duplicate or superseded: #66755 preserves the #19537-style substantive-reply guard but still has an unresolved Codex P1, #69394 changes the #30916/#19537 mixed-content policy and has a review-bot regression warning, and #73153 is broader/end-to-end but currently has failing checks and no hydrated Codex review.

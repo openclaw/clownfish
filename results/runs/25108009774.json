@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238880-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25108009774",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25108009774",
+  "head_sha": "3ec6a205eb986741424344762fbc94babbdc2937",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T12:09:59Z",
+  "workflow_updated_at": "2026-04-29T12:12:40Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238880-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T04:57:52.678Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations are planned. The hydrated artifact confirms the root bug remains on main at 40f820bda2255e50bda769ba8b6d9f4fdc05e9b5, but the open PRs each carry useful, non-identical pieces: #44023 is the hinted representative, #45871 updates more current config/help surfaces, and #52400 adds tests but has unresolved bot findings, broad docs/generated churn, and one failing check. A maintainer should choose the canonical/combine path before any PR is closed as superseded.",
+  "actions": [
+    {
+      "target": "#43972",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed items must not receive close/comment/label actions in this worker result."
+    },
+    {
+      "target": "#44023",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potential canonical PR, but it is not clearly the best surviving path because it misses useful surfaces covered by other open PRs."
+    },
+    {
+      "target": "#45871",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Viable alternative canonical or source of useful updates; closing it as superseded would lose contributor credit and implementation details before a maintainer chooses the canonical path."
+    },
+    {
+      "target": "#52382",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the same cap family, but not safe to close in this dedupe-only pass while the canonical PR path is unresolved."
+    },
+    {
+      "target": "#52400",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related implementation evidence; it is not merge-ready and not safe to close as superseded until a maintainer chooses how to carry forward its useful tests and generated-schema work."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "needs_human": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "blocked": 2,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical/combine path for the maxPingPongTurns cap increase before closing any open PR as superseded. #44023 is the hinted representative but incomplete, #45871 covers more config/help surfaces, and #52400 adds tests but has broad churn, unresolved bot findings, and a failing check."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
