@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-962-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523569972",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523569972",
+  "head_sha": "86103b97bc1c06f021ad75d533f6055a87af8e57",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:14:35Z",
+  "workflow_updated_at": "2026-06-15T04:15:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-962-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:17:30.980Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. The hydrated preflight artifact marks #39341 and #72467 as security-sensitive, and the job specifically requires routing #72467 as a security-signal ref. No close, label, merge, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#39341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#72467",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-signal PR is out of scope for Clownfish mutation; failing proof and blocked merge/fix permissions also prevent any merge or fixed-by-candidate plan."
+    },
+    {
+      "target": "#67222",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39341",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; included only to record that no mutation is planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

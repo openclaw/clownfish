@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-966-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523571074",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523571074",
+  "head_sha": "86103b97bc1c06f021ad75d533f6055a87af8e57",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:14:37Z",
+  "workflow_updated_at": "2026-06-15T04:15:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-966-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:17:30.980Z",
+  "canonical": "#84218",
+  "canonical_issue": "#84218",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #84218 as the live canonical issue for the heartbeat isolatedSession context replay overflow loop. Route #84248 to central security handling because the job explicitly marks it as a security-signal ref requiring route_security, without letting that quarantine block the non-security canonical issue classification.",
+  "actions": [
+    {
+      "target": "#84218",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84218",
+      "candidate_fix": null,
+      "reason": "#84218 is open, hydrated, and remains the clearest canonical issue for this root cause; no closure or mutation is planned in plan mode."
+    },
+    {
+      "target": "#84248",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#84218",
+      "candidate_fix": null,
+      "reason": "The job explicitly requires #84248 to be routed to central security handling, so Clownfish should not close, merge, comment on, label, or build a fix path from this PR in this cluster run."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
