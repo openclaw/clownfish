@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-128",
+  "mode": "plan",
+  "run_id": "27528054428",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528054428",
+  "head_sha": "491855bb1bded92d24a0c29eb754e1e44d84cc2a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:23:48Z",
+  "workflow_updated_at": "2026-06-15T06:25:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-128.md",
+  "published_at": "2026-06-15T06:26:48.817Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 job candidates. No shared canonical was selected. Security-sensitive open PRs are routed to central security handling; already-closed PRs are kept closed; remaining open PRs are left open for maintainer review, proof, author changes, or branch repair as indicated by the hydrated artifact.",
+  "actions": [
+    {
+      "target": "#80285",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone fix candidate, but proof is missing; no close, merge, or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#81503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review/product judgment is explicitly required; merge is blocked by job frontmatter and draft state."
+    },
+    {
+      "target": "#80802",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and must be routed centrally."
+    },
+    {
+      "target": "#81623",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#81948",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#80208",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Public plugin transcript append API touches a security-boundary-labeled surface; route to central security handling."
+    },
+    {
+      "target": "#82032",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#81572",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears valuable but requires maintainer decision or branch repair; merge and fix are blocked by job frontmatter."
+    },
+    {
+      "target": "#81777",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author/change follow-up and technical correctness judgment are required; not a cleanup-close candidate."
+    },
+    {
+      "target": "#81779",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish cleanup; because it is already closed, no close action is emitted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 3,
+    "route_security": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81503 requires maintainer review/product judgment for a draft docs PR that fixes #81310.",
+    "#81572 requires maintainer decision or branch repair because it is proof-backed and approved but dirty; merge/fix are blocked in this job.",
+    "#81777 requires author changes and maintainer technical judgment for a large dirty draft branch."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

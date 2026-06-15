@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-119",
+  "mode": "plan",
+  "run_id": "27527961078",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527961078",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:21:34Z",
+  "workflow_updated_at": "2026-06-15T06:24:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-119.md",
+  "published_at": "2026-06-15T06:26:48.800Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification shard. No GitHub mutations planned. The shard is not a dedupe cluster, so each listed PR is classified independently. Security-sensitive #89312 is routed to central security handling; already-closed #89311 is kept closed; remaining open PRs are preserved for maintainer/product review rather than closure.",
+  "actions": [
+    {
+      "target": "#89301",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-owned draft fix in a related unreadable-descriptor hardening family; not closable as duplicate/superseded from this inventory shard."
+    },
+    {
+      "target": "#89312",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The preflight artifact flags this exact PR as security-sensitive; route it to central OpenClaw security handling without closure, labels, comments, merge, or fix action."
+    },
+    {
+      "target": "#89311",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this run; no further action is valid."
+    },
+    {
+      "target": "#77736",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR with active review history and no clear duplicate/superseding canonical in this shard; keep it for maintainer or author follow-up."
+    },
+    {
+      "target": "#75554",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial contributor feature PR with failing proof and dirty merge state; keep as related/active backlog rather than close."
+    },
+    {
+      "target": "#89317",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider-specific maintainer draft in the same general hardening family; preserve for maintainer review."
+    },
+    {
+      "target": "#89295",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open maintainer-authored docs contract PR has unresolved automated review findings that require technical correctness judgment; no close/merge/fix action is allowed."
+    },
+    {
+      "target": "#85381",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor draft with proof but dirty merge state; related to CLI output work, not a duplicate or closure candidate."
+    },
+    {
+      "target": "#89322",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider-specific hardening PR should be kept for review; target_updated_at is unavailable in the compacted artifact, so no mutating action is valid."
+    },
+    {
+      "target": "#89324",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider-specific hardening PR should be kept for review; target_updated_at is unavailable in the compacted artifact, so no mutating action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 7,
+    "route_security": 1,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89295: unresolved review-bot documentation correctness findings require maintainer/technical judgment before any close or merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

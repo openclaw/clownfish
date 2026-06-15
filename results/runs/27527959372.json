@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-118",
+  "mode": "plan",
+  "run_id": "27527959372",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527959372",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:21:32Z",
+  "workflow_updated_at": "2026-06-15T06:24:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-118.md",
+  "published_at": "2026-06-15T06:26:48.784Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification over 10 listed pull requests. No shared canonical was selected. Open non-security PRs are kept for maintainer/author review, closed PRs are recorded as already closed, and the security-sensitive Mattermost PR is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#89275",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused maintainer hardening PR, but draft/maintainer-review state and no merge permission make non-mutating independent classification the conservative plan."
+    },
+    {
+      "target": "#89280",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open maintainer-owned MCP catalog hardening PR; keep it independently for normal review rather than deduping it into the mixed inventory shard."
+    },
+    {
+      "target": "#89282",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#89260",
+      "reason": "Already closed; the active hydrated path for the same doctor platform-incompatible-skill problem is #89260, so no action is needed on #89282."
+    },
+    {
+      "target": "#89291",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related MCP test coverage with no closure or merge authority in this job; keep it related for maintainer review."
+    },
+    {
+      "target": "#89157",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large active documentation PR with author/maintainer follow-up still in progress; keep independently instead of closing or merging."
+    },
+    {
+      "target": "#74136",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74136",
+      "candidate_fix": null,
+      "reason": "Best surviving active PR for the ANNOUNCE_SKIP family, but merge is blocked by plan-mode/no-merge permissions and maintainer-review requirement."
+    },
+    {
+      "target": "#74185",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active contributor PR with useful code and unresolved review/author follow-up; keep independently for review rather than closing or merging."
+    },
+    {
+      "target": "#89296",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open Copilot bridge hardening PR; keep independently for maintainer review."
+    },
+    {
+      "target": "#87964",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish cleanup scope; route only this item to central OpenClaw security handling and keep unrelated items classified."
+    },
+    {
+      "target": "#89299",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#89109",
+      "reason": "Already closed and the hydrated merged path for the same message-loop fix is #89109; no further action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_closed": 2,
+    "keep_related": 1,
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
