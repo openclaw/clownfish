@@ -14,6 +14,9 @@ const dispatchLedgerPath = path.resolve(
 const dispatchRepo = String(args.repo ?? currentProjectRepo());
 const jsonOutput = Boolean(args.json);
 const skipSecretCheck = Boolean(args["skip-secret-check"] ?? args.skip_secret_check);
+const allowAppTokenAuth = Boolean(
+  args["allow-app-token-auth"] ?? args.allow_app_token_auth ?? process.env.CLOWNFISH_ALLOW_APP_TOKEN_AUTH === "1",
+);
 const planLimit = numberArg("plan-limit", 0);
 const executeLimit = numberArg("execute-limit", 0);
 const autonomousLimit = numberArg("autonomous-limit", 0);
@@ -36,7 +39,8 @@ const closeCanaries = rows.filter((row) => row.close_canary && !row.has_result);
 const attemptedMissing = rows.filter((row) => !row.has_result && row.latest_dispatch_attempt);
 const unattemptedMissing = rows.filter((row) => !row.has_result && !row.latest_dispatch_attempt);
 const secrets = skipSecretCheck ? null : readSecretNames(dispatchRepo);
-const auth = summarizeAuth({ secrets, targetRepos: new Set(rows.map((row) => row.repo).filter(Boolean)) });
+const variables = skipSecretCheck ? null : readVariableNames(dispatchRepo);
+const auth = summarizeAuth({ secrets, variables, targetRepos: new Set(rows.map((row) => row.repo).filter(Boolean)) });
 
 const selectedRows = {
   plan: take(filterByAttempt(missingPlan), planLimit),
@@ -221,7 +225,7 @@ function readDispatchAttemptsByJob() {
 }
 
 function readSecretNames(repo) {
-  const result = execFileSync("ghx", ["secret", "list", "--repo", repo, "--json", "name"], {
+  const result = execFileSync(ghCommand(), ["secret", "list", "--repo", repo, "--json", "name"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
@@ -229,12 +233,23 @@ function readSecretNames(repo) {
   return new Set(JSON.parse(stripAnsi(result)).map((secret) => String(secret.name)));
 }
 
-function summarizeAuth({ secrets, targetRepos }) {
+function readVariableNames(repo) {
+  const result = execFileSync(ghCommand(), ["variable", "list", "--repo", repo, "--json", "name"], {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  return new Set(JSON.parse(stripAnsi(result)).map((variable) => String(variable.name)));
+}
+
+function summarizeAuth({ secrets, variables, targetRepos }) {
   if (!secrets) {
     return {
       checked: false,
       read_secret_present: false,
       write_secret_present: false,
+      app_token_auth_allowed: false,
+      app_token_auth_configured: false,
       dispatch_ready: false,
       blockers: ["secret check skipped"],
     };
@@ -242,8 +257,13 @@ function summarizeAuth({ secrets, targetRepos }) {
   const crossRepoTargets = [...targetRepos].filter((repo) => repo && repo !== dispatchRepo);
   const readSecretPresent = secrets.has("CLOWNFISH_READ_GH_TOKEN") || secrets.has("CLOWNFISH_GH_TOKEN");
   const writeSecretPresent = secrets.has("CLOWNFISH_GH_TOKEN");
+  const appTokenAuthConfigured =
+    allowAppTokenAuth &&
+    secrets.has("CLOWNFISH_APP_PRIVATE_KEY") &&
+    (variables?.has("CLOWNFISH_APP_ID") || Boolean(process.env.CLOWNFISH_APP_ID));
+  const readAuthPresent = readSecretPresent || appTokenAuthConfigured;
   const blockers = [];
-  if (crossRepoTargets.length > 0 && !readSecretPresent) {
+  if (crossRepoTargets.length > 0 && !readAuthPresent) {
     blockers.push(`missing CLOWNFISH_READ_GH_TOKEN or CLOWNFISH_GH_TOKEN for ${crossRepoTargets.join(", ")}`);
   }
   if (crossRepoTargets.length > 0 && !writeSecretPresent) {
@@ -254,10 +274,16 @@ function summarizeAuth({ secrets, targetRepos }) {
     cross_repo_targets: crossRepoTargets,
     read_secret_present: readSecretPresent,
     write_secret_present: writeSecretPresent,
-    plan_dispatch_ready: crossRepoTargets.length === 0 || readSecretPresent,
+    app_token_auth_allowed: allowAppTokenAuth,
+    app_token_auth_configured: appTokenAuthConfigured,
+    plan_dispatch_ready: crossRepoTargets.length === 0 || readAuthPresent,
     execute_dispatch_ready: crossRepoTargets.length === 0 || writeSecretPresent,
     blockers,
   };
+}
+
+function ghCommand() {
+  return String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? "ghx");
 }
 
 function writeJobsFile(filePath, items) {

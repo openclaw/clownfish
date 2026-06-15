@@ -51,6 +51,9 @@ const publishBacklogLookback = Number(
 );
 const skipPublishBacklogCheck = Boolean(args["skip-publish-backlog-check"]);
 const skipTokenSecretCheck = Boolean(args["skip-token-secret-check"] ?? args.skip_token_secret_check);
+const allowAppTokenAuth = Boolean(
+  args["allow-app-token-auth"] ?? args.allow_app_token_auth ?? process.env.CLOWNFISH_ALLOW_APP_TOKEN_AUTH === "1",
+);
 const writeDispatchLedger = !Boolean(args["no-dispatch-ledger"] ?? args.no_dispatch_ledger);
 const dispatchLedgerPath = path.resolve(
   repoRoot(),
@@ -64,7 +67,7 @@ const headSha = currentHeadSha();
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--publish-backlog-threshold 25] [--skip-token-secret-check]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--publish-backlog-threshold 25] [--allow-app-token-auth] [--skip-token-secret-check]",
   );
   process.exit(2);
 }
@@ -214,16 +217,19 @@ function assertRequiredTokenSecrets() {
 
   const secrets = listRepoSecrets(dispatchRepo);
   if (!secrets) return;
+  const variables = listRepoVariables(dispatchRepo);
 
   const hasReadSecret = secrets.has("CLOWNFISH_READ_GH_TOKEN") || secrets.has("CLOWNFISH_GH_TOKEN");
   const hasWriteSecret = secrets.has("CLOWNFISH_GH_TOKEN");
-  if (!hasReadSecret) {
+  const hasAppTokenAuth = appTokenAuthConfigured({ secrets, variables });
+  if (!hasReadSecret && !hasAppTokenAuth) {
     failed = true;
     console.error(
       [
         `refusing dispatch: ${dispatchRepo} Actions cannot hydrate ${crossRepoTargets.join(", ")} without a readable GitHub token secret`,
         "missing CLOWNFISH_READ_GH_TOKEN or CLOWNFISH_GH_TOKEN",
-        "use --skip-token-secret-check only after confirming the GitHub App token can read the target repo",
+        "use --allow-app-token-auth only after confirming the GitHub App installation can read the target repo",
+        "use --skip-token-secret-check only for an intentionally read-only dry run or verified alternate token path",
       ].join("\n"),
     );
     return;
@@ -237,6 +243,29 @@ function assertRequiredTokenSecrets() {
       ].join("\n"),
     );
   }
+}
+
+function appTokenAuthConfigured({ secrets, variables }) {
+  if (!allowAppTokenAuth) return false;
+  const hasAppSecret = secrets.has("CLOWNFISH_APP_PRIVATE_KEY");
+  const hasAppId = variables?.has("CLOWNFISH_APP_ID") || Boolean(process.env.CLOWNFISH_APP_ID);
+  if (hasAppSecret && hasAppId) {
+    console.warn(
+      [
+        "warning: accepting GitHub App token auth for read hydration because --allow-app-token-auth was set",
+        "ensure the App installation can read every target repo before broad dispatch",
+      ].join("\n"),
+    );
+    return true;
+  }
+  console.warn(
+    [
+      "warning: --allow-app-token-auth set but App credentials are incomplete",
+      `CLOWNFISH_APP_PRIVATE_KEY secret=${hasAppSecret ? "yes" : "no"}`,
+      `CLOWNFISH_APP_ID variable/env=${hasAppId ? "yes" : "no"}`,
+    ].join("\n"),
+  );
+  return false;
 }
 
 function listRepoSecrets(dispatchRepo) {
@@ -255,6 +284,26 @@ function listRepoSecrets(dispatchRepo) {
     return new Set(JSON.parse(stripAnsi(result.stdout)).map((secret) => secret.name));
   } catch (error) {
     console.warn(`warning: could not parse repo secrets for ${dispatchRepo}; skipping token-secret preflight: ${error.message}`);
+    return null;
+  }
+}
+
+function listRepoVariables(dispatchRepo) {
+  const result = spawnSync(ghCommand, ["variable", "list", "--repo", dispatchRepo, "--json", "name"], {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    stdio: "pipe",
+  });
+  if (result.status !== 0) {
+    console.warn(
+      `warning: could not inspect repo variables for ${dispatchRepo}; App-token preflight may be incomplete\n${result.stderr || result.stdout}`,
+    );
+    return null;
+  }
+  try {
+    return new Set(JSON.parse(stripAnsi(result.stdout)).map((variable) => variable.name));
+  } catch (error) {
+    console.warn(`warning: could not parse repo variables for ${dispatchRepo}: ${error.message}`);
     return null;
   }
 }
