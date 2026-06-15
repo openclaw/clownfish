@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-91-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523511523",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523511523",
+  "head_sha": "049f47ae3011c5056036ff5587d219164531b584",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:12:46Z",
+  "workflow_updated_at": "2026-06-15T04:14:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-91-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:16:19.499Z",
+  "canonical": "#92664",
+  "canonical_issue": "#92664",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification for cluster gitcrawl-91-bulk-plan-20260615-a using the hydrated preflight artifact. Canonical issue #92664 remains the open root report. #92680 is routed to central security handling because the job explicitly marks it as a security-signal ref. The remaining non-security PRs overlap the same read-tool GBK decoding root cause; #92682 is the narrowest non-security repair path, while #92700 and #92756 should not be merged as-is.",
+  "actions": [
+    {
+      "target": "#92664",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92664",
+      "candidate_fix": null,
+      "reason": null
+    },
+    {
+      "target": "#92680",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#92664",
+      "candidate_fix": null,
+      "reason": "Exact job-listed security-signal ref; route to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#92682",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92664",
+      "candidate_fix": "#92682",
+      "reason": "Clear same root cause and viable narrow non-security repair path, but plan-mode job disallows merge and competing repair candidates remain open."
+    },
+    {
+      "target": "#92700",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92664",
+      "candidate_fix": "#92682",
+      "reason": "Superseded by a smaller same-root-cause repair path; closure is only planned for applicator replay after live-state re-fetch and comment-first policy."
+    },
+    {
+      "target": "#92756",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92664",
+      "candidate_fix": "#92682",
+      "reason": "Superseded by a narrower same-root-cause repair path and blocked by failing proof; closure is only planned for applicator replay after live-state re-fetch and comment-first policy."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1,
+    "close_superseded": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

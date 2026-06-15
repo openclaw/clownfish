@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-93-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523517246",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523517246",
+  "head_sha": "049f47ae3011c5056036ff5587d219164531b584",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:12:56Z",
+  "workflow_updated_at": "2026-06-15T04:14:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-93-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:16:19.502Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification split the cluster into parseAbsoluteTimeMs coverage and stagger coverage families. Job notes explicitly mark #91656 and #92471 as security-signal refs, so those exact PRs are quarantined with non-mutating route_security actions. Unrelated non-security issue/PR refs are classified without closure or merge recommendations because close/merge/fix/low-signal cleanup are disabled or blocked by the plan-mode gates.",
+  "actions": [
+    {
+      "target": "#91654",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91654",
+      "candidate_fix": null,
+      "reason": "Best non-security canonical for the parseAbsoluteTimeMs coverage family after quarantining #91656."
+    },
+    {
+      "target": "#91656",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-marked security-signal ref must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92467",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92467",
+      "candidate_fix": null,
+      "reason": "Best non-security canonical for the stagger coverage family after quarantining #92471 and not relying on failing #92576."
+    },
+    {
+      "target": "#92471",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-marked security-signal ref must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92576",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92467",
+      "candidate_fix": null,
+      "reason": "Related stagger coverage PR, but failing checks and disabled merge/close gates make non-mutating classification appropriate."
+    },
+    {
+      "target": "#92030",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92030",
+      "reason": "Historical merged stagger fix; included only as closed context evidence."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 2,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

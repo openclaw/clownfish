@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-920-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523516097",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523516097",
+  "head_sha": "049f47ae3011c5056036ff5587d219164531b584",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:12:54Z",
+  "workflow_updated_at": "2026-06-15T04:14:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-920-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:16:19.500Z",
+  "canonical": "#86334",
+  "canonical_issue": "#86334",
+  "canonical_pr": "#86335",
+  "summary": "Plan-mode classification only. The representative issue #86334 and linked PR #86335 are both security-sensitive because they change WebChat handling of custom app-protocol hrefs, so they are routed to central OpenClaw security handling. The unrelated linked KaTeX PR #87568 is also security-sensitive and routed separately. No close, merge, label, comment, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#86127",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#86334",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; it is not an open candidate for this cluster."
+    },
+    {
+      "target": "#86334",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#86334",
+      "candidate_fix": null,
+      "reason": "OpenClaw security policy is central_security_only for this job; security-sensitive items must be quarantined with route_security and not processed by ProjectClownfish cleanup."
+    },
+    {
+      "target": "#86335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#86334",
+      "candidate_fix": null,
+      "reason": "The PR changes a WebChat link-sanitization boundary for app-protocol hrefs, so it must go to central security handling instead of merge, close, or fix planning."
+    },
+    {
+      "target": "#87568",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#86334",
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked refs must be quarantined individually without blocking classification of unrelated items."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

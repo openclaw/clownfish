@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-940-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523564852",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523564852",
+  "head_sha": "86103b97bc1c06f021ad75d533f6055a87af8e57",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:14:26Z",
+  "workflow_updated_at": "2026-06-15T04:15:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-940-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:16:19.502Z",
+  "canonical": "#85202",
+  "canonical_issue": "#85202",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #85202 remains the open canonical bug report for the Linux headless node exec ENOENT failure. #85543 is an open security-sensitive PR and should be quarantined to central OpenClaw security handling with no ProjectClownfish mutation.",
+  "actions": [
+    {
+      "target": "#85202",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85202",
+      "candidate_fix": null,
+      "reason": "#85202 is the best surviving non-security canonical issue for this cluster and should remain open while any fix path is handled outside this plan-mode cleanup run."
+    },
+    {
+      "target": "#85543",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#85543 touches an exec security-boundary surface and is explicitly marked security-sensitive by the job and live preflight artifact, so ProjectClownfish should not close, merge, comment on, or repair it."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
