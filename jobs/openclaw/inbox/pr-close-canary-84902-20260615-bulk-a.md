@@ -34,7 +34,7 @@ allow_fix_pr: false
 allow_merge: false
 allow_post_merge_close: false
 require_fix_before_close: false
-canonical_hint: "Close-only canary: #84902 was planned as superseded by merged #74273 in run 27520818217. Re-fetch live state and only close if #84902 remains open and #74273 is still merged."
+canonical_hint: "Close-only canary: #84902 was planned as covered by merged #74273 in run 27520818217. Re-fetch live state and only close if #84902 remains open and #74273 is still merged. Because #74273 is already merged/closed, use candidate_fix rather than canonical for the close action."
 notes: "Generated from ProjectClownfish result gitcrawl-176-bulk-plan-20260615-a after live refetch on 2026-06-15."
 ---
 
@@ -56,4 +56,4 @@ Run one live close-only cleanup pass. Hydrate #84902 and #74273, then emit at mo
 
 ## Instructions
 
-If #84902 is still open and #74273 is still merged, prefer a credit-preserving `close_superseded` or `close_fixed_by_candidate` for #84902. Mention both PR/issue URLs in the close comment and preserve contributor/user context. If either live state changed, keep the target open or mark the exact blocker with `needs_human`.
+If #84902 is still open and #74273 is still merged, prefer `close_fixed_by_candidate` with `candidate_fix: "#74273"` for #84902. Do not emit `close_superseded` with closed/merged #74273 in `canonical`; merged PRs are candidate fixes, not surviving open canonicals. Mention both PR/issue URLs in the close comment and preserve contributor/user context. If either live state changed, keep the target open or mark the exact blocker with `needs_human`.

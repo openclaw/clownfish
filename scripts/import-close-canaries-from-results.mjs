@@ -219,12 +219,9 @@ function writeJob(item) {
   const filePath = path.join(outDir, `${clusterId}.md`);
   const relative = path.relative(repoRoot(), filePath);
   if (fs.existsSync(filePath) && !force) die(`job already exists: ${relative} (use --force to overwrite)`);
-  const verb = item.action === "close_fixed_by_candidate" ? "fixed by" : "superseded by";
+  const verb = item.action === "close_fixed_by_candidate" ? "fixed by" : "covered by";
   const title = `${kind === "pr" ? "PR" : "Issue"} Close Canary #${number}`;
-  const preferredAction =
-    item.action === "close_fixed_by_candidate"
-      ? "`close_fixed_by_candidate`"
-      : "a credit-preserving `close_superseded` or `close_fixed_by_candidate`";
+  const preferredAction = `\`close_fixed_by_candidate\` with \`candidate_fix: "${item.canonical}"\``;
   const markdown = [
     "---",
     `repo: ${repo}`,
@@ -262,7 +259,7 @@ function writeJob(item) {
     "allow_merge: false",
     "allow_post_merge_close: false",
     "require_fix_before_close: false",
-    `canonical_hint: ${quoteYaml(`Close-only canary: ${item.target} was planned as ${verb} merged ${item.canonical} in run ${item.runId}. Re-fetch live state and only close if ${item.target} remains open and ${item.canonical} is still merged.`)}`,
+    `canonical_hint: ${quoteYaml(`Close-only canary: ${item.target} was planned as ${verb} merged ${item.canonical} in run ${item.runId}. Re-fetch live state and only close if ${item.target} remains open and ${item.canonical} is still merged. Because ${item.canonical} is already merged/closed, use candidate_fix rather than canonical for the close action.`)}`,
     `notes: ${quoteYaml(`Generated from ProjectClownfish result ${item.clusterId} after live refetch on ${new Date().toISOString().slice(0, 10)}.`)}`,
     "---",
     "",
@@ -284,7 +281,7 @@ function writeJob(item) {
     "",
     "## Instructions",
     "",
-    `If ${item.target} is still open and ${item.canonical} is still merged, prefer ${preferredAction} for ${item.target}. Mention both PR/issue URLs in the close comment and preserve contributor/user context. If either live state changed, keep the target open or mark the exact blocker with \`needs_human\`.`,
+    `If ${item.target} is still open and ${item.canonical} is still merged, prefer ${preferredAction} for ${item.target}. Do not emit \`close_superseded\` with closed/merged ${item.canonical} in \`canonical\`; merged PRs are candidate fixes, not surviving open canonicals. Mention both PR/issue URLs in the close comment and preserve contributor/user context. If either live state changed, keep the target open or mark the exact blocker with \`needs_human\`.`,
     "",
   ].join("\n");
 
