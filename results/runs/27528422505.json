@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-257",
+  "mode": "plan",
+  "run_id": "27528422505",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528422505",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:40Z",
+  "workflow_updated_at": "2026-06-15T06:35:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-257.md",
+  "published_at": "2026-06-15T06:37:32.138Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification. The artifact reports no security-sensitive hydrated job refs. This shard has no shared canonical; open PRs are classified independently, already-closed PRs are kept closed, and maintainer/technical-review decisions are scoped to the affected PRs only.",
+  "actions": [
+    {
+      "target": "#75126",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No duplicate/superseded closure is supported; keep as an independent open PR still waiting on proof and author cleanup."
+    },
+    {
+      "target": "#55851",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer and technical correctness judgment is required before any merge path; this plan cannot merge or fix."
+    },
+    {
+      "target": "#87863",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent open PR; it is narrow but still missing required behavior proof."
+    },
+    {
+      "target": "#87865",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#88100",
+      "reason": "Already closed; retain historical classification only."
+    },
+    {
+      "target": "#91924",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent localization PR pending proof."
+    },
+    {
+      "target": "#63634",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical correctness judgment is required because the PR touches compatibility-sensitive MCP schema handling and has unresolved merge-preflight blockers."
+    },
+    {
+      "target": "#87942",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": "#87573",
+      "reason": "Already closed; keep closed and preserve the historical low-signal/superseded evidence."
+    },
+    {
+      "target": "#87955",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned work with active author follow-up should not be closed or merged by this plan shard."
+    },
+    {
+      "target": "#87958",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready maintainer-owned behavior change requires maintainer review; no close or merge is appropriate in plan mode."
+    },
+    {
+      "target": "#87961",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89596",
+      "reason": "The PR is related to broader tool allowlist work but should remain open pending proof and maintainer judgment; no closure is planned."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 4,
+    "keep_closed": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#55851 requires maintainer and technical correctness review before merge.",
+    "#63634 requires maintainer technical review for compatibility-sensitive MCP schema handling and failed build-artifacts evidence.",
+    "#87955 is maintainer-owned and waiting on author after review findings.",
+    "#87958 is maintainer-owned and ready for maintainer review, but merge is blocked in this job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

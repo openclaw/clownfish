@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-243",
+  "mode": "plan",
+  "run_id": "27528399034",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528399034",
+  "head_sha": "c2ef9909712ef6471a22cf34eee72da84a63452c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:05Z",
+  "workflow_updated_at": "2026-06-15T06:35:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-243.md",
+  "published_at": "2026-06-15T06:37:32.112Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed refs. No GitHub mutations are planned. Security-sensitive refs are quarantined item-by-item; already-closed refs remain skipped; open non-security PRs are kept for their existing review/proof/maintainer paths rather than deduped against a shared canonical.",
+  "actions": [
+    {
+      "target": "#58478",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open Android PR with unique surface; not eligible for close, merge, or fixed-by-candidate closeout in this plan shard."
+    },
+    {
+      "target": "#57480",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; retain historical superseded classification only."
+    },
+    {
+      "target": "#81164",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large feature PR with its own product/maintainer review path; no duplicate or low-signal closeout is supported."
+    },
+    {
+      "target": "#58636",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open file-content upload surface touches sensitive local file handling and is explicitly marked security-sensitive by preflight; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#86551",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid related work in the DeepSeek proxy reasoning_content family, but not closable or mergeable here because proof and overlapping PR selection remain unresolved outside this inventory shard."
+    },
+    {
+      "target": "#86556",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed after replacement/fixed-on-main determination; retain skipped historical classification."
+    },
+    {
+      "target": "#86564",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open gateway auth-provider PR with maintainer signal and its own review path; no dedupe or close action is warranted in plan mode."
+    },
+    {
+      "target": "#86584",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#86572",
+      "reason": "Credible open candidate for #86572 but still on its own maintainer/proof path; keep open rather than duplicate-close or merge-plan."
+    },
+    {
+      "target": "#86607",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#69192",
+      "reason": "Open focused replacement-style PR for #69192 but not mergeable by this worker; keep on maintainer review path."
+    },
+    {
+      "target": "#86622",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open API-key/auth-provider handling change is explicitly marked security-sensitive by preflight; route to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_closed": 2,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

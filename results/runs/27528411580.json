@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-251",
+  "mode": "plan",
+  "run_id": "27528411580",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528411580",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:24Z",
+  "workflow_updated_at": "2026-06-15T06:35:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-251.md",
+  "published_at": "2026-06-15T06:37:32.130Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No GitHub mutations are planned. Security-sensitive hydrated PRs are routed to central security handling; already-closed listed PRs are kept closed; ordinary open PRs are kept related/independent or need human follow-up based on available hydrated evidence.",
+  "actions": [
+    {
+      "target": "#87081",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive PRs are out of scope for ProjectClownfish backlog cleanup and must be routed without closing, merging, labeling, or commenting."
+    },
+    {
+      "target": "#87102",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct open PR with failed proof and no hydrated duplicate or superseding candidate in this inventory shard."
+    },
+    {
+      "target": "#87119",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive routing applies to this exact item only; no closure or merge action is allowed."
+    },
+    {
+      "target": "#87151",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#90682",
+      "reason": "The listed PR is already closed, so no close_superseded action is valid."
+    },
+    {
+      "target": "#91673",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated live state is unavailable in the provided artifact, so this PR cannot be safely classified beyond needing a fresh hydration pass."
+    },
+    {
+      "target": "#91875",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The available artifact is insufficient to decide whether this open PR is related, superseded, or still independently useful."
+    },
+    {
+      "target": "#91877",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated live state is missing, so the PR needs a fresh preflight before a conservative classification can be emitted."
+    },
+    {
+      "target": "#90449",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87307",
+      "candidate_fix": null,
+      "reason": "The PR is related to the open Matrix regression issue but is not merge-ready or closable in this inventory shard."
+    },
+    {
+      "target": "#91483",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone docs PR and should remain open for normal maintainer/author follow-up."
+    },
+    {
+      "target": "#87255",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has active author follow-up and a technical correctness judgment remains before any close or merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 2,
+    "keep_closed": 1,
+    "needs_human": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91673 missing hydrated live state in the provided compacted artifact.",
+    "#91875 missing hydrated live state in the provided compacted artifact.",
+    "#91877 missing hydrated live state in the provided compacted artifact.",
+    "#87255 needs maintainer technical correctness judgment after author follow-up to Codex review feedback."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

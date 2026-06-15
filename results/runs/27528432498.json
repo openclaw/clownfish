@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-263",
+  "mode": "plan",
+  "run_id": "27528432498",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528432498",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:55Z",
+  "workflow_updated_at": "2026-06-15T06:35:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-263.md",
+  "published_at": "2026-06-15T06:37:32.153Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical is invented. Security-sensitive open PRs are routed to central security handling; closed PR #88348 is kept closed. Remaining open non-security PRs are retained as independent or related work because this shard does not allow merge, fix PRs, or low-signal closeout.",
+  "actions": [
+    {
+      "target": "#88336",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#88348",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": "#90775",
+      "reason": "Already closed; no mutation is valid in this plan."
+    },
+    {
+      "target": "#88361",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer-review PR; keep open and do not merge or close from this shard."
+    },
+    {
+      "target": "#88374",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-sensitive gateway identity work must be routed to central security handling."
+    },
+    {
+      "target": "#88379",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plugin startup work should stay open; no close or merge action is safe from this shard."
+    },
+    {
+      "target": "#88384",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related narrow plugin-loader work pending normal maintainer review."
+    },
+    {
+      "target": "#88396",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related cron watchdog PR should remain open for proof/product review."
+    },
+    {
+      "target": "#88400",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone config PR; keep open rather than close or merge."
+    },
+    {
+      "target": "#88401",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone bugfix PR; keep open for normal review and validation."
+    },
+    {
+      "target": "#88407",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Codex continuity PR should stay open or be re-planned with #88652 hydrated before any superseded/fixed closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "keep_independent": 3,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

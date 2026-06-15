@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-259",
+  "mode": "plan",
+  "run_id": "27528426150",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528426150",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:45Z",
+  "workflow_updated_at": "2026-06-15T06:35:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-259.md",
+  "published_at": "2026-06-15T06:37:32.146Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. The shard has no shared canonical; closed refs are kept closed, security-boundary PRs are routed to central security handling, and unrelated open PRs are left as independent or related follow-up work without merge or close mutations.",
+  "actions": [
+    {
+      "target": "#88066",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92800",
+      "reason": "Already closed; keep as historical context for the #92800 implementation path."
+    },
+    {
+      "target": "#88075",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes an exec security boundary and links to a route-only security-sensitive issue; central OpenClaw security handling should own it."
+    },
+    {
+      "target": "#88078",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88077",
+      "candidate_fix": "#88078",
+      "reason": "Useful related fix candidate for #88077, but not closable or mergeable within this inventory shard."
+    },
+    {
+      "target": "#88082",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider-catalog work; leave open for normal author/maintainer handling."
+    },
+    {
+      "target": "#88098",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent CLI feature PR with a proof/check blocker; keep open rather than closing from inventory cleanup."
+    },
+    {
+      "target": "#88112",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86984",
+      "candidate_fix": "#88112",
+      "reason": "Useful related fix candidate for #86984; keep open for validation and maintainer review."
+    },
+    {
+      "target": "#39065",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact route-only security-sensitive PR; quarantine to central OpenClaw security handling."
+    },
+    {
+      "target": "#88114",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Windows reliability PR with validation blockers; keep open rather than closing from this mixed inventory shard."
+    },
+    {
+      "target": "#88121",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer log-level change with check blockers; keep open for normal maintainer workflow."
+    },
+    {
+      "target": "#88142",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87888",
+      "candidate_fix": "#87888",
+      "reason": "Related overlapping tool-prep PR; keep open without closure because this inventory shard has no shared canonical and #87888 is not a listed candidate."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 2,
+    "keep_related": 3,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

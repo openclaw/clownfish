@@ -1,0 +1,146 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-273",
+  "mode": "plan",
+  "run_id": "27528449425",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528449425",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:19Z",
+  "workflow_updated_at": "2026-06-15T06:35:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-273.md",
+  "published_at": "2026-06-15T06:37:32.183Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned because this shard is not a dedupe cluster, merge/fix actions are blocked by job frontmatter, low-signal PR closeout is disabled, and several candidates need maintainer/proof review rather than closure.",
+  "actions": [
+    {
+      "target": "#92023",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open proof/test PR in a sensitive-adjacent area; keep in backlog/review flow rather than close or merge."
+    },
+    {
+      "target": "#92021",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR uses explicit SSRF and credential-exfiltration language, so it is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#88793",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned broad docs PR is ready for maintainer judgment, not automated closeout."
+    },
+    {
+      "target": "#88823",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88809",
+      "reason": "Plausible linked fix path for #88809, but proof remains missing and merge/fixed-by-candidate closeout is blocked."
+    },
+    {
+      "target": "#88828",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#62891",
+      "reason": "Potentially useful gateway readiness fix with linked historical context, but not a closure or merge candidate in this plan shard."
+    },
+    {
+      "target": "#88835",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#78225",
+      "reason": "Draft maintainer-owned exec-approval PR needs maintainer/security-adjacent judgment; do not close or merge through this shard."
+    },
+    {
+      "target": "#88837",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88816",
+      "reason": "Related narrow provider-model fix remains open for maintainer review; not safe to close as superseded without maintainer judgment."
+    },
+    {
+      "target": "#82572",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#63330",
+      "reason": "Large active contributor feature/fix PR with proof history; keep for maintainer review, do not close as low-signal."
+    },
+    {
+      "target": "#92091",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#53654",
+      "reason": "Linked implementation PR for open Discord feature issues, but active follow-up and failing checks make closure/merge unsafe."
+    },
+    {
+      "target": "#88925",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88870",
+      "reason": "Plausible linked fix for #88870, but review/proof state is not strong enough for automated close or merge."
+    },
+    {
+      "target": "#63330",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated linked PR is explicitly marked security-sensitive by preflight and must be routed to central security handling."
+    },
+    {
+      "target": "#78225",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated linked issue is explicitly security-sensitive and out of scope for this worker."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 7,
+    "route_security": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 12
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88793 requires maintainer review for broad maintainer-labeled docs/commentary changes.",
+    "#88835 is a draft maintainer-owned exec-approval write PR with security-adjacent linked issue #78225.",
+    "#92021 should be routed to central security because the PR itself claims SSRF/credential-exfiltration risk."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

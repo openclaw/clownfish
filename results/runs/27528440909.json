@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-268",
+  "mode": "plan",
+  "run_id": "27528440909",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528440909",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:07Z",
+  "workflow_updated_at": "2026-06-15T06:35:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-268.md",
+  "published_at": "2026-06-15T06:37:32.167Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification shard. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. Non-security open PRs are preserved for maintainer or author follow-up; the one security-sensitive candidate is routed to central security handling. No close, merge, label, comment, fix, or PR-raising action is planned.",
+  "actions": [
+    {
+      "target": "#88673",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open maintainer PR with no duplicate/superseded evidence and merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#88683",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88683",
+      "reason": "Clear linked fix candidate for a hydrated issue, but this job cannot merge or close fixed-by-candidate and no dedupe close is appropriate."
+    },
+    {
+      "target": "#88684",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88684",
+      "reason": "Clear linked fix candidate for a hydrated issue, but proof/status review remains a maintainer path and merge/close actions are unavailable in plan mode."
+    },
+    {
+      "target": "#88709",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88709",
+      "reason": "Useful linked fix candidate with contributor credit preserved by keeping the PR open; merge and fixed-by-candidate closeout are not allowed by this job."
+    },
+    {
+      "target": "#88713",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large maintainer-owned documentation/comment sweep should remain open for maintainer review; it is not a duplicate or closeout candidate in this inventory shard."
+    },
+    {
+      "target": "#88726",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88726",
+      "reason": "Active contributor PR with useful code and unresolved review/check history; preserve it for author/maintainer follow-up rather than closing or merging."
+    },
+    {
+      "target": "#88732",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary feed search/defaults work is out of ProjectClownfish cleanup scope and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#88738",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88738",
+      "reason": "Narrow linked docs PR should stay open, but failed real behavior proof blocks any fixed-by-candidate closeout or merge-style recommendation."
+    },
+    {
+      "target": "#88750",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open feature PR with no duplicate/superseded evidence; keep it for assigned maintainer review since merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#88754",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88754",
+      "reason": "Potential follow-up/narrow variant should stay open for proof; failed proof and checks block closure or fixed-by-candidate handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 6,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

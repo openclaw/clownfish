@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-271",
+  "mode": "plan",
+  "run_id": "27528446312",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528446312",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:15Z",
+  "workflow_updated_at": "2026-06-15T06:35:50Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-271.md",
+  "published_at": "2026-06-15T06:37:32.176Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification. No GitHub mutations are planned. Security-sensitive PRs #43656 and #86360 are quarantined with route_security. The remaining open PRs are kept open for proof, author work, or maintainer review; no duplicate, superseded, low-signal, merge, close, or fix action is safe under this job's gates.",
+  "actions": [
+    {
+      "target": "#40392",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related implementation candidate; it still needs proof and review resolution."
+    },
+    {
+      "target": "#80805",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for author/maintainer follow-up; no close or merge action is safe in this plan-mode inventory job."
+    },
+    {
+      "target": "#49750",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related routing fix candidate; unresolved proof and review findings block merge or fixed-by classification."
+    },
+    {
+      "target": "#53467",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical/product judgment is required before this Slack behavior change can advance."
+    },
+    {
+      "target": "#91502",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep for maintainer decision; it is not a dedupe/closure candidate and cannot be merged by this plan-mode job."
+    },
+    {
+      "target": "#91217",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product/technical judgment is required before advancing this deterministic gateway model change."
+    },
+    {
+      "target": "#89853",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the active related fix candidate for write verification; no close or merge action is safe."
+    },
+    {
+      "target": "#86360",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact PR to central OpenClaw security handling; do not close, merge, label, comment, or fix through Clownfish."
+    },
+    {
+      "target": "#43656",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact PR to central OpenClaw security handling; do not close, merge, label, comment, or fix through Clownfish."
+    },
+    {
+      "target": "#43659",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related implementation candidate; failing proof blocks merge or fixed-by closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "needs_human": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#53467 requires maintainer technical/product review for Slack ignoreOtherMentions behavior and unresolved review-bot concerns.",
+    "#91502 requires maintainer decision because it is a maintainer-owned QA seam with passing checks but no merge preflight and merge is blocked by the job.",
+    "#91217 requires maintainer product/technical review for the deterministic dummy model path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

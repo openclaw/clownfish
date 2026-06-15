@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-249",
+  "mode": "plan",
+  "run_id": "27528408572",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528408572",
+  "head_sha": "c2ef9909712ef6471a22cf34eee72da84a63452c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:19Z",
+  "workflow_updated_at": "2026-06-15T06:35:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-249.md",
+  "published_at": "2026-06-15T06:37:32.120Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for mixed shard 249. No GitHub mutations are planned. Security-sensitive refs are routed only; already-closed listed PRs are not given close actions; open non-security PRs are kept for their own maintainer/review path because this shard is not a dedupe cluster and merge/fix actions are blocked.",
+  "actions": [
+    {
+      "target": "#60844",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no closure mutation is valid."
+    },
+    {
+      "target": "#60137",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no closure mutation is valid."
+    },
+    {
+      "target": "#60922",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open feature PR with unique scope; not eligible for close, merge, or fix in this plan job."
+    },
+    {
+      "target": "#59821",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open bug PR with a real remaining issue but blocked merge readiness; no close/merge/fix action is allowed or safe."
+    },
+    {
+      "target": "#91722",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary and SSRF/egress-control work is out of scope for Clownfish backlog cleanup and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#60683",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open feature PR with unique work but unresolved proof/check/review blockers; no close, merge, or fix action is allowed in this job."
+    },
+    {
+      "target": "#64436",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned API-surface PR with sufficient proof requires maintainer judgment; this plan job cannot merge or fix it."
+    },
+    {
+      "target": "#81467",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; keep open for maintainer review because this shard cannot merge and there is no duplicate/superseded evidence."
+    },
+    {
+      "target": "#91857",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow bug PR needing real behavior proof; keep open rather than close or escalate the whole cluster."
+    },
+    {
+      "target": "#91810",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer UI PR; keep open because no duplicate/superseded evidence exists and merge is not allowed."
+    },
+    {
+      "target": "#64127",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed exactly and kept out of Clownfish backlog cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_independent": 6,
+    "route_security": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#64436: maintainer-owned runtime API/product-surface decision with sufficient proof and maintainer assignment; merge/fix are blocked in this plan job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-272",
+  "mode": "plan",
+  "run_id": "27528447894",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528447894",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:17Z",
+  "workflow_updated_at": "2026-06-15T06:35:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-272.md",
+  "published_at": "2026-06-15T06:37:32.180Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 open candidate PRs. No shared canonical was selected. Security-sensitive PRs were quarantined individually; unrelated non-security PRs were classified conservatively without close, merge, or fix recommendations because this job blocks merge/fix/raise_pr and disables low-signal closeout.",
+  "actions": [
+    {
+      "target": "#43953",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish mutation scope; route only this PR and continue unrelated classifications."
+    },
+    {
+      "target": "#90407",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dependency graph/security-gated PR must be routed to central handling rather than closed, merged, or treated as ordinary cleanup."
+    },
+    {
+      "target": "#92037",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Process execution and security-boundary shaped changes require central security-aware review, scoped only to this PR."
+    },
+    {
+      "target": "#92066",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the workboard dispatch-scope bug, but not a duplicate or close candidate in this inventory shard."
+    },
+    {
+      "target": "#92065",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the QMD timeout report, but failing proof and plan-only constraints make non-mutating classification the safe outcome."
+    },
+    {
+      "target": "#92063",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear relationship to the streaming UI issue, with no closure or merge recommendation available in this inventory shard."
+    },
+    {
+      "target": "#80681",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone trajectory feature/config PR should remain independent; failing checks and stale/update signal block merge-style action."
+    },
+    {
+      "target": "#79910",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the sessions recovery bug, but unresolved review/check/update blockers make this non-mutating classification only."
+    },
+    {
+      "target": "#46895",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product/technical judgment is needed before classifying this as a viable fix or closing anything against it."
+    },
+    {
+      "target": "#92072",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the Gemini CLI image-capability issue, but open PR status and failing checks block any close/fixed-by-candidate/merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 5,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#46895 requires maintainer product/technical judgment on whether /model status and /model list should shadow literal model ids, plus follow-up on the reported test syntax/check failures."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

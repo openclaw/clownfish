@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-262",
+  "mode": "plan",
+  "run_id": "27528430954",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528430954",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:32:52Z",
+  "workflow_updated_at": "2026-06-15T06:35:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-262.md",
+  "published_at": "2026-06-15T06:37:32.150Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed open PR candidates. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. Security-sensitive PRs are routed to central security handling; unrelated non-security PRs are kept open/classified without mutation.",
+  "actions": [
+    {
+      "target": "#67433",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches a security-boundary-labeled hook result path and is explicitly listed for security routing."
+    },
+    {
+      "target": "#90324",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is explicitly security-routed by the hydrated preflight artifact."
+    },
+    {
+      "target": "#88280",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone focused PR; keep open for normal review rather than dedupe or closeout."
+    },
+    {
+      "target": "#91957",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer performance PR; no closure or merge action is allowed or warranted in this inventory shard."
+    },
+    {
+      "target": "#88296",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to a hydrated linked issue but not closable or merge-ready in this plan-only inventory pass."
+    },
+    {
+      "target": "#88300",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related follow-up/fix work remains open and blocked on review findings, not a close candidate."
+    },
+    {
+      "target": "#88301",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to prior merged work but still active and review-blocked, so keep open."
+    },
+    {
+      "target": "#88311",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Windows doctor repair work should remain open for maintainer review; no closure target is clear."
+    },
+    {
+      "target": "#88323",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active related fix PR with requested changes; keep open rather than close or supersede."
+    },
+    {
+      "target": "#88329",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed on the user-pin fallback semantics and proof sufficiency before classification can safely move beyond non-mutating review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 2,
+    "keep_related": 5,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88329: maintainer/product judgment needed on whether user-pinned model fallback should become quota-only preference semantics and whether the latest proof is sufficient."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

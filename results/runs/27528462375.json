@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-281",
+  "mode": "plan",
+  "run_id": "27528462375",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528462375",
+  "head_sha": "1da48294935cfb2e814df51bca62bd4809f789dc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:33:38Z",
+  "workflow_updated_at": "2026-06-15T06:35:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-281.md",
+  "published_at": "2026-06-15T06:37:32.189Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No GitHub mutations, merges, or fix PRs are planned. The hydrated preflight artifact reported no security-sensitive items. Open PRs are kept for maintainer/review/proof follow-up; the already closed PR is recorded as skipped keep_closed.",
+  "actions": [
+    {
+      "target": "#80778",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful scoped PR with unresolved proof/check blockers; keep related to its linked issue rather than closing or escalating the whole shard."
+    },
+    {
+      "target": "#92153",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a plausible linked fix but still has proof/review-gate tension, so keep it related for maintainer follow-up."
+    },
+    {
+      "target": "#90661",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a broad product/config/UI feature with a product-decision label and failing check; maintainer judgment is required before any close or merge path."
+    },
+    {
+      "target": "#92160",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned work with unresolved proof checks should remain open and related to its own fix path."
+    },
+    {
+      "target": "#92161",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad draft diagnostics work is not closable as low signal under this job and needs normal author/maintainer follow-up."
+    },
+    {
+      "target": "#91182",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#90433",
+      "reason": "Already closed historical PR; record skipped keep_closed only."
+    },
+    {
+      "target": "#90817",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clearly related to the #90766 fix family, but competing active PRs and author follow-up make closure a maintainer judgment outside this inventory shard."
+    },
+    {
+      "target": "#90821",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful linked fix with active proof follow-up; keep related and do not close or merge in plan mode."
+    },
+    {
+      "target": "#92164",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The artifact leaves both product intent and reproducibility unresolved, so maintainer judgment is required for this item."
+    },
+    {
+      "target": "#90885",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible linked fix with unresolved review feedback/re-review loop; keep related for normal maintainer review."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 7,
+    "needs_human": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90661 requires maintainer/product judgment for broad gateway.controlUi.timezone behavior and failing checks.",
+    "#92164 requires maintainer/product judgment because the linked issue has product-decision labels and reproducibility was not established in the hydrated review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
