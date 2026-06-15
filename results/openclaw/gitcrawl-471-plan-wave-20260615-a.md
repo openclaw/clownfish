@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-471-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518851475"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518851475"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516827001"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516827001"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.598Z"
+published_at: "2026-06-15T02:43:28.426Z"
 canonical: "#92244"
 canonical_issue: "#92244"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518851475](https://github.com/openclaw/clownfish/actions/runs/27518851475)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516827001](https://github.com/openclaw/clownfish/actions/runs/27516827001)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92244
 
 ## Summary
 
-Plan-mode classification only. #92244 remains the canonical open issue. #92254 is an open related fix attempt for the same root cause, but it should not be treated as merge-ready or as a fixed-by-candidate closeout path because the Real behavior proof check is failing and an actionable Codex review finding says the Discord hidden-command path is still unprotected.
+Canonical #92244 remains the best live canonical issue. #92254 is a related open contributor PR for the same model-picker auth-profile preservation bug, but it is not merge-ready or suitable for fixed-by-candidate closeout because Real behavior proof failed and Codex review reports an unresolved hidden Discord command path.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #92244 remains the canonical open issue. #92254 i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92244 | keep_canonical | planned | canonical | Best live canonical for the reported auth profile override preservation bug. |
-| #92254 | keep_related | planned | related | Related to the canonical issue, but not merge-ready and not sufficient evidence for fixed-by-candidate closeout. |
+| #92244 | keep_canonical | planned | canonical | Keep #92244 as the canonical issue for the root cause and validation thread. |
+| #92254 | keep_related | planned | related | Keep #92254 related to canonical #92244. It is a useful same-root-cause contributor PR, but unresolved review-bot feedback and failed proof block merge and fixed-by-candidate closeout. |
 
 ## Needs Human
 

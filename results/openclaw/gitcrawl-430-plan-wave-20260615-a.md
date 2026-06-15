@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-430-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518838180"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518838180"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516800081"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516800081"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.150Z"
+published_at: "2026-06-15T02:43:28.418Z"
 canonical: "#39307"
 canonical_issue: "#39307"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518838180](https://github.com/openclaw/clownfish/actions/runs/27518838180)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516800081](https://github.com/openclaw/clownfish/actions/runs/27516800081)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #39307
 
 ## Summary
 
-Plan mode only. Keep #39307 as the non-security canonical feature issue for default/user-visible mid-thread compaction disclosure. Route #58830 to central security handling because the hydrated artifact marks it security-sensitive and the ClawSweeper review identifies preview/rollback transcript-exposure risk. Linked PRs #54251, #67830, and #87171 are already closed/merged context and should not receive closure actions.
+Kept #39307 as the open non-security canonical for user-visible mid-thread compaction/reset disclosure. Routed #58830 to central security handling because its preview, confirmation, and rollback surfaces are security/privacy-sensitive. Closed linked PRs are historical partial-fix context only.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan mode only. Keep #39307 as the non-security canonical feature issue for defa
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39307 | keep_canonical | planned | canonical | Best surviving non-security canonical for the default compaction disclosure/user-visible reset behavior; no closure or fix action allowed in this plan job. |
-| #58830 | route_security | planned | security_sensitive | Security-sensitive preview/confirmation/rollback feature request is out of ProjectClownfish cleanup scope and should route to central OpenClaw security handling without blocking classification of #39307. |
-| #54251 | keep_closed | skipped | fixed_by_candidate | Already closed/merged linked context; closure actions are invalid for closed refs. |
-| #67830 | keep_closed | skipped | fixed_by_candidate | Already closed/merged linked context; closure actions are invalid for closed refs. |
-| #87171 | keep_closed | skipped | fixed_by_candidate | Already closed/merged linked context; closure actions are invalid for closed refs. |
+| #39307 | keep_canonical | planned | canonical | #39307 remains the clearest live non-security canonical. Keep it open for maintainer product decision on disclosure policy and recovery behavior. |
+| #58830 | route_security | planned | security_sensitive | Quarantine only #58830 for central OpenClaw security/privacy handling. Do not close, merge, label, comment on, or open a fix for this item through Clownfish. |
+| #54251 | keep_closed | skipped | related | Already merged historical context; no action is needed or allowed for this closed PR. |
+| #67830 | keep_closed | skipped | related | Already merged historical context; no action is needed or allowed for this closed PR. |
+| #87171 | keep_closed | skipped | related | Already merged historical context; no action is needed or allowed for this closed PR. |
 
 ## Needs Human
 

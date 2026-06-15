@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-488-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518857685"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518857685"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516835078"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516835078"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.602Z"
+published_at: "2026-06-15T02:43:28.429Z"
 canonical: "#92100"
 canonical_issue: "#92100"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518857685](https://github.com/openclaw/clownfish/actions/runs/27518857685)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516835078](https://github.com/openclaw/clownfish/actions/runs/27516835078)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92100
 
 ## Summary
 
-Plan-only classification: #92100 remains the live canonical issue for the Feishu no-visible fallback opacity problem. #92172 is an open related implementation PR for the same issue, but this job blocks merge/fix actions and the PR lacks merge preflight proof, so no mutating action is planned.
+Plan-mode classification only. #92100 remains the open canonical issue for the Feishu no-visible fallback. #92172 is the linked implementation candidate, but merge/fix actions are blocked by job frontmatter and the hydrated review state still shows unresolved review-bot concerns, so it should stay related rather than be closed or merged.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #92100 remains the live canonical issue for the Feishu
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92100 | keep_canonical | planned | canonical | Best surviving issue for the root cause; keep open as canonical. |
-| #92172 | keep_related | planned | related | Related implementation candidate for canonical issue #92100, but not mergeable within this plan-only job. |
+| #92100 | keep_canonical | planned | canonical | The representative is still open and remains the clearest canonical tracking issue for this root cause. |
+| #92172 | keep_related | planned | related | #92172 is the implementation path for #92100, not a duplicate to close. It should remain open for maintainer review or a later repair/re-review workflow. |
 
 ## Needs Human
 

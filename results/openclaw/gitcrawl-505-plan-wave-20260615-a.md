@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-505-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518865492"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518865492"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516844688"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516844688"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.608Z"
+published_at: "2026-06-15T02:43:28.438Z"
 canonical: "#80700"
 canonical_issue: "#80700"
 canonical_pr: "#80829"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518865492](https://github.com/openclaw/clownfish/actions/runs/27518865492)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516844688](https://github.com/openclaw/clownfish/actions/runs/27516844688)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80700
 
 ## Summary
 
-Plan-only classification: keep #80700 as the live canonical issue and keep #80829 as the current open implementation path, but do not recommend merge or fixed-by-candidate closeout because the PR still has failing real-behavior-proof and unresolved review blockers. Linked #92672/#92676 are related broader primary-path/message-lifecycle work, not duplicates of the followup-runner canonical.
+Plan-only classification: #80700 remains the live canonical issue. #80829 is the narrow canonical PR path for #80700 but is not merge/close-ready because proof and checks are still blocking. #92672 and #92676 are related broader primary failover/message-lifecycle work and should stay split from this followup-runner canonical family.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-only classification: keep #80700 as the live canonical issue and keep #8082
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80700 | keep_canonical | planned | canonical | #80700 remains the clearest live canonical for the followup-agent silent-drop root cause. |
-| #80829 | keep_related | planned | related | #80829 is the current related implementation candidate for #80700, but it is not merge-ready and cannot support closeout in plan mode. |
-| #92672 | keep_related | planned | related | #92672 should stay open as related broader primary-path/message-lifecycle work rather than being folded into the #80700 followup-runner canonical. |
-| #92676 | keep_related | planned | related | #92676 belongs with the related #92672 broader failover-notification path and is not a replacement for the #80700/#80829 followup-runner path. |
+| #80700 | keep_canonical | planned | canonical | #80700 is still open, hydrated, non-security-sensitive, and remains the best canonical issue for the narrow followup-runner billing/quota silent-drop root cause. |
+| #80829 | keep_canonical | planned | canonical | #80829 is the narrow canonical PR path for #80700, but it must stay open and unmerged until proof, review feedback, and failing checks are resolved. |
+| #92672 | keep_related | planned | related | #92672 shares the user-visible quota/billing failure symptom family but has broader primary-path/message-lifecycle scope, so it should remain a related follow-up subcluster rather than a duplicate of #80700. |
+| #92676 | keep_related | planned | related | #92676 belongs with the broader #92672 primary failover/message-lifecycle work and should remain related, not supersede or duplicate the #80700/#80829 followup-runner path. |
 
 ## Needs Human
 

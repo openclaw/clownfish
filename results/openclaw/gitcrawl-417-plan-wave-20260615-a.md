@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-417-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518832380"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518832380"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516792605"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516792605"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.147Z"
+published_at: "2026-06-15T02:43:28.414Z"
 canonical: "#92562"
 canonical_issue: "#92562"
-canonical_pr: null
+canonical_pr: "#92575"
 actions_total: 4
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518832380](https://github.com/openclaw/clownfish/actions/runs/27518832380)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516792605](https://github.com/openclaw/clownfish/actions/runs/27516792605)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92562
 
 ## Summary
 
-Read-only plan result. #92562 remains the open canonical issue for the behavior-override daily/idle rollover bug. #92575 is the open related fix PR for that canonical issue, but no merge or fixed-by-candidate closeout is planned because this job blocks merge/fix actions and the hydrated PR still has a failed ClawSweeper review run without a clean Codex /review merge preflight. Closed linked refs #90119 and #90128 are retained only as historical evidence for the earlier model/auth rollover fix.
+Plan mode only: #92562 remains the canonical open issue for behavior override preservation across implicit daily/idle rollover, and #92575 is the focused open PR candidate for that issue. #90119/#90128 are closed historical model/auth rollover context, not the live canonical for this behavior-override cluster. No close, merge, or fix action is planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Read-only plan result. #92562 remains the open canonical issue for the behavior-
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90119 | keep_closed | skipped | superseded | Closed historical linked ref; no mutation planned. |
-| #90128 | keep_closed | skipped | superseded | Closed merged PR retained as historical evidence for the prior model/auth fix. |
-| #92562 | keep_canonical | planned | canonical | Best live canonical for the open behavior-override rollover bug. |
-| #92575 | keep_related | planned | related | Open candidate fix for the canonical issue, but not merge-ready under this job because merge is blocked and clean Codex /review merge preflight is missing. |
+| #90119 | keep_closed | skipped | fixed_by_candidate | Already closed historical model/auth rollover issue; no close action is valid or needed for this plan. |
+| #90128 | keep_closed | skipped | related | Already merged related predecessor PR; it is evidence for the current root cause split, not a live candidate to close or merge. |
+| #92562 | keep_canonical | planned | canonical | Best live canonical issue for the current behavior-overrides root cause; no duplicate closeout is appropriate before the candidate fix lands and post-merge closeout is allowed. |
+| #92575 | keep_canonical | planned | canonical | Focused open PR candidate for #92562, but plan-mode and merge preflight gaps make keep-canonical the correct non-mutating classification. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-429-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518837337"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518837337"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516798721"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516798721"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.150Z"
+published_at: "2026-06-15T02:43:28.417Z"
 canonical: "#85844"
 canonical_issue: "#85844"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518837337](https://github.com/openclaw/clownfish/actions/runs/27518837337)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516798721](https://github.com/openclaw/clownfish/actions/runs/27516798721)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #85844
 
 ## Summary
 
-Plan-only classification: #85844 remains the live canonical for stale hashed bundle imports after auto-update. #85852 is related but broader than #85844 because it tracks multiple post-update stability hotfixes and product/live-repro questions, so no duplicate closure is planned.
+Read-only plan: keep #85844 as the canonical stale hashed bundle import issue. Keep #85852 related rather than closing it, because it is a broader post-auto-update stability umbrella that includes #85844 plus distinct linked runtime/ACP/cron hotfix areas.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #85844 remains the live canonical for stale hashed bun
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85844 | keep_canonical | planned | canonical | #85844 is the clearest open issue for the stale hashed bundle import root cause and remains the canonical issue for that narrow failure mode. |
-| #85852 | keep_related | planned | related | #85852 overlaps #85844 but is not a true duplicate; it should remain open or be handled as a broader related stability/release follow-up rather than closed under the stale-hash canonical. |
+| #85844 | keep_canonical | planned | canonical | #85844 is the narrow, current, open canonical for the stale hashed bundle import root cause. |
+| #85852 | keep_related | planned | related | #85852 shares the stale-hash area with #85844 but has unique broader release/runtime stability scope and should not be duplicate-closed in this plan. |
 
 ## Needs Human
 

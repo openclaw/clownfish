@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-286-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518795112"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518795112"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516731898"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516731898"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.125Z"
+published_at: "2026-06-15T02:43:28.386Z"
 canonical: "#77875"
 canonical_issue: null
 canonical_pr: "#77875"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518795112](https://github.com/openclaw/clownfish/actions/runs/27518795112)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516731898](https://github.com/openclaw/clownfish/actions/runs/27516731898)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #77875
 
 ## Summary
 
-Read-only plan classification completed from the hydrated cluster preflight artifact. #77875 remains the non-security canonical PR for the UI MIME-mapping root cause. #77877 is scoped to central security handling only. #77912 is related Bug #9b work with a distinct delivery/download root cause and failing checks, so it should stay open rather than be closed as a duplicate.
+Plan keeps #77875 as the non-security canonical for the UI MIME mapping root cause, routes #77877 to central security handling, and keeps #77912 related because it addresses a different assistant-media download root cause and currently has failing checks/review blockers. No GitHub mutations, merge, or fix PRs planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Read-only plan classification completed from the hydrated cluster preflight arti
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #9 | keep_closed | skipped | superseded | Already closed historical context item. |
-| #77875 | keep_canonical | planned | canonical | Best surviving non-security canonical for the UI MIME inference portion of Bug #9. |
-| #77877 | route_security | planned | security_sensitive | Open PR changes a gateway byte-serving surface and is explicitly marked security-sensitive in the hydrated artifact. |
-| #77912 | keep_related | planned | related | Related follow-up PR for the same user-visible download symptom, but distinct root cause and affected files; failing checks block any stronger closeout or merge recommendation. |
+| #77875 | keep_canonical | planned | canonical | #77875 is the best open non-security representative for the UI MIME inference root cause, but merge is not planned in this plan-only job and review blockers remain. |
+| #77877 | route_security | planned | security_sensitive | #77877 changes a security-boundary byte-serving surface, so it is out of scope for Clownfish backlog cleanup and should go to central OpenClaw security handling. |
+| #77912 | keep_related | planned | related | #77912 shares the user-visible attachment download symptom with #77875 but has a distinct Bug #9b delivery/download root cause, so it should remain open as related work rather than be closed as a duplicate. |
+| #9 | keep_closed | skipped |  | Closed linked context refs are evidence only; no closure action is valid or needed. |
 
 ## Needs Human
 

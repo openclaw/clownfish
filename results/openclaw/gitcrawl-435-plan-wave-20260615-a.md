@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-435-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518840866"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518840866"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516803422"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516803422"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T02:27:57.154Z"
+result_status: "needs_human"
+published_at: "2026-06-15T02:43:28.421Z"
 canonical: "#92011"
 canonical_issue: "#92271"
 canonical_pr: "#92011"
@@ -25,17 +25,17 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518840866](https://github.com/openclaw/clownfish/actions/runs/27518840866)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516803422](https://github.com/openclaw/clownfish/actions/runs/27516803422)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: #92011
 
 ## Summary
 
-Read-only plan completed for two hydrated open refs. #92011 remains the canonical implementation PR for the fallback-completion recursive task execution root cause. #92271 is the matching issue report and should stay open as related context/follow-up until #92011 or a replacement lands and the unresolved Codex-native/runtime-boundary scope question is decided. No security-sensitive refs were detected and no mutating action is planned.
+Plan-only classification: #92011 remains the canonical implementation PR for the fallback completion-announcement recursion issue. #92271 is related and should stay open because it carries the incident report and the linked PR still has an unresolved Codex-native/runtime-boundary scope decision. No close, merge, label, or fix PR action is planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Read-only plan completed for two hydrated open refs. #92011 remains the canonica
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92011 | keep_canonical | planned | canonical | #92011 is still the best live canonical implementation path, but this plan should not recommend merge or closure because merge/fix actions are blocked and the Codex-native/runtime-boundary scoping question remains unresolved. |
-| #92271 | keep_related | planned | related | #92271 should remain open as the issue/report side of the same canonical family until the canonical PR or a credited replacement lands and the remaining scope decision is resolved. |
+| #92011 | keep_canonical | planned | canonical | #92011 is the best live canonical implementation path, but merge and fix actions are blocked by job mode/frontmatter and by the unresolved runtime-boundary scope question. |
+| #92271 | keep_related | planned | related | #92271 belongs to the same root-cause family as #92011 but should remain open until the canonical fix path lands or maintainers split the Codex-native spawn_agent scope. |
 
 ## Needs Human
 
-- Maintainer/product decision still needed on whether Codex-native spawn_agent/runtime-boundary control belongs in #92011 or should be split into a codex-rs follow-up.
+- Maintainer decision needed: decide whether the Codex-native spawn_agent/runtime-boundary control must be handled inside #92011 or split to a codex-rs follow-up before any merge or fixed-by closeout can be recommended.

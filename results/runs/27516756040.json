@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-340-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516756040",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516756040",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:17:57Z",
+  "workflow_updated_at": "2026-06-15T00:20:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-340-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.404Z",
+  "canonical": "#38327",
+  "canonical_issue": "#38327",
+  "canonical_pr": null,
+  "summary": "#38327 remains the live canonical issue for the Google Vertex \"Cannot convert undefined or null to object\" regression. #83991 is related and useful as the current partial sanitizer fix PR, but it does not cover the separate Vertex ADC/gaxios/native-fetch path and merge/fix actions are blocked in this job.",
+  "actions": [
+    {
+      "target": "#38327",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38327",
+      "candidate_fix": null,
+      "reason": "#38327 is the best live canonical because it is open, has current Vertex crash evidence, and tracks multiple root-cause paths that #83991 does not fully close."
+    },
+    {
+      "target": "#83991",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#38327",
+      "candidate_fix": null,
+      "reason": "#83991 is a related partial fix candidate for #38327's sanitizer path, but it should remain open rather than close #38327 or be merged by this plan-only job."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

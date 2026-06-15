@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-252-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518784696"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518784696"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516717457"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516717457"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.117Z"
+published_at: "2026-06-15T02:43:28.377Z"
 canonical: "#90643"
 canonical_issue: "#90643"
 canonical_pr: "#90648"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518784696](https://github.com/openclaw/clownfish/actions/runs/27518784696)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516717457](https://github.com/openclaw/clownfish/actions/runs/27516717457)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90643
 
 ## Summary
 
-Plan only: keep #90643 as the live canonical issue, keep #90648 as the related proof-backed fix PR, route security-sensitive #90237 to central security handling, and take no close/merge/fix mutations.
+Plan-only classification complete: #90643 remains the canonical issue for the Discord fenced-code mention-alias bug, #90648 remains the active non-mutating fix candidate, #90237 is quarantined to central security handling, and closed linked refs remain historical evidence only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Plan only: keep #90643 as the live canonical issue, keep #90648 as the related p
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #67587 | keep_closed | skipped | related | Closed historical context only; related to Discord alias rewriting but not an open candidate for this cluster. |
-| #70864 | keep_closed | skipped | related | Already merged historical context; no action is needed in this cluster. |
-| #90237 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish mutation scope and should be routed to central OpenClaw security handling only. |
-| #90643 | keep_canonical | planned | canonical | Best live canonical for the narrow Discord fenced-code mention-alias regression. |
-| #90646 | keep_closed | skipped | superseded | Already closed as superseded by the current open fix candidate #90648. |
-| #90648 | keep_related | planned | related | Open related fix candidate for #90643; keep it attached to the canonical issue in plan mode. |
+| #67587 | keep_closed | skipped | related | Already closed historical context; no action should be applied. |
+| #70864 | keep_closed | skipped | related | Already closed and only related as historical mention-policy context. |
+| #90237 | route_security | planned | security_sensitive | Quarantine this exact security-sensitive PR to central OpenClaw security handling and continue classifying unrelated non-security items. |
+| #90643 | keep_canonical | planned | canonical | #90643 is the best live canonical issue for the non-security root cause and should remain open until the fix path lands. |
+| #90646 | keep_closed | skipped | superseded | Already closed as superseded by #90648; no further action is valid. |
+| #90648 | keep_related | planned | fixed_by_candidate | Keep #90648 as the active candidate fix for #90643, but do not recommend merge or closeout in this plan because merge is blocked by job frontmatter and merge preflight is absent. |
 
 ## Needs Human
 

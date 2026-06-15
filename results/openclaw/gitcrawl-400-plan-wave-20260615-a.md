@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-400-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518827798"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518827798"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516787079"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516787079"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.145Z"
+published_at: "2026-06-15T02:43:28.412Z"
 canonical: "#91772"
 canonical_issue: "#91772"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518827798](https://github.com/openclaw/clownfish/actions/runs/27518827798)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516787079](https://github.com/openclaw/clownfish/actions/runs/27516787079)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91772
 
 ## Summary
 
-Classified the hydrated open issue and PR using the provided preflight artifact. #91772 remains the canonical open issue for the managed npm-root EOVERRIDE regression; #91786 is a related open fix PR that claims to address #91772 but is not merge-planned in this job because merge/fix actions are blocked and maintainer review/merge preflight are incomplete.
+Plan-only classification: #91772 remains the open canonical issue for the managed npm-root EOVERRIDE root cause, and #91786 remains an open related candidate fix PR for that issue. No close, merge, fix, or security-route action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Classified the hydrated open issue and PR using the provided preflight artifact.
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91772 | keep_canonical | planned | canonical | #91772 is the best live canonical because it is the open source report with current reproduction details and no evidence in the artifact that the fix has landed. |
-| #91786 | keep_related | planned | related | #91786 is the related candidate fix for #91772, but this plan-mode job should not recommend merge or closure because merge/fix actions are blocked and maintainer review plus merge preflight are incomplete. |
+| #91772 | keep_canonical | planned | canonical | #91772 is the best surviving canonical issue: it is open, hydrated, source-reproducible, and contains the root-cause report plus updated reproduction details. |
+| #91786 | keep_related | planned | related | #91786 is the clear related candidate fix path for #91772, but this plan-mode job should only classify it and leave merge review to maintainers. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-282-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518793563"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518793563"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516729833"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516729833"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T02:27:57.124Z"
+result_status: "planned"
+published_at: "2026-06-15T02:43:28.385Z"
 canonical: "#88147"
 canonical_issue: "#88147"
 canonical_pr: "#88150"
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-282-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518793563](https://github.com/openclaw/clownfish/actions/runs/27518793563)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516729833](https://github.com/openclaw/clownfish/actions/runs/27516729833)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #88147
 
 ## Summary
 
-Plan-only classification splits the cluster into two root causes: #88147 remains the live canonical for session-store hydration with #88150 as its blocked active PR, while #88148 is a separate bootstrap-cache issue that is covered by merged PR #88149.
+#88147 remains the best live canonical for the session-store hydration root cause, with #88150 as the active but not merge-ready fix path. #88148 is a separate bootstrap-cache root cause and is related to the already merged #88149, so it should not be forced into the #88147 duplicate family.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-only classification splits the cluster into two root causes: #88147 remains
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,11 +66,11 @@ Plan-only classification splits the cluster into two root causes: #88147 remains
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88147 | keep_canonical | planned | canonical | Best live canonical for the session-store hydration root cause. |
-| #88148 | close_fixed_by_candidate | planned | fixed_by_candidate | Separate bootstrap-cache root cause is covered by the merged hydrated candidate fix #88149. |
-| #88149 | keep_closed | skipped | fixed_by_candidate | Already merged; included only as hydrated evidence for #88148 closeout. |
-| #88150 | needs_human | blocked | needs_human | The active session-store PR is useful and on-topic, but failing checks and the config/default policy choice block merge or fixed-by-candidate closeout in this plan job. |
+| #88147 | keep_canonical | planned | canonical | Keep #88147 as the canonical issue for the session-store hydration root cause. |
+| #88148 | keep_related | planned | fixed_by_candidate | #88148 is a separate bootstrap-cache issue that appears covered by merged #88149, but it is not a duplicate of #88147 and this plan should not force it into the session-store family. |
+| #88149 | keep_closed | skipped | related | Already closed and merged; no mutation should be planned for this ref. |
+| #88150 | keep_related | planned | related | Keep #88150 as the active related fix path for #88147, but do not recommend merge or repair in this plan-mode job. |
 
 ## Needs Human
 
-- #88150 needs maintainer review before any merge or issue closeout because preflight shows failing checks and the PR changes runtime cache default/override behavior.
+- none

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-368-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518820341"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518820341"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516767411"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516767411"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.142Z"
+published_at: "2026-06-15T02:43:28.408Z"
 canonical: "#92760"
 canonical_issue: "#92760"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518820341](https://github.com/openclaw/clownfish/actions/runs/27518820341)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516767411](https://github.com/openclaw/clownfish/actions/runs/27516767411)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92760
 
 ## Summary
 
-Plan-only classification: keep #92760 as the live canonical issue, quarantine security-sensitive #92775, and keep #92930 related but not merge-ready because the latest hydrated ClawSweeper review still reports unresolved source-level blockers. Closed linked refs are historical evidence only.
+Plan-mode classification only. Keep #92760 as the live canonical issue, keep #92930 as the related open non-security fix candidate but do not merge or close because review/proof gates are not clean and merge/fix actions are blocked. Route only #92775 to central security handling per the preflight security boundary. Closed linked refs remain historical evidence only.
 
 ## Impact
 
@@ -66,14 +66,14 @@ Plan-only classification: keep #92760 as the live canonical issue, quarantine se
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92760 | keep_canonical | planned | canonical | Canonical issue remains open and has a related candidate PR, but no closeout is safe in plan mode while the candidate is not merge-ready. |
-| #92775 | route_security | planned | security_sensitive | Security-sensitive refs are out of scope for ProjectClownfish backlog cleanup and must be routed to central OpenClaw security handling. |
-| #92930 | keep_related | planned | related | Related candidate fix path, but not a merge candidate or fixed-by-candidate closeout target in this plan run. |
-| #39857 | keep_closed | skipped | fixed_by_candidate | Already closed; no action beyond preserving it as historical related context. |
-| #90889 | keep_closed | skipped | related | Already closed merged PR; keep as related historical evidence only. |
-| #92424 | keep_closed | skipped | related | Already closed and only related through overlapping model-context area. |
-| #92709 | keep_closed | skipped | superseded | Already closed superseded PR; no further action. |
-| #92772 | keep_closed | skipped | superseded | Already closed superseded PR; no closure action is valid. |
+| #39857 | keep_closed | skipped | fixed_by_candidate | Already-closed historical related issue; no ProjectClownfish close action is valid. |
+| #90889 | keep_closed | skipped | related | Merged historical related PR; keep as evidence only. |
+| #92424 | keep_closed | skipped | related | Closed related context/model PR with a distinct root cause; no mutation. |
+| #92709 | keep_closed | skipped | superseded | Already closed by the contributor as superseded; no close action is valid. |
+| #92760 | keep_canonical | planned | canonical | Best live canonical issue for this cluster; keep open until the fix path lands and post-merge validation is clean. |
+| #92772 | keep_closed | skipped | superseded | Already closed as superseded by narrower follow-up work; no mutation. |
+| #92775 | route_security | planned | security_sensitive | Quarantine #92775 to central OpenClaw security handling and continue ordinary non-security classification for unrelated refs. |
+| #92930 | keep_related | planned | related | Open non-security fix candidate related to canonical #92760, but merge/fix actions are blocked in this job and current review/proof state is not merge-ready. |
 
 ## Needs Human
 

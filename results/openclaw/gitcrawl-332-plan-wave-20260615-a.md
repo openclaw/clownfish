@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-332-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518809596"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518809596"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516752814"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516752814"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.136Z"
+published_at: "2026-06-15T02:43:28.402Z"
 canonical: "#92845"
 canonical_issue: "#92841"
 canonical_pr: "#92845"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518809596](https://github.com/openclaw/clownfish/actions/runs/27518809596)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516752814](https://github.com/openclaw/clownfish/actions/runs/27516752814)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92845
 
 ## Summary
 
-Plan-only classification: no GitHub mutations are needed. The hydrated live artifact shows the representative issue #92841 is already closed and the linked docs PR #92845 is already merged/closed as the fix path, with no security-sensitive signal and no remaining open candidate in this cluster.
+Hydrated preflight state shows both job refs are already closed. PR #92845 was merged as the docs-only fix for issue #92841, and #92841 was closed immediately after; no open live canonical remains and no mutation is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: no GitHub mutations are needed. The hydrated live arti
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92841 | keep_closed | skipped | fixed_by_candidate | The issue is already closed and is covered by the merged docs fix path in #92845; no plan-mode mutation is valid or needed. |
-| #92845 | keep_closed | skipped | canonical | This merged PR is the resolved canonical fix path for the cluster and is already closed, so no merge or close action should be emitted. |
+| #92841 | keep_closed | skipped | fixed_by_candidate | Already closed in live hydrated state; closure action is invalid. The closed issue is covered by the merged candidate fix #92845. |
+| #92845 | keep_closed | skipped | canonical | Already merged and closed in live hydrated state; no merge, close, label, comment, or fix action is valid or needed. |
 
 ## Needs Human
 

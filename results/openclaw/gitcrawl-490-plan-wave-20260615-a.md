@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-490-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518859273"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518859273"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516837077"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516837077"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.605Z"
+published_at: "2026-06-15T02:43:28.434Z"
 canonical: "#86572"
 canonical_issue: "#86572"
-canonical_pr: "#86584"
+canonical_pr: null
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518859273](https://github.com/openclaw/clownfish/actions/runs/27518859273)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516837077](https://github.com/openclaw/clownfish/actions/runs/27516837077)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #86572
 
 ## Summary
 
-Plan-mode classification only. The live canonical for this cluster remains open issue #86572. Open PR #86584 is a related implementation candidate for the same embedded session-fence false-takeover family, but this job blocks merge/fix/raise_pr and lacks merge preflight, so no mutating action is planned. Linked security-sensitive ref #85341 is quarantined with a scoped route_security action only.
+Plan mode only. Kept #86572 as the canonical open issue for the same-lane embedded fence false-takeover report, kept #86584 as the related open candidate PR for the pre-append owned-write publish path, and routed hydrated security-sensitive linked ref #85341 to central security handling without applying mutations.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. The live canonical for this cluster remains open 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #86572 | keep_canonical | planned | canonical | #86572 is the best live canonical issue for the root cause represented by this job. It should stay open for validation and follow-up. |
-| #86584 | keep_related | planned | related | #86584 is a useful open implementation candidate related to #86572, but this plan-mode job cannot merge it or close the issue as fixed by it. |
-| #85341 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only. |
+| #86572 | keep_canonical | planned | canonical | #86572 remains the best live canonical issue for this cluster. No mutating close, comment, or label action is planned in plan mode. |
+| #86584 | keep_related | planned | related | #86584 is not a duplicate issue to close; it is an open related PR candidate for part of the #86572 fix family. Merge is blocked by job policy and missing merge preflight, and fixed-by-candidate closeout is inappropriate while #86572 remains open for maintainer follow-up. |
+| #85341 | route_security | planned | security_sensitive | #85341 is a hydrated linked security-sensitive ref and is out of scope for Clownfish backlog cleanup. This is non-mutating and scoped only to that item. |
 
 ## Needs Human
 

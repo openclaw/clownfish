@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-427-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518836588"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518836588"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516797396"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516797396"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.150Z"
+published_at: "2026-06-15T02:43:28.417Z"
 canonical: "#37878"
 canonical_issue: "#37878"
 canonical_pr: "#87861"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518836588](https://github.com/openclaw/clownfish/actions/runs/27518836588)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516797396](https://github.com/openclaw/clownfish/actions/runs/27516797396)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #37878
 
 ## Summary
 
-Hydrated state supports keeping #37878 as the live canonical issue and treating #87861 as the open candidate fix for the same root cause. No close, merge, fix, or security route action is planned in this read-only plan job; #37877 is already closed historical context only.
+#37878 remains the live canonical issue. #87861 is the open related candidate fix for the same root cause and should stay open for maintainer review; no close, merge, or fix PR action is allowed by this plan-mode job. #37877 is already closed and is retained only as historical/source evidence.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Hydrated state supports keeping #37878 as the live canonical issue and treating 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #37878 | keep_canonical | planned | canonical | #37878 remains the best live canonical issue until the linked fix reaches main. |
-| #87861 | keep_related | planned | fixed_by_candidate | #87861 should remain open as the candidate fix path for #37878, but this plan-mode job cannot recommend or perform merge. |
-| #37877 | keep_closed | skipped | superseded | Closed linked context is historical evidence only; no mutation is valid for #37877. |
+| #37877 | keep_closed | skipped | superseded | Already closed historical source PR; do not mutate it, and use #87861 as the live candidate fix path. |
+| #37878 | keep_canonical | planned | canonical | The representative is still open and remains the best canonical issue; keep it open until #87861 lands. |
+| #87861 | keep_related | planned | related | Keep #87861 open as the related candidate fix for canonical issue #37878; do not emit a merge or close action in this plan-mode job. |
 
 ## Needs Human
 

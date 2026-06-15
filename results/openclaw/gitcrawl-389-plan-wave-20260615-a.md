@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-389-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518825120"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518825120"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516783389"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516783389"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.144Z"
+published_at: "2026-06-15T02:43:28.411Z"
 canonical: "#40644"
 canonical_issue: "#40644"
-canonical_pr: null
+canonical_pr: "#41892"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518825120](https://github.com/openclaw/clownfish/actions/runs/27518825120)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516783389](https://github.com/openclaw/clownfish/actions/runs/27516783389)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #40644
 
 ## Summary
 
-Plan-only classification: keep #40644 as the open canonical feature request; keep #41892 open as the related implementation PR but do not merge or close around it because proof/check/review gates are not clean; keep linked #85595 closed as historical duplicate context.
+#40644 remains the live canonical feature request for a Control UI cron calendar/timeline view. #41892 is the related open implementation candidate, but it is not merge-ready or fixed-by-candidate closeout material because the hydrated PR has a failing Real behavior proof check, broad XL surface, and unresolved review concerns. #85595 is already closed historical duplicate context.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification: keep #40644 as the open canonical feature request; kee
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #40644 | keep_canonical | planned | canonical | #40644 is the best live canonical issue for the requested cron calendar/timeline UI. |
-| #41892 | keep_related | planned | related | #41892 is the linked implementation path for #40644, but it is not merge-ready and should remain open for maintainer/author follow-up rather than be closed or merged in this plan. |
-| #85595 | keep_closed | skipped | duplicate | Already closed duplicate context; no mutation should be planned. |
+| #40644 | keep_canonical | planned | canonical | Best surviving canonical for this cron calendar/timeline feature request; it is open, hydrated, and no replacement has landed. |
+| #41892 | keep_related | planned | related | Useful contributor implementation path for the canonical issue, but it should remain open for author/maintainer follow-up and must not be treated as merge-ready or as fixing #40644 in this plan. |
+| #85595 | keep_closed | skipped | duplicate | Historical duplicate context only; no mutation is valid or needed for an already-closed issue. |
 
 ## Needs Human
 

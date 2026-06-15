@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-495-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518860945"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518860945"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516839103"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516839103"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.606Z"
+published_at: "2026-06-15T02:43:28.435Z"
 canonical: "#47586"
 canonical_issue: "#47586"
-canonical_pr: "#47589"
+canonical_pr: null
 actions_total: 4
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518860945](https://github.com/openclaw/clownfish/actions/runs/27518860945)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516839103](https://github.com/openclaw/clownfish/actions/runs/27516839103)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #47586
 
 ## Summary
 
-Plan only: keep #47586 as the live canonical issue. Keep #47589 as the related implementation PR, but do not merge or close anything because the PR has a failing Real behavior proof check, needs update against current main, and merge/fix actions are blocked by the job. Keep #52972 related but separate because it tracks cron-success suppression, not memory-statement false positives. #37239 is already closed historical context.
+Plan-only classification: keep #47586 as the live canonical issue. Keep #47589 as the related contributor implementation PR, but do not recommend merge or fixed-by closeout because real behavior proof is failing, the branch needs a refresh, and merge/fix actions are blocked for this job. Linked #52972 is related but tracks a distinct cron-scheduling root cause; #37239 is already closed historical context.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan only: keep #47586 as the live canonical issue. Keep #47589 as the related i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #47586 | keep_canonical | planned | canonical | Best live canonical for the cluster root cause; no closure or merge is allowed in plan mode. |
-| #47589 | keep_related | planned | related | This is the linked implementation candidate for #47586, but failing proof and stale-base guidance block merge/fixed-by-candidate closeout. |
-| #37239 | keep_closed | skipped | superseded | Already closed; no mutation is valid. |
-| #52972 | keep_related | planned | related | Related reminder-note symptom family, but not a duplicate of #47586 and should stay in its own fix lane. |
+| #37239 | keep_closed | skipped | related | Already closed linked context; no mutation or closeout is valid. |
+| #47586 | keep_canonical | planned | canonical | #47586 is the best live canonical issue for the memory-retention false-positive root cause. |
+| #47589 | keep_related | planned | related | #47589 remains the related contributor fix lane for #47586, but it is not merge-ready and cannot support fixed-by-candidate closeout in this plan-only job. |
+| #52972 | keep_related | planned | related | #52972 is related reminder-note work but tracks a distinct cron success accounting root cause, so it should not be closed or folded into #47586. |
 
 ## Needs Human
 

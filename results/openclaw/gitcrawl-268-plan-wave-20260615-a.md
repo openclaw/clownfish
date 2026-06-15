@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-268-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518789440"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518789440"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516724483"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516724483"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T02:27:57.121Z"
+result_status: "planned"
+published_at: "2026-06-15T02:43:28.381Z"
 canonical: "#89412"
 canonical_issue: "#89412"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-268-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518789440](https://github.com/openclaw/clownfish/actions/runs/27518789440)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516724483](https://github.com/openclaw/clownfish/actions/runs/27516724483)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #89412
 
 ## Summary
 
-Canonical issue #89412 remains the live non-security canonical for the implicit main binding rejection/pruning bug. Linked security-sensitive refs are quarantined individually. The two open PRs both target #89412 and touch the same config/doctor surfaces, but merge/fixed-by closeout is blocked by failing real-behavior proof and overlapping contributor PRs, so maintainer judgment is needed for the repair/merge target.
+Plan only: keep #89412 as the canonical non-security issue for the implicit main binding rejection/pruning bug, keep both open PRs related but not merge-ready, and route linked security-sensitive refs to central OpenClaw security handling. No close, merge, or fix action is planned.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Canonical issue #89412 remains the live non-security canonical for the implicit 
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,12 +66,12 @@ Canonical issue #89412 remains the live non-security canonical for the implicit 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #44375 | route_security | planned | security_sensitive | Security-sensitive linked issue is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling. |
-| #60712 | route_security | planned | security_sensitive | Closed security-sensitive linked issue remains security-scoped evidence only and should not be handled through dedupe/closeout automation. |
-| #89412 | keep_canonical | planned | canonical | Best live canonical for the non-security root cause; keep open for validation and PR selection. |
-| #89419 | needs_human | planned | needs_human | Maintainer judgment is needed to choose whether #89419 should be repaired/advanced versus the overlapping #89490 after proof/check blockers are resolved. |
-| #89490 | needs_human | planned | needs_human | Maintainer judgment is needed to choose whether #89490 should be repaired/advanced versus the overlapping #89419 after proof/check blockers are resolved. |
+| #44375 | route_security | planned | security_sensitive | Security-sensitive linked issue is outside Clownfish backlog cleanup and belongs in central OpenClaw security handling. |
+| #60712 | route_security | planned | security_sensitive | Security-sensitive linked issue remains out of scope for Clownfish even though it is closed; keep it quarantined as security context only. |
+| #89412 | keep_canonical | planned | canonical | #89412 is the best live canonical for the non-security implicit-main binding rejection/pruning bug. |
+| #89419 | keep_related | planned | related | Useful overlapping candidate fix for #89412, but it is not merge-ready and should stay related until proof/check blockers are resolved. |
+| #89490 | keep_related | planned | related | Useful overlapping candidate fix for #89412, but it remains proof-blocked and should stay related rather than being closed or merged in this plan. |
 
 ## Needs Human
 
-- Select the repair/merge target between overlapping contributor PRs #89419 and #89490. Both address canonical issue #89412, both touch the same config/doctor files, and both are blocked by real-behavior proof gates; #89419 also has a failing checks-node-core-fast check in the hydrated artifact.
+- none

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-367-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518819572"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518819572"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516766327"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516766327"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.140Z"
+published_at: "2026-06-15T02:43:28.407Z"
 canonical: "#92777"
 canonical_issue: "#92777"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518819572](https://github.com/openclaw/clownfish/actions/runs/27518819572)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516766327](https://github.com/openclaw/clownfish/actions/runs/27516766327)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92777
 
 ## Summary
 
-Classified the hydrated cluster in read-only plan mode. #92777 remains the live canonical issue for the WSL2/Ubuntu TUI backspace regression; #92818 is already closed and should not receive a closure action.
+Plan mode classification keeps #92777 as the live canonical issue. #92818 is related to the canonical WSL2 TUI backspace report, but it is not a merge or fixed-by closeout path in this run because the hydrated bot review still requests real post-response WSL2/PTY proof and this job disallows merge, fix, and raise_pr actions.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Classified the hydrated cluster in read-only plan mode. #92777 remains the live 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92777 | keep_canonical | planned | canonical | #92777 is the only open surviving report and remains the best canonical path for reproduction, validation, and any future narrow fix. |
-| #92818 | keep_closed | skipped | related | Already-closed PRs are historical evidence only. The canonical issue remains open for the unresolved behavior proof and follow-up path. |
+| #92777 | keep_canonical | planned | canonical | #92777 remains the best surviving canonical because it is the original open report with concrete reproduction detail and no landed or proven fix closing the post-response WSL2 TUI failure. |
+| #92818 | keep_related | planned | related | #92818 is a related implementation attempt for the canonical issue, but it should stay non-mutating in this plan because the reported post-response failure is not proven fixed by the one-line DEL guard and merge/fix actions are disallowed. |
 
 ## Needs Human
 

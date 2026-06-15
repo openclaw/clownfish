@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-478-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518853242"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518853242"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516828921"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516828921"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.599Z"
+published_at: "2026-06-15T02:43:28.427Z"
 canonical: "#92224"
 canonical_issue: "#92224"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518853242](https://github.com/openclaw/clownfish/actions/runs/27518853242)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516828921](https://github.com/openclaw/clownfish/actions/runs/27516828921)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92224
 
 ## Summary
 
-Plan-only classification: #92224 remains the open canonical issue for the local Ollama model availability display bug. #92363 is a related open PR that directly targets #92224 with a small one-file fix, but merge and fix actions are blocked by the job, so this result emits no mutating close, merge, or fix action.
+Plan mode only. Using the hydrated preflight artifact as live GitHub state, #92224 remains the open canonical issue for the local Ollama models-list availability display bug. #92363 is an open, narrow related candidate fix for the same root cause, but merge/fix actions are blocked by job frontmatter and the required merge preflight is incomplete, so no mutating action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #92224 remains the open canonical issue for the local 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92224 | keep_canonical | planned | canonical | #92224 is the surviving open report that describes the user-visible bug and should remain the canonical thread for validation and follow-up. |
-| #92363 | keep_related | planned | related | #92363 is the current open fix candidate for the canonical issue, but the cluster job does not allow merge or fix actions and post-merge closeout is disabled. |
+| #92224 | keep_canonical | planned | canonical | #92224 is the surviving user-facing bug report and should remain the canonical thread for validation and follow-up. |
+| #92363 | keep_related | planned | related | #92363 appears to be the narrow candidate fix for the canonical bug, but merge is out of scope for this plan job and the required merge preflight is incomplete. |
 
 ## Needs Human
 

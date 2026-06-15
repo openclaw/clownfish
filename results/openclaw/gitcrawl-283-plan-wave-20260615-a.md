@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-283-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518794398"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518794398"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516730837"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516730837"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.125Z"
+published_at: "2026-06-15T02:43:28.385Z"
 canonical: "#88307"
 canonical_issue: "#88307"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518794398](https://github.com/openclaw/clownfish/actions/runs/27518794398)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516730837](https://github.com/openclaw/clownfish/actions/runs/27516730837)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #88307
 
 ## Summary
 
-Canonical remains open issue #88307. #87995 is related historical generated-media duplicate-delivery evidence from the pre-#88141 path and should not be closed as a duplicate in this plan. #88323 is an open related candidate PR for #88307, but it is not merge-ready because ClawSweeper has unresolved review findings and current checks include failures; job frontmatter blocks fix and raise_pr actions, so no fix action is planned.
+Plan-mode classification only. #88307 remains the live canonical issue for the post-handoff generated-image duplicate delivery bug. #87995 is related historical/current-family context, not safe duplicate closeout because it carries a distinct beta.1 pre-handoff reproduction. #88323 is a related candidate fix, but merge/fixed-by-candidate closeout is blocked by review findings, failing checks, and the job's no-merge/no-fix permissions.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Canonical remains open issue #88307. #87995 is related historical generated-medi
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88307 | keep_canonical | planned | canonical | Best live canonical for the remaining post-handoff generated-media duplicate-delivery bug. |
-| #87995 | keep_related | planned | related | Same generated-media duplicate-delivery family, but the affected runtime path and version differ enough that closure would risk losing useful repro history. |
-| #88323 | keep_related | planned | related | Plausible candidate fix for #88307, but fix, raise_pr, and merge actions are blocked by job frontmatter, and the PR has unresolved review findings plus failing checks. |
+| #87995 | keep_related | planned | related | Same symptom family as #88307, but the affected version and delivery contract differ enough that closure would risk losing useful reproduction history. |
+| #88307 | keep_canonical | planned | canonical | #88307 is the freshest open issue that describes the still-unresolved post-handoff root cause and should remain the canonical tracking issue. |
+| #88323 | keep_related | planned | related | #88323 is the current related candidate fix for #88307, but failing checks, unresolved review findings, and job permissions block merge or fixed-by-candidate closeout. |
 
 ## Needs Human
 

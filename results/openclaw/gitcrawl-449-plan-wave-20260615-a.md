@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-449-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518843630"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518843630"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516806893"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516806893"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.591Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-06-15T02:43:28.422Z"
+canonical: "#92452"
+canonical_issue: "#92452"
 canonical_pr: null
 actions_total: 5
 fix_executed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518843630](https://github.com/openclaw/clownfish/actions/runs/27518843630)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516806893](https://github.com/openclaw/clownfish/actions/runs/27516806893)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #92452
 
 ## Summary
 
-Read-only plan for cluster gitcrawl-449-plan-wave-20260615-a. The two job candidates, #92452 and #92516, are both marked security-sensitive in the hydrated preflight artifact because they involve keyed-store trust/provenance and plugin capability boundaries, so they should be routed to central OpenClaw security handling rather than closed or merged by Clownfish. Hydrated linked #76433 is also security-sensitive and should be routed. Non-security linked #90071 is related but distinct and should remain open outside this cluster's closure path. Closed PR #1 is historical context only.
+Read-only plan from the hydrated preflight artifact. #92452 remains the live representative for the ClawHub msteams provenance mismatch, but #92452, #92516, and linked #76433 are security-sensitive trust-boundary items and should be routed to central OpenClaw security handling. #92516 is related but distinct from #92452, so no duplicate closeout is planned. Linked #90071 is a related non-security Docker/provenance report and should stay open. Closed #1 is historical evidence only.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Read-only plan for cluster gitcrawl-449-plan-wave-20260615-a. The two job candid
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92452 | route_security | planned | security_sensitive | Security-sensitive trust-boundary/provenance issue; ProjectClownfish should quarantine the item and avoid closure, comments, labels, merge, or fix work. |
-| #92516 | route_security | planned | security_sensitive | Security-sensitive plugin trust/provenance decision; route to central OpenClaw security handling instead of dedupe-closing under this plan job. |
-| #76433 | route_security | planned | security_sensitive | Hydrated linked security-sensitive item should be quarantined exactly, without poisoning classification of unrelated non-security refs. |
-| #90071 | keep_related | planned | related | Related symptom family, but not a true duplicate of the #92452 ClawHub msteams catalog mismatch or the #92516 self-hosted image-baked channel trust contract. |
-| #1 | keep_closed | skipped | superseded | Already closed and unrelated to the candidate root causes; included only because it appears in hydrated linked context. |
+| #92452 | route_security | planned | security_sensitive | Security-sensitive plugin trust-boundary issue; do not close, comment, label, merge, or fix through Clownfish. |
+| #92516 | route_security | planned | security_sensitive | Security-sensitive public portable-install and plugin-provenance contract decision; route this exact item without treating it as a duplicate of #92452. |
+| #76433 | route_security | planned | security_sensitive | Security-sensitive SDK trust-boundary request; quarantine only this linked item and leave unrelated non-security classification moving. |
+| #90071 | keep_related | planned | related | Related non-security Docker/provenance issue with unique scope; do not close as a duplicate in this cluster. |
+| #1 | keep_closed | skipped | independent | Already closed and independent of this cluster's keyed-store trust-provenance issue family. |
 
 ## Needs Human
 

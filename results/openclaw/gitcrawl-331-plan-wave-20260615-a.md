@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-331-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518808832"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518808832"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516751691"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516751691"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.136Z"
+published_at: "2026-06-15T02:43:28.402Z"
 canonical: "#48810"
 canonical_issue: "#48810"
 canonical_pr: "#79635"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518808832](https://github.com/openclaw/clownfish/actions/runs/27518808832)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516751691](https://github.com/openclaw/clownfish/actions/runs/27516751691)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #48810
 
 ## Summary
 
-Plan only: keep #48810 as the live canonical issue and keep #79635 open as the related active implementation path. No closures, comments, labels, merges, or fix PRs are planned because the job is read-only plan mode, merge/fix/raise_pr are blocked, and the candidate PR still needs maintainer review for session-state repair behavior.
+Read-only plan: keep #48810 as the live canonical issue for the compaction retry parentId fork regression. Keep #79635 open as the active related fix candidate; do not close #48810 or merge #79635 in this job because merge and fix actions are blocked and the PR still needs maintainer review/preflight for session-state repair behavior.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan only: keep #48810 as the live canonical issue and keep #79635 open as the r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48810 | keep_canonical | planned | canonical | #48810 remains the best live canonical because it is the open source bug report with concrete reproduction evidence and the linked fix PR is still open and unmerged. |
-| #79635 | keep_related | planned | related | #79635 is not a duplicate or closure target; it is the active related fix path for #48810 and should remain open for maintainer review. |
+| #48810 | keep_canonical | planned | canonical | #48810 remains the best live canonical issue for the shared root cause and should stay open until the active fix path lands and is validated. |
+| #79635 | keep_related | planned | related | #79635 is the active implementation path for #48810, but it is not a safe merge recommendation in this job because merge is blocked and maintainer review plus merge preflight are still required. |
 
 ## Needs Human
 

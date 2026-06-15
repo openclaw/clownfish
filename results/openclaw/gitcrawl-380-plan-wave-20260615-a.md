@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-380-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518822958"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518822958"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516771153"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516771153"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.143Z"
+published_at: "2026-06-15T02:43:28.410Z"
 canonical: "#40611"
 canonical_issue: "#40611"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518822958](https://github.com/openclaw/clownfish/actions/runs/27518822958)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516771153](https://github.com/openclaw/clownfish/actions/runs/27516771153)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #40611
 
 ## Summary
 
-Read-only plan classification using the hydrated preflight artifact as live state. #40611 remains the best open canonical issue for the heartbeat requests-in-flight retry regression. #89989 is a related candidate fix for #40611, but it is not merge-ready because real behavior proof is still failing and ClawSweeper explicitly blocked merge pending live Telegram/Feishu/WebChat-style proof. No GitHub mutations are planned.
+Plan-only classification: #40611 remains the live canonical issue for the requests-in-flight heartbeat retry regression. #89989 is a related candidate fix for the same root cause, but it is not merge-ready or suitable for fixed-by closeout because the real behavior proof checks failed and ClawSweeper requested live behavior proof before merge. No security-sensitive refs were detected and no mutations are planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Read-only plan classification using the hydrated preflight artifact as live stat
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #40611 | keep_canonical | planned | canonical |  |
-| #89989 | keep_related | planned | related | Related candidate fix, but not a merge or fixed-by-candidate closeout recommendation in this plan because proof checks are failing and merge/fix actions are blocked by the job frontmatter. |
+| #40611 | keep_canonical | planned | canonical | #40611 is the best surviving tracker for this root cause and should remain open until a validated fix lands. |
+| #89989 | keep_related | planned | related | #89989 is related to the canonical issue and may be the narrow fix path, but proof failures and missing merge preflight block any merge or fixed-by closeout recommendation. |
 
 ## Needs Human
 

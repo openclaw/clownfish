@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-323-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518805130"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518805130"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516745924"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516745924"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.133Z"
-canonical: "#46797"
-canonical_issue: "#46797"
-canonical_pr: "#83041"
+published_at: "2026-06-15T02:43:28.399Z"
+canonical: "https://github.com/openclaw/openclaw/issues/46797"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/46797"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/83041"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518805130](https://github.com/openclaw/clownfish/actions/runs/27518805130)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516745924](https://github.com/openclaw/clownfish/actions/runs/27516745924)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #46797
+Canonical: https://github.com/openclaw/openclaw/issues/46797
 
 ## Summary
 
-Plan-only classification: keep #46797 as the live canonical issue and keep #83041 related as the focused open PR for that issue. No close, merge, label, comment, fix, or raise_pr action is planned.
+Read-only plan classification: #46797 remains the live canonical issue, and #83041 is the focused related candidate fix for the same config.patch restart-required wording problem. No close, merge, fix, label, or comment mutation is planned; the hydrated artifact reports no security-sensitive items.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #46797 as the live canonical issue and keep #8304
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #46797 | keep_canonical | planned | canonical | Best surviving canonical thread for the reported config.patch restart wording bug. |
-| #83041 | keep_related | planned | related | Focused candidate fix for canonical #46797, but plan-mode and blocked merge/fix permissions make the correct outcome a non-mutating related classification. |
+| #46797 | keep_canonical | planned | canonical | Keep #46797 open as the canonical issue until a hydrated, validated fix lands; the job is plan-only and explicitly says not to close anything. |
+| #83041 | keep_related | planned | related | #83041 is useful related implementation work and the current candidate fix for #46797, but it should only be kept open in this plan run because merge and repair actions are out of scope and merge preflight is not satisfied. |
 
 ## Needs Human
 

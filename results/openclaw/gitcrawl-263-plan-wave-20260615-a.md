@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-263-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518785612"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518785612"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516718512"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516718512"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.118Z"
-canonical: "#64036"
-canonical_issue: "#64036"
-canonical_pr: null
+published_at: "2026-06-15T02:43:28.378Z"
+canonical: "https://github.com/openclaw/openclaw/issues/64036"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/64036"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/89748"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518785612](https://github.com/openclaw/clownfish/actions/runs/27518785612)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516718512](https://github.com/openclaw/clownfish/actions/runs/27516718512)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #64036
+Canonical: https://github.com/openclaw/openclaw/issues/64036
 
 ## Summary
 
-Plan mode only. #64036 remains the live canonical issue. #89748 is an open related fix PR for the same root cause, but merge/fixed-by-candidate closeout is blocked by the failing Real behavior proof check and by this job's blocked merge/fix actions. #89877 is already closed and should not receive a close action.
+Read-only plan: keep #64036 as canonical issue, keep #89748 as the best open PR/fix path but do not plan merge because merge/fix are disabled and its Real behavior proof check is failing, and keep #89877 closed because live state shows it was already superseded.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan mode only. #64036 remains the live canonical issue. #89748 is an open relat
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #64036 | keep_canonical | planned | canonical | The canonical hint is verified against live hydrated state, and the issue remains the best open tracker for the root cause. |
-| #89748 | keep_related | planned | related | Same root cause and plausible fix path, but this plan cannot recommend merge or closeout while the proof check is failing and merge/fix actions are blocked. |
-| #89877 | keep_closed | skipped | superseded | Already closed; preserve historical superseded classification without planning a mutation. |
+| #64036 | keep_canonical | planned | canonical | Best live canonical issue; keep open until an accepted fix lands. |
+| #89748 | keep_canonical | planned | canonical | Best surviving open PR/fix path, but keep it open for maintainer review and proof rerun instead of planning merge. |
+| #89877 | keep_closed | skipped | superseded | Already closed in live state; preserve as superseded historical context and do not emit a close action. |
 
 ## Needs Human
 

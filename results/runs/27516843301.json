@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-504-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516843301",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516843301",
+  "head_sha": "1aabb2d816f9888d8a4f648c6fa800f88117c1b4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:21:03Z",
+  "workflow_updated_at": "2026-06-15T00:23:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-504-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.437Z",
+  "canonical": "#74481",
+  "canonical_issue": "#74481",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #74481 remains the open non-security canonical issue for dynamic catalog refresh. #74488 is quarantined as security-sensitive, and the linked security-sensitive refs #88562 and #89102 are scoped to central security handling without blocking the #74481 canonical path.",
+  "actions": [
+    {
+      "target": "#74481",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74481",
+      "candidate_fix": null,
+      "reason": "#74481 is still the best open non-security canonical issue; no duplicate or close action is appropriate in plan mode."
+    },
+    {
+      "target": "#74488",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#74481",
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of ProjectClownfish cleanup scope and should go to central OpenClaw security handling."
+    },
+    {
+      "target": "#88562",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked security-sensitive issue should be quarantined to central OpenClaw security handling and not folded into the non-security dedupe plan."
+    },
+    {
+      "target": "#89102",
+      "action": "route_security",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed security-sensitive linked PR is historical evidence only; route is noted as skipped with no mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-307-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518800655"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518800655"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516739343"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516739343"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.129Z"
+published_at: "2026-06-15T02:43:28.391Z"
 canonical: "#83368"
 canonical_issue: "#86743"
 canonical_pr: "#83368"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518800655](https://github.com/openclaw/clownfish/actions/runs/27518800655)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516739343](https://github.com/openclaw/clownfish/actions/runs/27516739343)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #83368
 
 ## Summary
 
-Plan-mode classification only. #83368 remains the best live canonical PR for the raw external session alias split, #86743 should stay open as the active issue until that PR is repaired and validated, and #86826 is a superseded overlapping PR with failing proof/checks.
+Plan-mode classification only. #83368 remains the canonical PR for the raw external session alias fix, #86743 should stay open as the related source issue until the canonical PR is repaired and merged, and #86826 is superseded by #83368 with a credit-preserving closeout path.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #83368 remains the best live canonical PR for the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83368 | keep_canonical | planned | canonical | Keep as the canonical implementation path, but do not recommend merge because the job blocks merge and the hydrated PR still has failing checks plus an unresolved ClawSweeper blocker. |
-| #86743 | keep_related | planned | related | The issue is the active user-facing report for the same bug family and should remain open until the canonical PR is repaired, validated, and merged. |
-| #86826 | close_superseded | planned | superseded | Supersede the overlapping, weaker PR in favor of the canonical #83368 path, with contributor attribution preserved in the closeout comment. |
+| #83368 | keep_canonical | planned | canonical | #83368 is still the best live canonical implementation path, but it is not merge-ready in this plan run. |
+| #86743 | keep_related | planned | related | #86743 tracks the same root cause family as #83368, but it should not be closed before the canonical fix lands. |
+| #86826 | close_superseded | planned | superseded | #86826 is an overlapping, narrower implementation of the same fix and is superseded by the broader canonical PR #83368. |
 
 ## Needs Human
 

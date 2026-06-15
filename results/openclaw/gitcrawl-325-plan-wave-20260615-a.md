@@ -2,53 +2,53 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-325-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518805891"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518805891"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516747547"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516747547"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.134Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-06-15T02:43:28.400Z"
+canonical: "#49175"
+canonical_issue: "#49175"
 canonical_pr: null
-actions_total: 2
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-325-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518805891](https://github.com/openclaw/clownfish/actions/runs/27518805891)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516747547](https://github.com/openclaw/clownfish/actions/runs/27516747547)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #49175
 
 ## Summary
 
-Plan-mode classification only. The two open cluster refs are security-sensitive in the preflight artifact and should be routed to central OpenClaw security handling; no ProjectClownfish close, merge, label, comment, or fix action is planned.
+Both open candidates in this cluster are marked security-sensitive in the hydrated preflight state, so Clownfish should route #49175 and #80146 to central OpenClaw security handling. No close, merge, label, comment, or fix action is planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,9 +66,12 @@ Plan-mode classification only. The two open cluster refs are security-sensitive 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49175 | route_security | planned | security_sensitive | Security-sensitive item is outside ProjectClownfish mutation scope and must be routed to central OpenClaw security handling. |
-| #80146 | route_security | planned | security_sensitive | The implementation PR is tied to a security-sensitive issue and must be handled by central OpenClaw security review, not ProjectClownfish cleanup automation. |
+| #35447 | keep_closed | skipped | superseded | Historical closed issue only; keep as context. |
+| #49174 | keep_closed | skipped | superseded | Historical closed PR only; it is not a live candidate for this plan. |
+| #49175 | route_security | planned | security_sensitive | The live canonical issue appears to involve sensitive data exposure across session boundaries, so it is out of scope for Clownfish backlog cleanup. |
+| #80146 | route_security | planned | security_sensitive | The PR changes the implementation path for a security-sensitive issue, so central OpenClaw security handling must own review and disposition. |
+| #88285 | keep_closed | skipped | related | Merged historical context only; keep closed. |
 
 ## Needs Human
 
-- Central OpenClaw security handling must decide the next step for #49175 and #80146 before any close, merge, or fix path.
+- none

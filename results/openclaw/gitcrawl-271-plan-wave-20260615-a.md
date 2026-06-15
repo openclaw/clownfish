@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-271-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518790241"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518790241"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516725653"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516725653"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.121Z"
-canonical: "#81089"
-canonical_issue: "#81089"
-canonical_pr: "#81388"
+published_at: "2026-06-15T02:43:28.382Z"
+canonical: "https://github.com/openclaw/openclaw/issues/81089"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/81089"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/81388"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518790241](https://github.com/openclaw/clownfish/actions/runs/27518790241)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516725653](https://github.com/openclaw/clownfish/actions/runs/27516725653)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #81089
+Canonical: https://github.com/openclaw/openclaw/issues/81089
 
 ## Summary
 
-Hydrated state keeps #81089 as the live canonical issue. #81388 is the active narrow implementation candidate for the same root cause, but this plan job cannot recommend merge because merge/fix actions are blocked and required merge preflight is incomplete. #89879 is already closed and should not receive any closure action.
+#81089 remains the canonical open issue for the ENOTSUP hard-link lock failure. #81388 is the live open canonical implementation candidate for the same root cause, but this plan does not recommend merge because the job blocks merge and the PR still lacks merge preflight/Codex review clearance. #89879 is already closed and only retained as historical superseded context.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Hydrated state keeps #81089 as the live canonical issue. #81388 is the active na
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #81089 | keep_canonical | planned | canonical |  |
-| #81388 | keep_related | planned | related | Keep as the active related implementation candidate; do not emit merge_candidate in this plan because merge is blocked and required merge preflight is absent. |
-| #89879 | keep_closed | skipped | superseded | Already closed in live hydrated state, so no closure mutation is valid. |
+| #81089 | keep_canonical | planned | canonical | Keep #81089 as the canonical issue because it is open, has the clearest source reproduction, and should remain the tracker until #81388 or an equivalent fix lands. |
+| #81388 | keep_canonical | planned | canonical | Keep #81388 as the canonical PR/fix candidate for #81089, but do not emit a merge action in plan mode because merge is blocked by the job and merge preflight is incomplete. |
+| #89879 | keep_closed | skipped | superseded | No action is needed because #89879 is already closed; keep it as historical superseded evidence for #81388 and #81089. |
 
 ## Needs Human
 

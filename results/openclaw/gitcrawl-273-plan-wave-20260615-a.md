@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-273-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518791806"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518791806"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516727640"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516727640"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.123Z"
+published_at: "2026-06-15T02:43:28.384Z"
 canonical: "#80804"
 canonical_issue: "#80804"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518791806](https://github.com/openclaw/clownfish/actions/runs/27518791806)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516727640](https://github.com/openclaw/clownfish/actions/runs/27516727640)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80804
 
 ## Summary
 
-Plan-mode classification only. #80804 remains the best live canonical for the unresolved Telegram supergroup/forum `chat not found` send failure. #79364 is already closed as implemented on current main via #92738, so no closure action is valid. #85006 is related Telegram forum-topic routing/message-thread failure work, but it describes a distinct 20-topic/session-cache limit and should not be closed as a duplicate of #80804.
+Read-only plan for hydrated Telegram delivery cluster. Canonical #80804 remains open for the supergroup/forum `chat not found` path; #79364 is already closed on latest hydrated state; #85006 is related but not a duplicate because it reports a topic-cache/20-topic failure shape.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #80804 remains the best live canonical for the un
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80804 | keep_canonical | planned | canonical | Best surviving open canonical for the unresolved supergroup/forum `chat not found` failure. |
-| #79364 | keep_closed | skipped | fixed_by_candidate | Already closed; mention only as historical context and do not plan a close. |
-| #85006 | keep_related | planned | related | Same Telegram forum/topic symptom family, but distinct suspected cache-limit root cause and unique reproduction; keep open as related, not duplicate. |
+| #80804 | keep_canonical | planned | canonical | Best live canonical for this cluster's unresolved supergroup/forum send failure. |
+| #79364 | keep_closed | skipped | fixed_by_candidate | Already closed in live hydrated state; its DM cron announce failure has separate fixed-by-candidate evidence and should not be re-closed or treated as the canonical open forum-send issue. |
+| #85006 | keep_related | planned | related | Same Telegram forum/topic delivery family, but a meaningfully different root-cause claim and reproduction shape; keep open as related rather than closing as a duplicate. |
 
 ## Needs Human
 

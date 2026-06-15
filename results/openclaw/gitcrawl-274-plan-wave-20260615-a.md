@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-274-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518792834"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518792834"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516728708"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516728708"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.123Z"
+published_at: "2026-06-15T02:43:28.384Z"
 canonical: "#80432"
 canonical_issue: "#80432"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518792834](https://github.com/openclaw/clownfish/actions/runs/27518792834)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516728708](https://github.com/openclaw/clownfish/actions/runs/27516728708)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80432
 
 ## Summary
 
-Read-only plan result: #80432 remains the live canonical for the non-security Matrix outbound sibling-mention rendering bug. #45184 is related Matrix sibling-mention participation work, not a duplicate. Security-sensitive hydrated refs are quarantined individually. No close, merge, label, comment, fix, or PR action is planned.
+Canonical remains open #80432. #45184 is related Matrix sibling-mention work with a different inbound dispatch root cause. #52146, #73455, and #75225 are quarantined as security-sensitive exact refs. No close, merge, or fix PR action is planned.
 
 ## Impact
 
@@ -66,13 +66,13 @@ Read-only plan result: #80432 remains the live canonical for the non-security Ma
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80432 | keep_canonical | planned | canonical | Best live canonical for the narrow non-security Matrix outbound sibling mention rendering root cause. |
-| #45184 | keep_related | planned | related | Same Matrix sibling-account product area, but different direction and runtime stage; not a true duplicate of #80432. |
-| #52146 | route_security | planned | security_sensitive | Security-sensitive roster/permission exposure should be handled by central OpenClaw security review, not ProjectClownfish cleanup. |
-| #7490 | keep_independent | planned | independent | Different subsystem and root cause from the Matrix outbound mention canonical. |
-| #45766 | keep_closed | skipped |  | Closed historical context only; no closure action is valid. |
-| #73455 | route_security | planned | security_sensitive | Security-sensitive PR context is quarantined only; it is not a canonical fix path for this plan. |
-| #75225 | route_security | planned | security_sensitive | Security-sensitive model-visible metadata exposure should route to central security/product review and is independent of the Matrix outbound mention canonical. |
+| #80432 | keep_canonical | planned | canonical | Best live canonical for the Matrix outbound sibling mention rendering root cause. |
+| #45184 | keep_related | planned | related | Related Matrix multi-account sibling-mention work, not a duplicate of #80432. |
+| #52146 | route_security | planned | security_sensitive | Security-sensitive model-visible roster and permission-metadata request is out of ProjectClownfish cleanup scope. |
+| #7490 | keep_related | planned | related | Adjacent agent-discovery work, but not the same root cause as the Matrix outbound mention rendering canonical. |
+| #45766 | keep_closed | skipped | related | Already closed historical Matrix mention context; no closure action is valid. |
+| #73455 | route_security | planned | security_sensitive | Security-sensitive linked PR is quarantined; it is already closed and receives no merge, close, or fix action. |
+| #75225 | route_security | planned | security_sensitive | Open linked PR changes model-visible agent metadata, so central security/maintainer review must handle it outside this cleanup cluster. |
 
 ## Needs Human
 

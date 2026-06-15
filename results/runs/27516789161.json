@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-411-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516789161",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516789161",
+  "head_sha": "d5c8e573becb51fea320c5586e82b186a64ac8a2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:19:07Z",
+  "workflow_updated_at": "2026-06-15T00:21:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-411-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.413Z",
+  "canonical": "#65404",
+  "canonical_issue": "#65404",
+  "canonical_pr": null,
+  "summary": "Plan keeps #65404 as the live canonical issue. #65409 is the same fix lane but is not merge- or close-ready in this read-only plan because proof failed, review-bot findings remain, and instant close/fix/merge are disabled. #83785 and #83828 are closed historical fix context only.",
+  "actions": [
+    {
+      "target": "#65404",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65404",
+      "candidate_fix": "#83828",
+      "reason": "#65404 remains the best live canonical thread for the reported observability bug; do not close it in this plan because #65409 is still open and post-merge closeout is disabled."
+    },
+    {
+      "target": "#65409",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#65404",
+      "candidate_fix": "#83828",
+      "reason": "#65409 appears superseded by the already-merged #83828/current-main fix path, but this plan should keep it related rather than emit a close action because instant close is disabled and credit-preserving contributor PR closeout needs maintainer-owned follow-through."
+    },
+    {
+      "target": "#83785",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#65404",
+      "candidate_fix": "#83828",
+      "reason": "#83785 is already closed and only provides historical replacement evidence for #83828."
+    },
+    {
+      "target": "#83828",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#65404",
+      "candidate_fix": null,
+      "reason": "#83828 is the merged historical fix evidence for the prompt/report tool surface, not an open item requiring action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

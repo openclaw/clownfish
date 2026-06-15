@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-404-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518828673"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518828673"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516788072"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516788072"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.146Z"
+published_at: "2026-06-15T02:43:28.413Z"
 canonical: "#92391"
 canonical_issue: "#92391"
 canonical_pr: "#92594"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518828673](https://github.com/openclaw/clownfish/actions/runs/27518828673)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516788072](https://github.com/openclaw/clownfish/actions/runs/27516788072)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92391
 
 ## Summary
 
-Cluster remains a single non-security Ollama Cloud endpoint compatibility family. #92391 is the best open canonical issue; #92594 is an open candidate PR linked as a fix for #92391, but merge/fix actions are blocked by this plan-only job and its ClawSweeper review requests maintainer review before merge.
+Plan-only classification: keep #92391 as the canonical open bug report and keep #92594 as the related contributor PR candidate for that issue. No close, merge, fix, or security-routing action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Cluster remains a single non-security Ollama Cloud endpoint compatibility family
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92391 | keep_canonical | planned | canonical | Keep #92391 as the canonical issue because it is the open user-facing report and the linked PR has not merged. |
-| #92594 | keep_related | planned | related | Keep #92594 attached to the canonical issue as the active candidate fix path, but do not plan merge or fixed-by-candidate closeout in this read-only job. |
+| #92391 | keep_canonical | planned | canonical | The representative remains open, hydrated, and contains the clearest user-visible failure and reproduction for this root cause. |
+| #92594 | keep_related | planned | related | This is useful contributor work tied to the canonical issue, but it is not merge-planned in this cluster because merge is blocked by job policy and the compatibility/auth-provider review gate remains maintainer-facing. |
 
 ## Needs Human
 

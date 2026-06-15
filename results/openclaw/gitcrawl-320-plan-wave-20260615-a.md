@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-320-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518804308"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518804308"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516744739"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516744739"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.133Z"
+published_at: "2026-06-15T02:43:28.399Z"
 canonical: "#82988"
 canonical_issue: "#82988"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518804308](https://github.com/openclaw/clownfish/actions/runs/27518804308)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516744739](https://github.com/openclaw/clownfish/actions/runs/27516744739)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #82988
 
 ## Summary
 
-Plan-only classification completed from the hydrated preflight artifact. #82988 remains the live canonical issue for the delta-only assistant event projection bug. #77537 is related TUI live-progress work with a different event shape and failing proof, so it should not be closed or merged in this cluster. #83000 directly targets #82988 but is security-sensitive in the artifact and has failing real-behavior proof, so it is quarantined for central security handling rather than ProjectClownfish cleanup.
+Plan-only classification: #82988 remains the live canonical issue for the delta-only assistant projection bug. #77537 is related TUI live-progress work, not a duplicate or merge candidate. #83000 is the apparent fixing PR for #82988 but is security-sensitive in the preflight artifact, draft, and failing real-behavior proof, so it is routed to central security handling. Closed linked refs stay closed; no close, merge, or fix artifact is planned.
 
 ## Impact
 
@@ -66,17 +66,17 @@ Plan-only classification completed from the hydrated preflight artifact. #82988 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #64298 | keep_closed | skipped | independent | Closed historical context only; no ProjectClownfish close action is valid or needed. |
-| #67052 | keep_closed | skipped | related | Related streaming-state history, but already closed and not a duplicate close target. |
-| #72400 | keep_closed | skipped | related | Related Gateway live-chat projection work, but it is already merged historical context. |
-| #74614 | keep_closed | skipped | related | Related closed issue; no close action is valid. |
-| #74827 | keep_closed | skipped | related | Related prior fix, but already merged and not a live candidate. |
-| #77537 | keep_related | planned | related | Same live-progress symptom family, but different root cause and failing proof; keep it open as related work. |
-| #78360 | keep_closed | skipped | related | Closed related context; no mutation should be planned. |
-| #82611 | keep_closed | skipped | related | Related live-update context, already closed, and not a duplicate close target. |
-| #82988 | keep_canonical | planned | canonical | Best live canonical for the cluster's delta-only assistant event projection root cause. |
-| #83000 | route_security | planned | security_sensitive | Security-sensitive live PR must be quarantined to central OpenClaw security handling; no ProjectClownfish close, merge, or fix action should be planned for it. |
-| #86419 | route_security | skipped | security_sensitive | Security-sensitive linked context is out of scope, but it is already closed so no live routing mutation is needed. |
+| #64298 | keep_closed | skipped | related | Already merged historical context; no mutation is valid in this plan. |
+| #67052 | keep_closed | skipped | related | Already closed related issue; preserve as historical evidence only. |
+| #72400 | keep_closed | skipped | related | Already merged related Gateway projection fix; no closure or merge action applies. |
+| #74614 | keep_closed | skipped | related | Already closed related issue; no action beyond historical classification. |
+| #74827 | keep_closed | skipped | related | Already merged related SDK projection fix; no mutation is needed. |
+| #77537 | keep_related | planned | related | Related live TUI projection work, but not a duplicate of #82988 and not safe to merge or close in this cluster. |
+| #78360 | keep_closed | skipped | related | Already closed related issue; no mutation applies. |
+| #82611 | keep_closed | skipped | related | Already closed related issue; no action beyond preserving historical context. |
+| #82988 | keep_canonical | planned | canonical | Best surviving non-security canonical for the cluster root cause. |
+| #83000 | route_security | planned | security_sensitive | Security-sensitive PR must be routed to central OpenClaw security handling; unrelated non-security classification continues. |
+| #86419 | route_security | planned | security_sensitive | Quarantine the exact security-sensitive linked ref without taking any closure, merge, or label action. |
 
 ## Needs Human
 

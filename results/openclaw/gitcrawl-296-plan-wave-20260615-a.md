@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-296-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518798442"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518798442"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516736241"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516736241"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.127Z"
+published_at: "2026-06-15T02:43:28.389Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518798442](https://github.com/openclaw/clownfish/actions/runs/27518798442)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516736241](https://github.com/openclaw/clownfish/actions/runs/27516736241)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-only classification completed from the hydrated preflight artifact. The hinted canonical #74038 is already closed and is not a live canonical. #90085 is the only open item, but it addresses a different gateway pricing metadata robustness bug, so it should stay related rather than replace #74038 as canonical.
+Planned read-only classification from the preflight artifact. #74020 and #74038 are already closed, so #74038 is not a live canonical. #90085 should remain open as a related but distinct draft PR for malformed pricing metadata handling, not as the replacement canonical for the closed replace-mode pricing-bootstrap family. No close, merge, label, comment, fix, or security-route action is planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification completed from the hydrated preflight artifact. The hin
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #74020 | keep_closed | skipped | duplicate | Already closed historical issue for the replace-mode pricing bootstrap root cause. |
-| #74038 | keep_closed | skipped | canonical | The prior representative remains the best historical canonical for the replace-mode pricing-bootstrap issue, but it is not a live canonical because it is closed. |
-| #90085 | keep_related | planned | related | Same gateway pricing area, but distinct root cause and patch boundary; #90085 should not become canonical for the closed replace-mode issue family. |
+| #74020 | keep_closed | skipped |  | Already closed in live preflight state; keep as historical context only. |
+| #74038 | keep_closed | skipped |  | The hinted representative is already closed and cannot be kept as a live canonical or closed again. |
+| #90085 | keep_related | planned | related | Same Gateway pricing area and remote-fetch suppression symptom family, but a distinct root cause and scope; do not promote it to canonical for the closed replace-mode family. |
 
 ## Needs Human
 

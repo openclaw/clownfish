@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-365-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518818612"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518818612"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516765236"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516765236"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.140Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-06-15T02:43:28.407Z"
+canonical: "#92239"
+canonical_issue: "#92239"
 canonical_pr: null
 actions_total: 3
 fix_executed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518818612](https://github.com/openclaw/clownfish/actions/runs/27518818612)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516765236](https://github.com/openclaw/clownfish/actions/runs/27516765236)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #92239
 
 ## Summary
 
-Plan-only classification completed from the hydrated preflight artifact. The hinted canonical #92239 is already closed, #92419 is already closed unmerged, and there is no remaining open item to promote as live canonical. No GitHub mutations are planned.
+Plan only. The hydrated preflight artifact shows #92239 and #92419 are already closed, with #92419 unmerged. Current-main Slack retesting on June 14, 2026 did not reproduce the blank-message behavior, and the proposed PR workaround was rejected as a formatting regression. No open item should replace #92239 as the live canonical.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification completed from the hydrated preflight artifact. The hin
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #3011 | keep_closed | skipped | related | Already closed linked context item; no mutation allowed or needed. |
-| #92239 | keep_closed | skipped | canonical | Representative/canonical issue is already closed after maintainer retest found no current-main reproduction; no open replacement canonical exists. |
-| #92419 | keep_closed | skipped | superseded | Already closed unmerged workaround PR for the same issue; closure rationale records current-main non-reproduction and patch regression risk. |
+| #92239 | keep_closed | skipped | canonical | Already closed in live preflight state; retain #92239 as the historical canonical family, but no close/comment/label mutation is valid. |
+| #92419 | keep_closed | skipped | related | Already closed unmerged; it remains related to #92239 but is not a viable candidate fix and cannot receive a closure or merge mutation. |
+| #3011 | keep_closed | skipped | independent | Closed linked context only; different channel and markdown trigger, so it should not become part of this Slack duplicate family. |
 
 ## Needs Human
 

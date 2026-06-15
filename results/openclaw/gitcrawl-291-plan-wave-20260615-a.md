@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-291-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518795985"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518795985"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516732918"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516732918"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.126Z"
-canonical: "#87346"
+published_at: "2026-06-15T02:43:28.388Z"
+canonical: null
 canonical_issue: "#87329"
 canonical_pr: "#87346"
-actions_total: 6
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518795985](https://github.com/openclaw/clownfish/actions/runs/27518795985)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516732918](https://github.com/openclaw/clownfish/actions/runs/27516732918)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #87346
+Canonical: #87329
 
 ## Summary
 
-All hydrated refs are already closed in the preflight artifact. The former canonical issue #87329 was closed after the merged #87346 fix; #88687 was closed after maintainer verification found its metadata change would drop the only assistant answer from replay. No GitHub mutation is planned in plan mode.
+Read-only plan: all three job-listed candidates are already closed in the hydrated preflight artifact, so no close/comment/label mutation is planned. #87346 is the landed fix for #87329; #88687 was closed as unsafe/superseded by the accepted path. No open item should become the live canonical for this cluster.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,12 +66,9 @@ All hydrated refs are already closed in the preflight artifact. The former canon
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87329 | keep_closed | skipped | fixed_by_candidate | Already closed; no close action is valid. Treat the issue as fixed by the merged #87346 path. |
-| #87346 | keep_closed | skipped | canonical | This is the landed canonical fix for the #87329 root cause, but it is already merged and closed, so no mutation is planned. |
-| #88687 | keep_closed | skipped | superseded | Already closed after maintainer rejection and superseded by the merged #87346 fix path; no close action is valid. |
-| #77839 | keep_closed | skipped | related | Already merged historical context; keep closed as related evidence only. |
-| #83635 | keep_closed | skipped | related | Already merged related transcript fix; no mutation is valid. |
-| #88025 | keep_closed | skipped | superseded | Already closed as superseded by other replay classifier/recovery work; keep as historical related context only. |
+| #87329 | keep_closed | skipped | fixed_by_candidate | Already closed; keep historical canonical issue closed as fixed by landed PR #87346. |
+| #87346 | keep_closed | skipped | canonical | Already merged; treat as the canonical landed fix path for the cluster. |
+| #88687 | keep_closed | skipped | superseded | Already closed; keep closed as superseded/rejected in favor of the landed #87346 fix path. |
 
 ## Needs Human
 

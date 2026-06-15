@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-330-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518808154"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518808154"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516750689"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516750689"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.135Z"
+published_at: "2026-06-15T02:43:28.402Z"
 canonical: "#49046"
 canonical_issue: "#49046"
 canonical_pr: "#92863"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518808154](https://github.com/openclaw/clownfish/actions/runs/27518808154)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516750689](https://github.com/openclaw/clownfish/actions/runs/27516750689)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #49046
 
 ## Summary
 
-Read-only plan: keep #49046 as the live canonical docs-gap issue. Keep #92863 as the focused contributor PR candidate for that issue, but do not recommend merge or closeout in this job because merge/fix actions are blocked and the PR lacks merge preflight. Hydrated linked issues #13219 and #92338 are related usage-observability work with distinct scope and should not be forced into the #49046 duplicate family.
+Read-only plan: keep #49046 as the canonical docs-gap issue; keep #92863 as the open docs fix candidate without merge recommendation; keep #13219 and #92338 as related but distinct usage-observability scopes. No security routing or human blocker is needed from the hydrated artifact.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Read-only plan: keep #49046 as the live canonical docs-gap issue. Keep #92863 as
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49046 | keep_canonical | planned | canonical | Best live canonical for the narrow docs gap: exact model.usage diagnostic event field names are not documented for parser authors. |
-| #92863 | keep_related | planned | fixed_by_candidate | Focused candidate fix for #49046, but this plan-mode job cannot merge or repair it and lacks the required merge preflight. |
-| #13219 | keep_related | planned | related | Related usage-observability family, but distinct root cause and scope from the #49046 docs field-name gap. |
-| #92338 | keep_related | planned | related | Related diagnostics area, but it is a distinct runtime bug report with unverified reproduction and should not be closed or folded into the #49046 docs issue. |
+| #13219 | keep_related | planned | related | Same usage-observability family as #49046, but distinct product/storage scope; keep as related follow-up, not a duplicate. |
+| #49046 | keep_canonical | planned | canonical | Best live canonical for the exact docs-gap root cause; keep open until a reviewed docs fix lands. |
+| #92338 | keep_related | planned | related | Related event family but distinct root cause and surface; keep separate from the #49046 docs-gap canonical. |
+| #92863 | keep_related | planned | related | Useful candidate docs fix for #49046, but it should stay open for normal review and merge gates in a later run. |
 
 ## Needs Human
 

@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-306-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516738377",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516738377",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:17:21Z",
+  "workflow_updated_at": "2026-06-15T00:19:52Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-306-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.390Z",
+  "canonical": "#85684",
+  "canonical_issue": "#85684",
+  "canonical_pr": null,
+  "summary": "Read-only plan: keep #85684 as the canonical issue for the group-chat silentReplyPolicy short-circuit. Keep #85192 related because it has a distinct DeepSeek thinking-block/provider classification root cause. #85422 is related but needs a maintainer/product decision on fallback semantics, not duplicate closeout.",
+  "actions": [
+    {
+      "target": "#85684",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85684",
+      "candidate_fix": null,
+      "reason": "#85684 remains open and is the best canonical for the cluster's representative root cause: group-chat silent-reply handling short-circuits reasoning-only retry before retry/fallback behavior can run."
+    },
+    {
+      "target": "#85192",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85684",
+      "candidate_fix": null,
+      "reason": "Same reasoning-only retry symptom family, but the reported root cause and remaining evidence are provider/streaming classification specific, so #85192 should not be closed as a duplicate of #85684."
+    },
+    {
+      "target": "#85422",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#85684",
+      "candidate_fix": null,
+      "reason": "This is related to the reasoning-only/empty-visible failure family but depends on maintainer product intent and current path-specific behavior, so duplicate closeout or canonical reassignment is not safe from the hydrated artifact alone."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85422 needs maintainer/product decision: should reasoning-only or empty-visible retry exhaustion advance model.fallbacks on the affected reply paths, given the author reframed the issue as a feature request and a later 2026.6.1 datapoint says fallback already works on the subagent auto-announce path?"
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

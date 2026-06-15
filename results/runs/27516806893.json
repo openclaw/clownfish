@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-449-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516806893",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516806893",
+  "head_sha": "cf553f2255960d5f7476dcf139c657a23ab10472",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:19:44Z",
+  "workflow_updated_at": "2026-06-15T00:21:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-449-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.422Z",
+  "canonical": "#92452",
+  "canonical_issue": "#92452",
+  "canonical_pr": null,
+  "summary": "Read-only plan from the hydrated preflight artifact. #92452 remains the live representative for the ClawHub msteams provenance mismatch, but #92452, #92516, and linked #76433 are security-sensitive trust-boundary items and should be routed to central OpenClaw security handling. #92516 is related but distinct from #92452, so no duplicate closeout is planned. Linked #90071 is a related non-security Docker/provenance report and should stay open. Closed #1 is historical evidence only.",
+  "actions": [
+    {
+      "target": "#92452",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#92452",
+      "candidate_fix": null,
+      "reason": "Security-sensitive plugin trust-boundary issue; do not close, comment, label, merge, or fix through Clownfish."
+    },
+    {
+      "target": "#92516",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive public portable-install and plugin-provenance contract decision; route this exact item without treating it as a duplicate of #92452."
+    },
+    {
+      "target": "#76433",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive SDK trust-boundary request; quarantine only this linked item and leave unrelated non-security classification moving."
+    },
+    {
+      "target": "#90071",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related non-security Docker/provenance issue with unique scope; do not close as a duplicate in this cluster."
+    },
+    {
+      "target": "#1",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and independent of this cluster's keyed-store trust-provenance issue family."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-267-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516723504",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516723504",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:16:50Z",
+  "workflow_updated_at": "2026-06-15T00:19:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-267-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.380Z",
+  "canonical": "#89520",
+  "canonical_issue": "#89520",
+  "canonical_pr": "#90503",
+  "summary": "Read-only plan: keep #89520 as the canonical issue and #90503 as the canonical fix PR. Keep #89538 related rather than closing it because it mixes the session cleanup with an unrelated WebRTC change and has failing checks. #56827 is already closed historical context. No security-sensitive hydrated refs were detected.",
+  "actions": [
+    {
+      "target": "#89520",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89520",
+      "candidate_fix": "#90503",
+      "reason": "#89520 remains the best live canonical issue for the orphan session-store temp cleanup gap; keep it open while the fix PR path is reviewed."
+    },
+    {
+      "target": "#90503",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90503",
+      "candidate_fix": "#90503",
+      "reason": "#90503 is the clearest canonical fix PR for #89520, but this plan should not merge it."
+    },
+    {
+      "target": "#89538",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89520",
+      "candidate_fix": "#90503",
+      "reason": "#89538 is related to the canonical session cleanup issue, but it is not closure-safe in this plan because it mixes an unrelated change and has failing checks."
+    },
+    {
+      "target": "#56827",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89520",
+      "candidate_fix": null,
+      "reason": "#56827 is already closed linked context and should receive no mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

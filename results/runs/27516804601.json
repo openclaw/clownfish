@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-438-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516804601",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516804601",
+  "head_sha": "cf553f2255960d5f7476dcf139c657a23ab10472",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:19:39Z",
+  "workflow_updated_at": "2026-06-15T00:21:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-438-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.421Z",
+  "canonical": "#20756",
+  "canonical_issue": "#20756",
+  "canonical_pr": null,
+  "summary": "Keep #20756 as the live canonical issue. Keep #85671 as a related implementation candidate for the same root cause, but do not merge or close anything in this plan because the PR still lacks real behavior proof and has failing checks plus linked codegraph conflicts. Linked #87437 is a separate Telegram proof-head PR and should stay outside this cluster.",
+  "actions": [
+    {
+      "target": "#20756",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#20756",
+      "candidate_fix": null,
+      "reason": "#20756 remains the best surviving canonical issue for the account auto-selection root cause."
+    },
+    {
+      "target": "#85671",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#20756",
+      "candidate_fix": "#85671",
+      "reason": "#85671 is the active implementation candidate for #20756, but failing checks and missing real behavior proof block merge and fixed-by-candidate closeout."
+    },
+    {
+      "target": "#20801",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#20756",
+      "candidate_fix": "#85671",
+      "reason": "Already closed refs must not receive close actions; keep as historical context only."
+    },
+    {
+      "target": "#87425",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and already closed; keep outside this cluster."
+    },
+    {
+      "target": "#87437",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#87437 belongs to the separate #87425 Telegram proof path; do not mutate it from this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 2,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

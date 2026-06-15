@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-517-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518866373"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518866373"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516845608"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516845608"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.608Z"
+published_at: "2026-06-15T02:43:28.438Z"
 canonical: "#91860"
 canonical_issue: "#91860"
 canonical_pr: "#91885"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518866373](https://github.com/openclaw/clownfish/actions/runs/27518866373)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516845608](https://github.com/openclaw/clownfish/actions/runs/27516845608)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91860
 
 ## Summary
 
-Plan-only classification for cluster gitcrawl-517-plan-wave-20260615-a. #91860 remains the canonical open issue for the Discord CLI maxLinesPerMessage bug. #91885 is an open focused PR that links and appears intended to fix #91860, but merge and fix actions are blocked by job frontmatter and no merge preflight is available, so it is kept as the related candidate fix path rather than closed or merged.
+#91860 remains the open canonical issue. #91885 is a focused related candidate fix for that issue, but this plan emits no close, merge, fix, or PR-opening action because the job is read-only plan mode and merge/fix actions are blocked.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification for cluster gitcrawl-517-plan-wave-20260615-a. #91860 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91860 | keep_canonical | planned | canonical | #91860 is the best live canonical because it is the open issue describing the root behavior and the only issue in the cluster. |
-| #91885 | keep_related | planned | fixed_by_candidate | #91885 is the related candidate fix for the canonical issue, but this plan-mode job cannot recommend or perform merge/close/fix mutations. |
+| #91860 | keep_canonical | planned | canonical | The representative is still open and remains the best canonical issue for the reported maxLinesPerMessage CLI Discord send behavior. |
+| #91885 | keep_related | planned | related | #91885 is the live candidate fix for #91860, but merge/fix work is outside this plan-mode job and lacks the required merge preflight proof. |
 
 ## Needs Human
 

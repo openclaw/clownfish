@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-340-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518812037"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518812037"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516756040"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516756040"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.137Z"
+published_at: "2026-06-15T02:43:28.404Z"
 canonical: "#38327"
 canonical_issue: "#38327"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518812037](https://github.com/openclaw/clownfish/actions/runs/27518812037)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516756040](https://github.com/openclaw/clownfish/actions/runs/27516756040)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #38327
 
 ## Summary
 
-Plan-mode classification for cluster 340: #38327 remains the open canonical Vertex crash tracker; #83991 is an open related PR that addresses only the Google thinking-payload sanitizer subpath and should not close the broader canonical issue while gaxios/native-fetch auth-stack work remains tracked there.
+#38327 remains the live canonical issue for the Google Vertex "Cannot convert undefined or null to object" regression. #83991 is related and useful as the current partial sanitizer fix PR, but it does not cover the separate Vertex ADC/gaxios/native-fetch path and merge/fix actions are blocked in this job.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification for cluster 340: #38327 remains the open canonical Vert
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #38327 | keep_canonical | planned | canonical | Best live canonical because it is the only open issue covering the broader Vertex crash family and still contains unresolved non-security provider/auth-stack follow-up beyond the sanitizer PR. |
-| #83991 | keep_related | planned | related | Related partial fix for the canonical issue, but not a duplicate or complete fixed-by-candidate path because the canonical issue also tracks the separate Vertex ADC/gaxios/native-fetch crash route. |
+| #38327 | keep_canonical | planned | canonical | #38327 is the best live canonical because it is open, has current Vertex crash evidence, and tracks multiple root-cause paths that #83991 does not fully close. |
+| #83991 | keep_related | planned | related | #83991 is a related partial fix candidate for #38327's sanitizer path, but it should remain open rather than close #38327 or be merged by this plan-only job. |
 
 ## Needs Human
 

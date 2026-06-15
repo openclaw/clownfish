@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-489-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518858563"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518858563"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516836121"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516836121"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.602Z"
+published_at: "2026-06-15T02:43:28.430Z"
 canonical: "#92025"
 canonical_issue: null
 canonical_pr: "#92025"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518858563](https://github.com/openclaw/clownfish/actions/runs/27518858563)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516836121](https://github.com/openclaw/clownfish/actions/runs/27516836121)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92025
 
 ## Summary
 
-Plan-only classification: #92025 remains the open canonical PR for the remediation-hints work. #92028 is related skills CLI work but has a different root cause and scope, so it should stay open independently rather than be closed as a duplicate or superseded item.
+#92025 remains the live canonical PR for the per-section skills check remediation-hints change. #92028 is related skills CLI diagnostics work but has a distinct root cause and broader implementation surface, so it should remain open as related rather than be closed or merged in this cluster.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #92025 remains the open canonical PR for the remediati
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92025 | keep_canonical | planned | canonical | The representative is still open and remains the best canonical for the remediation-hints root cause; no mutation or merge is allowed in this plan job. |
-| #92028 | keep_related | planned | related | #92028 is in the same skills CLI area but implements malformed SKILL.md lint reporting, not the per-section remediation hints covered by #92025; it should not be closed as a duplicate or superseded PR in this cluster. |
+| #92025 | keep_canonical | planned | canonical | #92025 is the open representative and the narrowest PR for the cluster title/root cause; keep it as canonical but do not merge or close anything in plan mode. |
+| #92028 | keep_related | planned | related | #92028 belongs in the same skills CLI author-diagnostics family but is not a duplicate of #92025 because it implements malformed SKILL.md lint/load diagnostics rather than skills check remediation hints. |
 
 ## Needs Human
 

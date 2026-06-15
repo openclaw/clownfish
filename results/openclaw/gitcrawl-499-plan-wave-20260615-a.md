@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-499-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518863184"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518863184"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516841019"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516841019"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.607Z"
+published_at: "2026-06-15T02:43:28.436Z"
 canonical: "#92067"
 canonical_issue: "#92067"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518863184](https://github.com/openclaw/clownfish/actions/runs/27518863184)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516841019](https://github.com/openclaw/clownfish/actions/runs/27516841019)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92067
 
 ## Summary
 
-Plan-only classification: #92067 remains the open canonical issue for the Telegram ingest/media-skip root cause. #92153 is an open related candidate PR for the same issue, but it is not merge-ready in this cluster because merge/fix actions are blocked by the job and the hydrated PR still has a failing native Telegram proof check plus an actionable bot-review coverage concern.
+Canonical remains the open issue #92067. PR #92153 is the same Telegram ingest/media-skip fix family, but it should stay related rather than merge or drive closeout in this plan because merge/fix are blocked by job policy, mergeability is unknown, a proof check is failing, and the hydrated bot review still flags ingest-precedence/proof blockers.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #92067 remains the open canonical issue for the Telegr
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92067 | keep_canonical | planned | canonical | Best surviving issue for the shared Telegram ingest/media-skip root cause. |
-| #92153 | keep_related | planned | related | Same root cause and plausible fix path, but merge/fixed-by-candidate closeout is blocked by failing proof/check state and unresolved bot-review coverage evidence. |
+| #92067 | keep_canonical | planned | canonical | #92067 is the original open report with the clearest repro and remains the best live canonical for this root cause. |
+| #92153 | keep_related | planned | related | #92153 is the same root-cause family as #92067 and may be a useful contributor fix candidate, but it is not merge-ready and cannot be used for closeout in this plan. |
 
 ## Needs Human
 

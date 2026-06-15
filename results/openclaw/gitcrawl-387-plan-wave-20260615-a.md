@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-387-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518823984"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518823984"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516772122"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516772122"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.143Z"
+published_at: "2026-06-15T02:43:28.410Z"
 canonical: "#41750"
 canonical_issue: "#41750"
 canonical_pr: "#89168"
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-387-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518823984](https://github.com/openclaw/clownfish/actions/runs/27518823984)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516772122](https://github.com/openclaw/clownfish/actions/runs/27516772122)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #41750
 
 ## Summary
 
-Plan-mode classification: #41750 remains the live canonical issue for the stale managed Chrome CDP listener failure. #89168 is the related open implementation path for that canonical, but merge/close/fix actions are not planned because the job blocks merge and fix work and the hydrated review still calls for maintainer review on a broad process-control recovery delta. #41758 is already closed and is retained only as historical superseded evidence.
+Plan-only classification: keep #41750 as the live canonical issue, keep #89168 as the related open candidate fix path that still needs normal maintainer/merge gates, and record closed #41758 as historical superseded context. No close, merge, label, comment, or fix PR action is planned.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification: #41750 remains the live canonical issue for the stale 
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Plan-mode classification: #41750 remains the live canonical issue for the stale 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41750 | keep_canonical | planned | canonical | #41750 is the best surviving canonical issue and should stay open while #89168 or a future validated fix owns implementation. |
-| #89168 | keep_related | planned | related | #89168 is the active candidate fix for #41750, but merge readiness remains a maintainer judgment due to broad process-control behavior changes and merge is blocked by this plan-mode job. |
-| #41758 | keep_closed | skipped | superseded | Already-closed historical PR; keep as superseded context only. |
+| #41750 | keep_canonical | planned | canonical | #41750 remains the best live canonical tracker for the stale managed Chrome CDP listener root cause while #89168 owns the candidate implementation path. |
+| #89168 | keep_related | planned | related | #89168 is related to and plausibly fixes #41750, but this plan-mode cleanup job should not merge or close around it before maintainer review and merge preflight. |
+| #41758 | keep_closed | skipped | superseded | #41758 is already closed and remains historical superseded evidence, not an actionable open candidate. |
 
 ## Needs Human
 
-- #89168 requires maintainer judgment before any merge recommendation because the hydrated ClawSweeper review flags a broad availability-sensitive process-control recovery surface, and this job explicitly blocks merge/fix actions.
+- none

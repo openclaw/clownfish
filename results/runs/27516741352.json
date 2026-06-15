@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-313-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516741352",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516741352",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:17:28Z",
+  "workflow_updated_at": "2026-06-15T00:19:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-313-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.396Z",
+  "canonical": "#84583",
+  "canonical_issue": "#84583",
+  "canonical_pr": null,
+  "summary": "Plan-only classification. No security-sensitive hydrated refs were reported. #84583 is the safest live canonical issue for the cron/proactive delivery session-lock race. The open PR path is not clear: #84603 is the original narrow PR for #84583 but is stale with failing checks, while #86491 is newer and broader, superseding #86140 but adding heartbeat/digest mirror semantics and still carrying a review/check blocker. Do not close or merge either PR until a maintainer chooses or reconciles that path.",
+  "actions": [
+    {
+      "target": "#84059",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context only; no mutation is valid."
+    },
+    {
+      "target": "#84071",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context only; no mutation is valid."
+    },
+    {
+      "target": "#84250",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical fix; keep as evidence, not as a closeout target."
+    },
+    {
+      "target": "#84583",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84583",
+      "candidate_fix": null,
+      "reason": "Open source repro remains the best live canonical issue because the candidate PR path is unresolved and the bug has post-#84250 reproduction evidence."
+    },
+    {
+      "target": "#84603",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#84583",
+      "candidate_fix": "#84603",
+      "reason": "This is the original narrow candidate for #84583, but failing checks and the newer overlapping #86491 make the canonical PR/supersession choice a maintainer decision."
+    },
+    {
+      "target": "#86140",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#86491",
+      "reason": "Already closed and explicitly superseded by hydrated open PR #86491; no mutation is valid."
+    },
+    {
+      "target": "#86491",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#84583",
+      "candidate_fix": "#86491",
+      "reason": "This may be the better replacement path, but it is broader than #84603 and changes heartbeat/digest delivery semantics; maintainer judgment is needed before marking #84603 superseded or using #86491 as the canonical PR."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose or reconcile the open PR path for #84583: keep/repair the narrow #84603 branch, replace it with the broader #86491 branch, or split the cron routed-peer race and heartbeat/digest transcript-mirror work into separate follow-up clusters."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

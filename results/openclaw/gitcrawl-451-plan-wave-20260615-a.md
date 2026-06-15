@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-451-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518844829"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518844829"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516808403"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516808403"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.593Z"
+published_at: "2026-06-15T02:43:28.422Z"
 canonical: "#77340"
 canonical_issue: "#77340"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518844829](https://github.com/openclaw/clownfish/actions/runs/27518844829)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516808403](https://github.com/openclaw/clownfish/actions/runs/27516808403)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #77340
 
 ## Summary
 
-Plan-mode classification only. #77340 remains the live canonical issue. #86898 is the relevant fix PR for the same root cause, but it is not merge-ready because required proof/check gates are failing and review evidence is incomplete for merge preflight. No GitHub mutations planned.
+Read-only plan: #77340 remains the live canonical issue for the deferred turn-maintenance livelock. #86898 is related and appears to target the same root cause, but it is not merge-ready or safe to use for fixed-by-candidate closeout because proof/check gates are failing and there is no clean latest-head Codex review in the hydrated artifact.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification only. #77340 remains the live canonical issue. #86898 i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77340 | keep_canonical | planned | canonical | #77340 is still the best live canonical for this root cause. |
-| #86898 | keep_related | planned | related | #86898 is the relevant candidate fix for #77340, but plan mode and failing proof/check gates block merge or closure recommendations. |
+| #77340 | keep_canonical | planned | canonical | #77340 is the best live canonical because it is the open issue carrying the root-cause description and reproduction history. The related PR #86898 has not cleared proof/check/review gates, so the canonical issue should stay open. |
+| #86898 | keep_related | planned | related | #86898 is a plausible related candidate fix for #77340, but merge and fixed-by-candidate closeout are blocked by failing checks/proof and missing clean latest-head review. The job also blocks merge/fix actions, so the safe read-only classification is keep_related. |
 
 ## Needs Human
 

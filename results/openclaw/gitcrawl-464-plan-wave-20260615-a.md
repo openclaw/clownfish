@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-464-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518849057"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518849057"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516813331"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516813331"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.595Z"
+published_at: "2026-06-15T02:43:28.425Z"
 canonical: "#64556"
 canonical_issue: "#64556"
-canonical_pr: null
-actions_total: 5
+canonical_pr: "#70268"
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518849057](https://github.com/openclaw/clownfish/actions/runs/27518849057)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516813331](https://github.com/openclaw/clownfish/actions/runs/27516813331)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #64556
 
 ## Summary
 
-Plan-only classification for cluster gitcrawl-464-plan-wave-20260615-a. #64556 remains the canonical open bug. #70268 is the active linked implementation candidate but is not merge-ready because its latest hydrated checks include a failing Real behavior proof gate and proof-needed labels; no close/merge/fix mutation is planned.
+Plan-only classification keeps #64556 as the live canonical issue. #70268 remains the related implementation candidate for #64556, but failed real-behavior proof and missing merge preflight block merge or fixed-by closeout in this job.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 5 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,11 +66,8 @@ Plan-only classification for cluster gitcrawl-464-plan-wave-20260615-a. #64556 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #64556 | keep_canonical | planned | canonical | The representative is still open and remains the clearest canonical report for the wake-hook mapping routing bug. |
-| #70268 | keep_related | planned | related | #70268 is the active implementation path for #64556, but it should stay open for proof/review rather than be closed or merged by this plan. |
-| #3432 | keep_closed | skipped | superseded | Already-closed linked context only; no closure action is valid. |
-| #35231 | keep_closed | skipped | superseded | Already-closed historical PR; no closure action is valid. |
-| #83738 | keep_closed | skipped | related | Merged related fix covers a different half of the wake-routing family and does not close the remaining hook mapping bug. |
+| #64556 | keep_canonical | planned | canonical | #64556 remains the best live canonical issue for the wake-hook routing root cause; no closeout is safe while #70268 has not landed or passed proof. |
+| #70268 | keep_related | planned | related | #70268 is the active implementation candidate for the canonical issue, but it is not merge-ready and should stay open for proof or repair rather than being closed or merged by this plan-only cluster. |
 
 ## Needs Human
 

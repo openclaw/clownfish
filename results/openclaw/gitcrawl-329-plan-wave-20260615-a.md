@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-329-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518807334"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518807334"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516749704"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516749704"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.135Z"
+published_at: "2026-06-15T02:43:28.402Z"
 canonical: "#92852"
 canonical_issue: "#92851"
 canonical_pr: "#92852"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518807334](https://github.com/openclaw/clownfish/actions/runs/27518807334)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516749704](https://github.com/openclaw/clownfish/actions/runs/27516749704)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92852
 
 ## Summary
 
-Plan-only classification: both hydrated refs are already closed in live preflight state. #92852 merged as the fix for #92851, with maintainer closeout and post-merge follow-up recorded. No open item remains to become a live canonical, and no mutation is planned.
+Hydrated live state shows both listed candidates are already closed. #92852 is the already-merged canonical fix for #92851; no open item remains to promote as live canonical and no mutation is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: both hydrated refs are already closed in live prefligh
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92851 | keep_closed | skipped | fixed_by_candidate | Already closed in live preflight state; closure actions are invalid for closed refs. The issue is resolved by the merged candidate PR. |
-| #92852 | keep_closed | skipped | canonical | Already merged and closed; it is the canonical fix path for this cluster, but no merge or close action is available in plan mode for a closed PR. |
+| #92851 | keep_closed | skipped | fixed_by_candidate | Already closed after the linked merged fix; keep as historical fixed-by-candidate evidence with no additional action. |
+| #92852 | keep_closed | skipped | canonical | Already merged and closed; keep as the completed canonical fix path, with no merge or close action planned. |
 
 ## Needs Human
 

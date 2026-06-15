@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-497-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518862186"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518862186"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516840019"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516840019"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.607Z"
+published_at: "2026-06-15T02:43:28.435Z"
 canonical: "#91959"
 canonical_issue: "#91959"
 canonical_pr: "#92399"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518862186](https://github.com/openclaw/clownfish/actions/runs/27518862186)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516840019](https://github.com/openclaw/clownfish/actions/runs/27516840019)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91959
 
 ## Summary
 
-Plan-only classification completed from the hydrated preflight artifact. #91959 remains the live canonical issue; #92399 is the related candidate fix PR but is not merge-planned because this job blocks merge/fix/raise_pr and the bot verdict still says maintainer review before merge. Linked #89531 remains related historical context with a narrower earlier report that now points back to #91959 evidence.
+Plan only: #91959 remains the canonical issue for the Bedrock Mantle openai-responses cumulative snapshot bug. #92399 is the relevant open fix PR, but no merge is recommended because this job blocks merge/fix actions and the hydrated ClawSweeper review still calls for maintainer review. #89531 is related first-hop evidence and should stay open because it carries channel-specific reproduction and root-cause nuance. No security-sensitive items were detected.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification completed from the hydrated preflight artifact. #91959 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91959 | keep_canonical | planned | canonical | #91959 is open, hydrated, has the clearest full-scope reproduction, and is directly referenced by the candidate fix PR. |
-| #92399 | keep_related | planned | related | This is the plausible candidate fix for #91959, but plan mode plus blocked merge/fix actions and missing merge preflight prevent a merge_candidate or fixed-by-candidate closeout action. |
-| #89531 | keep_related | planned | related | #89531 is related to the same symptom family and now cross-references #91959, but it has enough distinct historical reproduction context that this plan should not close it as a duplicate in this job. |
+| #91959 | keep_canonical | planned | canonical | #91959 is still the clearest live canonical issue; keep it open until a validated fix lands and post-merge closeout is separately allowed. |
+| #92399 | keep_related | planned | related | #92399 is the active related fix candidate for #91959, but this worker should not emit a merge action without merge permission, maintainer-review resolution, and required merge_preflight proof. |
+| #89531 | keep_related | planned | related | Keep #89531 open as related evidence for the same symptom family; do not close it as a duplicate while its channel-specific reproduction and conflicting root-cause notes remain useful. |
 
 ## Needs Human
 

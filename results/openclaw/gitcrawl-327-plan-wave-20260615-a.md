@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-327-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518806637"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518806637"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516748647"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516748647"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.135Z"
+published_at: "2026-06-15T02:43:28.401Z"
 canonical: "#83458"
 canonical_issue: "#55027"
 canonical_pr: "#83458"
-actions_total: 8
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518806637](https://github.com/openclaw/clownfish/actions/runs/27518806637)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516748647](https://github.com/openclaw/clownfish/actions/runs/27516748647)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #83458
 
 ## Summary
 
-Plan-only classification: original representative #48834 is already closed, so no closure action is valid. The best live non-security PR path for the ACP topic conversation-binding slice is #83458, but merge is blocked by failed proof/checks and by job policy. The Feishu true block-streaming issue #55027 remains a related but distinct open issue. Security-sensitive linked PR #50943 is quarantined only for central security handling.
+Plan-only classification from the provided preflight artifact. #48834 is already closed, so no close action is valid. #83458 is the only surviving open PR candidate for the narrow Feishu ACP topic binding work, but merge/fixed-by-candidate closeout is blocked by real behavior proof and failing checks. The linked security-sensitive #50943 is quarantined only for that item.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 8 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,14 +66,10 @@ Plan-only classification: original representative #48834 is already closed, so n
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #30663 | keep_closed | skipped | related | Already closed merged context; preserve as related evidence only. |
-| #40936 | keep_closed | skipped | superseded | Closed superseded historical PR; no action beyond classification. |
-| #46819 | keep_closed | skipped | related | Merged foundation work; related historical evidence only. |
-| #48834 | keep_closed | skipped | superseded | Original representative is closed and superseded; #83458 is the live open PR for the narrow ACP topic-binding slice. |
-| #50943 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup. |
-| #55027 | keep_related | planned | related | Related Feishu delivery problem but not a duplicate of #83458; keep open as its own issue. |
-| #58400 | keep_closed | skipped | related | Merged related infrastructure; no mutation needed. |
-| #83458 | keep_canonical | planned | canonical | Best live canonical PR for the ACP topic conversation-binding slice, but not merge-ready in plan mode. |
+| #48834 | keep_closed | skipped | superseded | The hinted representative is already closed; #83458 is the open PR candidate for the remaining narrow Feishu ACP topic binding work. |
+| #83458 | keep_related | planned | canonical | Keep as live canonical candidate, but do not recommend merge or closeout while required proof/check gates are failing. |
+| #50943 | route_security | planned | security_sensitive | Quarantine only the exact security-sensitive linked ref; do not close, merge, comment on, or use it as the canonical path. |
+| #55027 | keep_related | planned | related | Related Feishu delivery limitation, but separate from #83458 and should remain open. |
 
 ## Needs Human
 

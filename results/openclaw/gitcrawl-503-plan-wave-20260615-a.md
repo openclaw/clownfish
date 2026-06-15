@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-503-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518863953"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518863953"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516842220"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516842220"
+head_sha: "1aabb2d816f9888d8a4f648c6fa800f88117c1b4"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.608Z"
+published_at: "2026-06-15T02:43:28.436Z"
 canonical: "#91926"
 canonical_issue: "#91926"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518863953](https://github.com/openclaw/clownfish/actions/runs/27518863953)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516842220](https://github.com/openclaw/clownfish/actions/runs/27516842220)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91926
 
 ## Summary
 
-Plan-only classification: #91926 remains the open canonical issue for the Windows Session 0 gateway restart failure. #92716 is a related open PR that appears to target the same root cause, but merge/fix actions are blocked by job frontmatter and merge preflight is incomplete, so no closure or merge action is planned.
+Classified #91926 as the live canonical issue and #92716 as the related candidate fix. No close, merge, label, comment, security-route, or fix-PR action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: #91926 remains the open canonical issue for the Window
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91926 | keep_canonical | planned | canonical | #91926 is the best live canonical because it is the open user-facing bug report with the complete reproduction, environment, and expected/actual behavior. |
-| #92716 | keep_related | planned | related | #92716 is a related candidate fix for the canonical issue, but this plan-mode job cannot merge or repair it and lacks the required merge preflight, so it should remain open for maintainer review rather than be closed or merged. |
+| #91926 | keep_canonical | planned | canonical | #91926 remains the best live canonical item for this Windows exec restart failure. |
+| #92716 | keep_related | planned | related | #92716 is the related candidate fix for the canonical issue, but this plan-mode job cannot recommend merge or create/repair a fix PR. |
 
 ## Needs Human
 

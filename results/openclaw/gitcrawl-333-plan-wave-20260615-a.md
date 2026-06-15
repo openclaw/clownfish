@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-333-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518810335"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518810335"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516753843"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516753843"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.136Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-06-15T02:43:28.403Z"
+canonical: "#88933"
+canonical_issue: "#88933"
 canonical_pr: null
-actions_total: 2
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518810335](https://github.com/openclaw/clownfish/actions/runs/27518810335)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516753843](https://github.com/openclaw/clownfish/actions/runs/27516753843)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #88933
 
 ## Summary
 
-Plan mode only. The hinted canonical PR #88943 is already closed, and the only listed candidate PR #88979 is also already closed. No open live candidate remains to become canonical; the underlying linked issue #88933 was closed by a maintainer after fix commit 280d1cb977c481856691d271fc7c0d754dc5f955 landed on main.
+Plan-only classification: the hinted representative PR #88943 and candidate PR #88979 are already closed in the preflight artifact. The linked root issue #88933 is also closed as fixed on main, so no open item should become the live canonical and no GitHub mutation is planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,8 +66,9 @@ Plan mode only. The hinted canonical PR #88943 is already closed, and the only l
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88943 | keep_closed | skipped | superseded | Already closed; no open canonical remains from this PR. |
-| #88979 | keep_closed | skipped | superseded | Already closed; superseded by the maintainer implementation on main. |
+| #88933 | keep_closed | skipped | fixed_by_candidate | Already closed linked root issue; closure policy forbids closing an already-closed item. |
+| #88943 | keep_closed | skipped | superseded | The hinted canonical PR is already closed; no close, merge, label, or comment action is valid in plan mode. |
+| #88979 | keep_closed | skipped | superseded | Already closed and superseded by the fixed-on-main path; no further mutation is planned. |
 
 ## Needs Human
 

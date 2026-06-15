@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-310-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518801333"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518801333"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516740344"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516740344"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.130Z"
+published_at: "2026-06-15T02:43:28.392Z"
 canonical: "#85087"
 canonical_issue: "#85087"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518801333](https://github.com/openclaw/clownfish/actions/runs/27518801333)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516740344](https://github.com/openclaw/clownfish/actions/runs/27516740344)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #85087
 
 ## Summary
 
-Plan-only classification for fast-mode cluster 310. Keep #85087 as the live canonical issue. Keep #85104 related as a broad active implementation candidate for #85087 that needs maintainer/product review before any merge or fixed-by closeout. Keep #82148 independent because it covers sessions_spawn fastMode overrides, not automatic fast:auto timeout behavior. Route linked security-sensitive #57239 only to central security handling.
+Plan-only classification: #85087 remains the live canonical issue. #82148 is related fast-mode spawn override work with a different root cause and should stay open outside this duplicate family. #85104 is a related implementation candidate for #85087, but its broad PR surface, release-branch base, missing completed review preflight, and blocked merge/fix actions prevent merge or fixed-by-candidate closeout in this job. Linked #57239 is security-sensitive and scoped to central security handling only.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-only classification for fast-mode cluster 310. Keep #85087 as the live cano
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57239 | route_security | planned | security_sensitive | Linked historical PR is marked security-sensitive and must be routed out of Clownfish backlog cleanup without affecting the non-security items. |
-| #85087 | keep_canonical | planned | canonical | Open issue #85087 is still the clearest canonical for the automatic fast-mode timeout feature. |
-| #82148 | keep_independent | planned | independent | Same fast-mode area, but a different feature surface and root cause from #85087. |
-| #85104 | keep_related | planned | related | #85104 is the active implementation path for the canonical issue, but its broad scope and missing merge preflight make it related work for maintainer review rather than a merge or closeout action. |
+| #57239 | route_security | planned | security_sensitive | Security-sensitive linked ref is outside ProjectClownfish cleanup scope and should be routed to central OpenClaw security handling only. |
+| #82148 | keep_related | planned | related | Same fast-mode area, but a different root cause and implementation scope from the canonical auto-mode issue. |
+| #85087 | keep_canonical | planned | canonical | The representative is still open and remains the best canonical thread for the fast:auto product decision and validation path. |
+| #85104 | keep_related | planned | related | #85104 is a plausible implementation candidate for the canonical issue, but it is too broad and under-reviewed for merge or fixed-by-candidate closeout in this plan job. |
 
 ## Needs Human
 

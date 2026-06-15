@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-370-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518821167"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518821167"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516768633"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516768633"
+head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.142Z"
+published_at: "2026-06-15T02:43:28.409Z"
 canonical: "#42798"
 canonical_issue: "#42798"
 canonical_pr: "#91553"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518821167](https://github.com/openclaw/clownfish/actions/runs/27518821167)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516768633](https://github.com/openclaw/clownfish/actions/runs/27516768633)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #42798
 
 ## Summary
 
-Plan-only classification: keep #42798 as the open canonical issue. Keep #91553 related as the current narrow fix PR, but do not merge or close anything because its Real behavior proof check is failing and ClawSweeper says proof is still required. #82727 is already closed and remains historical evidence only.
+#42798 remains the live canonical issue. #91553 is the only open fix PR for the same Tailscale Serve status-json startup race, but it is not merge or closeout ready because Real behavior proof is failing and ClawSweeper requests live proof. #82727 is a closed historical overlapping PR and is evidence only.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification: keep #42798 as the open canonical issue. Keep #91553 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42798 | keep_canonical | planned | canonical | #42798 is the best surviving canonical issue for the root cause; keep it open until the associated fix PR has acceptable proof and merge readiness. |
-| #91553 | keep_related | planned | related | #91553 is the current narrow fix candidate for #42798, but failing proof and missing merge preflight block merge or fixed-by-candidate closeout; retain it as related work owned by the canonical issue. |
-| #82727 | keep_closed | skipped | superseded | Already closed linked PR; no action beyond retaining it as historical evidence for prior contributor work. |
+| #42798 | keep_canonical | planned | canonical | Canonical issue remains open and is the best surviving root-cause thread; no close action is planned. |
+| #82727 | keep_closed | skipped | related | Already closed; keep as historical related evidence and do not plan any mutation. |
+| #91553 | keep_related | planned | related | Same root cause as #42798 and the live fix candidate, but failing proof and missing live behavior evidence block merge and fixed-by-candidate closeout. |
 
 ## Needs Human
 

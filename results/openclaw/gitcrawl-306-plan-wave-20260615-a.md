@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-306-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518799891"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518799891"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516738377"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516738377"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T01:32:51.330Z"
+result_status: "needs_human"
+published_at: "2026-06-15T02:43:28.390Z"
 canonical: "#85684"
 canonical_issue: "#85684"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-306-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518799891](https://github.com/openclaw/clownfish/actions/runs/27518799891)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516738377](https://github.com/openclaw/clownfish/actions/runs/27516738377)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: #85684
 
 ## Summary
 
-Plan-mode classification only. #85684 remains the live canonical for the group-chat silentReplyPolicy reasoning-only retry short-circuit. #85192 and #85422 are related reasoning-only/empty-visible failure reports, but they preserve distinct provider/fallback root causes and should not be closed as duplicates in this cluster.
+Read-only plan: keep #85684 as the canonical issue for the group-chat silentReplyPolicy short-circuit. Keep #85192 related because it has a distinct DeepSeek thinking-block/provider classification root cause. #85422 is related but needs a maintainer/product decision on fallback semantics, not duplicate closeout.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode classification only. #85684 remains the live canonical for the group-c
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Plan-mode classification only. #85684 remains the live canonical for the group-c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85684 | keep_canonical | planned | canonical | Best live canonical for the cluster's displayed root cause: reasoning-only retry is short-circuited by group-chat silent reply handling. |
-| #85192 | keep_related | planned | related | Related provider/reasoning-block detection issue, not a duplicate of the group-chat silent reply policy canonical. |
-| #85422 | keep_related | planned | related | Related empty-visible/reasoning-only failure family, but it needs its own fallback/product-path tracking rather than duplicate closure under #85684. |
+| #85684 | keep_canonical | planned | canonical | #85684 remains open and is the best canonical for the cluster's representative root cause: group-chat silent-reply handling short-circuits reasoning-only retry before retry/fallback behavior can run. |
+| #85192 | keep_related | planned | related | Same reasoning-only retry symptom family, but the reported root cause and remaining evidence are provider/streaming classification specific, so #85192 should not be closed as a duplicate of #85684. |
+| #85422 | needs_human | planned | needs_human | This is related to the reasoning-only/empty-visible failure family but depends on maintainer product intent and current path-specific behavior, so duplicate closeout or canonical reassignment is not safe from the hydrated artifact alone. |
 
 ## Needs Human
 
-- none
+- #85422 needs maintainer/product decision: should reasoning-only or empty-visible retry exhaustion advance model.fallbacks on the affected reply paths, given the author reframed the issue as a feature request and a later 2026.6.1 datapoint says fallback already works on the subagent auto-announce path?

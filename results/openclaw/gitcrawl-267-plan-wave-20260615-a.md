@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-267-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518788678"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518788678"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516723504"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516723504"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.120Z"
+published_at: "2026-06-15T02:43:28.380Z"
 canonical: "#89520"
 canonical_issue: "#89520"
 canonical_pr: "#90503"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518788678](https://github.com/openclaw/clownfish/actions/runs/27518788678)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516723504](https://github.com/openclaw/clownfish/actions/runs/27516723504)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89520
 
 ## Summary
 
-Plan-only classification for cluster gitcrawl-267-plan-wave-20260615-a. #89520 remains the canonical open issue for the gateway/session-store orphan temp sweep gap. #90503 is the strongest current fix candidate but is not merge-planned because merge is blocked by job frontmatter and merge preflight is incomplete. #89538 overlaps the canonical issue but is superseded by #90503's narrower, passing two-file fix path.
+Read-only plan: keep #89520 as the canonical issue and #90503 as the canonical fix PR. Keep #89538 related rather than closing it because it mixes the session cleanup with an unrelated WebRTC change and has failing checks. #56827 is already closed historical context. No security-sensitive hydrated refs were detected.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-only classification for cluster gitcrawl-267-plan-wave-20260615-a. #89520 r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #56827 | keep_closed | skipped | fixed_by_candidate | Already closed; retained only as historical evidence for the session temp cleanup family. |
-| #89520 | keep_canonical | planned | canonical | Best surviving canonical issue for the root cause; keep open so validation and fix follow-up stay anchored to one thread. |
-| #89538 | close_superseded | planned | superseded | Superseded by narrower candidate #90503; closure is plan-only and depends on applicator re-fetch plus contributor-credit comment before close. |
-| #90503 | keep_related | planned | related | Best current fix candidate for #89520, but this worker cannot recommend or plan merge under the job's blocked merge permissions and missing merge preflight. |
+| #89520 | keep_canonical | planned | canonical | #89520 remains the best live canonical issue for the orphan session-store temp cleanup gap; keep it open while the fix PR path is reviewed. |
+| #90503 | keep_canonical | planned | canonical | #90503 is the clearest canonical fix PR for #89520, but this plan should not merge it. |
+| #89538 | keep_related | planned | related | #89538 is related to the canonical session cleanup issue, but it is not closure-safe in this plan because it mixes an unrelated change and has failing checks. |
+| #56827 | keep_closed | skipped | related | #56827 is already closed linked context and should receive no mutation. |
 
 ## Needs Human
 

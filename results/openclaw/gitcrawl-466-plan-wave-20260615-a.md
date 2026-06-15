@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-466-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518849984"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518849984"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516825167"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516825167"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.595Z"
+published_at: "2026-06-15T02:43:28.426Z"
 canonical: "#92330"
 canonical_issue: "#92330"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518849984](https://github.com/openclaw/clownfish/actions/runs/27518849984)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516825167](https://github.com/openclaw/clownfish/actions/runs/27516825167)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92330
 
 ## Summary
 
-Plan-only classification completed from the hydrated preflight artifact. #92330 remains the live canonical issue. #92334 is a related candidate PR for the same root cause, but no close or merge path is planned because the job blocks merge/fix actions and the PR still has a failing Real behavior proof check plus incomplete Codex/ClawSweeper review proof.
+Plan-only classification completed for two open hydrated refs. #92330 remains the canonical issue. #92334 is a narrow related PR candidate for the same root cause, but merge and fixed-by-candidate closeout are blocked by the failed Real behavior proof check, missing clean Codex review, unknown mergeability, and job-level merge/fix restrictions.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification completed from the hydrated preflight artifact. #92330 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92330 | keep_canonical | planned | canonical | Keep #92330 as the canonical open issue for this root cause; it is the best live issue thread for user report, reproduction context, and follow-up validation. |
-| #92334 | keep_related | planned | related | Keep #92334 related to canonical #92330 as a plausible contributor fix path, but do not plan merge or closeout in this read-only plan because the PR lacks required behavior proof and merge/fix actions are blocked. |
+| #92330 | keep_canonical | planned | canonical | #92330 is still open, hydrated, non-security, and is the best issue thread for the reported exec-approvals YOLO/socket-token failure. |
+| #92334 | keep_related | planned | related | #92334 is related to and potentially a candidate fix for #92330, but it is not merge-ready or suitable for fixed-by-candidate closeout in this plan because behavior proof and review gates are unresolved. |
 
 ## Needs Human
 

@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-432-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516801157",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516801157",
+  "head_sha": "cf553f2255960d5f7476dcf139c657a23ab10472",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:19:32Z",
+  "workflow_updated_at": "2026-06-15T00:21:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-432-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:43:28.419Z",
+  "canonical": "#92523",
+  "canonical_issue": "#92523",
+  "canonical_pr": null,
+  "summary": "Read-only plan: keep #92523 as the live canonical for orphaned waiting TaskFlows (https://github.com/openclaw/openclaw/issues/92523). Keep #92648 related but not merge-ready or fixed-by-candidate-ready because the hydrated ClawSweeper review requires stronger real behavior proof for the hard-coded waiting expiry and this job blocks merge, fix, and raise_pr. Linked #86090/#88970 are separate heartbeat scheduler phantom-run context; #91450 is already closed/merged.",
+  "actions": [
+    {
+      "target": "#92523",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "#92523 is the best live canonical for the abandoned TaskFlow root cause; no close, merge, or fix action is planned in plan mode."
+    },
+    {
+      "target": "#92648",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#92648",
+      "reason": "#92648 is related to the canonical issue and may become a fix path after proof/product review, but it is not safe to treat as a canonical fix in this plan."
+    },
+    {
+      "target": "#86090",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#88970",
+      "reason": "#86090 is related heartbeat wake context with a different root cause and should stay separate from the #92523 TaskFlow canonical path."
+    },
+    {
+      "target": "#88970",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": "#88970",
+      "reason": "#88970 is a separate related heartbeat scheduler PR and is not the canonical fix for #92523 in this cluster plan."
+    },
+    {
+      "target": "#91450",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "#91450 is already closed/merged linked context and requires no ProjectClownfish action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

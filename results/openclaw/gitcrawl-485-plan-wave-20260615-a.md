@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-485-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518855412"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518855412"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516832129"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516832129"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.600Z"
+published_at: "2026-06-15T02:43:28.428Z"
 canonical: "#92134"
 canonical_issue: "#92134"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518855412](https://github.com/openclaw/clownfish/actions/runs/27518855412)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516832129](https://github.com/openclaw/clownfish/actions/runs/27516832129)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92134
 
 ## Summary
 
-Plan-mode classification for two hydrated open items. #92134 remains the best live canonical issue. #92375 is related as a narrow candidate fix for the same root cause, but no merge or fixed-by-candidate closeout is planned because merge/fix actions are blocked by job frontmatter and the PR has failing checks plus no clean Codex review preflight.
+Plan-only classification: #92134 remains the open canonical issue for the reported memory-wiki wiki_status path-mismatch race. #92375 is a related contributor fix candidate for the same root cause, but no merge or fixed-by closeout is planned because this job blocks merge/fix actions and the hydrated PR still has failing checks and an unresolved bot-review blocker.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-mode classification for two hydrated open items. #92134 remains the best li
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92134 | keep_canonical | planned | canonical | #92134 is open, hydrated, non-security-sensitive, and remains the clearest canonical issue for the root cause. |
-| #92375 | keep_related | planned | related | #92375 is a plausible related candidate fix for the canonical issue, but it is not merge-ready and cannot support closing the issue as fixed in this plan-mode job. |
+| #92134 | keep_canonical | planned | canonical | #92134 is the best surviving canonical thread for this root cause and should stay open for validation and follow-up. |
+| #92375 | keep_related | planned | related | #92375 is a plausible fix candidate for the canonical issue, but it is not a safe merge or closeout target in this plan because merge/fix are blocked and failing checks plus unresolved bot review block merge readiness. |
 
 ## Needs Human
 

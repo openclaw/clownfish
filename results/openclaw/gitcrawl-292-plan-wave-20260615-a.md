@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-292-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518796717"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518796717"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516733867"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516733867"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.126Z"
+published_at: "2026-06-15T02:43:28.388Z"
 canonical: "#85537"
 canonical_issue: "#85537"
 canonical_pr: "#88487"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518796717](https://github.com/openclaw/clownfish/actions/runs/27518796717)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516733867](https://github.com/openclaw/clownfish/actions/runs/27516733867)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #85537
 
 ## Summary
 
-Plan-only classification for three hydrated open refs. #85537 remains the canonical issue for the WSL protobufjs descriptor build failure. #85711 is quarantined as the artifact-listed security-sensitive item. #88487 is the focused non-security candidate fix path for #85537, but no merge/fix action is planned because the job blocks merge/fix/raise_pr and the PR is still draft without merge preflight.
+Verified #85537 remains open and is the live canonical issue for the WSL/Linux source-checkout protobufjs descriptor build failure. #88487 is the best hydrated non-security canonical fix PR candidate, but it is draft and this job blocks merge/fix actions. #85711 is preflight-marked security-sensitive and must be routed to central OpenClaw security handling. No close, merge, or fix PR action is planned.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification for three hydrated open refs. #85537 remains the canoni
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85537 | keep_canonical | planned | canonical | Keep #85537 as the canonical issue because it is the open root report with the clearest reproduction and remains the best live canonical for the non-security build failure. |
-| #85711 | route_security | planned | security_sensitive | Route only #85711 to central OpenClaw security handling because the live preflight artifact marks this exact PR security-sensitive. |
-| #88487 | keep_related | planned | related | Keep #88487 related as the focused candidate fix for #85537, but do not plan merge or repair because the PR is draft and this plan-mode job does not allow merge or fix actions. |
+| #85537 | keep_canonical | planned | canonical | #85537 is the best live canonical issue for the shared protobufjs descriptor build failure and should stay open until an accepted fix lands. |
+| #85711 | route_security | planned | security_sensitive | #85711 must be quarantined to central OpenClaw security handling; no close, merge, label, or comment action should be planned by this worker. |
+| #88487 | keep_canonical | planned | canonical | #88487 is the clearest hydrated non-security PR candidate for #85537, but it should remain open rather than be merged or used for closeout in this read-only plan. |
 
 ## Needs Human
 

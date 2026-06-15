@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-460-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518847293"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518847293"
-head_sha: "2c50056214b457163d46a7db5296599ebeec1ecd"
+run_id: "27516811472"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516811472"
+head_sha: "cf553f2255960d5f7476dcf139c657a23ab10472"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.594Z"
+published_at: "2026-06-15T02:43:28.424Z"
 canonical: "#89920"
 canonical_issue: null
 canonical_pr: "#89920"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518847293](https://github.com/openclaw/clownfish/actions/runs/27518847293)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516811472](https://github.com/openclaw/clownfish/actions/runs/27516811472)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89920
 
 ## Summary
 
-Plan-only classification: keep #89920 as the live canonical for recovered command-progress replacement; keep #91203 related because it addresses a narrower ambiguous failure-label wording path rather than the same replacement/reconciliation root cause.
+Plan-only classification using the hydrated preflight artifact: keep #89920 as the canonical PR for the recovered command-progress replacement/reconciliation root cause, and keep #91203 as related because it addresses a narrower status-label formatting root cause with useful, non-duplicate code. No close, merge, or fix action is planned.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan-only classification: keep #89920 as the live canonical for recovered comman
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89920 | keep_canonical | planned | canonical | #89920 remains the best live canonical for the broader recovered command-progress replacement/reconciliation work, but it is not merge-ready in this job. |
-| #91203 | keep_related | planned | related | Related command-progress UX work, but not a true duplicate of the canonical recovered-progress replacement PR. |
+| #89920 | keep_canonical | planned | canonical | Best live canonical for the recovered command-progress replacement/reconciliation root cause, but retained only as canonical in this plan because merge and fix are blocked by the job and the PR still has failing proof/review gates. |
+| #91203 | keep_related | planned | related | Related but not duplicate; keep it separate for maintainer review rather than closing or merging in this blocked plan-mode job. |
 
 ## Needs Human
 
