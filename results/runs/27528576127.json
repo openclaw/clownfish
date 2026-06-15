@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-301",
+  "mode": "plan",
+  "run_id": "27528576127",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528576127",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:18Z",
+  "workflow_updated_at": "2026-06-15T06:38:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-301.md",
+  "published_at": "2026-06-15T06:40:21.022Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative PR-inventory classifications only. No GitHub mutations are allowed in plan mode; low-signal closeout, fix PRs, and merges are disabled by job frontmatter. Open security-sensitive PR #18778 is routed to central security handling; unrelated open PRs are kept independent for normal maintainer review/proof; already-closed PRs are kept closed.",
+  "actions": [
+    {
+      "target": "#92471",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; do not emit a close action."
+    },
+    {
+      "target": "#74320",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate heartbeat parser fix with proof supplied; no shared canonical and merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#92477",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent iOS/watch migration requiring normal maintainer review; no close, merge, or fix action is permitted."
+    },
+    {
+      "target": "#90574",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90574",
+      "reason": "Already merged and closed in live preflight state."
+    },
+    {
+      "target": "#89762",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Feature/default behavior change has compatibility and session-state implications that need maintainer/product judgment."
+    },
+    {
+      "target": "#18778",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be routed to central OpenClaw security handling and not triaged through backlog cleanup."
+    },
+    {
+      "target": "#90700",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the broader MCP reconnect/orphan-runtime family, but it has a distinct streamable-HTTP scope and unresolved proof/lint blockers."
+    },
+    {
+      "target": "#88172",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related MCP stability work with useful code, but unresolved real-behavior proof blocks any merge or fixed-by-candidate recommendation."
+    },
+    {
+      "target": "#91225",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91225",
+      "reason": "Already merged and closed in live preflight state."
+    },
+    {
+      "target": "#91828",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent memory-wiki repair candidate with proof; keep for maintainer review rather than close or merge in this plan job."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_independent": 3,
+    "needs_human": 1,
+    "route_security": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89762 requires maintainer/product judgment on config-level responseUsage defaults because the PR changes default user-visible/session behavior and carries compatibility/session-state risk."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

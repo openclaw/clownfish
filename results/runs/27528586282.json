@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-307",
+  "mode": "plan",
+  "run_id": "27528586282",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528586282",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:33Z",
+  "workflow_updated_at": "2026-06-15T06:38:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-307.md",
+  "published_at": "2026-06-15T06:40:21.034Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification. No GitHub mutations are proposed except read-only routing/classification; #92086 is quarantined to central security handling, already-closed PRs are kept closed, and open PRs are kept for maintainer review or related active-fix tracking.",
+  "actions": [
+    {
+      "target": "#92573",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92573",
+      "reason": "Already merged/closed in live preflight state; no action remains in this plan shard."
+    },
+    {
+      "target": "#92375",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92375",
+      "reason": "This is an active narrow fix candidate for a hydrated linked issue, not a duplicate or low-signal closeout target."
+    },
+    {
+      "target": "#92557",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/admin authorization and failed-check interpretation are required before any close, label, or merge path can be planned."
+    },
+    {
+      "target": "#89949",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89949",
+      "reason": "Active fix candidate for #86034, but a failed proof job and maintainer-review requirement block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#92575",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92575",
+      "reason": "This remains an active linked fix candidate requiring normal review; it is not a duplicate or safe closeout item in this inventory shard."
+    },
+    {
+      "target": "#92576",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Evidence points low-signal/superseded-by-maintainer-decision, but the job disables low-signal PR closeout; maintainer judgment is needed for any PR-specific close/comment."
+    },
+    {
+      "target": "#92086",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary work is out of ProjectClownfish backlog cleanup scope and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#92577",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92577",
+      "reason": "Active narrow fix candidate for a hydrated linked issue; keep for review rather than close or merge from inventory plan."
+    },
+    {
+      "target": "#92287",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92287",
+      "reason": "Active fix candidate with proof/checks present, but prior review status and maintainer review requirements block merge/closeout in plan mode."
+    },
+    {
+      "target": "#92581",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92581",
+      "reason": "Already closed in live preflight state; no mutation is valid for this plan shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 5,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92557 requires maintainer/admin judgment because dependency graph changes are blocked, a check is failing, and the PR is broad maintainer-labeled work.",
+    "#92576 requires maintainer judgment for PR-specific closeout because it appears low-signal after #92467 was closed as not planned, but low-signal PR closeout is disabled for this job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

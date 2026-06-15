@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-300",
+  "mode": "plan",
+  "run_id": "27528493696",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528493696",
+  "head_sha": "39acba7094cf8c95c1ef440d64c4ab5e900b83bb",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:34:22Z",
+  "workflow_updated_at": "2026-06-15T06:38:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-300.md",
+  "published_at": "2026-06-15T06:40:21.019Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the ten listed PR inventory candidates independently from the hydrated preflight artifact. No shared canonical was invented, no GitHub mutation is planned, two security-adjacent PRs are routed to central security handling, one already-closed PR is skipped, and one provider/dependency PR needs explicit maintainer/security authorization before it can be considered further.",
+  "actions": [
+    {
+      "target": "#88798",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR directly changes an auth-related insecure configuration default and depends on a security-sensitive linked issue, so ProjectClownfish should not triage or close it through inventory cleanup."
+    },
+    {
+      "target": "#92172",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a narrow Feishu behavior PR related to the linked fallback issue, but it lacks required real behavior proof and is not a duplicate or closeout candidate."
+    },
+    {
+      "target": "#92288",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is related work for the extra_body collision issue family, but the review/proof state is incomplete and there is no safe close or merge action in plan mode."
+    },
+    {
+      "target": "#92466",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Accepting a new bundled provider with dependency graph changes requires maintainer/security authorization and product judgment; inventory cleanup cannot classify it as closable or mergeable."
+    },
+    {
+      "target": "#92185",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a plausible narrow replacement/follow-up for the async exec output issue family, but merge is blocked by job policy and maintainer review remains the correct path."
+    },
+    {
+      "target": "#92274",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This remains related to the subagent announce duplicate-delivery issue, but failed proof/check state blocks merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#92440",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Because this PR depends on a security-sensitive linked ref and changes delivery hook/guard behavior, it should be quarantined to central OpenClaw security handling rather than backlog cleanup."
+    },
+    {
+      "target": "#91656",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is related test-coverage work, not a duplicate or low-signal closeout candidate under this job; review/proof still needs maintainer path."
+    },
+    {
+      "target": "#92446",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state; no planned mutation should target it."
+    },
+    {
+      "target": "#88581",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct session-name command feature PR with contributor work and proof; it should remain open for maintainer review, not be closed or merged by this plan-mode inventory shard."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 6,
+    "needs_human": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92466 requires maintainer/security authorization for dependency graph changes and product acceptance of a bundled EvoLink provider integration."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

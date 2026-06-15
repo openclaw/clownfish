@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-303",
+  "mode": "plan",
+  "run_id": "27528579388",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528579388",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:23Z",
+  "workflow_updated_at": "2026-06-15T06:39:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-303.md",
+  "published_at": "2026-06-15T06:40:21.029Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are recommended except no-op routing/classification actions; #91499 is quarantined as security-sensitive, #92505 is already closed, and maintainer judgment is needed only for #89547 and #92011.",
+  "actions": [
+    {
+      "target": "#86733",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR related to the open cron timeout issue, but not mergeable or closable in this plan-only inventory shard."
+    },
+    {
+      "target": "#86710",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR related to the open Gateway startup observability issue, but current evidence supports only non-mutating classification."
+    },
+    {
+      "target": "#90218",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to already-fixed docs-link work, but conservative non-mutating classification avoids closing a useful contributor PR without a hydrated replacement PR target."
+    },
+    {
+      "target": "#92505",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid or needed."
+    },
+    {
+      "target": "#91509",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone plugin-policy PR; keep it independent for maintainer review outside this inventory classification."
+    },
+    {
+      "target": "#91499",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive authorization-boundary work is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#89547",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is required for the default behavior change; this should not be auto-closed or merged from inventory classification."
+    },
+    {
+      "target": "#92514",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to already-closed session-lock work, but current gates support only non-mutating classification."
+    },
+    {
+      "target": "#92011",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "There is active maintainer review context and technical-correctness judgment around the reworked cross-harness invariant."
+    },
+    {
+      "target": "#92515",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone memory-core availability PR; keep independent for normal maintainer triage."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_closed": 1,
+    "keep_independent": 2,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89547 requires maintainer/product decision on Telegram group history default behavior.",
+    "#92011 requires maintainer technical judgment after the author reworked the cross-harness fallback recursion fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

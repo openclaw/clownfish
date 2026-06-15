@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-309",
+  "mode": "plan",
+  "run_id": "27528589159",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528589159",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:37Z",
+  "workflow_updated_at": "2026-06-15T06:38:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-309.md",
+  "published_at": "2026-06-15T06:40:21.039Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification shard. No GitHub mutations are planned. Closed listed PRs are kept closed, security-sensitive PRs are routed to central security handling, and open non-security PRs are left open for their existing review/proof/maintainer paths.",
+  "actions": [
+    {
+      "target": "#91587",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged/closed; no close action is valid."
+    },
+    {
+      "target": "#92035",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused active feature PR with no duplicate/superseding target in this shard."
+    },
+    {
+      "target": "#60860",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open broad provider PR remains independent review work; failing checks and unresolved review findings block merge but do not justify closure."
+    },
+    {
+      "target": "#89826",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active maintainer-owned PR with review findings and product/scope decisions requiring human judgment."
+    },
+    {
+      "target": "#47589",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47586",
+      "candidate_fix": null,
+      "reason": "Linked implementation remains related and open; blockers prevent merge/fixed-by-candidate closeout, not non-mutating classification."
+    },
+    {
+      "target": "#51926",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#51903",
+      "candidate_fix": null,
+      "reason": "Active linked implementation path should remain open rather than be closed or merged by inventory cleanup."
+    },
+    {
+      "target": "#59336",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive config/raw-redaction PR must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#61167",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Docker/setup script changes must be quarantined to central security handling."
+    },
+    {
+      "target": "#61329",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open implementation remains related to its own product bug/feature path and should not be closed in this inventory pass."
+    },
+    {
+      "target": "#60183",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused open implementation remains useful and should stay open for proof/rebase/review."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 2,
+    "needs_human": 1,
+    "keep_related": 4,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89826 requires maintainer/product judgment because a maintainer-owned PR has active re-review requests and unresolved scope/UI review findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

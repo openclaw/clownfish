@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-304",
+  "mode": "plan",
+  "run_id": "27528580951",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528580951",
+  "head_sha": "7eb268c240b0a0542bf1c1a2fce703fc1cacf22d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:36:25Z",
+  "workflow_updated_at": "2026-06-15T06:38:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-304.md",
+  "published_at": "2026-06-15T06:40:21.031Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Security-sensitive #92527 and security-linked #92016 are quarantined for central security handling; already-closed #92532 is kept closed; the remaining open PRs are left open for proof, maintainer review, or review-bot follow-up.",
+  "actions": [
+    {
+      "target": "#92518",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with failed proof gate; not safe to close or merge in plan mode."
+    },
+    {
+      "target": "#92526",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91739",
+      "candidate_fix": "#92526",
+      "reason": "Likely candidate fix for hydrated issue #91739, but this plan cannot merge or close linked issue follow-up."
+    },
+    {
+      "target": "#92016",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#91918",
+      "candidate_fix": null,
+      "reason": "The PR fixes a security-routed issue and touches a security-boundary area, so it must be quarantined to central OpenClaw security handling rather than handled as needs_human in this inventory shard."
+    },
+    {
+      "target": "#92532",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92480",
+      "candidate_fix": null,
+      "reason": "Already-closed PRs must not receive closure actions."
+    },
+    {
+      "target": "#92234",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft broad feature/fix PR with failed proof gate; not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#92530",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small standalone PR, but unresolved review-bot finding and failed checks block any stronger action."
+    },
+    {
+      "target": "#92528",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR with unresolved review-bot feedback and failed proof gate; keep open for author or maintainer follow-up."
+    },
+    {
+      "target": "#92527",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive secret exposure work is out of scope for ProjectClownfish mutation and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#91091",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91091",
+      "reason": "Maintainer-owned active work with dirty merge state and explicit maintainer-review requirement; closure or merge planning would exceed this inventory job."
+    },
+    {
+      "target": "#92529",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR with unresolved review-bot finding and failed proof gate; keep open rather than close or merge."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_related": 1,
+    "route_security": 2,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91091: maintainer-owned dirty large memory PR with explicit ClawSweeper maintainer-review requirement."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
