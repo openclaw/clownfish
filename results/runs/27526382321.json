@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-044",
+  "mode": "plan",
+  "run_id": "27526382321",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526382321",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:40Z",
+  "workflow_updated_at": "2026-06-15T05:41:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-044.md",
+  "published_at": "2026-06-15T05:44:15.424Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned because the shard is not a dedupe cluster, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and several open PRs still need maintainer judgment, proof, rebase, or security routing.",
+  "actions": [
+    {
+      "target": "#76094",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow docs PR, but this inventory shard has no shared canonical and merge/fix actions are blocked."
+    },
+    {
+      "target": "#76298",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item must be quarantined to central OpenClaw security handling; no close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#72267",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow bugfix candidate; no duplicate/superseding item is hydrated in this inventory shard."
+    },
+    {
+      "target": "#80388",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature and protocol/UI surface needs maintainer product and technical review, not inventory closeout."
+    },
+    {
+      "target": "#78139",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful independent UX fix awaiting maintainer review; no duplicate/superseding item is hydrated."
+    },
+    {
+      "target": "#80779",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item must be routed without mutation; unrelated non-security items remain classifiable."
+    },
+    {
+      "target": "#78765",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow TUI bugfix awaiting maintainer review."
+    },
+    {
+      "target": "#85225",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#14051",
+      "candidate_fix": null,
+      "reason": "Related heartbeat/session-state work, but not a duplicate or complete replacement for #14051."
+    },
+    {
+      "target": "#86146",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91281",
+      "reason": "Already closed after being covered by merged #91281; no mutation should be planned."
+    },
+    {
+      "target": "#72807",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; record only the non-mutating classification."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 2,
+    "needs_human": 1,
+    "keep_related": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80388 needs maintainer product and technical review because it is a broad plugin Control UI entry point feature touching protocol, gateway, auth-adjacent launch tokens, UI, docs, and tests.",
+    "#85225 remains a product-scope call against #14051 because it is related heartbeat work but not the full activity-based idle-timeout feature."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

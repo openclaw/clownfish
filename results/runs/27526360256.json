@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-028",
+  "mode": "plan",
+  "run_id": "27526360256",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526360256",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:01Z",
+  "workflow_updated_at": "2026-06-15T05:42:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-028.md",
+  "published_at": "2026-06-15T05:44:15.335Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification using the provided preflight artifact as live state. No GitHub mutations are planned. Security-sensitive refs are routed item-by-item; already-closed refs are kept closed; open non-security PRs are kept related based on unresolved maintainer/review/proof blockers.",
+  "actions": [
+    {
+      "target": "#85359",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item per preflight; quarantine this PR without close, merge, label, comment, or fix planning."
+    },
+    {
+      "target": "#85507",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct Slack behavior change with proof and conflict blockers; no close-style action is justified in plan mode."
+    },
+    {
+      "target": "#85522",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with useful focused code but unresolved proof/review blockers; classify without closure."
+    },
+    {
+      "target": "#85716",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive gateway/auth-adjacent item per preflight; quarantine this PR without other action."
+    },
+    {
+      "target": "#85747",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad, mixed-scope availability/session-state PR with proof blocker; keep related for maintainer follow-up rather than closing as duplicate."
+    },
+    {
+      "target": "#85746",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no further action in plan mode."
+    },
+    {
+      "target": "#85828",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused feature PR with unresolved review/author/conflict state; keep related rather than close or merge."
+    },
+    {
+      "target": "#85866",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR with supplied proof but broad auth-provider/session-state surface; keep related for maintainer review."
+    },
+    {
+      "target": "#85151",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#87618",
+      "reason": "Already closed after fixed-on-main determination; no further action in plan mode."
+    },
+    {
+      "target": "#83292",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; security-sensitive historical context remains quarantined and receives no mutation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 5,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

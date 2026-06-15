@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-needs_proof-20260615T0529-045",
+  "mode": "plan",
+  "run_id": "27526383777",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526383777",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:42Z",
+  "workflow_updated_at": "2026-06-15T05:42:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260615T0529-045.md",
+  "published_at": "2026-06-15T05:44:15.430Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for the needs_proof shard. No shared canonical was selected; open PRs were classified independently, already-closed PRs were not given close actions, and security-sensitive refs were quarantined item-by-item.",
+  "actions": [
+    {
+      "target": "#73161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only."
+    },
+    {
+      "target": "#73199",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to contain scoped automation work, but it is not merge-ready and there is no shared canonical in this inventory shard."
+    },
+    {
+      "target": "#73200",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#86475",
+      "reason": "Already closed as superseded/fixed elsewhere; retain historical evidence only."
+    },
+    {
+      "target": "#73171",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The work is plausibly useful and not a duplicate in this inventory, but validation and review blockers prevent closeout or merge recommendation."
+    },
+    {
+      "target": "#73294",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related active work; not eligible for closure or merge in this plan-only shard."
+    },
+    {
+      "target": "#73295",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; preserve as historical related context for Discord queue recovery work."
+    },
+    {
+      "target": "#73345",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; retain as historical related context rather than planning any mutation."
+    },
+    {
+      "target": "#73130",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related hardening/guardrail work; it is not a low-signal closeout candidate and is not merge-ready."
+    },
+    {
+      "target": "#73668",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive profile portability work should be handled by central OpenClaw security review, not Clownfish backlog cleanup."
+    },
+    {
+      "target": "#73079",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears close to reviewable, but the job requires human for maintainer_signal and technical correctness judgment, and merge/fix actions are blocked by frontmatter."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 4,
+    "keep_closed": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73079 requires maintainer review/technical correctness judgment before any merge path; plan mode and job frontmatter also block merge/fix actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

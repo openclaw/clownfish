@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-015",
+  "mode": "plan",
+  "run_id": "27526345071",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526345071",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:38:32Z",
+  "workflow_updated_at": "2026-06-15T05:41:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-015.md",
+  "published_at": "2026-06-15T05:44:15.239Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. Classified each job-listed PR independently using the hydrated preflight artifact; no shared canonical was invented and no mutating GitHub action is proposed.",
+  "actions": [
+    {
+      "target": "#69972",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-adjacent gateway restart and plugin resolution work is out of ProjectClownfish backlog mutation scope."
+    },
+    {
+      "target": "#69999",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR with unresolved proof/review gates; no closure or merge action is safe in this plan shard."
+    },
+    {
+      "target": "#84769",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; closed refs must not receive close actions. Security-sensitive historical context is preserved as evidence only."
+    },
+    {
+      "target": "#85464",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible standalone maintainer-review PR; this plan job does not allow merge/fix work and no duplicate closeout is warranted."
+    },
+    {
+      "target": "#44476",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with unresolved proof/check/review blockers; keep as a standalone candidate rather than close or merge."
+    },
+    {
+      "target": "#46793",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Tool-policy bypass/security-boundary work must be routed to central OpenClaw security handling, not backlog cleanup."
+    },
+    {
+      "target": "#49022",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Media/file rendering behavior crosses security-sensitive surfaces; quarantine this exact PR while leaving unrelated inventory items classified."
+    },
+    {
+      "target": "#85402",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether to close this active-author PR as superseded by current main/release without a hydrated canonical fix ref."
+    },
+    {
+      "target": "#55997",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Admin/reset privilege-boundary work belongs in central security handling, not ProjectClownfish cleanup."
+    },
+    {
+      "target": "#71154",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec allowlist and approval semantics are security-sensitive; route this exact item and do not plan mutation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_independent": 3,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85402: decide whether to close as superseded by current main/release after active author follow-up, because no hydrated canonical fix ref is available for a safe close action."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

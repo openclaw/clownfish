@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-021",
+  "mode": "plan",
+  "run_id": "27526351836",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526351836",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:38:45Z",
+  "workflow_updated_at": "2026-06-15T05:41:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-021.md",
+  "published_at": "2026-06-15T05:44:15.261Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 job-listed PRs. No shared canonical is chosen because the job is an inventory shard, not a dedupe cluster. Closed candidates are kept closed, security-sensitive open candidates are routed to central security handling, and open non-security candidates are kept as independent PRs with their current blockers noted.",
+  "actions": [
+    {
+      "target": "#83612",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with maintainer-review and CI blockers; no close, merge, or shared canonical action is appropriate in plan mode."
+    },
+    {
+      "target": "#83633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#83760",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open feature/fix PR with proof and review blockers; keep it independent for maintainer follow-up."
+    },
+    {
+      "target": "#84161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish backlog-cleanup mutation scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#85598",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented; no mutation should be planned."
+    },
+    {
+      "target": "#85136",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive workflow/automation item is out of ProjectClownfish mutation scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#85055",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with unresolved automated review findings; keep independent for author/maintainer follow-up."
+    },
+    {
+      "target": "#85751",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#74068",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone draft PR with proof/review blockers; keep independent for owner follow-up."
+    },
+    {
+      "target": "#77325",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open fix PR with remaining changes/check blockers; keep independent and do not close or merge in this plan shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_closed": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

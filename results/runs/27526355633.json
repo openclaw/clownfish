@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-024",
+  "mode": "plan",
+  "run_id": "27526355633",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526355633",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:38:52Z",
+  "workflow_updated_at": "2026-06-15T05:41:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-024.md",
+  "published_at": "2026-06-15T05:44:15.289Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. Security-sensitive PRs are routed to central security handling. Non-security PRs are kept, closed only where already closed, or flagged for specific maintainer judgment when protected labels or maintainer signals block automated cleanup.",
+  "actions": [
+    {
+      "target": "#59835",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#86578",
+      "candidate_fix": "#86578",
+      "reason": "Substantively superseded by #86578, but protected maintainer label and maintainer-signal gate block automated close planning."
+    },
+    {
+      "target": "#78521",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary PR; out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#78392",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security remediation PR; out of scope for Clownfish cleanup."
+    },
+    {
+      "target": "#82880",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary PR; out of scope for Clownfish cleanup."
+    },
+    {
+      "target": "#78334",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security automation hardening PR; out of scope for Clownfish cleanup."
+    },
+    {
+      "target": "#74302",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer signal exists, but merge is blocked by job policy and current evidence requires maintainer review."
+    },
+    {
+      "target": "#84853",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related active non-security PR; no safe close or merge action in this plan-mode inventory job."
+    },
+    {
+      "target": "#86078",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85942",
+      "candidate_fix": "#85942",
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "#86168",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#88531",
+      "candidate_fix": "#88531",
+      "reason": "Superseded by hydrated open replacement #88531; closure comment preserves source PR credit and reopen path."
+    },
+    {
+      "target": "#86175",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive possible data exposure; out of scope for Clownfish cleanup."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "route_security": 5,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#59835: maintainer-protected stale/superseded PR needs maintainer judgment before closeout against #86578.",
+    "#74302: maintainer automerge signal exists, but merge is blocked in this job and latest ClawSweeper evidence requires maintainer review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

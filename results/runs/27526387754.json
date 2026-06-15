@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-048",
+  "mode": "plan",
+  "run_id": "27526387754",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526387754",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:49Z",
+  "workflow_updated_at": "2026-06-15T05:42:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-048.md",
+  "published_at": "2026-06-15T05:44:15.462Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations planned. Security-sensitive open PRs are routed to central security handling; already-closed candidates are kept closed; remaining open non-security PRs are kept for maintainer/author follow-up because they are useful but not eligible for close, merge, or fix actions in this job.",
+  "actions": [
+    {
+      "target": "#74231",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary labeled media access change is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#73919",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid in plan mode."
+    },
+    {
+      "target": "#73247",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action may be emitted."
+    },
+    {
+      "target": "#74940",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful independent PR with active author/maintainer follow-up; not closable or mergeable under this plan job."
+    },
+    {
+      "target": "#74990",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider/security-boundary onboarding change is outside ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#75018",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider/auth-boundary feature work must be handled by central security-aware review."
+    },
+    {
+      "target": "#73159",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but non-merge-ready independent PR; no close, merge, or fix action is allowed by this job."
+    },
+    {
+      "target": "#74083",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the open sandbox zombie-process issue, but not a complete or merge-ready fix."
+    },
+    {
+      "target": "#73884",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#74719",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action may be emitted."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

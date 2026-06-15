@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-008",
+  "mode": "plan",
+  "run_id": "27526336314",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526336314",
+  "head_sha": "57af288206309caab74909b4675b5447af9d7915",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:38:15Z",
+  "workflow_updated_at": "2026-06-15T05:41:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-008.md",
+  "published_at": "2026-06-15T05:44:15.219Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No shared canonical was selected. Closed listed PRs are kept closed, three open security-sensitive PRs are routed to central security handling, one open non-security PR is kept independent pending proof, and one maintainer-owned draft PR needs human maintainer review.",
+  "actions": [
+    {
+      "target": "#83203",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security candidate with focused code, but proof gate is failing and no close/merge condition is satisfied."
+    },
+    {
+      "target": "#83240",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#88946",
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#83363",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#84449",
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#83436",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#83550",
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#83446",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#83295",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and should be routed centrally without close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#83537",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and should be routed centrally without close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#83646",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#85919",
+      "reason": "Already closed before this plan run; no mutation should be emitted."
+    },
+    {
+      "target": "#83536",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with active maintainer follow-up and unresolved review context requires maintainer judgment, not automated close/merge classification."
+    },
+    {
+      "target": "#83715",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and should be routed centrally without close, merge, label, comment, or fix action."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_closed": 5,
+    "route_security": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83536 maintainer-owned draft PR has active maintainer proof/remediation comments and unresolved review context; maintainer judgment is required."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

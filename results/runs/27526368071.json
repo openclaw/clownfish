@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-034",
+  "mode": "plan",
+  "run_id": "27526368071",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526368071",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:15Z",
+  "workflow_updated_at": "2026-06-15T05:42:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-034.md",
+  "published_at": "2026-06-15T05:44:15.351Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed open PRs. Security-sensitive PRs are routed to central security handling; non-security PRs are classified conservatively. One clear superseded maintainer replacement PR is planned for closeout because a hydrated merged PR already landed the same fix.",
+  "actions": [
+    {
+      "target": "#86561",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive channel/tool boundary work is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#86749",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Sandbox image/global PATH changes were preflight-classified as security-sensitive."
+    },
+    {
+      "target": "#86554",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same fix family as #86551/#86521, but no safe closeout in this inventory plan."
+    },
+    {
+      "target": "#86873",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; no close, merge, or fix action is allowed in this plan."
+    },
+    {
+      "target": "#86608",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs/config PR with maintainer-review and rebase gates; no inventory closeout is justified."
+    },
+    {
+      "target": "#86062",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with proof, but maintainer review remains the next gate and merge is not allowed."
+    },
+    {
+      "target": "#85878",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#85961",
+      "candidate_fix": "#85961",
+      "reason": "A hydrated merged PR already landed the same narrow fix, making the open replacement branch superseded."
+    },
+    {
+      "target": "#85793",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR with proof/rebase gates; no duplicate or superseded closeout is established."
+    },
+    {
+      "target": "#85745",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to overlapping Discord/gateway PRs, but it has a distinct timeout scope and is not safe to close as duplicate."
+    },
+    {
+      "target": "#85727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal closure is disabled, so this stays as a non-mutating low-signal classification."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 2,
+    "keep_independent": 5,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

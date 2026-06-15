@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-049",
+  "mode": "plan",
+  "run_id": "27526388979",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526388979",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:51Z",
+  "workflow_updated_at": "2026-06-15T05:42:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-049.md",
+  "published_at": "2026-06-15T05:44:15.470Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned; closed PRs stay closed, security-sensitive PRs are routed to central security handling, and open non-security PRs are kept for maintainer/product follow-up because they are not merge-ready and this job forbids merge/fix/raise_pr.",
+  "actions": [
+    {
+      "target": "#73536",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state; preserve the existing closeout rather than planning a mutation."
+    },
+    {
+      "target": "#74687",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#86089",
+      "reason": "Already closed and superseded by the later hydrated restart-recovery fix path."
+    },
+    {
+      "target": "#75076",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary and auth-hardening work is out of scope for this inventory worker."
+    },
+    {
+      "target": "#73511",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused candidate, but not merge-ready and this plan-mode job forbids merge and fix actions."
+    },
+    {
+      "target": "#74954",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related useful work remains, but technical correctness needs maintainer judgment and no close/merge/fix is allowed here."
+    },
+    {
+      "target": "#75140",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated artifact classifies this ref as security-sensitive; quarantine the item only."
+    },
+    {
+      "target": "#74274",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Real related feature/bug work, but unresolved review findings and proof gaps block merge or closeout."
+    },
+    {
+      "target": "#73938",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed but security-sensitive; record non-mutating quarantine rather than any backlog cleanup action."
+    },
+    {
+      "target": "#73628",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related open work; do not close or merge because it has unresolved proof/review risk."
+    },
+    {
+      "target": "#73982",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec-policy/security-boundary changes must be routed to central handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 4,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-047",
+  "mode": "plan",
+  "run_id": "27526386607",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526386607",
+  "head_sha": "575573c3a749b924aa260c57f419b6ec1b610ff8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:39:47Z",
+  "workflow_updated_at": "2026-06-15T05:43:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-047.md",
+  "published_at": "2026-06-15T05:44:15.450Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. No shared canonical was selected; open non-security PRs are kept for maintainer/product review, security-sensitive PR #74529 is routed to central security handling, and already-closed PRs are not targeted for closure.",
+  "actions": [
+    {
+      "target": "#72972",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but it is not closable or merge-ready in this shard."
+    },
+    {
+      "target": "#74120",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state."
+    },
+    {
+      "target": "#74529",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Matrix E2EE behavior; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#73138",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state."
+    },
+    {
+      "target": "#74955",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated live state for #74955 is missing from the provided artifact, so this single PR needs human or rehydration."
+    },
+    {
+      "target": "#74735",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#22439",
+      "candidate_fix": null,
+      "reason": "Related bootstrap/session-state work should stay open for maintainer review rather than be closed in this inventory shard."
+    },
+    {
+      "target": "#73197",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state."
+    },
+    {
+      "target": "#74783",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone gateway telemetry PR should remain open for proof/maintainer review."
+    },
+    {
+      "target": "#73594",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider compatibility change needs maintainer/author follow-up, not closure in this inventory shard."
+    },
+    {
+      "target": "#74232",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone runtime behavior PR should remain open pending proof and technical review."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_closed": 3,
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#74955 requires rehydration or human review because live state for the listed candidate is absent from the compacted preflight artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
