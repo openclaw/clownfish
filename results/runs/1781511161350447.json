@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-317",
+  "mode": "plan",
+  "run_id": "1781511161350447",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-317.md",
+  "published_at": "2026-06-15T08:12:41.504Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No shared canonical was invented. Security-sensitive PRs are routed to central security handling; already closed PRs are kept closed; remaining open non-security PRs are kept as independent work because each has unique scope and current merge/close blockers.",
+  "actions": [
+    {
+      "target": "#59221",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique useful feature PR, but not merge-ready and not closable under this plan shard."
+    },
+    {
+      "target": "#59898",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique PR with useful code, but broad surface, dirty merge state, and proof/check failures block merge or close-style action."
+    },
+    {
+      "target": "#60488",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be handled by central OpenClaw security review, not ProjectClownfish backlog cleanup."
+    },
+    {
+      "target": "#61335",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct bugfix PR should stay open, but proof, conflict/staleness, and review-comment blockers prevent merge/fixed-by closeout."
+    },
+    {
+      "target": "#61443",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#63919",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Direct tool invocation over gateway crosses a security-boundary review path, so it must route to central security handling."
+    },
+    {
+      "target": "#64316",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Looks like a viable independent PR, but plan mode and missing merge preflight mean keep it open for normal maintainer review."
+    },
+    {
+      "target": "#70058",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#71024",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct small bugfix PR should stay open pending proof; not a duplicate or close candidate."
+    },
+    {
+      "target": "#75065",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique cron feature PR with current proof/check blockers; keep open rather than close or route."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "route_security": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

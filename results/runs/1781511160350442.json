@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-305",
+  "mode": "plan",
+  "run_id": "1781511160350442",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-305.md",
+  "published_at": "2026-06-15T08:12:40.716Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 seed refs. No shared canonical was invented. Security-sensitive seed PRs are scoped to central security routing. Already-closed seed PRs are kept closed. Remaining open non-security PRs are kept for maintainer/product review; close, merge, fix, and low-signal cleanup are blocked by job permissions or missing gates.",
+  "actions": [
+    {
+      "target": "#92243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive seed item must be quarantined to central OpenClaw security handling; no ProjectClownfish close, merge, label, comment, or fix action is allowed."
+    },
+    {
+      "target": "#92484",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92491",
+      "reason": "The PR is related to a hydrated overlapping fix path, but this inventory shard should not choose a canonical or close either PR without a dedicated maintainer correctness review."
+    },
+    {
+      "target": "#92520",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The artifact routes this exact PR as security-sensitive; quarantine the item and continue unrelated classifications."
+    },
+    {
+      "target": "#91629",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91629",
+      "reason": "Already-closed seed PRs must not receive closure actions."
+    },
+    {
+      "target": "#92307",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec security-boundary shaped PR is scoped to central security handling for this worker; no ProjectClownfish mutation should be planned."
+    },
+    {
+      "target": "#92542",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR with failed proof should remain open for author/maintainer follow-up; it is not a duplicate or superseded item in this inventory shard."
+    },
+    {
+      "target": "#92543",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal/docs proof concerns are not enough for closure in this job because low-signal closeout is disabled; keep as an independent maintainer review item."
+    },
+    {
+      "target": "#92544",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-mutating classification is clear enough from the job inventory, but live target_updated_at is unavailable in the compacted artifact; keep independent rather than planning closure."
+    },
+    {
+      "target": "#92362",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92362",
+      "reason": "Already-closed seed PRs must not receive closure actions."
+    },
+    {
+      "target": "#92541",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone PR should stay in the maintainer review queue; no duplicate/superseded/fixed-by-candidate closure is supported by this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 1,
+    "keep_closed": 2,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

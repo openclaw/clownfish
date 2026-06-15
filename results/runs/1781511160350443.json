@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-306",
+  "mode": "plan",
+  "run_id": "1781511160350443",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-306.md",
+  "published_at": "2026-06-15T08:12:40.865Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed pull requests. No shared canonical was selected. Most open PRs are non-mutating keep/needs-human classifications; #92545 is security-routed; #92170 is already closed and only retained as historical evidence.",
+  "actions": [
+    {
+      "target": "#92305",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer technical judgment on whether #92305 is the right surviving cron #91944 fix path after overlapping closed attempts and failed review automation."
+    },
+    {
+      "target": "#92156",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related UI layout PR should remain open for normal maintainer review; no safe close action is planned in this inventory shard."
+    },
+    {
+      "target": "#92509",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is related memory-index repair work but failing proof/lint and unresolved compatibility proof block any close or merge-style outcome."
+    },
+    {
+      "target": "#92170",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93137",
+      "candidate_fix": "#93137",
+      "reason": "Already closed as superseded; no mutation is planned."
+    },
+    {
+      "target": "#92545",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-sensitive cron delivery behavior is out of scope for ProjectClownfish mutation and must go to central OpenClaw security handling."
+    },
+    {
+      "target": "#89226",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer review of the latest author follow-up before this can be treated as merge-ready or superseding #89225."
+    },
+    {
+      "target": "#92556",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad provider capability and product-contract correctness need maintainer judgment; no duplicate/superseded close path is clear."
+    },
+    {
+      "target": "#92394",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related WebChat fix should stay open; failed behavior proof blocks stronger fixed-by/merge classification."
+    },
+    {
+      "target": "#89799",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer technical judgment on the narrowed Windows Node 24 compile-cache mitigation and proof before any stronger classification."
+    },
+    {
+      "target": "#92571",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-memory fix should remain open; failed proof blocks close, fixed-by-candidate, or merge-style recommendations."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_related": 4,
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92305: decide whether this is the surviving #91944 cron catch-up fix path after overlapping closed PRs and failed review automation.",
+    "#89226: review the latest author follow-up that claims to address the lazy-root write/edit blocker.",
+    "#92556: decide provider/product correctness for adding Inworld as an LLM provider distinct from the merged TTS provider.",
+    "#89799: decide whether the narrowed Windows Node 24 compile-cache mitigation and proof are sufficient."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

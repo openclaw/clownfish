@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-321",
+  "mode": "plan",
+  "run_id": "17815111613504411",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-321.md",
+  "published_at": "2026-06-15T08:12:42.100Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Open security-sensitive linked refs are routed to central security handling; closed candidate PRs are kept closed; remaining PRs are kept for their own maintainer review path unless a specific proof or technical-correctness decision needs human judgment.",
+  "actions": [
+    {
+      "target": "#66836",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive sandbox-boundary-linked PR is out of scope for ProjectClownfish cleanup, even as historical evidence."
+    },
+    {
+      "target": "#89724",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-boundary provider work belongs in central OpenClaw security handling, not backlog cleanup."
+    },
+    {
+      "target": "#89962",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR with proof; keep for its own maintainer review path."
+    },
+    {
+      "target": "#90032",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft fix should stay open; no closure action is justified."
+    },
+    {
+      "target": "#90039",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent maintainer review item."
+    },
+    {
+      "target": "#90300",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90282",
+      "candidate_fix": null,
+      "reason": "Related to hydrated issue #90282 and plausibly useful; not a closure candidate in plan mode."
+    },
+    {
+      "target": "#90621",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Policy/ownership PR should stay open for maintainer review."
+    },
+    {
+      "target": "#90990",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#89982",
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision on whether proof can be waived or what proof is sufficient for internal log-level severity changes."
+    },
+    {
+      "target": "#91015",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Keep related to #90980; failing proof blocks merge, not classification."
+    },
+    {
+      "target": "#91107",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation should be planned."
+    },
+    {
+      "target": "#91239",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#91238",
+      "candidate_fix": null,
+      "reason": "Needs maintainer review of provider pricing/accounting correctness and proof sufficiency; not a closure candidate."
+    },
+    {
+      "target": "#91272",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep historical evidence only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 4,
+    "keep_related": 2,
+    "needs_human": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90990: maintainer decision needed on proof sufficiency or proof waiver for internal model-resolver log-level severity changes.",
+    "#91239: maintainer technical review needed for OpenCode Go catalog/pricing/onboarding correctness and proof sufficiency."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

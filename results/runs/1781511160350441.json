@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-178",
+  "mode": "plan",
+  "run_id": "1781511160350441",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-178.md",
+  "published_at": "2026-06-15T08:12:40.565Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 open candidate PRs. No GitHub mutations planned beyond non-mutating classifications; security-shaped refs are quarantined item-by-item.",
+  "actions": [
+    {
+      "target": "#75225",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary flagged candidate is out of scope for ProjectClownfish cleanup."
+    },
+    {
+      "target": "#90625",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid related docs candidate, but proof/review state blocks closure or merge-style classification."
+    },
+    {
+      "target": "#90626",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related cron fix candidate with failing proof/checks; no closure or fixed-by-candidate action is safe."
+    },
+    {
+      "target": "#87343",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Technical correctness and unresolved review-bot findings require maintainer judgment; merge and fix actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#90653",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Strong related fix candidate for #59616, but this inventory shard cannot merge or raise a fix PR."
+    },
+    {
+      "target": "#90517",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related UX fix candidate with useful contributor work; keep open for maintainer review."
+    },
+    {
+      "target": "#90659",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related candidate; the security-linked issue is historical/closed context and should not poison this PR in the inventory plan."
+    },
+    {
+      "target": "#90672",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related narrow candidate with proof, but no allowed merge action."
+    },
+    {
+      "target": "#89935",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although the artifact hint is open_pr_candidate, the hydrated PR text describes sensitive-data exposure, so this exact item should be quarantined."
+    },
+    {
+      "target": "#90469",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary and dependency-guarded governance work belongs in central security/maintainer handling, not backlog cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 6,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87343: unresolved technical correctness and review-bot findings in a large active PR require maintainer judgment."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

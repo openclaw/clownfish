@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-314",
+  "mode": "plan",
+  "run_id": "1781511161350445",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-314.md",
+  "published_at": "2026-06-15T08:12:41.202Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed candidates. No shared canonical was inferred. Security-sensitive open candidates are routed to central security handling; closed candidate #68443 is recorded as already closed and out of mutation scope. Non-security PRs with failed proof/checks remain open as independent backlog items. #65359 and #70944 need maintainer judgment because the artifact marks them proof-supplied/ready for maintainer review and this job cannot merge or repair.",
+  "actions": [
+    {
+      "target": "#65359",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready maintainer-review candidate with compatibility-sensitive config/schema behavior; merge/fix are blocked in this job."
+    },
+    {
+      "target": "#70630",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused non-security PR, but failed proof blocks merge or fixed-by-candidate closeout; keep it open outside this inventory shard."
+    },
+    {
+      "target": "#70876",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#70332",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive memory/session-state PR is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#68443",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed primary candidate; record only, with security-sensitive context kept out of mutation scope."
+    },
+    {
+      "target": "#70605",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful non-security PR remains open but is blocked by failed proof/check evidence and prior review concerns."
+    },
+    {
+      "target": "#69495",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR with unresolved proof/check/review blockers; keep open, no close or merge action."
+    },
+    {
+      "target": "#70497",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR with a plausible fix but failed proof and unrelated test churn; keep open for separate review."
+    },
+    {
+      "target": "#70944",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready maintainer-review candidate touching trusted-principal behavior; needs maintainer signal before any merge path."
+    },
+    {
+      "target": "#70895",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive session/webhook PR is out of ProjectClownfish mutation scope."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 4,
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#65359 requires maintainer review for a proof-supplied config/schema compatibility fix; job blocks merge/fix actions.",
+    "#70944 requires maintainer review for trusted Discord principal identity-link behavior; job lacks merge preflight and blocks merge/fix actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

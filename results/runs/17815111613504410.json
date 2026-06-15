@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-320",
+  "mode": "plan",
+  "run_id": "17815111613504410",
+  "run_url": null,
+  "head_sha": "a8f8c15aac24c6bcebe2cbf43f0b276500930c9d",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-320.md",
+  "published_at": "2026-06-15T08:12:41.948Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 open PR candidates. No GitHub mutations, merges, or fix PRs are planned. Security-sensitive refs #88718 and #89526 are routed to central security handling; the rest are kept open or flagged only for specific maintainer/author judgment.",
+  "actions": [
+    {
+      "target": "#88718",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact PR for central OpenClaw security handling; continue unrelated non-security classifications."
+    },
+    {
+      "target": "#88885",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like a real, useful fix path, but the job blocks merge/fix work and the remaining decision is maintainer technical correctness review."
+    },
+    {
+      "target": "#88977",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as active related maintainer work; no close, merge, or replacement action is safe in this plan shard."
+    },
+    {
+      "target": "#89006",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent maintainer-owned compatibility work; not a low-signal, duplicate, or safely superseded PR."
+    },
+    {
+      "target": "#92003",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92003",
+      "reason": "The remaining blocker is technical correctness judgment on whether the latest head resolves the maintainer-reported stale-run race."
+    },
+    {
+      "target": "#89113",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related draft work with unresolved author/review findings; no close or supersede action is justified from the artifact."
+    },
+    {
+      "target": "#89239",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up is required for real behavior proof; keep the useful PR open rather than closing it."
+    },
+    {
+      "target": "#89526",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact PR for central OpenClaw security handling; do not close, merge, label, or fix it through this workflow."
+    },
+    {
+      "target": "#89596",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific maintainer/review judgment is needed on the latest unresolved ClawSweeper findings before any merge or close classification."
+    },
+    {
+      "target": "#89717",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related draft work; #90219 may be a newer path, but the artifact does not prove #89717 is boringly superseded or safe to close."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "needs_human": 4,
+    "keep_related": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88885 needs maintainer technical review before any merge recommendation.",
+    "#92003 needs maintainer judgment on whether latest head resolves the stale-run race called out on 2026-06-11.",
+    "#89239 needs author-supplied real behavior proof for the live iMessage DM sender fallback case.",
+    "#89596 needs maintainer/review judgment on the latest unresolved ClawSweeper findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
