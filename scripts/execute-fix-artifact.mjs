@@ -1741,7 +1741,12 @@ function normalizeLocalRef(value) {
 function ensureTargetCheckout(repo, targetDir) {
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(path.dirname(targetDir), { recursive: true });
-    run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1"], { cwd: repoRoot(), env: ghEnv() });
+    try {
+      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1"], { cwd: repoRoot(), env: readGhEnv() });
+    } catch (error) {
+      if (readGhEnv().GH_TOKEN === ghEnv().GH_TOKEN) throw error;
+      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1"], { cwd: repoRoot(), env: ghEnv() });
+    }
     return;
   }
   if (!fs.existsSync(path.join(targetDir, ".git"))) {
@@ -2745,6 +2750,18 @@ function ghAuthSetupGit(cwd) {
 
 function ghEnv() {
   return { ...process.env, GH_TOKEN: process.env.CLOWNFISH_GH_TOKEN || process.env.GH_TOKEN };
+}
+
+function readGhEnv() {
+  const token =
+    process.env.CLOWNFISH_READ_GH_TOKEN ||
+    process.env.GITHUB_TOKEN ||
+    process.env.CLOWNFISH_GH_TOKEN ||
+    process.env.GH_TOKEN;
+  return {
+    ...process.env,
+    GH_TOKEN: token,
+  };
 }
 
 function codexEnv() {

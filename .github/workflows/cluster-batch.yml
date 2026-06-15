@@ -239,7 +239,7 @@ jobs:
                 -e 's/(authorization|bearer|token)[^[:space:]]+/\1=[redacted]/Ig' \
                 -e 's/[A-Za-z0-9_=-]{40,}/[redacted]/g'
           }
-          for candidate in CLOWNFISH_READ_GH_TOKEN CLOWNFISH_WRITE_GH_TOKEN CLOWNFISH_APP_GH_TOKEN GITHUB_TOKEN; do
+          for candidate in CLOWNFISH_READ_GH_TOKEN GITHUB_TOKEN CLOWNFISH_WRITE_GH_TOKEN CLOWNFISH_APP_GH_TOKEN; do
             token="${!candidate:-}"
             if [ -z "$token" ]; then
               continue
