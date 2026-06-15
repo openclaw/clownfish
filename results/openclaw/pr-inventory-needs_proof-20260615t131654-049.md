@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T131654-049"
 mode: "plan"
-run_id: "27549045653"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549045653"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390760"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390760"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.677Z"
+published_at: "2026-06-15T13:49:10.318Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549045653](https://github.com/openclaw/clownfish/actions/runs/27549045653)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390760](https://github.com/openclaw/clownfish/actions/runs/27550390760)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-only PR inventory classification. The cluster preflight artifact is compacted and hydrates 20 of 40 listed PRs; hydrated open PRs are kept non-mutating because merge/fix/raise_pr are blocked and proof/check/review gates are incomplete. Already-closed hydrated PRs are kept closed. Unhydrated refs need a fresh preflight before any reliable action.
+Plan-mode PR inventory classification. No GitHub mutations planned. Security-sensitive hydrated refs are routed to central security handling; already closed refs are skipped; open non-security refs without merge/close proof are kept as independent inventory items or marked needs_human where live state was unavailable.
 
 ## Impact
 
@@ -66,47 +66,47 @@ Plan-only PR inventory classification. The cluster preflight artifact is compact
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91279 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #91280 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #91286 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #91288 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #93226 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #39102 | keep_related | planned | related | Useful scoped work, but merge/review gates are not satisfied. |
-| #92700 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #91943 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #82540 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #50483 | keep_related | planned | related | Potentially useful fix, but proof/review gates are incomplete. |
-| #54585 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #55341 | keep_related | planned | related | Substantive work, but checks and proof block stronger action. |
-| #93271 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #93266 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #89238 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #55927 | keep_related | planned | related | Needs proof and review; no mutating action is supported. |
-| #56357 | keep_related | planned | related | Narrow useful candidate, but proof/check gates are incomplete. |
-| #56398 | keep_related | planned | related | Narrow candidate, but proof failed and branch cannot be repaired by maintainers. |
-| #56706 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #56720 | keep_related | planned | related | Useful narrow fix, but proof/core failure blocks stronger action. |
-| #60229 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60485 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60630 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #93273 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #60683 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60698 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60868 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60934 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #60981 | keep_related | planned | related | Broad risky hardening/feature work needs maintainer review and proof; no mutating action is supported. |
-| #61242 | keep_closed | skipped | superseded | Already closed items must not receive close actions. |
-| #61322 | keep_related | planned | related | Narrow useful candidate, but proof/check gates are incomplete. |
-| #61576 | keep_related | planned | related | Large product/architecture contribution needs maintainer judgment and proof. |
-| #61624 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #93267 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #61675 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #61973 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #62021 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #62157 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #62201 | needs_human | planned | needs_human | Missing hydrated live state. |
-| #62338 | needs_human | planned | needs_human | Missing hydrated live state. |
+| #39102 | route_security | planned | security_sensitive | Security-boundary authorization work is out of scope for backlog cleanup automation. |
+| #50483 | keep_independent | planned | independent | No closure, merge, or duplicate proof; keep as its own review item. |
+| #54585 | keep_closed | skipped | superseded | Already closed; closure action is not valid. |
+| #55341 | route_security | planned | security_sensitive | OAuth token persistence and credential writeback concerns must route to central security handling. |
+| #55927 | keep_independent | planned | independent | Useful but not merge-ready; no boring closeout proof in plan mode. |
+| #56357 | route_security | planned | security_sensitive | CSP/static asset security boundary work is out of scope for backlog cleanup automation. |
+| #56398 | keep_independent | planned | independent | Real bug but stale branch cannot be closed or merged from this inventory plan. |
+| #56706 | keep_closed | skipped | superseded | Already closed; closure action is not valid. |
+| #56720 | keep_independent | planned | independent | Not a dedupe/closeout candidate; keep for normal review. |
+| #60229 | keep_closed | skipped | superseded | Already closed; closure action is not valid. |
+| #60485 | route_security | planned | security_sensitive | Webhook token verification and signature-adjacent behavior should be handled by central security review, even though the PR is already closed. |
+| #60630 | keep_closed | skipped | superseded | Already closed; no mutation valid. |
+| #60683 | keep_closed | skipped | superseded | Already closed; no mutation valid. |
+| #82540 | keep_independent | planned | independent | Open feature/bug PR in inventory; keep for normal review. |
+| #89238 | keep_independent | planned | independent | Draft/open candidate with behavior-proof requirement; keep independent. |
+| #91279 | keep_independent | planned | independent | No duplicate or closure proof; keep as standalone PR. |
+| #91280 | keep_independent | planned | independent | No duplicate or closure proof; keep as standalone PR. |
+| #91286 | route_security | planned | security_sensitive | Exec approval security ranking changes require central security handling. |
+| #91288 | route_security | planned | security_sensitive | Exec approval security ranking changes require central security handling. |
+| #91943 | keep_independent | planned | independent | Open candidate with no safe mutation in inventory plan. |
+| #92700 | keep_independent | planned | independent | Open bugfix candidate; keep for normal review. |
+| #93226 | keep_independent | planned | independent | Open auth-provider behavior PR; keep independent without closure proof. |
+| #93266 | keep_independent | planned | independent | Draft/open candidate with proof gap; keep independent. |
+| #93271 | route_security | planned | security_sensitive | Security audit/session-key prefix handling must route to central security review. |
+| #93273 | keep_closed | skipped | superseded | Already closed; no mutation valid. |
+| #60698 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; no mutating or definitive classification is safe. |
+| #60868 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; no mutating or definitive classification is safe. |
+| #60934 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; no mutating or definitive classification is safe. |
+| #60981 | needs_human | blocked | needs_human | Live PR state and security posture are unavailable; route/closure classification needs human review or rehydration. |
+| #61242 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; broad dirty candidate requires maintainer judgment after rehydration. |
+| #61322 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; no safe classification beyond rehydrate required. |
+| #61576 | needs_human | blocked | needs_human | Live PR state is unavailable and broad product direction requires maintainer judgment. |
+| #61624 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; no safe close/keep classification beyond rehydration. |
+| #93267 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
+| #61675 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
+| #61973 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
+| #62021 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
+| #62157 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
+| #62201 | needs_human | blocked | needs_human | Live PR state and security posture are unavailable; rehydration needed. |
+| #62338 | needs_human | blocked | needs_human | Live PR state and updated_at are unavailable; rehydration needed. |
 
 ## Needs Human
 
-- Fresh cluster preflight is required for unhydrated refs: #91279, #91280, #91286, #91288, #93226, #92700, #91943, #82540, #93271, #93266, #89238, #93273, #61624, #93267, #61675, #61973, #62021, #62157, #62201, #62338.
+- Rehydrate unavailable candidate PRs before classification or mutation: #60698, #60868, #60934, #60981, #61242, #61322, #61576, #61624, #93267, #61675, #61973, #62021, #62157, #62201, #62338.

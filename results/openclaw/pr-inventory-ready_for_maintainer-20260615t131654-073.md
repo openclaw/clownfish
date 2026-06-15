@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-ready_for_maintainer-20260615T131654-073"
 mode: "plan"
-run_id: "27549048632"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549048632"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390441"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390441"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T13:28:19.818Z"
+result_status: "planned"
+published_at: "2026-06-15T13:49:10.312Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 19
+needs_human_count: 14
 ---
 
 # pr-inventory-ready_for_maintainer-20260615T131654-073
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549048632](https://github.com/openclaw/clownfish/actions/runs/27549048632)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390441](https://github.com/openclaw/clownfish/actions/runs/27550390441)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-Plan-only PR inventory shard. No shared canonical is available or intended. Hydrated open PRs with no security quarantine are classified independently for maintainer review; merge/close/fix actions are not planned because the job blocks merge/fix/raise_pr, low-signal closeout is disabled, and several PRs have pending/failing checks or missing review-comment hydration. Refs missing from the compacted preflight artifact are scoped to needs_human for fresh hydration rather than guessed closeout.
+Plan-only PR inventory classification. This shard has no shared canonical, so no dedupe closeout was planned. Security-shaped refs were routed to central security handling; hydrated non-security refs were kept as independent maintainer-review items. Candidate refs whose live state was unavailable due to GitHub API rate limits are marked needs_human because target_updated_at cannot be copied from the hydrated preflight artifact.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-only PR inventory shard. No shared canonical is available or intended. Hydr
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 19 |
+| Needs human | 14 |
 
 ## Fix Execution Actions
 
@@ -66,65 +66,60 @@ Plan-only PR inventory shard. No shared canonical is available or intended. Hydr
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89716 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89721 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89790 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89535 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #88992 | keep_independent | planned | independent |  |
-| #89799 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89748 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89142 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89168 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90474 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90805 | route_security | planned | security_sensitive | Security-boundary-shaped enforcement work should be routed to central OpenClaw security handling before ProjectClownfish triage. |
-| #90861 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90902 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90903 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90918 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #91310 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #90475 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #53821 | keep_independent | planned | independent |  |
-| #54593 | keep_independent | planned | independent |  |
-| #54716 | keep_independent | planned | independent |  |
-| #54982 | keep_independent | planned | independent |  |
-| #89483 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #56497 | keep_independent | planned | independent |  |
-| #58373 | keep_independent | planned | independent |  |
-| #59365 | keep_independent | planned | independent |  |
-| #68843 | keep_independent | planned | independent |  |
-| #74398 | keep_independent | planned | independent |  |
-| #79853 | keep_independent | planned | independent |  |
-| #92217 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #84705 | route_security | planned | security_sensitive | Plaintext credential storage/audit work is security-sensitive under the worker boundary and should not be handled by backlog cleanup automation. |
-| #85034 | keep_independent | planned | independent |  |
-| #85254 | keep_independent | planned | independent |  |
-| #85643 | keep_independent | planned | independent |  |
-| #86450 | keep_independent | planned | independent |  |
-| #86764 | keep_independent | planned | independent |  |
-| #87590 | keep_independent | planned | independent |  |
-| #89004 | keep_independent | planned | independent |  |
-| #89017 | keep_independent | planned | independent |  |
-| #89028 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
-| #89039 | needs_human | blocked | needs_human | Missing hydrated live state and target_updated_at in the provided artifact. |
+| #89716 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89721 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89790 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89535 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #88992 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #89799 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89748 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89142 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89168 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #90474 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #90805 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #90861 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #90902 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #90903 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #90918 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #91310 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #90475 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #53821 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #54593 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #54716 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #54982 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #89483 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #56497 | route_security | planned | security_sensitive | Route only this item to central OpenClaw security handling; do not mutate it through Clownfish backlog cleanup. |
+| #58373 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #59365 | keep_independent | planned | independent | Keep as an independent maintainer-review PR. |
+| #68843 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #74398 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #79853 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #92217 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #84705 | route_security | planned | security_sensitive | Plaintext secret or credential handling is security-sensitive under the worker security boundary. |
+| #85034 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #85254 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #85643 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #86450 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #86764 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #87590 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #89004 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #89017 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #89028 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
+| #89039 | needs_human | blocked | needs_human | Cannot safely classify this candidate as an open PR without hydrated live state or target_updated_at. |
 
 ## Needs Human
 
-- #89716 missing hydrated live state in compacted preflight artifact
-- #89721 missing hydrated live state in compacted preflight artifact
-- #89790 missing hydrated live state in compacted preflight artifact
-- #89535 missing hydrated live state in compacted preflight artifact
-- #89799 missing hydrated live state in compacted preflight artifact
-- #89748 missing hydrated live state in compacted preflight artifact
-- #89142 missing hydrated live state in compacted preflight artifact
-- #89168 missing hydrated live state in compacted preflight artifact
-- #90474 missing hydrated live state in compacted preflight artifact
-- #90861 missing hydrated live state in compacted preflight artifact
-- #90902 missing hydrated live state in compacted preflight artifact
-- #90903 missing hydrated live state in compacted preflight artifact
-- #90918 missing hydrated live state in compacted preflight artifact
-- #91310 missing hydrated live state in compacted preflight artifact
-- #90475 missing hydrated live state in compacted preflight artifact
-- #89483 missing hydrated live state in compacted preflight artifact
-- #92217 missing hydrated live state in compacted preflight artifact
-- #89028 missing hydrated live state in compacted preflight artifact
-- #89039 missing hydrated live state in compacted preflight artifact
+- #68843
+- #74398
+- #79853
+- #92217
+- #85034
+- #85254
+- #85643
+- #86450
+- #86764
+- #87590
+- #89004
+- #89017
+- #89028
+- #89039

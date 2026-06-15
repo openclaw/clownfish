@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-ready_for_maintainer-20260615T131654-066"
 mode: "plan"
-run_id: "27549047992"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549047992"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550393413"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550393413"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.786Z"
+published_at: "2026-06-15T13:49:10.324Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 20
+needs_human_count: 6
 ---
 
 # pr-inventory-ready_for_maintainer-20260615T131654-066
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549047992](https://github.com/openclaw/clownfish/actions/runs/27549047992)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550393413](https://github.com/openclaw/clownfish/actions/runs/27550393413)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory classification shard. The hydrated preflight artifact covers 20 listed PRs; all are open pull requests with no cluster-level canonical and no security-sensitive signal in the artifact. Each hydrated PR is kept independent for normal maintainer review because this shard is not a dedupe cluster and merge/fix actions are blocked. The remaining listed refs were not present in the compacted hydrated item matrix, so live target_kind/target_updated_at are unavailable and require a fresh preflight before classification.
+Plan-only PR inventory classification. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. Security-sensitive refs were scoped to route_security; unrelated hydrated open PRs were kept independent. Six listed refs could not be safely classified from the compacted preflight because live state, target kind, and updated_at were unavailable due GitHub API rate limits, so those specific actions were downgraded to needs_human. No close, merge, label, comment, fix, or raise_pr action was planned because the job is plan mode, merge/fix actions are blocked, low-signal closeout is disabled, and available checks are unavailable or insufficient for merge preflight.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode PR inventory classification shard. The hydrated preflight artifact cov
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 20 |
+| Needs human | 6 |
 
 ## Fix Execution Actions
 
@@ -66,66 +66,52 @@ Plan-mode PR inventory classification shard. The hydrated preflight artifact cov
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85505 | keep_independent | planned | independent | Independent PR in an inventory shard; no shared canonical should be invented. |
-| #85616 | keep_independent | planned | independent | Independent broad behavior PR for maintainer review; no duplicate or superseding canonical is hydrated. |
-| #85678 | keep_independent | planned | independent | Independent Telegram UX fix; failed proof blocks merge-style action but not non-mutating classification. |
-| #85710 | keep_independent | planned | independent | Small independent cleanup PR; no hydrated duplicate or superseding PR identified. |
-| #85748 | keep_independent | planned | independent | Independent doctor feature/fix PR; no closeout or merge action is permitted in this plan. |
-| #85770 | keep_independent | planned | independent | Independent message-delivery/session-state fix; no shared canonical applies. |
-| #85104 | keep_independent | planned | independent | Large independent feature PR requiring maintainer review; failing check and broad scope block any merge-style recommendation. |
-| #85793 | keep_independent | planned | independent | Independent docs PR; failed proof blocks close/fixed-by/merge action but not inventory classification. |
-| #85828 | keep_independent | planned | independent | Independent provider/tool feature PR; no duplicate or superseding canonical is hydrated. |
-| #85866 | keep_independent | planned | independent | Independent WhatsApp auth feature PR for maintainer review; no closeout condition is met. |
-| #85899 | keep_independent | planned | independent | Independent documentation/descriptor alignment PR; no hydrated duplicate or superseding PR identified. |
-| #85916 | keep_independent | planned | independent | Independent authorization-scope hardening PR; needs normal maintainer review, not dedupe cleanup. |
-| #85993 | keep_independent | planned | independent | Large independent browser feature PR requiring maintainer judgment; no closure or merge recommendation is safe in this shard. |
-| #86062 | keep_independent | planned | independent | Independent UI/gateway quality-of-life PR; no duplicate or superseding canonical is hydrated. |
-| #86085 | keep_independent | planned | independent | Independent i18n terminology PR; failed proof blocks merge-style action but not non-mutating classification. |
-| #86088 | keep_independent | planned | independent | Independent replacement PR with useful contributor work; no closeout target is in scope for this inventory shard. |
-| #90731 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86138 | keep_independent | planned | independent | Independent hardening PR; no hydrated duplicate or superseding PR identified. |
-| #86224 | keep_independent | planned | independent | Independent agents/session-state fix requiring normal maintainer review. |
-| #86233 | keep_independent | planned | independent | Independent Codex log-retention fix; no closeout or merge action is allowed by job frontmatter. |
-| #86272 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86335 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86386 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86527 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86561 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86608 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86649 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86670 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86674 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86676 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86776 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86893 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86900 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #86913 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #87061 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #88908 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #87121 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #87205 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #87231 | needs_human | blocked | needs_human | Live preflight state is unavailable in the provided artifact; fresh hydration is required before classification. |
-| #79568 | keep_independent | planned | independent | Independent low-risk docs PR; low-signal closeout is disabled by job permissions. |
+| #85505 | route_security | planned | security_sensitive | Security-sensitive PR is out of ProjectClownfish mutation scope. |
+| #85678 | route_security | planned | security_sensitive | Security-boundary flagged PR should route to central security handling. |
+| #85916 | route_security | planned | security_sensitive | Auth/scope boundary change belongs in central security review. |
+| #85993 | route_security | planned | security_sensitive | Expanded browser capability surface is security-sensitive for this workflow. |
+| #86138 | route_security | planned | security_sensitive | Plugin discovery hardening affects a documented trust boundary. |
+| #86272 | route_security | planned | security_sensitive | Operator-scope changes need central security handling. |
+| #86335 | route_security | planned | security_sensitive | Sanitizer allowlist changes are security-sensitive. |
+| #86386 | route_security | planned | security_sensitive | Network proxy trust behavior should route to central security review. |
+| #86561 | route_security | planned | security_sensitive | Potential sensitive data/access exposure must be handled outside ProjectClownfish. |
+| #85104 | keep_independent | planned | independent | Distinct feature PR; keep for normal maintainer review. |
+| #85616 | keep_independent | planned | independent | Useful independent PR, not a duplicate or closeout target. |
+| #85710 | keep_independent | planned | independent | Small independent cleanup PR; no mutation planned. |
+| #85748 | keep_independent | planned | independent | Independent feature/fix PR with unresolved branch state. |
+| #85770 | keep_independent | planned | independent | Independent bugfix PR; not safe for close or merge planning. |
+| #85793 | keep_independent | planned | independent | Independent docs PR; keep for maintainer triage. |
+| #85828 | keep_independent | planned | independent | Independent provider/tooling PR; no closeout basis. |
+| #85866 | keep_independent | planned | independent | Independent channel/auth feature PR; keep for maintainer review. |
+| #85899 | keep_independent | planned | independent | Independent docs alignment PR. |
+| #86062 | keep_independent | planned | independent | Independent UI improvement PR. |
+| #86085 | keep_independent | planned | independent | Independent localization PR. |
+| #86088 | keep_independent | planned | independent | Independent narrow fix PR; keep for maintainer review. |
+| #86224 | keep_independent | planned | independent | Independent agents bugfix PR. |
+| #86233 | keep_independent | planned | independent | Independent Codex extension maintenance PR. |
+| #86527 | keep_independent | planned | independent | Independent voice-call proxy matching PR; label alone does not trigger route_security under the artifact. |
+| #86608 | keep_independent | planned | independent | Independent docs/process PR; no closeout planned. |
+| #86649 | keep_independent | planned | independent | Independent message-delivery fix PR. |
+| #86670 | keep_independent | planned | independent | Independent provider feature PR; no merge/close path in this job. |
+| #86674 | keep_independent | planned | independent | Independent UI feature PR. |
+| #86676 | keep_independent | planned | independent | Independent gateway configuration PR. |
+| #86776 | keep_independent | planned | independent | Independent model/provider policy PR. |
+| #86893 | keep_independent | planned | independent | Independent cron availability fix PR. |
+| #86900 | keep_independent | planned | independent | Independent agents/session-state fix PR. |
+| #86913 | keep_independent | planned | independent | Independent gateway/API PR. |
+| #90731 | keep_independent | planned | independent | Independent agents/model-catalog fix PR. |
+| #79568 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
+| #87061 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
+| #88908 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
+| #87121 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
+| #87205 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
+| #87231 | needs_human | planned | needs_human | Live state unavailable; needs refreshed hydration before classification. |
 
 ## Needs Human
 
-- #90731 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86272 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86335 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86386 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86527 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86561 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86608 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86649 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86670 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86674 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86676 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86776 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86893 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86900 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #86913 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #87061 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #88908 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #87121 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #87205 missing hydrated preflight item; target_kind and target_updated_at unavailable.
-- #87231 missing hydrated preflight item; target_kind and target_updated_at unavailable.
+- #79568 live state unavailable; refreshed hydration needed before classification.
+- #87061 live state unavailable; refreshed hydration needed before classification.
+- #88908 live state unavailable; refreshed hydration needed before classification.
+- #87121 live state unavailable; refreshed hydration needed before classification.
+- #87205 live state unavailable; refreshed hydration needed before classification.
+- #87231 live state unavailable; refreshed hydration needed before classification.

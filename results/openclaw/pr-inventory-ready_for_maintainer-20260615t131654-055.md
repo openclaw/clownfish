@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-ready_for_maintainer-20260615T131654-055"
 mode: "plan"
-run_id: "27549046114"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549046114"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390566"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390566"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T13:28:19.734Z"
+result_status: "planned"
+published_at: "2026-06-15T13:49:10.315Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 20
+needs_human_count: 2
 ---
 
 # pr-inventory-ready_for_maintainer-20260615T131654-055
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549046114](https://github.com/openclaw/clownfish/actions/runs/27549046114)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390566](https://github.com/openclaw/clownfish/actions/runs/27550390566)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-Plan-mode inventory classification. The compacted preflight artifact hydrated 20 candidate PRs; hydrated non-security open PRs are kept independently for maintainer review, #51822 and #64546 are routed to central security handling, and #75213 is already closed. The remaining listed candidates were not hydrated in the provided artifact, so no close/merge/fix action is planned for them.
+Plan-only PR inventory classification. No shared canonical was selected. Hydrated non-security PRs are kept as independent maintainer-review items; already-closed #75213 is kept closed; security-shaped #51822, #64546, and artifact-marked #92725 are routed to central security handling; refs with unavailable live state are scoped needs-human refresh decisions.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode inventory classification. The compacted preflight artifact hydrated 20
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 20 |
+| Needs human | 2 |
 
 ## Fix Execution Actions
 
@@ -66,66 +66,48 @@ Plan-mode inventory classification. The compacted preflight artifact hydrated 20
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89745 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89767 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89428 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #59695 | keep_independent | planned | independent | Useful independent PR; no close, merge, or fix action is allowed in this plan job. |
-| #89567 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #62063 | keep_independent | planned | independent | Large independent locale PR awaiting maintainer/author path; not a duplicate or close candidate. |
-| #74131 | keep_independent | planned | independent | Independent PR with a failing check; keep for maintainer review rather than close or merge. |
-| #74136 | keep_independent | planned | independent | Focused independent PR ready for maintainer review; merge remains blocked by job frontmatter. |
-| #92725 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #74185 | keep_independent | planned | independent | Independent PR awaiting maintainer/author follow-up; no close or merge action is appropriate in plan mode. |
-| #74235 | keep_independent | planned | independent | Independent PR with dirty merge state and broad diff; keep for maintainer review rather than close or merge. |
-| #74252 | keep_independent | planned | independent | Focused independent PR ready for maintainer review; merge remains blocked by job frontmatter. |
-| #74369 | keep_independent | planned | independent | Focused independent PR ready for maintainer review; no close or merge action is allowed. |
-| #74444 | keep_independent | planned | independent | Independent feature/config PR awaiting maintainer/author review; not a close candidate. |
-| #89577 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #92996 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #75100 | keep_independent | planned | independent | Independent feature PR with dirty/author-waiting signals; keep for maintainer review rather than close or merge. |
-| #75157 | keep_independent | planned | independent | Independent UI PR awaiting maintainer/author path; no duplicate close or merge action is appropriate. |
-| #75213 | keep_closed | skipped |  | Already closed in live preflight state. |
-| #88901 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #75293 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #77736 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89800 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89806 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89818 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #92243 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #92185 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89855 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89864 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #89882 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #87487 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #51822 | route_security | planned | security_sensitive | Credential-handling and secret-exposure claim is security-sensitive for this automation lane. |
-| #55901 | keep_independent | planned | independent | Independent feature PR with failing proof and author-waiting status; no close or merge action is appropriate. |
-| #92899 | needs_human | blocked | needs_human | Candidate was not hydrated in the artifact, so live state and target_updated_at are unavailable. |
-| #64316 | keep_independent | planned | independent | Independent bug-fix PR awaiting maintainer/author path; not a duplicate or close candidate. |
-| #64546 | route_security | planned | security_sensitive | Forgery/token/security-boundary claim must be routed to central security handling. |
-| #66150 | keep_independent | planned | independent | Independent session-state PR awaiting maintainer/author path; no close or merge action is appropriate. |
-| #66174 | keep_independent | planned | independent | Independent PR with failing checks; keep for maintainer/author follow-up rather than close or merge. |
-| #66478 | keep_independent | planned | independent | Independent channel bug-fix PR ready for maintainer review; merge remains blocked by job frontmatter. |
-| #67432 | keep_independent | planned | independent | Small independent accessibility PR with failing proof/checks; keep for maintainer review rather than close or merge. |
+| #89745 | keep_independent | planned | independent | Standalone maintainer-review PR; keep non-mutating and independent in this inventory shard. |
+| #89767 | keep_independent | planned | independent | Standalone maintainer-review PR; no closure or merge action is safe in plan mode. |
+| #89428 | keep_independent | planned | independent | Keep as independent pending normal maintainer review; linked context is not hydrated enough for closeout. |
+| #59695 | keep_independent | planned | independent | Small standalone PR, but maintainer review and checks are unresolved; keep independent. |
+| #89567 | keep_independent | planned | independent | Standalone non-security hardening PR; keep independent for maintainer review. |
+| #62063 | keep_independent | planned | independent | Independent broad locale PR with active author/review blockers; not close-safe in this shard. |
+| #74131 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #74136 | keep_independent | planned | independent | Standalone focused PR; keep independent for maintainer review. |
+| #92725 | route_security | planned | security_sensitive | Route this exact PR to central OpenClaw security handling; no ProjectClownfish close, merge, label, comment, or fix action. |
+| #74185 | keep_independent | planned | independent | Independent PR with author-followup state; keep non-mutating. |
+| #74235 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #74252 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #74369 | keep_independent | planned | independent | Standalone focused PR; keep independent. |
+| #74444 | keep_independent | planned | independent | Independent feature PR with author-followup state; keep non-mutating. |
+| #89577 | keep_independent | planned | independent | Standalone non-security hardening PR; keep independent for maintainer review. |
+| #92996 | keep_independent | planned | independent | Independent PR in re-review; keep non-mutating. |
+| #75100 | keep_independent | planned | independent | Independent feature PR with author/dirty-candidate followup; low-signal closeout is disabled. |
+| #75157 | keep_independent | planned | independent | Independent PR with author-followup state; keep non-mutating. |
+| #75213 | keep_closed | skipped |  | Already closed in live preflight state; no mutation should be planned. |
+| #88901 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #75293 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #77736 | keep_independent | planned | independent | Independent PR with author-followup state; keep non-mutating. |
+| #89800 | keep_independent | planned | independent | Standalone maintainer-review PR; keep independent. |
+| #89806 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #89818 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #92243 | needs_human | planned | needs_human | Needs refreshed live state before any maintainer-review or closeout decision. |
+| #92185 | needs_human | planned | needs_human | Needs refreshed live state before classification beyond the job snapshot. |
+| #89855 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #89864 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #89882 | needs_human | planned | needs_human | Needs refreshed live state before classification beyond the job snapshot. |
+| #87487 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #51822 | route_security | planned | security_sensitive | Credential/secret-leakage-shaped report should be quarantined to central security handling even though live hydration failed. |
+| #55901 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #92899 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #64316 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #64546 | route_security | planned | security_sensitive | Security-boundary/token-forgery-shaped report should be quarantined to central security handling. |
+| #66150 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #66174 | needs_human | planned | needs_human | Needs refreshed live state before classification beyond the job snapshot. |
+| #66478 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
+| #67432 | needs_human | planned | needs_human | Needs a refreshed live preflight before classification beyond the job snapshot. |
 
 ## Needs Human
 
-- #89745 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89767 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89428 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89567 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #92725 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89577 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #92996 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #88901 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #75293 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #77736 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89800 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89806 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89818 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #92243 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #92185 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89855 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89864 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #89882 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #87487 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
-- #92899 not hydrated in provided preflight artifact; live state and target_updated_at unavailable.
+- Refresh live GitHub state for unavailable non-security candidates before classification: #89806, #89818, #92243, #92185, #89855, #89864, #89882, #87487, #55901, #92899, #64316, #66150, #66174, #66478, #67432.
+- Central security handling should review routed security-shaped refs: #51822, #64546, #92725.

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T131654-034"
 mode: "plan"
-run_id: "27549043134"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549043134"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550390333"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550390333"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.616Z"
+published_at: "2026-06-15T13:49:10.307Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 20
+needs_human_count: 14
 ---
 
 # pr-inventory-needs_proof-20260615T131654-034
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549043134](https://github.com/openclaw/clownfish/actions/runs/27549043134)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550390333](https://github.com/openclaw/clownfish/actions/runs/27550390333)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory shard. No GitHub mutations planned; no shared canonical was invented. Hydrated open PRs are classified independently unless the artifact lacked live state, in which case the unresolved item is scoped to that PR only.
+Plan-only PR inventory classification. No GitHub mutations are planned; security-sensitive hydrated PRs are routed to central security handling, hydrated non-security PRs are kept independent for maintainer review/proof, and listed refs with unavailable live state are blocked on rehydration.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode PR inventory shard. No GitHub mutations planned; no shared canonical w
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 20 |
+| Needs human | 14 |
 
 ## Fix Execution Actions
 
@@ -66,66 +66,60 @@ Plan-mode PR inventory shard. No GitHub mutations planned; no shared canonical w
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #82435 | keep_independent | planned | independent | Independent focused PR needing normal proof/check follow-up; no closure or merge action is allowed. |
-| #82505 | keep_independent | planned | independent | Independent Canvas PR; no evidence supports duplicate, superseded, low-signal, or fixed-by-candidate closure. |
-| #82512 | keep_independent | planned | independent | Exec-adjacent hardening PR is not routed as security by the artifact and remains an independent review/proof candidate. |
-| #82519 | keep_independent | planned | independent | Independent CI/test stabilization PR; keep for normal maintainer review. |
-| #82520 | keep_independent | planned | independent | Independent PR that still needs proof/check repair; non-mutating classification only. |
-| #82535 | keep_independent | planned | independent | Independent non-routed security-boundary-adjacent fix; keep for normal review because plan mode cannot merge. |
-| #82536 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #77899 | keep_independent | planned | independent | Independent focused memory-core PR; keep for normal maintainer review. |
-| #82577 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #78836 | keep_independent | planned | independent | Independent provider compatibility PR that still needs proof/check follow-up. |
-| #78886 | keep_independent | planned | independent | Independent public API proposal needing technical review and check repair. |
-| #82587 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #79538 | keep_independent | planned | independent | Independent broad contributor PR needing maintainer review, not inventory closeout. |
-| #79562 | keep_independent | planned | independent | Independent broad high-risk PR; keep for focused maintainer review rather than closure. |
-| #82684 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #79653 | keep_independent | planned | independent | Independent draft PR; keep rather than close or merge. |
-| #79872 | keep_independent | planned | independent | Independent CLI compatibility PR needing proof and review-bot follow-up. |
-| #80208 | keep_independent | planned | independent | Independent plugin SDK export PR with failing checks; keep for repair/review. |
-| #80251 | keep_independent | planned | independent | Independent session-state PR needing check follow-up. |
-| #80646 | keep_independent | planned | independent | Independent mixed-scope PR needing proof/check repair and maintainer review. |
-| #80685 | keep_independent | planned | independent | Independent message-delivery PR needing proof/check and bot-review follow-up. |
-| #80845 | keep_independent | planned | independent | Independent feature PR needing proof/check follow-up and maintainer product review. |
-| #82734 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #81176 | keep_independent | planned | independent | Independent passing feature PR; keep for normal maintainer review. |
-| #81388 | keep_independent | planned | independent | Independent focused availability fix; keep for maintainer review. |
-| #82880 | needs_human | planned | needs_human | Missing hydrated live state and security-boundary-adjacent content require maintainer/security-aware classification. |
-| #82894 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #82895 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #82934 | needs_human | planned | needs_human | Missing hydrated live state and security-shaped SSRF wording require scoped human/security-aware triage. |
-| #82966 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #82971 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #82972 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #83010 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90419 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90065 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90469 | needs_human | planned | needs_human | Missing hydrated live state for a broad security-boundary-adjacent dependency-changing PR. |
-| #90115 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90125 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90204 | needs_human | planned | needs_human | Missing hydrated live state for this PR in the provided artifact. |
-| #90211 | needs_human | planned | needs_human | Missing hydrated live state and credential-redaction wording require scoped human/security-aware triage. |
+| #82435 | keep_independent | planned | independent | Unique non-security PR; no duplicate/supersession/low-signal closure evidence and merge is blocked/disabled. |
+| #82505 | keep_independent | planned | independent | Unique non-security PR; no safe close action is supported by the hydrated state. |
+| #82512 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #82519 | keep_independent | planned | independent | Unique non-security PR with active technical blockers; keep as independent review item, not closeable in this shard. |
+| #82520 | keep_independent | planned | independent | Unique non-security PR; proof and merge readiness are unresolved, but no closure rationale exists. |
+| #82535 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #82536 | keep_independent | planned | independent | Unique non-security performance PR; no duplicate closure or merge path is justified. |
+| #77899 | keep_independent | planned | independent | Unique non-security PR; keep for maintainer review/proof rather than close or merge. |
+| #82577 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #78836 | keep_independent | planned | independent | Unique provider compatibility PR; no close action is supported and merge is not available in this job. |
+| #78886 | keep_independent | planned | independent | Unique feature/API PR; not a duplicate closure target in this inventory shard. |
+| #82587 | keep_independent | planned | independent | Unique non-security auth-provider bug PR; keep independent pending proof/checks. |
+| #79538 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #79562 | keep_independent | planned | independent | Unique broad non-security PR; keep independent for maintainer review and proof. |
+| #82684 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #79653 | keep_independent | planned | independent | Draft dependent feature PR; keep independent, not closeable or mergeable in this plan. |
+| #79872 | keep_independent | planned | independent | Unique non-security PR with historical bot feedback and unavailable checks; keep independent pending current validation. |
+| #80208 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #80251 | keep_independent | planned | independent | Unique non-security PR; retain for review/validation, no closure action justified. |
+| #80646 | keep_independent | planned | independent | Mixed-scope PR is not cleanly superseded because it includes distinct TTS work; keep independent rather than close. |
+| #80685 | keep_independent | planned | independent | Unique non-security PR with unresolved review feedback; keep independent pending author/maintainer action. |
+| #80845 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #82734 | keep_independent | planned | independent | Unique non-security PR; keep independent pending validation. |
+| #81176 | keep_independent | planned | independent | Unique non-security feature PR; not closeable in inventory plan. |
+| #81388 | needs_human | blocked | needs_human | Maintainer judgment is requested on proof sufficiency versus external testbox validation. |
+| #82880 | route_security | planned | security_sensitive | Security-sensitive exact item; route to central OpenClaw security handling. |
+| #82894 | keep_independent | planned | independent | Unique non-security PR; keep independent pending validation/maintainer review. |
+| #82895 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classifying or planning any mutation. |
+| #82934 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #82966 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #82971 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #82972 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #83010 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90419 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90065 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90469 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90115 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90125 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90204 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
+| #90211 | needs_human | blocked | needs_human | Live PR state unavailable; rehydrate before classification. |
 
 ## Needs Human
 
-- #82536 missing hydrated live state in compacted preflight artifact.
-- #82577 missing hydrated live state in compacted preflight artifact.
-- #82587 missing hydrated live state in compacted preflight artifact.
-- #82684 missing hydrated live state in compacted preflight artifact.
-- #82734 missing hydrated live state in compacted preflight artifact.
-- #82880 missing hydrated live state and has security-boundary-adjacent wording.
-- #82894 missing hydrated live state in compacted preflight artifact.
-- #82895 missing hydrated live state in compacted preflight artifact.
-- #82934 missing hydrated live state and has SSRF-shaped wording.
-- #82966 missing hydrated live state in compacted preflight artifact.
-- #82971 missing hydrated live state in compacted preflight artifact.
-- #82972 missing hydrated live state in compacted preflight artifact.
-- #83010 missing hydrated live state in compacted preflight artifact.
-- #90419 missing hydrated live state in compacted preflight artifact.
-- #90065 missing hydrated live state in compacted preflight artifact.
-- #90469 missing hydrated live state and is broad/security-boundary-adjacent with dependency changes.
-- #90115 missing hydrated live state in compacted preflight artifact.
-- #90125 missing hydrated live state in compacted preflight artifact.
-- #90204 missing hydrated live state in compacted preflight artifact.
-- #90211 missing hydrated live state and has credential-redaction wording.
+- #81388: Maintainer decision requested by active author follow-up on proof sufficiency versus real unsupported-hardlink mount validation.
+- #82895: live state unavailable from preflight artifact; rehydrate before classification.
+- #82934: live state unavailable from preflight artifact; rehydrate before classification.
+- #82966: live state unavailable from preflight artifact; rehydrate before classification.
+- #82971: live state unavailable from preflight artifact; rehydrate before classification.
+- #82972: live state unavailable from preflight artifact; rehydrate before classification.
+- #83010: live state unavailable from preflight artifact; rehydrate before classification.
+- #90419: live state unavailable from preflight artifact; rehydrate before classification.
+- #90065: live state unavailable from preflight artifact; rehydrate before classification.
+- #90469: live state unavailable from preflight artifact; rehydrate before classification.
+- #90115: live state unavailable from preflight artifact; rehydrate before classification.
+- #90125: live state unavailable from preflight artifact; rehydrate before classification.
+- #90204: live state unavailable from preflight artifact; rehydrate before classification.
+- #90211: live state unavailable from preflight artifact; rehydrate before classification.

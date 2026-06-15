@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-ready_for_maintainer-20260615T131654-052"
 mode: "plan"
-run_id: "27549045835"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549045835"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550393888"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550393888"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T13:28:19.695Z"
+published_at: "2026-06-15T13:49:10.326Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 17
 ---
 
 # pr-inventory-ready_for_maintainer-20260615T131654-052
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549045835](https://github.com/openclaw/clownfish/actions/runs/27549045835)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550393888](https://github.com/openclaw/clownfish/actions/runs/27550393888)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory classification. The hydrated preflight artifact marks the shard as non-dedupe, with no shared canonical and no security-sensitive hydrated items. No close, merge, fix, or PR-raising action is planned because this job blocks merge/fix/raise_pr and low-signal/instant close is disabled.
+Plan-mode PR inventory classification only. No GitHub mutations were performed. Hydrated candidate PRs were classified independently, security-sensitive refs were routed, and candidates with unavailable live state were scoped to needs_human.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-mode PR inventory classification. The hydrated preflight artifact marks the
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 17 |
 
 ## Fix Execution Actions
 
@@ -66,47 +66,63 @@ Plan-mode PR inventory classification. The hydrated preflight artifact marks the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91963 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #88504 | keep_independent | planned | independent | Independent feature PR requiring normal maintainer review outside this inventory shard. |
-| #88550 | keep_independent | planned | independent | Independent PR with failing proof and bot-review context; no close or merge is safe in this plan. |
-| #88551 | keep_independent | planned | independent | Independent maintainer-ready PR; no dedupe or closure action applies. |
-| #88683 | keep_independent | planned | independent | Independent dirty PR; keep open for normal maintainer/author path. |
-| #88709 | keep_independent | planned | independent | Independent substantial auth fix requiring ordinary maintainer review. |
-| #88726 | keep_independent | planned | independent | Independent PR waiting on author; no close-style action is justified. |
-| #91376 | keep_independent | planned | independent | Independent open PR; keep open for normal maintainer/author flow. |
-| #91427 | keep_independent | planned | independent | Independent maintainer-ready fix; no mutation planned. |
-| #92037 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92147 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92165 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92174 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91693 | keep_independent | planned | independent | Independent PR with proof blocker; keep open. |
-| #92196 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92176 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92376 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91923 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91967 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #88581 | keep_independent | planned | independent | Independent feature PR; keep open for normal maintainer review. |
-| #92477 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91828 | keep_independent | planned | independent | Independent memory-wiki hardening PR; keep open. |
-| #90089 | keep_independent | planned | independent | Independent focused fix; no mutation planned. |
-| #91807 | keep_independent | planned | independent | Independent CLI feature/fix PR; keep open. |
-| #92178 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91499 | keep_independent | planned | independent | Independent high-risk cron/tool-policy PR; keep open for maintainer review. |
-| #92484 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92594 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #88180 | keep_independent | planned | independent | Independent focused PR with proof blocker; keep open. |
-| #88885 | keep_independent | planned | independent | Independent infra/message-delivery fix; keep open. |
-| #91481 | keep_independent | planned | independent | Independent gateway approval-delivery fix; keep open. |
-| #91600 | keep_independent | planned | independent | Independent logging/session-state fix; keep open. |
-| #91870 | keep_independent | planned | independent | Independent provider metadata PR with proof blocker; keep open. |
-| #92491 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92495 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92521 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92574 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #91408 | keep_independent | planned | independent | Independent dirty PR waiting on author; no close or merge action is safe. |
-| #91955 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
-| #92610 | needs_human | blocked | needs_human | Cannot classify this candidate from live artifact data. |
+| #91963 | keep_independent | planned | independent |  |
+| #88504 | keep_independent | planned | independent |  |
+| #88550 | keep_independent | planned | independent |  |
+| #88551 | keep_independent | planned | independent |  |
+| #88683 | keep_independent | planned | independent |  |
+| #88709 | keep_independent | planned | independent |  |
+| #88726 | keep_independent | planned | independent |  |
+| #91376 | keep_closed | skipped | superseded | Already closed in live preflight state. |
+| #91427 | keep_independent | planned | independent |  |
+| #92037 | route_security | planned | security_sensitive | Route to central OpenClaw security handling. |
+| #92147 | keep_independent | planned | independent |  |
+| #92165 | keep_independent | planned | independent |  |
+| #92174 | route_security | planned | security_sensitive | Route to central OpenClaw security handling. |
+| #91693 | keep_related | planned | related | Close-style duplicate action is blocked because the referenced canonical fix is unhydrated. |
+| #92196 | keep_independent | planned | independent |  |
+| #92176 | keep_independent | planned | independent |  |
+| #92376 | keep_independent | planned | independent |  |
+| #91923 | keep_independent | planned | independent |  |
+| #91967 | needs_human | planned | needs_human | Maintainer must decide whether the intentional private-notch dependency and App Store risk are acceptable. |
+| #88581 | keep_independent | planned | independent |  |
+| #92477 | keep_independent | planned | independent |  |
+| #91828 | keep_independent | planned | independent |  |
+| #90089 | keep_independent | planned | independent |  |
+| #91807 | keep_independent | planned | independent |  |
+| #92178 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91499 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92484 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92594 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #88180 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #88885 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91481 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91600 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91870 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92491 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92495 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92521 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92574 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91408 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #91955 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
+| #92610 | needs_human | planned | needs_human | Live state unavailable from preflight artifact. |
 
 ## Needs Human
 
-- Hydrated artifact is compacted/truncated and contains live item data for only 20 of 40 listed candidates. The missing candidates require a fresh preflight artifact before target_kind, target_updated_at, and conservative classification can be completed.
+- #92178 live state unavailable due GitHub API rate limit.
+- #91499 live state unavailable due GitHub API rate limit.
+- #92484 live state unavailable due GitHub API rate limit.
+- #92594 live state unavailable due GitHub API rate limit.
+- #88180 live state unavailable due GitHub API rate limit.
+- #88885 live state unavailable due GitHub API rate limit.
+- #91481 live state unavailable due GitHub API rate limit.
+- #91600 live state unavailable due GitHub API rate limit.
+- #91870 live state unavailable due GitHub API rate limit.
+- #92491 live state unavailable due GitHub API rate limit.
+- #92495 live state unavailable due GitHub API rate limit.
+- #92521 live state unavailable due GitHub API rate limit.
+- #92574 live state unavailable due GitHub API rate limit.
+- #91408 live state unavailable due GitHub API rate limit.
+- #91955 live state unavailable due GitHub API rate limit.
+- #92610 live state unavailable due GitHub API rate limit.
+- #91967 requires maintainer judgment on intentional private-notch/App Store dependency risk.

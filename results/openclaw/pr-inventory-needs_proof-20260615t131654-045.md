@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T131654-045"
 mode: "plan"
-run_id: "27549046037"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27549046037"
-head_sha: "e8e65d821b5c55a11a8a30d2023428743182215a"
+run_id: "27550393302"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27550393302"
+head_sha: "9a903e900d3280431ae7c80464316b3e5c248188"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T13:28:19.721Z"
+result_status: "planned"
+published_at: "2026-06-15T13:49:10.322Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 20
+needs_human_count: 1
 ---
 
 # pr-inventory-needs_proof-20260615T131654-045
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27549046037](https://github.com/openclaw/clownfish/actions/runs/27549046037)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27550393302](https://github.com/openclaw/clownfish/actions/runs/27550393302)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-Plan-only PR inventory shard. The preflight artifact hydrates 20 open PRs; all hydrated items are independent PRs with no shared canonical and no safe close/merge/fix action available under this job. The remaining 20 listed candidates are not present in the compacted preflight artifact, so they need refreshed hydration before classification with live target_updated_at.
+Plan-only PR inventory classification. No GitHub mutations are planned. Security-sensitive hydrated PRs are routed to central security handling; hydrated non-security PRs are kept as independent backlog items because this shard has no shared canonical and each remains blocked by proof, checks, mergeability, review findings, or maintainer validation. Unavailable candidate refs need fresh hydration before classification.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-only PR inventory shard. The preflight artifact hydrates 20 open PRs; all h
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 20 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,66 +66,47 @@ Plan-only PR inventory shard. The preflight artifact hydrates 20 open PRs; all h
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87102 | keep_independent | planned | independent | Independent open PR needing normal proof/review, not closure. |
-| #93210 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #87521 | keep_independent | planned | independent | Independent open PR needing proof and technical review. |
-| #87526 | keep_independent | planned | independent | Independent provider PR needing proof and normal review. |
-| #87527 | keep_independent | planned | independent | Independent open PR needing proof and review. |
-| #87528 | keep_independent | planned | independent | Independent open PR needing proof and review. |
-| #87545 | keep_independent | planned | independent | Independent test-only PR needing proof/review. |
-| #87552 | keep_independent | planned | independent | Independent draft PR needing author/maintainer follow-up. |
-| #87592 | keep_independent | planned | independent | Independent feature PR needing product/proof review. |
-| #87759 | keep_independent | planned | independent | Independent PR with proof but currently unmergeable in this plan-only shard. |
-| #87784 | keep_independent | planned | independent | Independent PR needing normal merge preflight outside this shard. |
-| #87793 | keep_independent | planned | independent | Independent PR needing proof/check resolution. |
-| #87937 | keep_independent | planned | independent | Independent PR needing real behavior proof. |
-| #90740 | keep_independent | planned | independent | Independent PR needing proof and review. |
-| #90932 | keep_independent | planned | independent | Independent PR that may be a future merge candidate after normal gates. |
-| #92153 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #92676 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #91132 | keep_independent | planned | independent | Independent PR that may be a future merge candidate after normal gates. |
-| #91156 | keep_independent | planned | independent | Independent PR needing proof and review. |
-| #91157 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #91177 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #91206 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93213 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93177 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93224 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #87667 | keep_independent | planned | independent | Independent PR that may be a future merge candidate after normal gates. |
-| #93168 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #92680 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93186 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #50359 | keep_independent | planned | independent | Independent PR needing proof and review. |
-| #93187 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93212 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93230 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93232 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #92577 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #89088 | keep_independent | planned | independent | Independent test PR needing proof/review. |
-| #93218 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93235 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #93240 | needs_human | blocked | needs_human | Needs refreshed preflight hydration before classification. |
-| #49511 | keep_independent | planned | independent | Independent broad feature PR needing proof/check resolution. |
+| #87102 | keep_independent | planned | independent |  |
+| #93210 | route_security | planned | security_sensitive | Security-sensitive data/capability surface belongs in central OpenClaw security handling, not backlog cleanup. |
+| #87521 | route_security | planned | security_sensitive | Proxy/header handling with security-shaped request smuggling and credential header concerns should be routed to central security handling. |
+| #87526 | route_security | planned | security_sensitive | SSRF/network boundary change belongs in central security handling. |
+| #87527 | keep_independent | planned | independent |  |
+| #87528 | keep_independent | planned | independent |  |
+| #87545 | keep_independent | planned | independent |  |
+| #87552 | keep_independent | planned | independent |  |
+| #87592 | keep_independent | planned | independent |  |
+| #87759 | keep_independent | planned | independent |  |
+| #87784 | keep_independent | planned | independent |  |
+| #87793 | keep_independent | planned | independent |  |
+| #87937 | keep_independent | planned | independent |  |
+| #90740 | keep_independent | planned | independent |  |
+| #90932 | keep_independent | planned | independent |  |
+| #92153 | keep_independent | planned | independent |  |
+| #92676 | keep_independent | planned | independent |  |
+| #91132 | keep_independent | planned | independent |  |
+| #91156 | keep_independent | planned | independent |  |
+| #91157 | keep_independent | planned | independent |  |
+| #91177 | keep_independent | planned | independent |  |
+| #91206 | keep_independent | planned | independent |  |
+| #93213 | keep_independent | planned | independent |  |
+| #93177 | keep_independent | planned | independent |  |
+| #93224 | route_security | planned | security_sensitive | Default sandbox/tool allowlist change is a security-boundary-shaped item and should route to central OpenClaw security handling. |
+| #87667 | needs_human | blocked | needs_human | Fresh hydration is required before a reliable PR inventory classification. |
+| #93168 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #92680 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93186 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #50359 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93187 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93212 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93230 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93232 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #92577 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #89088 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93218 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93235 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #93240 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
+| #49511 | needs_human | blocked | needs_human | Fresh hydration is required before classification. |
 
 ## Needs Human
 
-- #93210 requires refreshed preflight hydration before classification.
-- #92153 requires refreshed preflight hydration before classification.
-- #92676 requires refreshed preflight hydration before classification.
-- #91157 requires refreshed preflight hydration before classification.
-- #91177 requires refreshed preflight hydration before classification.
-- #91206 requires refreshed preflight hydration before classification.
-- #93213 requires refreshed preflight hydration before classification.
-- #93177 requires refreshed preflight hydration before classification.
-- #93224 requires refreshed preflight hydration before classification.
-- #93168 requires refreshed preflight hydration before classification.
-- #92680 requires refreshed preflight hydration before classification.
-- #93186 requires refreshed preflight hydration before classification.
-- #93187 requires refreshed preflight hydration before classification.
-- #93212 requires refreshed preflight hydration before classification.
-- #93230 requires refreshed preflight hydration before classification.
-- #93232 requires refreshed preflight hydration before classification.
-- #92577 requires refreshed preflight hydration before classification.
-- #93218 requires refreshed preflight hydration before classification.
-- #93235 requires refreshed preflight hydration before classification.
-- #93240 requires refreshed preflight hydration before classification.
+- Fresh hydration is required for candidate refs that the preflight artifact could not hydrate due GitHub API rate limit: #87667, #93168, #92680, #93186, #50359, #93187, #93212, #93230, #93232, #92577, #89088, #93218, #93235, #93240, #49511.
