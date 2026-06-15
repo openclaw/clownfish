@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-81-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523398959",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523398959",
+  "head_sha": "8890f6a4ba8c46d61041dd30fcb0cf5909a0466a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:09:11Z",
+  "workflow_updated_at": "2026-06-15T04:10:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-81-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:12:40.881Z",
+  "canonical": "#83958",
+  "canonical_issue": "#83958",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. Security-sensitive refs #74848, #75228, and #89702 are quarantined for central security handling. The remaining open items split into two non-security subclusters: #83958/#83980 for macOS app node flapping and pairing read races, and #92768 for macOS platform-version refresh behavior already paired with quarantined PR #89702.",
+  "actions": [
+    {
+      "target": "#74848",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive TLS trust-policy issue is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#75228",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes TLS trust/pin repair behavior and is explicitly marked security-sensitive, so it must be quarantined instead of merged, closed, or used for fixed-by closeout."
+    },
+    {
+      "target": "#83958",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83958",
+      "candidate_fix": "#83980",
+      "reason": "#83958 is the clearest non-security canonical issue for the macOS app node flapping/read-race subcluster; it should stay open while #83980 remains unresolved."
+    },
+    {
+      "target": "#83980",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83958",
+      "candidate_fix": "#83980",
+      "reason": "The PR is related to the #83958 canonical issue, but failing checks, broad unrelated churn, and stale-branch/update requirements block merge or fixed-by-candidate closeout in this plan."
+    },
+    {
+      "target": "#89702",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires #89702 to be routed to central security handling and not used as a Clownfish merge or closure target."
+    },
+    {
+      "target": "#92768",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92768",
+      "candidate_fix": "#89702",
+      "reason": "#92768 should remain open as the canonical non-security issue for the macOS platform-version refresh subcluster while its paired PR #89702 is quarantined."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_canonical": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
