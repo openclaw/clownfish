@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-097",
+  "mode": "plan",
+  "run_id": "27527923540",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527923540",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:41Z",
+  "workflow_updated_at": "2026-06-15T06:23:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-097.md",
+  "published_at": "2026-06-15T06:25:44.300Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are proposed. Security-sensitive PRs are scoped to route_security; already-closed PR #75212 is kept closed; remaining open non-security PRs are kept as independent or related work because this shard has no shared canonical and close/merge/fix paths are not enabled.",
+  "actions": [
+    {
+      "target": "#75212",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#22439",
+      "candidate_fix": null,
+      "reason": "Already closed; keep historical superseded classification only."
+    },
+    {
+      "target": "#77549",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad standalone PR with proof still failing; classify independently without mutation."
+    },
+    {
+      "target": "#78105",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow PR related to the allowlist warning family; do not route the PR solely because the linked issue is quarantined."
+    },
+    {
+      "target": "#77748",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth/provider boundary work is out of scope for backlog cleanup automation."
+    },
+    {
+      "target": "#77256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plugin conversation-access and model-call boundary changes should go through central security handling."
+    },
+    {
+      "target": "#77928",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone Telegram reliability feature/fix branch; no safe close or merge recommendation in this plan shard."
+    },
+    {
+      "target": "#77229",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth and operator-scope boundary changes must be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#78036",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related competing/overlapping fix for #77871; keep open for maintainer comparison instead of closing or choosing a canonical in this inventory shard."
+    },
+    {
+      "target": "#77318",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open related replacement branch for the loop-detection family; keep without mutation."
+    },
+    {
+      "target": "#77877",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway document-serving and HTTP attachment boundary work is routed to central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 2,
+    "keep_related": 3,
+    "route_security": 4
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

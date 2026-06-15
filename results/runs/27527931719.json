@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-102",
+  "mode": "plan",
+  "run_id": "27527931719",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527931719",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:53Z",
+  "workflow_updated_at": "2026-06-15T06:23:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-102.md",
+  "published_at": "2026-06-15T06:25:44.312Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 job candidates. No shared canonical was selected; closed candidates stay closed, security-sensitive candidates are routed to central security handling, and ordinary open PRs are kept for maintainer review or related issue tracking without mutation.",
+  "actions": [
+    {
+      "target": "#88491",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open focused test-only maintainer PR; no duplicate/superseded closeout is supported in this inventory shard."
+    },
+    {
+      "target": "#80251",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the session-reset family, but not safely closable or mergeable in this plan-only job because it remains open with distinct claimed scope and failing historical check evidence."
+    },
+    {
+      "target": "#64597",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; closure actions are invalid for closed refs."
+    },
+    {
+      "target": "#83094",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive boundary-adjacent PR is out of scope for Clownfish backlog cleanup and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#82684",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Session restore feature touches a security-boundary-labeled area and is explicitly security-routed by hydrated preflight."
+    },
+    {
+      "target": "#88639",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer docs PR; keep for normal maintainer review rather than dedupe closeout."
+    },
+    {
+      "target": "#86279",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86034",
+      "reason": "Useful related fix candidate for #86034, but merge/fix actions are blocked in this plan job and issue closeout is not supported because the linked issue still has remaining scope."
+    },
+    {
+      "target": "#87825",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Feed installation and approval metadata PR is explicitly security-routed by hydrated preflight and must be handled outside Clownfish cleanup."
+    },
+    {
+      "target": "#85044",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed by maintainer rationale; no close action is valid."
+    },
+    {
+      "target": "#76175",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50093",
+      "candidate_fix": "#50093",
+      "reason": "Related implementation candidate for the open #50093 WhatsApp backfill tracker, but failing checks and active contributor-credit context block closure or merge recommendations."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 3,
+    "keep_closed": 2,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

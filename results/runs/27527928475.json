@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-100",
+  "mode": "plan",
+  "run_id": "27527928475",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527928475",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:48Z",
+  "workflow_updated_at": "2026-06-15T06:23:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-100.md",
+  "published_at": "2026-06-15T06:25:44.304Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed open PR candidates using the provided cluster preflight artifact as live state. No GitHub mutations, merges, fix PRs, or closeouts are planned; one linked security-sensitive PR is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#77312",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#54882",
+      "reason": "Useful linked fix candidate, but proof gate blocks stronger action."
+    },
+    {
+      "target": "#77540",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad performance/session-state change needs maintainer review rather than automated inventory cleanup."
+    },
+    {
+      "target": "#77912",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#9",
+      "reason": "Related to the Bug #9 family but distinct enough to keep open; no closure or merge path is allowed here."
+    },
+    {
+      "target": "#77361",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77343",
+      "reason": "Automerge/human-review signals plus dirty merge state require maintainer judgment."
+    },
+    {
+      "target": "#77996",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77819",
+      "reason": "Large P1 session-state/availability change with failed proof needs maintainer technical review."
+    },
+    {
+      "target": "#77961",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#45469",
+      "reason": "Plausible narrow fix candidate, but proof/product-decision signals block merge or issue closeout."
+    },
+    {
+      "target": "#78094",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#76888",
+      "reason": "Focused session-state fix related to an open hydrated issue; keep open for normal review because merge is blocked by job mode/actions."
+    },
+    {
+      "target": "#78113",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a product/compatibility intent conflict with a prior landed fix, not a safe automated close or keep-related decision."
+    },
+    {
+      "target": "#77638",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#60816",
+      "reason": "Useful linked fix candidate that should stay open for author/maintainer follow-up."
+    },
+    {
+      "target": "#77690",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#77440",
+      "reason": "Draft linked fix candidate; keep open, but no close/merge action is safe."
+    },
+    {
+      "target": "#77877",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this linked security-sensitive PR to central OpenClaw security handling; continue non-security classifications separately."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 6,
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77540 requires maintainer technical review for broad gateway caching/session-state performance behavior.",
+    "#77361 requires maintainer review because automerge/human-review signals conflict with dirty merge state and failed real behavior proof.",
+    "#77996 requires maintainer technical review due large P1 session-state/availability diff and failed real behavior proof.",
+    "#78113 requires maintainer product/compatibility judgment because it appears to conflict with previously landed #59858/#59789 workspace behavior."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-098",
+  "mode": "plan",
+  "run_id": "27527925081",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527925081",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:44Z",
+  "workflow_updated_at": "2026-06-15T06:23:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-098.md",
+  "published_at": "2026-06-15T06:25:44.303Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was chosen because the job explicitly says this is not a dedupe cluster. Closed candidate PRs are kept closed, open non-security PRs are kept independent for normal maintainer review, and the linked security-sensitive PR is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#77875",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open focused PR remains an independent review candidate; merge and fix actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#77884",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed candidate; closure actions are invalid for closed refs."
+    },
+    {
+      "target": "#76055",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on main; no further action is valid in plan mode."
+    },
+    {
+      "target": "#77466",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; do not emit another close action."
+    },
+    {
+      "target": "#78154",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR with failing proof/checks remains independent; unavailable updated_at and failing checks block any mutating close or merge-style recommendation."
+    },
+    {
+      "target": "#74223",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open compatibility PR needs maintainer/proof follow-up outside this inventory shard; no close or merge action is safe."
+    },
+    {
+      "target": "#77828",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad open feature/fix PR is not a duplicate in this shard and needs normal maintainer review; merge is disallowed by job frontmatter."
+    },
+    {
+      "target": "#77393",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open broad multi-fix PR lacks proof and is not safely closable as duplicate or low-signal under this job."
+    },
+    {
+      "target": "#77761",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as obsolete/fixed on main; no closure action is valid."
+    },
+    {
+      "target": "#77415",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR remains an independent maintainer-review candidate; this shard cannot merge or repair it."
+    },
+    {
+      "target": "#77877",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is out of scope for ProjectClownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "keep_closed": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

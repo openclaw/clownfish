@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-104",
+  "mode": "plan",
+  "run_id": "27527935014",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527935014",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:57Z",
+  "workflow_updated_at": "2026-06-15T06:23:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-104.md",
+  "published_at": "2026-06-15T06:25:44.313Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 provided PR refs. No GitHub mutations are planned. Security-sensitive refs are quarantined individually; already-closed PR #78343 is skipped; the remaining non-security open PRs are kept independently for normal maintainer review or proof/check follow-up.",
+  "actions": [
+    {
+      "target": "#78343",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#84788",
+      "reason": "Already closed before this run; no mutation is allowed or needed."
+    },
+    {
+      "target": "#78817",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security feature PR with its own scope; keep it for normal maintainer review rather than closing or merging in this inventory shard."
+    },
+    {
+      "target": "#78026",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR with active proof/check blockers; no close or merge action is safe in this inventory plan."
+    },
+    {
+      "target": "#78022",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security provider bugfix with proof still required; keep independently for maintainer/proof follow-up."
+    },
+    {
+      "target": "#78226",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exec approval boundary work is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#78342",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Admin-scope and auth-provider boundary changes should be handled by central security/maintainer review, not inventory cleanup."
+    },
+    {
+      "target": "#78606",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open non-security PR appears reviewable but needs maintainer review; keep independently."
+    },
+    {
+      "target": "#78452",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad non-security feature PR with unresolved validation/review risk; keep independently for maintainer review rather than closing or merging."
+    },
+    {
+      "target": "#78635",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#77265",
+      "reason": "Open candidate fix for hydrated issue #77265, but check/proof state blocks fixed-by closeout or merge in this plan."
+    },
+    {
+      "target": "#78009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Automation/security-boundary documentation changes are security-sensitive for this cluster and should route to central handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 6,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

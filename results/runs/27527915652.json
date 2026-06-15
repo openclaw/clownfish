@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-092",
+  "mode": "plan",
+  "run_id": "27527915652",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527915652",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:30Z",
+  "workflow_updated_at": "2026-06-15T06:23:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-092.md",
+  "published_at": "2026-06-15T06:25:44.292Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed candidates. Security-sensitive PRs are quarantined with route_security. Already-closed candidate #75472 is kept closed. Remaining open non-security PRs are kept as independent or related open work because this shard is not a dedupe cluster and merge/fix/close paths are either blocked by job permissions, failed proof/checks, or missing merge preflight.",
+  "actions": [
+    {
+      "target": "#76370",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped exec policy changes are out of ProjectClownfish backlog cleanup scope."
+    },
+    {
+      "target": "#76332",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related open work; it has a plausible focused patch but still needs proof/check repair before any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#75472",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no closure action is valid."
+    },
+    {
+      "target": "#76634",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique channel behavior fix candidate; keep open rather than close or merge from this inventory shard."
+    },
+    {
+      "target": "#75890",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped Signal self-chat ingress changes are routed to central OpenClaw security handling even though the PR is already closed."
+    },
+    {
+      "target": "#77067",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct QQBot availability fix candidate; no clear duplicate or superseding canonical is hydrated."
+    },
+    {
+      "target": "#76407",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Diagnostic payload/log retention changes are security-sensitive enough for central handling and are out of this cleanup shard."
+    },
+    {
+      "target": "#76445",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related open cron fix work; not enough authority or proof to close or merge in this shard."
+    },
+    {
+      "target": "#77053",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as independent candidate for maintainer review; no close or merge path is available in plan mode."
+    },
+    {
+      "target": "#76646",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#76646",
+      "reason": "Keep as related open fix candidate for #76638; fixed-by-candidate closeout is blocked by failing checks and disabled post-merge closure."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 3,
+    "keep_closed": 1,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

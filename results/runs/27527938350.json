@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-106",
+  "mode": "plan",
+  "run_id": "27527938350",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527938350",
+  "head_sha": "77e891bc4c0d7d05aab57e6ef588cc9b6faba1aa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:21:02Z",
+  "workflow_updated_at": "2026-06-15T06:23:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-106.md",
+  "published_at": "2026-06-15T06:25:44.315Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed candidates. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Closed non-security PR #78230 is kept closed, security-sensitive refs are routed to central security handling, and the remaining open non-security PRs are kept independent for normal maintainer review because close, merge, fix, and raise_pr are not available in this job.",
+  "actions": [
+    {
+      "target": "#78230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; keep closed rather than planning another close."
+    },
+    {
+      "target": "#78507",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open draft PR tied to its own product/diagnostic issue; not a duplicate or closeout target in this shard."
+    },
+    {
+      "target": "#78199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR needing its own review/author path; not safely closable or mergeable from this inventory shard."
+    },
+    {
+      "target": "#78827",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft PR with failed proof gate; keep for its own proof/review path."
+    },
+    {
+      "target": "#78410",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR; preserve for normal maintainer validation rather than closing or merging from inventory classification."
+    },
+    {
+      "target": "#78928",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive gateway config mutation scope is out of ProjectClownfish backlog-cleanup mutation."
+    },
+    {
+      "target": "#78901",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ref is routed to central handling; already-closed state prevents any closure mutation."
+    },
+    {
+      "target": "#78839",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft PR requiring maintainer review and check cleanup; not a duplicate or closeout target."
+    },
+    {
+      "target": "#77763",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive voice-call routing/authentication scope is out of ProjectClownfish mutation; route only this item."
+    },
+    {
+      "target": "#78747",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR ready for maintainer look, not a duplicate or closeout target in this plan-only shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 6,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

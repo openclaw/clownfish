@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-093",
+  "mode": "plan",
+  "run_id": "27527917171",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527917171",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:32Z",
+  "workflow_updated_at": "2026-06-15T06:23:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-093.md",
+  "published_at": "2026-06-15T06:25:44.295Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected. Two open security-sensitive PRs are routed to central security handling, two already-closed PRs are recorded as skipped keep-closed, one open cron PR is superseded by hydrated PR #90194, and the remaining open PRs are kept non-mutating for ordinary maintainer review or follow-up.",
+  "actions": [
+    {
+      "target": "#76744",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique docs cleanup PR in an inventory shard; not a duplicate or low-signal closeout target."
+    },
+    {
+      "target": "#75369",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-boundary PR must be quarantined to central OpenClaw security handling, with no ProjectClownfish close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#76058",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75938",
+      "candidate_fix": null,
+      "reason": "Related to hydrated issue #75938, but not closable in this inventory shard because it is an active feature PR with unique implementation work and failing proof."
+    },
+    {
+      "target": "#76296",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Workflow/automation changes with a security-boundary label and failing security/proof gates belong in central security handling, not ProjectClownfish cleanup."
+    },
+    {
+      "target": "#75510",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#76717",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique active feature PR with author follow-up and failing proof; no duplicate/superseded closeout basis in this inventory shard."
+    },
+    {
+      "target": "#76545",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#90194",
+      "candidate_fix": "#90194",
+      "reason": "Open contributor PR is superseded by hydrated canonical PR #90194; planned close preserves contributor credit and names the replacement path."
+    },
+    {
+      "target": "#76409",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#75592",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed security-sensitive PR; record as skipped keep-closed rather than routing a new mutation."
+    },
+    {
+      "target": "#75201",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique narrow bugfix PR; merge is blocked by job frontmatter and missing merge preflight, but classification does not require human escalation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 2,
+    "keep_related": 1,
+    "keep_closed": 3,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
