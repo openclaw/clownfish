@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-208",
+  "mode": "plan",
+  "run_id": "27528261778",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528261778",
+  "head_sha": "2f9c609a1bb3ef95445cd8c2a4680b3dd5cbb719",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:28:50Z",
+  "workflow_updated_at": "2026-06-15T06:31:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-208.md",
+  "published_at": "2026-06-15T06:33:50.285Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. Security-sensitive PRs are quarantined to central OpenClaw security handling. Closed candidates are kept closed with no close action. Open non-security PRs are kept independent because this shard has no shared canonical and merge/fix/raise_pr actions are blocked.",
+  "actions": [
+    {
+      "target": "#66783",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary change belongs in central OpenClaw security handling, not backlog cleanup."
+    },
+    {
+      "target": "#71329",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; closure actions are invalid for closed targets."
+    },
+    {
+      "target": "#68597",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Path traversal style memory_get boundary report is security-sensitive and must be routed out of ProjectClownfish cleanup."
+    },
+    {
+      "target": "#69618",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated artifact flags this broad message/gateway PR as security-sensitive; quarantine only this item."
+    },
+    {
+      "target": "#68506",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth/provider recovery guidance with security-boundary label should be routed to central handling."
+    },
+    {
+      "target": "#69428",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open PR, but not closable or mergeable in this plan-only inventory shard."
+    },
+    {
+      "target": "#70471",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature/bugfix PR should remain under normal review, outside this cleanup cluster."
+    },
+    {
+      "target": "#70205",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93022",
+      "reason": "Already closed after validated replacement path; no further action."
+    },
+    {
+      "target": "#71063",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#75602",
+      "reason": "Already closed; related fix context is historical evidence only."
+    },
+    {
+      "target": "#69491",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open provider PR is not closable in this shard and is not merge-ready."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_closed": 3,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

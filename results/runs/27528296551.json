@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-231",
+  "mode": "plan",
+  "run_id": "27528296551",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528296551",
+  "head_sha": "2f9c609a1bb3ef95445cd8c2a4680b3dd5cbb719",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:29:43Z",
+  "workflow_updated_at": "2026-06-15T06:31:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-231.md",
+  "published_at": "2026-06-15T06:33:50.335Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No GitHub mutations are executed. The shard has no shared canonical; open PRs are classified independently, #90960 is quarantined to security handling, and already-closed #91331 is kept closed.",
+  "actions": [
+    {
+      "target": "#91655",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears superseded by a landed main fix, but the superseding PR is unhydrated in this run, so keep it related rather than planning closure."
+    },
+    {
+      "target": "#91646",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small cleanup PR awaiting maintainer review; no close or merge action is available in this plan shard."
+    },
+    {
+      "target": "#90960",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this PR to central OpenClaw security handling and continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#91663",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent candidate fix for the backup tmp-file issue; keep for maintainer review."
+    },
+    {
+      "target": "#90500",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad provider/session-state fix awaiting maintainer review; no duplicate or superseded close path is established."
+    },
+    {
+      "target": "#91660",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the memory identity family but not proven duplicate of the closed #90816 fix; keep for maintainer review."
+    },
+    {
+      "target": "#89419",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent config fix candidate with no competing hydrated canonical; keep open rather than close."
+    },
+    {
+      "target": "#72677",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent candidate for #63106; not a duplicate of #63112 because #63112 targets shell-command-looking systemEvent payload warnings for #63107."
+    },
+    {
+      "target": "#63112",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent cron CLI warning candidate, related to but distinct from #72677’s ghost-run warning scope."
+    },
+    {
+      "target": "#91331",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91331",
+      "reason": "Already merged before this plan run; no mutation is applicable."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_independent": 6,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-needs_proof-20260615T060018-205",
+  "mode": "plan",
+  "run_id": "27528257270",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528257270",
+  "head_sha": "2f9c609a1bb3ef95445cd8c2a4680b3dd5cbb719",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:28:43Z",
+  "workflow_updated_at": "2026-06-15T06:31:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260615T060018-205.md",
+  "published_at": "2026-06-15T06:33:50.276Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed PRs. No GitHub mutations are planned. Two open PRs are security-sensitive and routed to central security handling; four listed PRs are already closed; three open PRs remain independent backlog items needing proof or maintainer review; one open PR is related to its linked config-migration issue.",
+  "actions": [
+    {
+      "target": "#69904",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#68565",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#91882",
+      "reason": "Already closed; no closure action is valid for a closed PR."
+    },
+    {
+      "target": "#68197",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR, not a duplicate or superseded item in this inventory shard; keep open for proof/maintainer workflow."
+    },
+    {
+      "target": "#69245",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open provider-feature PR with insufficient proof for merge or closure."
+    },
+    {
+      "target": "#66041",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close or merge action is valid."
+    },
+    {
+      "target": "#68685",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68664",
+      "candidate_fix": "#68685",
+      "reason": "Related to an open hydrated issue, but plan mode and failing proof block merge/fixed-by closeout."
+    },
+    {
+      "target": "#70051",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#67655",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#80978",
+      "reason": "Already closed and superseded by a hydrated closed fix path; no mutation is valid."
+    },
+    {
+      "target": "#66327",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep as historical evidence only."
+    },
+    {
+      "target": "#68464",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and unresolved technical correctness/review-bot findings require maintainer judgment; merge and fix actions are blocked in this job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#68464 requires maintainer judgment on the remaining repair set, unresolved review-bot findings, and failing proof/checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

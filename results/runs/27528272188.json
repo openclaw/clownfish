@@ -1,0 +1,144 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-215",
+  "mode": "plan",
+  "run_id": "27528272188",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528272188",
+  "head_sha": "2f9c609a1bb3ef95445cd8c2a4680b3dd5cbb719",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:29:06Z",
+  "workflow_updated_at": "2026-06-15T06:31:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-215.md",
+  "published_at": "2026-06-15T06:33:50.302Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Open non-security PRs should stay on their individual maintainer/review paths; closed PR #90441 should remain closed; security-sensitive Slack ingress PR #91244 is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#88971",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate standalone PR with unresolved merge/proof work; no duplicate or low-signal close path in this inventory shard."
+    },
+    {
+      "target": "#82303",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR with maintainer review/proof context; not a duplicate or closure candidate."
+    },
+    {
+      "target": "#90924",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90692",
+      "reason": "Narrow open PR with a linked security-sensitive report, but the artifact does not mark the PR itself security-sensitive. Keep it independent rather than close or merge in plan mode."
+    },
+    {
+      "target": "#91234",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#91224",
+      "reason": "Standalone open fix PR for a hydrated issue; no evidence supports duplicate, superseded, or low-signal closure."
+    },
+    {
+      "target": "#91221",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#79375",
+      "reason": "Standalone open fix PR with an active linked issue and nontrivial compatibility surface."
+    },
+    {
+      "target": "#90441",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; preserve historical classification only."
+    },
+    {
+      "target": "#91244",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary Slack ingress work is out of scope for ProjectClownfish mutation and should be handled by central security review."
+    },
+    {
+      "target": "#91257",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone performance PR; keep on normal maintainer-review path."
+    },
+    {
+      "target": "#91262",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone build compatibility PR with recent activity; not a closure candidate."
+    },
+    {
+      "target": "#91271",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#38570",
+      "reason": "Related to an active issue and plausible fix path, but proof failure prevents stronger recommendation."
+    },
+    {
+      "target": "#90692",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact linked security-sensitive issue should be routed to central security handling without blocking unrelated non-security classifications."
+    },
+    {
+      "target": "#91242",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact linked Slack ingress security-boundary issue should be handled by central security review."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 7,
+    "keep_closed": 1,
+    "route_security": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

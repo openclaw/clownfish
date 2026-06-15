@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-210",
+  "mode": "plan",
+  "run_id": "27528264590",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528264590",
+  "head_sha": "2f9c609a1bb3ef95445cd8c2a4680b3dd5cbb719",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:28:54Z",
+  "workflow_updated_at": "2026-06-15T06:31:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-210.md",
+  "published_at": "2026-06-15T06:33:50.290Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was invented. Security-sensitive PRs #70518 and #74761 are routed to central security handling; already-closed PRs #71545 and #70851 are kept closed; the remaining open PRs are kept independent because this shard does not authorize merge/fix work and each has proof, review, dirty-branch, or maintainer-readiness blockers.",
+  "actions": [
+    {
+      "target": "#70518",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#71545",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated state."
+    },
+    {
+      "target": "#68176",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active PR with proof blocker; no closure or merge recommendation is safe in this inventory shard."
+    },
+    {
+      "target": "#71113",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open CI/tooling PR needs maintainer/proof follow-up, not inventory closeout."
+    },
+    {
+      "target": "#70851",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#81858",
+      "reason": "Already closed as superseded; no further close action is valid."
+    },
+    {
+      "target": "#74761",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#68996",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open provider PR has unresolved review/proof blockers and no authorized fix or merge path in this job."
+    },
+    {
+      "target": "#69355",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad active feature PR needs author or maintainer follow-up, not inventory closeout."
+    },
+    {
+      "target": "#68967",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active non-security feature PR remains open for maintainer/author repair; no cluster closure is safe."
+    },
+    {
+      "target": "#69729",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open provider PR has pending proof and dirty-branch/change blockers; keep it for normal maintainer review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2,
+    "keep_independent": 6
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
