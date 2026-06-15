@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T193446-003",
+  "mode": "plan",
+  "run_id": "27571342482-1-2",
+  "workflow_run_id": "27571342482",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27571342482",
+  "head_sha": "8c2d0680950fa975a3af35078b42bda3084cca1c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T19:35:23Z",
+  "workflow_updated_at": "2026-06-15T19:38:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T193446-003.md",
+  "published_at": "2026-06-15T19:39:33.454Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. The supplied preflight artifact hydrated all ten listed refs as open pull requests with updated_at values. This shard has no shared canonical, merge/fix/raise_pr actions are blocked, checks could not be hydrated because the GitHub installation hit a GraphQL rate limit, and #88835 is routed to central security handling because it touches approval policy write behavior. The remaining PRs are kept as independent open candidates for normal maintainer review rather than deduped, closed, merged, or routed.",
+  "actions": [
+    {
+      "target": "#88835",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Approval policy write behavior is a security-boundary-adjacent change; ProjectClownfish must route this item to central OpenClaw security handling instead of backlog classification."
+    },
+    {
+      "target": "#88925",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent active fix PR with merge conflict/dirty state; keep open for maintainer review rather than close or merge."
+    },
+    {
+      "target": "#88841",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Discord fix PR suitable for normal maintainer review; no duplicate/superseded evidence in this shard."
+    },
+    {
+      "target": "#88796",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Discord behavior fix with its own linked issue; no closure or merge action is allowed or sufficiently preflighted."
+    },
+    {
+      "target": "#88898",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small reply fix; keep open because merge/review preflight is incomplete and closure is not supported by inventory evidence."
+    },
+    {
+      "target": "#88581",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR with proof and maintainer-look labels; no evidence supports low-signal closeout, duplicate closeout, or merge in this plan."
+    },
+    {
+      "target": "#47589",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent stale proof-needed PR; low-signal close is disabled, so keep open for normal backlog handling."
+    },
+    {
+      "target": "#51926",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent stale proof-needed PR; no canonical relationship and no allowed low-signal close path."
+    },
+    {
+      "target": "#88180",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small agents prompt fix; keep open for maintainer review with no dedupe or merge action planned."
+    },
+    {
+      "target": "#88633",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-owned draft CI fix; no closure, merge, or fix action is available in this plan-mode inventory shard."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 9
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

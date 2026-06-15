@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T193446-010",
+  "mode": "plan",
+  "run_id": "27571342482-1-9",
+  "workflow_run_id": "27571342482",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27571342482",
+  "head_sha": "8c2d0680950fa975a3af35078b42bda3084cca1c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T19:35:23Z",
+  "workflow_updated_at": "2026-06-15T19:38:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T193446-010.md",
+  "published_at": "2026-06-15T19:39:33.462Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. The job explicitly says this is not a dedupe cluster and no shared canonical should be invented, so each open PR is classified independently except #56785, which is quarantined with route_security because deterministic validation identified it as security-sensitive. No close, merge, fix, label, or comment mutation is planned because low-signal closeout, merge, and fix PRs are disabled, checks are unavailable from rate-limit errors, and several PRs are dirty or draft.",
+  "actions": [
+    {
+      "target": "#56785",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this target to central OpenClaw security handling; no ProjectClownfish close, merge, label, comment, or fix action is planned for it."
+    },
+    {
+      "target": "#58732",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone utility API enhancement; no canonical or duplicate relationship is established."
+    },
+    {
+      "target": "#78124",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct gateway/session-state fix path; keep for ordinary maintainer triage rather than dedupe closeout."
+    },
+    {
+      "target": "#78129",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct message-delivery bugfix PR; no duplicate, superseded, or low-signal closeout evidence in the hydrated artifact."
+    },
+    {
+      "target": "#78453",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct agents/session-state fix PR; keep independently for technical review."
+    },
+    {
+      "target": "#78459",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible focused fix, but this plan shard cannot merge or raise a fix; keep independently for maintainer review."
+    },
+    {
+      "target": "#78486",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct feature/config PR with session-state and auth-provider risk labels; keep independently rather than dedupe or close."
+    },
+    {
+      "target": "#78507",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft standalone CLI/docs feature PR; keep independently for author/maintainer follow-up."
+    },
+    {
+      "target": "#78554",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical review is the specific unresolved decision for this proof-sufficient Google Chat auth-provider PR."
+    },
+    {
+      "target": "#93059",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft standalone Telegram message-delivery fix PR; keep independently for ordinary proof/review follow-up."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 8,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78554 requires maintainer technical review because it is proof-sufficient and marked ready for maintainer look, but the hydrated artifact still shows dirty merge state and unavailable checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

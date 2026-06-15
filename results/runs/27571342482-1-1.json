@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T193446-002",
+  "mode": "plan",
+  "run_id": "27571342482-1-1",
+  "workflow_run_id": "27571342482",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27571342482",
+  "head_sha": "8c2d0680950fa975a3af35078b42bda3084cca1c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T19:35:23Z",
+  "workflow_updated_at": "2026-06-15T19:38:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T193446-002.md",
+  "published_at": "2026-06-15T19:39:33.452Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification completed from the provided cluster preflight artifact. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. No close, merge, fix, label, or comment mutations are planned: low-signal and instant close are disabled, merge/fix/raise_pr are blocked, checks could not be hydrated due GraphQL rate limit errors, #88507 is quarantined to central security handling, and the remaining PRs retain distinct open work.",
+  "actions": [
+    {
+      "target": "#88280",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct focused bug-fix PR; no hydrated evidence supports duplicate, superseded, low-signal, merge, or close action."
+    },
+    {
+      "target": "#88504",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large standalone feature PR requiring normal maintainer review; no close or merge path is safe from the artifact."
+    },
+    {
+      "target": "#88506",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft feature PR with unique scope and proof gaps; keep open independently."
+    },
+    {
+      "target": "#88507",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive auth/provider/secrets-adjacent PR is out of scope for ProjectClownfish cleanup and should be routed to central OpenClaw security handling without close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#88522",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct Telegram behavior PR still in draft/proof-needed state; keep independently."
+    },
+    {
+      "target": "#88754",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused standalone fix with no hydrated duplicate/superseded evidence; keep independently for normal review."
+    },
+    {
+      "target": "#88776",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct draft bug-fix PR in active work; no close or merge action is supported."
+    },
+    {
+      "target": "#88793",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-signaled broad PR needs explicit maintainer judgment; no automation close/merge/fix path is allowed."
+    },
+    {
+      "target": "#88823",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused standalone fix still marked active/mock-only proof; keep independently for normal review."
+    },
+    {
+      "target": "#88828",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct gateway/message-delivery fix with merge-risk and dirty state; keep independently."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 8,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88793 requires maintainer judgment because the hydrated artifact marks it maintainer-related, broad, dirty, and ready for maintainer look while job frontmatter requires human handling for maintainer_signal."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
