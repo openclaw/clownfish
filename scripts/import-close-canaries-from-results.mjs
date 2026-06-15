@@ -3,9 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { hasSecuritySensitiveText, securityTextFromItem } from "./security-sensitive.mjs";
 
-const SECURITY_PATTERN =
-  /\b(security|vulnerabilit(?:y|ies)|cve-\d+|ghsa|exploit|ssrf|xss|csrf|rce|secret|credential|api[-_\s]?key|private[-_\s]?key|token)\b/i;
 const CLOSE_ACTIONS = new Set([
   "close_duplicate",
   "close_fixed_by_candidate",
@@ -103,6 +102,8 @@ function collectPlannedCloseActions() {
         action: String(action.action),
         classification: String(action.classification ?? ""),
         reason: oneLine(action.reason),
+        comment: oneLine(action.comment),
+        evidence: Array.isArray(action.evidence) ? action.evidence : [],
         resultFile: path.relative(repoRoot(), absolute),
         runId: path.basename(file, ".json"),
         clusterId,
@@ -145,6 +146,12 @@ function fetchLiveRefs(refs) {
     const batch = numbers.slice(index, index + 40);
     const query = renderGraphqlQuery(batch);
     const json = ghJson(["api", "graphql", "-f", `query=${query}`]);
+    const fatalErrors = (json.errors ?? []).filter(
+      (error) => !/^Could not resolve to an issue or pull request with the number of \d+\.$/.test(String(error.message ?? "")),
+    );
+    if (fatalErrors.length > 0) {
+      die(`GitHub GraphQL failed while fetching live refs: ${fatalErrors.map((error) => error.message).join("; ")}`);
+    }
     for (const number of batch) {
       const node = json.data?.repository?.[`n${number}`];
       if (!node) continue;
@@ -164,6 +171,7 @@ ${numbers
       ... on Issue {
         number
         title
+        body
         state
         updatedAt
         labels(first: 30) { nodes { name } }
@@ -171,6 +179,7 @@ ${numbers
       ... on PullRequest {
         number
         title
+        body
         state
         updatedAt
         mergedAt
@@ -189,6 +198,7 @@ function normalizeLiveNode(node) {
     ref: `#${node.number}`,
     type: node.__typename === "PullRequest" ? "pr" : "issue",
     title: String(node.title ?? ""),
+    body_excerpt: excerpt(node.body),
     state: String(node.state ?? ""),
     updatedAt: node.updatedAt ?? null,
     mergedAt: node.mergedAt ?? null,
@@ -201,9 +211,8 @@ function dropReasonFor(item, target, canonical) {
   if (!canonical) return "canonical not found";
   if (target.state !== "OPEN") return `target is ${target.state}`;
   if (!canCloseAgainstCanonical(item, canonical)) return canonicalDropReason(item, canonical);
-  if (isSecuritySensitive(target) || isSecuritySensitive(canonical) || SECURITY_PATTERN.test(item.reason)) {
-    return "security signal";
-  }
+  const securityReason = securityDropReason(item, target, canonical);
+  if (securityReason) return securityReason;
   return "";
 }
 
@@ -224,7 +233,17 @@ function canonicalDropReason(item, canonical) {
 }
 
 function isSecuritySensitive(item) {
-  return SECURITY_PATTERN.test(item.title) || item.labels.some((label) => SECURITY_PATTERN.test(label));
+  return hasSecuritySensitiveText(securityTextFromItem(item));
+}
+
+function securityDropReason(item, target, canonical) {
+  const signals = [];
+  if (isSecuritySensitive(target)) signals.push("target");
+  if (isSecuritySensitive(canonical)) signals.push("canonical");
+  if (hasSecuritySensitiveText(item.classification, item.reason, item.comment, item.evidence)) {
+    signals.push("planned close context");
+  }
+  return signals.length > 0 ? `security signal in ${signals.join(", ")}` : "";
 }
 
 function writeJob(item) {
@@ -383,6 +402,11 @@ function normalizeRef(value) {
 
 function oneLine(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function excerpt(value, max = 700) {
+  const text = oneLine(value);
+  return text.length > max ? `${text.slice(0, max - 3)}...` : text;
 }
 
 function quoteYaml(value) {

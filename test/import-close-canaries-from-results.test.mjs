@@ -112,6 +112,75 @@ test("import-close-canaries writes open canonical duplicate closeouts", () => {
   assert.match(job, /Do not use `candidate_fix` for open canonical refs/);
 });
 
+test("import-close-canaries quarantines security-shaped candidates before generation", () => {
+  const fixture = makeFixture();
+  fs.writeFileSync(
+    path.join(fixture.results, "125.json"),
+    `${JSON.stringify(
+      {
+        cluster_id: "source-cluster-security",
+        actions: [
+          {
+            target: "#91286",
+            action: "close_superseded",
+            status: "planned",
+            canonical: "#91290",
+            classification: "superseded",
+            reason: "Superseded by a stronger implementation candidate.",
+          },
+          {
+            target: "#92164",
+            action: "close_duplicate",
+            status: "planned",
+            canonical: "#92341",
+            classification: "duplicate",
+            reason: "Target duplicates the open canonical memory issue.",
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  writeFakeGhx(fixture.bin);
+
+  const run = spawnSync(
+    process.execPath,
+    [
+      "scripts/import-close-canaries-from-results.mjs",
+      "--results-dir",
+      fixture.results,
+      "--out",
+      fixture.inbox,
+      "--existing-dir",
+      fixture.existing,
+      "--suffix",
+      "test",
+      "--limit",
+      "1",
+      "--json",
+    ],
+    {
+      cwd: repoRoot,
+      env: { ...process.env, PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}` },
+      encoding: "utf8",
+    },
+  );
+
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  const payload = JSON.parse(run.stdout);
+  assert.deepEqual(
+    payload.candidates.map((candidate) => candidate.target),
+    ["#92164"],
+  );
+  assert.deepEqual(
+    payload.dropped.map((candidate) => [candidate.target, candidate.reason]),
+    [["#91286", "security signal in target"]],
+  );
+  assert.equal(fs.existsSync(path.join(fixture.inbox, "pr-close-canary-91286-test.md")), false);
+  assert.equal(fs.existsSync(path.join(fixture.inbox, "pr-close-canary-92164-test.md")), true);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-close-canary-"));
   const results = path.join(root, "results");
@@ -167,8 +236,51 @@ console.log(JSON.stringify({
         __typename: "Issue",
         number: 91988,
         title: "canonical hook regression issue",
+        body: "",
         state: "OPEN",
         updatedAt: "2026-06-15T12:01:00Z",
+        labels: { nodes: [] }
+      },
+      n91286: {
+        __typename: "PullRequest",
+        number: 91286,
+        title: "fix(security): tighten SecretRef auth boundary",
+        body: "Tightens credential handling around redacted workspace context.",
+        state: "OPEN",
+        updatedAt: "2026-06-15T10:00:00Z",
+        mergedAt: null,
+        isDraft: false,
+        labels: { nodes: [{ name: "merge-risk: security-boundary" }] }
+      },
+      n91290: {
+        __typename: "PullRequest",
+        number: 91290,
+        title: "fix: harden command routing",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T10:01:00Z",
+        mergedAt: null,
+        isDraft: false,
+        labels: { nodes: [] }
+      },
+      n92164: {
+        __typename: "PullRequest",
+        number: 92164,
+        title: "fix(memory-core): score CJK keyword search",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T17:19:13Z",
+        mergedAt: null,
+        isDraft: false,
+        labels: { nodes: [] }
+      },
+      n92341: {
+        __typename: "Issue",
+        number: 92341,
+        title: "fix(memory-core): CJK textScore=0 fallback",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T17:20:00Z",
         labels: { nodes: [] }
       }
     }
