@@ -1,0 +1,419 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-needs_proof-20260615T131654-046",
+  "mode": "plan",
+  "run_id": "27549045791",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27549045791",
+  "head_sha": "e8e65d821b5c55a11a8a30d2023428743182215a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T13:18:46Z",
+  "workflow_updated_at": "2026-06-15T13:23:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260615T131654-046.md",
+  "published_at": "2026-06-15T13:28:19.688Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. The compacted preflight artifact hydrated 20 listed PRs; those were classified conservatively with no GitHub mutations. One hydrated PR is already closed, two hydrated PRs are security-routed, one hydrated overlapping PR is planned as superseded, and the unhydrated listed PRs require a refreshed preflight artifact before classification or closeout.",
+  "actions": [
+    {
+      "target": "#49914",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct feature PR in an inventory shard, not a dedupe target; keep open for proof/maintainer review."
+    },
+    {
+      "target": "#92079",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plan mode requires hydrated live state before a close, label, comment, merge, or confident inventory classification."
+    },
+    {
+      "target": "#39245",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct provider compatibility fix; not closable or mergeable in this plan shard."
+    },
+    {
+      "target": "#51683",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small distinct agents feature/fix, but failing checks block any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#52365",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially viable independent fix; keep open for maintainer merge workflow outside this plan-only shard."
+    },
+    {
+      "target": "#53441",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct channel integration fix lacking required proof; keep open rather than close."
+    },
+    {
+      "target": "#54805",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR with missing proof; not a close candidate in this shard."
+    },
+    {
+      "target": "#55519",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#55723",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused but unproven independent fix; keep open for proof."
+    },
+    {
+      "target": "#56420",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to involve a security boundary and spoofing claim; route only this item to central security handling."
+    },
+    {
+      "target": "#88997",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct Discord CLI routing fix; failing checks block merge or closeout."
+    },
+    {
+      "target": "#89127",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad draft feature PR; keep independent for author/maintainer follow-up."
+    },
+    {
+      "target": "#89156",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent Feishu fix still needs proof."
+    },
+    {
+      "target": "#89419",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Best hydrated path for the explicit main route-binding fix, but merge is blocked in this plan-only job."
+    },
+    {
+      "target": "#89422",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small independent fix with proof; keep open because merge is blocked by job frontmatter and merge preflight is absent."
+    },
+    {
+      "target": "#89490",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89419",
+      "candidate_fix": "#89419",
+      "reason": "Hydrated evidence shows #89490 is the weaker duplicate/superseded implementation of the same route-binding fix."
+    },
+    {
+      "target": "#89526",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent candidate fix with proof; merge/fix actions are not allowed in this job."
+    },
+    {
+      "target": "#89538",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent fix with mixed surface and failing proof; keep open for narrowing/proof."
+    },
+    {
+      "target": "#89580",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft low-risk perf PR but not eligible for closeout or merge in this shard."
+    },
+    {
+      "target": "#89590",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89636",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89637",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89690",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents even a conservative close/keep decision from this run."
+    },
+    {
+      "target": "#89694",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#93246",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89695",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89696",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89702",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89719",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#93247",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89754",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#52236",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft independent Mattermost fix with unresolved proof/review blockers; keep open."
+    },
+    {
+      "target": "#89768",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89772",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#92086",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The title and scope are security-boundary-shaped, but the item lacks hydrated live state; route/keep decision needs refreshed preflight."
+    },
+    {
+      "target": "#89491",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to involve auth/OAuth and SSRF-policy handling; route only this item to central security handling."
+    },
+    {
+      "target": "#89645",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#89796",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#93241",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    },
+    {
+      "target": "#93244",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing hydrated live state prevents safe plan-mode classification."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 16,
+    "needs_human": 20,
+    "keep_closed": 1,
+    "route_security": 2,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 19,
+    "blocked": 20,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92079 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89590 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89636 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89637 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89690 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89694 missing from compacted preflight artifact; no target_updated_at available.",
+    "#93246 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89695 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89696 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89702 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89719 missing from compacted preflight artifact; no target_updated_at available.",
+    "#93247 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89754 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89768 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89772 missing from compacted preflight artifact; no target_updated_at available.",
+    "#92086 missing from compacted preflight artifact and appears security-boundary-shaped; refreshed preflight/security routing decision required.",
+    "#89645 missing from compacted preflight artifact; no target_updated_at available.",
+    "#89796 missing from compacted preflight artifact; no target_updated_at available.",
+    "#93241 missing from compacted preflight artifact; no target_updated_at available.",
+    "#93244 missing from compacted preflight artifact; no target_updated_at available."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
