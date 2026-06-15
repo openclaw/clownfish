@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-74-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516230700",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516230700",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-74-plan-ramp.md",
+  "published_at": "2026-06-15T00:04:04.865Z",
+  "canonical": "#77800",
+  "canonical_issue": "#77800",
+  "canonical_pr": null,
+  "summary": "Plan only. #77800 remains the main live canonical for the missing contracts.tools registration-gate regression. The cluster contains separate sub-scopes: #74586 anchors an Active Memory embedded-runner abort/tool-bridge family, #89215/#89422 track diagnostics for the same manifest gate, #80621 needs a maintainer/API decision on contracts.tools:true semantics, and security-sensitive PRs #78084 and #84512 are quarantined for central security handling.",
+  "actions": [
+    {
+      "target": "#77800",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical for the main plugin manifest contract regression; keep open for maintainer validation and product decision."
+    },
+    {
+      "target": "#74586",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74586",
+      "candidate_fix": null,
+      "reason": "#74586 is not a duplicate of the contracts.tools manifest-gate issue; it is the best open anchor for the Active Memory embedded-runner abort/tool-bridge subfamily."
+    },
+    {
+      "target": "#78084",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Security-sensitive plugin contract boundary change is out of ProjectClownfish cleanup scope; quarantine for central OpenClaw security handling."
+    },
+    {
+      "target": "#80621",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#77800",
+      "candidate_fix": null,
+      "reason": "Maintainer/API decision needed: whether contracts.tools:true should be supported as catch-all ownership. This should not be closed as a duplicate of #77800 because it asks for a different contract semantic."
+    },
+    {
+      "target": "#84070",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#74586",
+      "candidate_fix": null,
+      "reason": "Related to the Active Memory embedded tool-bridge family anchored by #74586, but it has provider-path-specific evidence and should remain separate."
+    },
+    {
+      "target": "#89215",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77800",
+      "candidate_fix": "#89422",
+      "reason": "Related diagnostics sub-scope, not a true duplicate of #77800 because it does not ask to change contract ownership semantics. Keep open with #89422 as the candidate diagnostics path."
+    },
+    {
+      "target": "#89422",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89215",
+      "candidate_fix": "#89422",
+      "reason": "Keep as the candidate PR for #89215 diagnostics; do not merge or close anything in this plan-mode job."
+    },
+    {
+      "target": "#84512",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked security-sensitive PR remains quarantined as central security evidence; no ProjectClownfish close, merge, or fix action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 2,
+    "needs_human": 1,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80621 needs a maintainer/API decision on whether contracts.tools:true should mean catch-all tool ownership; related implementation PR #84512 was closed unmerged after boundary and compatibility concerns."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
