@@ -718,7 +718,7 @@ function fetchSourcePullRequestView({ repo, number, targetDir }) {
   return JSON.parse(
     run("gh", ["pr", "view", String(number), "--repo", repo, "--json", "author,state,mergedAt,title,url"], {
       cwd: targetDir,
-      env: ghEnv(),
+      env: readGhEnv(),
     }),
   );
 }
@@ -1472,7 +1472,7 @@ function sourceContributorCredits({ fixArtifact, targetDir }) {
 
 function fetchGitHubUser(login, targetDir) {
   try {
-    const user = JSON.parse(run("gh", ["api", `users/${login}`], { cwd: targetDir, env: ghEnv() }));
+    const user = JSON.parse(run("gh", ["api", `users/${login}`], { cwd: targetDir, env: readGhEnv() }));
     if (!user?.id || !user?.login) return null;
     return user;
   } catch {
