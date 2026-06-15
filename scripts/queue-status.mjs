@@ -18,6 +18,12 @@ const planLimit = numberArg("plan-limit", 0);
 const executeLimit = numberArg("execute-limit", 0);
 const autonomousLimit = numberArg("autonomous-limit", 0);
 const closeLimit = numberArg("close-limit", 0);
+const attemptFilter = String(args["attempt-filter"] ?? args.attempt_filter ?? "all");
+const validAttemptFilters = new Set(["all", "unattempted", "attempted", "accepted", "failed"]);
+if (!validAttemptFilters.has(attemptFilter)) {
+  console.error(`--attempt-filter must be one of ${[...validAttemptFilters].join(", ")}`);
+  process.exit(2);
+}
 
 const jobs = readInboxJobs();
 const resultsByCluster = readRunResults();
@@ -32,11 +38,17 @@ const unattemptedMissing = rows.filter((row) => !row.has_result && !row.latest_d
 const secrets = skipSecretCheck ? null : readSecretNames(dispatchRepo);
 const auth = summarizeAuth({ secrets, targetRepos: new Set(rows.map((row) => row.repo).filter(Boolean)) });
 
+const selectedRows = {
+  plan: take(filterByAttempt(missingPlan), planLimit),
+  execute: take(filterByAttempt(missingExecute), executeLimit),
+  autonomous: take(filterByAttempt(missingAutonomous), autonomousLimit),
+  close_canaries: take(filterByAttempt(closeCanaries), closeLimit),
+};
 const selected = {
-  plan: take(missingPlan, planLimit).map((row) => row.path),
-  execute: take(missingExecute, executeLimit).map((row) => row.path),
-  autonomous: take(missingAutonomous, autonomousLimit).map((row) => row.path),
-  close_canaries: take(closeCanaries, closeLimit).map((row) => row.path),
+  plan: selectedRows.plan.map((row) => row.path),
+  execute: selectedRows.execute.map((row) => row.path),
+  autonomous: selectedRows.autonomous.map((row) => row.path),
+  close_canaries: selectedRows.close_canaries.map((row) => row.path),
 };
 
 writeJobsFile(args["write-missing-plan"] ?? args.write_missing_plan, selected.plan);
@@ -50,6 +62,7 @@ const payload = {
   runs_dir: path.relative(repoRoot(), runsDir),
   dispatch_ledger: path.relative(repoRoot(), dispatchLedgerPath),
   dispatch_repo: dispatchRepo,
+  attempt_filter: attemptFilter,
   auth,
   totals: {
     inbox_jobs: rows.length,
@@ -62,8 +75,24 @@ const payload = {
     attempted_missing_results: attemptedMissing.length,
     unattempted_missing_results: unattemptedMissing.length,
   },
+  by_missing_attempt_status: countBy(
+    rows.filter((row) => !row.has_result),
+    (row) => row.latest_dispatch_attempt?.status ?? "unattempted",
+  ),
+  ref_totals: {
+    all_jobs: sumBy(rows, (row) => row.ref_count),
+    missing_results: sumBy(rows.filter((row) => !row.has_result), (row) => row.ref_count),
+    missing_plan: sumBy(missingPlan, (row) => row.ref_count),
+    missing_execute: sumBy(missingExecute, (row) => row.ref_count),
+    missing_autonomous: sumBy(missingAutonomous, (row) => row.ref_count),
+    close_canaries_ready: sumBy(closeCanaries, (row) => row.ref_count),
+  },
   by_mode: countBy(rows, (row) => row.mode),
   by_mode_result: countBy(rows, (row) => `${row.mode}:${row.has_result ? "has_result" : "missing_result"}`),
+  selected_counts: Object.fromEntries(Object.entries(selected).map(([name, items]) => [name, items.length])),
+  selected_ref_counts: Object.fromEntries(
+    Object.entries(selectedRows).map(([name, items]) => [name, sumBy(items, (row) => row.ref_count)]),
+  ),
   selected,
   rows: jsonOutput ? rows : undefined,
 };
@@ -75,12 +104,18 @@ if (jsonOutput) {
     [
       `jobs=${payload.totals.inbox_jobs}`,
       `missing=${payload.totals.missing_results}`,
+      `missing_refs=${payload.ref_totals.missing_results}`,
       `plan=${payload.totals.missing_plan}`,
+      `plan_refs=${payload.ref_totals.missing_plan}`,
       `execute=${payload.totals.missing_execute}`,
+      `execute_refs=${payload.ref_totals.missing_execute}`,
       `autonomous=${payload.totals.missing_autonomous}`,
+      `autonomous_refs=${payload.ref_totals.missing_autonomous}`,
       `close_canaries=${payload.totals.close_canaries_ready}`,
+      `close_canary_refs=${payload.ref_totals.close_canaries_ready}`,
       `attempted_missing=${payload.totals.attempted_missing_results}`,
       `unattempted_missing=${payload.totals.unattempted_missing_results}`,
+      `attempt_filter=${payload.attempt_filter}`,
       `read_secret=${auth.read_secret_present ? "yes" : "no"}`,
       `write_secret=${auth.write_secret_present ? "yes" : "no"}`,
       `plan_ready=${auth.plan_dispatch_ready ? "yes" : "no"}`,
@@ -146,6 +181,7 @@ function classifyJob(job) {
     cluster_id: clusterId,
     repo: String(fm.repo ?? ""),
     mode: String(fm.mode ?? ""),
+    ref_count: uniqueRefs(fm.cluster_refs ?? fm.candidates ?? []).length,
     close_canary: /(?:^|-)close-canary(?:-|$)/.test(job.basename),
     has_result: Boolean(result),
     latest_result: result,
@@ -230,6 +266,15 @@ function take(items, limit) {
   return limit > 0 ? items.slice(0, limit) : items;
 }
 
+function filterByAttempt(items) {
+  if (attemptFilter === "all") return items;
+  return items.filter((item) => {
+    const status = item.latest_dispatch_attempt?.status ?? "unattempted";
+    if (attemptFilter === "attempted") return status !== "unattempted";
+    return status === attemptFilter;
+  });
+}
+
 function countBy(items, keyFn) {
   const out = {};
   for (const item of items) {
@@ -237,6 +282,15 @@ function countBy(items, keyFn) {
     out[key] = (out[key] ?? 0) + 1;
   }
   return out;
+}
+
+function sumBy(items, valueFn) {
+  return items.reduce((total, item) => total + Number(valueFn(item) || 0), 0);
+}
+
+function uniqueRefs(value) {
+  const items = Array.isArray(value) ? value : [value];
+  return [...new Set(items.map((item) => String(item ?? "").trim()).filter((item) => /^#\d+$/.test(item)))];
 }
 
 function numberArg(name, fallback) {
