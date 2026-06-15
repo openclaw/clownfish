@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-576-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526086651",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526086651",
+  "head_sha": "150815b50791d4135faf2d65f72f30e14c8a168b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:30:55Z",
+  "workflow_updated_at": "2026-06-15T05:31:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-576-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:33:03.554Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #50126 is a hydrated open security-sensitive context ref and should be routed to central security handling. The only job candidate, #77284, is already closed after current main implemented the narrow sessionKey forwarding gap via merged PR #92550, so no close/comment/label mutation is planned. #92550 is closed and merged historical fix evidence, not an actionable PR in this cluster.",
+  "actions": [
+    {
+      "target": "#50126",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#50126 is the exact hydrated security-sensitive ref; route only this item and do not use it as a blocker for unrelated closed-item classification."
+    },
+    {
+      "target": "#77284",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92550",
+      "reason": "The candidate is already closed and appears fixed by merged PR #92550; no plan-mode mutation is needed or allowed."
+    },
+    {
+      "target": "#92550",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92550",
+      "reason": "Merged PR #92550 is useful evidence for #77284 but is already closed and not actionable in this plan-mode cluster."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
