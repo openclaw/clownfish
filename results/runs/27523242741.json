@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-738-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523242741",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523242741",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:04:03Z",
+  "workflow_updated_at": "2026-06-15T04:05:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-738-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.425Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for the two open candidate PRs. #79687 is explicitly listed by the job as a security-signal ref requiring central security routing, so it is quarantined read-only. #87481 overlaps the same reasoning-stream root cause but is broad, dirty, and not safe to promote or close against in this plan job.",
+  "actions": [
+    {
+      "target": "#79687",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Explicit job security routing instruction for this exact ref blocks normal canonical/close/merge planning for #79687."
+    },
+    {
+      "target": "#87481",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed on whether #87481 should become the live non-security canonical or be split into narrower follow-up work after #79687 is quarantined."
+    },
+    {
+      "target": "#47613",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined read-only; no closure or merge action is planned."
+    },
+    {
+      "target": "#52642",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined read-only; no closure or merge action is planned."
+    },
+    {
+      "target": "#61469",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined read-only; no closure or merge action is planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide whether #87481 should become the live non-security canonical for the callback-less reasoning-stream fix, be split into a narrower replacement, or remain separate after #79687 is routed to central security handling."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

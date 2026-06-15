@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-701-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523191571",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523191571",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:02:22Z",
+  "workflow_updated_at": "2026-06-15T04:03:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-701-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.421Z",
+  "canonical": "#81306",
+  "canonical_issue": null,
+  "canonical_pr": "#81306",
+  "summary": "Plan mode only. #65619 is routed to central security handling because the job explicitly lists it as a security-signal ref requiring route_security. #81306 is kept as the open, narrow non-mutating fix path for the same gateway loopback resolver bug, but no merge or fixed-by-candidate closeout is planned because merge/fix are blocked by the job and merge preflight is not complete. #65635 is already closed and is retained only as historical contributor-credit evidence.",
+  "actions": [
+    {
+      "target": "#65619",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-scoped security-signal refs must be routed to central OpenClaw security handling, even though unrelated non-security items may continue to be classified."
+    },
+    {
+      "target": "#65635",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#81306",
+      "candidate_fix": "#81306",
+      "reason": "Already closed linked PR; retain as evidence and credit context for the active fix path."
+    },
+    {
+      "target": "#81306",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81306",
+      "candidate_fix": "#81306",
+      "reason": "Open PR #81306 is the active narrow fix path, but this read-only plan cannot merge it and lacks the required merge_preflight proof for a merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

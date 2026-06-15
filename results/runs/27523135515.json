@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-66-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523135515",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523135515",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:00:31Z",
+  "workflow_updated_at": "2026-06-15T04:02:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-66-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.414Z",
+  "canonical": "#88548",
+  "canonical_issue": "#88548",
+  "canonical_pr": "#91728",
+  "summary": "Plan-mode classification for seven open cluster candidates. #88548 remains the best live canonical issue. #91728 is the focused structural PR path for the non-security live-catalog/static-shadowing work, but merge is blocked by job frontmatter. #72829 is quarantined because the job explicitly marks it as a security-signal ref. Per-model Claude Opus 4.8 static-bump PRs #91870 and #91875 are superseded by #91728, with contributor credit preserved in planned close comments.",
+  "actions": [
+    {
+      "target": "#88548",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#88548 is open, broadest in scope, and has current comments tying the concrete Claude Opus 4.8 instance and structural PR path back to the same root cause."
+    },
+    {
+      "target": "#91728",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#91728 is the narrow structural candidate fix for #88548, but merge is outside this plan-mode job's allowed action set."
+    },
+    {
+      "target": "#72829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#88548",
+      "candidate_fix": null,
+      "reason": "The job explicitly marks #72829 as a security-signal ref requiring quarantine; route only this item and continue non-security classification."
+    },
+    {
+      "target": "#72805",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#72805 belongs to the same Copilot catalog family, but it retains a narrower static fallback-list/product-decision wrinkle, so it should not be closed as a duplicate in this run."
+    },
+    {
+      "target": "#91869",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#91869 is a concrete reproduction of #88548, but its live proof is useful canonical evidence, so keep it related instead of closing it before the structural fix lands."
+    },
+    {
+      "target": "#91870",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#91870 is useful contributor work but is a per-model static override for the same behavior #91728 fixes structurally; planned close must preserve contributor credit and point to #91728."
+    },
+    {
+      "target": "#91875",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#88548",
+      "candidate_fix": "#91728",
+      "reason": "#91875 overlaps the same per-model static override area and is superseded by the live-first structural fix path in #91728; planned close must preserve contributor credit."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "route_security": 1,
+    "close_superseded": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

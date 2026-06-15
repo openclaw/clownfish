@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-687-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523185684",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523185684",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:02:11Z",
+  "workflow_updated_at": "2026-06-15T04:03:15Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-687-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.419Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan. #88900 is explicitly listed by the job as a security-signal ref and is quarantined with route_security. #88944 is the same Discord progress italic-truncation family as the linked closed source issue #88895, but no close/merge/fix mutation is planned because the canonical candidate is quarantined and the main-branch fix commit is evidence rather than a hydrated candidate-fix item.",
+  "actions": [
+    {
+      "target": "#88900",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks #88900 as a security-signal ref even though the hydrated artifact does not mark the item security_sensitive."
+    },
+    {
+      "target": "#88944",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related non-security PR in the same root-cause family, but no safe hydrated open canonical or candidate-fix ref is available for a closure action after #88900 quarantine."
+    },
+    {
+      "target": "#88895",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context is historical evidence only; no closure mutation is valid for an already closed issue."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

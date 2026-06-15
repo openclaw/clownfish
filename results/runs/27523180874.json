@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-673-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523180874",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523180874",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:02:02Z",
+  "workflow_updated_at": "2026-06-15T04:03:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-673-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.417Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. The hydrated preflight marks #68170 security-sensitive, and the job notes separately require #82495 to be routed as a security-signal ref. No close, label, merge, comment, fix, or PR action is planned.",
+  "actions": [
+    {
+      "target": "#68170",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#82495",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires route_security for this open PR; no mutating action or merge recommendation is allowed."
+    },
+    {
+      "target": "#68752",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#68170",
+      "candidate_fix": null,
+      "reason": "Already-closed context ref; no closure action is valid."
+    },
+    {
+      "target": "#82519",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an adjacent CI/cron/channel stabilization PR, not part of the Doctor state-directory security cluster."
+    },
+    {
+      "target": "#82909",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a separate Telegram type-fix PR referenced only as context for #82495 check status."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

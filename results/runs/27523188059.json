@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-695-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523188059",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523188059",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:02:16Z",
+  "workflow_updated_at": "2026-06-15T04:03:05Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-695-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.420Z",
+  "canonical": "#87407",
+  "canonical_issue": "#87407",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #87407 as the live canonical Anthropic provider socket/fallback bug, route #87480 to central security handling because the job explicitly marks it as a security-signal ref, and leave closed linked context #2348 untouched.",
+  "actions": [
+    {
+      "target": "#87407",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87407",
+      "candidate_fix": null,
+      "reason": "#87407 remains the clearest open issue thread for the non-security Anthropic provider transport/fallback root cause."
+    },
+    {
+      "target": "#87480",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#87407",
+      "candidate_fix": null,
+      "reason": "The job explicitly identifies #87480 as the security-signal ref, so this exact PR is read-only for Clownfish and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#2348",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed unrelated context item; no action needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-694-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523186973",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523186973",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:02:14Z",
+  "workflow_updated_at": "2026-06-15T04:03:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-694-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.419Z",
+  "canonical": "#66657",
+  "canonical_issue": "#66657",
+  "canonical_pr": null,
+  "summary": "Plan mode classification only. #66657 remains the live canonical issue for the Feishu missing-content .trim crash. #77109 overlaps the same Feishu empty-content fix path, but the job explicitly lists it as a security-signal ref requiring scoped quarantine, so it is routed to central security handling rather than merged, closed, or used for fixed-by-candidate closeout.",
+  "actions": [
+    {
+      "target": "#66657",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#66657",
+      "candidate_fix": null,
+      "reason": "Open canonical issue with source-repro evidence and no eligible non-quarantined fix candidate to close against."
+    },
+    {
+      "target": "#77109",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#66657",
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this exact PR as a security-signal ref for central handling; quarantine is scoped to #77109 and does not alter #66657's canonical classification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

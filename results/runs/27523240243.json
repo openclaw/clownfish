@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-72-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523240243",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523240243",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:03:57Z",
+  "workflow_updated_at": "2026-06-15T04:05:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-72-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:07:30.424Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification split the Telegram stall cluster into multiple non-duplicate roots. No GitHub mutations are planned: #43549, #84653, and #91456 remain live canonical work items for distinct causes; #91564 is related but has unique restart-surviving/forum-topic evidence; #68575 and #84710 are already closed and should stay closed.",
+  "actions": [
+    {
+      "target": "#43549",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#43549",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the bad persisted session JSON/status recovery subcluster."
+    },
+    {
+      "target": "#68575",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#43549",
+      "candidate_fix": null,
+      "reason": "Already closed stale/superseded PR; closed refs are historical evidence only."
+    },
+    {
+      "target": "#84653",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84653",
+      "candidate_fix": null,
+      "reason": "Distinct live canonical for the `Bot not initialized` regression-like report."
+    },
+    {
+      "target": "#84710",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91840",
+      "reason": "Already closed as fixed by merged #91840."
+    },
+    {
+      "target": "#91456",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91456",
+      "candidate_fix": "#93040",
+      "reason": "Best live canonical for the guarded Telegram lane timeout subcluster; #93040 is relevant candidate fix evidence but not a closure trigger here."
+    },
+    {
+      "target": "#91564",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91456",
+      "candidate_fix": "#93040",
+      "reason": "Related Telegram lane/message-loss family with unique remaining evidence and no safe duplicate closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_closed": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
