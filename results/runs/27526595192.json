@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-027",
+  "mode": "plan",
+  "run_id": "27526595192",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526595192",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:47Z",
+  "workflow_updated_at": "2026-06-15T05:47:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-027.md",
+  "published_at": "2026-06-15T05:49:13.463Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations planned; security-sensitive PRs are routed to central security handling and unrelated open PRs are kept as independent active review/proof work.",
+  "actions": [
+    {
+      "target": "#89597",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive credential/state-boundary work must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#89580",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone draft performance PR with unresolved proof requirements; not eligible for close, merge, or fix in this job."
+    },
+    {
+      "target": "#89577",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical judgment is needed on whether the requested test is required before this otherwise ready PR can proceed."
+    },
+    {
+      "target": "#81641",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active contributor PR needs maintainer decision and check repair/re-run before any merge path; no closure signal is present."
+    },
+    {
+      "target": "#89586",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Official external channel/security-boundary PR should be routed to central security handling, not backlog cleanup."
+    },
+    {
+      "target": "#89369",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active ready contributor PR requires maintainer review; no duplicate, superseded, or low-signal close condition is present."
+    },
+    {
+      "target": "#89585",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large maintainer-owned docs/comment sweep needs maintainer judgment; no closure or merge action is allowed in this job."
+    },
+    {
+      "target": "#80656",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Device-auth/gateway compatibility changes touch an auth/security boundary and must be routed to central security handling."
+    },
+    {
+      "target": "#89307",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone active hardening/compatibility PR with failed proof; no duplicate or low-signal close condition is established."
+    },
+    {
+      "target": "#89624",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone draft maintainer PR remains active review work; keep it independent rather than closing or inventing a canonical."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_independent": 3,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89577: maintainer decision on requested fallback-contract test before proceeding.",
+    "#81641: maintainer decision/check repair needed before any merge path.",
+    "#89369: maintainer review needed for ready contributor fix.",
+    "#89585: maintainer review needed for large docs/comment sweep."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

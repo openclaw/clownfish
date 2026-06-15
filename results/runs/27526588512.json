@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-021",
+  "mode": "plan",
+  "run_id": "27526588512",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526588512",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:34Z",
+  "workflow_updated_at": "2026-06-15T05:47:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-021.md",
+  "published_at": "2026-06-15T05:49:13.456Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. Security-sensitive PRs are routed to central security handling; unrelated PRs are kept on their own review paths, with maintainer-review items scoped individually.",
+  "actions": [
+    {
+      "target": "#80228",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped boundary and message-delivery changes are out of scope for Clownfish backlog cleanup and must be handled centrally."
+    },
+    {
+      "target": "#80426",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused feature PR with useful code and author-credit value; keep it open on its own review path rather than close or merge."
+    },
+    {
+      "target": "#79600",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear standalone draft fix needing proof, not a dedupe or low-signal closeout candidate."
+    },
+    {
+      "target": "#81391",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused UI/gateway PR with active review blockers; keep open independently for author or maintainer follow-up."
+    },
+    {
+      "target": "#79724",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone useful fix with review follow-up pending; no closure or merge action is allowed by this job."
+    },
+    {
+      "target": "#79545",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone contributor fix with proof/check mismatch; keep open for proof or maintainer review rather than close."
+    },
+    {
+      "target": "#79572",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer technical correctness and risk acceptance; merge and fix actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#79703",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Training export and boundary-labeled runtime data handling should be quarantined to central security review for this item only."
+    },
+    {
+      "target": "#80789",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not duplicate or low-signal; clear review blockers exist, so keep independently for author repair."
+    },
+    {
+      "target": "#80193",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer technical correctness and compatibility acceptance; this job cannot merge or raise fixes."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 6,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79572 requires maintainer technical correctness/risk review before any merge path.",
+    "#80193 requires maintainer technical correctness/risk review before any merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

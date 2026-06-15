@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-008",
+  "mode": "plan",
+  "run_id": "27526569047",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526569047",
+  "head_sha": "200ec5186249151c198e61ae89c694ac6b4332d1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:03Z",
+  "workflow_updated_at": "2026-06-15T05:47:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-008.md",
+  "published_at": "2026-06-15T05:49:13.443Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed pull requests. No GitHub mutations are planned beyond non-mutating classifications; already-closed PRs stay closed, security-sensitive PRs route to central security handling, and open non-security PRs remain independent/related review candidates because merge/fix/raise_pr are blocked by the job.",
+  "actions": [
+    {
+      "target": "#75212",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#22439",
+      "candidate_fix": "#22439",
+      "reason": "Already closed; no further action is valid in plan mode."
+    },
+    {
+      "target": "#77549",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not a dedupe or closeout candidate; it is a broad independent PR that needs proof/narrowing before any maintainer decision."
+    },
+    {
+      "target": "#78105",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up plus a review/maintainer correctness decision is required; job frontmatter requires human handling for active_author_followup and technical_correctness_judgment."
+    },
+    {
+      "target": "#77748",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive auth/provider boundary work is out of ProjectClownfish backlog-cleanup scope."
+    },
+    {
+      "target": "#77256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive plugin/model-boundary work must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#77318",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is the active independent loop-detection PR, not closable in this inventory shard and not mergeable under current proof gates."
+    },
+    {
+      "target": "#77884",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#77924",
+      "reason": "Already closed as fixed on main; no closure action is valid."
+    },
+    {
+      "target": "#76055",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action is valid for this PR."
+    },
+    {
+      "target": "#77466",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as low-signal/unmergeable; no closure action is valid."
+    },
+    {
+      "target": "#78154",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Codex/plugin-cache maintenance work, but not a duplicate/closeout candidate and blocked from merge by proof and failing checks."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "needs_human": 1,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78105 requires maintainer/product correctness judgment after active author follow-up and ClawSweeper needs-changes review.",
+    "#77256 and #77748 are routed to central security handling because the preflight artifact marks them security-sensitive."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

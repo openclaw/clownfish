@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-009",
+  "mode": "plan",
+  "run_id": "27526570569",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526570569",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:05Z",
+  "workflow_updated_at": "2026-06-15T05:47:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-009.md",
+  "published_at": "2026-06-15T05:49:13.444Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification over 10 open PR candidates. No shared canonical was invented. One security-sensitive PR is routed to central security handling, one contributor PR is planned for superseded closeout against a hydrated maintainer PR, and the remaining PRs are kept as independent or related backlog items because their hydrated state shows proof/check/review/maintainer-decision blockers rather than safe cleanup mutations.",
+  "actions": [
+    {
+      "target": "#77828",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone large feature/refactor PR; not a duplicate or superseded by a hydrated canonical item in this inventory shard."
+    },
+    {
+      "target": "#77393",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72009",
+      "candidate_fix": null,
+      "reason": "Related to #72009 on typing TTL, but not a duplicate because it bundles additional Slack, status, context, and compaction behavior."
+    },
+    {
+      "target": "#77415",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone lifecycle PR; no hydrated duplicate or replacement PR is identified in this inventory shard."
+    },
+    {
+      "target": "#77550",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not safely closeable as low-signal because low-signal closeout is disabled and the PR has a concrete UI bug claim plus tests; failing checks block merge/fixed-by-candidate closeout only."
+    },
+    {
+      "target": "#77904",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is a maintainer correctness/acceptance call; merge is blocked by job frontmatter and no close classification applies."
+    },
+    {
+      "target": "#76590",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68691",
+      "candidate_fix": null,
+      "reason": "Related sandbox infrastructure work, but not a duplicate of #68691 or #74083 because it handles config-hash recreation rather than the direct PID-1 reaper behavior."
+    },
+    {
+      "target": "#76873",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone behavior fix with author/review follow-up outstanding; no duplicate or superseding hydrated PR is identified."
+    },
+    {
+      "target": "#77946",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#88497",
+      "reason": "Open contributor PR is clearly superseded by hydrated maintainer PR #88497, which preserves the same fix direction and adds the broader startup-planning coverage."
+    },
+    {
+      "target": "#77225",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup and must be routed to central OpenClaw security handling without mutating the PR."
+    },
+    {
+      "target": "#78094",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76888",
+      "candidate_fix": null,
+      "reason": "Related candidate fix for #76888, but unresolved review findings block merge or fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 3,
+    "needs_human": 1,
+    "close_superseded": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77904 requires maintainer correctness/acceptance judgment: hydrated state is ready-for-maintainer-look with passing checks and clean later Codex review, but merge is blocked by job mode/frontmatter and latest ClawSweeper still records a needs-changes summary."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

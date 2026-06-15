@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-014",
+  "mode": "plan",
+  "run_id": "27526578896",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526578896",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:17Z",
+  "workflow_updated_at": "2026-06-15T05:47:37Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-014.md",
+  "published_at": "2026-06-15T05:49:13.450Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the ten open PR candidates independently from the hydrated preflight artifact. No shared canonical was selected because this is an inventory shard, not a dedupe cluster. No close, merge, label, comment, or fix action is planned; three security-sensitive PRs are routed to central security handling.",
+  "actions": [
+    {
+      "target": "#78411",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required for a small docs consistency PR; no closeout is allowed by this job."
+    },
+    {
+      "target": "#78033",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a distinct Feishu delivery change with unresolved proof, CI, and review blockers; it should stay open for normal PR handling, not be closed in this inventory shard."
+    },
+    {
+      "target": "#79401",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer review/product acceptance; the PR is not a duplicate or close candidate."
+    },
+    {
+      "target": "#79357",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a distinct cli-runner availability fix with unresolved proof and CI blockers; keep it open outside this inventory cleanup."
+    },
+    {
+      "target": "#79049",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is related to an open localized metadata issue but remains blocked by PR review and CI, so it should not be closed or merged in this shard."
+    },
+    {
+      "target": "#79339",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a distinct message-delivery fix with review follow-up needed; it is not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#79404",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary hardening and scanner policy changes are out of scope for ProjectClownfish cleanup and must go to central OpenClaw security handling."
+    },
+    {
+      "target": "#79137",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a distinct diagnostics change and lacks the merge preflight required for any merge recommendation; keep it open for normal PR handling."
+    },
+    {
+      "target": "#78968",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Reset authorization and security-boundary labeled behavior should be handled by central OpenClaw security review, not backlog cleanup automation."
+    },
+    {
+      "target": "#79311",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Declarative event subscriber loading and handler dispatch intersects security-boundary concerns and is marked route-only by preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 4,
+    "keep_related": 1,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78411 requires maintainer review for a docs consistency change; low-signal closeout is disabled and no shared canonical exists.",
+    "#79401 requires maintainer review/product acceptance before any merge path; merge is blocked in this plan job and no merge_preflight is available."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

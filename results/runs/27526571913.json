@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-010",
+  "mode": "plan",
+  "run_id": "27526571913",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526571913",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:07Z",
+  "workflow_updated_at": "2026-06-15T05:47:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-010.md",
+  "published_at": "2026-06-15T05:49:13.447Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected; closed PRs are left closed, security-sensitive PRs are routed, and open non-security PRs are kept for their existing review/proof paths.",
+  "actions": [
+    {
+      "target": "#78085",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open focused compatibility PR, but proof/check state blocks merge or fixed-by-candidate closeout in this plan-only shard."
+    },
+    {
+      "target": "#77725",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ref is out of ProjectClownfish mutation scope; route only."
+    },
+    {
+      "target": "#77848",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct provider-resolution cache PR; not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#78115",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR with its own review path; no closure or merge recommendation is safe here."
+    },
+    {
+      "target": "#81829",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible fixing PR for #77804, but unresolved review evidence and blocked merge/fix actions mean keep it in the existing review path."
+    },
+    {
+      "target": "#61190",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#64597",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#82684",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ref is out of ProjectClownfish mutation scope; route only."
+    },
+    {
+      "target": "#85044",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#85179",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open independent QA test PR; no duplicate, superseded, or low-signal close evidence in this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "route_security": 2,
+    "keep_independent": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

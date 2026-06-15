@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-023",
+  "mode": "plan",
+  "run_id": "27526590824",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526590824",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:39Z",
+  "workflow_updated_at": "2026-06-15T05:47:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-023.md",
+  "published_at": "2026-06-15T05:49:13.459Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned non-mutating PR inventory classification for 10 job candidates. No shared canonical was selected. Security-sensitive PRs were routed to central security handling; already closed PR #82032 was left closed; remaining open non-security PRs were kept as independent backlog items unless maintainer judgment is the explicit blocker.",
+  "actions": [
+    {
+      "target": "#81397",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone useful PR with active review blockers; not a duplicate, low-signal close, or merge candidate in this plan job."
+    },
+    {
+      "target": "#81719",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone exec behavior PR with failing proof/checks; keep open as independent, not closable or mergeable in this job."
+    },
+    {
+      "target": "#80285",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone session-state PR with missing proof; no evidence supports duplicate, superseded, low-signal, merge, or close action."
+    },
+    {
+      "target": "#80802",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-labeled broad PR is out of scope for Clownfish backlog cleanup and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#80208",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Public plugin transcript API touches a security-boundary-labeled surface and linked security-sensitive issue; route this exact PR only."
+    },
+    {
+      "target": "#82032",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan; no close action may be emitted."
+    },
+    {
+      "target": "#81572",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks ready for maintainer decision, but merge is blocked in this job and maintainer judgment is explicitly required."
+    },
+    {
+      "target": "#81994",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Tool profile and plugin trust boundary changes are marked security-sensitive; route this exact PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#82024",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone useful PR with conflicts and missing proof; no allowed fix, merge, or low-signal close action applies."
+    },
+    {
+      "target": "#82085",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone relevant bug-fix PR with technical blockers; keep open as independent, not closable or mergeable in this plan."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "route_security": 3,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81572 requires maintainer decision before any merge or finalization because the hydrated artifact shows sufficient proof, passing checks, and an approving review-style comment, while job frontmatter blocks merge and requires human for maintainer_signal."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-012",
+  "mode": "plan",
+  "run_id": "27526575377",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526575377",
+  "head_sha": "dd092f08dfed6ec600221eb169e0ce317c148af7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:45:12Z",
+  "workflow_updated_at": "2026-06-15T05:47:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-012.md",
+  "published_at": "2026-06-15T05:49:13.448Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are planned directly. Security-sensitive PRs are quarantined with route_security; closed candidate #78230 is kept closed; remaining non-security open PRs are kept open for maintainer/proof review rather than closed or merged.",
+  "actions": [
+    {
+      "target": "#78129",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open PR with unresolved proof gate; no safe close or merge action in plan mode."
+    },
+    {
+      "target": "#78440",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to an open memory-core product/bug thread, but not closable or mergeable in this plan-only inventory shard."
+    },
+    {
+      "target": "#79033",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Touches workspace boundary and external file trust behavior; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#78438",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR with maintainer-review signal; no duplicate, low-signal, or superseded evidence supports closure."
+    },
+    {
+      "target": "#78797",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad media/provider transport-boundary change with explicit security-boundary signal and active maintainer-guidance request."
+    },
+    {
+      "target": "#78453",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but unresolved open PR; failing proof/check gates block merge, while no close policy condition is satisfied."
+    },
+    {
+      "target": "#78951",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider header/auth behavior is security-boundary adjacent per hydrated labels and preflight security classification."
+    },
+    {
+      "target": "#78819",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Runtime proof logging and sanitization touch security-sensitive telemetry/sensitive-data exposure concerns."
+    },
+    {
+      "target": "#78230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#75099",
+      "reason": "Already closed; retain historical classification only and do not plan a close mutation."
+    },
+    {
+      "target": "#78199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR with unresolved author/check blockers; no closure condition is satisfied."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 1,
+    "route_security": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

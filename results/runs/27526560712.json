@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T054135-002",
+  "mode": "plan",
+  "run_id": "27526560712",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526560712",
+  "head_sha": "200ec5186249151c198e61ae89c694ac6b4332d1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:44:49Z",
+  "workflow_updated_at": "2026-06-15T05:47:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T054135-002.md",
+  "published_at": "2026-06-15T05:49:13.432Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the 10 PR-inventory candidates independently using the preflight artifact as live GitHub state. Planned one close for an open ClawSweeper PR already covered by a hydrated merged fix path, kept three open non-security PRs as non-mutating backlog items, kept already-closed non-security PRs skipped, and routed the three security-sensitive refs to central security handling without poisoning unrelated items.",
+  "actions": [
+    {
+      "target": "#75254",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The underlying behavior may still need maintainer/product judgment, but this draft PR is not a safe close or merge target in this plan-only inventory job."
+    },
+    {
+      "target": "#75213",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90943",
+      "reason": "The open ClawSweeper branch is covered by the hydrated merged mainline fix path and should not remain as a parallel stale fix branch."
+    },
+    {
+      "target": "#76141",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct small TUI PR with proof/check blockers; classify non-mutating rather than close or merge."
+    },
+    {
+      "target": "#75464",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact item to central OpenClaw security handling; do not close, comment, merge, or fix through this worker."
+    },
+    {
+      "target": "#75267",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; preserve historical classification only."
+    },
+    {
+      "target": "#76230",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct low-risk-looking performance/typing behavior PR with proof and CI blockers; keep it as independent backlog work rather than closing in plan mode."
+    },
+    {
+      "target": "#75899",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact item to central OpenClaw security handling; no cleanup mutation is planned."
+    },
+    {
+      "target": "#75505",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact item to central OpenClaw security handling; do not perform backlog cleanup actions on it."
+    },
+    {
+      "target": "#75677",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep skipped historical classification."
+    },
+    {
+      "target": "#76185",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#79836",
+      "reason": "Already closed after the Slack interaction fix path landed; record skipped fixed-by-candidate classification only."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_independent": 2,
+    "route_security": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
