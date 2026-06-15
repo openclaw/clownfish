@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-88-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525195486",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525195486",
+  "head_sha": "71716f3d6bcb42c20a7b66dbaacc1fdabe4fd9cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:04:31Z",
+  "workflow_updated_at": "2026-06-15T05:05:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-88-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:07:33.668Z",
+  "canonical": "#82548",
+  "canonical_issue": "#82548",
+  "canonical_pr": null,
+  "summary": "Plan mode only. No GitHub mutations are recommended. The representative #82548 is open but security-sensitive, so it and the other security-sensitive candidates are routed to central security handling. Non-security candidates #50291 and #87207 remain related observability/plugin SDK contract work, not duplicates to close.",
+  "actions": [
+    {
+      "target": "#38626",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive supervision/audit-control scope is outside ProjectClownfish cleanup; route this exact item without closing or using it to block unrelated non-security classification."
+    },
+    {
+      "target": "#50291",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#82548",
+      "candidate_fix": null,
+      "reason": "Related to the observability family, but not a duplicate of the security-routed umbrella because it carries distinct plugin SDK field and trace-correlation requirements."
+    },
+    {
+      "target": "#55806",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Tool observability with sanitization and writeback tracking is security-sensitive under the job policy; route this exact item and take no close/fix action."
+    },
+    {
+      "target": "#79168",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Prompt-injection scanning is security-sensitive and must be handled by central OpenClaw security review, not backlog cleanup."
+    },
+    {
+      "target": "#82548",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The open representative is security-sensitive, so it cannot be used for ProjectClownfish mutation. Route it to central security handling while preserving it as the broad observability-family reference."
+    },
+    {
+      "target": "#87207",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#82548",
+      "candidate_fix": null,
+      "reason": "Related observability/plugin SDK work, but not a true duplicate of the security-routed umbrella and not safe to close."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

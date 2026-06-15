@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-76-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525191613",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525191613",
+  "head_sha": "71716f3d6bcb42c20a7b66dbaacc1fdabe4fd9cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:04:24Z",
+  "workflow_updated_at": "2026-06-15T05:06:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-76-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:07:33.665Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for Gitcrawl cluster 76. The hydrated preflight artifact marks the sandbox/security-boundary items as security-sensitive, so those refs are routed to central OpenClaw security handling. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#12505",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary architecture work is outside ProjectClownfish backlog cleanup and must be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#58730",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The report concerns exec/tool isolation security posture and must be quarantined for central security handling."
+    },
+    {
+      "target": "#62937",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Even though the item is marked security_sensitive=false in the item row, the job explicitly routes this security-signal PR and its exec sandbox boundary changes to central security handling."
+    },
+    {
+      "target": "#70573",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item asserts a direct security boundary bypass and must be handled by central security review."
+    },
+    {
+      "target": "#76707",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated artifact classifies this as security-sensitive, so it is quarantined rather than deduped or closed in backlog cleanup."
+    },
+    {
+      "target": "#78965",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The nominal canonical is itself security-sensitive, so this cluster has no non-security canonical for automated dedupe closure."
+    },
+    {
+      "target": "#78981",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes a security-sensitive sandbox backend and must be routed to central security handling instead of merge or close planning."
+    }
+  ],
+  "action_counts": {
+    "route_security": 7
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
