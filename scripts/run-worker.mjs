@@ -11,6 +11,7 @@ import {
   repoRoot,
   validateJob,
 } from "./lib.mjs";
+import { normalizeResultMetadataFile } from "./result-metadata.mjs";
 import { extractWorkerResultFromCodexJsonl } from "./worker-result-transcript.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -259,11 +260,24 @@ function repairResultIfNeeded() {
 }
 
 function reviewResult() {
+  normalizeResultMetadata();
   return spawnSync(process.execPath, ["scripts/review-results.mjs", runDir], {
     cwd: repoRoot(),
     encoding: "utf8",
     env: process.env,
   });
+}
+
+function normalizeResultMetadata() {
+  try {
+    normalizeResultMetadataFile(resultPath, path.join(runDir, "cluster-plan.json"));
+  } catch (error) {
+    fs.writeFileSync(
+      path.join(runDir, "result-metadata-normalize-error.txt"),
+      `${error?.stack ?? error}\n`,
+      "utf8",
+    );
+  }
 }
 
 function recoverResultFromTranscriptIfMissing() {
