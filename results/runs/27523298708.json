@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-771-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523298708",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523298708",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:05:47Z",
+  "workflow_updated_at": "2026-06-15T04:06:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-771-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:08:52.674Z",
+  "canonical": "#74859",
+  "canonical_issue": "#74859",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #74859 remains the open canonical issue for the zombie Agent loop bug. #74979 is explicitly listed by the job as a security-signal ref requiring central security routing, so it is quarantined non-mutatingly instead of being merged, closed, or used for fixed-by-candidate closeout. #80239 is closed historical context only.",
+  "actions": [
+    {
+      "target": "#74859",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74859",
+      "candidate_fix": null,
+      "reason": "Best surviving non-security canonical for the reported root cause."
+    },
+    {
+      "target": "#74979",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-scoped security-signal quarantine; unrelated canonical issue classification can continue."
+    },
+    {
+      "target": "#80239",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#74859",
+      "candidate_fix": null,
+      "reason": "Already-closed related context; no mutation is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

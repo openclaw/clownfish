@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-761-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523295191",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523295191",
+  "head_sha": "2eb7becb97c14f307a0a4930f6deab62b7223dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:05:40Z",
+  "workflow_updated_at": "2026-06-15T04:06:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-761-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:08:52.672Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification: #79570 is explicitly security-sensitive and should be quarantined to central security handling. #80926 is related Azure OpenAI Responses work but not a duplicate of #79570; keep it open for maintainer/live Azure confirmation.",
+  "actions": [
+    {
+      "target": "#79570",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of ProjectClownfish mutation scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#80926",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Azure Responses provider failure, but not the same root cause or same user-visible failure as #79570; keep open for maintainer confirmation rather than closing as duplicate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
