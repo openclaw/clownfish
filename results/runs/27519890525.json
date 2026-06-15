@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-251-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519890525",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519890525",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:09:14Z",
+  "workflow_updated_at": "2026-06-15T02:10:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-251-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.974Z",
+  "canonical": "#75299",
+  "canonical_issue": "#79589",
+  "canonical_pr": "#75299",
+  "summary": "Read-only plan: keep #75299 as the canonical starvation-guard PR for the remaining #79589 work. Keep #79589 open as the canonical issue/report until a starvation policy lands. Keep #80199 related but blocked from merge/closeout because it is broader, dirty, maintainer_can_modify=false, and its Real behavior proof check is failing. Closed linked refs #82274 and #82765 are evidence only.",
+  "actions": [
+    {
+      "target": "#75299",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75299",
+      "candidate_fix": null,
+      "reason": "#75299 is the clearest live canonical PR for the remaining starvation-guard root cause, but merge is blocked by proof/policy review requirements and merge is not an allowed action in this job."
+    },
+    {
+      "target": "#79589",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79589",
+      "candidate_fix": "#75299",
+      "reason": "Keep the issue open as the canonical report until #75299 or another maintainer-approved starvation policy lands; fixed-by-candidate closeout is premature before merge."
+    },
+    {
+      "target": "#80199",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75299",
+      "candidate_fix": null,
+      "reason": "#80199 is related to the same scheduling area but is not the best canonical path and cannot be closed or superseded safely in this plan because it contains broader useful work and has failing proof/conflict blockers."
+    },
+    {
+      "target": "#82274",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#75299",
+      "candidate_fix": null,
+      "reason": "Closed linked context only; no closure action is valid or needed."
+    },
+    {
+      "target": "#82765",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#75299",
+      "candidate_fix": null,
+      "reason": "Closed merged context that partially fixed the broader issue; it remains evidence for why #75299 is the remaining canonical starvation-guard path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

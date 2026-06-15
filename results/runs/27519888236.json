@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-242-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519888236",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519888236",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:09:10Z",
+  "workflow_updated_at": "2026-06-15T02:10:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-242-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.973Z",
+  "canonical": "#91095",
+  "canonical_issue": "#91095",
+  "canonical_pr": null,
+  "summary": "Plan-only classification for three open hydrated refs. #91095 remains the canonical issue. #91315 and #91446 are overlapping non-security PR candidates for the same sessions_spawn TUI exposure bug, but neither should be closed or merged from this plan because the job blocks merge/fix actions and hydrated bot reviews still request stronger proof/product review.",
+  "actions": [
+    {
+      "target": "#91095",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91095",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical because it is the open user-facing report tying both PR candidates to the same root behavior."
+    },
+    {
+      "target": "#91315",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91095",
+      "candidate_fix": "#91315",
+      "reason": "Related candidate fix for the canonical issue, but not a closure or merge target in this plan because proof/product concerns remain and merge/fix actions are blocked."
+    },
+    {
+      "target": "#91446",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91095",
+      "candidate_fix": "#91446",
+      "reason": "Related candidate fix for the canonical issue, currently the strongest hydrated PR path, but not merge-ready under the provided gates."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer/product decision remains for the intended TUI boundary: whether local embedded TUI should expose sessions_spawn based on configured subagents.allowAgents, and whether per-agent allowAgents must be included before choosing a fix PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

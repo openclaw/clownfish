@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-267-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519897631",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519897631",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:09:28Z",
+  "workflow_updated_at": "2026-06-15T02:10:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-267-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.978Z",
+  "canonical": "#89520",
+  "canonical_issue": "#89520",
+  "canonical_pr": "#90503",
+  "summary": "#89520 remains the live canonical issue. #90503 is the cleanest candidate fix path for the same root cause, with passing checks and focused session-store files. #89538 overlaps the same fix area but is superseded by #90503 because it is dirty, has failing checks, and includes unrelated WebRTC changes.",
+  "actions": [
+    {
+      "target": "#89520",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89520",
+      "candidate_fix": "#90503",
+      "reason": "Best surviving issue for the root cause; keep open until a fix lands and post-merge closeout is separately allowed."
+    },
+    {
+      "target": "#89538",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89520",
+      "candidate_fix": "#90503",
+      "reason": "Same root cause and useful direction, but replaced by a narrower cleaner candidate with passing proof and no unrelated surface."
+    },
+    {
+      "target": "#90503",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89520",
+      "candidate_fix": "#90503",
+      "reason": "Best candidate fix path for #89520, but keep non-mutating in this plan because merge is not allowed and merge preflight is incomplete."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-112-plan-ramp",
+  "mode": "plan",
+  "run_id": "27519847280",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519847280",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:07:54Z",
+  "workflow_updated_at": "2026-06-15T02:09:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-112-plan-ramp.md",
+  "published_at": "2026-06-15T02:12:42.951Z",
+  "canonical": "#90890",
+  "canonical_issue": "#90890",
+  "canonical_pr": "#91533",
+  "summary": "Plan-mode classification only. #90890 remains the canonical issue for the user-visible bug. #91533 is the strongest live fix candidate, but merge is blocked by job frontmatter, so no merge action is planned. #90931, #90932, and #91447 overlap the same root cause and should remain related until a maintainer/applicator can choose or land the canonical fix path; no close actions are planned for useful contributor PRs in this read-only plan.",
+  "actions": [
+    {
+      "target": "#71639",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90890",
+      "candidate_fix": "#71639",
+      "reason": "Historical merged context only; no mutation is valid or needed."
+    },
+    {
+      "target": "#90890",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90890",
+      "candidate_fix": "#91533",
+      "reason": "Best surviving issue canonical for the root cause and user-visible reproduction."
+    },
+    {
+      "target": "#90931",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90890",
+      "candidate_fix": "#91533",
+      "reason": "Same bug family as #90890 and plausibly superseded by #91533, but failing proof and useful contributor work make non-mutating related classification safer than closure in this plan."
+    },
+    {
+      "target": "#90932",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90890",
+      "candidate_fix": "#91533",
+      "reason": "Overlaps the canonical issue but has broad unrelated changes and failing checks, so it should be kept related rather than closed or merged by this cluster plan."
+    },
+    {
+      "target": "#91447",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90890",
+      "candidate_fix": "#91533",
+      "reason": "Valid overlapping fix candidate, but #91533 is the stronger current candidate; keep related without closing useful contributor work."
+    },
+    {
+      "target": "#91533",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90890",
+      "candidate_fix": "#91533",
+      "reason": "Strongest live candidate fix for the canonical issue, retained as related/fixed_by_candidate because merge is out of scope for this plan-mode job."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

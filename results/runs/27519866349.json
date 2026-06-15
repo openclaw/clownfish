@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-174-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519866349",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519866349",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:08:29Z",
+  "workflow_updated_at": "2026-06-15T02:09:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-174-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.962Z",
+  "canonical": "#72021",
+  "canonical_issue": "#72021",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The hinted canonical PR #74114 is already closed, so the live canonical should move to open issue #72021 for the memory-core promotion gate/signal-contract bug. The annotation PRs #87589 and #87590 are related follow-up work, not safe duplicate closeouts in this run. The linked security-sensitive issue #67363 is quarantined only for central security handling.",
+  "actions": [
+    {
+      "target": "#67363",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish cleanup scope and should be routed centrally without blocking unrelated non-security classification."
+    },
+    {
+      "target": "#72021",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "This open issue is the best surviving canonical thread for the gate semantics/product decision after the representative PR closed."
+    },
+    {
+      "target": "#74114",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "Historical useful source PR, but already closed and not the live canonical. Keep credit/evidence attached to #72021."
+    },
+    {
+      "target": "#87588",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "Already-closed related duplicate context; no action beyond preserving the canonical mapping to #72021."
+    },
+    {
+      "target": "#87589",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "Same memory-core promotion family, but a narrower annotation PR with failing proof. Keep related rather than closing or merging."
+    },
+    {
+      "target": "#87590",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72021",
+      "candidate_fix": null,
+      "reason": "Related annotation follow-up with proof and tests, but dirty merge state and incomplete review block any merge/fixed-by-candidate recommendation in this plan."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_closed": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer product decision remains needed on #72021 for the intended memory-core promotion signal contract: whether minRecallCount should gate only recallCount or aggregate signalCount/dailyCount/groundedCount, and how tests/docs should reflect that."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

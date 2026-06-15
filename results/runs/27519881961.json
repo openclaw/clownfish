@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-227-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519881961",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519881961",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:08:58Z",
+  "workflow_updated_at": "2026-06-15T02:10:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-227-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.970Z",
+  "canonical": "#60402",
+  "canonical_issue": "#52249",
+  "canonical_pr": "#60402",
+  "summary": "Plan-mode classification only. #60402 remains the best live canonical PR for the narrow ACP targeted-wake/heartbeat-disabled fix path, but it is not merge-ready because it is dirty and proof-blocked. #52249 should stay open as the broader yielded-parent completion tracker. #79869 is a related but separate exec-event zero-interval wake PR and should not be closed or merged in this ACP cluster. The linked security-sensitive #56442 is quarantined only for central security handling.",
+  "actions": [
+    {
+      "target": "#52249",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60402",
+      "candidate_fix": "#60402",
+      "reason": "Same problem family as #60402, but not safe to close as fixed by candidate because the PR is unmerged, dirty, proof-blocked, and does not cover the broader native yielded-parent contract."
+    },
+    {
+      "target": "#60402",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60402",
+      "candidate_fix": null,
+      "reason": "Best canonical PR for the narrow ACP heartbeat-disabled targeted wake seam, but no merge action is allowed or safe because merge is blocked by job frontmatter, dirty merge state, and failing proof."
+    },
+    {
+      "target": "#79869",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60402",
+      "candidate_fix": null,
+      "reason": "Related infrastructure and symptom family, but a separate root cause/subcluster from the ACP parent-session wake fix; keep open for its own review path."
+    },
+    {
+      "target": "#56442",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Scoped quarantine for central OpenClaw security handling; no ProjectClownfish close, merge, or fix action."
+    },
+    {
+      "target": "#49572",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52249",
+      "candidate_fix": null,
+      "reason": "Historical context only; already-closed refs must not receive closure actions."
+    },
+    {
+      "target": "#54690",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52249",
+      "candidate_fix": null,
+      "reason": "Historical context only; already-closed refs must not receive closure actions."
+    },
+    {
+      "target": "#84839",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#52249",
+      "candidate_fix": null,
+      "reason": "Historical duplicate context only; already-closed refs must not receive closure actions."
+    },
+    {
+      "target": "#62505",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60402",
+      "candidate_fix": "#79869",
+      "reason": "Linked follow-up subcluster, not a duplicate of the ACP parent wake cluster."
+    },
+    {
+      "target": "#91921",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#60402",
+      "candidate_fix": null,
+      "reason": "Related completion-delivery area, but a separate PR path outside this ACP heartbeat-disabled cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

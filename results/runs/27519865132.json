@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-170-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519865132",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519865132",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:08:27Z",
+  "workflow_updated_at": "2026-06-15T02:09:58Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-170-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.962Z",
+  "canonical": "#87213",
+  "canonical_issue": "#87213",
+  "canonical_pr": "#66985",
+  "summary": "Plan-mode classification only. Route security-sensitive exec-policy refs #61009 and #72858 to central security handling; keep #87213 as the canonical issue for the node-selector canonicalization bug; treat #66985 as the best hydrated canonical fix path; mark #87236 as superseded by #66985; keep #92141 related but separate because it is a WebChat/Codex tool-surface exposure issue, not the same selector-comparison root cause.",
+  "actions": [
+    {
+      "target": "#61009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec-routing documentation with security-sensitive labels and bot review belongs in central security handling, not backlog dedupe cleanup."
+    },
+    {
+      "target": "#72858",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated linked ref is security-sensitive and should be quarantined without blocking unrelated non-security classification."
+    },
+    {
+      "target": "#87213",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "#87213 remains the clearest open issue canonical for the selector-canonicalization bug."
+    },
+    {
+      "target": "#66985",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "#66985 is the strongest hydrated fix path, but this plan-mode job cannot merge."
+    },
+    {
+      "target": "#87236",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "The PR is an overlapping contributor fix for the same root cause, but the hydrated canonical fix #66985 is better proven and cleaner."
+    },
+    {
+      "target": "#92141",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87213",
+      "candidate_fix": null,
+      "reason": "Same exec/node area, but different user-visible failure and likely different root cause; do not close as duplicate."
+    },
+    {
+      "target": "#61229",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Historical closed context only; no closure action is valid for an already-closed issue."
+    },
+    {
+      "target": "#87242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Historical closed context only; no closure action is valid for an already-closed PR."
+    },
+    {
+      "target": "#89439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed context only and belongs to the routed security-sensitive docs mismatch path, not this non-security selector canonicalization family."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 2,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

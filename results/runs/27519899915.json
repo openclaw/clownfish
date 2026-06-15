@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-271-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519899915",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519899915",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:09:32Z",
+  "workflow_updated_at": "2026-06-15T02:10:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-271-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.979Z",
+  "canonical": "#81089",
+  "canonical_issue": "#81089",
+  "canonical_pr": "#81388",
+  "summary": "Keep #81089 as the live canonical issue. #81388 is the open fix candidate for the same root cause but is not merge-ready in this read-only plan because merge is disallowed by the job and the hydrated PR state is dirty with prior proof-gate discussion. #89879 is already closed and should remain historical context only.",
+  "actions": [
+    {
+      "target": "#81089",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81089",
+      "candidate_fix": "#81388",
+      "reason": "#81089 is the only open issue report, contains the source reproduction/root cause, and remains the correct canonical thread for validation and follow-up."
+    },
+    {
+      "target": "#81388",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81089",
+      "candidate_fix": "#81388",
+      "reason": "#81388 is the live candidate fix for #81089, not a duplicate to close. Keep it related to the canonical issue while merge and repair remain outside this plan job."
+    },
+    {
+      "target": "#89879",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#81089",
+      "candidate_fix": "#81388",
+      "reason": "#89879 overlaps the #81089 fix family but is already closed, so no close or supersede mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

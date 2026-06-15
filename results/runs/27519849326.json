@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-115-plan-ramp",
+  "mode": "plan",
+  "run_id": "27519849326",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519849326",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:07:59Z",
+  "workflow_updated_at": "2026-06-15T02:09:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-115-plan-ramp.md",
+  "published_at": "2026-06-15T02:12:42.952Z",
+  "canonical": "#78165",
+  "canonical_issue": "#78165",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #78165 remains the live canonical for the WhatsApp start-account/event-loop stall family. The cluster splits into related but distinct open work: #77443 for first-inbound/resource-loader stall, #78419/#78511 for terminal-disconnect restart loops, and #80177 for dispatch ack timeout semantics. Security-sensitive linked ref #9544 is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#9544",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked auth-state item is outside Clownfish backlog cleanup and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#78165",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#78165",
+      "candidate_fix": null,
+      "reason": "#78165 is still the clearest open tracker for the core WhatsApp start-account startup stall."
+    },
+    {
+      "target": "#77443",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78165",
+      "candidate_fix": null,
+      "reason": "Related to the canonical event-loop stall family, but it carries a distinct reproduction path and suspected resource-loader cause."
+    },
+    {
+      "target": "#78419",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78165",
+      "candidate_fix": "#78511",
+      "reason": "Related operationally, but it belongs to the #78511 terminal-disconnect restart-loop lane rather than the canonical start-account stall lane."
+    },
+    {
+      "target": "#78511",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78165",
+      "candidate_fix": "#78511",
+      "reason": "Keep as the related active implementation candidate for #78419, with merge/repair blocked by job mode, conflicts, and policy."
+    },
+    {
+      "target": "#80177",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78165",
+      "candidate_fix": null,
+      "reason": "Related to the WhatsApp stall family, but not a duplicate of #78165 because the unresolved work is dispatch acknowledgement/reconciliation semantics."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

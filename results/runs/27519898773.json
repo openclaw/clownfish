@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-268-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27519898773",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519898773",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:09:30Z",
+  "workflow_updated_at": "2026-06-15T02:10:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-268-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:12:42.979Z",
+  "canonical": "#89412",
+  "canonical_issue": "#89412",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #89412 as the open canonical issue for the narrow explicit-main binding validation/doctor-pruning bug; keep both open PRs related because they overlap the canonical bug but are not merge-ready and closure/merge/fix actions are not safe in this job. Quarantine linked security-sensitive refs separately.",
+  "actions": [
+    {
+      "target": "#44375",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be quarantined to central OpenClaw security handling without affecting non-security classification."
+    },
+    {
+      "target": "#60712",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive linked issue is historical context only for this cluster and should remain quarantined from backlog-cleanup actions."
+    },
+    {
+      "target": "#89412",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89412",
+      "candidate_fix": null,
+      "reason": "#89412 is still the best live canonical for the narrow non-security config validation and doctor-pruning bug."
+    },
+    {
+      "target": "#89419",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89412",
+      "candidate_fix": "#89419",
+      "reason": "#89419 is a plausible overlapping fix for #89412, but failing checks and missing proof block merge or fixed-by-candidate closeout in this plan-only job."
+    },
+    {
+      "target": "#89490",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89412",
+      "candidate_fix": "#89490",
+      "reason": "#89490 is related to the canonical bug and overlaps #89419, but failing proof and competing open PRs make closure or merge unsafe in plan mode."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
