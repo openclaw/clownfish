@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-959-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525256533",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525256533",
+  "head_sha": "7e8d64b08fc9bc1037152edd70bbaba43d1a8d8f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:06:23Z",
+  "workflow_updated_at": "2026-06-15T05:07:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-959-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:08:32.193Z",
+  "canonical": "#66791",
+  "canonical_issue": "#66791",
+  "canonical_pr": null,
+  "summary": "Read the hydrated plan artifact and policies. The open issue #66791 remains the non-security canonical for Discord event edit/delete support. The open PR #78668 is explicitly security-sensitive in the job and preflight artifact, so it is routed to central security handling without closing, merging, or using it for fixed-by-candidate closeout.",
+  "actions": [
+    {
+      "target": "#66791",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#66791",
+      "candidate_fix": null,
+      "reason": "#66791 is the best surviving non-security canonical tracking the requested Discord event edit/delete feature, and no non-security merge or fix action is allowed in this plan job."
+    },
+    {
+      "target": "#78668",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#66791",
+      "candidate_fix": null,
+      "reason": "#78668 is explicitly security-sensitive in the live preflight artifact, so ProjectClownfish must not close, merge, label, comment on, or open/plan a fix from this PR; central OpenClaw security handling owns it."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

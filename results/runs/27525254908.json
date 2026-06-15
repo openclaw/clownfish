@@ -1,0 +1,50 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-958-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525254908",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525254908",
+  "head_sha": "7e8d64b08fc9bc1037152edd70bbaba43d1a8d8f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:06:20Z",
+  "workflow_updated_at": "2026-06-15T05:07:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-958-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:08:32.192Z",
+  "canonical": "#66983",
+  "canonical_issue": "#66983",
+  "canonical_pr": null,
+  "summary": "Plan only: both hydrated open issues are security-sensitive browser Canvas/A2UI Gateway trust-boundary requests. Route #66983 and #68497 to central OpenClaw security handling; do not close, label, comment, merge, or create a fix PR from Clownfish.",
+  "actions": [
+    {
+      "target": "#66983",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#66983",
+      "candidate_fix": null,
+      "reason": "This item proposes changes to Gateway browser-origin node enrollment and device/auth policy, so it is out of scope for Clownfish backlog cleanup and must be quarantined to central security handling."
+    },
+    {
+      "target": "#68497",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#66983",
+      "candidate_fix": null,
+      "reason": "This item would allow browser-hosted Canvas content to send user actions into the Gateway, so it must be routed to central security handling rather than deduped or closed by Clownfish."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
