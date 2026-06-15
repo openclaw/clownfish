@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T221149-001",
+  "mode": "plan",
+  "run_id": "27579828812",
+  "workflow_run_id": "27579828812",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27579828812",
+  "head_sha": "7f6830809e3e6cd90596dd0d2f8b788047a885b2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T22:12:25Z",
+  "workflow_updated_at": "2026-06-15T22:13:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T221149-001.md",
+  "published_at": "2026-06-15T22:14:44.048Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected because the job is explicitly not a dedupe cluster. #93240 is routed to central security handling per deterministic validation of the security-sensitive target. The remaining listed refs are open pull requests in the preflight artifact; no closure, merge, or fix action is planned because merge/fix are blocked, low-signal PR closeout is disabled, checks were unavailable due GraphQL rate limiting, and several PRs require proof, author follow-up, or maintainer technical judgment.",
+  "actions": [
+    {
+      "target": "#93240",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The validator requires #93240 to be treated as security-sensitive. Under the job and worker security boundary, the safe non-mutating plan-mode action is route_security for this exact PR, with no close, merge, label, comment, or fix action."
+    },
+    {
+      "target": "#91510",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is maintainer-owned/broad taxonomy content with proof and automation-risk questions. The job explicitly requires human review for maintainer signal and technical correctness judgment, so keep it out of automated close/merge decisions."
+    },
+    {
+      "target": "#93307",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be a valid narrow fix, but proof is still labeled insufficient and validation includes a failing test. Technical correctness and compatibility need maintainer review before any closure or merge path."
+    },
+    {
+      "target": "#93151",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears to be a plausible localized bug fix, but the linked issue is not hydrated as a primary item, proof is still requested, comments were not hydrated, and correctness depends on Windows encoding behavior. Human review is required for the unresolved technical decision."
+    },
+    {
+      "target": "#82734",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This may be a useful hardening/behavior PR, but the artifact does not prove current behavior, checks are unavailable, and the PR remains labeled needs proof. Human technical judgment is needed before any mutating path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91510: maintainer-owned XL taxonomy addition with automation risk and proof gap requires maintainer/product judgment.",
+    "#93307: browser download behavior change has proof label but still needs proof, reports one failing test, and has compatibility risk.",
+    "#93151: Windows GBK decoding fix has unhydrated linked issue/comments and needs real-behavior-proof/technical correctness review.",
+    "#82734: transcript payload bounding change is labeled needs-real-behavior-proof and has unavailable checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
