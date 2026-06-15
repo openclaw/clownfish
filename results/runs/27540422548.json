@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1033-20",
+  "mode": "plan",
+  "run_id": "27540422548",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27540422548",
+  "head_sha": "51197cadc27d6fbaf52d53f2f539b911f08d1209",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:35:04Z",
+  "workflow_updated_at": "2026-06-15T10:36:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1033-20.md",
+  "published_at": "2026-06-15T10:40:04.889Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only low-signal sweep. No PR is boringly clear for low-signal closure under the hydrated evidence. Security-sensitive refs are quarantined individually; focused feature/fix PRs are kept out of low-signal cleanup.",
+  "actions": [
+    {
+      "target": "#51502",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed PRs must not receive close actions."
+    },
+    {
+      "target": "#52664",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of scope for low-signal cleanup and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#88082",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not boringly clear low-signal cleanup; it is a focused provider/default feature needing proof and review, so no closure is planned."
+    },
+    {
+      "target": "#88111",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": "#88203",
+      "reason": "Security-sensitive linked issue is quarantined to central OpenClaw security handling; unrelated non-security PRs remain classified separately."
+    },
+    {
+      "target": "#88203",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix with supplied proof is not low-signal cleanup; merge is blocked by job policy and #88111 is routed separately."
+    },
+    {
+      "target": "#88239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix with tests and author verification is not boringly clear low-signal cleanup; no closure is planned."
+    },
+    {
+      "target": "#91924",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused app localization work is not boringly clear low-signal cleanup; no closure is planned."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 2,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

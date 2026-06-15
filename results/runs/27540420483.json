@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1033-14",
+  "mode": "plan",
+  "run_id": "27540420483",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27540420483",
+  "head_sha": "51197cadc27d6fbaf52d53f2f539b911f08d1209",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:35:02Z",
+  "workflow_updated_at": "2026-06-15T10:36:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1033-14.md",
+  "published_at": "2026-06-15T10:40:04.886Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only low-signal sweep found no open PR that is boringly safe to close. Two listed candidates were already closed, and the three open PRs are focused fixes or docs work with proof, linked issue context, maintainer signal, or technical correctness questions that require human review outside the low-signal close policy.",
+  "actions": [
+    {
+      "target": "#63339",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed candidates must not receive close_low_signal or any other close action."
+    },
+    {
+      "target": "#65707",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed candidates must not receive close_low_signal or any other close action."
+    },
+    {
+      "target": "#85308",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The low-signal policy forbids closing focused bug fixes, PRs with maintainer signal, or PRs needing technical correctness judgment."
+    },
+    {
+      "target": "#90542",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused behavior/config contract PR, not a boring low-signal cleanup close candidate."
+    },
+    {
+      "target": "#90625",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90599",
+      "reason": "This is linked docs work with a concrete issue and a technical docs correctness blocker; low-signal closure would be inappropriate and fixes are blocked by the job."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85308 needs maintainer review because it is a focused P1 subagent delivery fix with maintainer signal, proof, and persistent state-shape changes.",
+    "#90542 needs maintainer/product judgment because it changes shipped mention-pattern allow-mode semantics and lacks the required real behavior proof/generated metadata alignment.",
+    "#90625 needs maintainer or author follow-up because it addresses a real linked docs gap but the current instructions need a narrow correctness repair."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

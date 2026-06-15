@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1033-01",
+  "mode": "plan",
+  "run_id": "27540415804",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27540415804",
+  "head_sha": "51197cadc27d6fbaf52d53f2f539b911f08d1209",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:34:56Z",
+  "workflow_updated_at": "2026-06-15T10:36:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1033-01.md",
+  "published_at": "2026-06-15T10:40:04.878Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only low-signal PR sweep. No low-signal close actions are safe from the hydrated state: three listed refs are security-sensitive and should be quarantined, and two open non-security PRs require maintainer or technical judgment rather than backlog cleanup closure.",
+  "actions": [
+    {
+      "target": "#82193",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary and side-effecting message-delivery concerns make this out of scope for low-signal cleanup."
+    },
+    {
+      "target": "#82213",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not boringly clear under the low-signal policy; requires maintainer/API judgment."
+    },
+    {
+      "target": "#82514",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused, proof-backed feature work tied to an open issue is not low-signal cleanup; maintainer review is required."
+    },
+    {
+      "target": "#82577",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plugin catalog trust-boundary concern makes this out of scope for low-signal cleanup."
+    },
+    {
+      "target": "#82691",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed, but still security-sensitive in the hydrated security boundary; quarantine classification only, with no close action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82213 requires maintainer/API judgment because it adds public Plugin SDK runtime methods and has unresolved technical proof/review concerns.",
+    "#82514 requires maintainer review because it is a proof-backed partial fix for #46217, not a low-signal PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

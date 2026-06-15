@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1033-15",
+  "mode": "plan",
+  "run_id": "27540420247",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27540420247",
+  "head_sha": "51197cadc27d6fbaf52d53f2f539b911f08d1209",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:35:01Z",
+  "workflow_updated_at": "2026-06-15T10:36:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1033-15.md",
+  "published_at": "2026-06-15T10:40:04.884Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned low-signal sweep actions for the listed PRs: close one low-signal third-party skill PR, keep one focused Control UI PR related to its hydrated issue, keep the already-closed PR closed, and route two open security-sensitive PRs plus one hydrated security-sensitive linked PR to central security handling.",
+  "actions": [
+    {
+      "target": "#90792",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive dependency/auth-provider surface is out of scope for low-signal cleanup automation."
+    },
+    {
+      "target": "#62201",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary/session-state concerns should be quarantined to central security handling, not closed as low-signal cleanup."
+    },
+    {
+      "target": "#90617",
+      "action": "close_low_signal",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Boringly clear third-party capability addition to core with no maintainer signal or behavior proof."
+    },
+    {
+      "target": "#90833",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90655",
+      "candidate_fix": null,
+      "reason": "Focused implementation of a hydrated feature request; not a low-signal cleanup close."
+    },
+    {
+      "target": "#60830",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed candidate; no closure action is valid."
+    },
+    {
+      "target": "#64318",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated security-sensitive linked ref should be routed without affecting unrelated non-security classification."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "close_low_signal": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

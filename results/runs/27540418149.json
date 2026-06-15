@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1033-10",
+  "mode": "plan",
+  "run_id": "27540418149",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27540418149",
+  "head_sha": "51197cadc27d6fbaf52d53f2f539b911f08d1209",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:34:59Z",
+  "workflow_updated_at": "2026-06-15T10:36:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1033-10.md",
+  "published_at": "2026-06-15T10:40:04.881Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. Reviewed the five job-listed PRs from the supplied cluster preflight artifact. No low-signal closure is safe for the open non-security PRs because the artifact shows maintainer signal, active author follow-up, focused fixes, or technical correctness questions. One open security-sensitive PR is routed to central security handling. Already-closed listed PRs are kept closed and receive no mutation.",
+  "actions": [
+    {
+      "target": "#86130",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Listed candidate is already closed; no close_low_signal or security mutation is valid."
+    },
+    {
+      "target": "#64127",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive PR must be routed to central OpenClaw security handling and not closed by the low-signal sweep."
+    },
+    {
+      "target": "#82519",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal close is blocked by maintainer signal, active author follow-up, focused implementation surface, and unresolved technical review questions."
+    },
+    {
+      "target": "#89190",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal closure is blocked by active author follow-up, focused provider change, and unresolved product/technical judgment."
+    },
+    {
+      "target": "#89282",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89260",
+      "candidate_fix": "#89260",
+      "reason": "Listed candidate is already closed as superseded by hydrated PR #89260."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82519: maintainer signal, active author follow-up, focused implementation, and current technical failures block low-signal closure.",
+    "#89190: focused provider/model catalog change with active author proof and unresolved product/technical exposure question blocks low-signal closure."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
