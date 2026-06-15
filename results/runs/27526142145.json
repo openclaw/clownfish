@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-643-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526142145",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526142145",
+  "head_sha": "e7afb37030cc6d436522c8e9ca7202262840e10b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:32:36Z",
+  "workflow_updated_at": "2026-06-15T05:33:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-643-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:33:48.112Z",
+  "canonical": "#62514",
+  "canonical_issue": "#62514",
+  "canonical_pr": null,
+  "summary": "Plan mode only. #62514 is open and remains the best live canonical for the non-security mixed-image WebUI bug. The linked PR #63710 is explicitly security-sensitive in the hydrated preflight artifact and should be routed to central security handling rather than closed, merged, or used for fixed-by-candidate closeout.",
+  "actions": [
+    {
+      "target": "#62514",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62514",
+      "candidate_fix": null,
+      "reason": "The canonical issue is open, hydrated, and still tracks unresolved non-security product/bug follow-up."
+    },
+    {
+      "target": "#63710",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#62514",
+      "candidate_fix": null,
+      "reason": "The PR touches remote URL image fetching and is explicitly marked security-sensitive in live preflight data, so it belongs with central security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
