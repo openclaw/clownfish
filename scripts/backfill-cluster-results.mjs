@@ -18,6 +18,7 @@ const order = String(args.order ?? "newest");
 const requestedRunId = args["run-id"] ? String(args["run-id"]) : "";
 const requestedRunAttempt = args["run-attempt"] ? String(args["run-attempt"]) : "1";
 const dryRun = Boolean(args["dry-run"]);
+const allowPartial = Boolean(args["allow-partial"]) || process.env.CLOWNFISH_BACKFILL_ALLOW_PARTIAL === "1";
 
 if (since !== null && Number.isNaN(since)) throw new Error("--since must be an ISO-compatible timestamp");
 if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutral", "skipped", "any"].includes(conclusion)) {
@@ -84,6 +85,7 @@ console.log(
       selected: candidates.length,
       downloaded: manifest.downloaded.length,
       failed: manifest.failed.length,
+      allow_partial: allowPartial,
       dry_run: dryRun,
       out_dir: dryRun ? null : outDir,
       runs_json: dryRun ? null : runsJson,
@@ -94,7 +96,8 @@ console.log(
   ),
 );
 
-if (manifest.failed.length > 0) process.exit(1);
+if (manifest.failed.length > 0 && !allowPartial) process.exit(1);
+if (manifest.failed.length > 0 && manifest.downloaded.length === 0) process.exit(1);
 
 function selectCandidates(runs, requested) {
   const byId = new Map();

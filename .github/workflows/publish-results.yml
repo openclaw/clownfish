@@ -81,6 +81,7 @@ jobs:
             --order "$BACKFILL_ORDER"
             --out artifacts
             --runs-json artifacts/runs.json
+            --allow-partial
           )
           if [ -n "${RUN_ID:-}" ]; then
             args+=(--run-id "$RUN_ID" --run-attempt "${RUN_ATTEMPT:-1}")
