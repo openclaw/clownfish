@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-076",
+  "mode": "plan",
+  "run_id": "27527887706",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527887706",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:52Z",
+  "workflow_updated_at": "2026-06-15T06:22:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-076.md",
+  "published_at": "2026-06-15T06:24:18.767Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned because this shard is not a dedupe cluster, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and several items are either already closed or security-sensitive route-only.",
+  "actions": [
+    {
+      "target": "#73987",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Token scope/session-state changes are security-boundary-adjacent in the artifact, so this item is read-only for central OpenClaw security handling."
+    },
+    {
+      "target": "#73130",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not a duplicate of another hydrated item in this inventory shard and cannot be closed, merged, or fixed under this job."
+    },
+    {
+      "target": "#74488",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider discovery/auth-provider boundary work is explicitly marked security-sensitive in the hydrated artifact and must be routed without ProjectClownfish mutation."
+    },
+    {
+      "target": "#73695",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no further action is valid in plan mode."
+    },
+    {
+      "target": "#73668",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Profile portability touches privacy and security-boundary-shaped state handling, and the hydrated artifact explicitly routes it to security."
+    },
+    {
+      "target": "#73079",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone open PR suitable for maintainer review, not dedupe or closeout work in this inventory shard."
+    },
+    {
+      "target": "#73455",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Matrix participation/freshness controls are marked security-boundary-sensitive in the artifact, so this item is quarantined even though it is already closed."
+    },
+    {
+      "target": "#74503",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#74434",
+      "reason": "Already closed and historically covered by the hydrated replay-loop fix path; no mutation is valid."
+    },
+    {
+      "target": "#73897",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a real but unresolved standalone bug-fix PR, not a duplicate or closeout target in this shard."
+    },
+    {
+      "target": "#73984",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#83640",
+      "reason": "Already closed and covered by hydrated replacement paths; no further action is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_independent": 3,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

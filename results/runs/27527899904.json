@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-083",
+  "mode": "plan",
+  "run_id": "27527899904",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527899904",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:09Z",
+  "workflow_updated_at": "2026-06-15T06:22:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-083.md",
+  "published_at": "2026-06-15T06:24:18.779Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. Security-sensitive refs are quarantined with non-mutating route_security. Non-security open PRs are kept independently for maintainer follow-up because this shard has no shared canonical and merge/fix actions are blocked. Already closed non-security PR #74775 is left closed.",
+  "actions": [
+    {
+      "target": "#75076",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Control UI auth hardening is out of scope for PR inventory cleanup and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#73511",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct open fix candidate in an inventory shard with no canonical; it is not safe to close or merge from this plan."
+    },
+    {
+      "target": "#74954",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may still represent a useful agent model-inheritance fix, but this shard cannot merge, fix, or close it without current proof and maintainer review."
+    },
+    {
+      "target": "#75140",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches session/task event boundaries and is marked security-sensitive by the live preflight artifact, so it should be quarantined to central security handling."
+    },
+    {
+      "target": "#74274",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a live, non-security Control UI candidate with unresolved proof/review blockers, not a duplicate or low-signal closeout."
+    },
+    {
+      "target": "#75085",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The artifact flags this item as security-sensitive; record a non-mutating quarantine while respecting that it is already closed."
+    },
+    {
+      "target": "#74775",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No action remains for this already-closed non-security PR."
+    },
+    {
+      "target": "#73938",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The artifact flags this item as security-sensitive; record a non-mutating quarantine while respecting that it is already closed."
+    },
+    {
+      "target": "#73628",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct open feature/fix candidate with unresolved proof and review concerns; it should not be closed or merged by this inventory shard."
+    },
+    {
+      "target": "#73982",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is marked security-sensitive by preflight and touches exec policy behavior, so it should route to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_independent": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

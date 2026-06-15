@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-needs_proof-20260615T060018-081",
+  "mode": "plan",
+  "run_id": "27527896276",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527896276",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:20:04Z",
+  "workflow_updated_at": "2026-06-15T06:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260615T060018-081.md",
+  "published_at": "2026-06-15T06:24:18.775Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification shard. No GitHub mutations are planned because the job disables merge, fix, raise_pr, instant close, and low-signal closeout. Security-sensitive PRs are routed to central security handling; already-closed PRs are kept closed; remaining open non-security PRs are kept as related work needing normal PR follow-up rather than inventory cleanup.",
+  "actions": [
+    {
+      "target": "#74398",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with proof, but not an inventory-close candidate and not merge-plannable under this job."
+    },
+    {
+      "target": "#74990",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider/security-boundary changes are out of scope for inventory cleanup automation and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#74686",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid in plan mode."
+    },
+    {
+      "target": "#75018",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider/security-boundary work is out of scope for this inventory cleanup worker and should be routed to central security handling."
+    },
+    {
+      "target": "#73159",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but blocked PR; not eligible for closure or merge in this plan-only inventory shard."
+    },
+    {
+      "target": "#74083",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is potentially useful but still needs proof and branch repair; no close or merge action is supported by this job."
+    },
+    {
+      "target": "#72983",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed after documented superseded/obsolete rationale."
+    },
+    {
+      "target": "#74038",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no plan-mode mutation is valid."
+    },
+    {
+      "target": "#75093",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed by author with a clear stale-branch rationale."
+    },
+    {
+      "target": "#73203",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive classification should be quarantined to central OpenClaw handling; no closure action is planned."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "route_security": 3,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

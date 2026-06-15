@@ -1,0 +1,139 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-066",
+  "mode": "plan",
+  "run_id": "27527872281",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527872281",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:28Z",
+  "workflow_updated_at": "2026-06-15T06:22:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-066.md",
+  "published_at": "2026-06-15T06:24:18.750Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification shard. No GitHub mutations are planned directly by the worker. The shard has no shared canonical; each listed open PR is classified independently, and linked security-sensitive issue #69799 is quarantined for central security handling. Low-signal PR #76479 is classified non-mutatingly because low-signal PR closeout is disabled for this shard.",
+  "actions": [
+    {
+      "target": "#69799",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue requires quarantine only; unrelated PR inventory items can still be classified."
+    },
+    {
+      "target": "#76631",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone docs PR with unresolved review/author follow-up; no close or merge action is safe in this inventory shard."
+    },
+    {
+      "target": "#76618",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible narrow provider bug fix, but proof and freshness gates are unresolved; keep independent rather than close or merge."
+    },
+    {
+      "target": "#76617",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone channel compatibility fix candidate with unresolved proof/freshness gates; no dedupe or closure target is established."
+    },
+    {
+      "target": "#76495",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Valid-looking memory-runtime fix candidate, but base branch, proof, and review gates make it independent inventory work rather than close/merge material."
+    },
+    {
+      "target": "#76479",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal classification is clear, but the configured run explicitly disables low-signal PR closeout, so this shard keeps the PR as a non-mutating independent inventory item rather than planning a close."
+    },
+    {
+      "target": "#76364",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to hydrated issue #76352 and likely a fix path, but proof and freshness gates block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#76092",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to bundled-node/runtime work but has unresolved review-bot/freshness evidence, so keep related and do not merge."
+    },
+    {
+      "target": "#75679",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to a valid open issue, but current evidence does not support closure, merge, or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#75469",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone higher-risk ClawSweeper commit-finding PR with maintainer-review requirement; keep independent in this plan-only inventory shard."
+    },
+    {
+      "target": "#75293",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone automation harness fix candidate, currently dirty and requiring maintainer review; no close or merge action is safe."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 7,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#76631: maintainer precision choice remains open after author follow-up on the docs wording.",
+    "#76495: technical correctness and target-branch decision remain unresolved because the PR targets release/2026.5.2 and Real behavior proof failed.",
+    "#76092: review-bot installer-prefix finding and branch freshness need maintainer or repair follow-up before any merge path.",
+    "#75469: maintainer review is required before considering a high-risk session-state/message-delivery merge.",
+    "#75293: maintainer review and dirty branch/rebase state block any merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

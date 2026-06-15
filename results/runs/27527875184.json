@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-068",
+  "mode": "plan",
+  "run_id": "27527875184",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527875184",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:33Z",
+  "workflow_updated_at": "2026-06-15T06:22:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-068.md",
+  "published_at": "2026-06-15T06:24:18.753Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations proposed. Security-shaped refs are quarantined with route_security; already-closed candidate PRs are kept closed; open ordinary PRs remain independent and not merge-ready based on hydrated checks, comments, and review-bot evidence.",
+  "actions": [
+    {
+      "target": "#74266",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth proxy and secret-boundary content belongs in central OpenClaw security handling, not backlog cleanup."
+    },
+    {
+      "target": "#74202",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider/security-boundary PR should be routed, not dedupe-closed or merged."
+    },
+    {
+      "target": "#73512",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Preflight classified this PR as security-sensitive route-only; keep it out of ProjectClownfish mutation."
+    },
+    {
+      "target": "#74103",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#73633",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#72764",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#71517",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but independently blocked; keep open rather than close or merge."
+    },
+    {
+      "target": "#71837",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR with unresolved validation and review blockers."
+    },
+    {
+      "target": "#72254",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR with unresolved proof, rebase, and review-test blockers."
+    },
+    {
+      "target": "#72351",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR needing proof/rebase/product-fit review, not closure."
+    },
+    {
+      "target": "#10659",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential/API-key boundary issue belongs in central OpenClaw security handling."
+    },
+    {
+      "target": "#11829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "API-key exposure/security-roadmap issue is out of scope for ProjectClownfish cleanup."
+    },
+    {
+      "target": "#59165",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential provider/security review discussion should remain in central security handling."
+    },
+    {
+      "target": "#72548",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "SecretRef provider plugin boundary work belongs in security review, not PR inventory cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 7,
+    "keep_closed": 3,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

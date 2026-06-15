@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-078",
+  "mode": "plan",
+  "run_id": "27527890951",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527890951",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:57Z",
+  "workflow_updated_at": "2026-06-15T06:22:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-078.md",
+  "published_at": "2026-06-15T06:24:18.769Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification over the ten listed PRs. No GitHub mutations are planned for already-closed refs; security-sensitive refs are routed to central handling; non-security open PRs are kept or marked superseded only where hydrated evidence is clear.",
+  "actions": [
+    {
+      "target": "#74411",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open feature PR with unique implementation surface and failing proof/check gates; not safe to close or merge from this inventory shard."
+    },
+    {
+      "target": "#74081",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; preserve as historical superseded/not-merge-ready context without further action."
+    },
+    {
+      "target": "#73991",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR evidence must be quarantined to central OpenClaw security handling even though the PR is already closed."
+    },
+    {
+      "target": "#73976",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39555",
+      "candidate_fix": null,
+      "reason": "Open Clownfish repair PR for a real memory-search line of work, but unresolved bot review and failed checks block merge or fixed-by closeout."
+    },
+    {
+      "target": "#74200",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Preflight explicitly quarantines this open PR as security-sensitive; route only the affected item."
+    },
+    {
+      "target": "#72972",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89687",
+      "candidate_fix": "#89687",
+      "reason": "The same Feishu queue scoping work has a clearer hydrated live successor PR, while #72972 is dirty and proof-failing."
+    },
+    {
+      "target": "#74120",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep as independent historical context."
+    },
+    {
+      "target": "#74529",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Matrix E2EE/recovery adjacent PR is explicitly quarantined by preflight; central security handling owns it."
+    },
+    {
+      "target": "#74082",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#27482",
+      "candidate_fix": null,
+      "reason": "Already closed PR related to an open product issue; no mutation is valid from this shard."
+    },
+    {
+      "target": "#73981",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#42106",
+      "candidate_fix": null,
+      "reason": "Already closed stale replacement PR; remaining streaming work belongs on open canonical issue #42106, not this closed PR."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_closed": 4,
+    "route_security": 3,
+    "keep_related": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
