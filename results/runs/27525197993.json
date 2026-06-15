@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-927-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525197993",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525197993",
+  "head_sha": "71716f3d6bcb42c20a7b66dbaacc1fdabe4fd9cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:04:35Z",
+  "workflow_updated_at": "2026-06-15T05:05:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-927-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:06:38.631Z",
+  "canonical": "#54496",
+  "canonical_issue": "#54496",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. Keep #54496 as the open non-security canonical for silent reasoning/transcript persistence design, and route #56674 to central security handling because the job and preflight artifact mark it security-sensitive.",
+  "actions": [
+    {
+      "target": "#54496",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54496",
+      "candidate_fix": null,
+      "reason": "#54496 is the live non-security representative and tracks the broader transcript-persistence/product decision rather than a narrow mergeable fix."
+    },
+    {
+      "target": "#56674",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#54496",
+      "candidate_fix": null,
+      "reason": "The exact PR is marked security-sensitive by the job and live preflight artifact, so it must be quarantined rather than closed, merged, or fixed by this worker."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

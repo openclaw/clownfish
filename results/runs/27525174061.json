@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-469-pr-backlog-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525174061",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525174061",
+  "head_sha": "71716f3d6bcb42c20a7b66dbaacc1fdabe4fd9cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:03:53Z",
+  "workflow_updated_at": "2026-06-15T05:04:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-469-pr-backlog-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:06:38.620Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The hydrated artifact marks the canonical issue #7524, linked broad tracker #19929, and candidate PR #91702 as security-sensitive/session-state boundary items, so they are quarantined to central OpenClaw security handling. No close, merge, label, comment, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#7524",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The canonical issue is open but explicitly marked security-sensitive in the live preflight artifact, so backlog dedupe automation must not close, label, comment on, or resolve it."
+    },
+    {
+      "target": "#91702",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR directly changes session-state routing with security-boundary labels and an explicit security-signal instruction, so it is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#19929",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although #19929 is linked context rather than a listed candidate, it is explicitly hydrated and marked security-sensitive, so the scoped read-only action is route_security."
+    },
+    {
+      "target": "#7493",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#7524",
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid or needed."
+    },
+    {
+      "target": "#59739",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#7524",
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
