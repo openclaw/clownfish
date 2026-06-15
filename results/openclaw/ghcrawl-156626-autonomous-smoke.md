@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156626-autonomous-smoke"
 mode: "autonomous"
-run_id: "24980262624"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24980262624"
-head_sha: "40a5c7418ff46bf3e60da63dc6e2345c96900f78"
+run_id: "25102355668"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102355668"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T06:51:43.883Z"
-canonical: "https://github.com/openclaw/openclaw/pull/42083"
+published_at: "2026-06-15T03:45:26.087Z"
+canonical: "https://github.com/openclaw/openclaw/pull/72663"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/42083"
-actions_total: 16
+canonical_pr: "https://github.com/openclaw/openclaw/pull/72663"
+actions_total: 8
 fix_executed: 0
-fix_failed: 1
+fix_failed: 0
 fix_blocked: 0
-apply_executed: 1
+apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
@@ -25,27 +25,27 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24980262624](https://github.com/openclaw/clownfish/actions/runs/24980262624)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102355668](https://github.com/openclaw/clownfish/actions/runs/25102355668)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/42083
+Canonical: https://github.com/openclaw/openclaw/pull/72663
 
 ## Summary
 
-Classified the hydrated memory-lancedb cluster without GitHub mutations. #42083 remains the canonical repairable PR for the auto-capture full-history inefficiency, but merge is blocked by unresolved Codex/Greptile review findings and a failing Windows test shard. Security-sensitive refs #62741, #63326, and #63413 are quarantined. The other open PRs are related but independent memory-lancedb feature or CLI gaps and should stay open for their own focused follow-up paths.
+The original representative #42083 is no longer live. Its auto-capture root cause was replaced and merged through #72663, while the remaining open PRs are separate memory-lancedb subfamilies with their own review blockers or validation needs. No close, merge, or fix artifact is safe for this over-broad cluster pass.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 16 |
+| Worker actions | 8 |
 | Fix executed | 0 |
-| Fix failed | 1 |
+| Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 1 |
+| Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -54,35 +54,26 @@ Classified the hydrated memory-lancedb cluster without GitHub mutations. #42083 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | validation command failed (pnpm test:serial extensions/memory-lancedb/index.test.ts): undefined ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "test:serial" not found Did you mean "pnpm test:sectriage"? |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/72663 | clownfish/ghcrawl-156626-autonomous-smoke |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72663 | merge_canonical | executed | fix_pr | merged by ProjectClownfish post-flight |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #25 | keep_closed | skipped | superseded | Already closed before this run; no ProjectClownfish close action is valid. |
-| #10550 | keep_closed | skipped | related | Closed related context only. |
-| #16392 | keep_closed | skipped | related | Closed related CJK-trigger context only. |
-| #16672 | keep_closed | skipped | related | Closed related CJK-trigger context only. |
-| #20241 | keep_closed | skipped | related | Closed related CJK/category context only. |
-| #42083 | keep_canonical | planned | canonical | Best canonical path is to repair the contributor branch, then revalidate and rerun Codex review before any merge. |
-| #47285 | keep_related | planned | related | Related memory-lancedb work, but not a duplicate of the canonical auto-capture cursor fix. |
-| #62741 | route_security | planned | security_sensitive | Security-sensitive item is out of scope for backlog cleanup and fix/merge automation. |
-| #63326 | route_security | skipped | security_sensitive | Already closed; mention only as quarantined historical context with no mutation. |
-| #63413 | route_security | planned | security_sensitive | Security-sensitive item is out of scope for backlog cleanup and fix/merge automation. |
-| #67952 | keep_related | planned | related | Related memory-lancedb CLI work with its own unresolved review path. |
-| #68116 | keep_related | planned | related | Related memory-lancedb CLI work with its own unresolved review path. |
-| #70040 | keep_related | planned | related | Related CJK-trigger work; no high-confidence duplicate or fixed-by-candidate closure because no hydrated landed canonical fix is available. |
-| #71349 | keep_related | planned | related | Related open issue should remain open until the canonical repair lands and the broader autoCapture behavior is reassessed. |
-| cluster:ghcrawl-156626-autonomous-smoke | fix_needed | planned |  | Repair the canonical contributor branch before merge or any fixed-by-candidate closeout. |
-| cluster:ghcrawl-156626-autonomous-smoke | build_fix_artifact | planned |  | Build a narrow repair artifact for the canonical auto-capture cursor PR. |
+| #72663 | keep_closed | skipped | canonical | Canonical auto-capture path is already closed and merged; workers must not emit close actions for closed refs. |
+| #42083 | keep_closed | skipped | fixed_by_candidate | Already closed after the credited replacement path landed. |
+| #62741 | keep_closed | skipped | independent | Closed historical item with a distinct root cause from this cluster's canonical auto-capture path. |
+| #47285 | keep_related | planned | related | Keep open as a separate related provider-support subcluster; do not close or merge from this auto-capture cluster. |
+| #63413 | keep_related | planned | related | Keep open as a separate related repair candidate; no duplicate closeout or merge is justified here. |
+| #67952 | keep_related | planned | related | Keep open as a separate related CLI-listing subcluster with unresolved review work. |
+| #68116 | keep_related | planned | related | Keep open as a separate related maintenance-command subcluster; bot findings block merge in this pass. |
+| #70040 | keep_related | planned | related | Keep open as a separate related CJK trigger subcluster; no safe duplicate/superseded closeout exists. |
 
 ## Needs Human
 

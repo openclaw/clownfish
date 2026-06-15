@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156882-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25102360723",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102360723",
+  "head_sha": "9a08eb9ac982c5d395ca81610998f5f78efc9ef6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T09:55:15Z",
+  "workflow_updated_at": "2026-04-29T10:03:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156882-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.088Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/71122",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/62842",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/71122",
+  "summary": "No GitHub close, merge, label, or fix PR action is planned for the open bug. The closed representative #62842 is already fixed by merged #71122, while #57570 stays open as a related but distinct bare `openclaw config` no-response report. One linked closed PR is routed to central security handling because its hydrated body contains a credential/token exposure claim.",
+  "actions": [
+    {
+      "target": "#63482",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this linked security-sensitive PR to central security handling; continue classifying unrelated config CLI performance/no-response items."
+    },
+    {
+      "target": "#57570",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62842",
+      "candidate_fix": null,
+      "reason": "Keep open as related follow-up. It is not a high-confidence duplicate or fixed-by-candidate closeout because the root cause and intended bare-config behavior remain distinct or ambiguous."
+    },
+    {
+      "target": "#62842",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#62842",
+      "candidate_fix": "#71122",
+      "reason": "Historical canonical issue is already closed; no mutation is valid."
+    },
+    {
+      "target": "#69526",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as implemented on current main; no mutation is valid."
+    },
+    {
+      "target": "#71122",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#71122",
+      "candidate_fix": null,
+      "reason": "Merged canonical performance PR; no merge action is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

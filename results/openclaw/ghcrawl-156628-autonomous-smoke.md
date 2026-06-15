@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156628-autonomous-smoke"
 mode: "autonomous"
-run_id: "24980505465"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/24980505465"
-head_sha: "c6da0a7fcbc9623e625f7c12d5e31f91829491bd"
+run_id: "25102360455"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102360455"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-04-27T06:46:45.664Z"
-canonical: "https://github.com/openclaw/openclaw/commit/ca67762b8887a4c97cefe7d434b6d3b539d47242"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/67889"
+result_status: "blocked"
+published_at: "2026-06-15T03:45:26.088Z"
+canonical: "https://github.com/openclaw/openclaw/tree/d33c3f7da651f74134688a78c0d10522dd178592"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/62944"
 canonical_pr: null
 actions_total: 12
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 3
-apply_skipped: 0
+apply_blocked: 0
+apply_skipped: 1
 needs_human_count: 0
 ---
 
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/24980505465](https://github.com/openclaw/clownfish/actions/runs/24980505465)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102360455](https://github.com/openclaw/clownfish/actions/runs/25102360455)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: blocked
 
-Canonical: https://github.com/openclaw/openclaw/commit/ca67762b8887a4c97cefe7d434b6d3b539d47242
+Canonical: https://github.com/openclaw/openclaw/tree/d33c3f7da651f74134688a78c0d10522dd178592
 
 ## Summary
 
-Hydrated artifact shows the timeout family is already fixed on current main by commit ca67762b8887a4c97cefe7d434b6d3b539d47242, recorded in the #67889 maintainer closeout. Security-sensitive refs are quarantined only for those exact items. Non-security open timeout reports/PRs can be closed as fixed or superseded by current main; unrelated already-closed refs remain skipped historical context.
+Hydrated state shows the representative #63483 and the other timeout PRs are already closed after current main d33c3f7 gained the broader image-tool timeout implementation. The only open job candidate, #56454, is clearly superseded by that current-main path, but its closeout is blocked by the job's fix-first gate because there is no hydrated merged candidate PR or fix-execution report in this run. No human decision is needed.
 
 ## Impact
 
@@ -46,8 +46,8 @@ Hydrated artifact shows the timeout family is already fixed on current main by c
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 3 |
-| Apply skipped | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 1 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
@@ -60,26 +60,24 @@ Hydrated artifact shows the timeout family is already fixed on current main by c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #56419 | close_fixed_by_candidate | blocked | fixed_by_candidate | close requires ProjectClownfish fix PR opened/pushed or merge executed first |
-| #56454 | close_superseded | blocked | superseded | close requires ProjectClownfish fix PR opened/pushed or merge executed first |
-| #62944 | close_fixed_by_candidate | blocked | fixed_by_candidate | close requires ProjectClownfish fix PR opened/pushed or merge executed first |
+| #56454 | close_superseded | skipped | superseded | Blocked by fix-first close policy even though the superseded classification is clear; current-main evidence is present, but no merged candidate PR is hydrated for this run. |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48625 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish cleanup scope. |
-| #54494 | keep_closed | skipped | related | Already closed historical linked issue; no mutation allowed. |
-| #54495 | keep_closed | skipped | superseded | Already closed superseded contributor PR; no mutation allowed. |
-| #56419 | close_fixed_by_candidate | planned | fixed_by_candidate | Current main contains the fix for the user-visible hardcoded image-tool timeout reported here. |
-| #56454 | close_superseded | planned | superseded | Useful contributor PR is superseded by a landed current-main fix with a different accepted config contract; credit is preserved in the close comment. |
-| #57215 | keep_closed | skipped | independent | Already closed independent linked context; no mutation allowed. |
-| #57223 | keep_closed | skipped | independent | Already closed independent PR; no mutation allowed. |
-| #62944 | close_fixed_by_candidate | planned | fixed_by_candidate | The exact hardcoded timeout bug is fixed on current main; closeout waits on the landed fix evidence rather than the quarantined PR. |
-| #63046 | route_security | planned | security_sensitive | Security-sensitive item is out of ProjectClownfish cleanup scope. |
-| #63483 | route_security | planned | security_sensitive | Security-sensitive item must not be closed, merged, commented on, or used as the ProjectClownfish canonical PR. |
-| #67889 | keep_closed | skipped | fixed_by_candidate | Already closed fixed issue; no mutation allowed. |
-| #67929 | keep_closed | skipped | superseded | Already closed superseded contributor PR; no mutation allowed. |
+| #48625 | keep_closed | skipped | independent | Already closed and independent from the timeoutSeconds cluster target. |
+| #54494 | keep_closed | skipped | related | Already closed; related timeout surface but not a live candidate in this cluster. |
+| #54495 | keep_closed | skipped | related | Already closed; related image-generation timeout work, not the explicit image tool timeout canonical path. |
+| #56419 | keep_related | planned | related | Likely covered by current main, but out of mutation scope for this candidate-only job. |
+| #56454 | close_superseded | blocked | superseded | Blocked by fix-first close policy even though the superseded classification is clear; current-main evidence is present, but no merged candidate PR is hydrated for this run. |
+| #57215 | keep_closed | skipped | independent | Already closed and independent from the timeoutSeconds canonical family. |
+| #57223 | keep_closed | skipped | independent | Already closed and independent from the timeoutSeconds cluster target. |
+| #62944 | keep_closed | skipped | fixed_by_candidate | Already closed as completed on current main; historical evidence for this cluster. |
+| #63046 | keep_closed | skipped | superseded | Already closed as superseded; no action is valid. |
+| #63483 | keep_closed | skipped | superseded | Representative is obsolete and already closed as superseded by current main. |
+| #67889 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed on current main; historical evidence only. |
+| #67929 | keep_closed | skipped | superseded | Already closed as superseded by current main; contributor credit was preserved in the hydrated closeout. |
 
 ## Needs Human
 

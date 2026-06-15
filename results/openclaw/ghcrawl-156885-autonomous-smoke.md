@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156885-autonomous-smoke"
 mode: "autonomous"
-run_id: "25039987987"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25039987987"
-head_sha: "9fff25109fedd0a6983588f78c57d6ac62e0da26"
+run_id: "25103615837"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25103615837"
+head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T07:34:12.514Z"
+published_at: "2026-06-15T03:45:26.146Z"
 canonical: "https://github.com/openclaw/openclaw/issues/57997"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/57997"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25039987987](https://github.com/openclaw/clownfish/actions/runs/25039987987)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25103615837](https://github.com/openclaw/clownfish/actions/runs/25103615837)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/57997
 
 ## Summary
 
-Hydrated preflight shows all job refs are already closed. No GitHub mutations are planned. The original representative #57997 is no longer open, but maintainer closeout comments on #57997, #58506, and #58927 state current main implements the cron payload.model and agentId paths with regression coverage. Linked contributor PRs #58998 and #59000 are closed historical evidence only and are not merge or close targets.
+Hydrated preflight shows all seed issues and linked PRs in this cluster are already closed. #57997 remains the historical canonical issue for the cron model-selection report, and the closure evidence cites current main a1197b907524ff892341c5a5682b1e559850f2f6 as already implementing payload.model and agentId handling. No close, merge, label, comment, or fix PR action is planned.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Hydrated preflight shows all job refs are already closed. No GitHub mutations ar
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57997 | keep_closed | skipped | canonical | Already closed canonical representative; closure policy forbids close actions for closed items. |
-| #58506 | keep_closed | skipped | duplicate | Already closed duplicate of the #57997 cron payload.model root-cause family; no mutation is allowed or needed. |
-| #58927 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main; no post-merge or fixed-by close action is valid for a closed issue. |
-| #58998 | keep_closed | skipped | superseded | Closed historical contributor PR; useful context was superseded by maintainer-confirmed current main behavior, and closed PRs must not receive close or merge actions. |
-| #59000 | keep_closed | skipped | superseded | Closed historical contributor PR with unresolved review/check blockers; it is evidence only and not a mutation target. |
+| #57997 | keep_closed | skipped | canonical | Already closed before this worker run; closed refs must not receive close actions. |
+| #58506 | keep_closed | skipped | duplicate | Duplicate classification is clear, but the target is already closed so no mutation is valid. |
+| #58927 | keep_closed | skipped | related | Related issue is already closed as implemented on main; no closeout or fix action remains. |
+| #58998 | keep_closed | skipped | superseded | Closed unmerged contributor PR is historical evidence only; any future replacement would need to preserve Starhappysh credit, but no fix artifact is needed because the issues are already closed as implemented on main. |
+| #59000 | keep_closed | skipped | superseded | Closed unmerged contributor PR is historical evidence only; no merge, close, or replacement fix action is valid in this already-closed cluster. |
 
 ## Needs Human
 

@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238812-dedupe-only-20260429b",
+  "mode": "autonomous",
+  "run_id": "25102864554",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102864554",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:07:06Z",
+  "workflow_updated_at": "2026-04-29T10:12:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238812-dedupe-only-20260429b.md",
+  "published_at": "2026-06-15T03:45:26.115Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/52618",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/52618",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73739",
+  "summary": "Classified the live Feishu WebSocket recovery cluster with #52618 as the open canonical issue and #73739 as the current implementation candidate. Planned one high-confidence duplicate close for #72828; kept #42354 and #55532 open as related but not duplicate; skipped already-closed #68766.",
+  "actions": [
+    {
+      "target": "#52618",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#52618",
+      "candidate_fix": "#73739",
+      "reason": "Best surviving canonical issue for the post-start Feishu WebSocket retry-exhaustion recovery root cause."
+    },
+    {
+      "target": "#73739",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#52618",
+      "candidate_fix": "#73739",
+      "reason": "Current canonical implementation candidate, but merge/fix are out of scope and the hydrated review-bot concern still requires the normal PR review path."
+    },
+    {
+      "target": "#42354",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "Related Feishu WebSocket symptom family, but the initial connection/domain-routing details are unique enough that duplicate closure would be unsafe."
+    },
+    {
+      "target": "#55532",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52618",
+      "candidate_fix": null,
+      "reason": "Related Feishu reconnect/backoff work, but the token-cache and backoff-specific scope leaves unique remaining work outside a clean duplicate of #52618."
+    },
+    {
+      "target": "#72828",
+      "action": "close_duplicate",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#52618",
+      "candidate_fix": "#73739",
+      "reason": "Same root cause and user-visible failure as #52618, with no unique remaining scope beyond the canonical issue and implementation candidate."
+    },
+    {
+      "target": "#68766",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#52618",
+      "candidate_fix": "#72411",
+      "reason": "Already closed before this run; no mutation should be planned."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 2,
+    "close_duplicate": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#72828",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#52618",
+      "candidate_fix": "#73739",
+      "title": null,
+      "idempotency_key": "gitcrawl-238812-dedupe-only-20260429b:#72828:close_duplicate:#52618:2026-04-27T13:31:43Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "candidate fix is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

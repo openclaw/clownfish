@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238861-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25102949922",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102949922",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:09:09Z",
+  "workflow_updated_at": "2026-04-29T10:11:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238861-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T03:45:26.132Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73228",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73228",
+  "summary": "Hydrated preflight shows the original representative #68667 is already closed as superseded, and the replacement PR #73228 is merged on main with passing checks. The only open cluster member, #39046, is the same hook completion/error routing fix and can be closed as fixed by #73228. Security-sensitive issue #24693 is quarantined only; no mutation is planned for it.",
+  "actions": [
+    {
+      "target": "#24693",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated issue is routed to central OpenClaw security handling; already closed state means no close action is valid."
+    },
+    {
+      "target": "#73228",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "reason": "Merged replacement PR #73228 is the canonical fix path already on main; no worker mutation is needed for the closed PR."
+    },
+    {
+      "target": "#39046",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "reason": "The open draft PR is fully covered by the already-merged hydrated candidate fix #73228; closing consolidates follow-up on the landed canonical path."
+    },
+    {
+      "target": "#68667",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "reason": "Original representative #68667 is already closed as superseded by merged replacement #73228; closed refs must not receive close actions."
+    },
+    {
+      "target": "#24016",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context only; keep as historical related evidence."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 3,
+    "close_fixed_by_candidate": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#39046",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73228",
+      "candidate_fix": "#73228",
+      "title": null,
+      "idempotency_key": "gitcrawl-238861-dedupe-only-20260429c:#39046:close_fixed_by_candidate:#73228:2026-03-24T20:16:32Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "canonical is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

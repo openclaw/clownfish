@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156935-autonomous-smoke"
 mode: "autonomous"
-run_id: "25040174163"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25040174163"
-head_sha: "c1026cc2b278a4ef12da5cbce3ebe633f12beb50"
+run_id: "25102720704"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102720704"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T07:39:02.948Z"
+published_at: "2026-06-15T03:45:26.103Z"
 canonical: "https://github.com/openclaw/openclaw/issues/8285"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/8285"
 canonical_pr: null
-actions_total: 2
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25040174163](https://github.com/openclaw/clownfish/actions/runs/25040174163)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102720704](https://github.com/openclaw/clownfish/actions/runs/25102720704)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/8285
 
 ## Summary
 
-Hydrated preflight shows no security-sensitive refs. #8285 remains the best open canonical issue for the general cross-channel pre-processing acknowledgement text feature. #10737 should remain open as related, not duplicate, because it tracks legacy iMessage-specific auto-acknowledgement behavior with unique channel scope and maintainer signal to keep it separate. No close, merge, or fix PR action is appropriate for this broad feature/config/docs surface.
+#8285 remains the canonical open cross-channel acknowledgement feature request. #10737 is related but has unique legacy iMessage scope and should stay open. #4065 is already closed historical context only. No close, merge, or fix-PR action is safe or needed in this run.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,8 +66,9 @@ Hydrated preflight shows no security-sensitive refs. #8285 remains the best open
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #8285 | keep_canonical | planned | canonical | Best surviving canonical issue for the broad acknowledgement-text feature request; no duplicate closeout or fix-first path is available. |
-| #10737 | keep_related | planned | related | Related to #8285 by acknowledgement/feedback UX, but not a true duplicate because it has a unique legacy iMessage channel scope and maintainer signal to keep it open separately. |
+| #8285 | keep_canonical | planned | canonical | #8285 is the broadest live canonical thread for the cross-channel acknowledgement-text feature family. |
+| #10737 | keep_related | planned | related | #10737 is related to the canonical acknowledgement family but has unique legacy iMessage scope that should remain open for maintainer follow-up. |
+| #4065 | keep_closed | skipped | related | #4065 is already closed and should not receive any mutation. |
 
 ## Needs Human
 

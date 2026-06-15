@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156884-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25103613030",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25103613030",
+  "head_sha": "98c86abfe56e7ca0578fd667fdea3121315c5b1d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:24:49Z",
+  "workflow_updated_at": "2026-04-29T10:27:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156884-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.146Z",
+  "canonical": "https://github.com/openclaw/openclaw/commit/6dec2e1852",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/69916",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the original representative #57937 and #69936 are already closed. The canonical issue path is #69916, which was closed as fixed on current main in commit 6dec2e1852. The only open cluster target, #70568, is now superseded by that current-main fix and is not merge-ready because Codex P1 review comments and extension check failures remain unresolved, so the worker plans only a credit-preserving close_superseded action. No merge or fix artifact is emitted.",
+  "actions": [
+    {
+      "target": "#57937",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; keep as historical evidence only."
+    },
+    {
+      "target": "#69936",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69916",
+      "candidate_fix": null,
+      "reason": "Already closed as superseded; keep as historical evidence only."
+    },
+    {
+      "target": "#70568",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#69916",
+      "candidate_fix": null,
+      "reason": "Current main already contains the canonical fix for the linked bug, and #70568 is no longer the canonical merge path; close as superseded while preserving contributor credit."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#70568",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#69916",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-156884-autonomous-smoke:close-superseded:70568:69916:a1197b907524",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "close requires Clownfish fix PR opened/pushed, merged candidate fix, or merge executed first",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

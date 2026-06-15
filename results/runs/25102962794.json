@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238869-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25102962794",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102962794",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:09:28Z",
+  "workflow_updated_at": "2026-04-29T10:12:59Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238869-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T03:45:26.134Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39847",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39847",
+  "canonical_pr": null,
+  "summary": "Canonical bug is the open issue #39847. The representative PR #39894 is not a safe canonical implementation because it is draft and broad, while #50520 and #51653 are overlapping open implementation candidates with unresolved sanitizer-scope review concerns and failing check jobs. No GitHub mutations should be applied until maintainers choose the implementation path.",
+  "actions": [
+    {
+      "target": "#28170",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Already closed before this run; no close/comment action is valid."
+    },
+    {
+      "target": "#30405",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Already closed before this run; no close/comment action is valid."
+    },
+    {
+      "target": "#39847",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Best live canonical path is the open bug issue, not any current PR."
+    },
+    {
+      "target": "#39894",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Supersede closeout is blocked until there is a concrete focused replacement/canonical implementation path that preserves source PR credit."
+    },
+    {
+      "target": "#41355",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Related follow-up issue, not a duplicate closure target for this PR-dedupe cluster."
+    },
+    {
+      "target": "#50520",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose whether #50520 is the canonical implementation and how narrowly outbound metadata stripping should be scoped before duplicate PR closeout or repair."
+    },
+    {
+      "target": "#51653",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose between #51653 and #50520 and resolve the sanitizer-scope concern before any supersede closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "Choose the canonical implementation path between #50520 and #51653, including whether the outbound sanitizer should be leading-only/narrow instead of applying stripInboundMetadata broadly.",
+    "Decide the replacement/credit path for #39894 before closing it as superseded; the PR contains useful credited work but is draft and has broad unrelated CI/macOS/script churn."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#39894",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39847",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-238869-dedupe-only-20260429c:#39894:close_superseded:2026-04-29T00:10:26Z",
+      "source_status": "blocked",
+      "source_reason": null,
+      "reason": "Supersede closeout is blocked until there is a concrete focused replacement/canonical implementation path that preserves source PR credit.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

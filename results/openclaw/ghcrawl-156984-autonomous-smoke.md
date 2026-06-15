@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156984-autonomous-smoke"
 mode: "autonomous"
-run_id: "27494574253"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27494574253"
-head_sha: "7a639d57ae949889099bdded3a2f12c7334955a0"
+run_id: "25102849759"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102849759"
+head_sha: "c3cc5ac35d228f419caa5b1772e20efdca99c0e6"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-14T09:30:29.165Z"
+published_at: "2026-06-15T03:45:26.112Z"
 canonical: "https://github.com/openclaw/openclaw/issues/39406"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/39406"
 canonical_pr: null
-actions_total: 6
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27494574253](https://github.com/openclaw/clownfish/actions/runs/27494574253)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102849759](https://github.com/openclaw/clownfish/actions/runs/25102849759)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/39406
 
 ## Summary
 
-Classified #39406 as the live canonical tracker. #46965 is already closed as a duplicate/superseded issue, while #51091, #81561, and #86727 are closed historical context. No close, merge, or fix PR is planned because the remaining #39406 work is a broader normal-chat tool-warning delivery product/safety decision, not a narrow autonomous fix.
+Canonical remains the open issue #39406. #46965 is already closed and must not be mutated. Linked PR #51091 is a related implementation candidate, but merge or repair automation is blocked on maintainer product alignment with #39406 and missing merge preflight proof.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,13 +66,10 @@ Classified #39406 as the live canonical tracker. #46965 is already closed as a d
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #39406 | keep_canonical | planned | canonical | #39406 remains the best live canonical issue, but implementation needs maintainer-approved warning-delivery semantics before automation should raise a fix PR. |
-| #46965 | keep_closed | skipped | duplicate | Already closed as duplicate/superseded by #39406; no mutation is valid. |
-| #51091 | keep_closed | skipped | superseded | #51091 is already closed and superseded by hydrated #81561 for the narrow boolean suppression fix; no close or merge action is valid. |
-| #81561 | keep_closed | skipped | related | #81561 is useful landed context but does not resolve #39406's broader final-only/tri-state normal-chat delivery policy. |
-| #86727 | keep_closed | skipped | related | Closed related context only; it is not a live duplicate target for this cluster. |
-| cluster:ghcrawl-156984-autonomous-smoke | needs_human | planned | needs_human | Maintainers need to choose the normal-chat tool-warning delivery contract before Clownfish can build a narrow implementation plan. |
+| #39406 | keep_canonical | planned | canonical | #39406 is still the best live canonical tracker for the unresolved normal-chat tool-error warning policy decision. |
+| #46965 | keep_closed | skipped | duplicate | Already-closed refs are historical evidence only; no close/comment/label action should be emitted for #46965. |
+| #51091 | needs_human | blocked | needs_human | #51091 should remain open, but automation should not merge it or open a replacement until maintainers choose the intended policy relative to #39406. |
 
 ## Needs Human
 
-- #39406 needs a maintainer product/safety decision on the normal-chat tool-warning delivery semantics, such as whether to add all/final/off behavior or keep the current coarse boolean suppression model.
+- Maintainer/product decision needed for #51091 relative to #39406: land the current safe heartbeat/non-mutating suppression repair after aligning PR title, body, docs, and changelog, or pursue a broader all-tools/configurable delivery policy under the canonical issue.

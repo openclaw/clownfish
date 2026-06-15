@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156636-autonomous-smoke"
 mode: "autonomous"
-run_id: "25032428566"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25032428566"
-head_sha: "0852e05762885fe6da21185d648223890d556917"
+run_id: "25102377741"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102377741"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T03:54:12.865Z"
-canonical: "https://github.com/openclaw/openclaw/pull/68667"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/24693"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/68667"
-actions_total: 7
+published_at: "2026-06-15T03:45:26.091Z"
+canonical: "#73228"
+canonical_issue: null
+canonical_pr: "https://github.com/openclaw/openclaw/pull/73228"
+actions_total: 8
 fix_executed: 0
-fix_failed: 1
+fix_failed: 0
 fix_blocked: 0
-apply_executed: 1
-apply_blocked: 0
-apply_skipped: 1
+apply_executed: 0
+apply_blocked: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
@@ -25,57 +25,55 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25032428566](https://github.com/openclaw/clownfish/actions/runs/25032428566)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102377741](https://github.com/openclaw/clownfish/actions/runs/25102377741)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/68667
+Canonical: #73228
 
 ## Summary
 
-Classified the hydrated cluster using the preflight artifact. The clearest non-security canonical fix path is repair/validate PR #68667 for the #24693 cross-agent hook completion routing bug. PR #55761 is quarantined exactly as the preflight artifact's security-sensitive item. Closed refs remain skipped evidence only. No merge is recommended because Codex /review and fresh merge preflight are missing.
+Canonical target-agent hook event routing is already merged in #73228 on main d33c3f7. The obsolete open draft #39046 can be closed as fixed by that merged PR. Security-sensitive #24693 is quarantined only. The deliver:false/shared-hook announcement-policy items are a related subfamily; their current open path is #73800, which stays open because merge is blocked by a failing parity gate and unresolved security-review feedback.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 7 |
+| Worker actions | 8 |
 | Fix executed | 0 |
-| Fix failed | 1 |
+| Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 1 |
-| Apply blocked | 0 |
-| Apply skipped | 1 |
+| Applied executions | 0 |
+| Apply blocked | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | remote: Permission to security-for-ai-agent/openclaw.git denied to vincentkoc.
-fatal: unable to access 'https://github.com/security-for-ai-agent/openclaw.git/': The requested URL returned error: 403 |
-| open_fix_pr | opened | https://github.com/openclaw/openclaw/pull/73228 | clownfish/ghcrawl-156636-autonomous-smoke |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #24693 | close_fixed_by_candidate | skipped | fixed_by_candidate | action status is blocked |
-| #73228 | merge_canonical | executed | fix_pr | merged by ProjectClownfish post-flight |
+| #39046 | close_fixed_by_candidate | blocked | fixed_by_candidate | canonical is not listed in job refs |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #24693 | close_fixed_by_candidate | blocked | fixed_by_candidate | Closeout is blocked on the canonical fix path #68667 being repaired, reviewed, validated, and merged. |
-| #39046 | keep_related | planned | superseded | Keep the maintainer draft open as related/superseded context while the executable repair path proceeds through #68667. |
-| #49234 | keep_closed | skipped | superseded | Already closed; no mutation is valid. |
-| #55704 | keep_closed | skipped | superseded | Already closed; no mutation is valid. |
-| #55761 | route_security | planned | security_sensitive | Security-sensitive item must be routed to central OpenClaw security triage and not mutated by ProjectClownfish. |
-| #68667 | fix_needed | planned | canonical | Repair the contributor branch rather than merging directly: run fresh checkout/rebase as needed, Codex /review, address findings, run pnpm check:changed, then merge only if all gates pass. |
-| cluster:ghcrawl-156636-autonomous-smoke | build_fix_artifact | planned |  | A canonical fix path exists but needs executor repair/review validation before merge or post-merge closeout. |
+| #24693 | route_security | planned | security_sensitive | Security-sensitive report is quarantined for central OpenClaw security handling; no GitHub mutation is planned by this worker. |
+| #39046 | close_fixed_by_candidate | planned | fixed_by_candidate | Merged PR #73228 is the explicit current canonical path for the target-agent hook event routing fix, so the older draft #39046 can be closed as fixed by that candidate. |
+| #49234 | keep_closed | skipped | superseded | Already closed and superseded by the related #73800 shared-hook announcement-policy path; no mutation is needed. |
+| #55704 | keep_closed | skipped | superseded | Already closed and now carried by the related open #73800 replacement path; no mutation is needed. |
+| #55761 | keep_closed | skipped | superseded | Already closed and superseded by the credited #73800 replacement path; no mutation is needed. |
+| #68667 | keep_closed | skipped | superseded | Already closed as superseded by merged replacement #73228; no mutation is needed. |
+| #73228 | keep_closed | skipped | canonical | Canonical fix is already merged, so it is included only as skipped historical evidence. |
+| #73800 | keep_related | planned | related | Keep open as a related implementation candidate; merge and fixed-by-candidate closeout are blocked until checks and review/security feedback are resolved. |
 
 ## Needs Human
 

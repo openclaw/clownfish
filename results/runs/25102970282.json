@@ -1,0 +1,65 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238872-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25102970282",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102970282",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:09:39Z",
+  "workflow_updated_at": "2026-04-29T10:12:20Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238872-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T03:45:26.135Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations are planned. The hydrated artifact shows no security-sensitive refs, but the cluster has two useful open contributor PRs for the same cron announce reasoning leak. #40534 is the representative PR, while #73363 is newer, directly linked to #73186, and has recent Feishu picker coverage. ClawSweeper explicitly asks maintainer review to reconcile #73363 with the broader #40534 scope and the reasoning-only fallback policy, so canonical selection is not high-confidence.",
+  "actions": [
+    {
+      "target": "#40534",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Representative PR is useful but not safely canonical without maintainer choice against the newer overlapping #73363 path."
+    },
+    {
+      "target": "#73186",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#73363",
+      "reason": "Keep the issue open as related evidence for the active PR selection; closeout is blocked until a canonical fix path is chosen and validated."
+    },
+    {
+      "target": "#73363",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful overlapping PR, but canonical selection and reasoning-only fallback policy require maintainer judgment; failing checks also block any fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical implementation path between #40534 and #73363. #40534 is the representative and broader strict path, while #73363 is newer, linked to #73186, and includes recent Feishu picker coverage.",
+    "Decide the cron announce policy for reasoning-only payloads: never deliver reasoning payload text, or allow a conservative fallback when no non-reasoning content exists.",
+    "Resolve or explicitly waive the failing checks on the chosen PR before any merge or fixed-by-candidate closeout in a future job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

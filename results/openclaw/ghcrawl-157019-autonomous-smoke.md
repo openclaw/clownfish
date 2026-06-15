@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-157019-autonomous-smoke"
 mode: "autonomous"
-run_id: "25040558130"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25040558130"
-head_sha: "d238f8a4f278d9960682d9a73a91e0782f12556a"
+run_id: "25102937098"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102937098"
+head_sha: "c3cc5ac35d228f419caa5b1772e20efdca99c0e6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T07:50:28.804Z"
-canonical: "https://github.com/openclaw/openclaw/pull/69288"
+published_at: "2026-06-15T03:45:26.130Z"
+canonical: "#69288"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/69288"
 actions_total: 6
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25040558130](https://github.com/openclaw/clownfish/actions/runs/25040558130)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102937098](https://github.com/openclaw/clownfish/actions/runs/25102937098)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/69288
+Canonical: #69288
 
 ## Summary
 
-Hydrated state shows the job's open-candidate inventory is obsolete: #40777 and #69288 are both already closed. #69288 is the only hydrated primary candidate that landed on main and is the canonical merged path for the antml streaming fix; #40777 was closed unmerged as already implemented on current main. No close, merge, label, comment, or fix PR action is valid for the closed non-security targets. The security-sensitive linked ref #59550 is quarantined only.
+All hydrated refs for this cluster are already closed. The live canonical hint #40777 is obsolete because it was closed as implemented by current main, and #69288 is the landed canonical PR for the namespaced antml streaming subcase. No close, comment, label, merge, or fix PR action is planned.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Hydrated state shows the job's open-candidate inventory is obsolete: #40777 and 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #40736 | keep_closed | skipped | fixed_by_candidate | Already closed; retained as historical evidence for the thinking-tag leak family. |
-| #40777 | keep_closed | skipped | superseded | Representative canonical hint is obsolete: the PR is closed unmerged and current main is the maintained path. |
-| #51915 | keep_closed | skipped | related | Closed related sanitizer follow-up, not a live candidate for this cluster. |
-| #59550 | route_security | planned | security_sensitive | Security-shaped linked ref is out of ProjectClownfish backlog-cleanup scope and should be routed to central OpenClaw security handling. |
-| #69235 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by the hydrated merged candidate #69288. |
-| #69288 | keep_closed | skipped | canonical | Best hydrated canonical path for the antml streaming subfamily is already merged and closed. |
+| #40736 | keep_closed | skipped | fixed_by_candidate | Already closed in hydrated live state. |
+| #40777 | keep_closed | skipped | fixed_by_candidate | Representative canonical hint is obsolete because the PR is already closed and the shipped current-main path owns the fix. |
+| #51915 | keep_closed | skipped | superseded | Already closed as superseded by a direct main commit. |
+| #59550 | keep_closed | skipped | related | Already merged and closed; related historical antml sanitizer context only. |
+| #69235 | keep_closed | skipped | fixed_by_candidate | Already closed after the landed #69288 fix path. |
+| #69288 | keep_closed | skipped | canonical | Landed canonical PR for the antml streaming subcase; already closed and merged. |
 
 ## Needs Human
 

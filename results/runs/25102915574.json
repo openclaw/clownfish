@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157010-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25102915574",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102915574",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:08:17Z",
+  "workflow_updated_at": "2026-04-29T10:12:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157010-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.126Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38622",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38622",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the original candidate PRs #40230 and #52522 are already closed. #38622 is the best open canonical issue for the shared symlinked workspace bootstrap-file bug; #40210 is a duplicate but closeout is blocked until a canonical fix lands. The two open implementation PRs #73401 and #73988 both have unresolved security-sensitive review findings around external symlink reads, so they need central security/maintainer review before any merge, repair, replacement, or post-merge closeout.",
+  "actions": [
+    {
+      "target": "#38622",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "reason": "Best surviving open issue for the root cause while the implementation path is unresolved."
+    },
+    {
+      "target": "#40210",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "reason": "Duplicate closeout is clear but blocked until the canonical fix path lands or is selected."
+    },
+    {
+      "target": "#40230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical ref; preserve as evidence only."
+    },
+    {
+      "target": "#52522",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical ref; preserve as related/superseded evidence only."
+    },
+    {
+      "target": "#73401",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive review evidence blocks autonomous merge or repair; route this PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#73988",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive review evidence blocks autonomous merge, closeout, or further fix execution; route this PR to central OpenClaw security handling."
+    },
+    {
+      "target": "cluster:ghcrawl-157010-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "reason": "Maintainer/security judgment is required to choose or consolidate the canonical implementation path before Clownfish can merge, repair, replace, or close duplicates."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "keep_closed": 2,
+    "route_security": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "Canonical PR/merge path needs maintainer and central security decision between #73401 and #73988, or a new security-approved implementation path, before any fix or closeout can proceed."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#40210",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-157010-autonomous-smoke:blocked-close-duplicate:40210:2026-04-28T06:56:59Z",
+      "source_status": "blocked",
+      "source_reason": null,
+      "reason": "Duplicate closeout is clear but blocked until the canonical fix path lands or is selected.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

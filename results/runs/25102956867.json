@@ -1,0 +1,111 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238866-dedupe-only-20260429c",
+  "mode": "autonomous",
+  "run_id": "25102956867",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102956867",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:09:20Z",
+  "workflow_updated_at": "2026-04-29T10:13:03Z",
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238866-dedupe-only-20260429c.md",
+  "published_at": "2026-06-15T03:45:26.133Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/60677",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/60677",
+  "summary": "Canonical path is open PR #60677 for the imsg RPC tapback filtering bug. #60274 is covered by that PR, but fixed-by-candidate closeout is blocked because the hydrated canonical fix path still has failing checks and unknown mergeability. #39322 and #39031 remain related tapback-forwarding feature work; closed linked refs are historical evidence only.",
+  "actions": [
+    {
+      "target": "#60677",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#60677",
+      "candidate_fix": null,
+      "reason": "#60677 is the best live canonical implementation path for the filtering bug, but this worker must not merge and the PR still has check/merge-state blockers."
+    },
+    {
+      "target": "#60274",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60677",
+      "candidate_fix": "#60677",
+      "reason": "Fixed-by-candidate closeout is blocked by the canonical fix path #60677 not being clean yet: hydrated checks include failures and mergeability is unknown."
+    },
+    {
+      "target": "#39322",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39031",
+      "candidate_fix": null,
+      "reason": "Keep open as related feature-forwarding work under #39031; it is not a duplicate of the narrow filtering fix in #60677."
+    },
+    {
+      "target": "#39031",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39031",
+      "candidate_fix": null,
+      "reason": "Keep open as the related feature canonical; the current cluster should not close or merge this broader tapback-forwarding request."
+    },
+    {
+      "target": "#60446",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39031",
+      "candidate_fix": null,
+      "reason": "Already closed as part of the related feature-forwarding family; no mutation is valid."
+    },
+    {
+      "target": "#26924",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#39031",
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 1,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#60274",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60677",
+      "candidate_fix": "#60677",
+      "title": null,
+      "idempotency_key": "gitcrawl-238866-dedupe-only-20260429c-60274-close-fixed-by-60677-blocked-by-canonical-fix-path-20260428T173339Z",
+      "source_status": "blocked",
+      "source_reason": null,
+      "reason": "Fixed-by-candidate closeout is blocked by the canonical fix path #60677 not being clean yet: hydrated checks include failures and mergeability is unknown.",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

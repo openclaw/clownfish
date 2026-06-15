@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156940-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25102731398",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102731398",
+  "head_sha": "9a08eb9ac982c5d395ca81610998f5f78efc9ef6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:03:58Z",
+  "workflow_updated_at": "2026-04-29T10:10:01Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156940-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.103Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/11655",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/11655",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73389",
+  "summary": "Canonical remains open issue #11655. #52020 is already closed as a duplicate, #11699 is closed historical implementation context, and open PR #73389 is the active implementation candidate but is not merge-ready because the Aisle views.publish throttling finding, missing Codex /review merge preflight, and unknown mergeability need maintainer resolution.",
+  "actions": [
+    {
+      "target": "#11655",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#11655",
+      "candidate_fix": "#73389",
+      "reason": "#11655 is still the best live canonical tracker for Slack App Home tab support."
+    },
+    {
+      "target": "#52020",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#11655",
+      "candidate_fix": "#73389",
+      "reason": "Already closed duplicate context; no close/comment mutation is valid for this target."
+    },
+    {
+      "target": "#11699",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#11655",
+      "candidate_fix": "#73389",
+      "reason": "Closed historical PR context only; do not mutate or close an already closed PR."
+    },
+    {
+      "target": "#73389",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#11655",
+      "candidate_fix": "#73389",
+      "reason": "Maintainer decision is required on #73389 before merge: resolve or explicitly accept the Aisle views.publish throttling finding, then rerun Codex /review and merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73389: decide whether to resolve or explicitly accept the Aisle throttling finding about unthrottled Slack views.publish calls on app_home_opened before merge; Codex /review merge preflight is also missing and mergeable_state is unknown."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

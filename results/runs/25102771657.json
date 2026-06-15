@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156956-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25102771657",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102771657",
+  "head_sha": "9a08eb9ac982c5d395ca81610998f5f78efc9ef6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:04:53Z",
+  "workflow_updated_at": "2026-04-29T10:10:05Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156956-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.105Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated seed issues #31584 and #50002 are already closed, so no close/comment mutation is valid for them. The only open hydrated item, #56650, is related adjacent Copilot auth work, but it is not a clean canonical path for the seed reports and has unresolved bot review findings plus failing checks. A maintainer comment says #50003 was replaced by PR #72553, but #72553 was not hydrated in this artifact, so the current canonical implementation path cannot be safely selected here.",
+  "actions": [
+    {
+      "target": "#31584",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; historical seed issue only."
+    },
+    {
+      "target": "#50002",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; historical duplicate/superseded issue only."
+    },
+    {
+      "target": "#50003",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed contributor PR was superseded by an unhydrated replacement path; no mutation is valid here."
+    },
+    {
+      "target": "#56650",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open PR should remain open as adjacent work; it is not a high-confidence canonical fix for this cluster."
+    },
+    {
+      "target": "cluster:ghcrawl-156956-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical implementation path is unclear until PR #72553 is hydrated and verified."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Hydrate and verify PR #72553 before selecting a current canonical implementation path for non-interactive GitHub Copilot onboarding; the current artifact cannot safely use it as canonical_pr or candidate_fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,21 +2,21 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156873-autonomous-smoke"
 mode: "autonomous"
-run_id: "25039876456"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25039876456"
-head_sha: "ddeac017c7796b33e322eb33ea7297510fe2229d"
+run_id: "25103584753"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25103584753"
+head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T07:35:10.386Z"
+published_at: "2026-06-15T03:45:26.144Z"
 canonical: "https://github.com/openclaw/openclaw/pull/60773"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/60773"
-actions_total: 4
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25039876456](https://github.com/openclaw/clownfish/actions/runs/25039876456)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25103584753](https://github.com/openclaw/clownfish/actions/runs/25103584753)
 
 Workflow conclusion: success
 
@@ -35,18 +35,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/60773
 
 ## Summary
 
-Classified the Control UI docs PR cluster from the hydrated preflight artifact. #60773 remains the canonical gatewayUrl encoding path, but it is not merge-ready because both Greptile and Codex identified destructive documentation truncation. Plan a narrow repair of #60773's contributor branch, keep #54671 open as related-but-separate Docker pairing documentation work, and do not act on already-closed #61331.
+Classified the hydrated cluster without mutations. The original representative #60773 is now closed as merged and remains the canonical landed fix for the gatewayUrl encoding docs work. #54671 is related Control UI documentation work but is not a duplicate of #60773, so it should stay open. #61331 was already closed as superseded by the English-source path and receives no closure action.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -54,22 +54,21 @@ Classified the Control UI docs PR cluster from the hydrated preflight artifact. 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/60773 |  |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #60773 | merge_canonical | blocked | fix_pr | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #54671 | keep_related | planned | related | Same Control UI documentation area, but distinct Docker pairing clarification rather than duplicate gatewayUrl encoding work. |
-| #60773 | fix_needed | planned | canonical | Canonical PR is useful but blocked by destructive doc truncation and unresolved bot review findings; repair the contributor branch before any merge or closeout. |
-| #61331 | keep_closed | skipped | superseded | Already-closed zh-CN generated-doc PR is historical evidence only and must not receive a mutation. |
-| cluster:ghcrawl-156873-autonomous-smoke | build_fix_artifact | planned |  | A concrete repair plan is required before #60773 can become merge-ready. |
+| #54671 | keep_related | planned | related | Same docs area but different user-visible documentation scope; keep open rather than close or merge from this cluster. |
+| #60773 | keep_closed | skipped | canonical | Already merged canonical PR for the gatewayUrl encoding docs work; no worker mutation is valid for an already-closed PR. |
+| #61331 | keep_closed | skipped | superseded | Already closed superseded PR; no additional closure or comment action is valid. |
 
 ## Needs Human
 

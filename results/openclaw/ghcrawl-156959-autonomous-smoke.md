@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156959-autonomous-smoke"
 mode: "autonomous"
-run_id: "25040292043"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25040292043"
-head_sha: "4b7fe7a90dde09257bf7e112b5aadb93751bdb1b"
+run_id: "25102779394"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102779394"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-28T07:42:26.211Z"
+published_at: "2026-06-15T03:45:26.106Z"
 canonical: "https://github.com/openclaw/openclaw/issues/34252"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/34252"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25040292043](https://github.com/openclaw/clownfish/actions/runs/25040292043)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102779394](https://github.com/openclaw/clownfish/actions/runs/25102779394)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/34252
 
 ## Summary
 
-Hydrated live state shows the original canonical #34252 and candidate #63441 are already closed. No GitHub mutations are planned. #34252 remains the historical canonical issue for the multiple Ollama provider capability, and maintainer evidence says the capability is fixed on current main 0b82a7e718e3f8fc228d020d05ef0ff84e1dd6ff. #63441 was a duplicate of #34252 and is already closed. Linked closed refs #62735 and #69703 are historical context only.
+Preflight shows the cluster changed from the ghcrawl snapshot: both job candidates are already closed. #34252 remains the historical canonical tracker and was closed as fixed on current main; #63441 is already closed as a duplicate of that tracker. No GitHub mutations, fix PR, merge, or post-merge closeout actions are planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Hydrated live state shows the original canonical #34252 and candidate #63441 are
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #34252 | keep_closed | skipped | canonical | Already closed canonical issue; closed refs must not receive close/comment/label actions. |
-| #63441 | keep_closed | skipped | duplicate | Duplicate candidate is already closed; no closure action is valid. |
-| #62735 | keep_closed | skipped | related | Closed linked context ref; related evidence only, not a mutation target. |
-| #69703 | keep_closed | skipped | superseded | Closed superseded contributor PR; no merge or close action is valid. |
+| #34252 | keep_closed | skipped | canonical | Already closed canonical tracker; closure actions are not valid for closed items. |
+| #63441 | keep_closed | skipped | duplicate | Already closed duplicate of the canonical multi-Ollama provider tracker; no further closeout is allowed. |
+| #62735 | keep_closed | skipped | related | Closed linked context item; it is related evidence for the cluster, not an open mutation target. |
+| #69703 | keep_closed | skipped | superseded | Already closed superseded PR; no merge or replacement action is valid in this run. |
 
 ## Needs Human
 

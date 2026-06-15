@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156892-autonomous-smoke"
 mode: "autonomous"
-run_id: "25103636389"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25103636389"
-head_sha: "98c86abfe56e7ca0578fd667fdea3121315c5b1d"
+run_id: "25102385655"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102385655"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T10:32:50.599Z"
+published_at: "2026-06-15T03:45:26.094Z"
 canonical: "https://github.com/openclaw/openclaw/issues/59626"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/59626"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25103636389](https://github.com/openclaw/clownfish/actions/runs/25103636389)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102385655](https://github.com/openclaw/clownfish/actions/runs/25102385655)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/59626
 
 ## Summary
 
-Hydrated preflight state from 2026-04-29 shows all job-provided candidates are already closed, including historical canonical #59626. No close, merge, post-merge close, or fix PR action is valid. Security-linked refs #26739 and #60268 are scoped to route_security; the remaining hydrated refs are kept closed as historical evidence.
+All job-provided candidate refs are already closed in the hydrated preflight artifact. No close, merge, label, comment, or fix PR action is safe or needed; only scoped security routing for the two security-sensitive linked refs is planned, and closed non-security refs are recorded as skipped keep-closed classifications.
 
 ## Impact
 
@@ -66,15 +66,15 @@ Hydrated preflight state from 2026-04-29 shows all job-provided candidates are a
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #26739 | route_security | planned | security_sensitive | Security-sensitive linked ref is routed to central security handling only. |
-| #42574 | keep_closed | skipped | related | Already closed; closure policy forbids close actions on closed items. |
-| #50625 | keep_closed | skipped | independent | Closed historical context only. |
-| #58691 | keep_closed | skipped | related | Related closed issue; no close or fix action remains. |
-| #59625 | keep_closed | skipped | duplicate | Duplicate of historical canonical #59626, but already closed so no close action is valid. |
-| #59626 | keep_closed | skipped | canonical | Historical canonical is closed as implemented; no mutation remains. |
-| #60268 | route_security | planned | security_sensitive | Security-sensitive linked ref is routed to central security handling only. |
-| #60709 | keep_closed | skipped | superseded | Closed obsolete contributor PR; current main superseded the proposed toggle path. |
-| #64243 | keep_closed | skipped | related | Related closed issue; no close, post-merge close, or fix action remains. |
+| #26739 | route_security | planned | security_sensitive | Security-sensitive linked ref is quarantined to central OpenClaw security handling without poisoning unrelated non-security classification. |
+| #42574 | keep_closed | skipped | related | Already closed related context; no mutation required. |
+| #50625 | keep_closed | skipped | independent | Already closed independent context; no mutation required. |
+| #58691 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main; no candidate PR is open or mergeable in this cluster. |
+| #59625 | keep_closed | skipped | duplicate | Already closed duplicate of the canonical obfuscation report #59626. |
+| #59626 | keep_closed | skipped | canonical | Best canonical issue for the obfuscation scanner/full-off report family, already closed as implemented. |
+| #60268 | route_security | planned | security_sensitive | Security-sensitive linked ref is quarantined to central OpenClaw security handling without blocking unrelated non-security decisions. |
+| #60709 | keep_closed | skipped | superseded | Closed obsolete contributor PR superseded by current main behavior; contributor credit has already been preserved in the historical PR thread. |
+| #64243 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented on current main; no additional fix artifact is needed. |
 
 ## Needs Human
 

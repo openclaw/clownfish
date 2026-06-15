@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157007-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "25102908167",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25102908167",
+  "head_sha": "c3cc5ac35d228f419caa5b1772e20efdca99c0e6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T10:08:06Z",
+  "workflow_updated_at": "2026-04-29T10:11:41Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157007-autonomous-smoke.md",
+  "published_at": "2026-06-15T03:45:26.124Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated state differs from the ghcrawl seed: #40208 and #62700 are already closed, and the only linked open issue, #55401, is related but not the same allow/deny plugin lifecycle scoping request. No close, merge, or fix PR action is safe in this run; maintainer judgment is needed on the surviving canonical path for the original scoping request.",
+  "actions": [
+    {
+      "target": "#40208",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this run; retain only as historical evidence for the plugin scoping family."
+    },
+    {
+      "target": "#62700",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this run; no mutation is allowed against this closed target."
+    },
+    {
+      "target": "#55401",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related follow-up design issue with distinct per-agent plugin config override semantics; keep open."
+    },
+    {
+      "target": "cluster:ghcrawl-157007-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: reopen or create a canonical tracker for the original per-agent plugin allow/deny lifecycle scoping request, or intentionally fold that scope into #55401 despite the distinct config-override semantics."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "No live same-scope canonical remains for the original per-agent plugin allow/deny lifecycle scoping request after #40208 and #62700 were both closed. Maintainer should decide whether to reopen/create a canonical scoping tracker or intentionally fold the work into #55401."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

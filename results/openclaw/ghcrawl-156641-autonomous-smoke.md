@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156641-autonomous-smoke"
 mode: "autonomous"
-run_id: "25023007253"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25023007253"
-head_sha: "416b225d73239870f6704a4eeb6d95f026ba00e9"
+run_id: "25102387367"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/25102387367"
+head_sha: "9a08eb9ac982c5d395ca81610998f5f78efc9ef6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-27T22:32:05.845Z"
-canonical: "https://github.com/openclaw/openclaw/issues/53989"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/53989"
+published_at: "2026-06-15T03:45:26.094Z"
+canonical: "https://github.com/openclaw/openclaw/commit/d33c3f7da651f74134688a78c0d10522dd178592"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/57844"
 canonical_pr: null
-actions_total: 8
+actions_total: 7
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25023007253](https://github.com/openclaw/clownfish/actions/runs/25023007253)
+Run: [https://github.com/openclaw/clownfish/actions/runs/25102387367](https://github.com/openclaw/clownfish/actions/runs/25102387367)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/53989
+Canonical: https://github.com/openclaw/openclaw/commit/d33c3f7da651f74134688a78c0d10522dd178592
 
 ## Summary
 
-Hydrated state shows the original representative #45857 and most cluster members are already closed. The only open seed item is #53989, which is a related but narrower 2026.3.23-2 multi-account/config-rewrite Slack Socket Mode dispatch regression that lacks proof of a current-main fix and should remain open as the live canonical tracker for that remaining subcase. No GitHub mutations, merges, or fix PRs are safe from this worker result.
+Hydrated live state shows all six job candidate issues are already closed, so no close/comment/label/merge/fix action is valid for them. #57844 is the best historical canonical tracker for the Slack Socket Mode silent-inbound family, and the current canonical fix path is already on main at d33c3f7da651f74134688a78c0d10522dd178592. One linked closed context issue, #28037, contains a secret-scanning notice and is routed to security only for that exact item.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 8 |
+| Worker actions | 7 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,14 +66,13 @@ Hydrated state shows the original representative #45857 and most cluster members
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #28037 | route_security | planned | security_sensitive | Security-sensitive linked item must be routed to central OpenClaw security handling; no ProjectClownfish close/comment/merge/fix mutation is planned. |
-| #45311 | route_security | planned | security_sensitive | Security-sensitive linked item is routed only; already-closed state prevents any closure mutation. |
-| #45857 | keep_closed | skipped | superseded | Already closed; no close action is valid. It is historical evidence for the remaining open #53989 tracker. |
-| #47831 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
-| #52527 | keep_closed | skipped | fixed_by_candidate | Already closed; no close action is valid. The older v2026.3.13 rollback report is historical evidence, not a live target. |
-| #53989 | keep_canonical | planned | canonical | #53989 should remain the live canonical issue for the unresolved 2026.3.23-2 multi-account/config-rewrite Slack dispatch subcase. |
-| #57844 | keep_closed | skipped | fixed_by_candidate | Already closed; no close action is valid. |
-| #66989 | keep_closed | skipped | fixed_by_candidate | Already closed; no close action is valid. |
+| #28037 | route_security | planned | security_sensitive | Exact linked item contains leaked-secret signal; route to central OpenClaw security handling only. |
+| #45857 | keep_closed | skipped | superseded | Already closed in live state; closure actions are invalid for closed targets. |
+| #47831 | keep_closed | skipped | superseded | Already closed in live state; no further mutation is valid. |
+| #52527 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no fix artifact or closure action is needed. |
+| #53989 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further mutation is valid. |
+| #57844 | keep_closed | skipped | canonical | Canonical issue is already closed as implemented; keep closed and do not emit closeout. |
+| #66989 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no further mutation is valid. |
 
 ## Needs Human
 
