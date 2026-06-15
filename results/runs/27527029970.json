@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T0529-031",
+  "mode": "plan",
+  "run_id": "27527029970",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527029970",
+  "head_sha": "37c0e6443280c6799626053b1aa04915dc89839a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:58:19Z",
+  "workflow_updated_at": "2026-06-15T06:02:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T0529-031.md",
+  "published_at": "2026-06-15T06:02:58.800Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Security-sensitive open PRs are routed to central security handling; non-security PRs are kept related or independent because merge/fix/low-signal closeout are disabled or blocked by evidence.",
+  "actions": [
+    {
+      "target": "#87521",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive/network-boundary PR is out of ProjectClownfish backlog cleanup scope."
+    },
+    {
+      "target": "#87527",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to service-managed child process/stdin handling, but not safely closable or mergeable from this inventory shard."
+    },
+    {
+      "target": "#87260",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary documentation PR should be handled by central OpenClaw security review, not backlog cleanup."
+    },
+    {
+      "target": "#87394",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related docs work; no duplicate or low-signal closeout is permitted or proven."
+    },
+    {
+      "target": "#87164",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary/session-state PR is quarantined to central security handling."
+    },
+    {
+      "target": "#87275",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow bugfix candidate; keep open for normal review/proof instead of closing from inventory classification."
+    },
+    {
+      "target": "#87083",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plausible fix work, but not closable or mergeable in this plan-only inventory shard."
+    },
+    {
+      "target": "#87166",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plaintext API key handling is security-sensitive and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#87202",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no ProjectClownfish mutation is needed."
+    },
+    {
+      "target": "#87330",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-delivery work with unresolved proof/merge blockers; keep open for focused review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_related": 4,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
