@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-074",
+  "mode": "plan",
+  "run_id": "27527884675",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527884675",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:47Z",
+  "workflow_updated_at": "2026-06-15T06:21:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-074.md",
+  "published_at": "2026-06-15T06:22:58.985Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the ten job-listed PRs from the hydrated preflight artifact. This is an inventory shard with no shared canonical, so open non-security PRs are kept independently, already-closed PRs are skipped as closed, and security-sensitive PRs are routed to central security handling.",
+  "actions": [
+    {
+      "target": "#84728",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with supplied proof and no duplicate/superseding canonical in this shard; keep for normal maintainer review."
+    },
+    {
+      "target": "#86138",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary hardening/config mutation work must be handled by central OpenClaw security review, not ProjectClownfish cleanup."
+    },
+    {
+      "target": "#73163",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone open PR with clear scope and proof; not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#86146",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#91281",
+      "reason": "Already closed and superseded by merged #91281; no mutation should be planned."
+    },
+    {
+      "target": "#72807",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical PR; no further inventory action is available in plan mode."
+    },
+    {
+      "target": "#72932",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open standalone PR with unresolved review findings and dirty merge state; keep open independently rather than close or merge."
+    },
+    {
+      "target": "#73161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Even though closed, the security-sensitive candidate should be quarantined as out of scope for ProjectClownfish mutation."
+    },
+    {
+      "target": "#73279",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed because current main already covered the work; keep closed with no planned mutation."
+    },
+    {
+      "target": "#73199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open standalone automation/test PR with failing proof/checks and no duplicate canonical; keep open independently for author or maintainer follow-up."
+    },
+    {
+      "target": "#72896",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical PR; no further inventory action is available in plan mode."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 2,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-061",
+  "mode": "plan",
+  "run_id": "27527864656",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527864656",
+  "head_sha": "78b8cd35a6c86bfae67501d9c24090cdaa1b645c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:17Z",
+  "workflow_updated_at": "2026-06-15T06:21:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-061.md",
+  "published_at": "2026-06-15T06:22:58.966Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned; close/merge/fix actions are blocked by job permissions, and the shard has no shared canonical.",
+  "actions": [
+    {
+      "target": "#82966",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82966",
+      "reason": "Session-state semantics need maintainer technical judgment; no close, merge, or fix action is permitted in this plan shard."
+    },
+    {
+      "target": "#82909",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82909",
+      "reason": "Looks focused and non-security, but maintainer review/rebase judgment is explicitly required."
+    },
+    {
+      "target": "#82665",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82665",
+      "reason": "Docs scope is plausibly narrowed from #72633, but acceptance is a maintainer docs/product judgment."
+    },
+    {
+      "target": "#82538",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Token/secret comparison hardening is security-shaped and explicitly routed by the preflight security boundary."
+    },
+    {
+      "target": "#82458",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82458",
+      "reason": "Likely useful and narrow, but merge is blocked by job permissions and maintainer review/rebase signal remains."
+    },
+    {
+      "target": "#82386",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82386",
+      "reason": "Maintainer roster correctness and source-of-truth policy are maintainer judgment calls; failing proof blocks any stronger recommendation."
+    },
+    {
+      "target": "#82379",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#82379",
+      "reason": "The linked docs gap remains plausible, but current PR has unresolved correctness/proof blockers."
+    },
+    {
+      "target": "#82366",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#82366",
+      "reason": "Already closed/merged refs must not receive closure actions."
+    },
+    {
+      "target": "#81590",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Authenticated gateway watchdog behavior and security-boundary labels require central OpenClaw security handling."
+    },
+    {
+      "target": "#81407",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81407",
+      "reason": "Outbound hook event compatibility is a product/API judgment; no merge/fix action is allowed in this shard."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 7,
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82966: session-state semantics after #82578/#82900 need maintainer technical review before merge.",
+    "#82909: focused Telegram type repair needs maintainer review and dependency-guard rebase decision.",
+    "#82665: narrowed docs follow-up to #72633 needs maintainer docs acceptance.",
+    "#82458: focused formatter fix appears ready but still has maintainer-review/rebase signal.",
+    "#82386: maintainer roster source and handle correctness require maintainer decision; proof failed.",
+    "#82379: Lobster docs PR has failed proof and unresolved doc-drift feedback.",
+    "#81407: outbound hook senderId change has compatibility/product surface and rebase/proof signals."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-067",
+  "mode": "plan",
+  "run_id": "27527873771",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27527873771",
+  "head_sha": "a2e72c1643ea3846434c7f2e5f7cadde5c103b50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:19:31Z",
+  "workflow_updated_at": "2026-06-15T06:21:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-067.md",
+  "published_at": "2026-06-15T06:22:58.974Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected because the job is an inventory shard. Security-sensitive PRs are routed only for central handling; open non-security PRs are kept for their own proof or maintainer-review paths; already-closed PRs receive no closure action.",
+  "actions": [
+    {
+      "target": "#75228",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches TLS pin repair policy and is explicitly flagged security-sensitive; quarantine this exact item without poisoning unrelated PR classifications."
+    },
+    {
+      "target": "#75139",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone candidate with unresolved proof requirements, not a duplicate or shared canonical member."
+    },
+    {
+      "target": "#75138",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a distinct daemon dotenv behavior PR that should remain on its own proof path."
+    },
+    {
+      "target": "#75054",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent docs PR awaiting maintainer judgment; close and merge are not available in this plan."
+    },
+    {
+      "target": "#75047",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#85416",
+      "reason": "Already closed; record that no mutation is needed and that the hydrated replacement path was #85416."
+    },
+    {
+      "target": "#75024",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent Feishu behavior PR requiring proof, not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#74794",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although already closed, the item is explicitly security-sensitive; route the exact ref for central security handling without planning any mutation."
+    },
+    {
+      "target": "#74613",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep this independent docs PR open for maintainer review; no inventory close action is justified."
+    },
+    {
+      "target": "#74408",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no further action should be planned in this inventory shard."
+    },
+    {
+      "target": "#74339",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#88946",
+      "reason": "Already closed and later fixed elsewhere per hydrated issue context; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 5,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
