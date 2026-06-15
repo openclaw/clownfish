@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-978-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519133098",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519133098",
+  "head_sha": "191e9d5b392c737bb75a3481f897eef031892f3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:43:13Z",
+  "workflow_updated_at": "2026-06-15T01:44:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-978-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:10:12.702Z",
+  "canonical": "#78100",
+  "canonical_issue": "#78100",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #78100 remains the live canonical issue. #78639 is the open related/candidate implementation path for #78100, but it is not merge-ready because the hydrated PR is dirty, has failing checks, and has unresolved ClawSweeper review concerns. #78101 is security-sensitive linked closed context and should be routed to central security handling without affecting the non-security classification.",
+  "actions": [
+    {
+      "target": "#78100",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#78100",
+      "candidate_fix": "#78639",
+      "reason": "The issue is open, non-security, and remains the best central thread for the slow-filesystem gateway plugin discovery root cause."
+    },
+    {
+      "target": "#78639",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78100",
+      "candidate_fix": "#78639",
+      "reason": "#78639 is the active implementation path for the canonical issue, but merge is blocked by failing checks, dirty merge state, and unresolved bot-review concerns; keep it related to #78100 rather than closing or merging."
+    },
+    {
+      "target": "#78101",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#78100",
+      "candidate_fix": null,
+      "reason": "The exact linked PR is marked security-sensitive in hydrated state; route only this item to central OpenClaw security handling and continue classifying the non-security issue and PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

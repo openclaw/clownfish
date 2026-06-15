@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-114-plan-ramp",
+  "mode": "plan",
+  "run_id": "27519848274",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519848274",
+  "head_sha": "22d161e1bb6775432f7eb60a80e61685d748f60c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:07:57Z",
+  "workflow_updated_at": "2026-06-15T02:08:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-114-plan-ramp.md",
+  "published_at": "2026-06-15T02:10:12.704Z",
+  "canonical": "#89249",
+  "canonical_issue": "#89249",
+  "canonical_pr": "#89323",
+  "summary": "Plan-only classification for five open hydrated cluster candidates. #89249 remains the best canonical issue for the spawn-child pagination/count dead-end. #86183 is a separate same-area bug family about missing agentId scoping. #89323 is the strongest fix candidate for #89249 but merge is blocked by job frontmatter; #86306 and #89283 are not closeout-ready because their required real behavior proof checks fail.",
+  "actions": [
+    {
+      "target": "#89249",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89249",
+      "candidate_fix": "#89323",
+      "reason": "#89249 remains the clearest surviving canonical for the spawn-child hidden-page pagination bug."
+    },
+    {
+      "target": "#86183",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#86306",
+      "reason": "Same UI area, but a distinct root cause and fix path from #89249; do not close it as a duplicate in this cluster."
+    },
+    {
+      "target": "#86306",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86183",
+      "candidate_fix": "#86306",
+      "reason": "It is a plausible fix candidate for the separate #86183 family, but failing checks and missing proof block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#89283",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89249",
+      "candidate_fix": null,
+      "reason": "Related CLI JSON parity fix, but not the current best fix for #89249's remaining Control UI bug and not closeout-ready."
+    },
+    {
+      "target": "#89323",
+      "action": "merge_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89249",
+      "candidate_fix": "#89323",
+      "reason": "Best hydrated fix candidate for #89249, but merge is blocked by job permissions and must remain a non-executable recommendation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_independent": 1,
+    "keep_related": 2,
+    "merge_candidate": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

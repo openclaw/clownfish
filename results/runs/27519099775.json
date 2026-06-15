@@ -1,0 +1,53 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-891-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519099775",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519099775",
+  "head_sha": "31c87ca3fe1fa037e42cb47214effc4eb921b052",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:42:03Z",
+  "workflow_updated_at": "2026-06-15T01:42:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-891-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:10:12.683Z",
+  "canonical": "#72500",
+  "canonical_issue": "#72500",
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed from the hydrated preflight artifact. #72500 remains the best live canonical for the broader Control UI credentials-gate flash on transient disconnected/prior-authenticated state. #85352 is related but should stay open because it adds a distinct macOS menu bar app open/reveal reproduction path and affected surface, so duplicate closure would be premature.",
+  "actions": [
+    {
+      "target": "#72500",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72500",
+      "candidate_fix": null,
+      "reason": "#72500 is open, hydrated, non-security-sensitive, and covers the central Control UI prior-authenticated reconnect/login-gate state bug across webchat and other Control UI routes."
+    },
+    {
+      "target": "#85352",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72500",
+      "candidate_fix": null,
+      "reason": "#85352 belongs in the same session-state credentials-gate flash family but should not be closed as a duplicate in this plan because its macOS menu bar app open path may require separate validation or app-shell handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer/product decision still needed for the canonical fix design on #72500: keep authenticated UI mounted only for transient reconnect/prior-success states while returning to the credentials gate for first connect and explicit auth, pairing, scope, or revocation failures."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

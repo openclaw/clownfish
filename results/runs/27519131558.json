@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-975-plan-wave-20260615-b",
+  "mode": "plan",
+  "run_id": "27519131558",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27519131558",
+  "head_sha": "191e9d5b392c737bb75a3481f897eef031892f3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T01:43:10Z",
+  "workflow_updated_at": "2026-06-15T01:44:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-975-plan-wave-20260615-b.md",
+  "published_at": "2026-06-15T02:10:12.701Z",
+  "canonical": "#83809",
+  "canonical_issue": "#83809",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: #83809 and #84237 are both open security-sensitive issue reports involving external or durable user-turn injection into live agent sessions, so Clownfish should route those exact refs to central OpenClaw security handling and perform no close/comment/label/fix action. Hydrated linked context #84113 is already closed and should remain closed as historical context only.",
+  "actions": [
+    {
+      "target": "#83809",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#83809",
+      "candidate_fix": null,
+      "reason": "This issue concerns a new external-process path for injecting user input into an active agent session, so it is out of scope for ProjectClownfish backlog cleanup and belongs in central OpenClaw security/product review."
+    },
+    {
+      "target": "#84237",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#83809",
+      "candidate_fix": null,
+      "reason": "This issue proposes replaying durable local records as user input into an active agent session, so Clownfish should route it to central OpenClaw security handling instead of planning closure or a fix."
+    },
+    {
+      "target": "#84113",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#83809",
+      "candidate_fix": null,
+      "reason": "No action is available or needed because #84113 is already closed and was only hydrated as linked context."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

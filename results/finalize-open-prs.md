@@ -1,6 +1,6 @@
 # Open ProjectClownfish PR Finalizer
 
-Generated: 2026-06-15T01:46:26.841Z
+Generated: 2026-06-15T02:10:49.365Z
 
 ## Summary
 
@@ -11,7 +11,7 @@ Generated: 2026-06-15T01:46:26.841Z
 | security_hold | 0 |
 | needs_rebase | 0 |
 | mergeability_unknown | 0 |
-| needs_checks | 1 |
+| needs_checks | 0 |
 | needs_review | 0 |
 | needs_merge_preflight | 1 |
 | needs_result_backfill | 0 |
@@ -30,4 +30,4 @@ Status: report_only
 
 | PR | Title | Cluster | Mergeable | Merge State | Checks | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [#92910](https://github.com/openclaw/openclaw/pull/92910) | fix(memory-core): safely refresh qmd index during collection repair | ghcrawl-156633-autonomous-smoke | MERGEABLE | CLEAN | CANCELLED:6 SKIPPED:67 SUCCESS:132; blockers:3 | needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#92910](https://github.com/openclaw/openclaw/pull/92910) | fix(memory-core): safely refresh qmd index during collection repair | ghcrawl-156633-autonomous-smoke | MERGEABLE | CLEAN | SUCCESS:128 SKIPPED:27 | needs_merge_preflight | backfill merge preflight: security cleared, comments resolved, Codex /review passed, validation recorded |

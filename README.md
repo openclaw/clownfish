@@ -41,31 +41,31 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 15, 2026, 01:47 UTC
+Last dashboard update: Jun 15, 2026, 02:11 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 431 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 481 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 431 | 100% |
+| Latest clusters reviewed | 481 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 235 | 54.5% |
-| Needs-human clusters | 54 | 12.5% |
-| Latest successful clusters | 422 | 97.9% |
-| Latest failed clusters | 3 | 0.7% |
+| Clean completed clusters | 280 | 58.2% |
+| Needs-human clusters | 59 | 12.3% |
+| Latest successful clusters | 472 | 98.1% |
+| Latest failed clusters | 3 | 0.6% |
 | Latest cancelled clusters | 1 | 0.2% |
-| Run attempts archived | 757 | audit |
+| Run attempts archived | 807 | audit |
 | Fix action attempts | 254 | audit |
 | Fix actions executed | 1 | 0.4% |
 | Fix actions failed | 61 | 24.0% |
 | Fix actions blocked | 80 | 31.5% |
-| Latest clusters with fix failures | 71 | 16.5% |
-| Distinct PRs touched | 1294 | 100% |
-| Open PRs tracked | 128 | 9.9% |
-| Closed unmerged PRs tracked | 963 | 74.4% |
+| Latest clusters with fix failures | 71 | 14.8% |
+| Distinct PRs touched | 1357 | 100% |
+| Open PRs tracked | 178 | 13.1% |
+| Closed unmerged PRs tracked | 972 | 71.6% |
 | Completed close actions | 32 | 9.6% |
 | Completed merge actions | 26 | 7.8% |
 | Duplicate closes | 22 | 68.8% |
@@ -79,6 +79,11 @@ Scope: 431 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-950-plan-wave-20260615-b](results/openclaw/gitcrawl-950-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-950-plan-wave-20260615-b.md | #84728 requires maintainer/product decision on the automatic Codex-owned rollout JSONL repair boundary and a refreshed conflict-resolutio... | [report](results/openclaw/gitcrawl-950-plan-wave-20260615-b.md) | [27519121085](https://github.com/openclaw/clownfish/actions/runs/27519121085) |
+| [gitcrawl-931-plan-wave-20260615-b](results/openclaw/gitcrawl-931-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-931-plan-wave-20260615-b.md | #80235 requires maintainer product review for the new Discord implicitReplyMentions config surface and cannot be merge-recommended while ... | [report](results/openclaw/gitcrawl-931-plan-wave-20260615-b.md) | [27519115708](https://github.com/openclaw/clownfish/actions/runs/27519115708) |
+| [gitcrawl-909-plan-wave-20260615-b](results/openclaw/gitcrawl-909-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-909-plan-wave-20260615-b.md | Maintainer product decision remains for #80377: decide the intended /reset contract for preserving versus clearing user-sourced thinking/... | [report](results/openclaw/gitcrawl-909-plan-wave-20260615-b.md) | [27519107665](https://github.com/openclaw/clownfish/actions/runs/27519107665) |
+| [gitcrawl-900-plan-wave-20260615-b](results/openclaw/gitcrawl-900-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-900-plan-wave-20260615-b.md | #89045 needs maintainer review before any merge path: hydrated ClawSweeper review flags persisted session-state/data-model compatibility ... | [report](results/openclaw/gitcrawl-900-plan-wave-20260615-b.md) | [27519104225](https://github.com/openclaw/clownfish/actions/runs/27519104225) |
+| [gitcrawl-891-plan-wave-20260615-b](results/openclaw/gitcrawl-891-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-891-plan-wave-20260615-b.md | Maintainer/product decision still needed for the canonical fix design on #72500: keep authenticated UI mounted only for transient reconne... | [report](results/openclaw/gitcrawl-891-plan-wave-20260615-b.md) | [27519099775](https://github.com/openclaw/clownfish/actions/runs/27519099775) |
 | [gitcrawl-830-plan-wave-20260615-b](results/openclaw/gitcrawl-830-plan-wave-20260615-b.md) | needs human | jobs/openclaw/inbox/gitcrawl-830-plan-wave-20260615-b.md | #76263 and #76730 require central OpenClaw security handling before any duplicate, closure, fix, or merge decision. | [report](results/openclaw/gitcrawl-830-plan-wave-20260615-b.md) | [27519071785](https://github.com/openclaw/clownfish/actions/runs/27519071785) |
 | [gitcrawl-504-plan-wave-20260615-a](results/openclaw/gitcrawl-504-plan-wave-20260615-a.md) | needs human | jobs/openclaw/inbox/gitcrawl-504-plan-wave-20260615-a.md | #74481 needs maintainer product/security-boundary review for whether OpenAI-compatible custom base URLs should use live /v1/models discov... | [report](results/openclaw/gitcrawl-504-plan-wave-20260615-a.md) | [27518864728](https://github.com/openclaw/clownfish/actions/runs/27518864728) |
 | [gitcrawl-455-plan-wave-20260615-a](results/openclaw/gitcrawl-455-plan-wave-20260615-a.md) | needs human | jobs/openclaw/inbox/gitcrawl-455-plan-wave-20260615-a.md | Decide whether #81054 should be treated as a source of useful follow-up work to fold into #81046, kept as an independent broader replacem... | [report](results/openclaw/gitcrawl-455-plan-wave-20260615-a.md) | [27518845716](https://github.com/openclaw/clownfish/actions/runs/27518845716) |
@@ -99,11 +104,6 @@ Scope: 431 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 | [gitcrawl-10447-autonomous-smoke](results/openclaw/gitcrawl-10447-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/gitcrawl-10447-autonomous-smoke.md | source PR #76134 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/gitcrawl-10447-autonomous-smoke.md) | [27488927901](https://github.com/openclaw/clownfish/actions/runs/27488927901) |
 | [gitcrawl-11828-autonomous-smoke](results/openclaw/gitcrawl-11828-autonomous-smoke.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-11828-autonomous-smoke.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | [report](results/openclaw/gitcrawl-11828-autonomous-smoke.md) | [27488928582](https://github.com/openclaw/clownfish/actions/runs/27488928582) |
 | [gitcrawl-17425-autonomous-smoke](results/openclaw/gitcrawl-17425-autonomous-smoke.md) | needs human | jobs/openclaw/inbox/gitcrawl-17425-autonomous-smoke.md | Regenerate or repair gitcrawl cluster 17425 before applying cleanup: the job inventory/title describes account-suspension reports, while ... | [report](results/openclaw/gitcrawl-17425-autonomous-smoke.md) | [27488709655](https://github.com/openclaw/clownfish/actions/runs/27488709655) |
-| [gitcrawl-17422-autonomous-smoke](results/openclaw/gitcrawl-17422-autonomous-smoke.md) | needs human | jobs/openclaw/inbox/gitcrawl-17422-autonomous-smoke.md | Regenerate or re-plan cluster gitcrawl-17422-autonomous-smoke from current GitHub refs before any mutation: the hydrated live refs do not... | [report](results/openclaw/gitcrawl-17422-autonomous-smoke.md) | [27488708525](https://github.com/openclaw/clownfish/actions/runs/27488708525) |
-| [ghcrawl-157004-typing-target-retry](results/openclaw/ghcrawl-157004-typing-target-retry.md) | apply blocked | jobs/openclaw/inbox/ghcrawl-157004-typing-target-retry.md | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | [report](results/openclaw/ghcrawl-157004-typing-target-retry.md) | [27487489636](https://github.com/openclaw/clownfish/actions/runs/27487489636) |
-| [ghcrawl-156928-autonomous-smoke](results/openclaw/ghcrawl-156928-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156928-autonomous-smoke.md | source PR #68106 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-156928-autonomous-smoke.md) | [27487490239](https://github.com/openclaw/clownfish/actions/runs/27487490239) |
-| [ghcrawl-157004-autonomous-smoke](results/openclaw/ghcrawl-157004-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-157004-autonomous-smoke.md | source PR #67783 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-157004-autonomous-smoke.md) | [27487023623](https://github.com/openclaw/clownfish/actions/runs/27487023623) |
-| [ghcrawl-156909-autonomous-smoke](results/openclaw/ghcrawl-156909-autonomous-smoke.md) | fix failed | jobs/openclaw/inbox/ghcrawl-156909-autonomous-smoke.md | source PR #63644 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected... | [report](results/openclaw/ghcrawl-156909-autonomous-smoke.md) | [27486519036](https://github.com/openclaw/clownfish/actions/runs/27486519036) |
 
 ### Fix Failure Queue
 
@@ -159,7 +159,7 @@ Scope: 431 active latest cluster reports. 4 policy-archived cluster(s) are exclu
 
 | PR | Title | Cluster | Branch | Blockers | Next action |
 | --- | --- | --- | --- | --- | --- |
-| [#92910](https://github.com/openclaw/openclaw/pull/92910) | fix(memory-core): safely refresh qmd index during collection repair | ghcrawl-156633-autonomous-smoke | clownfish/ghcrawl-156633-autonomous-smoke | needs_checks:Real behavior proof:CANCELLED; Real behavior proof:CANCELLED; Real behavior proof:CANCELLED, needs_merge_preflight | repair failing checks or document unrelated main flake with touched-surface proof |
+| [#92910](https://github.com/openclaw/openclaw/pull/92910) | fix(memory-core): safely refresh qmd index during collection repair | ghcrawl-156633-autonomous-smoke | clownfish/ghcrawl-156633-autonomous-smoke | needs_merge_preflight | backfill merge preflight: security cleared, comments resolved, Codex /review passed, validation recorded |
 
 ### Latest ProjectClownfish Closures
 
