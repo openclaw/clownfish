@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { githubActionsRunUrl, parseArgs, repoRoot } from "./lib.mjs";
+import { inferResultRunIdentity } from "./result-run-identity.mjs";
 
 const DASHBOARD_START = "<!-- projectclownfish-dashboard:start -->";
 const DASHBOARD_END = "<!-- projectclownfish-dashboard:end -->";
@@ -50,14 +51,16 @@ function publishResult(resultPath) {
   const postFlightReport = readSiblingJson(runDir, "post-flight-report.json") ?? { actions: [] };
   const fixReport = readSiblingJson(runDir, "fix-execution-report.json") ?? { actions: [] };
   const clusterPlan = readSiblingJson(runDir, "cluster-plan.json");
-  const runId = String(args["run-id"] ?? inferRunId(resultPath) ?? "");
-  const metadata = runId ? metadataByRunId.get(runId) : undefined;
+  const identity = inferResultRunIdentity(resultPath);
+  const runId = String(args["run-id"] ?? identity?.run_id ?? "");
+  const workflowRunId = String(args["workflow-run-id"] ?? identity?.workflow_run_id ?? runId);
+  const metadata = (runId ? metadataByRunId.get(runId) : undefined) ?? (workflowRunId ? metadataByRunId.get(workflowRunId) : undefined);
   const previousRecord = runId ? readExistingRunRecord(runId) : null;
   const runUrl = noRunUrl
     ? null
     : String(args["run-url"] ?? metadata?.url ?? "") ||
       previousRecord?.run_url ||
-      (runId ? githubActionsRunUrl(runId) : null);
+      (workflowRunId ? githubActionsRunUrl(workflowRunId) : null);
   const headSha = String(args["head-sha"] ?? metadata?.headSha ?? metadata?.head_sha ?? previousRecord?.head_sha ?? "");
   const workflowConclusion = String(args.conclusion ?? metadata?.conclusion ?? previousRecord?.workflow_conclusion ?? "");
   const workflowStatus = String(metadata?.status ?? previousRecord?.workflow_status ?? "");
@@ -74,6 +77,9 @@ function publishResult(resultPath) {
     cluster_id: clusterId,
     mode: result.mode ?? null,
     run_id: runId || null,
+    workflow_run_id: workflowRunId || null,
+    run_attempt: identity?.run_attempt ?? null,
+    matrix_index: identity?.matrix_index ?? null,
     run_url: runUrl,
     head_sha: headSha || null,
     workflow_conclusion: workflowConclusion || null,
@@ -147,6 +153,7 @@ repo: ${quote(report.repo)}
 cluster_id: ${quote(report.cluster_id)}
 mode: ${quote(report.mode)}
 run_id: ${quote(report.run_id)}
+workflow_run_id: ${quote(report.workflow_run_id)}
 run_url: ${quote(report.run_url)}
 head_sha: ${quote(report.head_sha)}
 workflow_conclusion: ${quote(report.workflow_conclusion)}
@@ -499,7 +506,7 @@ function findResultPaths(inputPath) {
 function preferFinalResultPaths(paths) {
   const byRunAndCluster = new Map();
   for (const resultPath of paths.sort()) {
-    const runId = inferRunId(resultPath);
+    const runId = inferResultRunIdentity(resultPath)?.run_id ?? null;
     const clusterId = readResultClusterId(resultPath);
     const key = runId && clusterId ? `${runId}:${clusterId}` : resultPath;
     const previous = byRunAndCluster.get(key);
@@ -549,11 +556,6 @@ function readRunMetadata(filePath) {
   const data = readJson(filePath);
   const rows = Array.isArray(data) ? data : [data];
   return new Map(rows.map((row) => [String(row.databaseId ?? row.run_id ?? row.id), row]));
-}
-
-function inferRunId(filePath) {
-  const match = String(filePath).match(/projectclownfish(?:-worker)?-(\d+)-\d+/);
-  return match?.[1] ?? null;
 }
 
 function summarizeActions(actions) {
