@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-884-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523460061",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523460061",
+  "head_sha": "285810749ecab52f85c511c2a3b9e5ffebad533b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:11:08Z",
+  "workflow_updated_at": "2026-06-15T04:12:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-884-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:13:55.197Z",
+  "canonical": "#74204",
+  "canonical_issue": "#74204",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #74204 remains the open canonical issue for the QMD GGUF embed timeout/default and error-message problem. #87572 is an open PR that directly claims to fix #74204, but the job explicitly marks it as a security-signal ref requiring central routing, so it is quarantined with route_security rather than merge, close, or fixed-by-candidate handling. #60856 is hydrated closed context only and receives no closure mutation.",
+  "actions": [
+    {
+      "target": "#74204",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74204",
+      "candidate_fix": null,
+      "reason": "#74204 is the only non-security open issue in the cluster and still carries the root report and maintainer follow-up state."
+    },
+    {
+      "target": "#87572",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#74204",
+      "candidate_fix": null,
+      "reason": "The job explicitly routes #87572 to central security handling despite the non-security functional relationship to #74204."
+    },
+    {
+      "target": "#60856",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#74204",
+      "candidate_fix": null,
+      "reason": "Already-closed linked context refs are historical evidence only and must not receive closure actions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

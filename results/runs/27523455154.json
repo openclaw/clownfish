@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-871-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523455154",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523455154",
+  "head_sha": "285810749ecab52f85c511c2a3b9e5ffebad533b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:10:59Z",
+  "workflow_updated_at": "2026-06-15T04:11:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-871-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:13:55.196Z",
+  "canonical": "#76092",
+  "canonical_issue": null,
+  "canonical_pr": "#76092",
+  "summary": "Plan-mode classification only. #76092 remains the non-security canonical PR for the bundled-node gateway drift mitigation. #82290 is explicitly listed by the job as a security-signal ref requiring quarantine, so it is routed to central security handling instead of being deduped, closed, merged, or used as a fix path. Linked #69799 is security-sensitive and also routed. Closed context #75250 remains historical evidence only.",
+  "actions": [
+    {
+      "target": "#76092",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#76092",
+      "candidate_fix": null,
+      "reason": "Best surviving non-security canonical for the drift-mitigation root cause, but not merge-ready in this job because merge is blocked by frontmatter and review evidence still frames remaining prefix/runtime concerns."
+    },
+    {
+      "target": "#82290",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires quarantine for #82290; route only this item and continue unrelated non-security classification."
+    },
+    {
+      "target": "#69799",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked security-sensitive issue is out of scope for Clownfish backlog cleanup and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#75250",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#76092",
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

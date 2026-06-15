@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-89-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523461235",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523461235",
+  "head_sha": "285810749ecab52f85c511c2a3b9e5ffebad533b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:11:10Z",
+  "workflow_updated_at": "2026-06-15T04:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-89-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:13:55.198Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The actionable live candidates are security-sensitive Feishu proxy/egress items, so they are routed to central OpenClaw security handling rather than deduped, closed, merged, or repaired by Clownfish. The already-closed candidate remains closed with no mutation planned.",
+  "actions": [
+    {
+      "target": "#77323",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed before this plan run; keep closed and do not emit any close/comment/label mutation."
+    },
+    {
+      "target": "#86386",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive egress/proxy-boundary PR is outside Clownfish cleanup; route the item to central OpenClaw security handling."
+    },
+    {
+      "target": "#90324",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive WebSocket proxy-routing PR is outside Clownfish cleanup; route the item to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
