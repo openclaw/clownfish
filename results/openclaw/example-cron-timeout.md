@@ -2,16 +2,19 @@
 repo: "openclaw/openclaw"
 cluster_id: "example-cron-timeout"
 mode: "plan"
-run_id: "24930312265"
-run_url: "https://github.com/openclaw/projectclownfish/actions/runs/24930312265"
-head_sha: "b9098f198a6618ccfe5af684127241fe19029079"
+run_id: "27563475370"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27563475370"
+head_sha: "2a7ad716bccd0d5e26b9eb76f28c7dafeaddba38"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-26T01:36:05.562Z"
+published_at: "2026-06-15T17:17:54.618Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
 actions_total: 0
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -22,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/projectclownfish/actions/runs/24930312265](https://github.com/openclaw/projectclownfish/actions/runs/24930312265)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27563475370](https://github.com/openclaw/clownfish/actions/runs/27563475370)
 
 Workflow conclusion: success
 
@@ -39,10 +42,19 @@ dry run only; prompt rendered but Codex was not invoked
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 0 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
