@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-154-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27565777891",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27565777891",
+  "head_sha": "51df92846760066ef00bbc8134866b4a24f97044",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T17:57:48Z",
+  "workflow_updated_at": "2026-06-15T17:59:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-154-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:01:12.161Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/84134",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/84134",
+  "canonical_pr": null,
+  "summary": "Hydrated state supports keeping #84134 open as the canonical issue for the Feishu message-tool missing-result regression. Merged PRs #84419 and #84437 are partial mitigations only, and open PR #84708 is related durable replay repair already owned by an existing overlap job, not a complete proven fix for #84134. No close, merge, or new fix PR is safe from this cluster because current-main live Feishu proof is missing and the issue is explicitly marked for maintainer review / needs info / no new fix PR.",
+  "actions": [
+    {
+      "target": "#84134",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84134",
+      "candidate_fix": null,
+      "reason": "Keep the issue as the canonical open follow-up until maintainers get live Feishu proof or the related replay-repair path lands and is validated against this symptom."
+    },
+    {
+      "target": "#84708",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84134",
+      "candidate_fix": null,
+      "reason": "Related candidate PR remains owned by an existing overlap job and is not a complete cluster-local canonical fix for #84134."
+    },
+    {
+      "target": "#84419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#84134",
+      "candidate_fix": "#84419",
+      "reason": "Historical partial mitigation only; no mutation needed."
+    },
+    {
+      "target": "#84437",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#84134",
+      "candidate_fix": "#84437",
+      "reason": "Historical partial mitigation only; no mutation needed."
+    },
+    {
+      "target": "#82419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#84134",
+      "candidate_fix": "#82419",
+      "reason": "Related historical Feishu fix; not the canonical path for this issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
