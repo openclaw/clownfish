@@ -1,0 +1,46 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-77946-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582173917",
+  "workflow_run_id": "27582173917",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582173917",
+  "head_sha": "628bd0577548681836c70f54751ba86a83a56eba",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:04:04Z",
+  "workflow_updated_at": "2026-06-15T23:06:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-77946-close-wave-20260616a.md",
+  "published_at": "2026-06-15T23:08:30.733Z",
+  "canonical": "#88497",
+  "canonical_issue": null,
+  "canonical_pr": "#88497",
+  "summary": "Repaired deterministic validation failure by replacing the planned close for #77946 with a non-mutating route_security action. No GitHub mutation is planned for #77946 because the validator requires security-sensitive targets to be quarantined instead of closed.",
+  "actions": [
+    {
+      "target": "#77946",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator marked #77946 as security-sensitive for deterministic review, so the only safe repair is to quarantine that exact target with route_security and remove the mutating close action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77946 requires central security handling because deterministic validation marked the target security-sensitive; no ProjectClownfish closeout mutation should be applied."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

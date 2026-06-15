@@ -1,0 +1,46 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-68537-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582172846",
+  "workflow_run_id": "27582172846",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582172846",
+  "head_sha": "628bd0577548681836c70f54751ba86a83a56eba",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:04:03Z",
+  "workflow_updated_at": "2026-06-15T23:05:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-68537-close-wave-20260616a.md",
+  "published_at": "2026-06-15T23:08:30.730Z",
+  "canonical": "#91408",
+  "canonical_issue": null,
+  "canonical_pr": "#91408",
+  "summary": "Repaired the invalid closeout plan by quarantining #68537 with route_security. The deterministic validator reported #68537 as security-sensitive, so the prior close_superseded action is not safe for applicator replay even though the hydrated artifact originally reported no security-sensitive signal.",
+  "actions": [
+    {
+      "target": "#68537",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The validator identified #68537 as security-sensitive, so ProjectClownfish must quarantine the exact target with route_security instead of closing it as superseded."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#68537 was routed to central security handling because deterministic validation classified the target as security-sensitive."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

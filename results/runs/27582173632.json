@@ -1,0 +1,46 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-72972-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582173632",
+  "workflow_run_id": "27582173632",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582173632",
+  "head_sha": "628bd0577548681836c70f54751ba86a83a56eba",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:04:04Z",
+  "workflow_updated_at": "2026-06-15T23:06:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-72972-close-wave-20260616a.md",
+  "published_at": "2026-06-15T23:08:30.732Z",
+  "canonical": "#89687",
+  "canonical_issue": null,
+  "canonical_pr": "#89687",
+  "summary": "Repaired the close-only cleanup plan by replacing the unsafe close action with a non-mutating security route for #72972. No GitHub mutations should be applied for this target by ProjectClownfish.",
+  "actions": [
+    {
+      "target": "#72972",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The validator identified #72972 as security-sensitive, so the only safe narrow repair is to replace the mutating close action with non-mutating route_security for that exact PR."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72972 requires central OpenClaw security handling before any ProjectClownfish closeout because deterministic validation marked the target security-sensitive."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
