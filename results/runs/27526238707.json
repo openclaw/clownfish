@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-862-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526238707",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526238707",
+  "head_sha": "df0ecb937a5f73036ef8def5c1f076a5c228a0d6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:35:19Z",
+  "workflow_updated_at": "2026-06-15T05:37:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-862-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:38:15.280Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan: the original representative #72883 is already closed, so no closure action is valid and there is no open non-security replacement canonical in this cluster. #77439 and linked #77886 are security-sensitive trust-boundary/product-policy requests and should be routed to central OpenClaw security handling without blocking the closed non-security cache-trace item.",
+  "actions": [
+    {
+      "target": "#72883",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#72883",
+      "candidate_fix": null,
+      "reason": "Representative is already closed. No open non-security item in this cluster should replace it as the live canonical."
+    },
+    {
+      "target": "#77439",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an open security-sensitive trust-boundary/product-policy request, so ProjectClownfish should quarantine it for central OpenClaw security handling and perform no close, label, comment, merge, or fix action."
+    },
+    {
+      "target": "#77886",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This linked open issue is security-sensitive and must be routed to central OpenClaw security handling, not deduped or mutated by ProjectClownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77439 requires central OpenClaw security/product review; ProjectClownfish should not mutate it.",
+    "#77886 requires central OpenClaw security/product review; ProjectClownfish should not mutate it."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
