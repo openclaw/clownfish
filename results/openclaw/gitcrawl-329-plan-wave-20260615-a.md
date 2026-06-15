@@ -2,14 +2,14 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-329-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516749704"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516749704"
-head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
+run_id: "27525976248"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27525976248"
+head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.402Z"
-canonical: "#92852"
-canonical_issue: "#92851"
+published_at: "2026-06-15T05:30:14.796Z"
+canonical: null
+canonical_issue: null
 canonical_pr: "#92852"
 actions_total: 2
 fix_executed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516749704](https://github.com/openclaw/clownfish/actions/runs/27516749704)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27525976248](https://github.com/openclaw/clownfish/actions/runs/27525976248)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92852
 
 ## Summary
 
-Hydrated live state shows both listed candidates are already closed. #92852 is the already-merged canonical fix for #92851; no open item remains to promote as live canonical and no mutation is planned.
+Read-only plan result: both hydrated refs are already closed. No open item should become the live canonical. The issue was closed after the linked PR merged, and maintainer follow-up landed on main.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Hydrated live state shows both listed candidates are already closed. #92852 is t
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92851 | keep_closed | skipped | fixed_by_candidate | Already closed after the linked merged fix; keep as historical fixed-by-candidate evidence with no additional action. |
-| #92852 | keep_closed | skipped | canonical | Already merged and closed; keep as the completed canonical fix path, with no merge or close action planned. |
+| #92851 | keep_closed | skipped | fixed_by_candidate | Already closed by the merged linked fix; no mutation planned in plan mode. |
+| #92852 | keep_closed | skipped | canonical | Already merged; merge and close actions are blocked by job frontmatter and unnecessary. |
 
 ## Needs Human
 

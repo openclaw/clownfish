@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-365-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516765236"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516765236"
-head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
+run_id: "27525986226"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27525986226"
+head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.407Z"
-canonical: "#92239"
-canonical_issue: "#92239"
+published_at: "2026-06-15T05:30:14.800Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
-actions_total: 3
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +25,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516765236](https://github.com/openclaw/clownfish/actions/runs/27516765236)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27525986226](https://github.com/openclaw/clownfish/actions/runs/27525986226)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #92239
+Canonical: unknown
 
 ## Summary
 
-Plan only. The hydrated preflight artifact shows #92239 and #92419 are already closed, with #92419 unmerged. Current-main Slack retesting on June 14, 2026 did not reproduce the blank-message behavior, and the proposed PR workaround was rejected as a formatting regression. No open item should replace #92239 as the live canonical.
+Plan-mode classification only. The hydrated preflight artifact shows both job candidates are already closed, so no close/comment/label/merge/fix mutation should be planned. The representative #92239 remains the historical canonical for this cluster, but there is no open live canonical to promote; #92419 is a closed related workaround PR that should stay closed because current main did not reproduce the Slack blank-message behavior and the proposed formatter workaround was reported to create regressions.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,9 +66,8 @@ Plan only. The hydrated preflight artifact shows #92239 and #92419 are already c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92239 | keep_closed | skipped | canonical | Already closed in live preflight state; retain #92239 as the historical canonical family, but no close/comment/label mutation is valid. |
-| #92419 | keep_closed | skipped | related | Already closed unmerged; it remains related to #92239 but is not a viable candidate fix and cannot receive a closure or merge mutation. |
-| #3011 | keep_closed | skipped | independent | Closed linked context only; different channel and markdown trigger, so it should not become part of this Slack duplicate family. |
+| #92239 | keep_closed | skipped | canonical | Already closed in live hydrated state; closure actions are invalid for closed refs. No open replacement canonical exists in this cluster. |
+| #92419 | keep_closed | skipped | related | Already closed in live hydrated state; keep closed rather than planning superseding or merge action. |
 
 ## Needs Human
 

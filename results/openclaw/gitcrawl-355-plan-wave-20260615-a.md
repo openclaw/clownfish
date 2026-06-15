@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-355-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516764279"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516764279"
-head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
+run_id: "27525983364"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27525983364"
+head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.406Z"
+published_at: "2026-06-15T05:30:14.799Z"
 canonical: "#14785"
 canonical_issue: "#14785"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516764279](https://github.com/openclaw/clownfish/actions/runs/27516764279)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27525983364](https://github.com/openclaw/clownfish/actions/runs/27525983364)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #14785
 
 ## Summary
 
-Plan-only classification: route security-sensitive #44253 to central security handling, keep #14785 as the non-security slim tool-schema canonical, keep already-closed historical refs closed, and keep #66720 related but unmergeable because proof and review blockers remain. No GitHub mutations, merge, or fix PR actions are planned.
+Plan-mode classification only. Split the cluster: #44253 is security-sensitive and should be routed to central security handling; #59225 is already closed and its remaining non-security slim-schema concern is covered by the hydrated open canonical #14785. No GitHub mutations are planned.
 
 ## Impact
 
@@ -66,15 +66,15 @@ Plan-only classification: route security-sensitive #44253 to central security ha
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #44253 | route_security | planned | security_sensitive | #44253 intentionally changes a tool-permission boundary, so it is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling. |
-| #14785 | keep_canonical | planned | canonical | #14785 is the best live non-security canonical for the slim/lazy tool-schema overhead portion of this cluster. |
-| #28397 | keep_closed | skipped | duplicate | Already closed; the remaining slim-schema request is covered by open canonical #14785, so no close action is valid or needed. |
-| #59225 | keep_closed | skipped | superseded | Already closed as superseded; keep it closed and keep remaining non-security slim-schema discussion on #14785. |
-| #66720 | keep_related | planned | related | Related to the slim-schema/provider-compatibility family, but not a merge candidate and not safe to close here because low-signal close, merge, fix, and replacement PR actions are disabled by the job. |
-| #5641 | keep_closed | skipped | related | Closed historical context only; it is related background, not a live duplicate or close target for this plan. |
-| #30808 | keep_closed | skipped | related | Closed historical context; it is adjacent tool-capability work with a different root and no live mutation is valid. |
-| #47583 | keep_closed | skipped | independent | Already closed as implemented and independent of the remaining open non-security canonical path. |
-| #89658 | route_security | skipped | security_sensitive | Security-sensitive historical PR is already closed; note the route-only classification and take no Clownfish mutation. |
+| #44253 | route_security | planned | security_sensitive | Security-sensitive config and tool-inheritance boundary work is out of ProjectClownfish backlog cleanup scope. |
+| #59225 | keep_closed | skipped | superseded | Already closed; remaining non-security schema overhead discussion should stay on #14785, while the security-sensitive delegate-only semantics stay routed via #44253. |
+| #14785 | keep_canonical | planned | canonical | Best surviving non-security canonical for slim/lazy tool-schema and schema-overhead product work. |
+| #66720 | keep_related | planned | related | Related but not merge-ready; failing proof and unresolved review-bot findings block any merge/fixed-by-candidate action. |
+| #89658 | route_security | planned | security_sensitive | Security-sensitive linked ref is routed read-only; its closed state prevents any mutating action. |
+| #5641 | keep_closed | skipped | related | Closed historical context only. |
+| #28397 | keep_closed | skipped | superseded | Closed historical schema-overhead request; #14785 is the open canonical. |
+| #30808 | keep_closed | skipped | related | Closed historical context only. |
+| #47583 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; no current action. |
 
 ## Needs Human
 

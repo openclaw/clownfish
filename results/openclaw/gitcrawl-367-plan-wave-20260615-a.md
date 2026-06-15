@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-367-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516766327"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516766327"
-head_sha: "d5c8e573becb51fea320c5586e82b186a64ac8a2"
+run_id: "27525988573"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27525988573"
+head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.407Z"
+published_at: "2026-06-15T05:30:14.801Z"
 canonical: "#92777"
 canonical_issue: "#92777"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516766327](https://github.com/openclaw/clownfish/actions/runs/27516766327)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27525988573](https://github.com/openclaw/clownfish/actions/runs/27525988573)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #92777
 
 ## Summary
 
-Plan mode classification keeps #92777 as the live canonical issue. #92818 is related to the canonical WSL2 TUI backspace report, but it is not a merge or fixed-by closeout path in this run because the hydrated bot review still requests real post-response WSL2/PTY proof and this job disallows merge, fix, and raise_pr actions.
+Plan-mode classification only. #92777 remains the live canonical issue for the WSL2/Ubuntu TUI backspace-after-response report. #92818 is already closed and unmerged, so no closure, merge, or fix action is available or needed in this cluster.
 
 ## Impact
 
@@ -66,8 +66,8 @@ Plan mode classification keeps #92777 as the live canonical issue. #92818 is rel
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92777 | keep_canonical | planned | canonical | #92777 remains the best surviving canonical because it is the original open report with concrete reproduction detail and no landed or proven fix closing the post-response WSL2 TUI failure. |
-| #92818 | keep_related | planned | related | #92818 is a related implementation attempt for the canonical issue, but it should stay non-mutating in this plan because the reported post-response failure is not proven fixed by the one-line DEL guard and merge/fix actions are disallowed. |
+| #92777 | keep_canonical | planned | canonical | #92777 is the only open hydrated item and is the best surviving thread for validation and follow-up. |
+| #92818 | keep_closed | skipped | superseded | Already closed PRs must not receive close, merge, or fixed-by-candidate actions. |
 
 ## Needs Human
 
