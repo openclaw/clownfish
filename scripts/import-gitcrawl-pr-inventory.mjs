@@ -313,6 +313,11 @@ function scrubExcerpt(value) {
   return sanitizeString(value)
     .replace(/\/Users\/[A-Za-z0-9._-]+/g, "/Users/<user>")
     .replace(/\/home\/[A-Za-z0-9._-]+/g, "/home/<user>")
+    .replace(/\b10(?:\.\d{1,3}){3}\b/g, "<private-ip>")
+    .replace(/\b192\.168(?:\.\d{1,3}){2}\b/g, "<private-ip>")
+    .replace(/\b172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}\b/g, "<private-ip>")
+    .replace(/\b([a-z][a-z0-9+.-]*:\/\/)[^/\s:@]+:[^/\s@]+@/gi, "$1<credentials>@")
+    .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "<email>")
     .replace(/\b(token|secret|password)=\S+/gi, "$1=<redacted>")
     .replace(/\b(token|secret|password):\s*\S+/gi, "$1: <redacted>");
 }
