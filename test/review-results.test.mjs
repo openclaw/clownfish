@@ -47,6 +47,49 @@ test("review-results allows actionless blocked maintainer decisions", () => {
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results allows unavailable security route when hydration was rate limited", () => {
+  const dir = makeResultDir(
+    {
+      actions: [
+        {
+          target: "#89935",
+          action: "route_security",
+          status: "planned",
+          idempotency_key: "cluster-test:route_security:89935:unavailable",
+          classification: "security_sensitive",
+          target_kind: "unknown",
+          target_updated_at: null,
+          evidence: [
+            "Job body labels #89935 merge-risk: security-boundary.",
+            "Hydration failed with GitHub API rate limit HTTP 403 before live metadata was available.",
+          ],
+          reason: "Route the security-shaped PR to central security handling without mutation.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#89935",
+            kind: "unknown",
+            state: "unavailable",
+            updated_at: null,
+            security_sensitive: false,
+            hydration_error: "gh: API rate limit exceeded for installation ID 127893203 (HTTP 403)",
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+  assert.match(result.stdout, /route_security target was not marked security_sensitive in preflight/);
+});
+
 test("review-results rejects fix artifacts when source job disallows fix PRs", () => {
   const dir = makeResultDir(
     {
@@ -97,9 +140,9 @@ function makeResultDir(overrides, options = {}) {
     ...overrides,
   };
   fs.writeFileSync(path.join(dir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
-  if (options.job) {
+  if (options.job || options.plan) {
     const jobPath = path.join(dir, "job.md");
-    fs.writeFileSync(jobPath, options.job);
+    fs.writeFileSync(jobPath, options.job ?? closeOnlyJob());
     fs.writeFileSync(
       path.join(dir, "cluster-plan.json"),
       `${JSON.stringify(
@@ -109,6 +152,7 @@ function makeResultDir(overrides, options = {}) {
           cluster_id: result.cluster_id,
           mode: result.mode,
           items: [],
+          ...options.plan,
         },
         null,
         2,

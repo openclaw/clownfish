@@ -118,6 +118,7 @@ function reviewResult(resultPath) {
     const item = itemByRef.get(target);
     const clusterScopedAction = isClusterScopedAction(action, result);
     const unavailableNeedsHuman = isUnavailableNeedsHumanAction(action);
+    const unavailableSecurityRoute = isUnavailableSecurityRouteAction(action, item);
 
     if (!target) failures.push("action missing target");
     if (target.includes(",")) failures.push(`${target} action target must be a single ref, not a comma-separated list`);
@@ -126,8 +127,10 @@ function reviewResult(resultPath) {
     if (!Array.isArray(action.evidence) || action.evidence.length === 0) {
       failures.push(`${target} missing evidence`);
     }
-    if (!clusterScopedAction && !unavailableNeedsHuman && !action.target_kind) failures.push(`${target} missing target_kind`);
-    if (!clusterScopedAction && !unavailableNeedsHuman && !action.target_updated_at) {
+    if (!clusterScopedAction && !unavailableNeedsHuman && !unavailableSecurityRoute && !action.target_kind) {
+      failures.push(`${target} missing target_kind`);
+    }
+    if (!clusterScopedAction && !unavailableNeedsHuman && !unavailableSecurityRoute && !action.target_updated_at) {
       failures.push(`${target} missing target_updated_at`);
     }
     if (!clusterScopedAction && item && action.target_updated_at && item.updated_at !== action.target_updated_at) {
@@ -300,6 +303,15 @@ function isUnavailableNeedsHumanAction(action) {
   if (action.status !== "planned" && action.status !== "blocked") return false;
   const text = [action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
   return /\b(404|not found|unavailable|could not hydrate|missing live|refreshed hydration)\b/i.test(text);
+}
+
+function isUnavailableSecurityRouteAction(action, item) {
+  if (action.action !== "route_security") return false;
+  if (action.status !== "planned" && action.status !== "skipped") return false;
+  if (action.classification !== "security_sensitive") return false;
+  if (item?.state !== "unavailable") return false;
+  const text = [action.reason, action.comment, ...(action.evidence ?? []), item.hydration_error].join("\n");
+  return /\b(rate limit|HTTP 403|unavailable|could not hydrate|missing live|hydration failed)\b/i.test(text);
 }
 
 function isInfrastructureBlockedResult(result, actions) {
