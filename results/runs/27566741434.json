@@ -1,0 +1,50 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-89-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566741434",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566741434",
+  "head_sha": "66d176d6766289bada26cb2e5296742e67b523d5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:14:46Z",
+  "workflow_updated_at": "2026-06-15T18:16:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-89-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:18:45.241Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Both hydrated refs in this cluster are explicitly marked security-sensitive by the preflight artifact and security boundary. Per central_security_only policy, quarantine each exact ref with route_security and do not comment, close, merge, or open a fix PR for these items in Clownfish.",
+  "actions": [
+    {
+      "target": "#65799",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#65799 is an open issue with a security-sensitive signal; central OpenClaw security handling owns the decision, so Clownfish should not close, comment on, or fix it."
+    },
+    {
+      "target": "#90324",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#90324 is an open PR with a security-sensitive signal and unresolved proof/review gating; route to central OpenClaw security handling instead of recommending merge or fix automation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

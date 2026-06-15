@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-804-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566735810",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566735810",
+  "head_sha": "66d176d6766289bada26cb2e5296742e67b523d5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:14:40Z",
+  "workflow_updated_at": "2026-06-15T18:16:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-804-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:18:45.240Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/77610",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77610",
+  "canonical_pr": null,
+  "summary": "Classified #77610 as the surviving canonical issue for the low-FD repeated-spawn macOS EBADF report. #77750 is related but not a duplicate: it tracks high file-descriptor service/supervisor stdin/fallback hardening. The closed contributor PR #77751 is useful historical evidence and should be credited in a replacement fix path for #77750, but no close or merge action is currently safe.",
+  "actions": [
+    {
+      "target": "#77610",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77610",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical issue for the low-FD repeated-spawn macOS EBADF report; not safe to close or mark fixed from the current artifact."
+    },
+    {
+      "target": "#77750",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77610",
+      "candidate_fix": null,
+      "reason": "Related EBADF symptom family, but the root cause and remaining fix scope are distinct from the canonical #77610 issue."
+    },
+    {
+      "target": "#77751",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; preserve as credited source evidence for any replacement fix path."
+    },
+    {
+      "target": "cluster:gitcrawl-804-autonomous-issue-wave",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77750",
+      "candidate_fix": null,
+      "reason": "A narrow replacement fix path is appropriate for #77750's child-supervisor stdin/fallback gap, while #77610 remains open for separate maintainer/repro follow-up."
+    },
+    {
+      "target": "cluster:gitcrawl-804-autonomous-issue-wave",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77750",
+      "candidate_fix": null,
+      "reason": "Prepare a credited replacement PR artifact for the #77750 supervisor hardening gap."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77610 remains a maintainer/repro decision: the artifact does not prove the low-FD macOS repeated-spawn/kqueue-slot failure is fixed or source-proven enough for an automated fix PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

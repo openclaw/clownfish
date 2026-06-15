@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-71-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566727702",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566727702",
+  "head_sha": "66d176d6766289bada26cb2e5296742e67b523d5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:14:32Z",
+  "workflow_updated_at": "2026-06-15T18:16:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-71-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:18:45.237Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/90206",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90179",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90206",
+  "summary": "Classified the hydrated cluster into two related but distinct Bedrock aws-sdk auth subfamilies. The compaction issue is owned by open PR #90206, but merge and closeout are blocked by missing check data and missing merge preflight proof. The media-tool issue remains related to open PR #72092 and should not be closed in this cluster because that PR is separately owned and still has merge/scope gates.",
+  "actions": [
+    {
+      "target": "#90206",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90206",
+      "candidate_fix": null,
+      "reason": "Canonical compaction fix path is clear, but merge gates are not satisfied in the hydrated artifact."
+    },
+    {
+      "target": "#90179",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90206",
+      "candidate_fix": "#90206",
+      "reason": "Closeout is blocked until canonical PR #90206 lands and passes the required merge gates."
+    },
+    {
+      "target": "#72031",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72092",
+      "candidate_fix": "#72092",
+      "reason": "Related Bedrock aws-sdk auth family, but not a duplicate of the compaction issue and not safe to close before the media-auth fix lands."
+    },
+    {
+      "target": "#72092",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72092",
+      "candidate_fix": null,
+      "reason": "Useful related media-auth PR, but outside this cluster's actionable canonical compaction path and not merge-ready from the hydrated artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "#72092/#72031 media-auth scope remains a separate existing-overlap job decision: confirm whether PDF auth coverage must be added to #72092 or split into a follow-up before #72031 can close."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#90179",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90206",
+      "candidate_fix": "#90206",
+      "title": null,
+      "idempotency_key": "gitcrawl-71-autonomous-issue-wave:#90179:close_fixed_by_candidate:block-on-90206",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until canonical PR #90206 lands and passes the required merge gates.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

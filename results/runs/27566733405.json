@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-745-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27566733405",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27566733405",
+  "head_sha": "66d176d6766289bada26cb2e5296742e67b523d5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T18:14:38Z",
+  "workflow_updated_at": "2026-06-15T18:16:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-745-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T18:18:45.239Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/89300",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/89300",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/89648",
+  "summary": "No GitHub mutations are safe for this cluster. #89300 remains the open canonical issue, and the hydrated linked PR #89648 is the existing canonical fix path but is excluded as an existing-overlap ref and is not merge-ready because checks could not be hydrated and the bot review calls out maintainer product review before merge.",
+  "actions": [
+    {
+      "target": "#89300",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89300",
+      "candidate_fix": "#89648",
+      "reason": "Keep the canonical issue open while maintainers review or land the existing linked fix path."
+    },
+    {
+      "target": "#89648",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89300",
+      "candidate_fix": null,
+      "reason": "The PR is the related existing fix path for the canonical issue, but this cluster should not mutate or merge it."
+    },
+    {
+      "target": "#89648",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#89300",
+      "candidate_fix": null,
+      "reason": "Maintainer product review and successful check hydration are required before any merge_canonical action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer review is required for #89648 to accept or reject restoring default info-level [model-fetch] metadata logging, and merge checks must be rehydrated before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
