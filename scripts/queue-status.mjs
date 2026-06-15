@@ -7,6 +7,10 @@ import { currentProjectRepo, parseArgs, parseJob, repoRoot } from "./lib.mjs";
 const args = parseArgs(process.argv.slice(2));
 const inboxDir = path.resolve(repoRoot(), String(args.inbox ?? "jobs/openclaw/inbox"));
 const runsDir = path.resolve(repoRoot(), String(args["runs-dir"] ?? args.runs_dir ?? "results/runs"));
+const dispatchLedgerPath = path.resolve(
+  repoRoot(),
+  String(args["dispatch-ledger"] ?? args.dispatch_ledger ?? path.join(".projectclownfish", "dispatch-ledger.json")),
+);
 const dispatchRepo = String(args.repo ?? currentProjectRepo());
 const jsonOutput = Boolean(args.json);
 const skipSecretCheck = Boolean(args["skip-secret-check"] ?? args.skip_secret_check);
@@ -17,11 +21,14 @@ const closeLimit = numberArg("close-limit", 0);
 
 const jobs = readInboxJobs();
 const resultsByCluster = readRunResults();
+const attemptsByJob = readDispatchAttemptsByJob();
 const rows = jobs.map(classifyJob);
 const missingPlan = rows.filter((row) => row.mode === "plan" && !row.has_result);
 const missingExecute = rows.filter((row) => row.mode === "execute" && !row.has_result);
 const missingAutonomous = rows.filter((row) => row.mode === "autonomous" && !row.has_result);
 const closeCanaries = rows.filter((row) => row.close_canary && !row.has_result);
+const attemptedMissing = rows.filter((row) => !row.has_result && row.latest_dispatch_attempt);
+const unattemptedMissing = rows.filter((row) => !row.has_result && !row.latest_dispatch_attempt);
 const secrets = skipSecretCheck ? null : readSecretNames(dispatchRepo);
 const auth = summarizeAuth({ secrets, targetRepos: new Set(rows.map((row) => row.repo).filter(Boolean)) });
 
@@ -41,6 +48,7 @@ const payload = {
   generated_at: new Date().toISOString(),
   inbox: path.relative(repoRoot(), inboxDir),
   runs_dir: path.relative(repoRoot(), runsDir),
+  dispatch_ledger: path.relative(repoRoot(), dispatchLedgerPath),
   dispatch_repo: dispatchRepo,
   auth,
   totals: {
@@ -51,6 +59,8 @@ const payload = {
     missing_execute: missingExecute.length,
     missing_autonomous: missingAutonomous.length,
     close_canaries_ready: closeCanaries.length,
+    attempted_missing_results: attemptedMissing.length,
+    unattempted_missing_results: unattemptedMissing.length,
   },
   by_mode: countBy(rows, (row) => row.mode),
   by_mode_result: countBy(rows, (row) => `${row.mode}:${row.has_result ? "has_result" : "missing_result"}`),
@@ -69,6 +79,8 @@ if (jsonOutput) {
       `execute=${payload.totals.missing_execute}`,
       `autonomous=${payload.totals.missing_autonomous}`,
       `close_canaries=${payload.totals.close_canaries_ready}`,
+      `attempted_missing=${payload.totals.attempted_missing_results}`,
+      `unattempted_missing=${payload.totals.unattempted_missing_results}`,
       `read_secret=${auth.read_secret_present ? "yes" : "no"}`,
       `write_secret=${auth.write_secret_present ? "yes" : "no"}`,
       `plan_ready=${auth.plan_dispatch_ready ? "yes" : "no"}`,
@@ -128,6 +140,7 @@ function classifyJob(job) {
   const fm = job.frontmatter;
   const clusterId = String(fm.cluster_id ?? "");
   const result = resultsByCluster.get(clusterId) ?? null;
+  const latestDispatchAttempt = attemptsByJob.get(job.path) ?? null;
   return {
     path: job.path,
     cluster_id: clusterId,
@@ -136,7 +149,34 @@ function classifyJob(job) {
     close_canary: /(?:^|-)close-canary(?:-|$)/.test(job.basename),
     has_result: Boolean(result),
     latest_result: result,
+    latest_dispatch_attempt: latestDispatchAttempt,
   };
+}
+
+function readDispatchAttemptsByJob() {
+  const out = new Map();
+  if (!fs.existsSync(dispatchLedgerPath)) return out;
+  let ledger;
+  try {
+    ledger = JSON.parse(fs.readFileSync(dispatchLedgerPath, "utf8"));
+  } catch {
+    return out;
+  }
+  for (const attempt of ledger.attempts ?? []) {
+    const sourceJob = String(attempt.source_job ?? "");
+    if (!sourceJob) continue;
+    const current = out.get(sourceJob);
+    if (!current || Date.parse(attempt.dispatched_at ?? "") > Date.parse(current.dispatched_at ?? "")) {
+      out.set(sourceJob, {
+        batch_id: attempt.batch_id ?? null,
+        status: attempt.status ?? null,
+        mode: attempt.mode ?? null,
+        dispatched_at: attempt.dispatched_at ?? null,
+        head_sha: attempt.head_sha ?? null,
+      });
+    }
+  }
+  return out;
 }
 
 function readSecretNames(repo) {

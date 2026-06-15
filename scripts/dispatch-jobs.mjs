@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { spawn, spawnSync } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import {
   assertLiveWorkerCapacity,
   currentProjectRepo,
@@ -50,9 +50,16 @@ const publishBacklogLookback = Number(
 );
 const skipPublishBacklogCheck = Boolean(args["skip-publish-backlog-check"]);
 const skipTokenSecretCheck = Boolean(args["skip-token-secret-check"] ?? args.skip_token_secret_check);
+const writeDispatchLedger = !Boolean(args["no-dispatch-ledger"] ?? args.no_dispatch_ledger);
+const dispatchLedgerPath = path.resolve(
+  repoRoot(),
+  String(args["dispatch-ledger"] ?? args.dispatch_ledger ?? path.join(".projectclownfish", "dispatch-ledger.json")),
+);
 const ref = args.ref ? String(args.ref) : "";
 const jobsFile = args["jobs-file"] ?? args.jobs_file ?? process.env.CLOWNFISH_JOBS_FILE;
 const files = [...readJobsFile(jobsFile), ...args._];
+const dispatchBatchId = `dispatch-${new Date().toISOString().replace(/[:.]/g, "-")}`;
+const headSha = currentHeadSha();
 
 if (files.length === 0) {
   console.error(
@@ -152,6 +159,7 @@ function assertPublishBacklog() {
 
 let dispatched = 0;
 let index = 0;
+const dispatchAttempts = [];
 while (!failed && index < jobsToDispatch.length) {
   let batchSize = jobsToDispatch.length - index;
   if (throttledDispatch) {
@@ -180,14 +188,17 @@ while (!failed && index < jobsToDispatch.length) {
   for (const result of results) {
     dispatched += 1;
     if (result.status === 0) {
+      dispatchAttempts.push(dispatchAttempt(result, "accepted"));
       console.log(
         `dispatched ${result.position}/${jobsToDispatch.length} ${result.relative} (${mode}) on ${runner}; execution on ${executionRunner}`,
       );
     } else {
+      dispatchAttempts.push(dispatchAttempt(result, "failed"));
       failed = true;
       console.error(result.stderr || result.stdout || `failed to dispatch ${result.relative}`);
     }
   }
+  if (writeDispatchLedger && dispatchAttempts.length > 0) appendDispatchLedger(dispatchAttempts);
   index += batchSize;
   if (throttledDispatch && !failed && index < jobsToDispatch.length) {
     sleepMs(dispatchBatchDelayMs);
@@ -320,6 +331,61 @@ function runCommand(command, commandArgs, relative, position) {
       resolve({ relative, position, status: status ?? 1, stdout, stderr });
     });
   });
+}
+
+function dispatchAttempt(result, status) {
+  return {
+    batch_id: dispatchBatchId,
+    status,
+    repo,
+    workflow,
+    source_job: result.relative,
+    mode,
+    runner,
+    execution_runner: executionRunner,
+    model,
+    ref: ref || null,
+    head_sha: headSha,
+    position: result.position,
+    dispatched_at: new Date().toISOString(),
+    error: status === "failed" ? stripAnsi(result.stderr || result.stdout || "") : null,
+  };
+}
+
+function appendDispatchLedger(attempts) {
+  const ledger = readDispatchLedger();
+  const existingKeys = new Set(
+    (ledger.attempts ?? []).map((attempt) => `${attempt.batch_id}:${attempt.source_job}:${attempt.position}`),
+  );
+  const nextAttempts = attempts.filter(
+    (attempt) => !existingKeys.has(`${attempt.batch_id}:${attempt.source_job}:${attempt.position}`),
+  );
+  if (nextAttempts.length === 0) return;
+  ledger.updated_at = new Date().toISOString();
+  ledger.attempts = [...(ledger.attempts ?? []), ...nextAttempts];
+  fs.mkdirSync(path.dirname(dispatchLedgerPath), { recursive: true });
+  fs.writeFileSync(dispatchLedgerPath, `${JSON.stringify(ledger, null, 2)}\n`, "utf8");
+}
+
+function readDispatchLedger() {
+  if (!fs.existsSync(dispatchLedgerPath)) return { updated_at: null, attempts: [] };
+  try {
+    return JSON.parse(fs.readFileSync(dispatchLedgerPath, "utf8"));
+  } catch {
+    return { updated_at: null, attempts: [] };
+  }
+}
+
+function currentHeadSha() {
+  try {
+    return execFileSync("git", ["rev-parse", ref || "origin/main"], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return "";
+  }
 }
 
 function stripAnsi(text) {
