@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-135-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27565383730",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27565383730",
+  "head_sha": "cb83224e7105ec4e1fa9344c8c39418a2e9e0da4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T17:50:34Z",
+  "workflow_updated_at": "2026-06-15T17:54:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-135-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T17:58:09.087Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/91489",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/91489",
+  "canonical_pr": null,
+  "summary": "Classified #91489 as the surviving canonical issue for this cluster, #92054 as a duplicate blocked from closure until the canonical fix path lands, routed security-sensitive #91490 to central security handling, and left overlap PR #92119 in the existing related fix lane instead of creating a second fix path.",
+  "actions": [
+    {
+      "target": "#91489",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91489",
+      "candidate_fix": null,
+      "reason": "Best live canonical issue among this cluster's non-overlap actionable refs."
+    },
+    {
+      "target": "#92054",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#91489",
+      "candidate_fix": null,
+      "reason": "True duplicate, but closure is blocked on the canonical fix path or fix PR landing first."
+    },
+    {
+      "target": "#91490",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is out of scope for ProjectClownfish backlog cleanup and fix automation."
+    },
+    {
+      "target": "#92119",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91489",
+      "candidate_fix": null,
+      "reason": "Related existing-overlap fix lane; keep open for its owning job rather than creating a duplicate fix path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#92054",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#91489",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-135-autonomous-issue-wave:close_duplicate:92054:dupe-of-91489:2026-06-12T00:15:26Z",
+      "source_status": "blocked",
+      "source_reason": "True duplicate, but closure is blocked on the canonical fix path or fix PR landing first.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

@@ -1,0 +1,397 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1-autonomous-issue-wave",
+  "mode": "autonomous",
+  "run_id": "27565373697",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27565373697",
+  "head_sha": "cb83224e7105ec4e1fa9344c8c39418a2e9e0da4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T17:50:22Z",
+  "workflow_updated_at": "2026-06-15T17:55:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1-autonomous-issue-wave.md",
+  "published_at": "2026-06-15T17:58:09.085Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Cluster is over-broad: the hydrated refs split into independent WebChat/TUI/provider/session-state subfamilies rather than one safe canonical. No merge or close is safe from this worker because candidate PRs are unmerged and merge gates lack checks/Codex-review proof. Security-signaled refs are routed only for central handling; unrelated non-security items remain classified.",
+  "actions": [
+    {
+      "target": "#74021",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Reasoning-field ingestion/redaction policy is security-sensitive and out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#88079",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Explicit security-signal ref from the job file; route only this item to central OpenClaw security triage."
+    },
+    {
+      "target": "#42276",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainers need to choose the TUI reasoning-stream UX before an automated repair path is safe."
+    },
+    {
+      "target": "#79469",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Product decision remains: existing reasoning controls versus adding a completed-reasoning disclosure pattern."
+    },
+    {
+      "target": "#81339",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81907",
+      "reason": "Non-mutating fix-first downgrade: keep #81339 open and related to active candidate #81907 until that PR lands or an equivalent merged fix exists."
+    },
+    {
+      "target": "#81907",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81907",
+      "candidate_fix": null,
+      "reason": "Best hydrated canonical path for the whitespace subfamily, but no merge action without checks and Codex /review proof."
+    },
+    {
+      "target": "#81468",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#86759",
+      "reason": "Closeout is blocked until #86759 lands or an equivalent fix reaches main."
+    },
+    {
+      "target": "#86759",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#86759",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for TTS media broadcast, but merge is not safe without repair, checks, and review preflight."
+    },
+    {
+      "target": "#86521",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider alias/product confirmation is needed before an automated fix PR is safe."
+    },
+    {
+      "target": "#87321",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Conflicting implementation paths require maintainer choice; do not queue a duplicate repair lane."
+    },
+    {
+      "target": "#87700",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#89017",
+      "reason": "Closeout is blocked until #89017 lands or an equivalent reconnect/session-policy fix reaches main."
+    },
+    {
+      "target": "#89017",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89017",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for reconnect session preservation, but merge gates are not satisfied."
+    },
+    {
+      "target": "#88033",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91680",
+      "reason": "Closeout is blocked because the candidate PR is unmerged and still proof-blocked."
+    },
+    {
+      "target": "#91680",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related active PR, but not merge-ready and not this cluster's single canonical path."
+    },
+    {
+      "target": "#89773",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#89800",
+      "reason": "Closeout is blocked until #89800 lands after review/validation."
+    },
+    {
+      "target": "#89800",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89800",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for the #89773 subfamily, but review comment and merge gates block merge."
+    },
+    {
+      "target": "#90999",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91000",
+      "reason": "Closeout is blocked until #91000 lands."
+    },
+    {
+      "target": "#91000",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91000",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for #90999, but merge cannot be recommended without checks and /review preflight."
+    },
+    {
+      "target": "#91012",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91013",
+      "reason": "Closeout is blocked until #91013 lands."
+    },
+    {
+      "target": "#91013",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91013",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for #91012, but merge gates are incomplete."
+    },
+    {
+      "target": "#91727",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91810",
+      "reason": "Closeout is blocked until #91810 lands or an equivalent fix reaches main."
+    },
+    {
+      "target": "#91810",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91810",
+      "candidate_fix": null,
+      "reason": "Best hydrated path for the WebChat deferred-thinking subfamily, but merge gates are incomplete."
+    },
+    {
+      "target": "#91987",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92003",
+      "reason": "Closeout is blocked until #92003 lands or is replaced by an equivalent merged fix."
+    },
+    {
+      "target": "#92003",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not mutate or merge an existing-overlap PR from this cluster; keep it as the context fix path for #91987."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "needs_human": 4,
+    "keep_related": 3,
+    "keep_canonical": 7,
+    "close_fixed_by_candidate": 8
+  },
+  "action_status_counts": {
+    "planned": 16,
+    "blocked": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 8
+  },
+  "needs_human": [
+    "#42276: maintainer product decision for the TUI reasoning-stream UX.",
+    "#79469: maintainer product decision for completed WebChat reasoning disclosure/review behavior.",
+    "#86521: provider/model alias confirmation is needed before changing opencode-native DeepSeek reasoning_content replay behavior.",
+    "#87321: maintainers need to choose among existing conflicting sessions_yield replay fix PRs."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#81468",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#86759",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#81468:close-fixed-by-candidate:#86759:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #86759 lands or an equivalent fix reaches main.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#87700",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#89017",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#87700:close-fixed-by-candidate:#89017:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #89017 lands or an equivalent reconnect/session-policy fix reaches main.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#88033",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91680",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#88033:close-fixed-by-candidate:#91680:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked because the candidate PR is unmerged and still proof-blocked.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#89773",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#89800",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#89773:close-fixed-by-candidate:#89800:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #89800 lands after review/validation.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#90999",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91000",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#90999:close-fixed-by-candidate:#91000:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #91000 lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#91012",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91013",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#91012:close-fixed-by-candidate:#91013:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #91013 lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#91727",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91810",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#91727:close-fixed-by-candidate:#91810:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #91810 lands or an equivalent fix reaches main.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#91987",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92003",
+      "title": null,
+      "idempotency_key": "gitcrawl-1-autonomous-issue-wave:#91987:close-fixed-by-candidate:#92003:blocked",
+      "source_status": "blocked",
+      "source_reason": "Closeout is blocked until #92003 lands or is replaced by an equivalent merged fix.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
