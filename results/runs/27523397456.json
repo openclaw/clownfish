@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-809-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523397456",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523397456",
+  "head_sha": "8890f6a4ba8c46d61041dd30fcb0cf5909a0466a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:09:09Z",
+  "workflow_updated_at": "2026-06-15T04:09:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-809-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:11:28.381Z",
+  "canonical": "#75785",
+  "canonical_issue": "#75785",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #75785 as the open canonical issue for the subagent false-timeout report. Route #75786 because the job explicitly marks it as a security-signal ref, so it must not be closed, merged, or otherwise mutated by Clownfish.",
+  "actions": [
+    {
+      "target": "#75785",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75785",
+      "candidate_fix": null,
+      "reason": "#75785 is the clearest open non-security canonical report for the root cause and should remain open for validation or follow-up."
+    },
+    {
+      "target": "#75786",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#75786 is explicitly marked by the job as a security-signal ref, so Clownfish should quarantine it for central OpenClaw security handling and avoid mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
