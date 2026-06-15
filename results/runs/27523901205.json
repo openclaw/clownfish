@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-328-feature-clean-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27523901205",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27523901205",
+  "head_sha": "654d0f6d994e0cc77c0c4725aa1626ba02f19a57",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T04:24:16Z",
+  "workflow_updated_at": "2026-06-15T04:25:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-328-feature-clean-plan-20260615-a.md",
+  "published_at": "2026-06-15T04:26:12.340Z",
+  "canonical": "#45508",
+  "canonical_issue": "#45508",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #45508 remains the open canonical issue for the WebChat provider-backed voice gap. #76027 is security-sensitive in the hydrated artifact and should be routed to central OpenClaw security handling without merge, close, label, or comment planning. #91025 is already closed and remains historical duplicate context only.",
+  "actions": [
+    {
+      "target": "#45508",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45508",
+      "candidate_fix": null,
+      "reason": "#45508 is still the best surviving canonical because it covers the full TTS and STT provider-backed WebChat voice feature family and remains open for maintainer follow-up."
+    },
+    {
+      "target": "#76027",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#76027 is related to #45508's TTS path, but the hydrated artifact marks it security-sensitive; route only this PR to central security handling and continue non-security classification for #45508."
+    },
+    {
+      "target": "#91025",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#45508",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; no action should be applied."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#45508 still needs maintainer product direction for the STT recorder/Talk UX and config-boundary split; that decision should remain on the canonical issue."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
