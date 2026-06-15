@@ -1,0 +1,52 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-863-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27526240294",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27526240294",
+  "head_sha": "df0ecb937a5f73036ef8def5c1f076a5c228a0d6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:35:22Z",
+  "workflow_updated_at": "2026-06-15T05:36:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-863-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:36:40.335Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification completed from the hydrated cluster preflight artifact. The hinted canonical issue #73328 is already closed, so no close action is valid and there is no live non-security canonical to promote. The only open candidate, #73382, is explicitly listed by the job as a security-signal ref requiring central routing, so it is quarantined with a non-mutating route_security action.",
+  "actions": [
+    {
+      "target": "#73328",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state; retain as historical canonical evidence only."
+    },
+    {
+      "target": "#73382",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this exact open PR as a security-signal ref requiring central security routing, so Clownfish should not close, merge, label, comment, or repair it in this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
