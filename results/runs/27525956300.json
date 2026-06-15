@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-234-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525956300",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525956300",
+  "head_sha": "4574037aa1f27e59d5ea43eca0073b4c4dfc504c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:26:50Z",
+  "workflow_updated_at": "2026-06-15T05:27:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-234-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:29:00.259Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan only. The only open actionable candidate, #65437, is security-sensitive and should be routed to central OpenClaw security handling. The overlapping Discord issue #53198 is also hydrated as security-sensitive and should remain quarantined in its existing lane. Closed linked context refs #61707 and #63261 require no mutation.",
+  "actions": [
+    {
+      "target": "#65437",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive elevated authorization semantics are out of scope for Clownfish backlog cleanup and must be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#53198",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated context shows #53198 is security-sensitive and already owned by an existing overlap lane; only quarantine classification is appropriate here."
+    },
+    {
+      "target": "#61707",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and not a live duplicate-close candidate for this cluster."
+    },
+    {
+      "target": "#63261",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; related historical context only, with no closure or canonical action available."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

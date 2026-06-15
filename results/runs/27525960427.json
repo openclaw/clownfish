@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-246-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525960427",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525960427",
+  "head_sha": "4574037aa1f27e59d5ea43eca0073b4c4dfc504c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:26:59Z",
+  "workflow_updated_at": "2026-06-15T05:28:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-246-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:29:00.260Z",
+  "canonical": "#90923",
+  "canonical_issue": null,
+  "canonical_pr": "#90923",
+  "summary": "Plan-only classification: keep #90923 as the live canonical PR for the external-APFS LaunchAgent plist path fix; route #89092 according to the job's security-signal instruction without mutating it; keep #60398 as related overlap context with #90923 as the candidate fix path.",
+  "actions": [
+    {
+      "target": "#90923",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90923",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical for the non-security LaunchAgent external-APFS root cause, but not merge-ready in this plan-only job."
+    },
+    {
+      "target": "#89092",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires scoped security routing for this ref; routing is non-mutating and does not block ordinary classification of #90923."
+    },
+    {
+      "target": "#60398",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90923",
+      "candidate_fix": "#90923",
+      "reason": "Related source issue/context for the same root cause; keep open and let #90923 own the implementation path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

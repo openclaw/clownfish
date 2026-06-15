@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-297-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525966929",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525966929",
+  "head_sha": "4574037aa1f27e59d5ea43eca0073b4c4dfc504c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:27:11Z",
+  "workflow_updated_at": "2026-06-15T05:28:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-297-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:29:00.262Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. All hydrated cluster refs are already closed in the preflight artifact, so no close, label, comment, merge, or fix action is available. The representative #73394 is closed and there is no other open item to promote as live canonical. Per the job notes, #73279 and #73394 are quarantined as security-signal refs with non-mutating route_security actions; #73278 is kept closed as historical context.",
+  "actions": [
+    {
+      "target": "#73278",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no mutation should be planned."
+    },
+    {
+      "target": "#73279",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-signal ref is quarantined non-mutatingly per the job, and it is already closed."
+    },
+    {
+      "target": "#73394",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Representative is closed, so it cannot remain a live canonical; security-signal routing is non-mutating and scoped to this item."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

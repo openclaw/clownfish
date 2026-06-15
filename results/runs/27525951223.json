@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-155-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27525951223",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27525951223",
+  "head_sha": "4574037aa1f27e59d5ea43eca0073b4c4dfc504c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T05:26:40Z",
+  "workflow_updated_at": "2026-06-15T05:27:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-155-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T05:29:00.259Z",
+  "canonical": "#92191",
+  "canonical_issue": null,
+  "canonical_pr": "#92191",
+  "summary": "Plan-only classification from the hydrated preflight artifact. The original representative #81841 is already closed; no open non-security item should become live canonical. The resolved non-security canonical fix path is merged PR #92191 / ecaebfc51b4aecfa7eae7fa47aaf612ee843448e. The explicitly marked security-signal ref #90683 is quarantined with route_security and does not block classification of the already-closed non-security refs.",
+  "actions": [
+    {
+      "target": "#81841",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92191",
+      "candidate_fix": "#92191",
+      "reason": "Already closed and superseded by the merged #92191 fix for the overlapping safe retry behavior."
+    },
+    {
+      "target": "#90683",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this ref as a security-signal item, so it is out of scope for Clownfish backlog mutation even though unrelated non-security refs can still be classified."
+    },
+    {
+      "target": "#91953",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92191",
+      "candidate_fix": "#92191",
+      "reason": "Already closed as fixed by merged PR #92191."
+    },
+    {
+      "target": "#92191",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#92191",
+      "candidate_fix": null,
+      "reason": "Merged PR #92191 is the resolved canonical fix path for the non-security thinking-only errored-turn portion of this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
