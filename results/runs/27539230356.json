@@ -1,0 +1,268 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T095031-101",
+  "mode": "plan",
+  "run_id": "27539230356",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27539230356",
+  "head_sha": "57ddc7cad6987212a3e2c0b778dee6efdb027750",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T10:11:32Z",
+  "workflow_updated_at": "2026-06-15T10:15:07Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T095031-101.md",
+  "published_at": "2026-06-15T10:21:32.277Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. The hydrated artifact supports independent non-mutating classification for the available open PRs, keep-closed handling for already closed PRs, scoped security routing for refs with security-boundary subject matter, and needs_human only for refs listed in the job but missing hydrated live state in the preflight artifact.",
+  "actions": [
+    {
+      "target": "#87850",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-owned PR; no close, merge, or fix action is allowed in this plan shard."
+    },
+    {
+      "target": "#87861",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready PR; blocked_actions disallow merge and this inventory shard has no canonical to dedupe against."
+    },
+    {
+      "target": "#87872",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with author follow-up state; no close or merge recommendation is appropriate."
+    },
+    {
+      "target": "#87891",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR needing maintainer/proof follow-up; no dedupe or closure basis."
+    },
+    {
+      "target": "#87895",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer PR; no shared canonical and merge is blocked by the job."
+    },
+    {
+      "target": "#87898",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Secrets-audit behavior around apiKey/plaintext detection is security-boundary-adjacent, so this exact PR should be quarantined for central OpenClaw security handling."
+    },
+    {
+      "target": "#87900",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft feature PR; too broad for inventory cleanup and not eligible for closure or merge."
+    },
+    {
+      "target": "#87919",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "SSRF-related behavior should be routed to central OpenClaw security handling, scoped only to this PR."
+    },
+    {
+      "target": "#87923",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR requiring proof/check follow-up; no dedupe or closure basis."
+    },
+    {
+      "target": "#87927",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state required for target_kind and target_updated_at is unavailable from the artifact."
+    },
+    {
+      "target": "#87932",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state required for target_kind and target_updated_at is unavailable from the artifact."
+    },
+    {
+      "target": "#87934",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state required for target_kind and target_updated_at is unavailable from the artifact."
+    },
+    {
+      "target": "#87941",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state required for target_kind and target_updated_at is unavailable from the artifact."
+    },
+    {
+      "target": "#71563",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR; no duplicate/superseding canonical is hydrated for this inventory shard."
+    },
+    {
+      "target": "#83160",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent hardening/docs-style PR with proof gap; no closure or merge basis in this inventory shard."
+    },
+    {
+      "target": "#86275",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#77653",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent channel bugfix PR with proof failure; not closable or mergeable by this job."
+    },
+    {
+      "target": "#86306",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#86394",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#75126",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad PR with unresolved scope/proof concerns; no safe close or merge action is available."
+    },
+    {
+      "target": "#55851",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready PR; this inventory shard must not invent a canonical or recommend merge without merge preflight."
+    },
+    {
+      "target": "#87863",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent channel bugfix PR with proof failure; no close/merge/fix action is allowed."
+    },
+    {
+      "target": "#87865",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#91924",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state required for target_kind and target_updated_at is unavailable from the artifact."
+    },
+    {
+      "target": "#63634",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR requiring maintainer/review follow-up; merge and fixed-by-candidate closeout are unavailable in plan mode."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 14,
+    "route_security": 2,
+    "needs_human": 5,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 16,
+    "blocked": 5,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87927 missing hydrated preflight live state; cannot provide target_kind or target_updated_at from artifact.",
+    "#87932 missing hydrated preflight live state; cannot provide target_kind or target_updated_at from artifact.",
+    "#87934 missing hydrated preflight live state; cannot provide target_kind or target_updated_at from artifact.",
+    "#87941 missing hydrated preflight live state; cannot provide target_kind or target_updated_at from artifact.",
+    "#91924 missing hydrated preflight live state; cannot provide target_kind or target_updated_at from artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
