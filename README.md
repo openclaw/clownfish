@@ -316,6 +316,17 @@ npm run import-gitcrawl-low-signal -- --limit 20 --batch-size 5 --mode autonomou
 # refs while continuing ordinary bug/dedupe work.
 npm run import-gitcrawl -- --from-gitcrawl --limit 40 --mode autonomous --suffix autonomous-smoke --allow-instant-close --allow-merge --allow-fix-pr --allow-post-merge-close
 
+# If the local gitcrawl cluster id space changed, ignore stale job cluster ids
+# and dedupe only against published worker result refs.
+npm run import-gitcrawl -- --from-gitcrawl --limit 80 --mode autonomous \
+  --suffix autonomous-issue-wave \
+  --existing-results-only \
+  --overlap-policy exclude-existing \
+  --allow-instant-close \
+  --allow-merge \
+  --allow-fix-pr \
+  --allow-post-merge-close
+
 # Dispatch reviewed jobs. Dispatch, requeue, and self-heal refuse to exceed
 # 50 live cluster-worker runs by default; tune with CLOWNFISH_MAX_LIVE_WORKERS
 # or --max-live-workers. With --wait-for-capacity, dispatch can drain a larger

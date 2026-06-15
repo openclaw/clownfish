@@ -10,6 +10,9 @@ const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "gitcrawl", "gitcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
 const existingDir = path.resolve(String(args["existing-dir"] ?? path.join(repoRoot(), "jobs", repo.split("/")[0])));
+const existingResultsDir = path.resolve(
+  String(args["existing-results-dir"] ?? args.existing_results_dir ?? path.join(repoRoot(), "results", repo.split("/")[0])),
+);
 const mode = String(args.mode ?? "plan");
 const suffix = typeof args.suffix === "string" ? args.suffix : "";
 const allowInstantClose = Boolean(args["allow-instant-close"]);
@@ -18,6 +21,7 @@ const allowMerge = booleanArg("allow-merge", editEnabledByDefault);
 const allowFixPr = booleanArg("allow-fix-pr", editEnabledByDefault);
 const allowPostMergeClose = booleanArg("allow-post-merge-close", allowMerge || allowFixPr);
 const skipExisting = args["skip-existing"] !== "false";
+const existingResultsOnly = Boolean(args["existing-results-only"] ?? args.existing_results_only);
 const securityPolicy = securityPolicyArg();
 const overlapPolicy = String(args["overlap-policy"] ?? "skip-any");
 const skipFeatureRequests = args["include-feature-requests"] !== true && args["skip-feature-requests"] !== "false";
@@ -38,7 +42,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -57,8 +61,9 @@ if (!["skip-full", "skip-any", "include"].includes(securityPolicy)) {
 
 if (!dryRun) fs.mkdirSync(outDir, { recursive: true });
 
-const existingClusterIds = skipExisting ? existingGitcrawlClusterIds(existingDir) : new Set();
-const existingMemberRefs = skipExisting ? existingGitcrawlMemberRefs(existingDir, suffix) : new Map();
+const existingClusterIds = skipExisting && !existingResultsOnly ? existingGitcrawlClusterIds(existingDir) : new Set();
+const existingMemberRefs = skipExisting ? existingMemberRefMap() : new Map();
+const initialExistingMemberRefCount = existingMemberRefs.size;
 const prefetchedMembers = selectingFromGitcrawl ? prefetchMembers(clusterIds) : null;
 const generated = [];
 const skipped = [];
@@ -295,6 +300,9 @@ if (jsonOutput) {
       overlap_policy: overlapPolicy,
       security_policy: securityPolicy,
       skip_existing: skipExisting,
+      existing_results_only: existingResultsOnly,
+      existing_dir: path.relative(repoRoot(), existingDir),
+      existing_results_dir: path.relative(repoRoot(), existingResultsDir),
       skip_feature_requests: skipFeatureRequests,
       limit,
       min_size: minSize,
@@ -303,8 +311,16 @@ if (jsonOutput) {
     totals: {
       generated: generated.length,
       skipped: skipped.length,
+      existing_clusters: existingClusterIds.size,
+      existing_refs: initialExistingMemberRefCount,
     },
   }, null, 2));
+}
+
+function existingMemberRefMap() {
+  const refs = existingResultsOnly ? new Map() : existingGitcrawlMemberRefs(existingDir);
+  mergeMemberRefs(refs, existingPublishedResultMemberRefs(existingResultsDir, repo));
+  return refs;
 }
 
 function selectClusterIds() {
@@ -515,6 +531,56 @@ function existingGitcrawlMemberRefs(dir) {
     }
   }
   return refs;
+}
+
+function existingPublishedResultMemberRefs(dir, targetRepo) {
+  const refs = new Map();
+  if (!fs.existsSync(dir)) return refs;
+  for (const entry of fs.readdirSync(dir, { recursive: true })) {
+    const file = path.join(dir, String(entry));
+    if (!file.endsWith(".md") || !fs.statSync(file).isFile()) continue;
+    const text = fs.readFileSync(file, "utf8");
+    const frontmatter = text.match(/^---\n([\s\S]*?)\n---\n?/);
+    if (!frontmatter) continue;
+    const parsed = parsePublishedResultFrontmatter(frontmatter[1]);
+    if (String(parsed.repo ?? "") !== targetRepo) continue;
+    for (const ref of workerActionRefs(text)) {
+      const number = Number(ref.slice(1));
+      if (!Number.isSafeInteger(number)) continue;
+      const files = refs.get(number) ?? [];
+      files.push(path.relative(repoRoot(), file));
+      refs.set(number, files);
+    }
+  }
+  return refs;
+}
+
+function mergeMemberRefs(target, source) {
+  for (const [number, files] of source.entries()) {
+    const existing = target.get(number) ?? [];
+    existing.push(...files);
+    target.set(number, existing);
+  }
+  return target;
+}
+
+function parsePublishedResultFrontmatter(text) {
+  const out = {};
+  for (const line of text.split(/\r?\n/)) {
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!match) continue;
+    out[match[1]] = String(match[2] ?? "").trim().replace(/^"(.*)"$/, "$1");
+  }
+  return out;
+}
+
+function workerActionRefs(markdown) {
+  const heading = markdown.match(/^## Worker Action Matrix[^\n]*\n/m);
+  if (!heading) return [];
+  const rest = markdown.slice((heading.index ?? 0) + heading[0].length);
+  const nextHeading = rest.search(/\n## /);
+  const section = nextHeading >= 0 ? rest.slice(0, nextHeading) : rest;
+  return [...section.matchAll(/^\|\s*(#\d+)\s*\|/gm)].map((match) => match[1]);
 }
 
 function yamlField(name, values) {
