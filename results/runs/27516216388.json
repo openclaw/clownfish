@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-116-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516216388",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516216388",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-116-plan-ramp.md",
+  "published_at": "2026-06-15T00:02:45.769Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. The hinted representative #75148 is open but must be quarantined as security-sensitive from the hydrated preflight artifact. The remaining live non-security work splits into separate canonical PRs for distinct auth/model root causes (#74564 and #75223). The other listed candidates are already closed in live state, so no close actions are planned.",
+  "actions": [
+    {
+      "target": "#74564",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74564",
+      "candidate_fix": null,
+      "reason": "Keep #74564 as the canonical PR for the separate `/models` provider-data auth-scope subcluster; do not close or merge it from this cluster."
+    },
+    {
+      "target": "#75148",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #75148 to central OpenClaw security handling; continue classifying unrelated non-security candidates."
+    },
+    {
+      "target": "#75223",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75223",
+      "candidate_fix": null,
+      "reason": "Keep #75223 as the canonical PR for the separate CLI auth status/probe subcluster; do not close or merge it from this cluster."
+    },
+    {
+      "target": "#75388",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#83498",
+      "candidate_fix": "#83498",
+      "reason": "Already closed as implemented by the later #83498/current-main behavior; no mutation is valid."
+    },
+    {
+      "target": "#75397",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as superseded by current-main implementation; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
