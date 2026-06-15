@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-168",
+  "mode": "plan",
+  "run_id": "27528122311",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528122311",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:25Z",
+  "workflow_updated_at": "2026-06-15T06:27:03Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-168.md",
+  "published_at": "2026-06-15T06:28:35.414Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected; hydrated open PRs were kept out of dedupe/closeout, already-closed PRs were left closed, and candidates with unavailable live state need rehydration before classification.",
+  "actions": [
+    {
+      "target": "#89458",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate maintainer-owned draft hardening PR; not eligible for closeout or merge in this plan-only inventory shard."
+    },
+    {
+      "target": "#90275",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has unique test-scope work but unresolved review-bot findings and failing proof block merge/fixed-by-candidate handling; keep it independent rather than close."
+    },
+    {
+      "target": "#90330",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed by ClawSweeper as implemented on main; no mutation is valid in this plan."
+    },
+    {
+      "target": "#90365",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique test-scope PR with active author/review follow-up; keep independent rather than close or merge."
+    },
+    {
+      "target": "#89831",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate focused PR awaiting maintainer review; not a duplicate/closeout target in this shard."
+    },
+    {
+      "target": "#89879",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no further plan action is valid."
+    },
+    {
+      "target": "#89894",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate docs hardening PR with minor maintainer-wording consideration; not a duplicate/closeout target."
+    },
+    {
+      "target": "#90383",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state must be rehydrated before this candidate can be classified safely."
+    },
+    {
+      "target": "#90386",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state must be rehydrated before this candidate can be classified safely."
+    },
+    {
+      "target": "#89152",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state must be rehydrated before this candidate can be classified safely."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_closed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Rehydrate #90383 before classification; preflight hit GitHub API rate limit and target_updated_at is unavailable.",
+    "Rehydrate #90386 before classification; preflight hit GitHub API rate limit and target_updated_at is unavailable.",
+    "Rehydrate #89152 before classification; preflight hit GitHub API rate limit and target_updated_at is unavailable."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

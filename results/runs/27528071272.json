@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-138",
+  "mode": "plan",
+  "run_id": "27528071272",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528071272",
+  "head_sha": "491855bb1bded92d24a0c29eb754e1e44d84cc2a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:24:13Z",
+  "workflow_updated_at": "2026-06-15T06:26:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-138.md",
+  "published_at": "2026-06-15T06:28:35.370Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 open candidate PRs. No shared canonical was selected because the job is an inventory shard. Security-sensitive PRs #89592 and #89597 are routed to central security handling; remaining non-security PRs are kept open for maintainer review, author follow-up, or proof rather than closure/merge/fix actions, which are blocked by this job.",
+  "actions": [
+    {
+      "target": "#89587",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful maintainer-owned draft PR with proof and no duplicate/supersession evidence; keep open rather than close or merge."
+    },
+    {
+      "target": "#89592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped PR must be quarantined to central OpenClaw security handling, with no close, merge, label, comment, or fix action from Clownfish."
+    },
+    {
+      "target": "#89597",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential/auth-provider boundary work is security-sensitive for this workflow and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#89598",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow non-security gateway hardening PR has pending author/change state and no closure basis."
+    },
+    {
+      "target": "#89582",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open maintainer draft with review/proof gaps; keep open for follow-up instead of closing."
+    },
+    {
+      "target": "#89580",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-proof performance PR is not closeable here because low-signal PR closeout is disabled; keep open as independent with proof blockers."
+    },
+    {
+      "target": "#89579",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful maintainer draft PR with a focused follow-up suggestion; no duplicate or closure path is established."
+    },
+    {
+      "target": "#89577",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Contributor PR appears useful and reviewable; merge is blocked by job frontmatter and no closure condition applies."
+    },
+    {
+      "target": "#89602",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89532",
+      "candidate_fix": "#89602",
+      "reason": "PR is related to hydrated issue #89532 but not merge-ready or closeout-ready due to failing proof checks."
+    },
+    {
+      "target": "#81641",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Contributor PR is useful but blocked by failing dependency-guard checks and maintainer review; no close or merge action is allowed."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 7,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

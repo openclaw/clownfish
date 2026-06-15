@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-167",
+  "mode": "plan",
+  "run_id": "27528120939",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528120939",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:23Z",
+  "workflow_updated_at": "2026-06-15T06:26:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-167.md",
+  "published_at": "2026-06-15T06:28:35.413Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected. Security-sensitive PRs #90323 and #90329 are routed to central security handling; hydrated non-security PRs are kept independent for maintainer review; #87669 and #89428 need human follow-up because live state was unavailable in the preflight artifact.",
+  "actions": [
+    {
+      "target": "#90268",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer-owned PR with focused useful work; no close, merge, or fix action is allowed or justified in this inventory shard."
+    },
+    {
+      "target": "#89286",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer-owned PR with focused useful work; no duplicate or superseding canonical is established."
+    },
+    {
+      "target": "#90332",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer-owned PR with focused useful work; keep as an independent maintainer-review item."
+    },
+    {
+      "target": "#90329",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-affecting Slack bot allowlisting must be routed to central OpenClaw security handling, with no closure or merge action from Clownfish."
+    },
+    {
+      "target": "#90323",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dependency graph and native dependency changes with security-boundary labeling must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#89067",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer-owned PR with focused useful work; no merge preflight exists and merge is blocked by job frontmatter."
+    },
+    {
+      "target": "#90249",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft PR with unresolved review findings; keep independently for author/maintainer follow-up rather than closing or merging."
+    },
+    {
+      "target": "#89614",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer-owned PR with useful focused work and partial hydration limitations; keep independently for maintainer review."
+    },
+    {
+      "target": "#89428",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable, so the worker cannot classify or plan any safe mutation for this listed candidate."
+    },
+    {
+      "target": "#87669",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live state is unavailable, so the worker cannot classify or plan any safe mutation for this listed candidate."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "route_security": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89428: live GitHub state unavailable in preflight artifact; cannot classify or plan mutation.",
+    "#87669: live GitHub state unavailable in preflight artifact; cannot classify or plan mutation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

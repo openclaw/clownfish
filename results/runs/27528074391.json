@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-140",
+  "mode": "plan",
+  "run_id": "27528074391",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528074391",
+  "head_sha": "491855bb1bded92d24a0c29eb754e1e44d84cc2a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:24:17Z",
+  "workflow_updated_at": "2026-06-15T06:26:42Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-140.md",
+  "published_at": "2026-06-15T06:28:35.375Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative PR-inventory classification for 10 job candidates. No GitHub mutations, merge, fix, or raise-PR actions are planned. #73822 is routed to central security handling; #89642 is already closed; the remaining open non-security PRs are kept as independent backlog items or escalated only where the hydrated artifact shows unresolved author/maintainer judgment blockers.",
+  "actions": [
+    {
+      "target": "#89624",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open maintainer-owned draft PR with narrow Ollama hardening scope, no shared canonical, and no close/merge-safe evidence in this inventory shard."
+    },
+    {
+      "target": "#89214",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active contributor follow-up plus inconsistent proof/check state requires maintainer judgment before any close or merge path."
+    },
+    {
+      "target": "#89630",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow maintainer-owned draft PR with its own scope; keep it in the backlog rather than close, merge, or attach it to an invented canonical."
+    },
+    {
+      "target": "#89632",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is still waiting on author changes; no close, merge, or supersede action is supported by the hydrated artifact."
+    },
+    {
+      "target": "#73822",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive SecretRef/PII config boundary work is out of scope for Clownfish backlog cleanup and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#72314",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor PR with useful code and proof, but merge is not allowed in this plan job; keep as an independent maintainer-review item."
+    },
+    {
+      "target": "#89642",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live hydrated state; no additional action is valid."
+    },
+    {
+      "target": "#89644",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow maintainer-owned model-catalog hardening PR with no duplicate/supersede evidence; keep as its own backlog item."
+    },
+    {
+      "target": "#89387",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66443",
+      "reason": "The PR may be a candidate fix for #66443, but the hydrated review comment and checks disagree about proof state; maintainer judgment is required."
+    },
+    {
+      "target": "#89646",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow maintainer-owned model-catalog hardening PR with no shared canonical or closure basis in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "needs_human": 3,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89214: active author follow-up plus latest Real behavior proof failure despite posted production proof needs maintainer/product judgment.",
+    "#89632: hydrated state says waiting on author and ClawSweeper needs changes before merge.",
+    "#89387: candidate fix for #66443 has proof/check mismatch against the durable ClawSweeper review comment."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-129",
+  "mode": "plan",
+  "run_id": "27528056072",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528056072",
+  "head_sha": "491855bb1bded92d24a0c29eb754e1e44d84cc2a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:23:51Z",
+  "workflow_updated_at": "2026-06-15T06:26:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-129.md",
+  "published_at": "2026-06-15T06:28:35.349Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. Security-sensitive PRs are quarantined with route_security. Non-security open PRs are kept open as independent or related work because the shard has no shared canonical and merge/fix actions are blocked. Already closed PR #81911 is kept closed.",
+  "actions": [
+    {
+      "target": "#81830",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for ProjectClownfish mutation."
+    },
+    {
+      "target": "#81994",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-shaped tool/audit PR must be handled by central OpenClaw security review."
+    },
+    {
+      "target": "#82024",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not a duplicate or low-signal cleanup target; it is real but not merge-ready and should remain open as independent work."
+    },
+    {
+      "target": "#82085",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has a plausible bug-fix intent but unresolved correctness and proof blockers; no close action is safe."
+    },
+    {
+      "target": "#81939",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated bare /new and /reset regression family, but not closable or mergeable in this plan-only inventory shard."
+    },
+    {
+      "target": "#81818",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Download-size cap work is tied to a security-sensitive report and must be handled outside ProjectClownfish cleanup."
+    },
+    {
+      "target": "#81911",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92223",
+      "reason": "Already closed refs must not receive closure actions."
+    },
+    {
+      "target": "#81784",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches security-boundary-shaped subprocess context exposure and must be quarantined to central security handling."
+    },
+    {
+      "target": "#89329",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR requires maintainer judgment, not backlog cleanup."
+    },
+    {
+      "target": "#82023",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial active feature work with unresolved review issues should remain open; no close-style action is justified."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_independent": 3,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89329: maintainer-owned draft PR needs maintainer review before any merge/close decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

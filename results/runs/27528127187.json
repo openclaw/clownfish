@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-171",
+  "mode": "plan",
+  "run_id": "27528127187",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528127187",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:33Z",
+  "workflow_updated_at": "2026-06-15T06:26:59Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-171.md",
+  "published_at": "2026-06-15T06:28:35.415Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. Quarantine the one hydrated security-sensitive PR, keep two hydrated non-security PRs open without mutation, and request a refreshed preflight for seven seed PRs whose live state was unavailable due GitHub API rate limiting.",
+  "actions": [
+    {
+      "target": "#89637",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone provider/message-delivery PR; no duplicate, superseding candidate, low-signal basis, or merge preflight is available in this plan-mode inventory shard."
+    },
+    {
+      "target": "#86646",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to a UI chat-controller conflict family, but live state for related refs is unavailable and this inventory shard should not choose a canonical or close it."
+    },
+    {
+      "target": "#81864",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive approval-boundary PR is out of scope for ProjectClownfish cleanup; quarantine this item only and continue unrelated classifications."
+    },
+    {
+      "target": "#90489",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#90229",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#84794",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#90331",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#90373",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#90503",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    },
+    {
+      "target": "#90118",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Refresh preflight is required before this candidate can be safely classified or receive any planned mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "needs_human": 7
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Refresh live preflight for unavailable seed candidates #90489, #90229, #84794, #90331, #90373, #90503, and #90118 after GitHub API rate limit clears; the current artifact has no live kind, state, target_updated_at, files, comments, or checks for those PRs."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

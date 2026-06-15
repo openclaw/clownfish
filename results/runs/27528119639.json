@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-166",
+  "mode": "plan",
+  "run_id": "27528119639",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528119639",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:21Z",
+  "workflow_updated_at": "2026-06-15T06:26:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-166.md",
+  "published_at": "2026-06-15T06:28:35.412Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative PR-inventory classification for 10 listed refs. No shared canonical was chosen because the job is an inventory shard, not a dedupe cluster. One security-sensitive PR is routed to central security handling; two refs lack hydrated live state and need a refreshed preflight before classification.",
+  "actions": [
+    {
+      "target": "#90298",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft PR with focused non-security work and no hydrated canonical or duplicate target; keep as independent inventory item."
+    },
+    {
+      "target": "#90256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is marked security-sensitive by preflight; route only this PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#85112",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR with live open state and unresolved maintainer/CI gates; preserve for normal review."
+    },
+    {
+      "target": "#90199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open contributor PR has unique implementation and proof gap; no closure/merge action is permitted or justified in this inventory shard."
+    },
+    {
+      "target": "#90311",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft PR is related to adjacent MCP/schema hardening but has no hydrated canonical replacement; keep independently for maintainer review."
+    },
+    {
+      "target": "#90195",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial draft PR with unclear proof and no duplicate/superseding hydrated item; keep as independent."
+    },
+    {
+      "target": "#89733",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused draft PR should stay open for maintainer review rather than be deduped or closed."
+    },
+    {
+      "target": "#90308",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent availability/session-state fix candidate with unavailable linked issue and no safe closure/merge path in plan mode."
+    },
+    {
+      "target": "#89175",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Candidate live state was not hydrated, so classification needs a refreshed preflight before any auditable action."
+    },
+    {
+      "target": "#89171",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Candidate live state was not hydrated, so classification needs a refreshed preflight before any auditable action."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 7,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89175 live state unavailable in preflight; rerun hydration before classification.",
+    "#89171 live state unavailable in preflight; rerun hydration before classification."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

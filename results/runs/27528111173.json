@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T060018-161",
+  "mode": "plan",
+  "run_id": "27528111173",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27528111173",
+  "head_sha": "28ca7608fe04d5b128115fe66d3fb3222e904399",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T06:25:09Z",
+  "workflow_updated_at": "2026-06-15T06:26:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T060018-161.md",
+  "published_at": "2026-06-15T06:28:35.407Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed PRs. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Closed PRs are kept closed, security-sensitive PRs are routed to central security handling, and ready/unclear open PRs are left for maintainer or follow-up review without planning GitHub mutations.",
+  "actions": [
+    {
+      "target": "#72605",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; keep as closed historical context."
+    },
+    {
+      "target": "#72713",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exec approval path and symlink boundary changes are security-sensitive for this workflow."
+    },
+    {
+      "target": "#72765",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; keep as closed historical context."
+    },
+    {
+      "target": "#72535",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open PR with failed proof; keep independently tracked rather than close or merge."
+    },
+    {
+      "target": "#72771",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique feature work that is not merge-ready and requires separate product review."
+    },
+    {
+      "target": "#52365",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial independent contributor PR; not eligible for merge in this plan-only, no-merge job."
+    },
+    {
+      "target": "#90095",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is the remaining decision for a narrow open PR with passing proof but no merge authority in this job."
+    },
+    {
+      "target": "#90187",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider/auth compatibility bug candidate without sufficient proof; keep independently tracked."
+    },
+    {
+      "target": "#81696",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking PR where the remaining action is maintainer review, not automated closure or merge in this job."
+    },
+    {
+      "target": "#90196",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary-labeled iOS/gateway voice-engine feature is out of scope for ProjectClownfish mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 2,
+    "keep_independent": 4,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90095 needs maintainer review because proof is passing in preflight but the job blocks merge and latest ClawSweeper text still says proof is needed.",
+    "#81696 needs maintainer review because proof is sufficient, mergeability is clean, and ClawSweeper explicitly requests maintainer review before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
