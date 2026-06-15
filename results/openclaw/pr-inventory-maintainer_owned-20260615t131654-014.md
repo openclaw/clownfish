@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-maintainer_owned-20260615T131654-014"
 mode: "plan"
-run_id: "27551757365"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27551757365"
-head_sha: "8a5b996ef10e2c54a93f0c70824bb3785eb43c75"
+run_id: "27552750079"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27552750079"
+head_sha: "6219e4cb8ba01b5666ea86632936d90d53200623"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T14:10:44.592Z"
+published_at: "2026-06-15T14:22:47.287Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27551757365](https://github.com/openclaw/clownfish/actions/runs/27551757365)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27552750079](https://github.com/openclaw/clownfish/actions/runs/27552750079)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode PR inventory classification. No shared canonical was selected because the job states this is not a dedupe cluster. Security-sensitive refs are quarantined with route_security; already-closed candidate #93220 is kept closed; all other open PRs remain independent backlog items with no close, merge, or fix PR action planned.
+Plan-mode PR inventory classification only. No GitHub mutations, merge, fix, or close actions are planned. Security-sensitive refs are quarantined individually; other PRs are kept for maintainer/backlog handling because this shard is not a dedupe cluster and no shared canonical exists.
 
 ## Impact
 
@@ -66,47 +66,47 @@ Plan-mode PR inventory classification. No shared canonical was selected because 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89798 | keep_independent | planned | independent | Standalone maintainer-owned PR; no duplicate or closeout basis in this inventory shard. |
-| #89805 | keep_independent | planned | independent | Separate plugin hook hardening PR; keep for normal review rather than closing or merging in this plan. |
-| #93220 | keep_closed | skipped |  | Candidate is already closed; no mutation should be planned. |
-| #89052 | keep_independent | planned | independent | Useful but still author/review managed; keep as independent backlog item. |
-| #89550 | keep_independent | planned | independent | Standalone hardening PR requiring maintainer review outside this inventory plan. |
-| #89634 | keep_independent | planned | independent | Separate compatibility hardening PR; keep independent. |
-| #89810 | keep_independent | planned | independent | Keep open for author/maintainer branch selection; not safe to close or merge here. |
-| #90621 | keep_independent | planned | independent | Administrative PR should remain for maintainer review. |
-| #12581 | route_security | planned | security_sensitive | Quarantine this exact PR for central OpenClaw security handling. |
-| #46794 | route_security | planned | security_sensitive | Device-pairing authorization/token boundary work is out of ProjectClownfish cleanup scope. |
-| #79818 | route_security | planned | security_sensitive | Route only this Slack action parity PR to central security-aware handling. |
-| #73399 | route_security | planned | security_sensitive | Security-shaped Feishu attribution/cache concerns require central handling. |
-| #82145 | keep_independent | planned | independent | Standalone contributor PR; keep open for normal maintainer workflow. |
-| #84205 | keep_independent | planned | independent | Open proof-blocked contributor PR; keep independent rather than closing. |
-| #84972 | needs_human | planned | needs_human | Maintainer technical correctness decision is unresolved; no closure or fix PR is allowed by this job. |
-| #86160 | keep_independent | planned | independent | Substantial standalone feature/fix PR; keep independent. |
-| #86564 | keep_independent | planned | independent | Keep for maintainer review; no inventory closeout basis. |
-| #86584 | keep_independent | planned | independent | Standalone session-state PR; keep independent. |
-| #87471 | keep_independent | planned | independent | Draft or candidate work should stay open for normal review. |
-| #87573 | keep_independent | planned | independent | Open proof-needed PR; keep independent. |
-| #87669 | keep_independent | planned | independent | Feature PR remains independent and proof-gated. |
-| #88970 | keep_independent | planned | independent | Useful focused PR should remain open for maintainer review. |
-| #89031 | keep_independent | planned | independent | Draft plugin descriptor hardening PR; keep independent. |
-| #89041 | route_security | planned | security_sensitive | Security-shaped dependency/socket availability behavior should be routed, not triaged as backlog cleanup. |
-| #89042 | route_security | planned | security_sensitive | MCP/tool descriptor work flagged by the artifact as security-sensitive is out of ProjectClownfish mutation scope. |
-| #89056 | keep_independent | planned | independent | Draft MCP/plugin schema hardening PR; keep independent. |
-| #89061 | keep_independent | planned | independent | Separate agent-core hardening PR; keep independent. |
-| #89072 | keep_independent | planned | independent | Draft Codex reporting hardening PR; keep independent. |
-| #89076 | keep_independent | planned | independent | Standalone reporting hardening PR; keep independent. |
-| #89077 | keep_independent | planned | independent | Draft diagnostics hardening PR; keep independent. |
-| #89078 | keep_independent | planned | independent | Contributor proof-needed message-delivery PR; keep independent. |
-| #89079 | keep_independent | planned | independent | Open author-waiting runtime hardening PR; keep independent. |
-| #89081 | keep_independent | planned | independent | Draft runtime hardening PR; keep independent. |
-| #89089 | keep_independent | planned | independent | Draft tool-search hardening PR; keep independent. |
-| #89105 | keep_independent | planned | independent | Draft agent-core validation hardening PR; keep independent. |
-| #89113 | keep_independent | planned | independent | Open author-waiting runtime hardening PR; keep independent. |
-| #89124 | keep_independent | planned | independent | Refactor stack PR remains independent and proof-gated. |
-| #89136 | keep_independent | planned | independent | Draft harness hardening PR; keep independent. |
-| #89141 | keep_independent | planned | independent | Draft diagnostics hardening PR; keep independent. |
-| #89149 | keep_independent | planned | independent | Draft extension-tool validation PR; keep independent. |
+| #89798 | keep_independent | planned | independent | Independent open maintainer PR; no dedupe or closure basis in the hydrated artifact. |
+| #89805 | keep_independent | planned | independent | Independent open maintainer PR; no dedupe or closure basis in the hydrated artifact. |
+| #93220 | keep_independent | planned | independent | Independent open PR; merge and fix actions are disallowed in this plan job. |
+| #89052 | keep_independent | planned | independent | Independent open PR with author follow-up state. |
+| #89550 | keep_independent | planned | independent | Independent open maintainer PR. |
+| #89634 | keep_independent | planned | independent | Independent open maintainer PR. |
+| #89810 | keep_independent | planned | independent | Independent open PR with author follow-up state. |
+| #90621 | keep_independent | planned | independent | Independent open maintainer PR. |
+| #12581 | route_security | planned | security_sensitive | Security-sensitive item; route to central OpenClaw security handling. |
+| #46794 | route_security | planned | security_sensitive | Security-sensitive device-pairing/auth-boundary item. |
+| #79818 | route_security | planned | security_sensitive | Security-sensitive channel capability expansion. |
+| #73399 | route_security | planned | security_sensitive | Security-sensitive Feishu sender/display-name behavior item. |
+| #82145 | keep_related | planned | related | Related open follow-up PR in the cron preflight area; no closure or merge permitted by job. |
+| #84205 | keep_independent | planned | independent | Independent open PR blocked on proof; not a duplicate or close candidate. |
+| #84972 | needs_human | planned | needs_human | Maintainer technical/product judgment is required for the compact-then-fallback contract. |
+| #86160 | keep_related | planned | related | Related stacked Codex native-thread work, not a duplicate closure candidate in this shard. |
+| #86564 | keep_independent | planned | independent | Independent open PR; keep for normal maintainer review. |
+| #86584 | keep_independent | planned | independent | Independent open PR; classify conservatively. |
+| #87471 | keep_independent | planned | independent | Independent open PR; no closure basis. |
+| #87573 | keep_independent | planned | independent | Independent open PR blocked on proof. |
+| #87669 | keep_independent | planned | independent | Independent broad feature PR; keep for proof/product review. |
+| #88970 | keep_independent | planned | independent | Independent open bugfix PR. |
+| #89031 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89041 | route_security | planned | security_sensitive | Security-sensitive dependency/socket behavior item. |
+| #89042 | route_security | planned | security_sensitive | Security-sensitive MCP/tool execution boundary item. |
+| #89056 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89061 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89072 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89076 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89077 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89078 | keep_independent | planned | independent | Independent open bugfix PR blocked on proof. |
+| #89079 | keep_independent | planned | independent | Independent open PR with author follow-up state. |
+| #89081 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89089 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89105 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89113 | keep_independent | planned | independent | Independent open PR with author follow-up state. |
+| #89124 | keep_independent | planned | independent | Independent open refactor PR blocked on proof. |
+| #89136 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89141 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
+| #89149 | keep_independent | planned | independent | Independent open maintainer hardening PR. |
 
 ## Needs Human
 
-- #84972: maintainer requested changes on the compact-then-fallback contract; technical correctness judgment remains unresolved and this plan cannot raise a fix PR.
+- #84972 requires maintainer technical judgment on the compact-then-fallback contract after a maintainer requested changes.
