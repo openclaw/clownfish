@@ -140,6 +140,9 @@ let index = 0;
 while (!failed && index < jobsToDispatch.length) {
   let batchSize = jobsToDispatch.length - index;
   if (throttledDispatch) {
+    if (!skipPublishBacklogCheck) assertPublishBacklog();
+    if (failed) break;
+
     const capacity = waitForLiveWorkerCapacity({
       repo,
       workflow,
