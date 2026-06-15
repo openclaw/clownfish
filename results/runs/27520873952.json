@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-258-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520873952",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520873952",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:30Z",
+  "workflow_updated_at": "2026-06-15T02:44:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-258-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.929Z",
+  "canonical": "#79588",
+  "canonical_issue": "#79588",
+  "canonical_pr": null,
+  "summary": "Plan-only classification. Security-sensitive refs #75336 and #90010 are scoped to central OpenClaw security handling. Non-security identifier-survival tracking remains on #79588. Linked context #82121 is related but separate, and #80191 is already closed historical context.",
+  "actions": [
+    {
+      "target": "#75336",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes and discusses a credential-exposure path, so it must be quarantined to central security handling and not merged, closed, labeled, or commented on by this worker."
+    },
+    {
+      "target": "#79588",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79588",
+      "candidate_fix": null,
+      "reason": "After routing the security-sensitive PR, #79588 is the best non-security canonical tracker for the identifier-survival correctness gap."
+    },
+    {
+      "target": "#90010",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue contains a credential-exposure claim, so it is out of scope for ProjectClownfish cleanup and must be routed to central security handling."
+    },
+    {
+      "target": "#80191",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#79588",
+      "candidate_fix": null,
+      "reason": "Already-closed historical context only; no closure action is valid."
+    },
+    {
+      "target": "#82121",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79588",
+      "candidate_fix": null,
+      "reason": "Same compaction/session-state area, but a distinct sanitizer root cause and should remain a separate tracker."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

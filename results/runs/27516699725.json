@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-210-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516699725",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516699725",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:16:03Z",
+  "workflow_updated_at": "2026-06-15T00:18:01Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-210-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.855Z",
+  "canonical": "#90467",
+  "canonical_issue": "#90467",
+  "canonical_pr": null,
+  "summary": "#90467 remains the live canonical issue. #90841 and #91448 are overlapping candidate fixes for the same Telegram cron announce target bug, but the hydrated state shows an unresolved product/compatibility choice and blocked gates, so no close, merge, or fixed-by-candidate plan is safe in this plan-only run.",
+  "actions": [
+    {
+      "target": "#90467",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90467",
+      "candidate_fix": null,
+      "reason": "#90467 is the clearest surviving canonical thread for the user-visible bug and should stay open while the competing PR approaches are resolved."
+    },
+    {
+      "target": "#90841",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#90467",
+      "candidate_fix": null,
+      "reason": "#90841 is related and potentially the broader fix path, but selecting it over #91448 requires maintainer judgment on the intended Telegram target contract plus passing behavior proof."
+    },
+    {
+      "target": "#91448",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#90467",
+      "candidate_fix": null,
+      "reason": "#91448 contains useful related work, but it should not be closed as superseded or advanced as canonical until a maintainer chooses the intended validation contract and its failing build gate is resolved."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the intended Telegram cron announce To validation contract before advancing or closing either PR: #90841 mirrors a broader Telegram target contract but failed real behavior proof, while #91448 enforces numeric chat IDs only and has a build-artifacts failure plus compatibility risk."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

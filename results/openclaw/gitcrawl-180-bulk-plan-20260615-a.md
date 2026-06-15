@@ -1,0 +1,78 @@
+---
+repo: "openclaw/openclaw"
+cluster_id: "gitcrawl-180-bulk-plan-20260615-a"
+mode: "plan"
+run_id: "27520822370"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27520822370"
+head_sha: "872a0ab6af9f5f189014062d7bd0a2367b003dde"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-06-15T02:47:39.909Z"
+canonical: "#77700"
+canonical_issue: "#77700"
+canonical_pr: null
+actions_total: 6
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
+apply_executed: 0
+apply_blocked: 0
+apply_skipped: 0
+needs_human_count: 0
+---
+
+# gitcrawl-180-bulk-plan-20260615-a
+
+Repo: openclaw/openclaw
+
+Run: [https://github.com/openclaw/clownfish/actions/runs/27520822370](https://github.com/openclaw/clownfish/actions/runs/27520822370)
+
+Workflow conclusion: success
+
+Worker result: planned
+
+Canonical: #77700
+
+## Summary
+
+Plan-only classification completed from the hydrated cluster preflight artifact. #77700 remains the live canonical maintainer tracker. #79198 is quarantined with route_security because the job explicitly marks it as a security-signal ref. #89609 and #89612 form a separate migration-provider bug/fix pair and should not be forced into the #77700 duplicate family. No GitHub mutations, merges, labels, comments, fixes, or closeouts are planned as executed.
+
+## Impact
+
+| Metric | Count |
+| --- | ---: |
+| Worker actions | 6 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
+| Applied executions | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
+| Needs human | 0 |
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Apply Actions
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Worker Action Matrix
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| #76757 | keep_closed | skipped | superseded | Closed historical PR is evidence only. |
+| #77700 | keep_canonical | planned | canonical | Best live canonical for the prepared runtime migration family. |
+| #78248 | keep_closed | skipped | fixed_by_candidate | Merged foundation PR is historical progress under the canonical tracker, not an open candidate to mutate. |
+| #79198 | route_security | planned | security_sensitive | Exact job-marked security-signal ref; quarantine without poisoning #77700, #89609, or #89612 classification. |
+| #89609 | keep_related | planned | fixed_by_candidate | Covered by the open candidate PR #89612, but this plan job should not close the issue before the fix lands and closeout is rerun against the merged result. |
+| #89612 | keep_related | planned | related | Keep as the candidate fix for the separate #89609 bug path; do not merge or close from this plan-only job. |
+
+## Needs Human
+
+- none

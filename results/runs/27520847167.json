@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-218-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520847167",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520847167",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:35Z",
+  "workflow_updated_at": "2026-06-15T02:43:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-218-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.918Z",
+  "canonical": "#88684",
+  "canonical_issue": null,
+  "canonical_pr": "#88684",
+  "summary": "Plan-only classification for cluster 218: keep #88684 as the live canonical PR, keep #87347 related to that canonical path without closure, and quarantine #77736 because the job explicitly marks it as a security-signal ref.",
+  "actions": [
+    {
+      "target": "#77736",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires quarantine for #77736; no ProjectClownfish close, merge, label, comment, or fix action should be planned for this item."
+    },
+    {
+      "target": "#88684",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88684",
+      "candidate_fix": null,
+      "reason": "#88684 remains the clearest live canonical path, but this plan does not recommend merge because merge is blocked by policy and by unresolved proof/review readiness."
+    },
+    {
+      "target": "#87347",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88684",
+      "candidate_fix": "#88684",
+      "reason": "The issue belongs in the same canonical family as #88684, but it should stay open/related until the canonical PR is validated or a maintainer chooses another fix path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

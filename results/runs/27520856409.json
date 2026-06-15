@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520856409",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520856409",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:54Z",
+  "workflow_updated_at": "2026-06-15T02:43:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.924Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read-only plan: all three open candidates are security-sensitive under the preflight artifact and job notes, so they are scoped to central OpenClaw security handling with no close, label, merge, or fix action planned by Clownfish.",
+  "actions": [
+    {
+      "target": "#91283",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open issue #91283 changes exec approval boundary semantics and is explicitly security-sensitive in the hydrated artifact; route it instead of selecting a cleanup canonical or planning closure."
+    },
+    {
+      "target": "#91286",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR #91286 touches exec approval security precedence and is explicitly marked as a security-signal ref; no merge, close, or fixed-by-candidate action is allowed in this worker path."
+    },
+    {
+      "target": "#91288",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR #91288 is a security-signal fix candidate for the same exec approval boundary behavior; route it to central security handling rather than treating it as a merge or closeout candidate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security/product review is required for #91283, #91286, and #91288 before any maintainer decision on whether the exec approval floor semantics should change."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

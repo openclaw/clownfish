@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-121-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520785760",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520785760",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:21Z",
+  "workflow_updated_at": "2026-06-15T02:41:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-121-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.884Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed from the provided preflight artifact. The representative #83244 is open but explicitly listed by the job as a security-signal ref requiring quarantine, so no non-security canonical is selected for closure. The other open candidates are related config/doctor follow-up work with distinct scopes and should remain open; no close, merge, label, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#83244",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this exact ref as requiring route_security, so it is out of scope for ProjectClownfish mutations."
+    },
+    {
+      "target": "#72535",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same broad config compatibility area, but not the same root cause or fix shape as the quarantined representative; failing proof blocks merge-style handling."
+    },
+    {
+      "target": "#77802",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related config validation/repair family, but it has unique doctor --fix behavior and remains open for product/maintainer follow-up; not a duplicate close candidate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-248-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520868884",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520868884",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:20Z",
+  "workflow_updated_at": "2026-06-15T02:44:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-248-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.926Z",
+  "canonical": "#90713",
+  "canonical_issue": "#90713",
+  "canonical_pr": "#90882",
+  "summary": "Read-only plan: keep #90713 as the canonical issue, route the job-designated security-signal ref #90719 without mutating it, and keep #90882 as the related open fix candidate that should own validation before any issue closeout. No GitHub mutations are planned in this worker result.",
+  "actions": [
+    {
+      "target": "#90713",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90713",
+      "candidate_fix": "#90882",
+      "reason": "#90713 remains the best surviving canonical issue; it is not safe to close before the linked fix candidate lands."
+    },
+    {
+      "target": "#90719",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires route_security for #90719; because it is already closed, this is a non-mutating quarantine/classification only."
+    },
+    {
+      "target": "#90882",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90713",
+      "candidate_fix": "#90882",
+      "reason": "#90882 is the clear related candidate fix for #90713, but merge is blocked by job policy and missing merge preflight/Codex review proof in this plan run."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-221-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518776654"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518776654"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516707273"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516707273"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.112Z"
+published_at: "2026-06-15T02:47:39.857Z"
 canonical: "#91947"
 canonical_issue: "#91947"
 canonical_pr: null
@@ -18,14 +18,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-221-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518776654](https://github.com/openclaw/clownfish/actions/runs/27518776654)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516707273](https://github.com/openclaw/clownfish/actions/runs/27516707273)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91947
 
 ## Summary
 
-Plan mode classification only. #91947 remains the live canonical issue for the hardcoded memory_search 15s timeout. #91958 is already closed and must not receive a close action. #92065 is an open related fix PR for #91947, but failing checks block merge or fixed-by-candidate closeout.
+Plan-mode classification only. #91947 remains the canonical open issue. #91958 is already closed and should not receive a closure action. #92065 is a related open fix PR for #91947, but failing checks and missing merge preflight block merge or fixed-by-candidate closeout in this job.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan mode classification only. #91947 remains the live canonical issue for the h
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Plan mode classification only. #91947 remains the live canonical issue for the h
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91947 | keep_canonical | planned | canonical | Best surviving canonical is the open source issue describing the user-visible failure and desired configuration behavior. |
-| #91958 | keep_closed | skipped | superseded | Historical closed PR evidence only; no mutation is valid for an already-closed PR. |
-| #92065 | keep_related | planned | related | Related open fix candidate for the canonical issue, but not merge-ready or safe for closeout under plan-mode and failing-check gates. |
+| #91947 | keep_canonical | planned | canonical | #91947 is the best surviving canonical report for the shared memory_search/QMD timeout root cause. |
+| #91958 | keep_closed | skipped | superseded | Already closed historical contributor PR for the same root cause; keep as closed context and preserve its evidence/credit in any future replacement or landing path. |
+| #92065 | keep_related | planned | related | Keep the open PR related to the canonical issue, but do not merge or close the issue as fixed-by-candidate because required checks and merge preflight are not clean. |
 
 ## Needs Human
 
-- none
+- #92065 has failing required checks (`Real behavior proof`, `check-test-types`, `check-prod-types`) and unknown mergeability; maintainer or executor follow-up is needed before it can become a merge candidate or fixed-by-candidate closeout path.

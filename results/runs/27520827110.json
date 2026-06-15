@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-193-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520827110",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520827110",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:54Z",
+  "workflow_updated_at": "2026-06-15T02:43:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-193-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.912Z",
+  "canonical": "#91015",
+  "canonical_issue": "#90980",
+  "canonical_pr": "#91015",
+  "summary": "Plan-only classification for cluster gitcrawl-193-bulk-plan-20260615-a. #91015 remains the best live canonical PR for the hung Docker exec/sandbox-init deadline work. #90980 should stay open as the related source issue while #91015 is blocked on proof/checks. #66836 is security-sensitive per the preflight artifact and should be routed to central security handling only, despite already being closed.",
+  "actions": [
+    {
+      "target": "#66836",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of ProjectClownfish mutation scope; route this exact item without blocking the ordinary #90980/#91015 bug classification."
+    },
+    {
+      "target": "#90980",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91015",
+      "candidate_fix": "#91015",
+      "reason": "Same root cause as #91015, but the issue carries the source repro and should remain open until the canonical PR has real behavior proof and merge-ready validation."
+    },
+    {
+      "target": "#91015",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91015",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical for the non-security hung-Docker work, but it is not merge-ready in this plan run."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,30 +2,30 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-236-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518781042"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518781042"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516712936"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516712936"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.115Z"
+published_at: "2026-06-15T02:47:39.861Z"
 canonical: "#72557"
 canonical_issue: "#64086"
 canonical_pr: "#72557"
-actions_total: 7
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 0
 ---
 
 # gitcrawl-236-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518781042](https://github.com/openclaw/clownfish/actions/runs/27518781042)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516712936](https://github.com/openclaw/clownfish/actions/runs/27516712936)
 
 Workflow conclusion: success
 
@@ -35,20 +35,20 @@ Canonical: #72557
 
 ## Summary
 
-Plan-mode classification only. #72557 remains the best live canonical for the narrow PluginStatusProvider/registerStatusProvider API tracked by #64086. #53774 is broader footer customization and is security-sensitive in the preflight artifact, so it is routed to central security handling without poisoning the non-security #64086/#72557 path. #64127 is a separate security-sensitive provider circuit-breaker PR and is routed separately. No GitHub mutations are planned or executed.
+Plan-mode classification: keep #72557 as the live canonical PR for the narrow PluginStatusProvider API, keep #64086 as the canonical issue it resolves, route security-sensitive #53774 and linked #64127 to central security handling, and do not recommend close, merge, or fix actions for this run.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 7 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,15 +66,11 @@ Plan-mode classification only. #72557 remains the best live canonical for the na
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #5159 | keep_closed | skipped | superseded | Already closed and outside the active candidate set. |
-| #30411 | keep_closed | skipped | independent | Already closed and independent of this cluster's live canonical path. |
-| #53774 | route_security | planned | security_sensitive | Security-sensitive item must be quarantined to central OpenClaw security handling only. |
-| #64085 | keep_closed | skipped | superseded | Already closed; related only as historical context for #64127, not for the PluginStatusProvider canonical path. |
-| #64086 | keep_related | planned | related | Same narrow feature family as #72557, but the issue should remain open while the canonical PR awaits maintainer API/product review. |
-| #64127 | route_security | planned | security_sensitive | Security-sensitive linked PR is out of scope for ProjectClownfish cleanup and should go to central OpenClaw security handling. |
-| #72557 | keep_canonical | planned | canonical | Best surviving canonical for the non-security #64086 implementation path; keep open for maintainer API/product review. |
+| #53774 | route_security | planned | security_sensitive | Security-sensitive broader footer/account-status tracker is out of ProjectClownfish cleanup scope; quarantine this exact item and continue classifying unrelated non-security items. |
+| #64086 | keep_canonical | planned | canonical | Keep #64086 as the canonical issue for the narrow feature; it should not be closed before the linked PR outcome is finalized. |
+| #72557 | keep_canonical | planned | canonical | #72557 remains the best live canonical PR, but this plan does not recommend merge because merge is blocked by job frontmatter and maintainer API review remains required. |
+| #64127 | route_security | planned | security_sensitive | Linked security-sensitive provider circuit-breaker PR should route to central OpenClaw security handling and should not affect the #64086/#72557 plugin-API classification. |
 
 ## Needs Human
 
-- #72557 needs maintainer API/product review before any future merge because it adds a public Plugin SDK method/type/registry surface.
-- #53774 requires central security/product handling for broader footer customization involving balance/provider status surfaces.
+- none

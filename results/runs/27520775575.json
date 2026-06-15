@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-102-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520775575",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520775575",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:01Z",
+  "workflow_updated_at": "2026-06-15T02:41:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-102-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.876Z",
+  "canonical": "#87923",
+  "canonical_issue": null,
+  "canonical_pr": "#87923",
+  "summary": "Plan-mode classification for five hydrated cluster refs. #87923 remains the open canonical for the #87740 per-turn session thinkingLevel persistence fix, but merge is not planned because merge is blocked by job frontmatter and the PR has a failing Real behavior proof check. #87925 is related follow-up/product-contract work, not a duplicate. #91913 and #92200 are already closed. #92002 is routed as security-sensitive because the job explicitly listed it as a security-signal ref, despite the preflight artifact marking it closed/merged and not security_sensitive.",
+  "actions": [
+    {
+      "target": "#87923",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87923",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the per-turn stored thinkingLevel overwrite root cause, but not merge-eligible in this plan."
+    },
+    {
+      "target": "#87925",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87923",
+      "candidate_fix": null,
+      "reason": "Same thinkingLevel/session-state family, but distinct root cause and product-contract question, so it should remain open rather than be closed as a duplicate."
+    },
+    {
+      "target": "#91913",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92002",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#92002",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Scoped quarantine required by the job-level security signal override."
+    },
+    {
+      "target": "#92200",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92002",
+      "reason": "Already closed as superseded by the landed #92002 path; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

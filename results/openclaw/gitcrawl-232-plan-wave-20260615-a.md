@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-232-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518780059"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518780059"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516711794"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516711794"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.114Z"
+published_at: "2026-06-15T02:47:39.860Z"
 canonical: "#91723"
 canonical_issue: "#91723"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518780059](https://github.com/openclaw/clownfish/actions/runs/27518780059)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516711794](https://github.com/openclaw/clownfish/actions/runs/27516711794)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91723
 
 ## Summary
 
-Plan-only classification: keep #91723 as the live canonical issue for the long-reply Teams streaming regression. Keep #90398 related rather than duplicate because it reports normal-length duplicate replies while #91723 is scoped to replies over the Teams 4000-character boundary. Keep #91729 related but not mergeable or fixed-by-candidate because it is draft, has failing checks, has an unresolved Codex review finding, and the author reported a negative production result for the claimed #91723 fix. Route the hydrated security-sensitive linked refs only, and leave already-closed historical refs untouched.
+#91723 remains the best live canonical for the source-reproduced Teams long-reply streaming double-post regression. #90398 is related but not a duplicate because it reports normal-length replies and still lacks a completed repro review. #91729 is related but not a merge or fixed-by candidate because it is draft, has failing checks, an unresolved Codex review finding, and the author reported a negative production result for the claimed fix.
 
 ## Impact
 
@@ -66,14 +66,14 @@ Plan-only classification: keep #91723 as the live canonical issue for the long-r
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58601 | keep_closed | skipped | related | Historical closed context only; no mutation planned. |
-| #59297 | keep_closed | skipped | related | Historical merged fix is evidence for the regression lineage, not an open candidate for this plan. |
-| #70178 | keep_closed | skipped | related | Historical closed issue remains only supporting context. |
-| #76262 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of ProjectClownfish cleanup scope; quarantine only this item. |
-| #89913 | route_security | planned | security_sensitive | Security-sensitive linked issue is out of ProjectClownfish cleanup scope; quarantine only this item. |
-| #90398 | keep_related | planned | related | Same Teams streaming duplicate family, but different reported length scope and unresolved reproduction evidence; keep open as related. |
-| #91723 | keep_canonical | planned | canonical | Best live canonical for the long-reply >4000-character regression. |
-| #91729 | keep_related | planned | related | Related work-in-progress, but not a valid merge or fixed-by-candidate path for #91723. |
+| #58601 | keep_closed | skipped | related | Historical closed context only; no closure action is valid for an already-closed issue. |
+| #59297 | keep_closed | skipped | related | Historical merged fix is evidence for the regression family, not a live candidate for this plan. |
+| #70178 | keep_closed | skipped | related | Historical closed context only; no closure action is valid for an already-closed issue. |
+| #76262 | route_security | planned | security_sensitive | Quarantine only this linked security-sensitive ref for central OpenClaw security handling; continue non-security Teams streaming classification separately. |
+| #89913 | route_security | planned | security_sensitive | Quarantine only this linked security-sensitive issue for central OpenClaw security handling; it does not block unrelated non-security classification. |
+| #90398 | keep_related | planned | related | Same Teams streaming duplicate symptom family, but #90398 has a broader normal-length scope and unclear reproduction, so it should not be closed as a duplicate of #91723. |
+| #91723 | keep_canonical | planned | canonical | #91723 is the clearest live canonical because it has the narrow root cause, source-repro signal, and current-main review evidence. |
+| #91729 | keep_related | planned | related | #91729 overlaps the canonical issue but is not a validated fix, not merge-ready, and should remain related rather than becoming the candidate fix for #91723. |
 
 ## Needs Human
 

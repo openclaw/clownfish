@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-220-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518775822"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518775822"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516705836"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516705836"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.112Z"
+published_at: "2026-06-15T02:47:39.857Z"
 canonical: "#91914"
 canonical_issue: "#91914"
 canonical_pr: "#91963"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518775822](https://github.com/openclaw/clownfish/actions/runs/27518775822)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516705836](https://github.com/openclaw/clownfish/actions/runs/27516705836)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91914
 
 ## Summary
 
-Read-only plan classification for three hydrated open items. #91914 remains the live canonical issue. #91963 is a focused related fix PR for #91914 but is not mergeable in this plan because merge is blocked by job policy and the hydrated checks include failures. #91964 tracks the same same-session queued-inbound foreground-fence root cause and can be planned as a duplicate closeout against #91914 if the applicator posts the preservation-credit comment first and live state is unchanged.
+#91914 remains the live canonical issue. #91963 is the current focused fix PR but is not merge-ready because merge is blocked for this job and hydrated checks include failures. #91964 tracks the same root cause and can be duplicate-closed against #91914 with credit preserved.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Read-only plan classification for three hydrated open items. #91914 remains the 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91914 | keep_canonical | planned | canonical | Best surviving canonical for the root cause described by the cluster. |
-| #91963 | keep_related | planned | related | Related focused fix candidate for the canonical issue, but not eligible for merge or fixed-by-candidate closeout in this read-only plan. |
-| #91964 | close_duplicate | planned | duplicate | Same root cause and same user-visible failure as #91914, with #91964 adding framing but no separate remaining work in the hydrated artifact. |
+| #91914 | keep_canonical | planned | canonical | #91914 is open, hydrated, and remains the best root-cause thread for https://github.com/openclaw/openclaw/issues/91914. |
+| #91963 | keep_related | planned | related | Keep #91963 open as the current fix candidate for #91914; do not recommend merge or fixed-by-candidate closeout until failing checks and merge preflight are resolved. |
+| #91964 | close_duplicate | planned | duplicate | Duplicate closeout is against the live canonical issue https://github.com/openclaw/openclaw/issues/91914; the hydrated current fix candidate is https://github.com/openclaw/openclaw/pull/91963. |
 
 ## Needs Human
 

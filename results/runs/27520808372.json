@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-149-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520808372",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520808372",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:11Z",
+  "workflow_updated_at": "2026-06-15T02:42:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-149-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.898Z",
+  "canonical": "#89430",
+  "canonical_issue": "#89430",
+  "canonical_pr": "#89906",
+  "summary": "Plan mode classification only. I treated the preflight artifact as live state, routed the explicit security-signal PR #89637 to central security handling, and selected #89906 as the best non-security fix candidate for #89430 because it covers all three affected Google Chat media paths and has passing checks/proof signals. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#89430",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89430",
+      "candidate_fix": "#89906",
+      "reason": null
+    },
+    {
+      "target": "#89637",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Explicit job-level security-signal routing overrides using #89637 as the live canonical in this plan."
+    },
+    {
+      "target": "#89906",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89906",
+      "candidate_fix": "#89906",
+      "reason": "#89906 is the best non-security canonical fix candidate after routing #89637 out of the cluster; merge is blocked by job frontmatter and missing merge preflight, so this remains a non-mutating classification."
+    },
+    {
+      "target": "#92518",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89906",
+      "candidate_fix": "#89906",
+      "reason": "Superseded by the broader hydrated non-security fix candidate #89906. This is a plan-only close recommendation; the applicator must re-fetch live state, post the comment first, and preserve contributor credit before closing."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

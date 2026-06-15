@@ -1,0 +1,69 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-216-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520844826",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520844826",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:30Z",
+  "workflow_updated_at": "2026-06-15T02:43:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-216-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.917Z",
+  "canonical": "#92044",
+  "canonical_issue": "#92044",
+  "canonical_pr": "#92066",
+  "summary": "Plan-mode classification only. The hydrated artifact leaves #92066 as the workboard fix candidate for #92044, but its failing type/proof checks block merge or fixed-by-candidate closeout. Security-signal refs are quarantined with route_security and do not block the unrelated workboard PR classification.",
+  "actions": [
+    {
+      "target": "#77807",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly marks this ref as a security-signal route-only item; no ProjectClownfish close, merge, label, comment, or fix action is planned."
+    },
+    {
+      "target": "#92044",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although #92044 is the representative and workboard canonical hint, the job explicitly marks this exact ref as a security-signal route-only item."
+    },
+    {
+      "target": "#92066",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92044",
+      "candidate_fix": "#92066",
+      "reason": "This is the relevant fix candidate for the workboard issue, but it is not merge-ready and cannot support fixed-by-candidate closure while checks are failing."
+    },
+    {
+      "target": "#85716",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This linked PR is security-sensitive in the hydrated artifact and must be routed to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

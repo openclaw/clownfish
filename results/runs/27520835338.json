@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-198-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520835338",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520835338",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:11Z",
+  "workflow_updated_at": "2026-06-15T02:43:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-198-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.913Z",
+  "canonical": "#92287",
+  "canonical_issue": "#92267",
+  "canonical_pr": "#92287",
+  "summary": "Plan-mode classification complete. #92287 remains the best live canonical PR for the non-security typingMode/Telegram room-event bug, #92267 is the linked source issue that should remain open until that PR lands or maintainers choose another implementation, and #85678 is quarantined as the exact security-sensitive ref named by the job artifact.",
+  "actions": [
+    {
+      "target": "#85678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#85678 is the exact security-sensitive item identified by the job and preflight artifact, so it is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92267",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92287",
+      "candidate_fix": "#92287",
+      "reason": "#92267 is not a duplicate to close in this plan. It is the source issue for the canonical fix path and should stay open for validation until #92287 lands or maintainers choose another path."
+    },
+    {
+      "target": "#92287",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92287",
+      "candidate_fix": "#92287",
+      "reason": "#92287 is the clearest non-security canonical PR for the #92267 bug family, but this plan cannot recommend merge or closeout because merge is blocked by the job and the review/proof gate is not fully resolved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

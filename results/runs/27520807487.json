@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-147-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520807487",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520807487",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:09Z",
+  "workflow_updated_at": "2026-06-15T02:42:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-147-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.898Z",
+  "canonical": "#90982",
+  "canonical_issue": "#90982",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only; no GitHub mutations. The job notes explicitly require routing #62956 and #91002 as security-signal refs, while #90982 remains the open canonical issue. Already-closed PRs are kept closed and not targeted for closure.",
+  "actions": [
+    {
+      "target": "#90982",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90982",
+      "candidate_fix": null,
+      "reason": null
+    },
+    {
+      "target": "#62956",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-provided security-signal ref; route only this item and do not mutate it."
+    },
+    {
+      "target": "#91002",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-provided security-signal ref; central security handling must decide it before any normal PR disposition."
+    },
+    {
+      "target": "#91701",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#90982",
+      "candidate_fix": "#91002",
+      "reason": "Already closed; retain historical context only."
+    },
+    {
+      "target": "#67401",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90982",
+      "candidate_fix": null,
+      "reason": "Linked historical context only; already merged and not a duplicate of the canonical issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

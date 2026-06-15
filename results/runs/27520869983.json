@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-253-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520869983",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520869983",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:22Z",
+  "workflow_updated_at": "2026-06-15T02:44:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-253-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.927Z",
+  "canonical": "#51762",
+  "canonical_issue": null,
+  "canonical_pr": "#51762",
+  "summary": "Plan-only classification: quarantine the security-signal issue/PR refs #90573 and #90603 with route_security, and keep #51762 as the non-security canonical PR for the broader configurable default-agent-id work. No close, merge, label, comment, fix, or PR creation actions are planned.",
+  "actions": [
+    {
+      "target": "#51762",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#51762",
+      "candidate_fix": null,
+      "reason": "Best surviving non-security open PR for the configurable default-agent-id family; keep open for maintainer review without mutation."
+    },
+    {
+      "target": "#90573",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-signal issue; route only this item to central OpenClaw security handling and do not mutate it in Clownfish."
+    },
+    {
+      "target": "#90603",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR touching secrets discovery; quarantine for central security handling and do not close, merge, or repair through Clownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

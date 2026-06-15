@@ -1,0 +1,72 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-286-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27520886885",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520886885",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:57Z",
+  "workflow_updated_at": "2026-06-15T02:44:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-286-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.935Z",
+  "canonical": "#77875",
+  "canonical_issue": null,
+  "canonical_pr": "#77875",
+  "summary": "Plan-only classification: keep #77875 as the non-security canonical PR for the UI MIME-mapping root cause, quarantine #77877 to central security handling, keep #77912 as related but separate Bug #9b work, and leave already-closed #9 untouched.",
+  "actions": [
+    {
+      "target": "#9",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#77875",
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no mutation should be planned."
+    },
+    {
+      "target": "#77875",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77875",
+      "candidate_fix": "#77875",
+      "reason": "Best live non-security canonical for the UI MIME-mapping root cause, but plan mode and merge gates prevent a merge action."
+    },
+    {
+      "target": "#77877",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary byte-serving changes are out of scope for ProjectClownfish cleanup and should go to central OpenClaw security handling."
+    },
+    {
+      "target": "#77912",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77875",
+      "candidate_fix": null,
+      "reason": "Related Bug #9 family work with a distinct delivery/download root cause and failing gates; keep it open for separate handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

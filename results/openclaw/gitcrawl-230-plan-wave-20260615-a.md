@@ -2,30 +2,30 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-230-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518778158"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518778158"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516709664"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516709664"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T02:27:57.113Z"
+published_at: "2026-06-15T02:47:39.859Z"
 canonical: "#50093"
 canonical_issue: "#50093"
 canonical_pr: null
-actions_total: 3
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 1
 ---
 
 # gitcrawl-230-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518778158](https://github.com/openclaw/clownfish/actions/runs/27518778158)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516709664](https://github.com/openclaw/clownfish/actions/runs/27516709664)
 
 Workflow conclusion: success
 
@@ -35,20 +35,20 @@ Canonical: #50093
 
 ## Summary
 
-Plan-only classification: keep #50093 as the canonical open tracker. #76175 and #80642 are related, competing fix approaches for the same WhatsApp reconnect/missed-message family, but neither should be closed or merged in this plan because both are blocked on real behavior proof and maintainer product choice over opt-in configurable replay versus widening the default reconnect catch-up path.
+#50093 remains the live canonical issue for WhatsApp reconnect missed-message backfill. #76175 and #80642 are related, useful, open fix candidates, but neither is merge-ready: both are blocked on real behavior proof, #76175 also has dependency-guard failures, and the two PRs represent different product choices.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,11 +66,11 @@ Plan-only classification: keep #50093 as the canonical open tracker. #76175 and 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #50093 | keep_canonical | planned | canonical | #50093 remains the best live canonical because it is open, broad enough to carry both implementation approaches, and already contains maintainer-facing review context. |
-| #76175 | keep_related | planned | related | Related candidate fix, but not a duplicate target or merge candidate. It is broader than #80642 because it adds opt-in configuration and config/schema/docs surfaces, and it still needs proof plus maintainer product decision. |
-| #80642 | keep_related | planned | related | Related candidate fix, but not ready to merge and not clearly superseded. It competes with #76175 on product shape: default widened reconnect delivery versus opt-in configurable offline-message handling. |
+| #50093 | keep_canonical | planned | canonical | Keep #50093 as the canonical open tracker for the unresolved WhatsApp reconnect missed-message backfill problem. |
+| #76175 | keep_related | planned | related | Keep #76175 open as a related candidate fix. It is useful but blocked by proof/check gates and by the maintainer product decision about whether reconnect catch-up should be opt-in configuration. |
+| #80642 | keep_related | planned | related | Keep #80642 open as a related candidate fix. It is narrower than #76175 but still draft and blocked by real behavior proof and maintainer choice between competing repair approaches. |
+| cluster:gitcrawl-230-plan-wave-20260615-a | needs_human | blocked | needs_human | Maintainers need to choose the canonical repair direction for #50093 and define the real WhatsApp proof bar before either PR should become the merge path. |
 
 ## Needs Human
 
-- Maintainer product decision needed on the canonical fix shape for #50093: choose between #76175 opt-in configurable offline-message processing and #80642 narrower default reconnect catch-up behavior, or request a combined approach.
-- Both candidate PRs need acceptable real WhatsApp behavior proof before any merge or issue closeout can be planned.
+- Choose the canonical repair direction for #50093: config-gated offline-message processing in #76175, default reconnect catch-up widening in #80642, or a combined design after real WhatsApp proof is supplied.

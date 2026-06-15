@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-255-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520871936",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520871936",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:26Z",
+  "workflow_updated_at": "2026-06-15T02:44:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-255-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.928Z",
+  "canonical": "#90531",
+  "canonical_issue": "#90531",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #90531 as the live canonical issue, route job-marked security-signal PR #90552 to central security handling, and keep #90582 related but non-mergeable in this cluster because proof and checks are blocked.",
+  "actions": [
+    {
+      "target": "#90531",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90531",
+      "candidate_fix": null,
+      "reason": "#90531 is the open source report for the shared root cause and should remain the canonical tracking issue."
+    },
+    {
+      "target": "#90552",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#90531",
+      "candidate_fix": null,
+      "reason": "The job explicitly marks #90552 as the security-signal ref, so it is quarantined to central OpenClaw security handling without closing, merging, labeling, or commenting from this cluster worker."
+    },
+    {
+      "target": "#90582",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90531",
+      "candidate_fix": null,
+      "reason": "#90582 addresses the same root bug as #90531, but it is not a merge or fixed-by-candidate path in this plan because required proof and checks are blocked; keep it related rather than closing or escalating the whole cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90552 is routed to central OpenClaw security handling because the job explicitly marks it as a security-signal ref."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

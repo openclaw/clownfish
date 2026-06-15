@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-237-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520855272",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520855272",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:51Z",
+  "workflow_updated_at": "2026-06-15T02:44:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-237-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.923Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification for cluster gitcrawl-237-bulk-plan-20260615-a. The hydrated artifact marks the hinted canonical #49183 and candidate #44484 as security-sensitive route-only, so they are quarantined for central OpenClaw security handling. #73864 is already closed in live preflight state and should not receive a close action. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "https://github.com/openclaw/openclaw/issues/49183",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The canonical representative is security-sensitive in the hydrated artifact, so it cannot be used as a normal dedupe canonical in this backlog-cleanup plan."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/issues/44484",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is related to the per-session tool-policy family but carries explicit security-sensitive labels and route-only artifact hints, so Clownfish should quarantine it instead of closing it as duplicate."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/issues/73864",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed candidate; retain historical context only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

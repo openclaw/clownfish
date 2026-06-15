@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-224-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520851193",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520851193",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:43Z",
+  "workflow_updated_at": "2026-06-15T02:43:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-224-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.920Z",
+  "canonical": "#58968",
+  "canonical_issue": "#58968",
+  "canonical_pr": null,
+  "summary": "Planning from the hydrated cluster artifact. No GitHub mutations are allowed in plan mode; the action matrix keeps #58968 as canonical, treats #72653 as related but not duplicate, and routes #80147 because the job explicitly designates it as a security-signal ref requiring central security handling.",
+  "actions": [
+    {
+      "target": "#58968",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#58968",
+      "candidate_fix": null,
+      "reason": "#58968 remains the clearest open issue for the remote Playwright tab enumeration timeout root cause."
+    },
+    {
+      "target": "#72653",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#58968",
+      "candidate_fix": null,
+      "reason": "#72653 is in the same browser/CDP timeout family but has broader all-action Ubuntu external-CDP symptoms and lacks a proven same root cause, so it should not be closed as a duplicate of #58968."
+    },
+    {
+      "target": "#80147",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly designates this exact PR as a security-signal ref requiring route_security, so it is quarantined without blocking non-security classification of #58968 and #72653."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-164-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520812076",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520812076",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:19Z",
+  "workflow_updated_at": "2026-06-15T02:42:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-164-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.901Z",
+  "canonical": "#87352",
+  "canonical_issue": "#87352",
+  "canonical_pr": null,
+  "summary": "Read-only plan completed from the supplied preflight artifact. Keep #87352 as the live canonical issue for the autoCapture agent_end timeout family, route security-signaled/security-sensitive refs without mutating them, and keep #91325 as related but separate because it targets the Codex dynamic-tool approval watchdog root cause rather than the autoCapture agent_end hook timeout root cause.",
+  "actions": [
+    {
+      "target": "#87352",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87352",
+      "candidate_fix": null,
+      "reason": "#87352 is open, hydrated, non-security, and still contains the broadest source report for the autoCapture agent_end timeout family."
+    },
+    {
+      "target": "#87504",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires #87504 to be routed as a security-signal ref, so Clownfish should not close, merge, label, or comment on it in this plan."
+    },
+    {
+      "target": "#91266",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#91266 is explicitly security-sensitive in the preflight artifact and must be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "#91325",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87352",
+      "candidate_fix": null,
+      "reason": "#91325 belongs to the broader Skill Workshop timeout area, but it is a separate Codex dynamic-tool approval-watchdog fix path and should not be closed or merged as part of the #87352 canonical family."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

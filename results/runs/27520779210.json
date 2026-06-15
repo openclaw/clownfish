@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-106-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520779210",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520779210",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:08Z",
+  "workflow_updated_at": "2026-06-15T02:41:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-106-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.880Z",
+  "canonical": "#84674",
+  "canonical_issue": "#84674",
+  "canonical_pr": null,
+  "summary": "Read-only plan for five hydrated open candidates. #84674 remains the live canonical for the Telegram isolated spool stale .processing claim family. #84158 is related but distinct. #84690 is quarantined because the job explicitly marks it as the security-signal ref. #90945 and #90989 form a separate channel_ingress_events stale-claim subcluster, with #90989 the candidate fix path for #90945 but no merge or close planned in this plan-only job.",
+  "actions": [
+    {
+      "target": "#84674",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84674",
+      "candidate_fix": null,
+      "reason": "#84674 is the clearest live issue for the Telegram isolated ingress stale .processing claim root cause."
+    },
+    {
+      "target": "#84158",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84674",
+      "candidate_fix": null,
+      "reason": "Same Telegram isolated ingress recovery area, but the reproduction and likely trigger differ enough that it should stay open as related rather than be closed as a duplicate."
+    },
+    {
+      "target": "#84690",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires quarantine for this exact security-signal ref; no close, merge, label, comment, or fix action should be planned for it."
+    },
+    {
+      "target": "#90945",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84674",
+      "candidate_fix": "#90989",
+      "reason": "This is a separate channel_ingress_events stale-claim subcluster, related by symptom family but not a duplicate of the Telegram spool canonical."
+    },
+    {
+      "target": "#90989",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84674",
+      "candidate_fix": "#90989",
+      "reason": "#90989 appears to be the candidate fix for the separate #90945 channel_ingress_events subcluster, but merge is blocked by job frontmatter and no closure is planned in read-only plan mode."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

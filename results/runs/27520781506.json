@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-108-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520781506",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520781506",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:12Z",
+  "workflow_updated_at": "2026-06-15T02:41:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-108-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.881Z",
+  "canonical": "#91375",
+  "canonical_issue": "#91375",
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open cluster candidates. #91375 remains the live canonical issue. #75621, #78381, and #81595 are related but not duplicates of the canonical regression. #81787 is scoped to route_security because the job explicitly marks it as a security-signal ref. No close, merge, label, comment, or fix PR action is planned.",
+  "actions": [
+    {
+      "target": "#91375",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91375",
+      "candidate_fix": null,
+      "reason": "#91375 is the clearest surviving canonical for the latest-release bundle-tools regression and remains open in the live preflight state."
+    },
+    {
+      "target": "#75621",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91375",
+      "candidate_fix": null,
+      "reason": "#75621 is in the same MCP/gateway performance family as #91375, but it describes a separate runtime ownership/duplicate-child root cause rather than the specific 2026.6.1 bundle-tools regression."
+    },
+    {
+      "target": "#78381",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91375",
+      "candidate_fix": null,
+      "reason": "#78381 improves observability for prep-stage timings, so it is related to diagnosing #91375, but it does not itself fix the reported bundle-tools regression and is not a duplicate issue."
+    },
+    {
+      "target": "#81595",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91375",
+      "candidate_fix": "#81787",
+      "reason": "#81595 is a related observability issue that may help diagnose #91375, but it is not the canonical regression report and should not be closed while its linked fix path remains open."
+    },
+    {
+      "target": "#81787",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job explicitly requires #81787 to be quarantined with route_security, so no merge, close, label, comment, or fix action is planned for that PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

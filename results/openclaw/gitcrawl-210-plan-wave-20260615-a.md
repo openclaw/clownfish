@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-210-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518771910"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518771910"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516699725"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516699725"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T02:27:57.109Z"
+result_status: "needs_human"
+published_at: "2026-06-15T02:47:39.855Z"
 canonical: "#90467"
 canonical_issue: "#90467"
 canonical_pr: null
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-210-plan-wave-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518771910](https://github.com/openclaw/clownfish/actions/runs/27518771910)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516699725](https://github.com/openclaw/clownfish/actions/runs/27516699725)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: #90467
 
 ## Summary
 
-Plan-only classification complete. #90467 remains the live canonical issue. Both open PRs address the same bug family but are not merge or closeout candidates in this job: #90841 is broader and closer to the Telegram target contract but has failing real-behavior proof, while #91448 has behavior proof but is numeric-only, has a failing build-artifacts check, and carries compatibility risk.
+#90467 remains the live canonical issue. #90841 and #91448 are overlapping candidate fixes for the same Telegram cron announce target bug, but the hydrated state shows an unresolved product/compatibility choice and blocked gates, so no close, merge, or fixed-by-candidate plan is safe in this plan-only run.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Plan-only classification complete. #90467 remains the live canonical issue. Both
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -66,10 +66,10 @@ Plan-only classification complete. #90467 remains the live canonical issue. Both
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90467 | keep_canonical | planned | canonical | #90467 is the clearest surviving issue for the user-visible Telegram cron announce target validation/suggestion bug. |
-| #90841 | keep_related | planned | related | This PR is related to the canonical bug and may be the more contract-aware fix path, but failing behavior proof and broad i18n surface block merge or fixed-by-candidate closeout. |
-| #91448 | keep_related | planned | related | This PR is related to the canonical bug but should not be treated as the candidate fix in this plan because it is narrower than the apparent Telegram target contract and has a failing build-artifacts check. |
+| #90467 | keep_canonical | planned | canonical | #90467 is the clearest surviving canonical thread for the user-visible bug and should stay open while the competing PR approaches are resolved. |
+| #90841 | needs_human | blocked | needs_human | #90841 is related and potentially the broader fix path, but selecting it over #91448 requires maintainer judgment on the intended Telegram target contract plus passing behavior proof. |
+| #91448 | needs_human | blocked | needs_human | #91448 contains useful related work, but it should not be closed as superseded or advanced as canonical until a maintainer chooses the intended validation contract and its failing build gate is resolved. |
 
 ## Needs Human
 
-- none
+- Choose the intended Telegram cron announce To validation contract before advancing or closing either PR: #90841 mirrors a broader Telegram target contract but failed real behavior proof, while #91448 enforces numeric chat IDs only and has a build-artifacts failure plus compatibility risk.

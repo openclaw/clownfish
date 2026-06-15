@@ -1,0 +1,72 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-182-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520824279",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520824279",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:47Z",
+  "workflow_updated_at": "2026-06-15T02:42:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-182-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.910Z",
+  "canonical": "#88330",
+  "canonical_issue": "#88330",
+  "canonical_pr": null,
+  "summary": "Read-only plan classification completed from the hydrated cluster preflight artifact. #88330 should become the non-security canonical issue for the ws 8.21.0 Discord gateway regression family because the hinted representative #89041 is explicitly security-sensitive and must be routed to central security handling. #88841 is related but not a duplicate because it targets abnormal-close reconnect state-machine behavior, and a maintainer has not accepted its production reachability. No GitHub mutations are planned directly by this worker.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and unrelated to the active Discord gateway cluster decisions."
+    },
+    {
+      "target": "#88330",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88330",
+      "candidate_fix": null,
+      "reason": "Best live non-security canonical issue for the ws 8.21.0 Discord gateway receiver-limit regression family."
+    },
+    {
+      "target": "#88841",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88330",
+      "candidate_fix": null,
+      "reason": "Related Discord gateway availability work, but not a duplicate of #88330 and not safe to treat as the canonical fix path."
+    },
+    {
+      "target": "#89041",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling and must not be closed, merged, labeled, commented on, or used as a ProjectClownfish fix path."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

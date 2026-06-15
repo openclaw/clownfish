@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-125-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520786704",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520786704",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:23Z",
+  "workflow_updated_at": "2026-06-15T02:41:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-125-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.887Z",
+  "canonical": "#92688",
+  "canonical_issue": "#92688",
+  "canonical_pr": "#92770",
+  "summary": "Classified the open Qwen/DashScope image-tool cluster in read-only plan mode. #92688 remains the canonical issue. #92770 is the strongest non-security fix candidate but merge is blocked by the job policy, so it is kept related for maintainer follow-up. #92704 is superseded by the narrower #92770 path. #92782 is explicitly listed as a security-signal ref by the job and is routed to central security handling without blocking unrelated non-security classification.",
+  "actions": [
+    {
+      "target": "#92688",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92688",
+      "candidate_fix": "#92770",
+      "reason": "Best surviving issue for the root cause."
+    },
+    {
+      "target": "#92704",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92688",
+      "candidate_fix": "#92770",
+      "reason": "Open PR #92704 overlaps #92688 but is less safe than #92770 and is blocked by proof and CI failures."
+    },
+    {
+      "target": "#92770",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92688",
+      "candidate_fix": "#92770",
+      "reason": "Strongest non-security candidate fix, but merge is out of scope for this plan-mode job."
+    },
+    {
+      "target": "#92782",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact ref is marked by the job as a security-signal item requiring central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

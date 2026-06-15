@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-282-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27520883615",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520883615",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:50Z",
+  "workflow_updated_at": "2026-06-15T02:44:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-282-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.934Z",
+  "canonical": "#88147",
+  "canonical_issue": "#88147",
+  "canonical_pr": "#88150",
+  "summary": "Plan-only classification: #88147 remains the canonical session-store hydration issue; #88150 is its open contributor PR fix path but is not merge-ready because merge is blocked by job policy and current checks include failures; #88148 is a separate bootstrap-cache retention issue already addressed by merged PR #88149 and should remain related rather than be forced into the session-store duplicate family.",
+  "actions": [
+    {
+      "target": "#88147",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88147",
+      "candidate_fix": "#88150",
+      "reason": "#88147 is the best surviving canonical issue for the session-store hydration root cause."
+    },
+    {
+      "target": "#88148",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88147",
+      "candidate_fix": "#88149",
+      "reason": "#88148 is in the same gateway memory-pressure family but has a different root cause and fix path from #88147, so it should be split as related rather than treated as a duplicate."
+    },
+    {
+      "target": "#88149",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#88148",
+      "candidate_fix": "#88149",
+      "reason": "Already-closed and merged refs must not receive closure actions; #88149 is historical evidence and the bootstrap-cache fix path for #88148."
+    },
+    {
+      "target": "#88150",
+      "action": "keep_related",
+      "status": "blocked",
+      "classification": "related",
+      "canonical": "#88147",
+      "candidate_fix": "#88150",
+      "reason": "#88150 is the active fix path for #88147, but this plan cannot recommend merge or fixed-by-candidate closeout because merge is blocked and checks are failing."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88150 needs maintainer/CI follow-up before any merge or fixed-by-candidate closeout because current preflight checks include checks-node-core-ui FAILURE and check-lint FAILURE, and this job blocks merge/fix/raise_pr."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

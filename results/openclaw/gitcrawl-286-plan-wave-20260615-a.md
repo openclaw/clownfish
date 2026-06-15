@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-286-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516731898"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516731898"
-head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
+run_id: "27520886885"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27520886885"
+head_sha: "872a0ab6af9f5f189014062d7bd0a2367b003dde"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.386Z"
+published_at: "2026-06-15T02:47:39.935Z"
 canonical: "#77875"
 canonical_issue: null
 canonical_pr: "#77875"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516731898](https://github.com/openclaw/clownfish/actions/runs/27516731898)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27520886885](https://github.com/openclaw/clownfish/actions/runs/27520886885)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #77875
 
 ## Summary
 
-Plan keeps #77875 as the non-security canonical for the UI MIME mapping root cause, routes #77877 to central security handling, and keeps #77912 related because it addresses a different assistant-media download root cause and currently has failing checks/review blockers. No GitHub mutations, merge, or fix PRs planned.
+Plan-only classification: keep #77875 as the non-security canonical PR for the UI MIME-mapping root cause, quarantine #77877 to central security handling, keep #77912 as related but separate Bug #9b work, and leave already-closed #9 untouched.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan keeps #77875 as the non-security canonical for the UI MIME mapping root cau
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77875 | keep_canonical | planned | canonical | #77875 is the best open non-security representative for the UI MIME inference root cause, but merge is not planned in this plan-only job and review blockers remain. |
-| #77877 | route_security | planned | security_sensitive | #77877 changes a security-boundary byte-serving surface, so it is out of scope for Clownfish backlog cleanup and should go to central OpenClaw security handling. |
-| #77912 | keep_related | planned | related | #77912 shares the user-visible attachment download symptom with #77875 but has a distinct Bug #9b delivery/download root cause, so it should remain open as related work rather than be closed as a duplicate. |
-| #9 | keep_closed | skipped |  | Closed linked context refs are evidence only; no closure action is valid or needed. |
+| #9 | keep_closed | skipped | superseded | Closed context ref only; no mutation should be planned. |
+| #77875 | keep_canonical | planned | canonical | Best live non-security canonical for the UI MIME-mapping root cause, but plan mode and merge gates prevent a merge action. |
+| #77877 | route_security | planned | security_sensitive | Security-boundary byte-serving changes are out of scope for ProjectClownfish cleanup and should go to central OpenClaw security handling. |
+| #77912 | keep_related | planned | related | Related Bug #9 family work with a distinct delivery/download root cause and failing gates; keep it open for separate handling. |
 
 ## Needs Human
 

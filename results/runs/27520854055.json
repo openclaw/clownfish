@@ -1,0 +1,51 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-235-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520854055",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520854055",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:49Z",
+  "workflow_updated_at": "2026-06-15T02:43:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-235-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.922Z",
+  "canonical": "#91280",
+  "canonical_issue": "#53250",
+  "canonical_pr": "#91280",
+  "summary": "Plan-mode classification only. #83440 is the listed security-signal PR and should be quarantined to central security handling. #91280 remains the best live non-security canonical PR for the exec approval recovery guidance work linked to #53250, but it is not merge-ready because proof is failing and bot review still requests real behavior proof/shared-path follow-up.",
+  "actions": [
+    {
+      "target": "#83440",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish backlog cleanup; route only this PR and do not let it block classification of #91280."
+    },
+    {
+      "target": "#91280",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91280",
+      "candidate_fix": null,
+      "reason": "Best surviving non-security canonical path, but only a keep-canonical plan is safe because merge and fix actions are blocked by job frontmatter and current proof/review gates."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

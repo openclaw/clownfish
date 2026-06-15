@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-254-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520871018",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520871018",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:24Z",
+  "workflow_updated_at": "2026-06-15T02:44:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-254-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.928Z",
+  "canonical": "#90548",
+  "canonical_issue": "#90548",
+  "canonical_pr": null,
+  "summary": "Plan-only classification from the hydrated preflight artifact. #90548 remains the best live canonical for the macOS per-port lsof health-polling issue. #75767 is related but not a duplicate because it centers on SMB mount stat timeout behavior. #90622 is explicitly listed by the job as a security-signal ref and is routed to central security handling without blocking unrelated non-security classification.",
+  "actions": [
+    {
+      "target": "#90548",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90548",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical for the macOS per-port lsof health-polling root cause."
+    },
+    {
+      "target": "#75767",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90548",
+      "candidate_fix": null,
+      "reason": "Same macOS lsof/gateway area, but #75767 has unique SMB-mounted-volume stat timeout reproduction and should not be closed as a duplicate of #90548."
+    },
+    {
+      "target": "#90622",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#90548",
+      "candidate_fix": null,
+      "reason": "Security-signal item is quarantined to central OpenClaw security handling; no close, merge, label, comment, or fix action is planned for this PR."
+    },
+    {
+      "target": "#76352",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked lsof-area issue but independent Linux/no-lsof warning work, with its own linked PR path outside this cluster's hydrated primary candidates."
+    },
+    {
+      "target": "#14083",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical linked context only; no closure action is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

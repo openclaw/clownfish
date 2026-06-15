@@ -1,0 +1,68 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-128-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520788809",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520788809",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:28Z",
+  "workflow_updated_at": "2026-06-15T02:42:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-128-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.890Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The hydrated preflight marks the direct tool-invocation issue and the gateway /tools/invoke PRs as security-sensitive or security-signal items, so the safe cluster result is scoped quarantine for those refs with no close, label, comment, merge, or fix action planned.",
+  "actions": [
+    {
+      "target": "#37131",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue proposes a broad direct tool invocation surface that includes exec/write-style tools and is explicitly marked for security review, so it belongs in central OpenClaw security handling rather than ProjectClownfish closeout."
+    },
+    {
+      "target": "#63919",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although #63919 is the representative, its direct host filesystem tool exposure is marked security-sensitive in the live preflight, so it cannot be treated as a canonical cleanup target in this worker result."
+    },
+    {
+      "target": "#79106",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR explicitly exposes exec through the HTTP tools invocation path, so it should be quarantined to central OpenClaw security handling and not deduped or closed here."
+    },
+    {
+      "target": "#85664",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Even though the hydrated item matrix marks #85664 security_sensitive=false, the job explicitly overrides this ref as a security-signal route-only item. The direct host filesystem read surface should be handled by central security review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

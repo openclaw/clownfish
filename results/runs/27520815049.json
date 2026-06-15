@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-171-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520815049",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520815049",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:26Z",
+  "workflow_updated_at": "2026-06-15T02:42:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-171-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.902Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "All hydrated refs in this cluster are marked security-sensitive by the preflight artifact and involve security-audit warning behavior or security-boundary-labeled PRs. No close, label, merge, or fix action is appropriate in plan mode; route each affected item to central OpenClaw security handling.",
+  "actions": [
+    {
+      "target": "#26859",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-audit warning behavior is explicitly classified as security-sensitive in the live preflight artifact, so this item is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#55612",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The report alleges missing critical security-audit exposure warnings, so it must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#79481",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Although #79481 is the representative and open, it changes security-audit exposure behavior and is explicitly security-sensitive; ProjectClownfish should not keep it as a cleanup canonical or plan merge/closure."
+    },
+    {
+      "target": "#79498",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This linked PR is an exact security-sensitive hydrated item, so it should be quarantined with route_security rather than treated as a duplicate, canonical, or merge candidate."
+    },
+    {
+      "target": "#81830",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR intentionally changes security-audit warning surface and needs security sign-off, so it must be routed instead of closed, merged, or deduped by ProjectClownfish."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

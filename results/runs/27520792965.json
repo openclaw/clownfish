@@ -1,0 +1,68 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-138-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520792965",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520792965",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:37Z",
+  "workflow_updated_at": "2026-06-15T02:41:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-138-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.893Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. All four open candidates are security-sensitive or explicitly security-signal scoped in the job/preflight, so the only safe cluster action is scoped route_security for each item. No duplicate close, merge, fixed-by-candidate closeout, or fix artifact is planned.",
+  "actions": [
+    {
+      "target": "#29945",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue; quarantine this exact item with route_security and do not close or otherwise mutate it in ProjectClownfish."
+    },
+    {
+      "target": "#39065",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR and not merge-ready; route to central security handling instead of selecting it as a cleanup canonical or merge candidate."
+    },
+    {
+      "target": "#41058",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue; route this item to central security handling and avoid dedupe closure."
+    },
+    {
+      "target": "#42617",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Explicit job-level security-signal PR; route this exact item to central security handling. Failing proof also blocks any merge or fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

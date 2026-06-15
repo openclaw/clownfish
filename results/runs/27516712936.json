@@ -1,0 +1,69 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-236-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516712936",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516712936",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:16:29Z",
+  "workflow_updated_at": "2026-06-15T00:18:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-236-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.861Z",
+  "canonical": "#72557",
+  "canonical_issue": "#64086",
+  "canonical_pr": "#72557",
+  "summary": "Plan-mode classification: keep #72557 as the live canonical PR for the narrow PluginStatusProvider API, keep #64086 as the canonical issue it resolves, route security-sensitive #53774 and linked #64127 to central security handling, and do not recommend close, merge, or fix actions for this run.",
+  "actions": [
+    {
+      "target": "#53774",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive broader footer/account-status tracker is out of ProjectClownfish cleanup scope; quarantine this exact item and continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#64086",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#64086",
+      "candidate_fix": "#72557",
+      "reason": "Keep #64086 as the canonical issue for the narrow feature; it should not be closed before the linked PR outcome is finalized."
+    },
+    {
+      "target": "#72557",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72557",
+      "candidate_fix": null,
+      "reason": "#72557 remains the best live canonical PR, but this plan does not recommend merge because merge is blocked by job frontmatter and maintainer API review remains required."
+    },
+    {
+      "target": "#64127",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked security-sensitive provider circuit-breaker PR should route to central OpenClaw security handling and should not affect the #64086/#72557 plugin-API classification."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

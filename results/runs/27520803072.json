@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-143-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520803072",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520803072",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:59Z",
+  "workflow_updated_at": "2026-06-15T02:41:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-143-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.895Z",
+  "canonical": "#63112",
+  "canonical_issue": null,
+  "canonical_pr": "#63112",
+  "summary": "Read-only plan: keep #63112 as the live canonical PR for #63107's main-session systemEvent shell-command warning. Keep #63107 open and related to that candidate fix. Split #72677 out as a related but separate ghost-run/heartbeat-handoff fix path tied to #63106, not a duplicate of #63112.",
+  "actions": [
+    {
+      "target": "#63112",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63112",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the #63107 shell-command warning root cause, but only a non-mutating keep-canonical classification is allowed in this job."
+    },
+    {
+      "target": "#63107",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63112",
+      "candidate_fix": "#63112",
+      "reason": "Same root-cause family as #63112, but should remain open until the candidate PR lands or maintainers explicitly choose a different disposition."
+    },
+    {
+      "target": "#72677",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63106",
+      "candidate_fix": "#72677",
+      "reason": "Related cron/main-session warning work, but a different root cause and implementation scope from #63112; split it rather than closing, merging, or treating it as duplicate."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

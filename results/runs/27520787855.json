@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-127-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520787855",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520787855",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:26Z",
+  "workflow_updated_at": "2026-06-15T02:42:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-127-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.888Z",
+  "canonical": "#91931",
+  "canonical_issue": "#91931",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The job explicitly marks #90199 and #91955 as security-signal refs requiring route_security, so those exact PRs are quarantined without blocking the ordinary bootstrap-preservation bug family. For the non-security family, #91931 remains the live canonical issue; #91988 is a related candidate fix for #91931 but should not be merged or used for fixed-by-candidate closeout while the latest ClawSweeper review still says changes are needed. Closed linked refs are retained as historical context only.",
+  "actions": [
+    {
+      "target": "#90199",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-listed security-signal ref; quarantine only this PR and continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#91955",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-listed security-signal ref; do not close, merge, label, comment, or use it as the actionable canonical path in this plan."
+    },
+    {
+      "target": "#91931",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91931",
+      "candidate_fix": "#91988",
+      "reason": "Best live non-security canonical issue for the BOOTSTRAP.md preseeded-workspace deletion family."
+    },
+    {
+      "target": "#91988",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91931",
+      "candidate_fix": "#91988",
+      "reason": "Useful related candidate fix for #91931, but not merge-ready or closeout-ready under the hydrated review state."
+    },
+    {
+      "target": "#66820",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; historical related context only."
+    },
+    {
+      "target": "#67716",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; related to quarantined #90199, not the #91931 bootstrap file deletion family."
+    },
+    {
+      "target": "#84132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#91931",
+      "candidate_fix": null,
+      "reason": "Already closed; related historical product context but not an open duplicate target."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

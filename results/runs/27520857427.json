@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-239-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520857427",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520857427",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:56Z",
+  "workflow_updated_at": "2026-06-15T02:44:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-239-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.924Z",
+  "canonical": "#84009",
+  "canonical_issue": "#82321",
+  "canonical_pr": "#84009",
+  "summary": "Plan-only classification for the three open cluster candidates. The job explicitly marks #71400 and #84009 as security-signal refs requiring central routing, so both are quarantined with non-mutating route_security actions. The unrelated non-security issue #82321 remains open and related to the hydrated scheduled-reset fix path, but no closeout is planned because the candidate fix is quarantined and not merge-ready in this worker scope.",
+  "actions": [
+    {
+      "target": "#71400",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-marked security-signal ref; route to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#82321",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#84009",
+      "candidate_fix": "#84009",
+      "reason": "#82321 is the non-security source issue for the #84009 fix path, but closure is blocked because the candidate PR is not merge-ready and is also routed by the job as a security-signal ref."
+    },
+    {
+      "target": "#84009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#84009",
+      "candidate_fix": null,
+      "reason": "Canonical PR is explicitly job-marked as a security-signal ref, so ProjectClownfish must quarantine it rather than close, merge, comment, label, or repair it."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-217-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520846053",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520846053",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:42:33Z",
+  "workflow_updated_at": "2026-06-15T02:43:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-217-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.918Z",
+  "canonical": "#79077",
+  "canonical_issue": "#79077",
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed from the hydrated preflight artifact. #79077 remains the representative issue, but #79077 and #83632 are marked security-sensitive in live artifact state and should be routed to central OpenClaw security handling. #88569 is already closed and must not receive a close action. #88980 is a related non-security linked PR, but failing real-behavior proof and unresolved review blockers prevent merge or fixed-by-candidate closeout.",
+  "actions": [
+    {
+      "target": "#79077",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#79077",
+      "candidate_fix": null,
+      "reason": "The representative issue is open and still the best hydrated canonical thread, but the live artifact classifies it as security-sensitive, so Clownfish must not close, merge, label, comment on, or open a fix PR for it."
+    },
+    {
+      "target": "#83632",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#79077",
+      "candidate_fix": null,
+      "reason": "#83632 is an open contributor PR with useful work, but the hydrated artifact routes it as security-sensitive; Clownfish should preserve it for central handling and not plan merge, closeout, or repair mutations."
+    },
+    {
+      "target": "#88569",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#79077",
+      "candidate_fix": "#83632",
+      "reason": "No mutation is valid because the target is already closed in live artifact state."
+    },
+    {
+      "target": "#88980",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79077",
+      "candidate_fix": null,
+      "reason": "Keep as related follow-up work. It should not be merged or used for closeout in this plan because proof and review blockers remain."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

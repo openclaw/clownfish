@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-180-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520822370",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520822370",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:41:43Z",
+  "workflow_updated_at": "2026-06-15T02:43:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-180-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.909Z",
+  "canonical": "#77700",
+  "canonical_issue": "#77700",
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed from the hydrated cluster preflight artifact. #77700 remains the live canonical maintainer tracker. #79198 is quarantined with route_security because the job explicitly marks it as a security-signal ref. #89609 and #89612 form a separate migration-provider bug/fix pair and should not be forced into the #77700 duplicate family. No GitHub mutations, merges, labels, comments, fixes, or closeouts are planned as executed.",
+  "actions": [
+    {
+      "target": "#76757",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#77700",
+      "candidate_fix": null,
+      "reason": "Closed historical PR is evidence only."
+    },
+    {
+      "target": "#77700",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77700",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the prepared runtime migration family."
+    },
+    {
+      "target": "#78248",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#77700",
+      "candidate_fix": "#78248",
+      "reason": "Merged foundation PR is historical progress under the canonical tracker, not an open candidate to mutate."
+    },
+    {
+      "target": "#79198",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact job-marked security-signal ref; quarantine without poisoning #77700, #89609, or #89612 classification."
+    },
+    {
+      "target": "#89609",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89609",
+      "candidate_fix": "#89612",
+      "reason": "Covered by the open candidate PR #89612, but this plan job should not close the issue before the fix lands and closeout is rerun against the merged result."
+    },
+    {
+      "target": "#89612",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89609",
+      "candidate_fix": "#89612",
+      "reason": "Keep as the candidate fix for the separate #89609 bug path; do not merge or close from this plan-only job."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

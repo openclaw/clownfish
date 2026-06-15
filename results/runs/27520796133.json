@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-142-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520796133",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520796133",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:44Z",
+  "workflow_updated_at": "2026-06-15T02:42:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-142-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.894Z",
+  "canonical": "#91739",
+  "canonical_issue": "#91739",
+  "canonical_pr": "#92526",
+  "summary": "Plan-only classification: keep #91739 as the canonical issue and #92526 as the leading non-security fix PR. Route #92072 to central security handling because the job explicitly marks it as a security-signal ref. Treat #92763 as superseded by #92526; no GitHub mutations were performed.",
+  "actions": [
+    {
+      "target": "#91739",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91739",
+      "candidate_fix": "#92526",
+      "reason": "#91739 remains the best canonical issue because it is open, contains the source reproduction, and no hydrated merged fix closes the root cause yet."
+    },
+    {
+      "target": "#92072",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The job gives an explicit security-signal routing instruction for this exact PR, so it is quarantined from ProjectClownfish mutation while unrelated non-security items continue to be classified."
+    },
+    {
+      "target": "#92526",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92526",
+      "candidate_fix": "#92526",
+      "reason": "#92526 is the clearest non-security fix candidate for the canonical issue, but this plan-mode job cannot merge it."
+    },
+    {
+      "target": "#92763",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92526",
+      "candidate_fix": "#92526",
+      "reason": "#92763 overlaps the same root cause and fix surface as #92526 but has weaker hydrated readiness signals, so it should be superseded with contributor credit preserved."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "route_security": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

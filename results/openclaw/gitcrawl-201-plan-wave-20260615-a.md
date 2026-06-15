@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-201-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518771037"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518771037"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516698173"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516698173"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.109Z"
-canonical: "#92474"
-canonical_issue: "#92474"
-canonical_pr: null
+published_at: "2026-06-15T02:47:39.854Z"
+canonical: "https://github.com/openclaw/openclaw/issues/92474"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/92474"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/92484"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +25,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518771037](https://github.com/openclaw/clownfish/actions/runs/27518771037)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516698173](https://github.com/openclaw/clownfish/actions/runs/27516698173)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #92474
+Canonical: https://github.com/openclaw/openclaw/issues/92474
 
 ## Summary
 
-Plan-only classification using the hydrated preflight artifact. #92474 remains the canonical open issue. #92484 and #92491 are overlapping candidate PRs for the same root cause; both should remain open in this plan because merge/fix actions are disallowed, #92484 has failing proof/security-fast checks, and #92491 has unresolved review concerns about incomplete coverage.
+Canonical issue remains #92474. #92484 is the best hydrated fix PR for the root cause, but no merge or fixed-by-candidate closeout is planned because the job blocks merge/fix actions and the preflight artifact shows failing checks plus missing merge preflight. #92491 overlaps the same bug but is narrower and remains open as related work.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-only classification using the hydrated preflight artifact. #92474 remains t
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92474 | keep_canonical | planned | canonical | #92474 is the clearest surviving issue for the root cause and should remain the canonical thread. |
-| #92484 | keep_related | planned | related | #92484 is a useful candidate fix for the canonical issue, but it is not actionable for merge or fixed-by-candidate closeout in this plan because required checks are failing and merge/fix actions are disallowed. |
-| #92491 | keep_related | planned | related | #92491 overlaps the canonical issue and the broader #92484 fix path, but should remain open rather than be closed as superseded while the better candidate is still blocked and #92491 has useful credited work. |
+| #92474 | keep_canonical | planned | canonical | The representative issue is still open and remains the best issue-level canonical for this root cause. |
+| #92484 | keep_canonical | planned | canonical | Keep #92484 as the canonical fix PR candidate, but do not plan merge or issue closeout in this read-only cluster because merge/fix actions are blocked and failing checks block merge/fixed-by-candidate outcomes. |
+| #92491 | keep_related | planned | related | This PR is related to the same root cause but is narrower than the canonical fix candidate and should remain open until the maintainers settle or land the complete fix path. |
 
 ## Needs Human
 

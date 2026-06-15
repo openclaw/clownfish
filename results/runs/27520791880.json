@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-137-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520791880",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520791880",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:40:34Z",
+  "workflow_updated_at": "2026-06-15T02:41:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-137-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.892Z",
+  "canonical": "#91797",
+  "canonical_issue": null,
+  "canonical_pr": "#91797",
+  "summary": "Plan-mode classification only. The hinted representative #88348 is open but security-sensitive in the hydrated artifact and must be quarantined, so it should not be used as the live non-security canonical. #91797 is the clearest non-security open PR for the no-op in-place rewrite root cause. #92202 is related session-fence work for a different wrapper/owned-write path and should not be forced into the #91797 duplicate family.",
+  "actions": [
+    {
+      "target": "#88348",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish mutation; quarantine only this ref and continue with unrelated non-security classifications."
+    },
+    {
+      "target": "#88653",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of scope for Clownfish mutation; quarantine only this ref and continue with unrelated non-security classifications."
+    },
+    {
+      "target": "#91797",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91797",
+      "candidate_fix": "#91797",
+      "reason": "Best live non-security canonical for the no-op in-place rewrite subcluster; keep open for maintainer review and requested test hardening."
+    },
+    {
+      "target": "#92202",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91797",
+      "candidate_fix": null,
+      "reason": "Related session-fence work with a different root cause and incomplete review/proof; keep it open and do not close or merge as part of the #91797 path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

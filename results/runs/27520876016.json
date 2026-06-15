@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-260-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520876016",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520876016",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:35Z",
+  "workflow_updated_at": "2026-06-15T02:44:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-260-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.931Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. The hydrated preflight marks #90364 and #91462 as security-sensitive route-only items, so they are quarantined to central OpenClaw security handling. The only non-security open candidate, #91309, is a narrow related TTS reasoning-tag cleanup PR; it is not a safe merge or closeout target in this cluster because merge/fix actions are blocked, it does not cover the broader prompt/source echo surface, and its check state includes failures/unknown mergeability. #90423 is already closed and remains historical evidence only.",
+  "actions": [
+    {
+      "target": "#90364",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue must be routed to central OpenClaw security handling and not closed, labeled, merged, or fixed by this worker."
+    },
+    {
+      "target": "#91309",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as a related narrow non-security PR in the same TTS summary-leak family; do not close it against a closed PR or merge it with failing/unknown gates."
+    },
+    {
+      "target": "#91462",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be routed to central OpenClaw security handling and excluded from Clownfish close, merge, label, comment, or fix actions."
+    },
+    {
+      "target": "#90423",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; included only to make the historical context explicit."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

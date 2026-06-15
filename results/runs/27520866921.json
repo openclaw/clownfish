@@ -1,0 +1,61 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-243-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520866921",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520866921",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:16Z",
+  "workflow_updated_at": "2026-06-15T02:44:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-243-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.926Z",
+  "canonical": "#89762",
+  "canonical_issue": null,
+  "canonical_pr": "#89762",
+  "summary": "Plan-only classification using the provided cluster preflight artifact as live state. #69618 is explicitly security-sensitive and must be routed to central security handling. The remaining non-security candidates split into distinct work: #89762 is the focused responseUsage default PR, while #39913 tracks the separate responsePrefix message-tool gap with no open hydrated fix candidate in this cluster.",
+  "actions": [
+    {
+      "target": "#69618",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive refs are out of scope for Clownfish backlog cleanup and must be routed without blocking unrelated non-security classification."
+    },
+    {
+      "target": "#89762",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89762",
+      "candidate_fix": null,
+      "reason": "With #69618 quarantined, #89762 is the best hydrated non-security canonical path for the responseUsage default subproblem, but this plan mode cannot merge or open a fix PR."
+    },
+    {
+      "target": "#39913",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a separate root cause from the responseUsage/default footer work and has no open hydrated fix candidate in this cluster."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-283-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27516730837"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27516730837"
-head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
+run_id: "27520884689"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27520884689"
+head_sha: "872a0ab6af9f5f189014062d7bd0a2367b003dde"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:43:28.385Z"
+published_at: "2026-06-15T02:47:39.934Z"
 canonical: "#88307"
 canonical_issue: "#88307"
 canonical_pr: null
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27516730837](https://github.com/openclaw/clownfish/actions/runs/27516730837)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27520884689](https://github.com/openclaw/clownfish/actions/runs/27520884689)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #88307
 
 ## Summary
 
-Plan-mode classification only. #88307 remains the live canonical issue for the post-handoff generated-image duplicate delivery bug. #87995 is related historical/current-family context, not safe duplicate closeout because it carries a distinct beta.1 pre-handoff reproduction. #88323 is a related candidate fix, but merge/fixed-by-candidate closeout is blocked by review findings, failing checks, and the job's no-merge/no-fix permissions.
+Classified the three hydrated open candidates. #88307 remains the canonical issue for the current generated-image duplicate-delivery regression; #87995 is an older duplicate/superseded report for the same duplicate-delivery family; #88323 is related candidate fix work but blocked from merge/closeout by failing checks and unresolved ClawSweeper review findings.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Plan-mode classification only. #88307 remains the live canonical issue for the p
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87995 | keep_related | planned | related | Same symptom family as #88307, but the affected version and delivery contract differ enough that closure would risk losing useful reproduction history. |
-| #88307 | keep_canonical | planned | canonical | #88307 is the freshest open issue that describes the still-unresolved post-handoff root cause and should remain the canonical tracking issue. |
-| #88323 | keep_related | planned | related | #88323 is the current related candidate fix for #88307, but failing checks, unresolved review findings, and job permissions block merge or fixed-by-candidate closeout. |
+| #88307 | keep_canonical | planned | canonical | Best live canonical because it is the newest open issue with current post-handoff reproduction evidence for the generated-image duplicate Discord delivery bug. |
+| #87995 | close_duplicate | planned | duplicate | Duplicate closeout is safe in plan mode because the older issue has no unique current root-cause path beyond the newer canonical #88307 post-handoff report. |
+| #88323 | keep_related | planned | related | The PR is related and plausible as a fix path for #88307, but it cannot be treated as merge-ready or used for fixed-by-candidate closeout in this plan. |
 
 ## Needs Human
 

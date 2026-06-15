@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-221-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516707273",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516707273",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:16:17Z",
+  "workflow_updated_at": "2026-06-15T00:17:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-221-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.857Z",
+  "canonical": "#91947",
+  "canonical_issue": "#91947",
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #91947 remains the canonical open issue. #91958 is already closed and should not receive a closure action. #92065 is a related open fix PR for #91947, but failing checks and missing merge preflight block merge or fixed-by-candidate closeout in this job.",
+  "actions": [
+    {
+      "target": "#91947",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91947",
+      "candidate_fix": null,
+      "reason": "#91947 is the best surviving canonical report for the shared memory_search/QMD timeout root cause."
+    },
+    {
+      "target": "#91958",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91947",
+      "candidate_fix": "#92065",
+      "reason": "Already closed historical contributor PR for the same root cause; keep as closed context and preserve its evidence/credit in any future replacement or landing path."
+    },
+    {
+      "target": "#92065",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91947",
+      "candidate_fix": "#92065",
+      "reason": "Keep the open PR related to the canonical issue, but do not merge or close the issue as fixed-by-candidate because required checks and merge preflight are not clean."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92065 has failing required checks (`Real behavior proof`, `check-test-types`, `check-prod-types`) and unknown mergeability; maintainer or executor follow-up is needed before it can become a merge candidate or fixed-by-candidate closeout path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

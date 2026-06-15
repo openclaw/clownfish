@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-278-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520879440",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520879440",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:41Z",
+  "workflow_updated_at": "2026-06-15T02:44:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-278-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.932Z",
+  "canonical": "#91784",
+  "canonical_issue": null,
+  "canonical_pr": "#91784",
+  "summary": "Plan-mode classification only. Security-sensitive #79918 and linked #79575 are quarantined to central security handling. Among the non-security route-boundary PRs, #91784 is the best live canonical candidate because it covers the same realtime WebSocket path-boundary root cause as #79919, includes the root stream-path regression coverage that #79919's Codex review identified as a blocker, has maintainer re-review activity, has sufficient proof, and has passing checks. No close, merge, label, comment, fix, or PR-raising action is executed or planned as executable mutation in this result.",
+  "actions": [
+    {
+      "target": "#79575",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish cleanup scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#79918",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue contains an explicit security-sensitive boundary claim and labels; it must be quarantined rather than closed or deduped by ProjectClownfish."
+    },
+    {
+      "target": "#91784",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91784",
+      "candidate_fix": null,
+      "reason": "#91784 is the clearest surviving non-security canonical PR for the shared route-boundary fix and addresses the root-path regression proof gap present in #79919."
+    },
+    {
+      "target": "#79919",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#91784",
+      "candidate_fix": "#91784",
+      "reason": "#79919 is useful contributor work but is superseded by the newer canonical #91784, which incorporates the same fix direction and resolves the known root-path regression coverage gap."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

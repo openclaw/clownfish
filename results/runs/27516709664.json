@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-230-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516709664",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516709664",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:16:22Z",
+  "workflow_updated_at": "2026-06-15T00:18:51Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-230-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.859Z",
+  "canonical": "#50093",
+  "canonical_issue": "#50093",
+  "canonical_pr": null,
+  "summary": "#50093 remains the live canonical issue for WhatsApp reconnect missed-message backfill. #76175 and #80642 are related, useful, open fix candidates, but neither is merge-ready: both are blocked on real behavior proof, #76175 also has dependency-guard failures, and the two PRs represent different product choices.",
+  "actions": [
+    {
+      "target": "#50093",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50093",
+      "candidate_fix": null,
+      "reason": "Keep #50093 as the canonical open tracker for the unresolved WhatsApp reconnect missed-message backfill problem."
+    },
+    {
+      "target": "#76175",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50093",
+      "candidate_fix": null,
+      "reason": "Keep #76175 open as a related candidate fix. It is useful but blocked by proof/check gates and by the maintainer product decision about whether reconnect catch-up should be opt-in configuration."
+    },
+    {
+      "target": "#80642",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50093",
+      "candidate_fix": null,
+      "reason": "Keep #80642 open as a related candidate fix. It is narrower than #76175 but still draft and blocked by real behavior proof and maintainer choice between competing repair approaches."
+    },
+    {
+      "target": "cluster:gitcrawl-230-plan-wave-20260615-a",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#50093",
+      "candidate_fix": null,
+      "reason": "Maintainers need to choose the canonical repair direction for #50093 and define the real WhatsApp proof bar before either PR should become the merge path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical repair direction for #50093: config-gated offline-message processing in #76175, default reconnect catch-up widening in #80642, or a combined design after real WhatsApp proof is supplied."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-280-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "27520882699",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27520882699",
+  "head_sha": "872a0ab6af9f5f189014062d7bd0a2367b003dde",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T02:43:48Z",
+  "workflow_updated_at": "2026-06-15T02:45:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-280-bulk-plan-20260615-a.md",
+  "published_at": "2026-06-15T02:47:39.933Z",
+  "canonical": null,
+  "canonical_issue": "#78904",
+  "canonical_pr": null,
+  "summary": "Plan-only classification for cluster gitcrawl-280-bulk-plan-20260615-a. Job-declared security-signal refs #72253 and #79044 are routed to central security handling as instructed; unrelated non-security issue #78904 stays open and related to the status/heartbeat-cadence family pending maintainer review of the linked PR path.",
+  "actions": [
+    {
+      "target": "#72253",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Job explicitly requires central security routing for this ref; no GitHub mutation is planned in plan mode."
+    },
+    {
+      "target": "#78904",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79044",
+      "candidate_fix": "#79044",
+      "reason": "The issue is related to the canonical PR path but should remain open; fixed-by-candidate closeout is blocked because the linked PR is open, not merged, and is separately routed by the job's security-signal instruction."
+    },
+    {
+      "target": "#79044",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Job explicitly requires central security routing for this ref; no close, label, comment, merge, or fix action is planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
