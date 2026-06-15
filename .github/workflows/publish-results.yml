@@ -63,7 +63,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.event.workflow_run.id || github.event.inputs.run_id }}
           RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt || github.event.inputs.run_attempt || '1' }}
-          BACKFILL_LIMIT: ${{ github.event.inputs.limit || vars.CLOWNFISH_PUBLISH_BACKFILL_LIMIT || '100' }}
+          BACKFILL_LIMIT: ${{ github.event.inputs.limit || vars.CLOWNFISH_PUBLISH_BACKFILL_LIMIT || '250' }}
           BACKFILL_LOOKBACK: ${{ github.event.inputs.lookback || vars.CLOWNFISH_PUBLISH_BACKFILL_LOOKBACK || '1200' }}
           BACKFILL_CONCLUSION: ${{ github.event.inputs.conclusion || 'any' }}
           BACKFILL_ORDER: ${{ github.event.inputs.order || 'newest' }}

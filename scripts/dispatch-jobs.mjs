@@ -33,6 +33,10 @@ const dispatchBatchDelayMs = numberArg(
   args["batch-delay-ms"] ?? args.batch_delay_ms ?? process.env.CLOWNFISH_DISPATCH_BATCH_DELAY_MS ?? 15_000,
   "batch-delay-ms",
 );
+const dispatchLimit = numberArg(
+  args["dispatch-limit"] ?? args.dispatch_limit ?? process.env.CLOWNFISH_DISPATCH_LIMIT ?? 0,
+  "dispatch-limit",
+);
 const throttledDispatch = waitForCapacity || dispatchBatchSize > 0;
 const publishBacklogThreshold = Number(
   args["publish-backlog-threshold"] ?? process.env.CLOWNFISH_MAX_PUBLISH_BACKLOG ?? 25,
@@ -42,11 +46,12 @@ const publishBacklogLookback = Number(
 );
 const skipPublishBacklogCheck = Boolean(args["skip-publish-backlog-check"]);
 const ref = args.ref ? String(args.ref) : "";
-const files = args._;
+const jobsFile = args["jobs-file"] ?? args.jobs_file ?? process.env.CLOWNFISH_JOBS_FILE;
+const files = [...readJobsFile(jobsFile), ...args._];
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--publish-backlog-threshold 25]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--publish-backlog-threshold 25]",
   );
   process.exit(2);
 }
@@ -85,16 +90,22 @@ for (const file of files) {
   jobs.push(relative);
 }
 
+const jobsToDispatch = dispatchLimit > 0 ? jobs.slice(0, dispatchLimit) : jobs;
+const omittedJobs = jobs.length - jobsToDispatch.length;
+if (!failed && omittedJobs > 0) {
+  console.log(`dispatch limit: selected ${jobsToDispatch.length}/${jobs.length} job(s); omitted ${omittedJobs}`);
+}
+
 if (!failed) {
   if (!skipPublishBacklogCheck) assertPublishBacklog();
 }
 
 if (!failed) {
-  const requested = throttledDispatch ? Math.min(jobs.length, 1) : jobs.length;
+  const requested = throttledDispatch ? Math.min(jobsToDispatch.length, 1) : jobsToDispatch.length;
   const capacityOptions = { repo, workflow, requested, maxLiveWorkers };
   const capacity = throttledDispatch ? waitForLiveWorkerCapacity(capacityOptions) : assertLiveWorkerCapacity(capacityOptions);
   console.log(
-    `live worker capacity: ${capacity.active}/${capacity.max_live_workers} active; dispatching ${jobs.length} ${workflow} run(s)`,
+    `live worker capacity: ${capacity.active}/${capacity.max_live_workers} active; dispatching ${jobsToDispatch.length} ${workflow} run(s)`,
   );
 }
 
@@ -126,8 +137,8 @@ function assertPublishBacklog() {
 
 let dispatched = 0;
 let index = 0;
-while (!failed && index < jobs.length) {
-  let batchSize = jobs.length - index;
+while (!failed && index < jobsToDispatch.length) {
+  let batchSize = jobsToDispatch.length - index;
   if (throttledDispatch) {
     const capacity = waitForLiveWorkerCapacity({
       repo,
@@ -146,13 +157,13 @@ while (!failed && index < jobs.length) {
     );
   }
 
-  for (const relative of jobs.slice(index, index + batchSize)) {
+  for (const relative of jobsToDispatch.slice(index, index + batchSize)) {
     if (failed) break;
     dispatched += 1;
-    dispatchJob(relative, dispatched, jobs.length);
+    dispatchJob(relative, dispatched, jobsToDispatch.length);
   }
   index += batchSize;
-  if (throttledDispatch && !failed && index < jobs.length) {
+  if (throttledDispatch && !failed && index < jobsToDispatch.length) {
     sleepMs(dispatchBatchDelayMs);
   }
 }
@@ -193,6 +204,16 @@ function sleepMs(milliseconds) {
 }
 
 if (failed) process.exit(1);
+
+function readJobsFile(file) {
+  if (!file) return [];
+  const absolute = path.resolve(repoRoot(), String(file));
+  return fs
+    .readFileSync(absolute, "utf8")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
+}
 
 function numberArg(value, name) {
   const number = Number(value);
