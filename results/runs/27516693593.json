@@ -1,0 +1,80 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-185-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516693593",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516693593",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:15:51Z",
+  "workflow_updated_at": "2026-06-15T00:17:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-185-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T04:05:51.362Z",
+  "canonical": "#87799",
+  "canonical_issue": null,
+  "canonical_pr": "#87799",
+  "summary": "Plan-only classification: #87799 remains the live canonical implementation path for the installer stdin corruption family. #73814 and #90008 are open issue reports covered by #87799 but should stay open until the fix lands or a post-merge closeout run rechecks live state. Linked closed refs #73830 and #73837 require no mutation.",
+  "actions": [
+    {
+      "target": "#73814",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#87799",
+      "candidate_fix": "#87799",
+      "reason": "Keep #73814 in the canonical family as covered by #87799, but do not close it in this plan because #87799 has not landed and the hydrated review recommends closeout only after the focused fix reaches main."
+    },
+    {
+      "target": "#87799",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87799",
+      "candidate_fix": null,
+      "reason": "#87799 is still the best live canonical because it is the focused open implementation PR that covers both open issue reports in this cluster."
+    },
+    {
+      "target": "#90008",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#87799",
+      "candidate_fix": "#87799",
+      "reason": "Keep #90008 associated with #87799 as the candidate fix path; closeout should wait for the PR to land and a fresh post-merge state check."
+    },
+    {
+      "target": "#73830",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87799",
+      "candidate_fix": "#87799",
+      "reason": "Closed historical PR #73830 is superseded by the code-level fix path in #87799 and requires no mutation."
+    },
+    {
+      "target": "#73837",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context issue #73837 is a separate Node.js installer failure report, not a duplicate of the pipe-corruption root cause in this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_canonical": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

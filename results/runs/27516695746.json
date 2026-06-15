@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-195-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516695746",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516695746",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:15:55Z",
+  "workflow_updated_at": "2026-06-15T00:18:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-195-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T04:05:51.362Z",
+  "canonical": "#92569",
+  "canonical_issue": "#92569",
+  "canonical_pr": "#92696",
+  "summary": "Hydrated state keeps #92569 as the canonical issue for stale MCP processes holding file locks across sessions, with #92696 as the focused but not merge-ready fix PR. #68187 and #91556 are related MCP session-state items with different root causes, #64205 is closed historical context, and security-sensitive linked ref #68527 is quarantined with route_security only. No close, merge, label, comment, fix, or PR action is planned.",
+  "actions": [
+    {
+      "target": "#64205",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical MCP lifecycle context only; no mutation is valid."
+    },
+    {
+      "target": "#68187",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92569",
+      "candidate_fix": null,
+      "reason": "Related MCP session-state failure, but it has a distinct reconnect/cached-session root cause and should stay open as a separate subcluster."
+    },
+    {
+      "target": "#68527",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only #68527 for central OpenClaw security handling; continue classifying unrelated non-security items."
+    },
+    {
+      "target": "#91556",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92569",
+      "candidate_fix": null,
+      "reason": "Related MCP runtime/config-refresh issue with distinct product and auth scope; do not duplicate-close or fold into #92569."
+    },
+    {
+      "target": "#92569",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92569",
+      "candidate_fix": "#92696",
+      "reason": "Best live canonical issue for the stale MCP process/file-lock root cause; keep open while #92696 remains under review."
+    },
+    {
+      "target": "#92696",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92569",
+      "candidate_fix": "#92696",
+      "reason": "Canonical fix PR candidate for #92569, but not merge-ready under the hydrated review state and job permissions; keep open without planning a merge."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 2,
+    "route_security": 1,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

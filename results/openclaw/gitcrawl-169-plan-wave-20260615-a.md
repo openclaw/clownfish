@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-169-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518763899"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518763899"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516688186"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516688186"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.102Z"
+published_at: "2026-06-15T04:05:51.358Z"
 canonical: "#86393"
 canonical_issue: "#86393"
 canonical_pr: "#86730"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518763899](https://github.com/openclaw/clownfish/actions/runs/27518763899)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516688186](https://github.com/openclaw/clownfish/actions/runs/27516688186)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #86393
 
 ## Summary
 
-#86393 remains the live issue canonical for the narrow /btw post-compaction checkpoint transcript lookup bug. #86730 is the focused open PR candidate for that canonical issue, but merge is blocked by job policy and no merge preflight is emitted. #88902 and #90925 are related Codex/OAuth routing and announce-compaction failures with distinct reproduction paths, so they should stay open rather than be deduped into #86393.
+Read-only plan: #86393 remains the canonical issue for the post-compaction /btw parent-thread lookup bug, and #86730 is the canonical open fix PR for that root cause. #88902 and #90925 are related Codex/OAuth /btw or compaction failures with distinct remaining root causes, so no duplicate closeout is planned. No security-sensitive item was detected, and no close, merge, label, comment, or fix action is planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Canonical: #86393
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #86393 | keep_canonical | planned | canonical | Best live issue canonical for the specific /btw parent-thread lookup after compaction checkpoints. |
-| #86730 | keep_related | planned | related | Focused candidate fix for the canonical issue, but merge is not an allowed action in this plan-mode job. |
-| #88902 | keep_related | planned | related | Related Codex /btw auth-routing regression with a distinct /new and legacy OAuth configuration path; not safe to close as a duplicate of #86393. |
-| #90925 | keep_related | planned | related | Related but materially different root cause and scope; keep open for its own maintainer-reviewed fix path. |
+| #86393 | keep_canonical | planned | canonical | #86393 is the most precise open issue for the post-compaction /btw parent-thread lookup root cause and should remain open until the candidate fix path lands. |
+| #86730 | keep_canonical | planned | canonical | #86730 is the canonical open fix PR for #86393, but this plan should only keep it as the fix path for maintainer review, not recommend merge. |
+| #88902 | keep_related | planned | related | #88902 is related to the Codex OAuth /btw family but has a distinct /new/auth-routing reproduction path, so it should not be closed as a duplicate of #86393 or treated as fixed by #86730. |
+| #90925 | keep_related | planned | related | #90925 belongs near the same Codex/OAuth and compaction problem space but is a separate subagent announce delivery root cause, so it should remain open as related work. |
 
 ## Needs Human
 

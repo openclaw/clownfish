@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-170-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518764719"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518764719"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516689406"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516689406"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.103Z"
+published_at: "2026-06-15T04:05:51.359Z"
 canonical: "#87213"
 canonical_issue: "#87213"
 canonical_pr: "#66985"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518764719](https://github.com/openclaw/clownfish/actions/runs/27518764719)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516689406](https://github.com/openclaw/clownfish/actions/runs/27516689406)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #87213
 
 ## Summary
 
-Plan-only classification for cluster 170. Keep #87213 as the canonical issue, treat #66985 as the strongest hydrated canonical fix PR, quarantine security-sensitive linked issues #61009 and #72858, supersede weaker overlapping PR #87236 in favor of #66985, and keep #92141 related but separate.
+Plan only. Route security-sensitive #61009 and linked #72858 to central security handling. Keep #87213 as the canonical issue and #66985 as the strongest hydrated fix PR for bound/requested node selector canonicalization. Treat #87236 as superseded by that fix path, and keep #92141 related but separate.
 
 ## Impact
 
@@ -66,15 +66,15 @@ Plan-only classification for cluster 170. Keep #87213 as the canonical issue, tr
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61009 | route_security | planned | security_sensitive | Security-sensitive exec-routing documentation item is out of ProjectClownfish mutation scope. |
-| #72858 | route_security | planned | security_sensitive | Security-sensitive browser/Control UI host exec allowlist semantics must be routed to central security handling. |
-| #87213 | keep_canonical | planned | canonical | Best surviving issue for the non-security node selector canonicalization bug. |
-| #66985 | keep_canonical | planned | canonical | Strongest hydrated non-security fix path, but merge is blocked by job frontmatter and missing merge_preflight is not supplied in plan mode. |
-| #87236 | close_superseded | planned | superseded | Overlapping contributor PR is weaker than the hydrated canonical fix path and is blocked by proof/lint failures. |
-| #92141 | keep_related | planned | related | Same exec/node area, but materially different root cause and product scope from the canonical selector canonicalization bug. |
-| #61229 | keep_closed | skipped | superseded | Already-closed linked context ref; no closure action is valid. |
-| #87242 | keep_closed | skipped | superseded | Already-closed linked context PR; no closure action is valid. |
-| #89439 | keep_closed | skipped | related | Already-closed linked docs PR; no closure action is valid. |
+| #61009 | route_security | planned | security_sensitive | Security-sensitive exec-routing documentation issue; route the item to central OpenClaw security handling without closing or deduping it. |
+| #72858 | route_security | planned | security_sensitive | Linked security-sensitive browser-surface exec semantics issue; quarantine only this item and continue non-security classification. |
+| #87213 | keep_canonical | planned | canonical | Best live canonical issue for the non-security bound/requested node selector root cause. |
+| #66985 | keep_canonical | planned | canonical | Strongest hydrated fix candidate for #87213, but merge is blocked by this plan-mode job and by blocked_actions. |
+| #87236 | close_superseded | planned | superseded | Useful but overlapping contributor PR superseded by the stronger hydrated canonical fix path #66985; closeout must preserve source PR credit. |
+| #92141 | keep_related | planned | related | Related exec host=node area, but not the same root cause as #87213 and not covered by #66985. |
+| #61229 | keep_closed | skipped | superseded | Closed historical context only; no closure action is valid for an already closed issue. |
+| #87242 | keep_closed | skipped | superseded | Closed historical PR only; do not emit another close action. |
+| #89439 | keep_closed | skipped | related | Closed related docs context for security-routed #61009; no action. |
 
 ## Needs Human
 

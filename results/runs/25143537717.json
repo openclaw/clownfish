@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-15744-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25143537717",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25143537717",
+  "head_sha": "1ec0acac1fb4111b0e6e83564a87181cc117f225",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T02:02:52Z",
+  "workflow_updated_at": "2026-04-30T02:05:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-15744-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.336Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/71843",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/69005",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/71843",
+  "summary": "Hydrated preflight shows no security-sensitive items. #71843 is the current canonical Slack duplicate-reaction PR after the member-pushed helper-level repair; #58242 is an overlapping contributor PR superseded by that path, #69005 remains the linked bug issue covered by #71843, and #50881 stays related because it also covers the broader no_reaction removal scope. No close, merge, fix, or post-merge close action is planned because instant close, merge, fix, and post-merge close are disabled for this job, and candidate PR checks/review gates are not merge-clean.",
+  "actions": [
+    {
+      "target": "#71843",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71843",
+      "candidate_fix": null,
+      "reason": "Current hydrated state makes #71843 the clearest canonical PR, but this worker should only classify it and keep it open."
+    },
+    {
+      "target": "#58242",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#71843",
+      "candidate_fix": "#71843",
+      "reason": "#58242 is useful overlapping work, but the current canonical path is #71843; keep it open in this no-instant-close job."
+    },
+    {
+      "target": "#69005",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#71843",
+      "candidate_fix": "#71843",
+      "reason": "Keep #69005 open until #71843 or an equivalent landed fix is validated; do not close issues against an unmerged PR in this job."
+    },
+    {
+      "target": "#50881",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71843",
+      "candidate_fix": null,
+      "reason": "#50881 is related Slack reaction idempotency work with unique remaining no_reaction scope, so it should not be closed as part of this duplicate-add PR cluster."
+    },
+    {
+      "target": "#58048",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#69005",
+      "candidate_fix": "#71843",
+      "reason": "Already closed duplicate context; no action should be applied."
+    },
+    {
+      "target": "#71819",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed unrelated context; no action should be applied."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

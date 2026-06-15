@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-136-plan-ramp"
 mode: "plan"
-run_id: "27518757439"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518757439"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516221320"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516221320"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.098Z"
+published_at: "2026-06-15T04:05:51.348Z"
 canonical: "#80499"
 canonical_issue: null
 canonical_pr: "#80499"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518757439](https://github.com/openclaw/clownfish/actions/runs/27518757439)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516221320](https://github.com/openclaw/clownfish/actions/runs/27516221320)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #80499
 
 ## Summary
 
-Read-only plan: #80499 remains the best live canonical for the Claude ACP config-control family. The other open PRs are not safe duplicate closeouts in this job: #84916 is a draft timeout-only/broader ACP config attempt with failing real-behavior proof, #90968 is a related but broader control-plane/startup-options implementation, and #91479 is a separate timeout-summary bug. Closed linked refs are historical evidence only.
+Plan-only classification: #80499 remains the best live canonical for the Claude ACP config-control family, but it is not merge-ready because Codex review still has an unresolved P2 finding. #84916, #90968, and #91479 are related ACP timeout/model/control-plane work with distinct scopes, so no duplicate/superseded closeout is planned. Closed linked refs #87404 and #89685 stay historical context only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Read-only plan: #80499 remains the best live canonical for the Claude ACP config
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80499 | keep_canonical | planned | canonical | Best surviving canonical for the core Claude ACP config-control failure, but this plan mode job cannot merge or repair it. |
-| #84916 | keep_related | planned | related | Related timeout-config work, but draft state, failing proof, uneditable branch, and non-identical scope make closure unsafe here. |
-| #90968 | keep_related | planned | related | Related alternative/broader implementation for the same symptom family; not a duplicate closeout and merge is blocked by job policy and proof/review state. |
-| #91479 | keep_independent | planned | independent | Separate ACP timeout-summary bug; should not be closed or folded into the Claude ACP config-controls canonical path. |
-| #87404 | keep_closed | skipped | independent | Already closed historical context only. |
-| #89685 | keep_closed | skipped | related | Already closed related context only. |
+| #80499 | keep_canonical | planned | canonical | Best focused surviving canonical for the Claude ACP config-control root cause, but only as canonical classification; no merge is planned. |
+| #84916 | keep_related | planned | related | Overlaps the timeout-config symptom family, but has a broader generic ACP timeout scope and failing proof, so it should remain related rather than be closed as a duplicate. |
+| #87404 | keep_closed | skipped | related | Already closed in live artifact state; historical evidence only, with no closure action allowed. |
+| #89685 | keep_closed | skipped | related | Related predecessor/context for Claude ACP model startup handling, but already closed and not eligible for any closeout mutation. |
+| #90968 | keep_related | planned | related | Meaningfully related to the Claude ACP model/thinking failure family, but broad control-plane startup/resume work is not the same narrow acpx config-control canonical and is not safe for duplicate closeout. |
+| #91479 | keep_related | planned | related | Same ACP timeout area, but a distinct timeout-summary persistence root cause; keep it separate from the Claude ACP config-control canonical. |
 
 ## Needs Human
 

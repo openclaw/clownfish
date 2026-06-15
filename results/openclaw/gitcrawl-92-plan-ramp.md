@@ -2,53 +2,53 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-92-plan-ramp"
 mode: "plan"
-run_id: "27518988386"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518988386"
-head_sha: "5f0d847a71c3dea47310d39983b78bf3c89b3330"
+run_id: "27516233664"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516233664"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T02:20:44.645Z"
+result_status: "planned"
+published_at: "2026-06-15T04:05:51.356Z"
 canonical: "#70903"
 canonical_issue: "#70903"
 canonical_pr: null
-actions_total: 6
+actions_total: 8
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-92-plan-ramp
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518988386](https://github.com/openclaw/clownfish/actions/runs/27518988386)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516233664](https://github.com/openclaw/clownfish/actions/runs/27516233664)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #70903
 
 ## Summary
 
-Read-only plan: keep #70903 as the live canonical for the persisted provider cooldown recovery bug. Split #39807/#88709 as a related inline-api-key cooldown subcluster. Keep #87694 as an active #70903-related candidate, and request maintainer judgment on #87697 because it overlaps #87694 while a member review says the current shape is too broad. Quarantine security-sensitive linked PR #80482 only.
+Plan-only classification: #70903 remains the canonical open issue for persisted auth-provider cooldown recovery. #39807 is a related but separate inline-api-key cooldown root cause with #88709 as its active fix candidate. #87694 and #87697 remain related #70903 fix candidates but are not merge or close candidates in this job. Security-sensitive linked PR #80482 is quarantined only for central security handling.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 8 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,13 +66,15 @@ Read-only plan: keep #70903 as the live canonical for the persisted provider coo
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #70903 | keep_canonical | planned | canonical | Best surviving tracker for the file/profile-based provider cooldown recovery root cause. |
-| #39807 | keep_related | planned | related | Related provider cooldown family, but not a duplicate of #70903 because it concerns inline API-key providers that never enter the profile cooldown system. |
-| #87694 | keep_related | planned | related | Active related candidate for #70903, but merge/close is out of scope and merge preflight is incomplete. |
-| #87697 | needs_human | planned | needs_human | Maintainer decision needed: whether to narrow #87697, combine useful parts with #87694, or keep the PRs as separate follow-up tracks. |
-| #88709 | keep_related | planned | related | Keep as the active candidate for the related #39807 inline-api-key cooldown subcluster, not as a duplicate/closure target for #70903. |
-| #80482 | route_security | planned | security_sensitive | Security-sensitive linked item is out of ProjectClownfish cleanup scope; route only this ref to central OpenClaw security handling. |
+| #2 | keep_closed | skipped | independent | Closed historical context only; no ProjectClownfish mutation is valid or needed. |
+| #39807 | keep_related | planned | related | Keep #39807 open as a related subcluster rather than closing it as a duplicate of #70903. |
+| #70903 | keep_canonical | planned | canonical | #70903 is still the best live canonical issue for the persisted provider cooldown recovery family. |
+| #80482 | route_security | planned | security_sensitive | Security-sensitive linked PR is out of ProjectClownfish backlog-cleanup scope and must be handled by central OpenClaw security routing only. |
+| #87694 | keep_related | planned | related | Keep as a related #70903 fix candidate; do not recommend merge, closure, or replacement in this plan-only job. |
+| #87697 | keep_related | planned | related | Keep as a related #70903 fix candidate; the current branch is not a safe merge recommendation and should not be closed because it contains useful contributor work. |
+| #88709 | keep_related | planned | related | Keep as the active related fix candidate for the separate #39807 inline-api-key cooldown subcluster. |
+| #90686 | keep_closed | skipped | independent | Closed merged first-hop context only; no close, merge, label, or comment action is valid. |
 
 ## Needs Human
 
-- #87697 requires maintainer judgment because it overlaps #87694 on #70903 while a member review says the current PR shape is too broad/noisy despite a plausible direction.
+- none

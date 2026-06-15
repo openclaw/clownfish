@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-78-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516232348",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516232348",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:00:08Z",
+  "workflow_updated_at": "2026-06-15T00:02:39Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-78-plan-ramp.md",
+  "published_at": "2026-06-15T04:05:51.355Z",
+  "canonical": "#92341",
+  "canonical_issue": null,
+  "canonical_pr": "#92341",
+  "summary": "Plan-mode classification completed from the hydrated preflight artifact. #92341 remains the best live canonical PR for the CJK textScore / empty MATCH fallback family, #92524 should stay related as the narrower candidate for the #92337 hybrid-result subroot, and #92728 needs a maintainer product decision before it can be folded into a PR or split out.",
+  "actions": [
+    {
+      "target": "#92061",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92341",
+      "candidate_fix": "#92341",
+      "reason": "Same root cause as #92341, but keep the issue open in this plan because the candidate PR still has unresolved review-bot findings and no merge preflight."
+    },
+    {
+      "target": "#92164",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92341",
+      "candidate_fix": "#92341",
+      "reason": "Superseded by the broader, better-proven #92341 direction, but keep open for contributor-credit preservation while #92341 remains review-blocked."
+    },
+    {
+      "target": "#92337",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92341",
+      "candidate_fix": "#92524",
+      "reason": "Covered most directly by #92524, but keep #92337 open until the competing #92341/#92524 fix ownership is resolved and a candidate lands or is selected."
+    },
+    {
+      "target": "#92341",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92341",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical PR for the main cluster, but merge is blocked by job policy and unresolved review-bot findings."
+    },
+    {
+      "target": "#92524",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92341",
+      "candidate_fix": null,
+      "reason": "Keep as a related, potentially preferable candidate for the #92337 subroot rather than superseding it under #92341."
+    },
+    {
+      "target": "#92728",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#92341",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: fold a split-term CJK fallback into #92341 or request a separate narrow follow-up PR."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_canonical": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92728: decide whether the split-term multi-character CJK LIKE fallback belongs in #92341 or should become a separate narrow follow-up; no hydrated candidate PR currently covers that exact behavior.",
+    "#92337/#92524/#92341: decide whether #92524 should own the #92337 hybrid-results fix path, or whether #92341 should retain and reconcile its Bug 3 change before either PR is merged."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

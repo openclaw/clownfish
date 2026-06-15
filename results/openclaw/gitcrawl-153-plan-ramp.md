@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-153-plan-ramp"
 mode: "plan"
-run_id: "27518761191"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518761191"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516225031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516225031"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.101Z"
+published_at: "2026-06-15T04:05:51.351Z"
 canonical: "#89778"
 canonical_issue: null
 canonical_pr: "#89778"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518761191](https://github.com/openclaw/clownfish/actions/runs/27518761191)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516225031](https://github.com/openclaw/clownfish/actions/runs/27516225031)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89778
 
 ## Summary
 
-Plan-mode classification only. #89778 remains the best live canonical for the hosted media resolver metadata guard. #89789, #89860, and #89878 are related extractor/media robustness PRs with distinct failure paths or broader plugin scope, so no duplicate, close, merge, or fix action is recommended.
+Plan mode classification only. #89778 remains the live canonical for the hosted media resolver metadata root cause. #89789, #89860, and #89878 are related but distinct open PRs with unique root causes, so no duplicate, superseded, merge, close, or fix actions are planned.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-mode classification only. #89778 remains the best live canonical for the ho
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89778 | keep_canonical | planned | canonical | This is the focused representative for the cluster's displayed hosted media resolver metadata root cause and remains open in the hydrated live state. |
-| #89789 | keep_related | planned | related | Related media metadata hardening, but it covers document extractor metadata and receiver binding rather than the hosted media resolver metadata root cause in #89778. |
-| #89860 | keep_related | planned | related | Related hosted resolver robustness, but the failure is in logging after resolver failure rather than registry metadata reads before resolution. |
-| #89878 | keep_related | planned | related | Related extractor failure isolation work, but broader plugin artifact compatibility scope and unresolved review findings make it a separate follow-up path rather than a duplicate of #89778. |
+| #89778 | keep_canonical | planned | canonical | #89778 is the best surviving canonical for the hosted media resolver metadata root cause and should stay open for normal maintainer review. |
+| #89789 | keep_related | planned | related | Keep #89789 as a related, separate root cause instead of closing it as a duplicate of #89778. |
+| #89860 | keep_related | planned | related | Keep #89860 as related to the #89778 hosted resolver family while preserving its separate failure-logging root cause. |
+| #89878 | keep_related | planned | related | Keep #89878 related as a broader plugin extractor artifact failure PR with unique compatibility-sensitive scope and existing review blockers. |
 
 ## Needs Human
 

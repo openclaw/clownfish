@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1945-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142037132",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142037132",
+  "head_sha": "a0b870a07f2988db4b233d32e6ac2590b6afdb2d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:05:30Z",
+  "workflow_updated_at": "2026-04-30T01:09:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1945-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.313Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/58034",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/58034",
+  "summary": "Hydrated preflight shows no security-sensitive refs. The closed memory-proxy candidates are already covered by merged #71506, and the closed fetch-guard DNS-ordering candidate is covered by merged #59007. The remaining open web_fetch trusted-env-proxy opt-in work should stay centralized on #58034; #61518 overlaps but is not the canonical path and should remain open because instant close is disabled.",
+  "actions": [
+    {
+      "target": "#44887",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#71506",
+      "candidate_fix": "#71506",
+      "reason": "Representative #44887 is obsolete and closed; merged #71506 is the current memory-host env-proxy fix path."
+    },
+    {
+      "target": "#52191",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#71506",
+      "candidate_fix": "#71506",
+      "reason": "Already closed and covered by the hydrated merged candidate #71506."
+    },
+    {
+      "target": "#59443",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#59007",
+      "candidate_fix": "#59007",
+      "reason": "Already closed and covered by hydrated merged #59007/current main."
+    },
+    {
+      "target": "#58034",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#58034",
+      "candidate_fix": null,
+      "reason": "Best current canonical PR for the remaining web_fetch proxy-only support, but only non-mutating classification is allowed in this run."
+    },
+    {
+      "target": "#61518",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#58034",
+      "candidate_fix": null,
+      "reason": "Superseded/related to canonical #58034, but no closure is planned because allow_instant_close is false and the PR contains useful code plus unrelated scope."
+    },
+    {
+      "target": "#47235",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related memory area but a different diagnostics root cause; keep it open as a follow-up outside this proxy dedupe cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-110-plan-ramp"
 mode: "plan"
-run_id: "27518747709"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518747709"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516213095"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516213095"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.089Z"
+published_at: "2026-06-15T04:05:51.341Z"
 canonical: "#91134"
 canonical_issue: "#80536"
 canonical_pr: "#91134"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518747709](https://github.com/openclaw/clownfish/actions/runs/27518747709)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516213095](https://github.com/openclaw/clownfish/actions/runs/27516213095)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #91134
 
 ## Summary
 
-Read-only plan for cluster gitcrawl-110-plan-ramp. #91134 remains the best live canonical PR for the bundled channel config metadata CI guard. The cluster also contains unrelated Telegram account-agentId and Paperclip gateway compatibility work; those should not be forced into the #91134 duplicate family. #74635 is already closed, so no close action is valid. The linked security-sensitive #63924 is quarantined with route_security only.
+Read-only plan-mode classification for cluster gitcrawl-110-plan-ramp. No GitHub mutations are planned. #91134 remains the canonical path for #80536; #63380 and #74974 are separate non-duplicate root causes; #74635 is already closed; security-sensitive linked #63924 is quarantined only.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Read-only plan for cluster gitcrawl-110-plan-ramp. #91134 remains the best live 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91134 | keep_canonical | planned | canonical | Best live canonical for the bundled channel config metadata CI guard, but merge is blocked by job mode and blocked_actions. |
-| #80536 | keep_related | planned | related | Same root-cause family as #91134, but keep the issue open until the canonical PR lands or a maintainer decides otherwise. |
-| #63380 | keep_independent | planned | independent | Distinct Telegram routing/config regression, not a duplicate of the bundled metadata CI guard. |
-| #74974 | keep_independent | planned | independent | Distinct Gateway/Paperclip compatibility work; keep it out of the #91134 bundled metadata CI canonical family. |
-| #74635 | keep_closed | skipped | superseded | Already closed; no mutating close action is valid. |
-| #63924 | route_security | planned | security_sensitive | Security-sensitive linked ref must be routed to central OpenClaw security handling without affecting non-security classification. |
+| #91134 | keep_canonical | planned | canonical | #91134 is the best canonical for the bundled channel config metadata guard tracked by #80536, but this plan-mode job may only classify it non-mutatingly. |
+| #80536 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical PR path but should remain open until #91134 lands and a later closeout job is allowed. |
+| #63380 | keep_related | planned | related | This is related through channel config/schema validation fallout, but it is a distinct Telegram routing root cause and not a duplicate of #91134 or #80536. |
+| #74974 | keep_related | planned | related | This belongs to a different Gateway/Paperclip protocol validation root cause, so it should not be deduped into the CI metadata guard canonical. |
+| #74635 | keep_closed | skipped | fixed_by_candidate | Already closed; retain only historical context linking it to the #74974 Paperclip compatibility path. |
+| #63924 | route_security | planned | security_sensitive | Security-sensitive linked refs are out of scope for Clownfish backlog cleanup and must route to central OpenClaw security handling only. |
 
 ## Needs Human
 

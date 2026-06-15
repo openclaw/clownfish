@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-105-plan-ramp"
 mode: "plan"
-run_id: "27518746910"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518746910"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516212226"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516212226"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.088Z"
+published_at: "2026-06-15T04:05:51.339Z"
 canonical: "#91697"
 canonical_issue: "#91697"
-canonical_pr: "#91712"
-actions_total: 6
+canonical_pr: null
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518746910](https://github.com/openclaw/clownfish/actions/runs/27518746910)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516212226](https://github.com/openclaw/clownfish/actions/runs/27516212226)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #91697
 
 ## Summary
 
-Plan-mode classification only. #91697 remains the live canonical issue. #91712 is the strongest open fix candidate by current hydrated evidence, but merge/fix actions are blocked by job frontmatter and no PR should be closed from this run because the open PRs contain useful overlapping contributor work. Closed PRs are historical evidence only.
+Plan-only classification: #91697 remains the open canonical issue. #91712, #91721, and #92188 are overlapping open contributor fix PRs for the same diagnostic-session ghost-entry root cause, but none should be closed, merged, or used for fixed-by closeout in this job. #92581 is already closed in hydrated live state and is kept closed.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,12 +66,11 @@ Plan-mode classification only. #91697 remains the live canonical issue. #91712 i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91697 | keep_canonical | planned | canonical | Best surviving canonical for the shared root cause. |
-| #91705 | keep_closed | skipped | superseded | Closed historical context only. |
-| #91712 | keep_related | planned | related | Strongest current fix candidate, but plan mode and blocked merge/fix gates require non-mutating classification only. |
-| #91721 | keep_related | planned | related | Useful overlapping contributor PR; do not close or supersede without a concrete merge/replacement path that preserves credit. |
-| #92188 | keep_related | planned | related | Related but not the preferred candidate; failing lint and weaker proof block any stronger recommendation. |
-| #92581 | keep_closed | skipped | superseded | Already closed; retain only as historical context. |
+| #91697 | keep_canonical | planned | canonical | The representative remains open and is still the clearest canonical issue for this root cause; no landed or merge-ready fix displaces it. |
+| #91712 | keep_related | planned | related | This is a useful open candidate fix for #91697, but the job blocks merge/fix actions and contributor PR closeout would be unsafe without a selected replacement or merge path. |
+| #91721 | keep_related | planned | related | This is an alternate open candidate fix for the same canonical issue, with a distinct recovery-path approach. Keep it related rather than superseding or closing it in this read-only plan. |
+| #92188 | keep_related | planned | related | This is related to #91697, but failing checks and weaker proof make it unsuitable for merge or fixed-by closeout in this cluster plan. |
+| #92581 | keep_closed | skipped | related | Already closed in live state, so no closure, supersede, or fixed-by action is valid. |
 
 ## Needs Human
 

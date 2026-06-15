@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-126-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516218909",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516218909",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-14T23:59:36Z",
+  "workflow_updated_at": "2026-06-15T00:02:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-126-plan-ramp.md",
+  "published_at": "2026-06-15T04:05:51.346Z",
+  "canonical": "#92684",
+  "canonical_issue": "#92684",
+  "canonical_pr": "#92731",
+  "summary": "Plan only: keep #92684 as the canonical issue, keep #92731 as the strongest current fix PR without a merge recommendation, route #92691 to central security handling, supersede #92692 behind #92731 with contributor credit, and leave unrelated closed linked refs untouched.",
+  "actions": [
+    {
+      "target": "#92684",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92684",
+      "candidate_fix": "#92731",
+      "reason": "#92684 remains the best live canonical issue for the doctor empty group allowlist false-positive root cause."
+    },
+    {
+      "target": "#92731",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92731",
+      "candidate_fix": null,
+      "reason": "#92731 is the strongest current fix PR for #92684, but it should stay open until normal maintainer review and merge gates complete."
+    },
+    {
+      "target": "#92692",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92731",
+      "candidate_fix": "#92731",
+      "reason": "#92692 overlaps the same fix as #92731 but lacks passing proof and test coverage, so it is superseded by the stronger open PR with contributor credit preserved in the planned close comment."
+    },
+    {
+      "target": "#92691",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact security-sensitive candidate to central OpenClaw security handling while continuing unrelated non-security classification in the cluster."
+    },
+    {
+      "target": "#92607",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked context is independent of this doctor allowlist cluster."
+    },
+    {
+      "target": "#92897",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked context is independent of this doctor allowlist cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "close_superseded": 1,
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

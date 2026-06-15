@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-148-plan-ramp"
 mode: "plan"
-run_id: "27518758372"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518758372"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516222543"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516222543"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.099Z"
+published_at: "2026-06-15T04:05:51.349Z"
 canonical: "#89260"
 canonical_issue: "#89232"
 canonical_pr: "#89260"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518758372](https://github.com/openclaw/clownfish/actions/runs/27518758372)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516222543](https://github.com/openclaw/clownfish/actions/runs/27516222543)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #89260
 
 ## Summary
 
-Plan-only classification: keep #89260 as the live canonical PR for the doctor platform-incompatible skills bug; keep #89232 open until the canonical fix lands; no close, merge, fix, or PR-raise actions are planned. Closed overlapping PRs remain closed as historical superseded context.
+#89260 remains the live canonical PR for the doctor platform-incompatible skills bug. #89232 is the source issue covered by #89260 but should remain open in this no-close plan while the PR is still unmerged. #89282 and #89514 are already closed as superseded by #89260. Hydrated linked PR #92894 is closed, merged, and independent of this cluster.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan-only classification: keep #89260 as the live canonical PR for the doctor pl
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89232 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical candidate PR but should remain open until the fix lands. |
-| #89260 | keep_canonical | planned | canonical | Best live canonical for the cluster; it covers the issue and supersedes the closed overlapping PRs. |
-| #89282 | keep_closed | skipped | superseded | Already closed; preserve as superseded historical context only. |
-| #89514 | keep_closed | skipped | superseded | Already closed; preserve as superseded historical context only. |
-| #92894 | keep_closed | skipped | independent | Closed linked context ref with a different root cause; no cluster action needed. |
+| #89232 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical PR but should stay open as the source report until maintainers land or otherwise close the canonical fix path. |
+| #89260 | keep_canonical | planned | canonical | This remains the best surviving canonical fix PR, but the worker should not recommend merge or closure in this plan-only no-close job. |
+| #89282 | keep_closed | skipped | superseded | Already closed as superseded by #89260; no close action is valid for an already-closed PR. |
+| #89514 | keep_closed | skipped | superseded | Already closed as superseded by #89260; keep the existing closeout and do not emit any closure mutation. |
+| #92894 | keep_closed | skipped | independent | Closed merged linked context is independent of this doctor platform-incompatibility cluster and needs no action. |
 
 ## Needs Human
 

@@ -1,0 +1,75 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2743-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142231539",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142231539",
+  "head_sha": "79624272e7089bff13256606fdef7d9745e0c6b4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:12:33Z",
+  "workflow_updated_at": "2026-04-30T01:15:10Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2743-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.323Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/40982",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/40982",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/41022",
+  "summary": "Canonical issue #40982 is still the live watchdog-cap report, and #41022 is the active narrow implementation PR linked to it. No close/comment/label mutation is planned: instant close is disabled, #40982 remains unresolved on main per the hydrated ClawSweeper review, #41022 needs maintainer judgment before merge, and linked #71803 is a related but distinct Monitor-aware idle bug.",
+  "actions": [
+    {
+      "target": "#40982",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40982",
+      "candidate_fix": "#41022",
+      "reason": "#40982 remains the best live canonical issue for the shared CLI watchdog cap. Keep it open until #41022 or a successor lands and validation can be owned there."
+    },
+    {
+      "target": "#41022",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#40982",
+      "candidate_fix": "#41022",
+      "reason": "#41022 is the active candidate PR for #40982, but merge readiness depends on maintainer approval of the default values and requested regression coverage. Keep the PR open; do not replace or close it in this dedupe-only job."
+    },
+    {
+      "target": "#71803",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40982",
+      "candidate_fix": null,
+      "reason": "Same watchdog symptom family, different root cause and remaining work. Keep #71803 open as a related follow-up outside this dedupe closeout."
+    },
+    {
+      "target": "#14257",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#41022 needs maintainer approval on the shipped watchdog default values and requested regression coverage before any merge path; the hydrated ClawSweeper review says not to replace it with an autonomous fix PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

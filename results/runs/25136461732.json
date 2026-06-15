@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-6935-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25136461732",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25136461732",
+  "head_sha": "421ddc981e12f60cbb3ea60e4527004e3a033e79",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T22:09:24Z",
+  "workflow_updated_at": "2026-04-29T22:12:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-6935-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:05:51.278Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/48732",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/48732",
+  "summary": "Classified hydrated cluster refs without GitHub mutation. #48732 remains the canonical open PR for the healthcheck local-timezone rule; #68755 is a separate related firewall-probe PR, not a duplicate; #30361 is quarantined to central security handling; already-closed context refs remain untouched.",
+  "actions": [
+    {
+      "target": "#48732",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48732",
+      "candidate_fix": null,
+      "reason": "#48732 is still the best live canonical path for the timezone-display root cause, but this dedupe-only job cannot merge or repair it."
+    },
+    {
+      "target": "#68755",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48732",
+      "candidate_fix": null,
+      "reason": "#68755 should remain open as a related healthcheck/firewall subcluster, not closed under the timezone canonical."
+    },
+    {
+      "target": "#30361",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#30361 is out of scope for Clownfish backlog mutation and should be handled by central OpenClaw security triage."
+    },
+    {
+      "target": "#48688",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#48732",
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive close actions."
+    },
+    {
+      "target": "#48691",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive close actions."
+    },
+    {
+      "target": "#48733",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed refs must not receive close actions."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-69-plan-ramp"
 mode: "plan"
-run_id: "27518976742"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518976742"
-head_sha: "83090f0f13076b45300853ade18ac0d08711d2a4"
+run_id: "27516229428"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516229428"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T02:20:44.638Z"
+result_status: "planned"
+published_at: "2026-06-15T04:05:51.354Z"
 canonical: "#90975"
 canonical_issue: "#84527"
 canonical_pr: "#90975"
@@ -18,24 +18,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 0
 ---
 
 # gitcrawl-69-plan-ramp
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518976742](https://github.com/openclaw/clownfish/actions/runs/27518976742)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516229428](https://github.com/openclaw/clownfish/actions/runs/27516229428)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: #90975
 
 ## Summary
 
-Canonical choice is clear: #90975 is the best live canonical PR for the Antigravity CLI backend request in #84527. No GitHub mutations are planned in this read-only run. The cluster also contains separate plugin-SDK product/API decisions (#91282, #91295) and stacked follow-up PRs (#91473, #91474, #91477) that should stay open and separate until their blockers clear.
+Plan-only classification: #90975 remains the live canonical PR for the Antigravity CLI backend family, with #84527 as the originating feature issue. The plugin-SDK hook items and stacked follow-up PRs are related but not duplicates; no close, merge, fix, or security-route action is recommended from this run.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Canonical choice is clear: #90975 is the best live canonical PR for the Antigrav
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,15 +66,14 @@ Canonical choice is clear: #90975 is the best live canonical PR for the Antigrav
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #84527 | keep_related | planned | fixed_by_candidate | Keep the issue open as the canonical request thread paired with #90975; do not close before the candidate PR lands and validation completes. |
-| #90975 | keep_canonical | planned | canonical | Best surviving canonical for the core backend feature; no merge action is available or safe in this plan-only job. |
-| #91282 | needs_human | planned | needs_human | Maintainer product/API decision is required before this public plugin SDK shape should be implemented or closed. |
-| #91295 | needs_human | planned | needs_human | This is related to Antigravity text-output limitations but is a distinct public plugin SDK API decision requiring maintainer direction. |
-| #91473 | keep_related | planned | related | Related follow-up to the canonical backend PR, but not a duplicate and not merge-ready; keep it separate from #90975 closeout. |
-| #91474 | keep_related | planned | related | Related stacked follow-up that depends on #90975 but has a distinct root cause; keep open and do not merge or close in this plan-only run. |
-| #91477 | keep_related | planned | related | Keep as related implementation work for #91282; draft state, product-decision dependency, and failed proof block any merge or fixed-by closeout. |
+| #84527 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical PR, but fixed-by-candidate closeout is not safe while the candidate PR is open and merge gates are unresolved. |
+| #90975 | keep_canonical | planned | canonical | #90975 is still the best surviving canonical PR for the main Antigravity backend work; keep it open and do not merge from this plan. |
+| #91282 | keep_related | planned | related | This is related follow-up API design work, not a duplicate of the backend implementation in #90975. |
+| #91295 | keep_related | planned | related | This should remain open as a related but separate plugin SDK design thread. |
+| #91473 | keep_related | planned | related | The PR contains unique follow-up behavior, so it should not be closed as a duplicate or superseded here; merge is blocked by proof and CI state. |
+| #91474 | keep_related | planned | related | Keep as a related stacked follow-up PR; it has a distinct root cause and remains blocked by proof/check state. |
+| #91477 | keep_related | planned | related | Keep this as related follow-up implementation for #91282; it is not ready to merge or close and is not a duplicate of #90975. |
 
 ## Needs Human
 
-- #91282 requires maintainer approval for the public `CliBackendPlugin.estimateUsage` API shape before #91477 can proceed.
-- #91295 requires maintainer approval for the separate `CliBackendPlugin.transformAssistantText` API shape.
+- none

@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14058-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142058551",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142058551",
+  "head_sha": "a0b870a07f2988db4b233d32e6ac2590b6afdb2d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:06:15Z",
+  "workflow_updated_at": "2026-04-30T01:09:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14058-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.316Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/23926",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/23926",
+  "canonical_pr": null,
+  "summary": "Representative #9256 is security-sensitive and cannot be used for dedupe cleanup. #23926 is the best live non-security canonical for the skill install lifecycle hook gap; #45031 is related but broader scanner/policy product work. Security-shaped refs #9256, #10827, #18196, #18677, and #57535 are routed to central security handling. No close, merge, or fix actions are planned.",
+  "actions": [
+    {
+      "target": "#9256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped supply-chain threat claims are out of scope for Clownfish dedupe mutation and must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#10827",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue contains explicit security-boundary and persistent compromise claims, so only a route_security action is appropriate."
+    },
+    {
+      "target": "#18196",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security enforcement PR with unresolved security review and failing checks belongs in central security handling, not dedupe closure or merge planning."
+    },
+    {
+      "target": "#18677",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue asks for security blocking against explicit exploit classes, so it should be quarantined rather than deduped or closed here."
+    },
+    {
+      "target": "#57535",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The report is explicitly security-sensitive and must be routed to central security handling without public dedupe mutation."
+    },
+    {
+      "target": "#23926",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#23926",
+      "candidate_fix": null,
+      "reason": "#23926 is the clearest live non-security canonical for the install lifecycle hook gap after the original representative #9256 was quarantined."
+    },
+    {
+      "target": "#45031",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#23926",
+      "candidate_fix": null,
+      "reason": "#45031 is related to #23926 but is not a true duplicate because it tracks broader built-in scanner and policy decisions."
+    },
+    {
+      "target": "#61557",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#23926",
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

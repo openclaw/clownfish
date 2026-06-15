@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-183-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518766199"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518766199"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516691493"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516691493"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.105Z"
+published_at: "2026-06-15T04:05:51.361Z"
 canonical: "#48003"
 canonical_issue: "#48003"
 canonical_pr: "#73365"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518766199](https://github.com/openclaw/clownfish/actions/runs/27518766199)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516691493](https://github.com/openclaw/clownfish/actions/runs/27516691493)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #48003
 
 ## Summary
 
-Plan-only classification: keep #48003 as the canonical issue for the active non-streaming steer injection bug; keep #73365 as a related but non-merge-ready fix PR because checks and review proof are not clean; keep #88058 related but split as a distinct dispatch/admission regression, with #89238 only as a linked draft fix path; route the linked security-sensitive #25592 to central security handling.
+Canonical issue remains #48003. #73365 is the current open maintainer fix candidate for the active non-streaming steer path, but it is not merge-ready because checks fail and the branch is dirty. #88058 is related to the same steer/active-run family but carries a newer Control UI and dispatch-admission reproduction, so it should stay open rather than be closed as a duplicate in this plan. Linked security-sensitive #25592 is quarantined to central security handling only.
 
 ## Impact
 
@@ -66,10 +66,10 @@ Plan-only classification: keep #48003 as the canonical issue for the active non-
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #25592 | route_security | planned | security_sensitive | Security-sensitive linked ref must be quarantined without ProjectClownfish close, merge, label, comment, or fix action. |
-| #48003 | keep_canonical | planned | canonical | #48003 remains the best live canonical for the active non-streaming steer injection root cause. |
-| #73365 | keep_related | planned | related | #73365 is the relevant open fix path for #48003 but is not merge-ready and should not be closed or merged by this plan. |
-| #88058 | keep_related | planned | related | #88058 shares the busy-session steer symptom family but has distinct Control UI/dispatch admission scope, so it should not be closed as a duplicate of #48003. |
+| #25592 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup; quarantine only this item and continue classifying unrelated non-security work. |
+| #48003 | keep_canonical | planned | canonical | Best live canonical for the steer-mode active-run injection family. |
+| #73365 | keep_related | planned | related | Related open fix candidate for the canonical issue, but not safe for merge or fixed-by closeout in this plan. |
+| #88058 | keep_related | planned | related | Same canonical family as #48003, but with unique surface and root-scope evidence that should remain open as related. |
 
 ## Needs Human
 

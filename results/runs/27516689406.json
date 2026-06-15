@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-170-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516689406",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516689406",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:15:42Z",
+  "workflow_updated_at": "2026-06-15T00:18:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-170-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T04:05:51.359Z",
+  "canonical": "#87213",
+  "canonical_issue": "#87213",
+  "canonical_pr": "#66985",
+  "summary": "Plan only. Route security-sensitive #61009 and linked #72858 to central security handling. Keep #87213 as the canonical issue and #66985 as the strongest hydrated fix PR for bound/requested node selector canonicalization. Treat #87236 as superseded by that fix path, and keep #92141 related but separate.",
+  "actions": [
+    {
+      "target": "#61009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exec-routing documentation issue; route the item to central OpenClaw security handling without closing or deduping it."
+    },
+    {
+      "target": "#72858",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Linked security-sensitive browser-surface exec semantics issue; quarantine only this item and continue non-security classification."
+    },
+    {
+      "target": "#87213",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Best live canonical issue for the non-security bound/requested node selector root cause."
+    },
+    {
+      "target": "#66985",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Strongest hydrated fix candidate for #87213, but merge is blocked by this plan-mode job and by blocked_actions."
+    },
+    {
+      "target": "#87236",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Useful but overlapping contributor PR superseded by the stronger hydrated canonical fix path #66985; closeout must preserve source PR credit."
+    },
+    {
+      "target": "#92141",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87213",
+      "candidate_fix": null,
+      "reason": "Related exec host=node area, but not the same root cause as #87213 and not covered by #66985."
+    },
+    {
+      "target": "#61229",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Closed historical context only; no closure action is valid for an already closed issue."
+    },
+    {
+      "target": "#87242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87213",
+      "candidate_fix": "#66985",
+      "reason": "Closed historical PR only; do not emit another close action."
+    },
+    {
+      "target": "#89439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related docs context for security-routed #61009; no action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 2,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

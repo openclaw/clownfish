@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-174-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518765492"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518765492"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516690379"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516690379"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.103Z"
+published_at: "2026-06-15T04:05:51.359Z"
 canonical: "#72021"
 canonical_issue: "#72021"
-canonical_pr: null
+canonical_pr: "#87590"
 actions_total: 6
 fix_executed: 0
 fix_failed: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518765492](https://github.com/openclaw/clownfish/actions/runs/27518765492)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516690379](https://github.com/openclaw/clownfish/actions/runs/27516690379)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #72021
 
 ## Summary
 
-Plan-mode classification only. The original representative #74114 is already closed unmerged, so the live canonical for the recallCount/signalCount promotion-gate bug should be #72021. The annotation PRs #87589 and #87590 are related but not duplicates of the gate-semantics bug; #87590 appears to be the stronger annotation candidate, while #87589 remains blocked by failed proof. Linked security-sensitive #67363 is quarantined to central security handling.
+Representative #74114 is already closed unmerged, so #72021 is the live canonical issue for the recallCount-vs-signalCount promotion-gate contract. #87590 is the stronger open annotation PR for the related #87588 display issue, while #87589 is superseded by #87590. Security-linked #67363 is routed only to central security handling.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Plan-mode classification only. The original representative #74114 is already clo
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #67363 | route_security | planned | security_sensitive | Security-sensitive linked ref is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling. |
-| #72021 | keep_canonical | planned | canonical | The open issue is the surviving canonical for the root-cause decision after the representative PR closed unmerged. |
-| #74114 | keep_closed | skipped | superseded | Already closed unmerged; no further closure action is valid. The canonical discussion remains #72021. |
-| #87588 | keep_closed | skipped | duplicate | Already closed as part of the same canonical family; no mutation is valid. |
-| #87589 | keep_related | planned | related | Related annotation fix with overlapping scope and failed proof; keep it out of the gate-bug closeout. |
-| #87590 | keep_related | planned | related | Strong related annotation PR, but not the canonical fix for the gate-semantics issue and not merge-ready under this plan-mode job. |
+| #67363 | route_security | planned | security_sensitive | Security-sensitive linked issue is outside Clownfish backlog cleanup and should route to central OpenClaw security handling only. |
+| #72021 | keep_canonical | planned | canonical | #72021 is the best live canonical for the promotion-gate signal contract after #74114 closed. |
+| #74114 | keep_closed | skipped | superseded | Already-closed historical PR; no closure action is valid. Keep #72021 as the live canonical issue. |
+| #87588 | keep_closed | skipped | related | Already closed; keep it as related historical context for the annotation subcluster rather than reopening or reclosing. |
+| #87589 | close_superseded | planned | superseded | #87589 overlaps the same annotation fix path as #87590 but has weaker proof and no test coverage; #87590 is the clearer replacement PR path. |
+| #87590 | keep_canonical | planned | canonical | #87590 is the best open PR for the related annotation/display subcluster, but merge is blocked by job mode and missing clean review preflight. |
 
 ## Needs Human
 

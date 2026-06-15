@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1925-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142030313",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142030313",
+  "head_sha": "a0b870a07f2988db4b233d32e6ac2590b6afdb2d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:05:16Z",
+  "workflow_updated_at": "2026-04-30T01:10:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1925-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.311Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/70453",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/70453",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72480",
+  "summary": "Autonomous classification only. The original representative #54279 is already closed and fixed on main by hydrated merged PR #71506. The best current open canonical path for the still-live provider guarded-fetch proxy subfamily is #70453 with candidate PR #72480. The remaining live refs split into related Gemini OAuth, Feishu HTTP proxy, memory custom-provider, and WhatsApp startup subfamilies, so no close, merge, or fix PR is planned. Linked PR #39766 is routed separately because a hydrated bot comment alleges an SSRF boundary issue.",
+  "actions": [
+    {
+      "target": "#54279",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#54279",
+      "candidate_fix": "#71506",
+      "reason": "Closed representative is historical evidence only and must not receive a close action."
+    },
+    {
+      "target": "#39766",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped SSRF evidence requires central security triage for this exact item."
+    },
+    {
+      "target": "#70453",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#70453",
+      "candidate_fix": "#72480",
+      "reason": "Best open canonical issue for the live Google LLM ambient-proxy subfamily."
+    },
+    {
+      "target": "#72480",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#70453",
+      "candidate_fix": "#72480",
+      "reason": "Open candidate PR for #70453 should stay open for maintainer review, not be merged or closed by this dedupe-only job."
+    },
+    {
+      "target": "#41619",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Gemini OAuth login subfamily; not a duplicate of the provider guarded-fetch canonical."
+    },
+    {
+      "target": "#46184",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41619",
+      "candidate_fix": null,
+      "reason": "Same Gemini CLI OAuth area as #41619, with distinct proxy reproduction details."
+    },
+    {
+      "target": "#42541",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Gemini OAuth follow-up, but not the same root cause as the canonical provider proxy issue."
+    },
+    {
+      "target": "#47884",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related memory_search symptom with a different root cause; keep open for a separate narrow follow-up."
+    },
+    {
+      "target": "#48949",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#41943",
+      "reason": "Related Feishu HTTP proxy subfamily; not covered by #70453 or #71506."
+    },
+    {
+      "target": "#41943",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48949",
+      "candidate_fix": "#41943",
+      "reason": "Keep open as related Feishu candidate PR requiring maintainer or follow-up repair."
+    },
+    {
+      "target": "#61788",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent WhatsApp startup reliability issue outside the Gemini/provider/memory proxy canonical path."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1,
+    "keep_canonical": 2,
+    "keep_related": 6,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

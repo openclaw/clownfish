@@ -1,0 +1,63 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2912-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142245877",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142245877",
+  "head_sha": "4685439e0115b00b3c3895ee6c31b79d8ae00252",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:13:05Z",
+  "workflow_updated_at": "2026-04-30T01:15:24Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2912-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.324Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/45314",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/45314",
+  "canonical_pr": null,
+  "summary": "Hydrated state keeps #45314 as the live canonical issue for the early-abort responsePrefix template bug. The two open PRs are competing useful fixes: #45315 is narrower and non-draft but has unresolved bot review findings, while #45454 is draft, broader, and has multiple failing checks. No close, merge, label, comment, or fix action is safe from this job.",
+  "actions": [
+    {
+      "target": "#45314",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45314",
+      "candidate_fix": null,
+      "reason": "The issue is the stable canonical tracking thread while the implementation PR choice remains unresolved."
+    },
+    {
+      "target": "#45315",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#45314",
+      "candidate_fix": null,
+      "reason": "Maintainers need to decide whether #45315 is the canonical implementation despite the unresolved override/catalog gaps, or whether it should be revised or replaced by the broader session-aware approach."
+    },
+    {
+      "target": "#45454",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#45314",
+      "candidate_fix": null,
+      "reason": "This is a useful competing implementation candidate, not a low-signal or safely superseded PR; choosing or closing it requires maintainer judgment."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical implementation path for #45314: #45315 is the smaller non-draft PR but leaves catalog/session/channel override concerns unresolved, while #45454 is a broader draft session-aware implementation with failing checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

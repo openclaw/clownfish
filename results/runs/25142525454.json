@@ -1,0 +1,52 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3007-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142525454",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142525454",
+  "head_sha": "635e49e8d0f5f1f39d5a829d2a709a0e61ee5f73",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:23:59Z",
+  "workflow_updated_at": "2026-04-30T01:26:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3007-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.324Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated refs show two open, useful WhatsApp PRs covering the same allowFrom/outbound root cause, but choosing between #48387's narrow explicit-target bypass and #49549's fuller allowTo model requires maintainer product and authorization judgment. No close, label, merge, or fix action is safe from this dedupe-only job.",
+  "actions": [
+    {
+      "target": "#48387",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical choice is unclear: #48387 is useful and narrow but represents the explicit-target bypass model, while #49549 implements a broader allowTo model. The hydrated bot review explicitly asks for maintainer judgment between those paths."
+    },
+    {
+      "target": "#49549",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer direction: #49549 may be the fuller canonical fix for the allowFrom/outbound coupling, but it has unresolved product-scope and review/check blockers and cannot safely supersede #48387 in this dedupe-only pass."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose the canonical WhatsApp outbound authorization path: #48387's narrow explicit-target bypass or #49549's broader allowTo/outbound policy. Both are open useful PRs, neither is merge-ready, and #49549 still has an unresolved directory-resolution review finding and failing checks in the hydrated artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

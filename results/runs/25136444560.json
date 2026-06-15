@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-6444-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25136444560",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25136444560",
+  "head_sha": "421ddc981e12f60cbb3ea60e4527004e3a033e79",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T22:08:58Z",
+  "workflow_updated_at": "2026-04-29T22:12:42Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-6444-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:05:51.274Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/47029",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/47029",
+  "summary": "Hydrated preflight shows #47029 remains the open cluster representative, but its remaining loopback-identity behavior is a maintainer policy decision and has unresolved review-bot findings. The linked open #73925 belongs to a separate gateway handshake repair path and has a security-shaped auth-watchdog review finding, so it is routed out of this dedupe job. Closed refs are historical evidence only; no close, merge, label, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#47029",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#47029",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required before closing, superseding, repairing, or accepting the remaining loopback-identity behavior in #47029."
+    },
+    {
+      "target": "#73925",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The security-shaped auth-watchdog finding belongs in central OpenClaw security handling, not this dedupe-only cluster."
+    },
+    {
+      "target": "#48950",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid for this worker result."
+    },
+    {
+      "target": "#49751",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and related only as historical context; no closeout action is valid."
+    },
+    {
+      "target": "#51172",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid for this worker result."
+    },
+    {
+      "target": "#52142",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and historical only; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "route_security": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 1,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for #47029: accept a loopback status/probe behavior change that can reuse cached paired operator identity, or preserve current main's non-mutating anonymous unauthenticated loopback probe policy and close the PR manually as not accepted."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

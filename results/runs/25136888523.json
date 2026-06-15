@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-8758-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25136888523",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25136888523",
+  "head_sha": "c207d367ab088fb89ca96c77cc23dd9c55875cc5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T22:20:55Z",
+  "workflow_updated_at": "2026-04-29T22:25:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-8758-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:05:51.301Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/55321",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/55321",
+  "summary": "Hydrated preflight state at main 9a3a341d93721f808d9deeae6e39c727249d2824 shows the prior open candidate #55321 is now closed by a maintainer. No open canonical PR remains, so no close/comment/label mutation is planned. Closed benchmark-chain refs are kept closed, and security-shaped review evidence on closed #54818 and #55314 is routed to central OpenClaw security handling without blocking the unrelated non-security classifications.",
+  "actions": [
+    {
+      "target": "#54818",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive credential-leak evidence appears in hydrated review comments, so the exact closed item should be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#55146",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#55321",
+      "candidate_fix": null,
+      "reason": "Already-closed predecessor in the benchmark scaffold chain; closed context refs are evidence only."
+    },
+    {
+      "target": "#55314",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The hydrated review record contains security-boundary evidence around secret exposure risk, so the exact closed PR should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#55321",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#55321",
+      "candidate_fix": null,
+      "reason": "#55321 was the latest benchmark scaffold canonical path, but it is now closed by a maintainer; no open candidate remains for this dedupe-only job."
+    },
+    {
+      "target": "#56022",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent CI-proof context; it should not be closed, merged, or treated as the canonical benchmark scaffold path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

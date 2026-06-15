@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-110-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516213095",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516213095",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-14T23:59:21Z",
+  "workflow_updated_at": "2026-06-15T00:02:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-110-plan-ramp.md",
+  "published_at": "2026-06-15T04:05:51.341Z",
+  "canonical": "#91134",
+  "canonical_issue": "#80536",
+  "canonical_pr": "#91134",
+  "summary": "Read-only plan-mode classification for cluster gitcrawl-110-plan-ramp. No GitHub mutations are planned. #91134 remains the canonical path for #80536; #63380 and #74974 are separate non-duplicate root causes; #74635 is already closed; security-sensitive linked #63924 is quarantined only.",
+  "actions": [
+    {
+      "target": "#91134",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "#91134 is the best canonical for the bundled channel config metadata guard tracked by #80536, but this plan-mode job may only classify it non-mutatingly."
+    },
+    {
+      "target": "#80536",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#91134",
+      "candidate_fix": "#91134",
+      "reason": "The issue is covered by the canonical PR path but should remain open until #91134 lands and a later closeout job is allowed."
+    },
+    {
+      "target": "#63380",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "This is related through channel config/schema validation fallout, but it is a distinct Telegram routing root cause and not a duplicate of #91134 or #80536."
+    },
+    {
+      "target": "#74974",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91134",
+      "candidate_fix": null,
+      "reason": "This belongs to a different Gateway/Paperclip protocol validation root cause, so it should not be deduped into the CI metadata guard canonical."
+    },
+    {
+      "target": "#74635",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#74974",
+      "reason": "Already closed; retain only historical context linking it to the #74974 Paperclip compatibility path."
+    },
+    {
+      "target": "#63924",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked refs are out of scope for Clownfish backlog cleanup and must route to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

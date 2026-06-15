@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-5461-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25136421744",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25136421744",
+  "head_sha": "648e71ed1e7bd7c58c0085195d8e3302fdbfa10f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T22:08:20Z",
+  "workflow_updated_at": "2026-04-29T22:12:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-5461-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:05:51.263Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations planned. The closed representative #43533 is obsolete, but the hydrated artifact leaves the current PR canonical ambiguous between #61675 and #71792; both are active repaired contributor branches for the same automatic daily/idle session-memory gap. Older overlapping PRs should stay open until that choice is explicit, and #56362 is a separate Discord reset-trigger bug.",
+  "actions": [
+    {
+      "target": "#42677",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same root-cause family, but not safe to close or supersede while the canonical fix PR is ambiguous."
+    },
+    {
+      "target": "#50933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Overlapping useful contributor work should remain open until the maintainer selects the canonical fix path."
+    },
+    {
+      "target": "#56362",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and affected workflow; leave open as a related but separate subcluster."
+    },
+    {
+      "target": "#61675",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose whether #61675 or #71792 is the canonical fix path."
+    },
+    {
+      "target": "#71792",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose whether #71792 or #61675 is the canonical fix path."
+    },
+    {
+      "target": "#43533",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure/comment/label action is valid."
+    },
+    {
+      "target": "#62094",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and not part of the open canonical PR decision."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Select the canonical fix path between #61675 and #71792. Both are open, maintainer-can-modify, repaired contributor branches for the automatic daily/idle session-memory gap, and the artifact contains explicit maintainer/ClawSweeper context supporting each as a possible canonical path.",
+    "After the canonical PR is selected or merged, re-run closeout for overlapping useful PRs #42677 and #50933 with contributor-credit-preserving comments."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

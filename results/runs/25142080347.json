@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-3399-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25142080347",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25142080347",
+  "head_sha": "a0b870a07f2988db4b233d32e6ac2590b6afdb2d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T01:07:03Z",
+  "workflow_updated_at": "2026-04-30T01:09:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-3399-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.317Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/63481",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/63475",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/63481",
+  "summary": "Hydrated preflight shows three open, non-security Feishu startup refs. #63481 remains the best canonical implementation path for #63475, but no merge, fix, or closeout is planned because this dedupe-only job disables merge/fix/instant close and #63481 still has merge-preflight blockers. #67466 is related follow-up/rework, not a duplicate or safe superseded closeout.",
+  "actions": [
+    {
+      "target": "#63481",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#63481",
+      "candidate_fix": null,
+      "reason": "#63481 is the clearest focused canonical PR for the Feishu multi-account startup bot-info probe serialization bug, but it should remain open for maintainer/review workflow rather than be merged by this job."
+    },
+    {
+      "target": "#63475",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#63481",
+      "candidate_fix": "#63481",
+      "reason": "#63475 is covered by the #63481 candidate path, but should stay open until a canonical fix lands and validation is complete."
+    },
+    {
+      "target": "#67466",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63481",
+      "candidate_fix": null,
+      "reason": "#67466 is not a duplicate of #63481 and is not safe to close as superseded: it contains distinct Feishu startup latency/status timeout work but needs rework before it could be a merge candidate."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

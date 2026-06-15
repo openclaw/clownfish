@@ -1,0 +1,69 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-152-plan-ramp",
+  "mode": "plan",
+  "run_id": "27516224268",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516224268",
+  "head_sha": "55c1d70c5da8da84c47be43e492f5bca34739d4e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-14T23:59:50Z",
+  "workflow_updated_at": "2026-06-15T00:02:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-152-plan-ramp.md",
+  "published_at": "2026-06-15T04:05:51.350Z",
+  "canonical": "#89816",
+  "canonical_issue": "#89791",
+  "canonical_pr": "#89816",
+  "summary": "Plan-only classification completed. #89791/#89816 are the launchd supervisor-loop documentation/runtime-hardening family, with #89816 retained as the canonical docs PR and #89791 kept open for remaining runtime/doctor work. #90711/#90828 are a separate StandardErrorPath stderr logging family; keep them split and do not close anything. No security-sensitive refs were detected and no merge/fix/closure actions are planned.",
+  "actions": [
+    {
+      "target": "#89791",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89791",
+      "candidate_fix": null,
+      "reason": "#89791 is not closable by the docs-only #89816 path; it remains the canonical issue for the remaining supervisor-loop runtime and hardening scope."
+    },
+    {
+      "target": "#89816",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89816",
+      "candidate_fix": null,
+      "reason": "#89816 remains the best live canonical PR for the docs mitigation in the #89791 family; merge is not planned because this job is plan mode and merge is blocked."
+    },
+    {
+      "target": "#90711",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90711",
+      "candidate_fix": null,
+      "reason": "#90711 is a separate canonical issue for the macOS LaunchAgent stderr logging contract and should not be folded into the supervisor-loop docs family."
+    },
+    {
+      "target": "#90828",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90711",
+      "candidate_fix": "#90828",
+      "reason": "#90828 is a related candidate fix for #90711, but no merge or fixed-by closeout is planned because merge/fix actions are blocked and the logging-contract review remains outside this cleanup plan."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

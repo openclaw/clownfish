@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-8275-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "25136882736",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25136882736",
+  "head_sha": "c207d367ab088fb89ca96c77cc23dd9c55875cc5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-29T22:20:45Z",
+  "workflow_updated_at": "2026-04-29T22:23:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-8275-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-15T04:05:51.298Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/53243",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/53242",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/53243",
+  "summary": "Hydrated state supports #53243 as the current open canonical PR for the chat.history text-cap family, with #53242 as its paired issue. #44015 is quarantined as security-sensitive. #66650/#66573 are related but a separate sessions_history limit-clamp subcluster, not duplicates of #53243. No close, merge, or fix actions are safe in this dedupe-only job; closed context refs are skipped.",
+  "actions": [
+    {
+      "target": "#44015",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hardening item must be routed to central security triage without comment, label, close, merge, or fix mutation from Clownfish."
+    },
+    {
+      "target": "#53242",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#53243",
+      "candidate_fix": "#53243",
+      "reason": "Paired issue for the canonical PR; keep open because the candidate fix is not landed."
+    },
+    {
+      "target": "#53243",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53243",
+      "candidate_fix": null,
+      "reason": "Best live canonical path for the main family, but not merge-ready and not repairable in this dedupe-only job."
+    },
+    {
+      "target": "#58900",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#53243",
+      "candidate_fix": null,
+      "reason": "Already-closed context ref; no mutation is valid."
+    },
+    {
+      "target": "#66573",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#66650",
+      "reason": "Covered by a separate open candidate PR, but not part of the #53243 duplicate family and not closable before a landed fix."
+    },
+    {
+      "target": "#66615",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#66650",
+      "reason": "Already closed as superseded; no further action is valid."
+    },
+    {
+      "target": "#66650",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related separate implementation candidate; keep open for its own review path rather than deduping into #53243."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 3,
+    "keep_canonical": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

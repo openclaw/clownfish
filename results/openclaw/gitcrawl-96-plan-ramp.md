@@ -2,16 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-96-plan-ramp"
 mode: "plan"
-run_id: "27518989886"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518989886"
-head_sha: "5f0d847a71c3dea47310d39983b78bf3c89b3330"
+run_id: "27516236165"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516236165"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:20:44.646Z"
+published_at: "2026-06-15T04:05:51.358Z"
 canonical: "#92440"
-canonical_issue: "#92374"
+canonical_issue: null
 canonical_pr: "#92440"
-actions_total: 9
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518989886](https://github.com/openclaw/clownfish/actions/runs/27518989886)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516236165](https://github.com/openclaw/clownfish/actions/runs/27516236165)
 
 Workflow conclusion: success
 
@@ -35,13 +35,13 @@ Canonical: #92440
 
 ## Summary
 
-Plan-mode classification only. Security-sensitive refs are quarantined individually. Among non-security open PRs, #92440 is the strongest current canonical candidate for the #92374 dispatcher hook fix because it is narrow, hydrated, has passing checks including Real behavior proof, and overlaps the same two-file fix surface as #92392 and #92762. No close, merge, label, comment, or fix PR mutation is planned because this job is plan mode and merge/fix actions are blocked by frontmatter.
+Plan mode classification for gitcrawl cluster 96. The security-sensitive issue #92374 is routed out of Clownfish handling. Among the non-security PRs for the same dispatcher hook gap, #92440 is the best open canonical candidate because it has the narrow 2-file fix, supplied proof, and a passing Real behavior proof check; #92392 remains related historical context but is blocked by missing proof/failing Real behavior proof, and #90371/#92762 overlap the same root cause but have failing proof checks or dirty/unknown merge state.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 9 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,15 +66,11 @@ Plan-mode classification only. Security-sensitive refs are quarantined individua
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61550 | route_security | planned | security_sensitive | Security-sensitive linked context must be routed to central OpenClaw security handling, not backlog cleanup. |
-| #73542 | route_security | planned | security_sensitive | Security-sensitive linked context must be quarantined independently. |
-| #81610 | route_security | planned | security_sensitive | Security-sensitive linked context is out of ProjectClownfish cleanup scope. |
-| #82823 | keep_closed | skipped | fixed_by_candidate | Historical merged context only. |
-| #90371 | route_security | planned | security_sensitive | Security-sensitive candidate must be routed rather than closed, merged, or superseded by ProjectClownfish. |
-| #92374 | route_security | planned | security_sensitive | Security-sensitive issue must go to central OpenClaw security handling. |
-| #92392 | keep_related | planned | related | Same fix family, but not the strongest canonical because proof failed and #92440 has clearer validation. |
-| #92440 | keep_canonical | planned | canonical | Best live non-security canonical PR for the narrow dispatcher hook-composition fix. |
-| #92762 | keep_related | planned | related | Same fix family, but #92440 is the stronger current canonical candidate. |
+| #92374 | route_security | planned | security_sensitive | Security-sensitive issue is outside Clownfish backlog cleanup and must be routed to central OpenClaw security handling. |
+| #92440 | keep_canonical | planned | canonical | Best live non-security canonical PR for the code fix, but merge is blocked by plan mode, merge being disallowed, and missing merge_preflight/Codex review proof. |
+| #92392 | keep_related | planned | related | Same fix family as the canonical candidate, but not safe to supersede or close in this plan because closeout is not requested and #92392 was the job's canonical hint; keep related to #92440 instead of forcing a mutation. |
+| #90371 | keep_related | planned | related | Overlapping useful PR in the same fix family, but failing checks and dirty merge state block merge or closure actions in this plan. |
+| #92762 | keep_related | planned | related | Related overlapping PR with useful evidence, but failing proof check and missing merge preflight block merge or fixed-by-candidate closure. |
 
 ## Needs Human
 

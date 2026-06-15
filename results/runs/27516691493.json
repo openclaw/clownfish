@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-183-plan-wave-20260615-a",
+  "mode": "plan",
+  "run_id": "27516691493",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27516691493",
+  "head_sha": "6bb552b68729da7580c0ee53a6e211c17d1b2e3a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T00:15:46Z",
+  "workflow_updated_at": "2026-06-15T00:18:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-183-plan-wave-20260615-a.md",
+  "published_at": "2026-06-15T04:05:51.361Z",
+  "canonical": "#48003",
+  "canonical_issue": "#48003",
+  "canonical_pr": "#73365",
+  "summary": "Canonical issue remains #48003. #73365 is the current open maintainer fix candidate for the active non-streaming steer path, but it is not merge-ready because checks fail and the branch is dirty. #88058 is related to the same steer/active-run family but carries a newer Control UI and dispatch-admission reproduction, so it should stay open rather than be closed as a duplicate in this plan. Linked security-sensitive #25592 is quarantined to central security handling only.",
+  "actions": [
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog cleanup; quarantine only this item and continue classifying unrelated non-security work."
+    },
+    {
+      "target": "#48003",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "Best live canonical for the steer-mode active-run injection family."
+    },
+    {
+      "target": "#73365",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "Related open fix candidate for the canonical issue, but not safe for merge or fixed-by closeout in this plan."
+    },
+    {
+      "target": "#88058",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48003",
+      "candidate_fix": null,
+      "reason": "Same canonical family as #48003, but with unique surface and root-scope evidence that should remain open as related."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

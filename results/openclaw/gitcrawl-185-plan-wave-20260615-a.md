@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-185-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27518767610"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518767610"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516693593"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516693593"
+head_sha: "6bb552b68729da7580c0ee53a6e211c17d1b2e3a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.106Z"
+published_at: "2026-06-15T04:05:51.362Z"
 canonical: "#87799"
 canonical_issue: null
 canonical_pr: "#87799"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518767610](https://github.com/openclaw/clownfish/actions/runs/27518767610)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516693593](https://github.com/openclaw/clownfish/actions/runs/27516693593)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #87799
 
 ## Summary
 
-Plan-only classification keeps #87799 as the live canonical implementation path for installer stdin isolation. #73814 and #90008 should remain open and related until the fix lands; #73830 and #73837 are already closed context refs.
+Plan-only classification: #87799 remains the live canonical implementation path for the installer stdin corruption family. #73814 and #90008 are open issue reports covered by #87799 but should stay open until the fix lands or a post-merge closeout run rechecks live state. Linked closed refs #73830 and #73837 require no mutation.
 
 ## Impact
 
@@ -66,11 +66,11 @@ Plan-only classification keeps #87799 as the live canonical implementation path 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87799 | keep_canonical | planned | canonical | Best live canonical implementation path for the shared installer pipe-corruption root cause. |
-| #73814 | keep_related | planned | related | Same root-cause family as #87799, but the issue should stay open while the canonical PR remains unmerged. |
-| #90008 | keep_related | planned | related | Same implementation family as #87799 and useful as root-cause context; keep open until the canonical PR lands. |
-| #73830 | keep_closed | skipped | superseded | Closed historical PR superseded by the implementation fix path in #87799; no action should be applied to an already-closed PR. |
-| #73837 | keep_closed | skipped | independent | Closed linked context issue with a different installer Node.js auto-installation root cause; no cluster action. |
+| #73814 | keep_related | planned | fixed_by_candidate | Keep #73814 in the canonical family as covered by #87799, but do not close it in this plan because #87799 has not landed and the hydrated review recommends closeout only after the focused fix reaches main. |
+| #87799 | keep_canonical | planned | canonical | #87799 is still the best live canonical because it is the focused open implementation PR that covers both open issue reports in this cluster. |
+| #90008 | keep_related | planned | fixed_by_candidate | Keep #90008 associated with #87799 as the candidate fix path; closeout should wait for the PR to land and a fresh post-merge state check. |
+| #73830 | keep_closed | skipped | superseded | Closed historical PR #73830 is superseded by the code-level fix path in #87799 and requires no mutation. |
+| #73837 | keep_closed | skipped | independent | Closed linked context issue #73837 is a separate Node.js installer failure report, not a duplicate of the pipe-corruption root cause in this cluster. |
 
 ## Needs Human
 

@@ -2,12 +2,12 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-112-plan-ramp"
 mode: "plan"
-run_id: "27518748577"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27518748577"
-head_sha: "bde7630054b9beb03f7c7699a1f6d7426b906c50"
+run_id: "27516213902"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27516213902"
+head_sha: "55c1d70c5da8da84c47be43e492f5bca34739d4e"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T02:27:57.090Z"
+published_at: "2026-06-15T04:05:51.341Z"
 canonical: "#90890"
 canonical_issue: "#90890"
 canonical_pr: "#91533"
@@ -25,7 +25,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27518748577](https://github.com/openclaw/clownfish/actions/runs/27518748577)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27516213902](https://github.com/openclaw/clownfish/actions/runs/27516213902)
 
 Workflow conclusion: success
 
@@ -35,7 +35,7 @@ Canonical: #90890
 
 ## Summary
 
-Classified the hydrated avatar-per-agent cluster in read-only plan mode. #90890 remains the canonical issue, and #91533 is the strongest current fix candidate; overlapping PRs should stay related/superseded until a merge-capable run or maintainer decision lands the canonical fix.
+Plan mode used the hydrated preflight artifact as live state. #90890 remains the canonical issue and #91533 is the clearest canonical fix PR, with no merge or fix action planned because this job blocks merge/fix and merge preflight is incomplete. #90931, #90932, and #91447 are planned superseded closeouts by #91533 with credit-preserving comments. Historical linked PR #71639 is routed separately for security-shaped bot findings.
 
 ## Impact
 
@@ -66,12 +66,12 @@ Classified the hydrated avatar-per-agent cluster in read-only plan mode. #90890 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #71639 | keep_closed | skipped | fixed_by_candidate | Already closed/merged context item; no mutation is valid. |
-| #90890 | keep_canonical | planned | canonical | Best surviving canonical issue for the shared root cause. |
-| #90931 | keep_related | planned | superseded | Overlapping useful PR, but superseded for this cluster by the cleaner currently passing candidate #91533; do not close before the canonical fix lands. |
-| #90932 | keep_related | planned | superseded | Same root cause, but broad unrelated delta and failing checks make it unsafe as the canonical path. |
-| #91447 | keep_related | planned | superseded | Useful overlapping contributor PR, but the stronger current canonical fix candidate is #91533; keep related until canonical fix disposition is known. |
-| #91533 | keep_canonical | planned | canonical | Best current canonical fix candidate, but this plan-mode job cannot merge or open a fix PR. |
+| #71639 | route_security | planned | security_sensitive | Security-shaped findings on the historical linked PR belong in central OpenClaw security handling, not Clownfish backlog cleanup. |
+| #90890 | keep_canonical | planned | canonical | The representative issue is still open and remains the best canonical issue for validation and follow-up. |
+| #91533 | keep_canonical | planned | canonical | #91533 is the best surviving canonical fix candidate, but this plan only records classification. |
+| #90931 | close_superseded | planned | superseded | The PR is useful but incomplete relative to the canonical #91533 fix path. |
+| #90932 | close_superseded | planned | superseded | The PR is broader and less mergeable than the canonical #91533 path. |
+| #91447 | close_superseded | planned | superseded | The PR is a useful overlapping implementation, but #91533 is the better surviving canonical fix candidate. |
 
 ## Needs Human
 

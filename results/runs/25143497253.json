@@ -1,0 +1,60 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13030-dedupe-only-20260429d",
+  "mode": "autonomous",
+  "run_id": "25143497253",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/25143497253",
+  "head_sha": "1ec0acac1fb4111b0e6e83564a87181cc117f225",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-04-30T02:01:21Z",
+  "workflow_updated_at": "2026-04-30T02:04:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13030-dedupe-only-20260429d.md",
+  "published_at": "2026-06-15T04:05:51.336Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/68423",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/68423",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/68462",
+  "summary": "Classified #68423 as the live canonical issue and #68462 as the useful open implementation candidate, but no close, merge, or fix action is planned because this is a dedupe-only job and #68462 still has unresolved review-bot findings. Hydrated linked issue #64046 is scoped out to security routing because it is a broad sensitive-data persistence/exposure umbrella and should not control the narrow backup-pollution cluster.",
+  "actions": [
+    {
+      "target": "#64046",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the broad sensitive-data persistence/exposure umbrella to central OpenClaw security handling without blocking classification of the unrelated narrow backup-pollution items."
+    },
+    {
+      "target": "#68423",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68423",
+      "candidate_fix": "#68462",
+      "reason": "#68423 remains the best canonical issue for the narrow backup-pollution root cause."
+    },
+    {
+      "target": "#68462",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68462",
+      "candidate_fix": "#68462",
+      "reason": "#68462 is the best open implementation candidate for #68423, but it is not merge-ready and this job disallows merge/fix work."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
