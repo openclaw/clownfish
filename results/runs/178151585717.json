@@ -1,0 +1,265 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T085227-029",
+  "mode": "plan",
+  "run_id": "178151585717",
+  "run_url": null,
+  "head_sha": null,
+  "workflow_conclusion": null,
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T085227-029.md",
+  "published_at": "2026-06-15T09:36:26.958Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. The artifact hydrates 15 listed candidate PRs plus linked context; security-sensitive PRs are routed read-only, already-closed PRs are kept closed, and unique open non-security PRs are kept independent because this shard has no shared canonical. Ten listed candidates were unavailable due GitHub rate limiting in the preflight artifact, so those exact refs need refreshed hydration before classification.",
+  "actions": [
+    {
+      "target": "#66502",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state; no ProjectClownfish mutation is valid."
+    },
+    {
+      "target": "#51623",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique non-security PR with unresolved proof/review blockers; not a duplicate, not merge-ready, and no close action is justified."
+    },
+    {
+      "target": "#68986",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique draft PR with active review blockers; no canonical replacement is hydrated and no close/merge path is safe in this shard."
+    },
+    {
+      "target": "#69270",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state."
+    },
+    {
+      "target": "#68257",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique non-security gateway/auth-provider bugfix candidate; failing proof/checks block merge but do not justify closure."
+    },
+    {
+      "target": "#67727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique staged config/API change with product-intent follow-up; keep independent rather than closing or inventing a canonical."
+    },
+    {
+      "target": "#68537",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique draft PR with failed proof; non-mutating independent classification is the conservative plan."
+    },
+    {
+      "target": "#70156",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary/exec-surface guard work is out of ProjectClownfish backlog cleanup scope and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#67795",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state."
+    },
+    {
+      "target": "#66838",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in hydrated live state."
+    },
+    {
+      "target": "#67761",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique useful PR with failing proof/checks; not a duplicate and not safe to close or merge."
+    },
+    {
+      "target": "#68240",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Daemon environment injection touches a security boundary and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#69319",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Gateway skill uninstall control-plane behavior touches trust/security boundaries and is out of ProjectClownfish cleanup scope."
+    },
+    {
+      "target": "#66720",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unique provider-compatibility PR with unresolved activation/proof blockers; keep independent and do not close."
+    },
+    {
+      "target": "#68455",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#66071",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69297",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69346",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69806",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69059",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#68503",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69022",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#91087",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#69740",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    },
+    {
+      "target": "#68785",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs refreshed hydration before classification."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_independent": 7,
+    "route_security": 3,
+    "needs_human": 11
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 10,
+    "blocked": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Refresh hydration for unavailable listed candidates before classification: #68455, #66071, #69297, #69346, #69806, #69059, #68503, #69022, #91087, #69740, #68785.",
+    "Security-sensitive PRs #68240, #69319, and #70156 should be handled by central OpenClaw security review, not ProjectClownfish cleanup automation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

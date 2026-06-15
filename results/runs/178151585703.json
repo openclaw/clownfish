@@ -1,0 +1,260 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T085227-015",
+  "mode": "plan",
+  "run_id": "178151585703",
+  "run_url": null,
+  "head_sha": null,
+  "workflow_conclusion": null,
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T085227-015.md",
+  "published_at": "2026-06-15T09:36:24.397Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No shared canonical was selected. Security-sensitive hydrated PRs are routed to central OpenClaw security handling. Closed PR #78230 is kept closed. All other hydrated non-security PRs are kept independent because this shard is not a dedupe cluster and merge/fix/low-signal closeout is either blocked by job policy, missing merge preflight, failing proof/checks, draft state, or pending maintainer/author follow-up. Unhydrated candidates are non-mutating keep-independent classifications with null target_updated_at because the compact preflight artifact did not provide live state for them.",
+  "actions": [
+    {
+      "target": "#78951",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated PR is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#78819",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated PR is routed without close, merge, label, or fix action."
+    },
+    {
+      "target": "#78230",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state."
+    },
+    {
+      "target": "#78507",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but draft and proof-blocked PR; no duplicate/superseded closeout is justified."
+    },
+    {
+      "target": "#78199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open contributor PR with useful code but unresolved review/check state; keep independent in this inventory shard."
+    },
+    {
+      "target": "#77763",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary PR must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#79181",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful PR tied to an open issue; keep independent for maintainer review rather than close."
+    },
+    {
+      "target": "#78668",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive Discord action surface is read-only for Clownfish."
+    },
+    {
+      "target": "#88872",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-mutating classification only; live preflight state is missing."
+    },
+    {
+      "target": "#79044",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Proof/check-blocked PR should remain open for author or maintainer follow-up."
+    },
+    {
+      "target": "#78916",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Looks like a viable independent PR, not a duplicate/low-signal closeout candidate."
+    },
+    {
+      "target": "#79405",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful independent PR; keep open for normal review."
+    },
+    {
+      "target": "#78034",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Contributor PR has useful code and active context, but proof/checks block any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#79172",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive PR and continue unrelated classification."
+    },
+    {
+      "target": "#78544",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive gateway hot-reload behavior is out of scope for Clownfish mutation."
+    },
+    {
+      "target": "#78556",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Proof/check-blocked independent PR; not duplicate or low-signal under this job."
+    },
+    {
+      "target": "#78730",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent bugfix PR awaiting proof."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Viable independent feature PR, not a dedupe/closure target."
+    },
+    {
+      "target": "#79041",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent hardening/bugfix PR with failing check; no closure or merge action is justified."
+    },
+    {
+      "target": "#81079",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-mutating classification only because live preflight state is missing."
+    },
+    {
+      "target": "#89014",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent in plan mode; missing live artifact blocks stronger classification."
+    },
+    {
+      "target": "#89056",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-mutating independent classification; live state unavailable."
+    },
+    {
+      "target": "#89061",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent and avoid mutating recommendations without live state."
+    },
+    {
+      "target": "#89071",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-mutating independent classification; live artifact missing."
+    },
+    {
+      "target": "#89079",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent in plan mode; live state unavailable."
+    }
+  ],
+  "action_counts": {
+    "route_security": 6,
+    "keep_closed": 1,
+    "keep_independent": 18
+  },
+  "action_status_counts": {
+    "planned": 24,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

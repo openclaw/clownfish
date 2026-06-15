@@ -1,0 +1,285 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260615T085227-033",
+  "mode": "plan",
+  "run_id": "178151585721",
+  "run_url": null,
+  "head_sha": null,
+  "workflow_conclusion": null,
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260615T085227-033.md",
+  "published_at": "2026-06-15T09:36:27.737Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory shard. Classified hydrated refs only: #49914 routes to security, #89992 stays independent for maintainer review, and #91309 stays related because its claimed canonical #90423 was not hydrated. The remaining listed PRs had unavailable live state in the preflight artifact due GitHub API rate limiting, so no closure, merge, or label action is safe for them.",
+  "actions": [
+    {
+      "target": "#49914",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for Clownfish backlog cleanup and must be routed to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#89992",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR with enough inventory evidence to keep for maintainer review; no dedupe or closure path is established in this shard."
+    },
+    {
+      "target": "#91309",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely related/superseded by unhydrated #90423, but closure is blocked because the canonical path was not hydrated and checks are not clean."
+    },
+    {
+      "target": "#91346",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; target_kind and target_updated_at cannot be safely copied for any mutating or close-style action."
+    },
+    {
+      "target": "#91446",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no safe classification beyond a targeted human/refetch requirement."
+    },
+    {
+      "target": "#91193",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no close, label, or confident inventory classification is auditable."
+    },
+    {
+      "target": "#91447",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no safe mutating or closure recommendation can be emitted."
+    },
+    {
+      "target": "#84017",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; the PR also appears gateway/security-boundary-adjacent in the job inventory, so refetch is required before classification."
+    },
+    {
+      "target": "#85916",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; the job inventory marks security-boundary risk, so a hydrated refetch is required."
+    },
+    {
+      "target": "#89255",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; the job inventory describes secret-provider/security-boundary surfaces, so human/security-aware refetch is required."
+    },
+    {
+      "target": "#53920",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no auditable closure or classification decision can be made."
+    },
+    {
+      "target": "#89211",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; session-state changes need hydrated diff/check/review evidence before classification."
+    },
+    {
+      "target": "#72557",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no safe closure or maintainer-ready classification can be planned."
+    },
+    {
+      "target": "#91466",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; gateway availability changes need current checks and comments before classification."
+    },
+    {
+      "target": "#91477",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; product-decision dependency in the job body also needs current maintainer context."
+    },
+    {
+      "target": "#91479",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no safe inventory classification can be emitted."
+    },
+    {
+      "target": "#91274",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; memory/session-state refactor needs current diff/check/review evidence before classification."
+    },
+    {
+      "target": "#89183",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; no closure or merge-adjacent classification is auditable."
+    },
+    {
+      "target": "#91474",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; job body says it is stacked on another PR, so current branch/canonical state must be hydrated."
+    },
+    {
+      "target": "#90586",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; Telegram runtime/session-state changes require current author/check context."
+    },
+    {
+      "target": "#91476",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; provider/compatibility feature needs hydrated checks and comments before classification."
+    },
+    {
+      "target": "#54862",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; provider allowedModels support needs current proof/check/review state before classification."
+    },
+    {
+      "target": "#55886",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; Telegram delivery/availability changes require hydrated live state before classification."
+    },
+    {
+      "target": "#55770",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; web-ui/gateway/session-state changes need current diff/check/review data."
+    },
+    {
+      "target": "#56152",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Live PR state is unavailable; local media root validation touches security-boundary-labeled behavior in the job body, so hydrated review is required."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 1,
+    "keep_related": 1,
+    "needs_human": 22
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 22
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Refetch live GitHub state for #91346; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91446; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91193; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91447; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #84017; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #85916; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #89255; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #53920; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #89211; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #72557; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91466; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91477; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91479; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91274; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #89183; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91474; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #90586; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #91476; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #54862; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #55886; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #55770; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Refetch live GitHub state for #56152; preflight artifact has kind unknown, state unavailable, updated_at null due API rate limit.",
+    "Hydrate #90423 before any superseded/duplicate closeout for #91309, because #90423 is referenced by the ClawSweeper comment but unavailable in this artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
