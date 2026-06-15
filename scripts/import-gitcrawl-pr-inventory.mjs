@@ -10,6 +10,9 @@ const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "gitcrawl", "gitcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
 const existingDir = path.resolve(String(args["existing-dir"] ?? outDir));
+const existingResultsDir = path.resolve(
+  String(args["existing-results-dir"] ?? args.existing_results_dir ?? path.join(repoRoot(), "results", repo.split("/")[0])),
+);
 const mode = String(args.mode ?? "plan");
 const limit = limitArg("limit", 500);
 const batchSize = numberArg("batch-size", 10);
@@ -30,8 +33,9 @@ if (!["stale", "recent", "bucket"].includes(sort)) {
 }
 
 const existingRefs = skipExisting ? existingJobRefs(existingDir) : new Set();
+const existingResultRefs = skipExisting ? existingPublishedResultRefs(existingResultsDir, repo) : new Set();
 const candidates = selectCandidates()
-  .filter((candidate) => !skipExisting || !existingRefs.has(candidate.ref))
+  .filter((candidate) => !skipExisting || (!existingRefs.has(candidate.ref) && !existingResultRefs.has(candidate.ref)))
   .filter((candidate) => includeSecurity || candidate.bucket !== "security_route_candidate")
   .filter((candidate) => bucketFilter === "all" || candidate.bucket === bucketFilter)
   .sort(compareCandidates);
@@ -58,12 +62,14 @@ if (jsonOutput) {
       sort,
       bucket: bucketFilter,
       skip_existing: skipExisting,
+      existing_results_dir: path.relative(repoRoot(), existingResultsDir),
       include_security_candidates: includeSecurity,
     },
     totals: {
       generated: generated.length,
       candidates: limitedCandidates.length,
       existing_refs: existingRefs.size,
+      existing_result_refs: existingResultRefs.size,
     },
   }), null, 2));
 } else {
@@ -224,6 +230,41 @@ function existingJobRefs(root) {
     }
   }
   return refs;
+}
+
+function existingPublishedResultRefs(root, targetRepo) {
+  if (!fs.existsSync(root)) return new Set();
+  const refs = new Set();
+  for (const entry of fs.readdirSync(root, { recursive: true })) {
+    const file = path.join(root, String(entry));
+    if (!file.endsWith(".md") || !fs.statSync(file).isFile()) continue;
+    const raw = fs.readFileSync(file, "utf8");
+    const frontmatter = raw.match(/^---\n([\s\S]*?)\n---\n?/);
+    if (!frontmatter) continue;
+    const parsed = parsePublishedResultFrontmatter(frontmatter[1]);
+    if (String(parsed.repo ?? "") !== targetRepo) continue;
+    for (const ref of workerActionRefs(raw)) refs.add(ref);
+  }
+  return refs;
+}
+
+function parsePublishedResultFrontmatter(text) {
+  const out = {};
+  for (const line of text.split(/\r?\n/)) {
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!match) continue;
+    out[match[1]] = String(match[2] ?? "").trim().replace(/^"(.*)"$/, "$1");
+  }
+  return out;
+}
+
+function workerActionRefs(markdown) {
+  const heading = markdown.match(/^## Worker Action Matrix[^\n]*\n/m);
+  if (!heading) return [];
+  const rest = markdown.slice((heading.index ?? 0) + heading[0].length);
+  const nextHeading = rest.search(/\n## /);
+  const section = nextHeading >= 0 ? rest.slice(0, nextHeading) : rest;
+  return [...section.matchAll(/^\|\s*(#\d+)\s*\|/gm)].map((match) => match[1]);
 }
 
 function normalizeRefs(values) {

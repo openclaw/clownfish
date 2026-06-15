@@ -22,6 +22,8 @@ test("PR inventory import supports limit all and emits jq-safe JSON", { skip: ha
       fixture.out,
       "--existing-dir",
       fixture.existing,
+      "--existing-results-dir",
+      fixture.results,
       "--dry-run",
       "--json",
       "--limit",
@@ -60,6 +62,8 @@ test("PR inventory import defaults existing refs to the active out dir", { skip:
       fixture.db,
       "--out",
       fixture.out,
+      "--existing-results-dir",
+      fixture.results,
       "--dry-run",
       "--json",
       "--limit",
@@ -92,6 +96,8 @@ test("PR inventory existing refs ignore incidental markdown mentions", { skip: h
       fixture.db,
       "--out",
       fixture.out,
+      "--existing-results-dir",
+      fixture.results,
       "--dry-run",
       "--json",
       "--limit",
@@ -111,14 +117,50 @@ test("PR inventory existing refs ignore incidental markdown mentions", { skip: h
   );
 });
 
+test("PR inventory skips refs already published in result reports", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedGitcrawlDb(fixture.db);
+  writePublishedResult(path.join(fixture.results, "processed.md"), ["#101"]);
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/import-gitcrawl-pr-inventory.mjs",
+      "--db",
+      fixture.db,
+      "--out",
+      fixture.out,
+      "--existing-results-dir",
+      fixture.results,
+      "--dry-run",
+      "--json",
+      "--limit",
+      "all",
+      "--batch-size",
+      "1",
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.totals.existing_result_refs, 1);
+  assert.deepEqual(
+    payload.candidates.map((candidate) => candidate.ref),
+    ["#102"],
+  );
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-pr-inventory-"));
   const db = path.join(root, "gitcrawl.db");
   const out = path.join(root, "out");
   const existing = path.join(root, "existing");
+  const results = path.join(root, "results");
   fs.mkdirSync(out, { recursive: true });
   fs.mkdirSync(existing, { recursive: true });
-  return { root, db, out, existing };
+  fs.mkdirSync(results, { recursive: true });
+  return { root, db, out, existing, results };
 }
 
 function writeExistingJob(filePath, ref, extraText = "") {
@@ -145,6 +187,31 @@ security_sensitive: false
 # Existing
 
 ${extraText}
+`,
+  );
+}
+
+function writePublishedResult(filePath, refs) {
+  fs.writeFileSync(
+    filePath,
+    `---
+repo: "openclaw/openclaw"
+cluster_id: "published"
+mode: "plan"
+run_id: "123"
+workflow_conclusion: "success"
+result_status: "complete"
+---
+
+# published
+
+mentions #102 outside the worker table
+
+## Worker Action Matrix
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+${refs.map((ref) => `| ${ref} | keep_independent | planned | independent | already processed |`).join("\n")}
 `,
   );
 }
