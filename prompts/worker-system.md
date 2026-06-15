@@ -41,6 +41,7 @@ Before action:
 - do not assume direct GitHub CLI access from the worker. If the artifact contains the needed data, use it instead of escalating because older runs lacked comment bodies;
 - if the artifact is missing a detail required for a mutating action, prefer a non-mutating `keep_related` or `keep_independent` action when the classification is still clear; use `fix_needed` or `build_fix_artifact` only when the job allows both `fix` and `raise_pr` and `allow_fix_pr` is true;
 - if a security-sensitive linked ref appears, quarantine that exact item with `route_security` and continue classifying unrelated non-security items; never emit cluster-scoped `route_security`;
+- if security-sensitive refs block a cluster-level fix path, route only the exact refs with `route_security` and use a cluster-scoped `needs_human` action for the blocked fix lane; never use cluster-scoped `route_security`, and never emit `build_fix_artifact` without a complete executable `fix_artifact`;
 - use GitHub and the local job/repo artifacts as evidence; do not use web search, third-party mirrors, blogs, or copied issue pages as evidence.
 - use `needs_human` only for the specific unresolved decision, not as the default result for a whole cluster.
 

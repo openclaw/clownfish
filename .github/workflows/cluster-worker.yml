@@ -459,7 +459,9 @@ jobs:
             if [ -z "$token" ]; then
               continue
             fi
-            if GH_TOKEN="$token" gh api "repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw" --jq .full_name >/dev/null 2>/tmp/clownfish-gh-token-check.err; then
+            if full_name="$(GH_TOKEN="$token" gh api "repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw" \
+              --jq 'select((.permissions.push // false) or (.permissions.maintain // false) or (.permissions.admin // false)) | .full_name' \
+              2>/tmp/clownfish-gh-token-check.err)" && [ -n "$full_name" ]; then
               echo "GH_TOKEN=$token" >> "$GITHUB_ENV"
               echo "selected $candidate for GitHub write/apply access"
               exit 0

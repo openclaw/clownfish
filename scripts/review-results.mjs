@@ -160,7 +160,7 @@ function reviewResult(resultPath) {
     if (item?.security_sensitive && MUTATING_ACTIONS.has(name)) {
       failures.push(`${target} mutating action targets security-sensitive item`);
     }
-    if (isSecuritySensitiveActionContext(action, item) && name !== "route_security") {
+    if (!clusterScopedAction && isSecuritySensitiveActionContext(action, item) && name !== "route_security") {
       failures.push(`${target} security-sensitive target must use route_security`);
     }
     if (ROUTE_SECURITY_ACTIONS.has(name)) {
@@ -174,7 +174,11 @@ function reviewResult(resultPath) {
         warnings.push(`${target} route_security target was not marked security_sensitive in preflight`);
       }
     }
-    if (name === "needs_human" && /security-sensitive|security boundary|central .*security|security triage/i.test(String(action.reason ?? ""))) {
+    if (
+      !clusterScopedAction &&
+      name === "needs_human" &&
+      /security-sensitive|security boundary|central .*security|security triage/i.test(String(action.reason ?? ""))
+    ) {
       failures.push(`${target} security routing must use route_security instead of needs_human`);
     }
 
