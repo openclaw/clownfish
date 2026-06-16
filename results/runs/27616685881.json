@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-166",
+  "mode": "autonomous",
+  "run_id": "27616685881",
+  "workflow_run_id": "27616685881",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27616685881",
+  "head_sha": "729b5aca4e6de5cc433a368e47032da5d6c67fd7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:13:34Z",
+  "workflow_updated_at": "2026-06-16T12:16:04Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-166.md",
+  "published_at": "2026-06-16T12:20:45.461Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the hydrated live PR inventory shard without GitHub mutations. No shared canonical was selected because the job is an independent PR inventory shard. Close, merge, fix, and fix-PR paths are not allowed by the provided fix artifact, so useful or reviewable PRs remain open; exact maintainer-review blockers are isolated with needs_human.",
+  "actions": [
+    {
+      "target": "#91739",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91739",
+      "candidate_fix": null,
+      "reason": "Keep the live canonical issue open while linked candidate PRs remain unmerged and at least one candidate has proof/maintainer-review blockers."
+    },
+    {
+      "target": "#92523",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "Keep the live canonical issue open; no close or post-merge action is available."
+    },
+    {
+      "target": "#92633",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92633",
+      "candidate_fix": "#92833",
+      "reason": "Keep the canonical issue open; #92833 is a hydrated candidate path but cannot be merged or used for closeout in this job."
+    },
+    {
+      "target": "#92526",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#91739",
+      "candidate_fix": "#92892",
+      "reason": "Classified as superseded by the hydrated #92892 path, but no close action is planned because close is disabled and #92892 still has a proof blocker."
+    },
+    {
+      "target": "#92576",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears superseded by the maintainer not-planned decision on the linked coverage request, but this inventory job cannot close it."
+    },
+    {
+      "target": "#92647",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92633",
+      "candidate_fix": "#92833",
+      "reason": "Keep as related follow-up work rather than closing; #92833 appears to own the primary #92633 fix path, while #92647 still has review changes outstanding."
+    },
+    {
+      "target": "#92648",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#92523",
+      "candidate_fix": null,
+      "reason": "A maintainer should reconcile the proof status and review the technical correctness of expiring waiting TaskFlows before any merge path."
+    },
+    {
+      "target": "#92649",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer product and technical review; no merge, fix, or close action is allowed in this job."
+    },
+    {
+      "target": "#92833",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#92633",
+      "candidate_fix": null,
+      "reason": "Treat #92833 as the likely canonical PR for #92633, but maintainer review and normal merge gates remain required outside this close-only inventory job."
+    },
+    {
+      "target": "#92892",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#91739",
+      "candidate_fix": null,
+      "reason": "Needs maintainer/proof follow-up before it can be treated as a clean candidate fix for #91739 or used to supersede #92526."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_related": 3,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92648: reconcile proof status and review the focused TaskFlow expiry fix for correctness before any merge path.",
+    "#92649: maintainer review is required for the Kimi quota feature/auth-provider surface with active author follow-up.",
+    "#92833: likely canonical PR for #92633, but maintainer review and merge preflight are required outside this job.",
+    "#92892: proof failure and active re-review follow-up block using it as the clean #91739 canonical fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-154",
+  "mode": "autonomous",
+  "run_id": "27616377632",
+  "workflow_run_id": "27616377632",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27616377632",
+  "head_sha": "b74bbb750170d7b221b24201a3d6f65ef83fecfe",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:08:00Z",
+  "workflow_updated_at": "2026-06-16T12:15:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-154.md",
+  "published_at": "2026-06-16T12:20:45.445Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently from the hydrated preflight artifact. No security-sensitive refs were detected. Close, merge, fix, and raise-PR paths are not appropriate for this shard: low-signal closeout and fix PRs are disabled, merge is blocked by job policy, and the open PRs either need maintainer review, active author follow-up, or technical correctness judgment.",
+  "actions": [
+    {
+      "target": "#89628",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused performance/CLI behavior change with sufficient proof, but merge and technical correctness require maintainer judgment under this job."
+    },
+    {
+      "target": "#89647",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR with focused plugin startup guard work; not eligible for automated close or merge."
+    },
+    {
+      "target": "#89671",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix with active author follow-up and failing checks; keep open for author/maintainer resolution."
+    },
+    {
+      "target": "#89673",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely useful canonical fix for linked issue #87483, but maintainer review and technical correctness judgment are explicitly required."
+    },
+    {
+      "target": "#89783",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature PR with dirty merge state, review findings, and active author follow-up; not eligible for automated close, fix, or merge in this shard."
+    },
+    {
+      "target": "#87483",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89673",
+      "reason": "Related open issue should remain open while #89673 awaits maintainer review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89628: maintainer/technical correctness review before any merge consideration.",
+    "#89647: maintainer-owned draft PR; leave to maintainer workflow.",
+    "#89671: active author follow-up plus failing checks and review-requested changes.",
+    "#89673: maintainer/technical correctness review for session-state behavior before linked issue closeout.",
+    "#89783: broad dirty feature PR with review findings and active author follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
