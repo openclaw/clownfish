@@ -1,6 +1,8 @@
 name: publish cluster results
 
 on:
+  schedule:
+    - cron: "*/10 * * * *"
   workflow_dispatch:
     inputs:
       run_id:
