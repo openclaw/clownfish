@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T082043-031",
+  "mode": "autonomous",
+  "run_id": "27604422140",
+  "workflow_run_id": "27604422140",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27604422140",
+  "head_sha": "01b78ac05f6d0bea84948f37f66e4a283aaef400",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T08:24:30Z",
+  "workflow_updated_at": "2026-06-16T08:27:20Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T082043-031.md",
+  "published_at": "2026-06-16T08:29:03.507Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard using the hydrated preflight artifact generated at 2026-06-16T08:25:27Z against main 1a002c2d9db792f8bb300dc5ec1199a7d9f3b806. No security-sensitive items were detected. Close, merge, fix, and low-signal cleanup paths are not available for this job, so useful or proof-blocked PRs are kept open and ready/overlapping PRs are routed to maintainer judgment.",
+  "actions": [
+    {
+      "target": "#90151",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs correctness and the remaining waiting-on-author/needs-changes state require maintainer or author follow-up; no close, merge, or fix action is allowed in this job."
+    },
+    {
+      "target": "#90184",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The implementation is plausible and proof-backed, but it overlaps with #88479 and needs maintainer technical/product review; merge and close actions are blocked by job policy."
+    },
+    {
+      "target": "#90206",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused auth-provider behavior fix with green checks, which the job marks as requiring maintainer technical correctness judgment; merge/fix actions are unavailable."
+    },
+    {
+      "target": "#91660",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a focused memory/session-state correctness change and requires maintainer review of the provider.model identity behavior; merge/fix are not allowed."
+    },
+    {
+      "target": "#91663",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused availability/data-loss-adjacent bug fix with proof and green checks, requiring maintainer technical review; merge/fix are unavailable."
+    },
+    {
+      "target": "#91668",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent proof/check-blocked PR; it is not low-signal or safely closable, and this job cannot repair or merge it."
+    },
+    {
+      "target": "#91680",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a proof-blocked independent PR against #88033; failed proof blocks fixed-by-candidate/closeout, and this job cannot repair or merge it."
+    },
+    {
+      "target": "#91698",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a proof-blocked independent PR; it is not low-signal or safely closable, and no fix/merge path is available in this job."
+    },
+    {
+      "target": "#62063",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The broad i18n/automation surface plus waiting-on-author state requires maintainer judgment before any finalization; close/merge/fix actions are disabled."
+    },
+    {
+      "target": "#91797",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused P1 session-state bug fix with green checks and waiting-on-author status, so maintainer/author follow-up is required; merge/fix actions are unavailable."
+    },
+    {
+      "target": "#88479",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A maintainer needs to choose or reconcile the overlapping inline rename implementation with #90184; this job must not close or merge either PR."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 8,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "blocked": 8,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90184 and #88479 both implement inline session rename from the picker; maintainer judgment is needed to choose or reconcile the canonical implementation.",
+    "#90151 has proof and docs checks but remains in a needs-changes/waiting-on-author state after ClawSweeper review.",
+    "#62063 is a broad Swedish locale/automation PR with proof but waiting-on-author status and prior review feedback.",
+    "#90206, #91660, #91663, and #91797 are focused proof-backed bug fixes with green relevant checks; the job policy requires maintainer technical review and does not allow merge or fix actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
