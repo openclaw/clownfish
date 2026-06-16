@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-103-dedupe-cleanup-wave",
+  "mode": "autonomous",
+  "run_id": "27608148058",
+  "workflow_run_id": "27608148058",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27608148058",
+  "head_sha": "d39befcd6309943509cd00e8e3cd0ee7c314e6be",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:31:54Z",
+  "workflow_updated_at": "2026-06-16T09:33:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-103-dedupe-cleanup-wave.md",
+  "published_at": "2026-06-16T09:34:59.779Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/86174",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/86174",
+  "canonical_pr": null,
+  "summary": "Classified the hydrated open candidates without GitHub mutation. #86174 remains the best live canonical issue for the WebChat new-session inherited model mismatch. #77440/#77690 are a separate related WebChat default-label lane, #51251 is a broader persistent session override/product-policy lane, and #83565 is a related but distinct public API feature request. No close actions are high-confidence because the open items retain distinct scope or have an unmerged draft PR with failing proof checks.",
+  "actions": [
+    {
+      "target": "#86174",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#86174",
+      "candidate_fix": null,
+      "reason": "Keep as canonical because it is the clearest surviving issue for the new-session inherited model mismatch, but implementation still depends on maintainer session model contract choice."
+    },
+    {
+      "target": "#51251",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86174",
+      "candidate_fix": null,
+      "reason": "Related, not duplicate: it has broader restart and explicit pin semantics that should stay open for maintainer product review."
+    },
+    {
+      "target": "#77440",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86174",
+      "candidate_fix": "#77690",
+      "reason": "Related subfamily, not duplicate of #86174: the root is agent-specific default label resolution rather than parent-session override inheritance. Do not close because #77690 is open draft and not merged."
+    },
+    {
+      "target": "#77690",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86174",
+      "candidate_fix": null,
+      "reason": "Keep open as the related direct implementation candidate for #77440, but it is not merge-ready and cannot be repaired in this no-fix job."
+    },
+    {
+      "target": "#83565",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86174",
+      "candidate_fix": null,
+      "reason": "Related, not duplicate: this is an API/product feature request and should remain open for maintainer contract selection."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86174: maintainer needs to choose the permanent WebChat child-session model contract before implementation: explicit default/no-inherit state versus a scoped inheritance exception.",
+    "#51251: maintainer product decision remains on how explicit or legacy session pins should interact with config changes, /new, reset, and clear/inherit behavior.",
+    "#83565: maintainer API decision remains on whether one-shot model override belongs in sessions.patch, chat-send, or another Gateway contract."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
