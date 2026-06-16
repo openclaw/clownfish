@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156846-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598130569",
+  "workflow_run_id": "27598130569",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598130569",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:14:59Z",
+  "workflow_updated_at": "2026-06-16T06:32:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156846-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:34:19.654Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/50611",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/50611",
+  "canonical_pr": null,
+  "summary": "The hydrated artifact shows the representative PR #50694 and candidate PRs #51316/#65263 are already closed. Linked issue #50611 is still open and current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 still computes the memory-flush threshold from the raw reserveTokensFloor, so this cluster should move through a credited replacement fix PR rather than a merge or closeout.",
+  "actions": [
+    {
+      "target": "#50611",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "#50611 is the surviving open canonical issue for the memory-flush reserve floor bug."
+    },
+    {
+      "target": "#50694",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "Closed PR #50694 is historical source-credit evidence for the replacement fix path, not a live mutation target."
+    },
+    {
+      "target": "#51316",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "Closed PR #51316 is superseded by the canonical issue and replacement fix path."
+    },
+    {
+      "target": "#65263",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "Closed PR #65263 is related historical context for reserve clamping, but not the live canonical fix for #50611."
+    },
+    {
+      "target": "cluster:ghcrawl-156846-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "A replacement fix is needed because the canonical issue is still open and current main still contains the memory-flush threshold bug."
+    },
+    {
+      "target": "cluster:ghcrawl-156846-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#50611",
+      "candidate_fix": null,
+      "reason": "Build an executable, narrow fix artifact for the open canonical issue."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156846-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "base branch advanced after validation and clownfish/ghcrawl-156846-autonomous-smoke needs a fresh rebase pass: Rebasing (1/2) error: could not apply a5fbf3fc... fix(compaction): clamp memory flush reserve floor to remaining headroom hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply a5fbf3fc... # fix(compaction): clamp memory flush reserve floor to remaining headroom",
+      "commit": "fab062f1351982a67e9d827199cc24ad056b61df",
+      "checkpoint_commits": [
+        "a5fbf3fcac883ef9b08564d37d88095dcd3b9474",
+        "fab062f1351982a67e9d827199cc24ad056b61df"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
