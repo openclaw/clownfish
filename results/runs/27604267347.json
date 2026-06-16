@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T082043-001",
+  "mode": "autonomous",
+  "run_id": "27604267347",
+  "workflow_run_id": "27604267347",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27604267347",
+  "head_sha": "01b78ac05f6d0bea84948f37f66e4a283aaef400",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T08:21:44Z",
+  "workflow_updated_at": "2026-06-16T08:24:08Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T082043-001.md",
+  "published_at": "2026-06-16T08:25:22.597Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently, with no shared canonical. No close, merge, fix, or low-signal close actions are allowed by this job; focused or green PRs require maintainer judgment. Routed the exact linked security-sensitive PR to central security handling and kept unrelated PRs non-mutating.",
+  "actions": [
+    {
+      "target": "#85335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked PR must be routed to central OpenClaw security triage; no ProjectClownfish mutation is allowed for this item."
+    },
+    {
+      "target": "#86913",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused gateway/admin RPC behavior change with green evidence needs maintainer correctness review; this job cannot merge or fix."
+    },
+    {
+      "target": "#88908",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Availability-affecting gateway shutdown behavior is a focused technical fix that needs maintainer judgment before any action."
+    },
+    {
+      "target": "#87343",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cron/progress feature has author-waiting state and cross-PR overlap; it is not safe to close or advance without maintainer review."
+    },
+    {
+      "target": "#89154",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "XL session-state hook feature with related hook PRs requires maintainer product and correctness judgment; merge/fix is not allowed in this job."
+    },
+    {
+      "target": "#90970",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely low-signal docs/i18n change, but low-signal close is not enabled; keep open as an independent inventory item."
+    },
+    {
+      "target": "#86279",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused media/session-state bug fix with linked issue and maintainer review gate requires maintainer technical judgment."
+    },
+    {
+      "target": "#87800",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider/provider-onboarding behavior is user-facing and technically sensitive; the job blocks fix/merge and requires maintainer correctness judgment."
+    },
+    {
+      "target": "#87861",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small focused accounting fix appears reviewable but needs maintainer technical approval; no merge/fix action is permitted."
+    },
+    {
+      "target": "#87872",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused Codex usage accounting change is still waiting on author and needs maintainer correctness judgment before any closure or advancement."
+    },
+    {
+      "target": "#88886",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs-only low-signal candidate should remain open as an independent inventory item because close_low_signal is not allowed in this job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 8,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86913 needs maintainer review for a focused green gateway/admin RPC bug fix.",
+    "#88908 needs maintainer review for availability-affecting gateway shutdown behavior.",
+    "#87343 needs maintainer review because it is broad cron work, waiting on author, and has cross-PR overlap.",
+    "#89154 needs maintainer review for an XL ACP hook/session-state feature with related hook PRs.",
+    "#86279 needs maintainer review for a linked focused media/session-state bug fix.",
+    "#87800 needs maintainer review for Google Vertex auth-provider/onboarding behavior.",
+    "#87861 needs maintainer review for a focused model usage accounting fix.",
+    "#87872 needs maintainer review because it is a focused Codex usage accounting PR currently waiting on author."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
