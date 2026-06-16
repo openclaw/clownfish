@@ -1,0 +1,67 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-166-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609382098",
+  "workflow_run_id": "27609382098",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609382098",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:39Z",
+  "workflow_updated_at": "2026-06-16T09:58:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-166-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.102Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/74378",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/74378",
+  "canonical_pr": null,
+  "summary": "Validator repair quarantines exact issue #74378 with route_security. Open issue #85268 remains related Windows process-lifecycle work but is not a true duplicate because it reports exec-tool child processes hanging with no output and needs native Windows reproduction before cleanup. Closed issue #92389 is historical duplicate evidence only.",
+  "actions": [
+    {
+      "target": "#74378",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validation requires #74378 to be routed through central OpenClaw security handling before any ordinary dedupe cleanup treats it as canonical."
+    },
+    {
+      "target": "#85268",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#74378",
+      "candidate_fix": null,
+      "reason": "This is related Windows process-lifecycle behavior, but the user-visible failure and likely implementation path differ from #74378, so duplicate closeout would be unsafe."
+    },
+    {
+      "target": "#92389",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#74378",
+      "candidate_fix": null,
+      "reason": "Already closed; included only to record that it remains historical duplicate evidence for #74378."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#74378 must complete central OpenClaw security handling before ordinary ProjectClownfish cleanup can rely on it as the canonical issue for mutating dedupe actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

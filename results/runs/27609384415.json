@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-383-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384415",
+  "workflow_run_id": "27609384415",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384415",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:42Z",
+  "workflow_updated_at": "2026-06-16T09:57:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-383-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.124Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Deterministic validation classifies #41744 and linked PR #50359 as security-sensitive, so both exact refs are quarantined with route_security actions for central OpenClaw security handling. No close, merge, fix, or cluster-scoped security action is emitted. Closed historical refs remain non-mutating evidence only.",
+  "actions": [
+    {
+      "target": "#41744",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine #41744 to central OpenClaw security triage. ProjectClownfish should not close, label, comment on, or fix this security-sensitive item."
+    },
+    {
+      "target": "#50359",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine #50359 to central OpenClaw security triage. ProjectClownfish should not close, label, comment on, merge, or repair this security-sensitive PR."
+    },
+    {
+      "target": "#41782",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR evidence only; it should not be mutated by this worker."
+    },
+    {
+      "target": "#46268",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR evidence only; it should not be mutated by this worker."
+    },
+    {
+      "target": "#48979",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical duplicate evidence only; it should not be mutated by this worker."
+    },
+    {
+      "target": "#78470",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed adjacent context only; it is not a true duplicate target for this cluster's read-tool media promotion issue."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage is required for #41744 and #50359 before ProjectClownfish can classify, close, merge, or repair those refs."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

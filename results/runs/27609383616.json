@@ -1,0 +1,55 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-289-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609383616",
+  "workflow_run_id": "27609383616",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609383616",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:41Z",
+  "workflow_updated_at": "2026-06-16T09:56:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-289-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.114Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Repaired the result by quarantining #77888 through central security handling, as deterministic validation classifies that hydrated issue as security-sensitive. No GitHub mutation is planned. Linked PR #77895 remains non-mutating related context only because it is not merge-ready, has unresolved Codex review findings, unknown mergeability, failing checks, and the job blocks merge, fix, raise_pr, force_push, and bypass_checks.",
+  "actions": [
+    {
+      "target": "#77888",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact issue ref to central OpenClaw security handling; no ProjectClownfish mutation is safe for this target."
+    },
+    {
+      "target": "#77895",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related context only; it is not a safe fixed-by-candidate or merge path in this job, and no executable fix path is allowed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

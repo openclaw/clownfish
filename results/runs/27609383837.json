@@ -1,0 +1,65 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-223-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609383837",
+  "workflow_run_id": "27609383837",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609383837",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:41Z",
+  "workflow_updated_at": "2026-06-16T09:56:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-223-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.115Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/91893",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/91893",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/91907",
+  "summary": "Current main at 55c047e77e70a7d414d6fe8cad55ecf978ebbcf2 still stages live external auth directories through unfiltered recursive fs.cpSync, so #91893 remains the live canonical issue. #91907 is the strongest hydrated open fix path, but this job cannot merge or raise fixes and the issue is not closable before that PR or an equivalent fix lands. #93290 is already closed and remains historical evidence only.",
+  "actions": [
+    {
+      "target": "#91893",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91893",
+      "candidate_fix": "#91907",
+      "reason": "#91893 is the only open actionable seed ref and the bug is still present on current main; keep it open as the canonical issue until #91907 or an equivalent hydrated fix lands."
+    },
+    {
+      "target": "#91907",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91893",
+      "candidate_fix": null,
+      "reason": "#91907 is the strongest hydrated open fix path for #91893, but this cluster excludes existing-overlap refs from actionable closeout and blocked_actions disallow merge, fix, and raise_pr, so no mutating PR action is planned."
+    },
+    {
+      "target": "#93290",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91893",
+      "candidate_fix": "#91907",
+      "reason": "Already closed; retained only as evidence that overlapping work was previously superseded by #91907."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-236-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384270",
+  "workflow_run_id": "27609384270",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384270",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:42Z",
+  "workflow_updated_at": "2026-06-16T09:56:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-236-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.120Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Routed all validator/security-sensitive hydrated refs individually to central OpenClaw security handling and left the already-closed context issue untouched. No close, merge, or fix actions are planned because the job blocks fix/raise_pr/merge and the remaining live refs require security routing rather than dedupe cleanup.",
+  "actions": [
+    {
+      "target": "#64086",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The validator marks #64086 as security-sensitive for this result, so the safe deterministic repair is to quarantine this exact issue with route_security instead of keeping it as canonical."
+    },
+    {
+      "target": "#53774",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context must be quarantined individually and not handled through dedupe cleanup."
+    },
+    {
+      "target": "#64085",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context item; no mutation is valid."
+    },
+    {
+      "target": "#64127",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be quarantined individually; it is not a valid canonical or candidate fix for closing #64086 in this job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

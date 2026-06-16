@@ -1,0 +1,62 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-288-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384850",
+  "workflow_run_id": "27609384850",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384850",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:43Z",
+  "workflow_updated_at": "2026-06-16T09:57:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-288-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.136Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Repaired the result to satisfy deterministic security validation without GitHub mutations. The validator requires #77849 and #86971 to be routed as security-sensitive targets, so all hydrated refs in this cluster are quarantined with exact per-ref route_security actions. No close, label, comment, merge, fix, or fix-artifact action is safe in this security-routed, no-fix job.",
+  "actions": [
+    {
+      "target": "#77849",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #77849 to central OpenClaw security handling per validator/security policy; do not mutate this issue from the cluster worker."
+    },
+    {
+      "target": "#86971",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #86971 to central OpenClaw security handling per validator/security policy; do not mutate this pull request from the cluster worker."
+    },
+    {
+      "target": "#78010",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #78010 to central OpenClaw security handling; do not mutate this pull request from the cluster worker."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

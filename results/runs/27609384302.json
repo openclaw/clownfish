@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-170-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384302",
+  "workflow_run_id": "27609384302",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384302",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:42Z",
+  "workflow_updated_at": "2026-06-16T09:57:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-170-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.122Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/66985",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/87213",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/66985",
+  "summary": "Canonical selector-canonicalization bug is already fixed by merged PR #66985 on current main; closed context refs stay closed, security-sensitive linked refs are routed to central security, and #92141 remains open as a related but distinct WebChat/Codex node-exec tool-surface report.",
+  "actions": [
+    {
+      "target": "#61009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exec-routing documentation item must be routed to central OpenClaw security handling, not dedupe cleanup."
+    },
+    {
+      "target": "#72858",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive browser-surface host exec semantics belong in central security/product handling."
+    },
+    {
+      "target": "#66985",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#66985",
+      "candidate_fix": null,
+      "reason": "Merged canonical fix is already closed; no worker mutation is valid."
+    },
+    {
+      "target": "#87213",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#66985",
+      "candidate_fix": "#66985",
+      "reason": "Original canonical issue is already closed by the merged canonical fix; do not emit close actions for closed items."
+    },
+    {
+      "target": "#61229",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#66985",
+      "candidate_fix": "#66985",
+      "reason": "Closed historical issue remains closed and is covered by the merged canonical fix."
+    },
+    {
+      "target": "#87236",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#66985",
+      "candidate_fix": "#66985",
+      "reason": "Closed superseded PR remains historical evidence only."
+    },
+    {
+      "target": "#87242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#66985",
+      "candidate_fix": "#66985",
+      "reason": "Closed superseded PR remains historical evidence only."
+    },
+    {
+      "target": "#92141",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#66985",
+      "candidate_fix": null,
+      "reason": "Same exec/node area, but different user-visible failure and likely different root cause; no high-confidence duplicate or fixed-by-candidate closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 5,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

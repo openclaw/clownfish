@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-368-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384462",
+  "workflow_run_id": "27609384462",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384462",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:42Z",
+  "workflow_updated_at": "2026-06-16T09:57:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-368-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.127Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified hydrated closed refs as historical context, routed the live #92760 item to central security handling because deterministic validation marked it security-sensitive, and kept the hydrated open PR #92930 as a related non-mutating candidate path. No closure is planned because #92930 is still open, merge/fix/post-merge actions are disallowed for this job, and the latest hydrated ClawSweeper review for #92930 did not complete cleanly.",
+  "actions": [
+    {
+      "target": "#39857",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92760",
+      "candidate_fix": "#90889",
+      "reason": "Already closed historical context ref."
+    },
+    {
+      "target": "#90889",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Already merged historical context PR; no mutation allowed or needed."
+    },
+    {
+      "target": "#92424",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Closed related context ref, not an actionable duplicate in this cluster."
+    },
+    {
+      "target": "#92709",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Already closed superseded PR; historical evidence only."
+    },
+    {
+      "target": "#92760",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive issue to central OpenClaw security handling; do not mutate this item in ProjectClownfish."
+    },
+    {
+      "target": "#92772",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92760",
+      "candidate_fix": "#92930",
+      "reason": "Already closed superseded PR; no close or comment action is valid."
+    },
+    {
+      "target": "#92930",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Related open candidate fix, but not merge-ready in this worker result and no mutating merge/fix path is permitted."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

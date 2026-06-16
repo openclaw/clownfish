@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-303-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609382416",
+  "workflow_run_id": "27609382416",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609382416",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:40Z",
+  "workflow_updated_at": "2026-06-16T09:57:05Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-303-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.105Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/87320",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/87320",
+  "canonical_pr": null,
+  "summary": "No close, label, merge, or fix action is safe for this cluster. #87320 is quarantined to central OpenClaw security handling per deterministic validation. The two hydrated linked PRs remain context-only existing-overlap refs; #88529 has a failing Real behavior proof check and #88683 is a broad compatibility-sensitive PR that ClawSweeper says needs maintainer sign-off.",
+  "actions": [
+    {
+      "target": "#87320",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive issue ref to central OpenClaw security handling; do not close, label, merge, comment on, or fix it through ProjectClownfish cleanup."
+    },
+    {
+      "target": "#88529",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#87320",
+      "candidate_fix": null,
+      "reason": "Context-only linked PR with a failing relevant check; do not close or treat as the candidate fix from this cluster."
+    },
+    {
+      "target": "#88683",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#87320",
+      "candidate_fix": null,
+      "reason": "Context-only linked PR with broad compatibility-sensitive behavior; this job cannot merge, fix, or choose it as the landed candidate."
+    },
+    {
+      "target": "cluster:gitcrawl-303-dedupe-cleanup-wave-2",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#87320",
+      "candidate_fix": null,
+      "reason": "Maintainer/security judgment is needed after #87320 is quarantined and before choosing, reviewing, or closing the overlapping PR path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security handling is required for #87320 before ProjectClownfish can make a canonical cleanup decision.",
+    "Maintainer/product decision needed for the related linked PRs: #88529 has failing proof and #88683 has a broad compatibility-sensitive fail-closed registry gate."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

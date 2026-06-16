@@ -1,0 +1,54 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-198-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609383239",
+  "workflow_run_id": "27609383239",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609383239",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:41Z",
+  "workflow_updated_at": "2026-06-16T09:57:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-198-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:01:21.112Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92287",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/92267",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92287",
+  "summary": "Hydrated state shows #92267 is the live source issue and #92287 is the open PR that directly fixes it. Current main at 55c047e77e70a7d414d6fe8cad55ecf978ebbcf2 still has the reported source-level gaps. No close, merge, or fix PR should be planned here: #92287 is an existing-overlap canonical PR owned by another job, merge/fix actions are blocked by job frontmatter, and its native Telegram proof check is failing, so #92267 should remain open as related to that canonical fix path until the PR lands or maintainers choose a different implementation.",
+  "actions": [
+    {
+      "target": "#92287",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92287",
+      "candidate_fix": null,
+      "reason": "Canonical fix path is the existing open PR #92287, but this job does not allow merge/fix actions and the PR is already owned by an existing overlap job."
+    },
+    {
+      "target": "#92267",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92287",
+      "candidate_fix": "#92287",
+      "reason": "#92267 appears covered by #92287, but the canonical PR has not landed and has a failing native Telegram proof gate, so this run keeps the issue open as related to the canonical fix path instead of planning a close."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
