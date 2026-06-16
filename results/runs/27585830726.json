@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-14020-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27585830726",
+  "workflow_run_id": "27585830726",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585830726",
+  "head_sha": "0c53ea84a83f5ae51d05bdc974bab3c3e31d6ee1",
+  "workflow_conclusion": "success",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-14020-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:37:05.004Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/52516",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/52516",
+  "summary": "Hydrated state shows the obsolete representative #62465 and the non-security primary candidates #42488, #62863, and #66915 are already closed, so no close/comment/label mutation is appropriate for them. The only still-open primary item is #63664, which the preflight marks security-sensitive because it asks to relax write restrictions during memory-flush compaction; it is routed to central security handling without poisoning the unrelated closed edit-tool cleanup context. The non-security exact-match edit recovery family is historically covered by merged #52516/current main, but there is no open non-security target left to close in this job.",
+  "actions": [
+    {
+      "target": "#62465",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#52516",
+      "candidate_fix": "#52516",
+      "reason": "The representative is obsolete and already closed; keep it as historical evidence only."
+    },
+    {
+      "target": "#42488",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and not a live duplicate target for this cluster."
+    },
+    {
+      "target": "#62863",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#62465",
+      "candidate_fix": null,
+      "reason": "Already closed; related broader product/API follow-up, not a live dedupe close target."
+    },
+    {
+      "target": "#63664",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The issue asks to relax write restrictions during automatic memory-flush compaction, which is a security/product boundary decision; route to central OpenClaw security triage."
+    },
+    {
+      "target": "#66915",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#62465",
+      "candidate_fix": null,
+      "reason": "Already closed; related UX/reporting issue, not a live close target."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
