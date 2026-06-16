@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-039",
+  "mode": "autonomous",
+  "run_id": "27597145042",
+  "workflow_run_id": "27597145042",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597145042",
+  "head_sha": "5eb0e9d20db7b218a6100af46add7e5315d26941",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T05:51:17Z",
+  "workflow_updated_at": "2026-06-16T05:53:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-039.md",
+  "published_at": "2026-06-16T05:55:53.146Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the mixed open-PR inventory shard using the hydrated preflight artifact as live state. No shared cluster canonical was selected. One open PR is safe to close as superseded by an already-merged hydrated PR; one security-sensitive linked ref is routed to central security handling; the remaining open PRs are kept for maintainer review, validation, or separate follow-up.",
+  "actions": [
+    {
+      "target": "#91728",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91728",
+      "candidate_fix": null,
+      "reason": "Best surviving Copilot live-catalog path in the hydrated local family; merge is not allowed by this job."
+    },
+    {
+      "target": "#88887",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to memory QMD rerank work but not safe to close as duplicate or merge in this job."
+    },
+    {
+      "target": "#93365",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78640",
+      "candidate_fix": null,
+      "reason": "A plausible active fix for #78640, but failing checks block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#91510",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: keep the taxonomy-only PR separate, consolidate into #91452, or close one path after explicit direction."
+    },
+    {
+      "target": "#70630",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#78228",
+      "candidate_fix": "#78228",
+      "reason": "Open PR is superseded by a hydrated, merged PR that fixed the same root cause."
+    },
+    {
+      "target": "#93356",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to prior plugin /models performance work, but not a proven duplicate or superseded PR."
+    },
+    {
+      "target": "#93350",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent active UI fix; no close or merge action is allowed by this inventory job."
+    },
+    {
+      "target": "#74402",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-owned PR waiting on proof; not safe to close or merge."
+    },
+    {
+      "target": "#92217",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Fireworks catalog work, but it is a distinct feature/update PR rather than a duplicate."
+    },
+    {
+      "target": "#93332",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93321",
+      "candidate_fix": null,
+      "reason": "Independent active fix; keep for normal maintainer review."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog cleanup and should be routed to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 4,
+    "needs_human": 1,
+    "close_superseded": 1,
+    "keep_independent": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91510: maintainer decision needed on whether the taxonomy-only PR should survive separately, be consolidated into broader open PR #91452, or be closed after explicit maintainer direction."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
