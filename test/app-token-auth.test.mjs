@@ -189,6 +189,55 @@ test("dispatch supports repository-worker canary dispatch", () => {
   assert.match(result.stdout, /dispatched 1\/1/);
 });
 
+test("repository-worker dispatch fetches main when a shallow checkout lacks origin/main", () => {
+  const fixture = makeFixture();
+  writeFailingGh(fixture.bin, "gh");
+  const fakeGhx = writeFakeGh(fixture.bin, "ghx");
+  writeShallowCheckoutGit(fixture.bin);
+  const env = {
+    ...process.env,
+    PATH: `${fixture.bin}${path.delimiter}${process.env.PATH}`,
+    EXPECT_REPOSITORY_WORKER_FIELDS: "1",
+  };
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/dispatch-jobs.mjs",
+      "jobs/openclaw/inbox/cluster-example.md",
+      "--repo",
+      "openclaw/clownfish",
+      "--mode",
+      "autonomous",
+      "--dispatch-event",
+      "repository-worker",
+      "--ref",
+      "main",
+      "--gh-bin",
+      fakeGhx,
+      "--allow-app-token-auth",
+      "--skip-publish-backlog-check",
+      "--max-live-workers",
+      "1",
+      "--hydrate-comments",
+      "1",
+      "--max-linked-refs",
+      "20",
+      "--max-comments-per-item",
+      "30",
+      "--max-review-comments-per-pr",
+      "50",
+      "--dry-run",
+      "1",
+      "--no-dispatch-ledger",
+    ],
+    { cwd: repoRoot, encoding: "utf8", env },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stdout, /dispatched 1\/1/);
+});
+
 test("cluster-worker repository dispatch guard accepts descendants", () => {
   const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
 
@@ -302,6 +351,26 @@ function writeFailingGh(binDir, name) {
     filePath,
     `#!/usr/bin/env node
 console.error("plain gh should not be used by this test");
+process.exit(1);
+`,
+  );
+  fs.chmodSync(filePath, 0o755);
+  return filePath;
+}
+
+function writeShallowCheckoutGit(binDir) {
+  const filePath = path.join(binDir, "git");
+  fs.writeFileSync(
+    filePath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+if (args[0] === "rev-parse" && args[1] === "origin/main") process.exit(1);
+if (args[0] === "fetch" && args[1] === "origin" && args[2] === "main") process.exit(0);
+if (args[0] === "rev-parse" && args[1] === "FETCH_HEAD") {
+  console.log("${"a".repeat(40)}");
+  process.exit(0);
+}
+console.error("unexpected fake git call", args.join(" "));
 process.exit(1);
 `,
   );

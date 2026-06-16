@@ -127,6 +127,10 @@ if (files.length === 0) {
   );
   process.exit(2);
 }
+if (repositoryWorkerDispatch && !headSha) {
+  console.error("repository-worker dispatch requires a resolved main ancestor SHA");
+  process.exit(1);
+}
 
 if (!Number.isInteger(publishBacklogThreshold) || publishBacklogThreshold < 0) {
   console.error("--publish-backlog-threshold must be a non-negative integer");
@@ -639,8 +643,29 @@ function readDispatchLedger() {
 }
 
 function currentHeadSha() {
+  const direct = gitRevision(ref || "origin/main");
+  if (direct) return direct;
+  if (!isMainRef(ref)) return "";
+
   try {
-    return execFileSync("git", ["rev-parse", ref || "origin/main"], {
+    execFileSync("git", ["fetch", "origin", "main", "--depth=1"], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+  } catch {
+    return "";
+  }
+  return gitRevision("FETCH_HEAD");
+}
+
+function isMainRef(value) {
+  return !value || value === "main" || value === "origin/main" || value === "refs/heads/main";
+}
+
+function gitRevision(revision) {
+  try {
+    return execFileSync("git", ["rev-parse", revision], {
       cwd: repoRoot(),
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
