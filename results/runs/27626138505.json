@@ -1,0 +1,162 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-451-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27626138505",
+  "workflow_run_id": "27626138505",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27626138505",
+  "head_sha": "2f3860688d2efd499741cd0412967ebd1de2c686",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:47:58Z",
+  "workflow_updated_at": "2026-06-16T15:08:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-451-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T15:11:09.534Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/86898",
+  "summary": "#77340 remains the live canonical issue. #86898 is the narrow, useful contributor PR for the same root cause, but it is not merge-ready because the preflight shows failing checks and no clean current /review after the latest repair commits. Plan is to repair the editable contributor branch, preserve @baghvn/Vishnu credit, validate, run /review, then merge or let the deterministic executor block with concrete proof.",
+  "actions": [
+    {
+      "target": "#77340",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Canonical issue is still open, credible, and has a concrete repairable PR path; do not close before the fix lands."
+    },
+    {
+      "target": "#86898",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Repair the useful editable contributor PR branch before merge; failing checks, path drift, and missing clean current /review block merge but do not require human judgment."
+    },
+    {
+      "target": "cluster:gitcrawl-451-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Produce an executable repair artifact for the deterministic executor to update #86898, preserve contributor credit, validate, and run /review."
+    },
+    {
+      "target": "#86512",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and product surface; leave open outside this cluster."
+    },
+    {
+      "target": "#65233",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Closed historical PR; no action."
+    },
+    {
+      "target": "#72865",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unrelated context; no action."
+    },
+    {
+      "target": "#82779",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Already-closed duplicate context; no close action."
+    },
+    {
+      "target": "#85717",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unrelated context; no action."
+    },
+    {
+      "target": "#85941",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical related PR; no action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 1,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 5
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #86898 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/gitcrawl-451-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Merge blocked. No security-sensitive issue found in the changed surface, and the earlier re-enqueue concern appears addressed by the active-run/rerun coalescing path, but the fix still lets same-session CLI prompt preparation read stale transcript state before the new maintenance wait runs. `git diff --check origin/main...HEAD` was clean; live PR/comment inspection was unavailable because `GH_TOKEN` is not set, so only the provided artifact comments were reviewable.",
+      "commit": "ec57c68689b592d0ad97c7251c9dcab24aff1e33",
+      "checkpoint_commits": [
+        "6e412e00a9f61a7329fb9d39b1bbcc542b8893db",
+        "ec57c68689b592d0ad97c7251c9dcab24aff1e33"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
