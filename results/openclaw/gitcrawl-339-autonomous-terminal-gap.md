@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-339-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623976770"
-workflow_run_id: "27623976770"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623976770"
-head_sha: "4ebe1f639d4efef2df9839a187f40fb419457b7a"
+run_id: "27637121910"
+workflow_run_id: "27637121910"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27637121910"
+head_sha: "66e6700c05453997f70accf18318303df61db275"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T14:21:50.490Z"
+published_at: "2026-06-16T17:56:48.527Z"
 canonical: "https://github.com/openclaw/openclaw/issues/92816"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/92816"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623976770](https://github.com/openclaw/clownfish/actions/runs/27623976770)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27637121910](https://github.com/openclaw/clownfish/actions/runs/27637121910)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/92816
 
 ## Summary
 
-Classified #92816 as fixed on current main. The hydrated issue is open and non-security-sensitive, and the target checkout at main ab71827cf32b5900c79d0c4282bbe5bd626addf5 now makes QQBot media sends fail when the adapter reports an error or returns no platform message id, with regression coverage for both cases. No new fix PR is needed.
+#92816 is the only hydrated open candidate and remains the canonical issue. Current main at 7bf821a2eed08b014809a1f997028764f1ca98d9 already contains the narrow QQBot cron/TTS delivery protections, so the planned action is to close #92816 as fixed by current main with evidence and a reopen path.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Classified #92816 as fixed on current main. The hydrated issue is open and non-s
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92816 | close_fixed_by_candidate | planned | fixed_by_candidate | Current main already contains the narrow durable-delivery guard needed for the reported QQBot cron auto-TTS failure/accounting mismatch; the fix-first close gate is satisfied by current main evidence, and no hydrated PR ref is available to use as candidate_fix. |
+| #92816 | close_fixed_by_candidate | planned | fixed_by_candidate | The only hydrated candidate is the canonical issue, and the current main checkout already contains source-level fixes for the reported failure mode: cron TTS media is delivered through durable cron delivery, delivery accounting requires successful send results, and QQBot no-id send results are rejected. No merge or new fix PR is needed. |
 
 ## Needs Human
 
