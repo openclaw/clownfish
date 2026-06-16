@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-520-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27586169767",
+  "workflow_run_id": "27586169767",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27586169767",
+  "head_sha": "889a90cde62b2d87a03039ed5e727fb89b68e052",
+  "workflow_conclusion": "failure",
+  "workflow_status": null,
+  "workflow_created_at": null,
+  "workflow_updated_at": null,
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-520-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:51:06.696Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Canonical remains the open issue #39476. The duplicate candidate #62872 is already closed, so no close action is valid. #44309 remains related but distinct product/API scope. Deterministic validation marked #91161, #69817, and #22867 as security-sensitive, so those exact refs are routed to central security handling and no ProjectClownfish mutation is planned for them.",
+  "actions": [
+    {
+      "target": "#39476",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation classified this exact canonical issue as security-sensitive; route it to central OpenClaw security handling and do not keep it as an ordinary ProjectClownfish canonical."
+    },
+    {
+      "target": "#62872",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate/superseded context; no mutation is available or needed."
+    },
+    {
+      "target": "#62814",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Closed historical duplicate context only."
+    },
+    {
+      "target": "#44309",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Related A2A sessions_send work, but not a true duplicate because it asks for a new dispatch-mode contract rather than only fixing reverse-call duplicate delivery."
+    },
+    {
+      "target": "#91161",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation classified this exact PR ref as security-sensitive; quarantine it for central OpenClaw security handling and do not mutate it through ProjectClownfish."
+    },
+    {
+      "target": "#69817",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation classified this exact PR ref as security-sensitive; route it to central OpenClaw security handling rather than keeping it as ordinary closed context."
+    },
+    {
+      "target": "#22867",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation classified this exact issue ref as security-sensitive; route it to central OpenClaw security handling and do not mutate it through ProjectClownfish."
+    },
+    {
+      "target": "cluster:gitcrawl-520-dedupe-only-20260429-remote",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No ordinary ProjectClownfish close, merge, or fix lane is safe after security routing the live canonical issue."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_closed": 2,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security handling must decide the safe path for #39476/#91161 before ProjectClownfish can close, merge, or fix anything in this cluster."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
