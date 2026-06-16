@@ -56,6 +56,8 @@ for (const run of candidates) {
       artifact_name: downloaded.artifact_name,
       artifact_count: downloaded.artifact_count ?? null,
     });
+  } else if (downloaded.skipped) {
+    manifest.skipped.push({ ...summarizeRun(run), reason: downloaded.reason });
   } else {
     manifest.failed.push({ ...summarizeRun(run), reason: downloaded.reason });
   }
@@ -89,6 +91,7 @@ console.log(
       workflow,
       selected: candidates.length,
       downloaded: manifest.downloaded.length,
+      skipped: manifest.skipped.length,
       failed: manifest.failed.length,
       allow_partial: allowPartial,
       dry_run: dryRun,
@@ -168,7 +171,7 @@ function downloadRunArtifacts(run) {
   const artifactNames = listRunArtifactNames(runId);
   if (artifactNames.includes(artifactName)) {
     const specific = spawnGh(["run", "download", runId, "--repo", repo, "--name", artifactName, "--dir", destination]);
-    if (specific.status === 0) return { ok: true, dir: destination, artifact_name: artifactName };
+    if (specific.status === 0) return acceptResultArtifact(destination, { artifact_name: artifactName });
   }
 
   const matrixNames = artifactNames.filter((name) => name.startsWith(`${artifactName}-`));
@@ -184,7 +187,10 @@ function downloadRunArtifacts(run) {
       ...matrixNames.flatMap((name) => ["--name", name]),
     ]);
     if (matrix.status === 0) {
-      return { ok: true, dir: destination, artifact_name: `${artifactName}-*`, artifact_count: matrixNames.length };
+      return acceptResultArtifact(destination, {
+        artifact_name: `${artifactName}-*`,
+        artifact_count: matrixNames.length,
+      });
     }
     fs.rmSync(destination, { recursive: true, force: true });
     return {
@@ -203,7 +209,25 @@ function downloadRunArtifacts(run) {
   }
 
   removeWorkerArtifacts(destination);
-  return { ok: true, dir: destination, artifact_name: null };
+  return acceptResultArtifact(destination, { artifact_name: null });
+}
+
+function acceptResultArtifact(destination, details) {
+  if (containsResultArtifact(destination)) return { ok: true, dir: destination, ...details };
+  fs.rmSync(destination, { recursive: true, force: true });
+  return {
+    ok: false,
+    skipped: true,
+    reason: "downloaded artifacts did not contain result.json",
+  };
+}
+
+function containsResultArtifact(directory) {
+  for (const entry of fs.readdirSync(directory, { recursive: true })) {
+    const candidate = path.join(directory, String(entry));
+    if (path.basename(candidate) === "result.json" && fs.statSync(candidate).isFile()) return true;
+  }
+  return false;
 }
 
 function listRunArtifactNames(runId) {
