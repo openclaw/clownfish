@@ -1,0 +1,115 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156790-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597851709",
+  "workflow_run_id": "27597851709",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597851709",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:16Z",
+  "workflow_updated_at": "2026-06-16T06:19:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156790-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:22:30.934Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/41860",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41860",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the hinted canonical PR #41880 and candidate PRs #41946/#68514 are already closed and unmerged. The live canonical path is the linked open issue #41860, and current main still sends Feishu post text directly as an md element, so a narrow credited replacement fix PR is needed before any fix-first closeout.",
+  "actions": [
+    {
+      "target": "#41860",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "#41860 is the only open hydrated tracker and remains the canonical issue because all implementation PR candidates are closed and unmerged."
+    },
+    {
+      "target": "#41880",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "Already closed historical implementation candidate; preserve as credited source material only."
+    },
+    {
+      "target": "#41946",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "Already closed implementation candidate with unresolved branch-specific review blockers; preserve as historical evidence and credit."
+    },
+    {
+      "target": "#68514",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "Already closed broader implementation candidate; keep only as credited source and as evidence for edge cases the replacement must address."
+    },
+    {
+      "target": "cluster:ghcrawl-156790-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "Current main still exhibits the Feishu md URL handling bug, and all prior implementation candidates are unavailable for merge."
+    },
+    {
+      "target": "cluster:ghcrawl-156790-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#41860",
+      "candidate_fix": null,
+      "reason": "A complete, narrow executable fix artifact is safe and allowed for this non-security Feishu message-rendering bug."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156790-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests [check:changed] extensions/feishu/src/markdown-urls.test.ts: extension test [check:changed] extensions/feishu/src/markdown-urls.ts: extension production [check:changed] extensions/feishu/src/send.test.ts: extension test [check:changed] extensions/feishu/src/send.ts: extension production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck extensions $ node scripts/run-tsgo.mjs -p tsconfig.extensions.j...",
+      "commit": "d9980b24646e35e0148f56883e062fef7d32fda0",
+      "checkpoint_commits": [
+        "d9980b24646e35e0148f56883e062fef7d32fda0"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156772-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597851193",
+  "workflow_run_id": "27597851193",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597851193",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:15Z",
+  "workflow_updated_at": "2026-06-16T06:19:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156772-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:22:30.933Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39843",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39843",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows no security-sensitive refs. The live canonical path is the open Google Chat NO_REPLY typing-placeholder issue #39843. The matching contributor PR #39891 is already closed, unmerged, uneditable, dirty, and proof-blocked, so no merge or closeout is safe. Plan a narrow credited replacement fix for #39843/#39891 and keep the identity-name, markdown, deferred-timeout, Discord, and CLI refs as related or closed context.",
+  "actions": [
+    {
+      "target": "#39843",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39843",
+      "candidate_fix": null,
+      "reason": "#39843 is the best live same-repository canonical tracker for the Google Chat exact-NO_REPLY typing-placeholder leak."
+    },
+    {
+      "target": "#49350",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same Google Chat typing/display area, but unique markdown and identity-name scope means it should remain open outside this NO_REPLY cleanup cluster."
+    },
+    {
+      "target": "#27039",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#39843",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#39891",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39843",
+      "candidate_fix": null,
+      "reason": "Useful contributor work should be carried forward through a replacement fix artifact with attribution, not merged or closed again."
+    },
+    {
+      "target": "#49361",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#49350",
+      "candidate_fix": null,
+      "reason": "Closed related PR for a separate open issue family."
+    },
+    {
+      "target": "#68614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Google Chat delivery work, but different root cause and too broad for this cluster's narrow fix path."
+    },
+    {
+      "target": "#68944",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent closed CLI gateway issue."
+    },
+    {
+      "target": "cluster:ghcrawl-156772-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39843",
+      "candidate_fix": null,
+      "reason": "No viable canonical PR exists and the bug remains source-reproducible on current main."
+    },
+    {
+      "target": "cluster:ghcrawl-156772-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#39843",
+      "candidate_fix": null,
+      "reason": "Build a narrow credited replacement PR for the NO_REPLY typing-placeholder cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 5,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 5
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156772-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests, docs [check:changed] extensions/googlechat/src/monitor.test.ts: extension test [check:changed] extensions/googlechat/src/monitor.ts: extension production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck extensions $ node scripts/run-tsgo.mjs -p tsconfig.extensions.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/extensions.tsbuildinfo [check:changed] typecheck extension tests $ node scr...",
+      "commit": "88a05228bf26f3649f238ac525c143758517e6f7",
+      "checkpoint_commits": [
+        "88a05228bf26f3649f238ac525c143758517e6f7"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
