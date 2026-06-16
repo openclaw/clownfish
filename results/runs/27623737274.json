@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-301-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27623737274",
+  "workflow_run_id": "27623737274",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27623737274",
+  "head_sha": "49af434b25e9ed881efb163fc22dc0077d559bf3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:11:22Z",
+  "workflow_updated_at": "2026-06-16T14:47:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-301-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:51:23.057Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/81305",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79155",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/81305",
+  "summary": "Canonical path is the hydrated contributor PR #81305, which fixes open issue #79155 but is not merge-ready in this worker pass because mergeability is unknown and a clean Codex /review merge preflight is missing. Current main at ea6704319ad7960a3149be51ff84b2cb0a420b6a still truncates multiline slash command bodies in normalizeCommandBody(), so the safe autonomous path is to repair the contributor branch, preserve web3blind's credit, run focused validation plus pnpm check:changed, then merge only after review and checks are clean. No GitHub mutation was performed.",
+  "actions": [
+    {
+      "target": "#81305",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81305",
+      "candidate_fix": null,
+      "reason": "Repair the useful contributor PR before any merge or closeout: the branch is editable and narrow, but final merge gates are not satisfied yet."
+    },
+    {
+      "target": "cluster:gitcrawl-301-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81305",
+      "candidate_fix": "#81305",
+      "reason": "Build an executable repair artifact for the canonical contributor branch rather than opening a duplicate issue-fix PR while #81305 is active."
+    },
+    {
+      "target": "#79155",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81305",
+      "candidate_fix": "#81305",
+      "reason": "Issue is covered by the hydrated candidate fix #81305, but closeout is blocked until the canonical fix lands."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "close_fixed_by_candidate": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #81305 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93672",
+      "branch": "clownfish/gitcrawl-301-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "226b98574d98ab9b7663d9a2917a6b84187d217e",
+      "checkpoint_commits": [
+        "e6547d1d4fa1e8c1d218f11a5f2b2549575aae58"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93672"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#79155",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81305",
+      "candidate_fix": "#81305",
+      "title": null,
+      "idempotency_key": "gitcrawl-301-autonomous-terminal-gap:#79155:close_fixed_by_candidate:blocked-on-81305",
+      "source_status": "blocked",
+      "source_reason": "Issue is covered by the hydrated candidate fix #81305, but closeout is blocked until the canonical fix lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#93672",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(commands): preserve multiline slash skill args",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T14:47:16Z",
+      "merge_commit_sha": "acc375ff75794bb853787e028080ac46b0924f51",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
