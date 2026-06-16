@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1976-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27595848920",
+  "workflow_run_id": "27595848920",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27595848920",
+  "head_sha": "7a8b7ab269d4c8246a3837f1013f6d9715d17c5e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T05:16:32Z",
+  "workflow_updated_at": "2026-06-16T05:25:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1976-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T05:26:37.838Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Deterministic validation classifies the hydrated open targets #58822, #58823, and #72984 as security-sensitive for this run. ProjectClownfish must not close, merge, label, comment on, or select a canonical closeout path for those refs. The narrow repair is to quarantine each exact issue/PR ref with route_security and leave the dedupe/fixed-by-candidate closeout unplanned until central OpenClaw security triage clears or redirects the items.",
+  "actions": [
+    {
+      "target": "#58823",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR requires central OpenClaw security handling before any ProjectClownfish dedupe or closeout decision."
+    },
+    {
+      "target": "#58822",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue cannot be closed as fixed by #58823 until central OpenClaw security triage clears the item."
+    },
+    {
+      "target": "#72984",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive related PR requires central OpenClaw security handling before ProjectClownfish classification continues."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must decide whether #58822, #58823, and #72984 are cleared for ordinary ProjectClownfish dedupe/closeout or should remain outside this workflow."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

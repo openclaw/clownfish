@@ -2,14 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-1976-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25131319869"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25131319869"
-head_sha: "b5784ec6f81e07c69dcfb868449f4f451549e38e"
+run_id: "27595848920"
+workflow_run_id: "27595848920"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27595848920"
+head_sha: "7a8b7ab269d4c8246a3837f1013f6d9715d17c5e"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T04:57:52.908Z"
-canonical: "https://github.com/openclaw/openclaw/issues/58822"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/58822"
+result_status: "planned"
+published_at: "2026-06-16T05:26:37.838Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
 actions_total: 3
 fix_executed: 0
@@ -25,17 +26,17 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25131319869](https://github.com/openclaw/clownfish/actions/runs/25131319869)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27595848920](https://github.com/openclaw/clownfish/actions/runs/27595848920)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/58822
+Canonical: unknown
 
 ## Summary
 
-Hydrated state shows the TDZ representative #44893 is already closed and historical. The only live work is the later subagent model-precedence family: #58822 is the best canonical issue, while #58823 and linked #72877 are both open implementation candidates. The artifact records an unresolved maintainer decision over #58823 versus #72877 and the documented precedence contract, with #58823 also carrying failing checks, so no close, merge, or fix action is safe in this job.
+Deterministic validation classifies the hydrated open targets #58822, #58823, and #72984 as security-sensitive for this run. ProjectClownfish must not close, merge, label, comment on, or select a canonical closeout path for those refs. The narrow repair is to quarantine each exact issue/PR ref with route_security and leave the dedupe/fixed-by-candidate closeout unplanned until central OpenClaw security triage clears or redirects the items.
 
 ## Impact
 
@@ -66,10 +67,10 @@ Hydrated state shows the TDZ representative #44893 is already closed and histori
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58822 | keep_canonical | planned | canonical | Open canonical issue for the live subagent model-precedence family. |
-| #58823 | needs_human | blocked | needs_human | Conflicting PRs, unclear canonical implementation, and failing checks require maintainer judgment. |
-| #72877 | needs_human | blocked | needs_human | Open broader conflicting implementation candidate; maintainer must choose the canonical path and desired scope. |
+| #58823 | route_security | planned | security_sensitive | Security-sensitive PR requires central OpenClaw security handling before any ProjectClownfish dedupe or closeout decision. |
+| #58822 | route_security | planned | security_sensitive | Security-sensitive issue cannot be closed as fixed by #58823 until central OpenClaw security triage clears the item. |
+| #72984 | route_security | planned | security_sensitive | Security-sensitive related PR requires central OpenClaw security handling before ProjectClownfish classification continues. |
 
 ## Needs Human
 
-- Choose the canonical implementation path for #58822: land/repair #58823, land #72877, or decide that #58003's named-agent precedence is intended and update docs instead.
+- Central OpenClaw security triage must decide whether #58822, #58823, and #72984 are cleared for ordinary ProjectClownfish dedupe/closeout or should remain outside this workflow.

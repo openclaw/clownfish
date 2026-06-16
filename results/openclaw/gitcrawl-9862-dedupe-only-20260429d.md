@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-9862-dedupe-only-20260429d"
 mode: "autonomous"
-run_id: "25143061104"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25143061104"
-head_sha: "409422518ec79d91a76943837b4592abd04b8a86"
+run_id: "27595879277"
+workflow_run_id: "27595879277"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27595879277"
+head_sha: "d9b9bfb6cf45a4e1ff3cbc2c7635601fa862d87f"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-15T04:05:51.331Z"
+result_status: "planned"
+published_at: "2026-06-16T05:26:37.854Z"
 canonical: "https://github.com/openclaw/openclaw/issues/58498"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/58498"
 canonical_pr: null
@@ -18,24 +19,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-9862-dedupe-only-20260429d
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25143061104](https://github.com/openclaw/clownfish/actions/runs/25143061104)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27595879277](https://github.com/openclaw/clownfish/actions/runs/27595879277)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/issues/58498
 
 ## Summary
 
-#58498 remains the live canonical issue. #59208 is a relevant contributor PR for the same root cause, but it cannot be treated as the canonical fix or used for fixed-by-candidate closeout because the hydrated PR has a failing check, unknown mergeability, and an unresolved actionable Codex review finding; this dedupe-only job also forbids merge, fix, and raise_pr actions.
+Routed #58498 to central security handling because deterministic validation marked the hydrated issue target as security-sensitive. #59208 remains a useful but already-closed unmerged PR and is historical evidence only; no close, merge, or fix PR action is allowed by this job.
 
 ## Impact
 
@@ -48,7 +49,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/58498
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -66,9 +67,9 @@ Canonical: https://github.com/openclaw/openclaw/issues/58498
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58498 | keep_canonical | planned | canonical | The representative issue is still open and remains the safest canonical tracker while the linked PR is not merge-ready. |
-| #59208 | needs_human | planned | needs_human | A maintainer or author repair decision is needed before #59208 can become the canonical fix path for #58498; no close, merge, or fix action is safe in this job. |
+| #58498 | route_security | planned | security_sensitive | #58498 is the exact hydrated issue ref identified by deterministic validation as security-sensitive, so it must be routed to central OpenClaw security handling without ProjectClownfish mutation. |
+| #59208 | keep_closed | skipped | related | Already-closed PRs are historical evidence only. This PR overlaps #58498 but cannot be closed again, merged, or repaired in this no-fix/no-merge job. |
 
 ## Needs Human
 
-- PR #59208 needs maintainer/author repair or follow-up before it can be treated as the canonical fix for #58498: checks-node-test is failing, mergeability is unknown, and the hydrated Codex P2 review finding on src/infra/provider-usage.auth.ts line 182 remains unresolved while this job forbids merge, fix, and raise_pr.
+- none
