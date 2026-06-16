@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-158",
+  "mode": "autonomous",
+  "run_id": "27616490509",
+  "workflow_run_id": "27616490509",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27616490509",
+  "head_sha": "404f67bd98fc30d00844dfa0716466943ffd74de",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:10:04Z",
+  "workflow_updated_at": "2026-06-16T12:12:19Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-158.md",
+  "published_at": "2026-06-16T12:13:57.063Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently using the hydrated preflight artifact. No security-sensitive refs were detected. No close, merge, fix, or low-signal action is planned because the job disables instant close, low-signal close, merge, fix, and fix PRs; two ready/maintainer-signaled PRs need maintainer judgment, while the remaining PRs should stay open for proof, author follow-up, or review cleanup.",
+  "actions": [
+    {
+      "target": "#91673",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned focused QQBot behavior fix requires maintainer technical review/check resolution; merge and fix actions are blocked by this inventory job."
+    },
+    {
+      "target": "#91680",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related candidate for #88033; proof is not green and closure would discard an active focused bug-fix PR."
+    },
+    {
+      "target": "#91698",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related candidate for #91562; it is a focused active bug-fix PR but still blocked on the proof gate."
+    },
+    {
+      "target": "#91724",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears ready for maintainer finalization, but the inventory job cannot merge and explicitly requires human judgment for green focused fixes with maintainer signal."
+    },
+    {
+      "target": "#62063",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for author/review cleanup; this broad locale PR has active useful work and is outside the close-only inventory cleanup path."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91673 requires maintainer technical review/check resolution for a maintainer-owned focused QQBot config PR; this job cannot merge or fix it.",
+    "#91724 appears clean and maintainer-reviewed, but finalization of a green focused provider-runtime PR is a maintainer decision and merge is blocked by job policy."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

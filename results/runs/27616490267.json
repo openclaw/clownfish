@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-157",
+  "mode": "autonomous",
+  "run_id": "27616490267",
+  "workflow_run_id": "27616490267",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27616490267",
+  "head_sha": "404f67bd98fc30d00844dfa0716466943ffd74de",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:10:03Z",
+  "workflow_updated_at": "2026-06-16T12:12:11Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-157.md",
+  "published_at": "2026-06-16T12:13:57.058Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently. No security-sensitive items were detected, and no close, merge, fix, or PR-creation actions are allowed for this job. Two needs-proof PRs should remain open without mutation; three PRs need maintainer review or maintainer-owned follow-up before any merge path.",
+  "actions": [
+    {
+      "target": "#91515",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent needs-proof PR; no mutation is safe or allowed in this job."
+    },
+    {
+      "target": "#91519",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Requires maintainer-owned technical follow-up and resolution of the actionable Codex bot finding/check failures; close/merge/fix are not allowed here."
+    },
+    {
+      "target": "#91660",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix correctness and merge readiness are explicit human-gated decisions in this inventory job."
+    },
+    {
+      "target": "#91663",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused availability-affecting backup behavior needs maintainer technical review; merge/fix actions are blocked by job permissions."
+    },
+    {
+      "target": "#91668",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent needs-proof PR with failing relevant checks; no mutation is safe or allowed in this job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91519: maintainer-owned/broad QA-lab PR has an actionable Codex bot comment and failing relevant checks.",
+    "#91660: focused memory-core bug fix is proof-sufficient but explicitly awaiting maintainer technical review.",
+    "#91663: focused backup availability fix is proof-sufficient but explicitly awaiting maintainer technical review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
