@@ -28,7 +28,12 @@ const requestedCodexTimeoutMs = Number(process.env.CLOWNFISH_FIX_CODEX_TIMEOUT_M
 const fixStepTimeoutMs = Number(process.env.CLOWNFISH_FIX_STEP_TIMEOUT_MS ?? 30 * 60 * 1000);
 const fixTimeoutReserveMs = Number(process.env.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS ?? 5 * 60 * 1000);
 const fixReportReserveMs = Number(process.env.CLOWNFISH_FIX_REPORT_RESERVE_MS ?? 90 * 1000);
-const fixStepDeadlineAtMs = Date.now() + fixStepTimeoutMs;
+const rebaseOnlyFixStepTimeoutMs = Math.max(
+  2 * 60 * 1000,
+  Number(process.env.CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS ?? 15 * 60 * 1000),
+);
+const fixExecutionStartedAtMs = Date.now();
+let fixStepDeadlineAtMs = fixExecutionStartedAtMs + fixStepTimeoutMs;
 const codexTimeoutMs = Math.min(requestedCodexTimeoutMs, Math.max(60 * 1000, fixStepTimeoutMs - fixTimeoutReserveMs));
 const codexPreflightTimeoutMs = Number(process.env.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS ?? 2 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
@@ -71,6 +76,7 @@ const codexReviewNetworkAccess = parseBooleanEnv(process.env.CLOWNFISH_CODEX_REV
 let workRoot = "";
 let targetDir = "";
 let activeFixProgress = null;
+let writePreflight = null;
 
 if (!jobPath) {
   console.error("usage: node scripts/execute-fix-artifact.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -172,6 +178,13 @@ if (securityBlock) {
   process.exit(0);
 }
 const rebaseOnlyRepair = job.frontmatter.rebase_only === true;
+if (rebaseOnlyRepair) {
+  fixStepDeadlineAtMs = Math.min(fixStepDeadlineAtMs, fixExecutionStartedAtMs + rebaseOnlyFixStepTimeoutMs);
+}
+noteFixStage("execution_started", {
+  rebase_only: rebaseOnlyRepair,
+  fix_step_timeout_ms: fixStepDeadlineAtMs - fixExecutionStartedAtMs,
+});
 const rebaseOnlyBlock = validateRebaseOnlyRepair({ job, fixArtifact });
 if (rebaseOnlyBlock) {
   report.status = "blocked";
@@ -216,11 +229,15 @@ try {
       : path.join(workRoot, result.repo.replace("/", "-"));
   fs.mkdirSync(workRoot, { recursive: true });
 
+  noteFixStage("target_checkout_start");
   ensureTargetCheckout(result.repo, targetDir);
   setupGitIdentity(targetDir);
+  noteFixStage("target_checkout_complete");
 
+  noteFixStage("validation_preflight_start");
   const validationPreflight = preflightTargetValidationPlan({ fixArtifact, targetDir, baseBranch: DEFAULT_BASE_BRANCH });
   report.validation_preflight = validationPreflight;
+  noteFixStage("validation_preflight_complete", { status: validationPreflight.status });
   if (validationPreflight.status === "blocked") {
     report.status = "blocked";
     report.reason = validationPreflight.reason;
@@ -239,20 +256,28 @@ try {
     process.exit(0);
   }
 
-  const writePreflight = runCodexWritePreflight();
-  report.preflight = writePreflight;
-  if (writePreflight.status === "blocked") {
-    report.status = "blocked";
-    report.reason = writePreflight.reason;
-    report.actions.push({
-      action: "execute_fix",
-      status: "blocked",
-      repair_strategy: fixArtifact.repair_strategy,
-      reason: writePreflight.reason,
-      evidence: writePreflight.evidence,
-    });
-    writeReport(report, resultPath);
-    process.exit(0);
+  if (rebaseOnlyRepair) {
+    report.preflight = {
+      status: "deferred",
+      reason: "rebase-only repair defers Codex write preflight unless a rebase conflict needs a write worker",
+    };
+    noteFixStage("codex_write_preflight_deferred");
+  } else {
+    try {
+      ensureCodexWritePreflight();
+    } catch (error) {
+      report.status = "blocked";
+      report.reason = error.message;
+      report.actions.push({
+        action: "execute_fix",
+        status: "blocked",
+        repair_strategy: fixArtifact.repair_strategy,
+        reason: error.message,
+        evidence: writePreflight?.evidence,
+      });
+      writeReport(report, resultPath);
+      process.exit(0);
+    }
   }
 
   if (fixArtifact.repair_strategy === "repair_contributor_branch") {
@@ -262,6 +287,7 @@ try {
         targetDir,
         scopeBlock: deferScopeBlockForRebaseOnlyRepair ? scopeBlock : null,
         rebaseOnly: rebaseOnlyRepair,
+        ensureCodexWritePreflight,
       });
     } catch (error) {
       if (rebaseOnlyRepair) {
@@ -319,6 +345,29 @@ function noteFixProgress(progress) {
     ...(activeFixProgress ?? {}),
     ...progress,
   };
+}
+
+function noteFixStage(stage, details = {}) {
+  console.error(
+    JSON.stringify({
+      event: "projectclownfish_fix_stage",
+      cluster_id: result.cluster_id,
+      stage,
+      elapsed_ms: Date.now() - fixExecutionStartedAtMs,
+      ...details,
+    }),
+  );
+}
+
+function ensureCodexWritePreflight() {
+  if (!writePreflight) {
+    noteFixStage("codex_write_preflight_start");
+    writePreflight = runCodexWritePreflight();
+    report.preflight = writePreflight;
+    noteFixStage("codex_write_preflight_complete", { status: writePreflight.status });
+  }
+  if (writePreflight.status === "blocked") throw new Error(writePreflight.reason);
+  return writePreflight;
 }
 
 function blockedFixOutcome(error, fixArtifact) {
@@ -421,10 +470,12 @@ function shouldPromoteNeedsHumanReplacement(fixArtifact, workerResult) {
   return hasReplacementDecision && hasUneditableOrUnsafeSource && hasBlockedFixAction;
 }
 
-function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false }) {
+function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight }) {
   const baseBranch = String(process.env.CLOWNFISH_FIX_BASE_BRANCH ?? DEFAULT_BASE_BRANCH);
   const sourcePr = firstSourcePullRequest(fixArtifact);
+  noteFixStage("source_pr_rehydration_start", { pull_request: sourcePr.number });
   const pull = fetchPullRequest(sourcePr.number);
+  noteFixStage("source_pr_rehydration_complete", { pull_request: sourcePr.number });
   if (pull.state !== "open") throw new Error(`source PR #${sourcePr.number} is ${pull.state}`);
   if (!pull.head?.repo?.full_name || !pull.head?.ref) throw new Error(`source PR #${sourcePr.number} is missing head repo/ref`);
   const sameRepoBranch = pull.head.repo.full_name === result.repo;
@@ -433,11 +484,20 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   }
 
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
+  noteFixStage("rebase_prepare_start", { pull_request: sourcePr.number });
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
   run("git", ["fetch", `https://github.com/${pull.head.repo.full_name}.git`, `${pull.head.ref}:${branch}`], { cwd: targetDir });
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
-  let rebased = rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact });
+  noteFixStage("rebase_start", { pull_request: sourcePr.number });
+  let rebased = rebaseRecoverableReplacementBranch({
+    targetDir,
+    branch,
+    baseBranch,
+    fixArtifact,
+    ensureCodexWritePreflight,
+  });
+  noteFixStage("rebase_complete", { pull_request: sourcePr.number, rebased });
   if (!rebased && (scopeBlock || rebaseOnly)) {
     const reason = scopeBlock?.reason ?? "rebase-only repair found the source branch already based on current main; no source edits were attempted";
     return {
@@ -458,7 +518,9 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     ghAuthSetupGit(targetDir);
     assertRepairBranchWritable({ targetDir, pull, rebased });
   }
+  noteFixStage("target_toolchain_start");
   prepareTargetToolchain(targetDir);
+  noteFixStage("target_toolchain_complete");
 
   let prep = editValidatePrepareMerge({
     fixArtifact,
@@ -515,7 +577,9 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
 
   ghAuthSetupGit(targetDir);
   const pushArgs = repairBranchPushArgs({ pull, rebased });
+  noteFixStage("branch_push_start", { pull_request: sourcePr.number, rebased });
   run("git", pushArgs, { cwd: targetDir });
+  noteFixStage("branch_push_complete", { pull_request: sourcePr.number, rebased });
   noteFixProgress({
     action: "repair_contributor_branch",
     repair_strategy: fixArtifact.repair_strategy,
@@ -1274,9 +1338,13 @@ function validateAndReviewLoop({
   let lastReview = null;
   let validationCommands = [];
   for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
+    noteFixStage("validation_start", { mode, attempt });
     validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
     runDiffCheck({ targetDir, baseBranch });
+    noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length });
+    noteFixStage("codex_review_start", { mode, attempt });
     lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch, validationCommands });
+    noteFixStage("codex_review_complete", { mode, attempt, status: lastReview.status ?? "unknown" });
     lastReview.validation_commands_run = validationCommands;
     if (isCleanCodexReview(lastReview)) return lastReview;
     if (!allowReviewFixes || attempt === maxReviewAttempts) break;
@@ -1965,16 +2033,20 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
       const rendered = parts.join(" ");
       if (executed.includes(rendered)) continue;
       try {
+        noteFixStage("validation_command_start", { command: rendered });
         run(parts[0], parts.slice(1), { cwd, env: validationEnv });
         executed.push(rendered);
+        noteFixStage("validation_command_complete", { command: rendered });
       } catch (error) {
         const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch });
         if (fallbackCommands.length > 0) {
           for (const fallbackParts of fallbackCommands) {
             const fallbackRendered = fallbackParts.join(" ");
             if (executed.includes(fallbackRendered)) continue;
+            noteFixStage("validation_command_start", { command: fallbackRendered, fallback: true });
             run(fallbackParts[0], fallbackParts.slice(1), { cwd, env: validationEnv });
             executed.push(fallbackRendered);
+            noteFixStage("validation_command_complete", { command: fallbackRendered, fallback: true });
           }
           continue;
         }
@@ -2400,7 +2472,7 @@ function checkoutRecoverableReplacementBranch({ targetDir, branch, baseBranch })
   return { resumed: false, branch };
 }
 
-function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact }) {
+function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fixArtifact, ensureCodexWritePreflight }) {
   const baseRef = `origin/${baseBranch}`;
   if (!branchHasBaseDiff({ targetDir, baseBranch })) return false;
   if (isAncestor({ targetDir, ancestor: baseRef, descendant: "HEAD" })) return false;
@@ -2412,6 +2484,8 @@ function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fix
     return true;
   } catch (error) {
     try {
+      noteFixStage("rebase_conflict_detected");
+      ensureCodexWritePreflight?.();
       resolveRecoverableRebaseConflicts({
         targetDir,
         branch,

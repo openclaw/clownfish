@@ -115,7 +115,10 @@ test("execute-fix-artifact defers a broad scope block only for explicit rebase-o
 
   assert.match(source, /const rebaseOnlyRepair = job\.frontmatter\.rebase_only === true;/);
   assert.match(source, /const rebaseOnlyBlock = validateRebaseOnlyRepair\(\{ job, fixArtifact \}\);/);
-  assert.match(source, /function executeRepairBranch\(\{ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false \}\)/);
+  assert.match(
+    source,
+    /function executeRepairBranch\(\{ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight \}\)/,
+  );
   assert.match(source, /if \(!rebased && \(scopeBlock \|\| rebaseOnly\)\)/);
 });
 
@@ -129,6 +132,20 @@ test("execute-fix-artifact makes rebase-only repair a no-generated-edit path", (
   assert.match(source, /rebase-only repair does not resolve review threads/);
   assert.match(source, /if \(!rebaseOnly\) \{\s*const comment = repairContributorBranchComment/);
   assert.match(source, /function validateRebaseOnlyRepair\(\{ job, fixArtifact \}\)/);
+});
+
+test("execute-fix-artifact bounds and traces rebase-only repair execution", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS/);
+  assert.match(source, /if \(rebaseOnlyRepair\) \{\s*fixStepDeadlineAtMs = Math\.min/);
+  assert.match(source, /function noteFixStage\(stage, details = \{\}\)/);
+  assert.match(source, /event: "projectclownfish_fix_stage"/);
+  assert.match(source, /console\.error\(/);
+  assert.match(source, /rebase-only repair defers Codex write preflight/);
+  assert.match(source, /ensureCodexWritePreflight\?\.\(\);/);
+  assert.match(source, /validation_command_start/);
+  assert.match(source, /codex_review_start/);
 });
 
 test("execute-fix-artifact retries transient GitHub reads before branch repair", () => {
