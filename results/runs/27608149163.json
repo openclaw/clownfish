@@ -1,0 +1,121 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-73-dedupe-cleanup-wave",
+  "mode": "autonomous",
+  "run_id": "27608149163",
+  "workflow_run_id": "27608149163",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27608149163",
+  "head_sha": "d39befcd6309943509cd00e8e3cd0ee7c314e6be",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:31:55Z",
+  "workflow_updated_at": "2026-06-16T09:34:37Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-73-dedupe-cleanup-wave.md",
+  "published_at": "2026-06-16T09:36:29.390Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/89973",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/89973",
+  "summary": "Classified the seven open PR candidates from the hydrated preflight artifact, with #89973 quarantined for central security handling because deterministic validation identified it as security-sensitive. #77559 can still be closed as already covered by merged #77502, and the remaining open PRs are related or independent follow-up work rather than duplicates. No merge or fix PR action is allowed for this job.",
+  "actions": [
+    {
+      "target": "#89973",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#89973 must be quarantined to central OpenClaw security handling rather than processed through ProjectClownfish dedupe cleanup."
+    },
+    {
+      "target": "#77559",
+      "action": "close_fixed_by_candidate",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#77502",
+      "reason": "The same user-visible channel-plugin diagnostic gap is covered by merged #77502, with #77613 as related follow-up, so the stale PR should close as fixed by that candidate while preserving attribution."
+    },
+    {
+      "target": "#89272",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89973",
+      "candidate_fix": null,
+      "reason": "#89272 is in the same doctor diagnostics hardening area but has a distinct root cause and should stay open outside the #89973 closeout lane."
+    },
+    {
+      "target": "#89273",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89973",
+      "candidate_fix": null,
+      "reason": "#89273 is related doctor diagnostics hardening, not a duplicate of the #89973 plugin contract-row isolation work."
+    },
+    {
+      "target": "#89977",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89973",
+      "candidate_fix": null,
+      "reason": "#89977 is a sibling plugin row-isolation fix with a different code path and should remain open as related work."
+    },
+    {
+      "target": "#92014",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89973",
+      "candidate_fix": null,
+      "reason": "#92014 is related but broad and currently check-blocked, so it should not be closed or merged in this dedupe cleanup."
+    },
+    {
+      "target": "#77432",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#77432 is an independent provider/model allowlist doctor feature and should not be closed as part of the plugin row-isolation cluster."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#77559",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#77502",
+      "title": null,
+      "idempotency_key": "gitcrawl-73-dedupe-cleanup-wave:#77559:close_fixed_by_candidate:#77502:2026-06-14T23:04:30Z",
+      "source_status": null,
+      "source_reason": null,
+      "reason": "candidate fix is not listed in job refs",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}

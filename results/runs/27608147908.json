@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-117-dedupe-cleanup-wave",
+  "mode": "autonomous",
+  "run_id": "27608147908",
+  "workflow_run_id": "27608147908",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27608147908",
+  "head_sha": "d39befcd6309943509cd00e8e3cd0ee7c314e6be",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:31:53Z",
+  "workflow_updated_at": "2026-06-16T09:33:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-117-dedupe-cleanup-wave.md",
+  "published_at": "2026-06-16T09:36:29.367Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the mixed session-state cluster without planning GitHub mutations. Validator repair routed #89245 as security-sensitive, alongside #89247 and linked #88332, so the prior non-security canonical path is quarantined for central security handling. The remaining open hydrated refs are related or independent follow-up work and should stay open; the closed representative #75151 remains historical evidence only.",
+  "actions": [
+    {
+      "target": "#89245",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator requires this exact ref to be quarantined as security-sensitive; do not close, comment, label, fix, or merge it through Clownfish."
+    },
+    {
+      "target": "#66360",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-state/transcript durability area, but not the same root cause or user-visible failure as the quarantined reset/new missing-transcript report."
+    },
+    {
+      "target": "#89247",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive diagnostic-leakage report must be quarantined to central OpenClaw security handling; do not close, comment, label, fix, or merge it through Clownfish."
+    },
+    {
+      "target": "#88332",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive diagnostic/status leakage must route to central OpenClaw security handling; this exact ref should not receive cleanup mutations."
+    },
+    {
+      "target": "#65564",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session transcript/orphaning family, but not a true duplicate of the quarantined Feishu reset/new missing-transcript report."
+    },
+    {
+      "target": "#67750",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related context-overflow/session-state UX work, but not the same root cause as the quarantined reset/new missing-transcript report."
+    },
+    {
+      "target": "#88312",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Codex app-server completion lifecycle issue; it should not be closed or folded into this reset/new transcript cluster."
+    },
+    {
+      "target": "#75151",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#70479",
+      "reason": "Closed representative is historical evidence only; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 3,
+    "keep_independent": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89245 was required by deterministic validation to route_security, so the previously selected open canonical path is quarantined and cannot be used for Clownfish cleanup decisions in this run."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

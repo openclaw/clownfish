@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-84-dedupe-cleanup-wave",
+  "mode": "autonomous",
+  "run_id": "27608148951",
+  "workflow_run_id": "27608148951",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27608148951",
+  "head_sha": "d39befcd6309943509cd00e8e3cd0ee7c314e6be",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:31:55Z",
+  "workflow_updated_at": "2026-06-16T09:33:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-84-dedupe-cleanup-wave.md",
+  "published_at": "2026-06-16T09:36:29.384Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Repaired the deterministic validation failure without GitHub mutations. #90271 is quarantined with an exact-ref route_security action because the validator marked that target security-sensitive. The remaining open PRs are kept as related non-mutating classifications because they touch distinct test surfaces or distinct hardlink behavior, and #90275 is already merged/closed and retained only as historical related evidence.",
+  "actions": [
+    {
+      "target": "#90271",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact PR ref #90271 for central security handling; do not mutate, merge, close, or use it as an automated canonical path in this result."
+    },
+    {
+      "target": "#90215",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Windows symlink test-compatibility work, not a true duplicate of the quarantined #90271 ref."
+    },
+    {
+      "target": "#90217",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related symlink capability-gating PR, but it covers a different subsystem and should not be closed as a duplicate."
+    },
+    {
+      "target": "#90266",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related infra symlink test compatibility work, not a duplicate of the quarantined #90271 ref."
+    },
+    {
+      "target": "#90273",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same file family as quarantined #90271 but distinct hardlink behavior, so no high-confidence duplicate or superseded closure."
+    },
+    {
+      "target": "#90275",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed/merged; no mutation is valid or needed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
