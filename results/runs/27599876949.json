@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T064447-001",
+  "mode": "autonomous",
+  "run_id": "27599876949",
+  "workflow_run_id": "27599876949",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27599876949",
+  "head_sha": "9847fd077be874f3b2f26b52e1ef5be0b31b87cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:55:01Z",
+  "workflow_updated_at": "2026-06-16T06:57:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T064447-001.md",
+  "published_at": "2026-06-16T06:59:14.961Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. PR #93510 is routed to central security handling because deterministic validation flagged it as security-sensitive. No shared canonical exists for the remaining non-security refs, and close/merge/fix paths are not safe or permitted for this job. All other open PRs remain on the normal review/proof path; linked issues remain open where their candidate PRs are not validated or merge-ready.",
+  "actions": [
+    {
+      "target": "#93510",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact PR #93510 for central OpenClaw security handling; do not mutate it through ProjectClownfish."
+    },
+    {
+      "target": "#93516",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related Matrix feature work; bot review finding and in-progress proof make closure or merge inappropriate."
+    },
+    {
+      "target": "#93519",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof and type/check repair; do not close the linked issue or treat this as validated."
+    },
+    {
+      "target": "#93523",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for behavior proof and check repair; the linked feature issue should remain open until a validated fix lands."
+    },
+    {
+      "target": "#93515",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for a fresh review, proof, and check repair; no closure or merge path is available in this job."
+    },
+    {
+      "target": "#73971",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93519",
+      "reason": "Keep the issue open because the candidate PR is not validated or merge-ready."
+    },
+    {
+      "target": "#93501",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93515",
+      "reason": "Keep the issue open until the candidate fix has proof, review, and clean relevant checks."
+    },
+    {
+      "target": "#93507",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93523",
+      "reason": "Keep the issue open until the candidate UI fix is validated and merge-ready."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 7
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

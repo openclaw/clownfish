@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T064447-002",
+  "mode": "autonomous",
+  "run_id": "27599876894",
+  "workflow_run_id": "27599876894",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27599876894",
+  "head_sha": "9847fd077be874f3b2f26b52e1ef5be0b31b87cf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:55:00Z",
+  "workflow_updated_at": "2026-06-16T06:57:21Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T064447-002.md",
+  "published_at": "2026-06-16T06:59:14.958Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No GitHub mutations are emitted because this job disables instant close, low-signal close, merge, fix, and raise-pr. #93396 is the only hydrated security-sensitive item and is routed to central security handling; the listed PRs remain open for maintainer or follow-up review.",
+  "actions": [
+    {
+      "target": "#74430",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#74430",
+      "reason": "Already closed merged context PR."
+    },
+    {
+      "target": "#91445",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open canonical context for the WhatsApp PR family; keep open."
+    },
+    {
+      "target": "#91541",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91445",
+      "candidate_fix": null,
+      "reason": "Already closed contributor PR."
+    },
+    {
+      "target": "#92709",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Already closed historical PR."
+    },
+    {
+      "target": "#92760",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open context issue; keep open pending maintainer validation of #93503 or another hydrated fix."
+    },
+    {
+      "target": "#93067",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": "#91445",
+      "candidate_fix": null,
+      "reason": "Already closed low-signal historical PR."
+    },
+    {
+      "target": "#93396",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive issue to central OpenClaw security handling."
+    },
+    {
+      "target": "#93502",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused docs PR; leave open for normal maintainer review."
+    },
+    {
+      "target": "#93503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#92760",
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR needs maintainer technical review because automated review failed before assessing correctness."
+    },
+    {
+      "target": "#93505",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the PR open but require maintainer/security-adjacent judgment because its linked issue is quarantined."
+    },
+    {
+      "target": "#93509",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking focused bug fix, but this inventory job cannot merge and requires maintainer review."
+    },
+    {
+      "target": "#93514",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91445",
+      "candidate_fix": null,
+      "reason": "Related active candidate for #91445, but proof and merge-state gates block any close/merge/fixed-by-candidate action."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_related": 3,
+    "route_security": 1,
+    "keep_independent": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93503: automated ClawSweeper/Codex review failed before technical correctness was established for the focused status-command fix.",
+    "#93505: linked issue #93396 is security-sensitive and routed separately; maintainer/security-adjacent judgment is needed before treating the PR as an ordinary fix path.",
+    "#93509: focused bug fix has sufficient proof and green checks but ClawSweeper explicitly requested maintainer review and the job blocks merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
