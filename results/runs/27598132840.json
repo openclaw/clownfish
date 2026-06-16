@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156990-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598132840",
+  "workflow_run_id": "27598132840",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598132840",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:03Z",
+  "workflow_updated_at": "2026-06-16T06:17:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156990-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.372Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated live state shows all cluster refs are already closed. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 still lacks per-agent agents.list[].userTimezone support, but the only implementation PR (#39610) is closed, unmerged, uneditable, dirty, failed proof, and broad. No close, merge, or executable autonomous fix PR is safe from this cluster without splitting the feature into narrower follow-up jobs.",
+  "actions": [
+    {
+      "target": "#39579",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#39579",
+      "candidate_fix": null,
+      "reason": "Historical representative only; not a live canonical issue."
+    },
+    {
+      "target": "#51312",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39579",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate of the same feature request family."
+    },
+    {
+      "target": "#39610",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unmerged contributor PR remains useful evidence and credit source, but cannot be merged or repaired by Clownfish."
+    },
+    {
+      "target": "cluster:ghcrawl-156990-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The bug is real, but a complete fix crosses schema/types, agent-aware timezone resolution, multiple runtime call paths, docs, generated schema, and tests; this exceeds a narrow autonomous fix artifact and should be split or explicitly calibrated."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Decide how to split per-agent userTimezone into narrower follow-up jobs, or explicitly calibrate Clownfish to take the broad feature/config/docs/runtime change. Suggested split: schema/types plus shared resolver first, then runtime propagation paths, then docs/generated schema/tests."
+  ],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

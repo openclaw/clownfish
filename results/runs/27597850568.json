@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156742-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597850568",
+  "workflow_run_id": "27597850568",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597850568",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:14Z",
+  "workflow_updated_at": "2026-06-16T06:17:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156742-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.334Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73942",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73942",
+  "summary": "All four job-provided PR refs are already closed in the hydrated live state, so no close/merge/comment mutations are valid for them. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 contains the merged leading attributedBody corruption fix from #73942 and covers the #62191/#66169 path, while the narrower #63581 leading-NUL echo-cache variant still appears absent from current main and should move through a credited replacement fix artifact.",
+  "actions": [
+    {
+      "target": "#59386",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73942",
+      "candidate_fix": "#73942",
+      "reason": "Closed broad PR superseded by narrower merged iMessage echo-cache work; no mutation planned."
+    },
+    {
+      "target": "#62191",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73942",
+      "candidate_fix": "#73942",
+      "reason": "Closed contributor PR is covered by merged #73942 for the U+FFFD/attributedBody leading-marker path."
+    },
+    {
+      "target": "#63581",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed but still useful related NUL-prefix variant; route through a credited replacement fix artifact instead of mutating the closed PR."
+    },
+    {
+      "target": "#66169",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#73942",
+      "candidate_fix": "#73942",
+      "reason": "Closed attributed-prefix PR is covered by the narrower merged #73942 path."
+    },
+    {
+      "target": "cluster:ghcrawl-156742-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow non-security residual fix remains executable and should preserve #63581 contributor credit."
+    },
+    {
+      "target": "cluster:ghcrawl-156742-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Build a narrow credited replacement fix PR for the remaining leading-NUL echo-cache normalization gap."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93511",
+      "branch": "clownfish/ghcrawl-156742-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "c1cc8eefd2794bffbc94636fb6021b1af8c36d8f",
+      "checkpoint_commits": [
+        "c1cc8eefd2794bffbc94636fb6021b1af8c36d8f"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93511"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93511",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(imessage): normalize leading NUL echo-cache prefixes",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T06:17:43Z",
+      "merge_commit_sha": "4a0e376d1f8818344e393bbd2001766bb3868c49",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}

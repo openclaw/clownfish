@@ -1,0 +1,230 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156681-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597849040",
+  "workflow_run_id": "27597849040",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597849040",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:12Z",
+  "workflow_updated_at": "2026-06-16T06:18:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156681-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.330Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73365",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48003",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73365",
+  "summary": "Live preflight shows the original representative #65010 is closed and superseded. The surviving canonical path is open PR #73365, backed by open issue #48003. #73365 is not merge-ready because relevant checks and the latest ClawSweeper review are not clean, so this result plans a narrow repair of the existing Clownfish PR branch and keeps all already-closed historical refs closed without new close actions.",
+  "actions": [
+    {
+      "target": "#48003",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "Keep the source issue open until #73365 or its repaired replacement lands and validates the behavior."
+    },
+    {
+      "target": "#50880",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#48003",
+      "candidate_fix": "#73365",
+      "reason": "Already closed duplicate context."
+    },
+    {
+      "target": "#52351",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73365",
+      "candidate_fix": "#73365",
+      "reason": "Already closed historical source PR; credit should be preserved in the repaired #73365 path."
+    },
+    {
+      "target": "#60604",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#65222",
+      "candidate_fix": null,
+      "reason": "Already closed Telegram-specific predecessor; keep as related credit/evidence, not as a mutation target."
+    },
+    {
+      "target": "#64288",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent polling-stall context."
+    },
+    {
+      "target": "#64951",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#65222",
+      "candidate_fix": null,
+      "reason": "Closed Telegram delivery subproblem; related but not the active core canonical path."
+    },
+    {
+      "target": "#65010",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73365",
+      "candidate_fix": "#73365",
+      "reason": "Representative is obsolete; keep closed and carry credit forward through #73365 repair."
+    },
+    {
+      "target": "#65021",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed split predecessor."
+    },
+    {
+      "target": "#65221",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related interrupt-race work; not a live mutation target."
+    },
+    {
+      "target": "#65222",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related Telegram delivery branch; keep as evidence and credit context only."
+    },
+    {
+      "target": "#65223",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent design context."
+    },
+    {
+      "target": "#66885",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent transport issue."
+    },
+    {
+      "target": "#69147",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent polling-stall context."
+    },
+    {
+      "target": "#69338",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#69338",
+      "reason": "Merged independent TUI fix."
+    },
+    {
+      "target": "#69581",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#69581",
+      "reason": "Merged independent Codex audit fix."
+    },
+    {
+      "target": "#73365",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73365",
+      "candidate_fix": "#73365",
+      "reason": "Repair the existing #73365 Clownfish branch, address review-bot findings and failing behavior proof, then re-run validation before any merge or closeout."
+    },
+    {
+      "target": "cluster:ghcrawl-156681-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#73365",
+      "candidate_fix": "#73365",
+      "reason": "Create an executable repair artifact for #73365 so the executor can rebase, fix review findings, validate, run /review, and only then merge or block with concrete evidence."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 14,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 14
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "branch projectclownfish/repair-ghcrawl-156681-autonomous-smoke-73365 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (5/5) error: could not apply b29ea4e334... fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1) hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply b29ea4e334... # fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1) [detached HEAD 78a74a8d26] fix(agents): bound steer message injection Author: Vincent Koc <vincentkoc@ieee.org> 6 files changed, 147 insertions(+) create mode 100644 src/shared/steer-message-injection-policy.test.ts create mode 100644 src/shared/steer-message-injection-policy.ts CONFLICT (modify/delete): src/agents/pi-embedded-runner/runs.test.ts deleted in HEAD and modified in b29ea4e334 (fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1)). Version b29ea4e334 (fix(clownfish): address review for ghcrawl-156681-autonomo...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "branch projectclownfish/repair-ghcrawl-156681-autonomous-smoke-73365 could not rebase onto origin/main: Codex could not repair rebase conflicts after 4 attempt(s): Rebasing (5/5) error: could not apply b29ea4e334... fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1) hint: Resolve all conflicts manually, mark them as resolved with hint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\". hint: You can instead skip this commit: run \"git rebase --skip\". hint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\". hint: Disable this message with \"git config set advice.mergeConflict false\" Could not apply b29ea4e334... # fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1) [detached HEAD 78a74a8d26] fix(agents): bound steer message injection Author: Vincent Koc <vincentkoc@ieee.org> 6 files changed, 147 insertions(+) create mode 100644 src/shared/steer-message-injection-policy.test.ts create mode 100644 src/shared/steer-message-injection-policy.ts CONFLICT (modify/delete): src/agents/pi-embedded-runner/runs.test.ts deleted in HEAD and modified in b29ea4e334 (fix(clownfish): address review for ghcrawl-156681-autonomous-smoke (1)). Version b29ea4e334 (fix(clownfish): address review for ghcrawl-156681-autonomo...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

@@ -1,0 +1,112 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157041-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598133345",
+  "workflow_run_id": "27598133345",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598133345",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:03Z",
+  "workflow_updated_at": "2026-06-16T06:18:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157041-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.378Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/72009",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/72009",
+  "summary": "The original representative #42105 and candidate #42851 are already closed in hydrated live state, so no close actions are valid for them. The current open canonical path is hydrated PR #72009, which tracks the same configurable typing TTL feature with the narrower implementation. #72009 should be repaired on its editable contributor branch before any merge recommendation because mergeability is unknown and the latest ClawSweeper/Codex review preflight is not clean enough for merge.",
+  "actions": [
+    {
+      "target": "#41516",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Historical closed issue for the same feature; keep as evidence only."
+    },
+    {
+      "target": "#42105",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Already closed and superseded by the hydrated open canonical PR #72009."
+    },
+    {
+      "target": "#42851",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Already closed and superseded; broad unrelated branch is not a viable canonical path."
+    },
+    {
+      "target": "#61992",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Historical closed issue for the same feature; keep as evidence only."
+    },
+    {
+      "target": "#72009",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Repair the editable contributor branch for #72009, rerun review and pnpm check:changed, then merge only after deterministic merge preflight is clean."
+    },
+    {
+      "target": "cluster:ghcrawl-157041-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#72009",
+      "candidate_fix": "#72009",
+      "reason": "Executable repair plan for the hydrated open canonical PR."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157025-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598132882",
+  "workflow_run_id": "27598132882",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598132882",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:03Z",
+  "workflow_updated_at": "2026-06-16T06:17:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157025-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.373Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows both candidate PRs are already closed, unmerged, dirty, and marked security-sensitive, so no close or merge action is valid. The exact PR refs are routed to central security handling, closed context refs remain historical evidence, and a separate narrow non-security CLI fix artifact is planned because current main still emits only generic config-set success messages for model-related paths.",
+  "actions": [
+    {
+      "target": "#20522",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation planned."
+    },
+    {
+      "target": "#41268",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive ref must be quarantined to central OpenClaw security handling; no comment, close, label, merge, or branch mutation is planned for this PR."
+    },
+    {
+      "target": "#41270",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation planned."
+    },
+    {
+      "target": "#47318",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive ref must be quarantined to central OpenClaw security handling; no comment, close, label, merge, or branch mutation is planned for this PR."
+    },
+    {
+      "target": "cluster:ghcrawl-157025-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No viable canonical PR remains: both candidate PRs are closed, unmergeable, uneditable by maintainers, and security-routed as exact refs. The ordinary CLI/DX gap remains narrow enough for a credited replacement fix artifact."
+    },
+    {
+      "target": "cluster:ghcrawl-157025-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Fix PR creation is allowed by job frontmatter and can be scoped to the CLI config mutation path plus focused tests."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {
+    "skipped": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "skipped",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "fix artifact source PR #41268 is security-sensitive",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

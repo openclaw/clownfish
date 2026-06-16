@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157051-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598134643",
+  "workflow_run_id": "27598134643",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598134643",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:05Z",
+  "workflow_updated_at": "2026-06-16T06:17:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157051-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.394Z",
+  "canonical": "https://github.com/openclaw/openclaw/tree/6aa83374d90d35226b9cf3577155c3876a91b4b3",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Both primary PR candidates are already closed in the hydrated preflight state. #42674 and #57335 carry security-sensitive allocation/limit-review signals, so they are routed to central security handling only. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 already contains bounded buffer-only message.send staging and regression coverage, so no merge, close, or fix PR is planned.",
+  "actions": [
+    {
+      "target": "#42674",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive primary candidate; route only this exact closed PR to central OpenClaw security handling and do not mutate it."
+    },
+    {
+      "target": "#57335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive primary candidate; route only this exact closed PR to central OpenClaw security handling and do not mutate it."
+    },
+    {
+      "target": "#42048",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context only; retain as historical evidence and do not emit closure or merge actions."
+    },
+    {
+      "target": "#63578",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context only; current main already carries the narrow non-security behavior, so no fix artifact is needed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

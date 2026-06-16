@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157030-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598133102",
+  "workflow_run_id": "27598133102",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598133102",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:03Z",
+  "workflow_updated_at": "2026-06-16T06:16:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157030-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.374Z",
+  "canonical": "https://github.com/openclaw/openclaw/tree/main",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows both seed issues are already closed and both first-hop implementation PRs are closed. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 now exposes the maintainer-preferred adaptive `agents.defaults.imageQuality` path rather than the rejected manual quality/max-side knobs, so no close, merge, or fix PR action is safe or needed for the non-security refs. The only active routing action is scoped quarantine for security-sensitive linked PR #42259.",
+  "actions": [
+    {
+      "target": "#41632",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action may be emitted. Current main has an adaptive image quality configuration path, and no open canonical issue or mergeable PR remains in this cluster."
+    },
+    {
+      "target": "#41771",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action may be emitted. The remaining user need is covered by current main's adaptive image quality path rather than by reviving the rejected manual-knob PRs."
+    },
+    {
+      "target": "#42058",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and superseded by later maintainer direction; no close, merge, or replacement action applies to a closed, uneditable contributor PR with unresolved review findings."
+    },
+    {
+      "target": "#42259",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be routed to central OpenClaw security handling only for this exact ref; unrelated closed non-security refs remain classified separately."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157070-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598134510",
+  "workflow_run_id": "27598134510",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598134510",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:05Z",
+  "workflow_updated_at": "2026-06-16T06:17:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157070-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.391Z",
+  "canonical": "new Clownfish fix PR for cluster ghcrawl-157070-autonomous-smoke",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Preflight shows both job candidate PRs are now closed and marked security-sensitive, so they are quarantined as exact refs with no close/merge action. The non-security launchd retry gap still has a narrow current-main fix path, so this result plans a cluster-scoped fix artifact for a new Clownfish PR that avoids the legacy load fallback and PID/SIGKILL behavior.",
+  "actions": [
+    {
+      "target": "#43443",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact-item security quarantine only; the closed PR remains evidence but is not a mutation target."
+    },
+    {
+      "target": "#48476",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact-item security quarantine only; the closed PR remains evidence but is not a mutation target."
+    },
+    {
+      "target": "#8619",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked issue; retained only as evidence for the narrow launchd fix artifact."
+    },
+    {
+      "target": "#81728",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked PR; not a merge or close target."
+    },
+    {
+      "target": "cluster:ghcrawl-157070-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No open viable canonical PR exists; a narrow retry-only current-main patch is executable and does not depend on the quarantined security decisions."
+    },
+    {
+      "target": "cluster:ghcrawl-157070-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Build a replacement/new fix PR artifact for the non-security retry-only launchd bug lane while keeping security-sensitive PR refs quarantined."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "skipped": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "skipped",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "fix artifact source PR #43443 is security-sensitive",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

@@ -1,0 +1,68 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157056-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598134284",
+  "workflow_run_id": "27598134284",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598134284",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:04Z",
+  "workflow_updated_at": "2026-06-16T06:17:02Z",
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157056-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.390Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows both cluster PRs are already closed. #42861 is historical/superseded context only. #49044 is explicitly security-sensitive and must be routed to central security handling rather than used for closure, merge, or fix automation. No executable fix artifact is safe from this run because the provided target checkout is not a usable OpenClaw source checkout and the remaining per-account SOUL feature spans broad config, CLI, onboarding, bootstrap/runtime, docs, and tests work.",
+  "actions": [
+    {
+      "target": "#42861",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; retain as historical superseded context only."
+    },
+    {
+      "target": "#49044",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive ref is routed to central OpenClaw security handling; unrelated closed historical context remains non-mutating."
+    },
+    {
+      "target": "cluster:ghcrawl-157056-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Implementation is blocked for this run. A maintainer should rehydrate with a usable OpenClaw target checkout and split the per-account SOUL feature into narrower non-security follow-up work before Clownfish opens a fix PR."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Implementation only: rehydrate this cluster with a usable openclaw/openclaw target checkout, then split the broad per-account SOUL feature into narrower fix jobs or provide explicit maintainer calibration for the intended scope. Do not reuse #49044 through Clownfish because it is security-sensitive in the hydrated artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

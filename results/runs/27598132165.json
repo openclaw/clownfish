@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156960-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598132165",
+  "workflow_run_id": "27598132165",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598132165",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:02Z",
+  "workflow_updated_at": "2026-06-16T06:17:08Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156960-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.366Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/34528",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/34528",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77653",
+  "summary": "Current main at 6aa83374 still has the Feishu reaction message-id bug. #34528 remains the canonical bug report and #77653 is the only live implementation path, but #77653 is not merge-ready because the hydrated check state has a failing Real behavior proof gate and ClawSweeper explicitly requires redacted live Feishu proof or maintainer acceptance. Closed PRs #34565 and #39558 are historical evidence only.",
+  "actions": [
+    {
+      "target": "#34528",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "The issue is still the canonical open report for this bug; do not close it before a fix lands."
+    },
+    {
+      "target": "#77653",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "#77653 is the surviving implementation path, but merge is blocked by the proof gate and dirty merge state."
+    },
+    {
+      "target": "#34565",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#39558",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "cluster:ghcrawl-156960-autonomous-smoke",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#34528",
+      "candidate_fix": "#77653",
+      "reason": "Maintainer or contributor must provide acceptable real Feishu behavior proof, or a maintainer must explicitly waive the proof gate before merge/finalization can proceed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77653 requires redacted real Feishu reaction-triggered after-fix behavior proof, or an explicit maintainer waiver of that proof gate, before Clownfish can recommend merge or close #34528."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

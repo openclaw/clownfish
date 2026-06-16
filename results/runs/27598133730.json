@@ -1,0 +1,55 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157039-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598133730",
+  "workflow_run_id": "27598133730",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598133730",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:04Z",
+  "workflow_updated_at": "2026-06-16T06:17:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157039-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:19:29.384Z",
+  "canonical": "https://github.com/openclaw/openclaw/tree/6aa83374d90d35226b9cf3577155c3876a91b4b3",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "The hydrated live state shows both cluster PRs are already closed and unmerged, so there is no close, merge, or contributor-branch repair to plan. #42058 is a closed superseded implementation path with unresolved bot review findings and maintainer_can_modify=false. #42259 is the exact security-sensitive ref identified by preflight and is routed without mutating it. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 already contains the maintainer-preferred adaptive imageQuality/image-compression policy direction rather than the rejected manual imageCompressionQuality/imageCompressionMaxSide knobs.",
+  "actions": [
+    {
+      "target": "#42058",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No mutation is valid for this closed PR. The old contributor implementation is superseded by the current main adaptive image-quality direction and by maintainer rejection of permanent manual compression knobs."
+    },
+    {
+      "target": "#42259",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive ref is quarantined for central OpenClaw security handling. This does not require or authorize a GitHub mutation by the worker."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
