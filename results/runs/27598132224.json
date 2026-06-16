@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156995-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598132224",
+  "workflow_run_id": "27598132224",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598132224",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:02Z",
+  "workflow_updated_at": "2026-06-16T06:38:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156995-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:40:00.333Z",
+  "canonical": "new_fix_pr:ghcrawl-156995-autonomous-smoke",
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Both job PRs are already closed in the hydrated live state, so no close, comment, label, or merge mutation is appropriate. Current main still suppresses successful empty-output background exec notifications unless notifyOnExitEmptySuccess is explicitly true, so the remaining narrow chat-session UX gap should move through a credited replacement fix PR.",
+  "actions": [
+    {
+      "target": "#39726",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical useful source PR, but closed and not mergeable; preserve as credited source evidence for replacement fix."
+    },
+    {
+      "target": "#46926",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed broader PR remains credited context only; no mutation is planned."
+    },
+    {
+      "target": "cluster:ghcrawl-156995-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The original open candidates are closed, but the source-level gap remains on current main and is narrow enough for a replacement fix PR."
+    },
+    {
+      "target": "cluster:ghcrawl-156995-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Build a new credited replacement branch because the useful source PRs are closed/unmergeable and maintainer_can_modify=false."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93525",
+      "branch": "clownfish/ghcrawl-156995-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "2760c037db73a65608b5badb4702ace14ad26009",
+      "checkpoint_commits": [
+        "e9d0139d6f35e8fa3fdfd067a82edf72e9221a7f"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93525"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93525",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "agents: notify chat exec empty-success completions",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T06:37:59Z",
+      "merge_commit_sha": "23589d9e7c16420a6b04511ccfbc3a74195834eb",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
