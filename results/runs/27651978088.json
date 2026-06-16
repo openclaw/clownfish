@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-078",
+  "mode": "plan",
+  "run_id": "27651978088",
+  "workflow_run_id": "27651978088",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651978088",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:21:08Z",
+  "workflow_updated_at": "2026-06-16T22:22:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-078.md",
+  "published_at": "2026-06-16T22:25:03.716Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode live PR inventory classification for five open PRs. No GitHub mutations are planned. Three targets are quarantined with exact-ref route_security actions per deterministic validation; unrelated non-security items remain classified independently or related within this inventory shard.",
+  "actions": [
+    {
+      "target": "#87592",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR waiting on behavior proof; no safe close, merge, or fix action is available in this plan job."
+    },
+    {
+      "target": "#87601",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this target as security-sensitive; route the exact PR ref out of ProjectClownfish automation."
+    },
+    {
+      "target": "#87617",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this target as security-sensitive; route the exact PR ref out of ProjectClownfish automation."
+    },
+    {
+      "target": "#87793",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90820",
+      "reason": "Related to merged Codex timeout work, especially #90820, but not safe to close under this job because proof/rebase state remains and post-merge closeout is disabled."
+    },
+    {
+      "target": "#87888",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this target as security-sensitive; route the exact PR ref out of ProjectClownfish automation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "route_security": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

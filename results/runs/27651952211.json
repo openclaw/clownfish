@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-062",
+  "mode": "plan",
+  "run_id": "27651952211",
+  "workflow_run_id": "27651952211",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651952211",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:20:35Z",
+  "workflow_updated_at": "2026-06-16T22:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-062.md",
+  "published_at": "2026-06-16T22:25:03.657Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No close, merge, or fix actions are safe in plan mode: each open PR is still proof-gated, review-gated, conflicting/dirty, or outside this shard's low-signal close permissions. One linked security-sensitive issue is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#71930",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#72513",
+      "reason": "Open canonical bug context for #72513; no closure is safe before the candidate PR is reviewed, refreshed, and proven."
+    },
+    {
+      "target": "#72513",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71930",
+      "candidate_fix": "#72513",
+      "reason": "Useful linked implementation candidate, but not merge-ready and not a cleanup close target."
+    },
+    {
+      "target": "#72771",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR needing proof and maintainer/API-contract review; classify independently and leave open."
+    },
+    {
+      "target": "#72987",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone docs PR with concrete review feedback; no close action is permitted or justified."
+    },
+    {
+      "target": "#73159",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone focused bug-fix PR that is proof-gated and branch-gated; not a duplicate or low-signal close target."
+    },
+    {
+      "target": "#75593",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#75679",
+      "reason": "Open bug context for #75679; should stay open until the linked candidate is refreshed, proven, and reviewed."
+    },
+    {
+      "target": "#75679",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75593",
+      "candidate_fix": "#75679",
+      "reason": "Useful linked implementation candidate, but maintainer-requested rebase and proof gate block any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#85914",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature request remains independent of this PR inventory shard and should not be closed or treated as fixed by #73159."
+    },
+    {
+      "target": "#87870",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be quarantined to central OpenClaw security handling; no ProjectClownfish mutation should be planned for it."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_independent": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

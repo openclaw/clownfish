@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-081",
+  "mode": "plan",
+  "run_id": "27652002332",
+  "workflow_run_id": "27652002332",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652002332",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:21:38Z",
+  "workflow_updated_at": "2026-06-16T22:22:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-081.md",
+  "published_at": "2026-06-16T22:25:03.742Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode live PR inventory classification. No GitHub mutations are planned because this shard allows only conservative close/comment/label actions, low-signal closeout is disabled, no shared canonical exists, and the open PRs each require normal maintainer/product/technical review rather than dedupe cleanup.",
+  "actions": [
+    {
+      "target": "#78395",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct useful PR; not duplicate/low-signal/superseded under this inventory shard."
+    },
+    {
+      "target": "#89101",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#64103",
+      "candidate_fix": null,
+      "reason": "Related candidate fix for #64103, but this plan cannot merge or close the issue and should leave validation to maintainer review."
+    },
+    {
+      "target": "#89287",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial standalone PR with proof; not safe to close or merge in inventory cleanup."
+    },
+    {
+      "target": "#87587",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86632",
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft related to #86632; keep open for owner review rather than dedupe cleanup."
+    },
+    {
+      "target": "#89006",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer draft with compatibility-sensitive runtime/session scope; not a duplicate or low-signal cleanup candidate."
+    },
+    {
+      "target": "#91293",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the exact security-sensitive linked PR; unrelated non-security PR classifications continue."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

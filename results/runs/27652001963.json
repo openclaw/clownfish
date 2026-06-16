@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-083",
+  "mode": "plan",
+  "run_id": "27652001963",
+  "workflow_run_id": "27652001963",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652001963",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:21:37Z",
+  "workflow_updated_at": "2026-06-16T22:22:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-083.md",
+  "published_at": "2026-06-16T22:25:03.738Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. Security-sensitive linked ref #85341 is quarantined separately; the five open inventory PRs are preserved as independent PRs for their normal review/author/check paths.",
+  "actions": [
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish cleanup; route only this exact item."
+    },
+    {
+      "target": "#88554",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#88554",
+      "reason": "Already closed; no mutation is valid or needed."
+    },
+    {
+      "target": "#89513",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer PR with useful focused work; preserve for author follow-up rather than close or merge."
+    },
+    {
+      "target": "#89533",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open documentation PR awaiting maintainer review; not eligible for inventory closeout."
+    },
+    {
+      "target": "#89558",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open documentation PR with its own review/check path; failing or mixed checks block merge only, not conservative classification."
+    },
+    {
+      "target": "#89565",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open draft maintainer PR with narrow useful code and tests; preserve for normal review."
+    },
+    {
+      "target": "#89576",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR with active author follow-up and a failing proof gate; preserve for maintainer/review follow-up rather than close."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_independent": 5
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

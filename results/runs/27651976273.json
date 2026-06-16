@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-074",
+  "mode": "plan",
+  "run_id": "27651976273",
+  "workflow_run_id": "27651976273",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651976273",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:21:06Z",
+  "workflow_updated_at": "2026-06-16T22:23:05Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-074.md",
+  "published_at": "2026-06-16T22:25:03.709Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. No GitHub mutations planned. Classified the inventory PRs independently per shard instructions; routed exact security-sensitive PR refs to central security handling.",
+  "actions": [
+    {
+      "target": "#86730",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible focused fix, but the job requires human technical/maintainer judgment and blocks merge/fix actions."
+    },
+    {
+      "target": "#86744",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Real linked issue, but shared state/session behavior needs maintainer technical judgment."
+    },
+    {
+      "target": "#86759",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible fix path, but dirty branch and technical judgment block closeout or merge planning."
+    },
+    {
+      "target": "#86873",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact validator-flagged security-sensitive PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#86915",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft low-signal docs PR, but low-signal closeout is not authorized, so maintainer/product judgment is needed."
+    },
+    {
+      "target": "#85472",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact security-sensitive linked PR to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86730 requires maintainer technical review.",
+    "#86744 requires maintainer technical review for shared SQLite/state recovery.",
+    "#86759 requires maintainer review and branch repair outside this plan job.",
+    "#86915 requires maintainer/product judgment because draft low-signal closeout is disabled."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

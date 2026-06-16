@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-079",
+  "mode": "plan",
+  "run_id": "27651979009",
+  "workflow_run_id": "27651979009",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651979009",
+  "head_sha": "98dcefe778f7194407d5ec349c94c2db8fce9de7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:21:09Z",
+  "workflow_updated_at": "2026-06-16T22:22:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-079.md",
+  "published_at": "2026-06-16T22:25:03.728Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative non-mutating classifications for the five open PRs in this live inventory shard. No shared canonical was selected, no security-sensitive refs were detected, and no close/merge/fix actions were planned.",
+  "actions": [
+    {
+      "target": "#87937",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a plausible related fix path for #87312, but proof and mergeability blockers make closure or merge inappropriate in this plan-only inventory shard."
+    },
+    {
+      "target": "#87955",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is related to the lean tool catalog work family, but maintainer ownership, waiting-on-author state, and overlapping merged work require maintainer judgment before any supersede closeout."
+    },
+    {
+      "target": "#88084",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A technical correctness decision is still unresolved because an actionable P1 bot review finding remains on approval-command routing."
+    },
+    {
+      "target": "#88103",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This docs PR is independent from the other inventory items and has a maintainer-review gate, not a dedupe or closeout path."
+    },
+    {
+      "target": "#88159",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent follow-up PR in the logs-follow area, with proof supplied and no duplicate/supersede basis in the inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88084 has an unresolved actionable P1 Codex review comment on approval-command bypass behavior.",
+    "#87955 may be superseded by merged PR #88822, but maintainer ownership and waiting-on-author state make closure a maintainer decision rather than a safe inventory action."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
