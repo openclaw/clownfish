@@ -1,0 +1,142 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T074333-012",
+  "mode": "autonomous",
+  "run_id": "27602851905",
+  "workflow_run_id": "27602851905",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27602851905",
+  "head_sha": "1c8de8d468d47422b12c25bd02622ff81871c381",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T07:55:40Z",
+  "workflow_updated_at": "2026-06-16T07:57:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T074333-012.md",
+  "published_at": "2026-06-16T07:59:13.789Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No shared canonical was selected. One security-sensitive listed PR and one linked security-sensitive issue are routed to central security handling. Several open PRs remain open because this job blocks merge, fix, and PR creation; exact maintainer decisions are isolated in needs_human actions.",
+  "actions": [
+    {
+      "target": "#82561",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent feature PR awaiting real behavior proof; close, merge, fix, and raise_pr are not allowed in this job."
+    },
+    {
+      "target": "#83043",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision is needed for a green focused performance PR; worker cannot merge or prepare fixes in this inventory job."
+    },
+    {
+      "target": "#84869",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent narrow browser fix awaiting proof or maintainer review; no close-style action is permitted or justified."
+    },
+    {
+      "target": "#84997",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact PR to central OpenClaw security handling; do not close, comment, merge, label, or fix through Clownfish."
+    },
+    {
+      "target": "#85159",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused PR; it is not safe to close or merge from this inventory shard."
+    },
+    {
+      "target": "#85172",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85137",
+      "candidate_fix": null,
+      "reason": "Keep related to the already-merged Matrix routing fix; the open PR may carry a distinct follow-up behavior and should not be closed as duplicate here."
+    },
+    {
+      "target": "#85213",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent broad PR needing proof and technical review; no low-signal or superseded close gate is available."
+    },
+    {
+      "target": "#85225",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#14051",
+      "candidate_fix": null,
+      "reason": "Maintainer follow-up is required because a MEMBER requested rebase/update and the linked heartbeat product issue remains open."
+    },
+    {
+      "target": "#85241",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact unresolved decision is whether a maintainer should grant the requested proof override; no automated close or merge is appropriate."
+    },
+    {
+      "target": "#85261",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical correctness judgment is required for a broad multi-fix gateway PR with stale/rebase signal and failed proof."
+    },
+    {
+      "target": "#85017",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact linked security-sensitive issue to central OpenClaw security handling; do not mutate it through Clownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 4,
+    "route_security": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83043: focused green XS gateway performance PR has proof success, but merge/technical correctness requires maintainer judgment and merge is blocked by the job.",
+    "#85225: MEMBER rebase/update signal is present and linked heartbeat product issue #14051 remains open; fix/raise_pr is blocked.",
+    "#85241: author explicitly requested a maintainer proof override for failed real behavior proof.",
+    "#85261: broad gateway multi-fix PR has maintainer rebase signal, failed proof, and technical correctness questions beyond this inventory job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
