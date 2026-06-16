@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T013940-012",
+  "mode": "plan",
+  "run_id": "27588298491",
+  "workflow_run_id": "27588298491",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588298491",
+  "head_sha": "5dca2d75714535cfb2131bd633dafaad578a123a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:40:45Z",
+  "workflow_updated_at": "2026-06-16T01:42:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-012.md",
+  "published_at": "2026-06-16T01:45:27.258Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are planned. The shard has no shared canonical; open non-security PRs are kept for their own review/proof lanes, closed PRs are left closed, and the single security-sensitive PR is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#92759",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92897",
+      "reason": "Already closed; historical evidence only."
+    },
+    {
+      "target": "#88192",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related stale-session recovery work, but proof is missing and no shared canonical is defined for this inventory shard."
+    },
+    {
+      "target": "#92817",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92817",
+      "reason": "Already merged; no ProjectClownfish action needed."
+    },
+    {
+      "target": "#88845",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive release/distribution hardening is out of scope for Clownfish backlog cleanup; route only this PR."
+    },
+    {
+      "target": "#88850",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A plausible related fix for #88836, but still in proof/review lane."
+    },
+    {
+      "target": "#88876",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned PR with explicit maintainer-review gate."
+    },
+    {
+      "target": "#88883",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone technical PR with proof/check blockers; not safe to close or merge in this shard."
+    },
+    {
+      "target": "#88899",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related active fix candidate for #88014, but it has author-follow-up and review/change blockers."
+    },
+    {
+      "target": "#92822",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related fix candidate for #92715, but proof is missing."
+    },
+    {
+      "target": "#48396",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone UI feature PR with unresolved review/proof blockers; no canonical duplicate path in this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 4,
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88876 requires maintainer review/decision; it is maintainer-owned and Clownfish cannot merge or repair in this plan-only job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
