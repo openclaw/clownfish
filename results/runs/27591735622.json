@@ -1,0 +1,76 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260616T0317-01",
+  "mode": "autonomous",
+  "run_id": "27591735622",
+  "workflow_run_id": "27591735622",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27591735622",
+  "head_sha": "cb391b33d028b8e8bd266678781b1a60f65dfad2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T03:18:05Z",
+  "workflow_updated_at": "2026-06-16T03:20:02Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260616T0317-01.md",
+  "published_at": "2026-06-16T03:21:34.299Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Reviewed the four listed open PRs under the opt-in low-signal policy using the hydrated preflight artifact. No PR is safely closeable as low-signal: #76631 is security-sensitive and must route to central security handling; #81503 and #88738 are focused linked docs fixes; #85727 has maintainer signal and needs human judgment before any closeout.",
+  "actions": [
+    {
+      "target": "#76631",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are not low-signal cleanup targets."
+    },
+    {
+      "target": "#81503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused linked docs fix with green proof is outside boring low-signal closure; maintainer decision is needed."
+    },
+    {
+      "target": "#85727",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal closure is blocked by maintainer signal and technical correctness judgment."
+    },
+    {
+      "target": "#88738",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused linked docs fix requires maintainer/proof judgment rather than low-signal closeout."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81503: decide whether to keep reviewing the focused draft docs fix for #81310 once the draft state is resolved.",
+    "#85727: maintainer signal and actionable review findings block automated low-signal closure.",
+    "#88738: focused linked fix for #88737 needs maintainer/proof judgment, not low-signal cleanup."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
