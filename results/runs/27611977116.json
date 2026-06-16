@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-163",
+  "mode": "autonomous",
+  "run_id": "27611977116",
+  "workflow_run_id": "27611977116",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611977116",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:30Z",
+  "workflow_updated_at": "2026-06-16T10:55:10Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-163.md",
+  "published_at": "2026-06-16T11:27:21.107Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified five open PRs from the live inventory shard using the hydrated preflight artifact. No shared canonical exists for this inventory shard, no security-sensitive items were detected, instant close/low-signal close/fix/merge/post-merge actions are disabled, and no close action is safe. Two PRs need exact maintainer decisions; the remaining PRs should stay open as independent or related work with their current proof/check blockers.",
+  "actions": [
+    {
+      "target": "#77067",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused open contributor PR with unresolved behavior-proof and runtime-semantics risk, not a duplicate or low-signal close candidate in this inventory shard."
+    },
+    {
+      "target": "#77312",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#54882",
+      "candidate_fix": null,
+      "reason": "Maintainer product/API compatibility judgment is required before deciding whether #77312 should be repaired, replaced, or closed in favor of canonical path-only behavior."
+    },
+    {
+      "target": "#80497",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer API compatibility approval is required before any future merge path for this public SDK surface."
+    },
+    {
+      "target": "#82718",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the PR open as independent work; failing checks and ClawSweeper-required changes block any merge-style or fixed-by-candidate conclusion."
+    },
+    {
+      "target": "#87961",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77801",
+      "candidate_fix": null,
+      "reason": "#87961 is related to #77801 but does not cover the full hydrated issue scope and is blocked on proof, so it should stay open rather than be closed or treated as a complete candidate fix."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77312: maintainer decision needed on whether OpenClaw should preserve file/filePath display/diagnostic alias compatibility or standardize on canonical path-only behavior before repairing/replacing/closing the PR.",
+    "#80497: maintainer API compatibility approval needed for exposing onModelDiagnosticEvent and its model.* allowlist as a public Plugin SDK diagnostic-runtime surface."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

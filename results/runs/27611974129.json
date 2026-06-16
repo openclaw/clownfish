@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-086",
+  "mode": "autonomous",
+  "run_id": "27611974129",
+  "workflow_run_id": "27611974129",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611974129",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:29Z",
+  "workflow_updated_at": "2026-06-16T10:53:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-086.md",
+  "published_at": "2026-06-16T11:27:21.094Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the hydrated live PR inventory shard without GitHub mutations. There is no shared canonical for this inventory bucket. The Feishu bug subfamily has #89172 as the open canonical PR for #53798; the Ollama/lean-tooling subfamily remains open around #86632/#87587; session/custom-tool hardening PRs remain maintainer-owned review work except the explicitly security-sensitive linked #91293, which is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#55723",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed for whether to request fresh proof, repair the focused branch, or close only after a hydrated canonical path exists."
+    },
+    {
+      "target": "#87587",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86632",
+      "candidate_fix": null,
+      "reason": "Keep open as related maintainer-owned work for the #86632 local-model/tool-visibility issue."
+    },
+    {
+      "target": "#89006",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; no safe close, merge, or replacement action is permitted in this job."
+    },
+    {
+      "target": "#89172",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89172",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open PR for the Feishu voice-duration issue; merge is blocked by job policy and still requires maintainer review."
+    },
+    {
+      "target": "#89404",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related maintainer-owned hardening work; no merge or close action is safe in this inventory job."
+    },
+    {
+      "target": "#53798",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89172",
+      "candidate_fix": "#89172",
+      "reason": "Issue is covered by the open candidate PR but cannot be closed before merge."
+    },
+    {
+      "target": "#86632",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86632",
+      "candidate_fix": "#87587",
+      "reason": "Keep open as the issue-level tracker for the broader local-model/live-data behavior, with #87587 only covering a narrow related path."
+    },
+    {
+      "target": "#88994",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed by maintainer; included only as linked historical context."
+    },
+    {
+      "target": "#91293",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact linked PR to central security triage; continue keeping unrelated non-security inventory items classified separately."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_related": 5,
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#55723 needs maintainer judgment because it is a useful focused contributor PR with failed real-behavior proof and no hydrated canonical close target, while fix/merge actions are blocked."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

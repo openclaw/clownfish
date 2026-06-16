@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-004",
+  "mode": "autonomous",
+  "run_id": "27611971889",
+  "workflow_run_id": "27611971889",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611971889",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:52:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-004.md",
+  "published_at": "2026-06-16T11:27:21.086Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No close, fix, merge, or low-signal cleanup action is safe under this job: close/low-signal/fix/merge are disabled, two PRs are drafts needing proof, one is maintainer-owned, one focused PR has green checks but needs maintainer technical judgment, one focused bug-fix PR has failing relevant checks/author-waiting status, and the only security-sensitive hydrated ref is routed separately.",
+  "actions": [
+    {
+      "target": "#88506",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related follow-up work; draft state, broad surface, missing proof, and failing checks require maintainer/product review rather than closure."
+    },
+    {
+      "target": "#88522",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Telegram behavior fix with failing proof gates; keep open for author/maintainer follow-up."
+    },
+    {
+      "target": "#88531",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears reviewable and possibly viable, but the job requires maintainer judgment for a focused green PR; no mutating action is allowed here."
+    },
+    {
+      "target": "#88533",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with explicit parked status; requires maintainer decision, not automated inventory cleanup."
+    },
+    {
+      "target": "#88550",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with author-waiting status and relevant failing checks; maintainer/author follow-up is required."
+    },
+    {
+      "target": "#83637",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only the exact security-sensitive hydrated ref; continue non-security classification for the live inventory PRs."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_independent": 1,
+    "needs_human": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88531: focused contributor PR with green/proof-supplied checks needs maintainer technical correctness decision; merge is blocked in this job.",
+    "#88533: maintainer-authored draft/parked PR needs maintainer decision.",
+    "#88550: focused bug-fix PR is waiting on author and has failing relevant checks that require author/maintainer follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

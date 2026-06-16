@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-092",
+  "mode": "autonomous",
+  "run_id": "27611975341",
+  "workflow_run_id": "27611975341",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611975341",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:29Z",
+  "workflow_updated_at": "2026-06-16T10:53:20Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-092.md",
+  "published_at": "2026-06-16T11:27:21.097Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No close, merge, fix, or PR-raising action is safe or allowed for the open PRs; maintainer-owned draft PRs and focused contributor bug-fix PRs need maintainer/technical review. Routed the one hydrated security-sensitive linked PR to central security handling only.",
+  "actions": [
+    {
+      "target": "#89795",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft focused bug fix with explicit maintainer signal; job requires human review and disallows merge/fix actions."
+    },
+    {
+      "target": "#89798",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft focused bug fix with explicit maintainer signal; technical correctness and merge readiness require maintainer review."
+    },
+    {
+      "target": "#89748",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#64036",
+      "candidate_fix": null,
+      "reason": "Open focused contributor fix is plausibly useful but has a failed proof check and needs maintainer technical judgment; no close or fix path is allowed in this job."
+    },
+    {
+      "target": "#89805",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft focused bug fix with explicit maintainer signal; technical correctness and readiness require human review."
+    },
+    {
+      "target": "#84666",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#85532",
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR appears related to open diagnostic issue #85532, but maintainer rebase guidance and technical readiness require human review outside this close/comment/label-only job."
+    },
+    {
+      "target": "#90287",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89795: maintainer-owned draft plugin host cleanup PR needs maintainer technical review; no merge/fix action is allowed.",
+    "#89798: maintainer-owned draft plugin agent-event subscription metadata PR needs maintainer technical review; no merge/fix action is allowed.",
+    "#89748: focused contributor PR for #64036 has failed Real behavior proof and needs maintainer technical judgment.",
+    "#89805: maintainer-owned draft typed hook metadata PR needs maintainer technical review; no merge/fix action is allowed.",
+    "#84666: focused contributor diagnostic PR has maintainer rebase guidance and needs technical readiness review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
