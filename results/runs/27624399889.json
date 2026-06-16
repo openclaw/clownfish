@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-385-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27624399889",
+  "workflow_run_id": "27624399889",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27624399889",
+  "head_sha": "a90b8867b904aeba2371ad75aadc92b0f024c550",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:21:36Z",
+  "workflow_updated_at": "2026-06-16T14:43:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-385-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:46:18.285Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/41256",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41256",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/41265",
+  "summary": "#41256 remains the canonical open issue. Current main at 6656c71c7a12f795298a7003f3eb1ece9f3a2a8b still constructs typeless Discord upload Blobs in the standard send, component send, and native interaction reply paths, so a narrow fix path is still needed. #41265 is the open same-root-cause implementation candidate but is not merge-ready from this artifact because PR hydration hit GitHub HTTP 502 and the latest ClawSweeper review still requires real behavior proof. No GitHub mutations are planned directly by the worker.",
+  "actions": [
+    {
+      "target": "#41256",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": null
+    },
+    {
+      "target": "#41265",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": "Keep #41265 open as the related implementation candidate; merge and fixed-by-candidate closeout are blocked by missing PR hydration and unresolved behavior-proof requirements."
+    },
+    {
+      "target": "#41419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#41714",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "cluster:gitcrawl-385-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": "A narrow repair path is needed before any closeout or merge recommendation."
+    },
+    {
+      "target": "cluster:gitcrawl-385-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#41256",
+      "candidate_fix": null,
+      "reason": "Executable fix artifact emitted for the deterministic fix executor."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #41265 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/gitcrawl-385-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=coreTests, extensions, extensionTests, docs [check:changed] extensions/discord/src/monitor/native-command-reply.test.ts: extension test [check:changed] extensions/discord/src/monitor/native-command-reply.ts: extension production [check:changed] extensions/discord/src/send.components.test.ts: extension test [check:changed] extensions/discord/src/send.components.ts: extension production [check:changed] extensions/discord/src/send.sends-basic-channel-messages.test.ts: extension test [check:changed] extensions/discord/src/send.shared.ts: extension production [check:changed] src/media/web-media.test.ts: core test [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check...",
+      "commit": "ce72218bf48bcbc31f29945124cec66334df0ad6",
+      "checkpoint_commits": [
+        "ce72218bf48bcbc31f29945124cec66334df0ad6"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
