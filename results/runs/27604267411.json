@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T082043-002",
+  "mode": "autonomous",
+  "run_id": "27604267411",
+  "workflow_run_id": "27604267411",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27604267411",
+  "head_sha": "01b78ac05f6d0bea84948f37f66e4a283aaef400",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T08:21:44Z",
+  "workflow_updated_at": "2026-06-16T08:25:10Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T082043-002.md",
+  "published_at": "2026-06-16T08:27:35.354Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard has no shared canonical. Close, merge, fix, and raise-PR paths are disabled by the job/preflight permissions, so the open non-security PRs are retained for normal maintainer or author follow-up instead of being closed or merged. Proxy error-handler PR refs with security-sensitive routing signals are quarantined to central security handling without blocking the unrelated PR inventory classifications.",
+  "actions": [
+    {
+      "target": "#87891",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused Telegram config change should remain open for maintainer review; this inventory job cannot merge or repair it."
+    },
+    {
+      "target": "#87923",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Technical correctness and relationship to the remaining thinkingLevel follow-up require maintainer judgment; no close/merge/fix action is allowed in this job."
+    },
+    {
+      "target": "#87986",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a focused capability/docs change tied to an open issue and needs maintainer review; closure and merge are disabled."
+    },
+    {
+      "target": "#88048",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and unresolved review findings make this a maintainer/author decision, not an inventory closeout."
+    },
+    {
+      "target": "#88052",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive target #88052 must be routed to central OpenClaw security handling; routing is scoped to this exact PR ref."
+    },
+    {
+      "target": "#88061",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad docs correctness judgment is required; no low-signal or close action is permitted in this inventory job."
+    },
+    {
+      "target": "#88085",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused CLI maintainability fix has a failing check and needs maintainer technical review; merge/fix are disabled."
+    },
+    {
+      "target": "#88503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and unresolved review issues block any close/merge classification beyond maintainer review."
+    },
+    {
+      "target": "#88098",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "User-facing CLI feature needs maintainer product and technical review; job cannot merge or repair it."
+    },
+    {
+      "target": "#88150",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "P1 focused runtime/config fix is not closable in this inventory shard and needs maintainer review."
+    },
+    {
+      "target": "#86751",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be quarantined to central OpenClaw security handling without poisoning unrelated PR classifications."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 9,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87891 needs maintainer review and has failing Real behavior proof; no merge/fix path is allowed.",
+    "#87923 needs maintainer judgment because the linked original issue is closed while related thinkingLevel follow-up #87925 remains open, and Real behavior proof is failing.",
+    "#87986 needs maintainer review for Linux codexbar model-usage behavior; check-docs passed but Real behavior proof failed.",
+    "#88048 is waiting on author and has unresolved ClawSweeper findings despite passing proof checks.",
+    "#88061 is broad docs accuracy work with ClawSweeper findings; low-signal cleanup is not enabled.",
+    "#88085 is a focused CLI rawArgs guard with a failing boundary check and needs maintainer review.",
+    "#88503 is waiting on author with active follow-up and unresolved ClawSweeper findings.",
+    "#88098 is a user-facing CLI feature with failing Real behavior proof and needs product/technical review.",
+    "#88150 is a focused P1 runtime/config cache fix that needs maintainer review before any merge decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
