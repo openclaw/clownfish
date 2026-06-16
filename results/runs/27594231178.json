@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238819-dedupe-only-20260429b",
+  "mode": "autonomous",
+  "run_id": "27594231178",
+  "workflow_run_id": "27594231178",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594231178",
+  "head_sha": "8364aec238559663a0a8644042702a5c6ccea4db",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:30:04Z",
+  "workflow_updated_at": "2026-06-16T04:31:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238819-dedupe-only-20260429b.md",
+  "published_at": "2026-06-16T04:33:00.403Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90158",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90158",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the original representative #67544 is already closed as implemented. The best current open canonical for the remaining Windows Scheduled Task restart failure family is #90158. The other open original candidates remain related but not duplicate-cleanup safe because they carry distinct active-run drain, mixed restart-health, or hot-reload crash-loop details. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#90158",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90158",
+      "candidate_fix": null,
+      "reason": "Current open canonical for the unresolved Windows Scheduled Task self-restart / relaunch failure family."
+    },
+    {
+      "target": "#56284",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90158",
+      "candidate_fix": null,
+      "reason": "Related to the canonical Windows restart family, but it contains distinct active-task/session-state and product-decision scope, so it should not be closed as a duplicate."
+    },
+    {
+      "target": "#63491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90158",
+      "candidate_fix": null,
+      "reason": "Related to #90158, but broader and mixed-symptom enough that duplicate closure would risk losing unique restart-health and post-ready behavior."
+    },
+    {
+      "target": "#68493",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90158",
+      "candidate_fix": null,
+      "reason": "Related to the canonical Windows restart failure, but hot-reload plus stale lock/EADDRINUSE is distinct enough to keep open."
+    },
+    {
+      "target": "#67416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#69056",
+      "reason": "Already closed as implemented; included only to account for the original candidate list."
+    },
+    {
+      "target": "#67544",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#60480",
+      "reason": "Original representative is closed and no longer the live canonical; included only to account for the original candidate list."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

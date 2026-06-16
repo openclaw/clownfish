@@ -2,21 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238819-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "25107695036"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25107695036"
-head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
+run_id: "27594231178"
+workflow_run_id: "27594231178"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27594231178"
+head_sha: "8364aec238559663a0a8644042702a5c6ccea4db"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T04:57:52.643Z"
-canonical: "https://github.com/openclaw/openclaw/issues/63491"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/63491"
+published_at: "2026-06-16T04:33:00.403Z"
+canonical: "https://github.com/openclaw/openclaw/issues/90158"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/90158"
 canonical_pr: null
-actions_total: 7
+actions_total: 6
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,28 +26,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25107695036](https://github.com/openclaw/clownfish/actions/runs/25107695036)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27594231178](https://github.com/openclaw/clownfish/actions/runs/27594231178)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/63491
+Canonical: https://github.com/openclaw/openclaw/issues/90158
 
 ## Summary
 
-Representative #67544 is already closed. #63491 is the live canonical Windows Scheduled Task post-ready liveness issue; #73889 remains the linked open PR candidate but is not merge/closeout-ready in this dedupe-only job because checks are failing and review follow-up remains. Planned one high-confidence close for #56284 as fixed by merged #71465; other open related refs stay open.
+Hydrated state shows the original representative #67544 is already closed as implemented. The best current open canonical for the remaining Windows Scheduled Task restart failure family is #90158. The other open original candidates remain related but not duplicate-cleanup safe because they carry distinct active-run drain, mixed restart-health, or hot-reload crash-loop details. No GitHub mutations are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 7 |
+| Worker actions | 6 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,19 +61,18 @@ Representative #67544 is already closed. #63491 is the live canonical Windows Sc
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #56284 | close_fixed_by_candidate | blocked | fixed_by_candidate | candidate fix is not listed in job refs |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #63491 | keep_canonical | planned | canonical | #63491 is the best surviving open canonical issue for the unresolved Windows Scheduled Task post-ready liveness family. |
-| #56284 | close_fixed_by_candidate | planned | fixed_by_candidate | The active-task drain/session-loss failure in #56284 is covered by merged hydrated PR #71465, and the remaining post-ready liveness family stays open on #63491. |
-| #68493 | keep_related | planned | related | Keep open as related because it shares restart/EADDRINUSE symptoms but has a unique hot-reload stale-lock recovery path. |
-| #65668 | keep_related | planned | related | Linked but distinct restart-contract issue; keep open and do not fold it into the Windows Scheduled Task canonical. |
-| #73889 | keep_related | planned | related | Open candidate PR for #63491, but merge/fixed-by-candidate closeout is not safe in this dedupe-only run due failing checks, mergeable_state unknown, and review follow-up. |
-| #67416 | keep_closed | skipped | fixed_by_candidate | Already closed in live state; no close/comment action is valid. |
-| #67544 | keep_closed | skipped | fixed_by_candidate | Already closed representative; use #63491 as the live canonical issue for remaining work. |
+| #90158 | keep_canonical | planned | canonical | Current open canonical for the unresolved Windows Scheduled Task self-restart / relaunch failure family. |
+| #56284 | keep_related | planned | related | Related to the canonical Windows restart family, but it contains distinct active-task/session-state and product-decision scope, so it should not be closed as a duplicate. |
+| #63491 | keep_related | planned | related | Related to #90158, but broader and mixed-symptom enough that duplicate closure would risk losing unique restart-health and post-ready behavior. |
+| #68493 | keep_related | planned | related | Related to the canonical Windows restart failure, but hot-reload plus stale lock/EADDRINUSE is distinct enough to keep open. |
+| #67416 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; included only to account for the original candidate list. |
+| #67544 | keep_closed | skipped | fixed_by_candidate | Original representative is closed and no longer the live canonical; included only to account for the original candidate list. |
 
 ## Needs Human
 

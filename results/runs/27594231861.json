@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-520-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27594231861",
+  "workflow_run_id": "27594231861",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594231861",
+  "head_sha": "8364aec238559663a0a8644042702a5c6ccea4db",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:30:05Z",
+  "workflow_updated_at": "2026-06-16T04:31:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-520-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T04:33:00.404Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/39476",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/39476",
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows #39476 is still the best open canonical for the remaining A2A sessions_send duplicate-message bug. #62872 and #62814 are already closed duplicate/superseded context and must not receive close actions. #44309 is related but not a duplicate because it asks for a first-class one-way dispatch/API mode rather than only guarding the existing conversation flow. Validator security preflight flags #69817 as security-sensitive, so that exact PR is quarantined with route_security and is not used for dedupe cleanup. This dedupe-only job does not allow fix, merge, raise_pr, post-merge close, or direct GitHub mutation.",
+  "actions": [
+    {
+      "target": "#39476",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Best surviving live canonical issue for the duplicate-message bug."
+    },
+    {
+      "target": "#44309",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Related A2A ping-pong family, but not a true duplicate of the canonical bug report because it requests a distinct product/API mode."
+    },
+    {
+      "target": "#62872",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate/superseded context; preserved as evidence only."
+    },
+    {
+      "target": "#62814",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate context; no mutation planned."
+    },
+    {
+      "target": "#22867",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#39476",
+      "candidate_fix": null,
+      "reason": "Closed related context only."
+    },
+    {
+      "target": "#69817",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR ref is quarantined to central OpenClaw security triage; no dedupe or close action is planned for this PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
