@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-rebase-canary-93694-20260617"
 mode: "autonomous"
-run_id: "27642770250"
-workflow_run_id: "27642770250"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27642770250"
-head_sha: "039b63fade6c48a83dee7a9ac3b17c1dfd0109c7"
-workflow_conclusion: "failure"
+run_id: "27643232301"
+workflow_run_id: "27643232301"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27643232301"
+head_sha: "7bbe9ff62d7f91300fdeb7b659b5f8dcc4e59dd5"
+workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T19:36:04.296Z"
+published_at: "2026-06-16T19:44:31.874Z"
 canonical: "https://github.com/openclaw/openclaw/pull/93694"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/93694"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 0
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -26,9 +26,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27642770250](https://github.com/openclaw/clownfish/actions/runs/27642770250)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27643232301](https://github.com/openclaw/clownfish/actions/runs/27643232301)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
 Worker result: planned
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/93694
 
 ## Summary
 
-Planned a bounded repair of the sole canonical PR #93694. The PR is open, maintainer-editable, mergeable, non-security-sensitive, and its checks are passing, but the calibrated canary requires rebasing the contributor branch onto current main, rerunning changed-surface validation, and running a fresh Codex /review before any later finalization. No merge, close, label, comment, replacement PR, or GitHub mutation is planned.
+#93694 is the sole hydrated canonical PR. It is open, maintainer-editable, mergeable clean, non-security-sensitive, and has passing reported checks, but it is not finalization-ready because the hydrated bot review shows ClawSweeper/Codex review did not complete. Per maintainer calibration, plan a bounded repair of the existing contributor branch only: rebase onto current main b816dfbb9f10c6490373a23c745fc6b646a2c437, validate changed surfaces, and run Codex /review. No merge, close, label, replacement PR, or direct GitHub mutation is planned.
 
 ## Impact
 
@@ -45,7 +45,7 @@ Planned a bounded repair of the sole canonical PR #93694. The PR is open, mainta
 | Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -55,7 +55,7 @@ Planned a bounded repair of the sole canonical PR #93694. The PR is open, mainta
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| execute_fix | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 |
 
 ## Apply Actions
 
@@ -67,8 +67,8 @@ Planned a bounded repair of the sole canonical PR #93694. The PR is open, mainta
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93694 | fix_needed | planned | canonical | The canonical PR is useful and maintainer-editable, but this calibrated rebase-only canary requires branch repair and review before any future merge consideration. |
-| cluster:pr-rebase-canary-93694-20260617 | build_fix_artifact | planned |  | A complete executable fix artifact is safe: the job allows fix work, the canonical PR is editable, and the requested work is bounded to rebase, validation, and review. |
+| #93694 | fix_needed | planned | canonical | The canonical PR is useful and maintainer-editable, but the required Codex review proof is missing and the calibrated job requires branch repair/rebase before finalization. |
+| cluster:pr-rebase-canary-93694-20260617 | build_fix_artifact | planned |  | A complete executable repair artifact is available for the existing contributor branch; no maintainer judgment is required at this stage. |
 
 ## Needs Human
 
