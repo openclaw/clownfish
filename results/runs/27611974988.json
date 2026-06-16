@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-090",
+  "mode": "autonomous",
+  "run_id": "27611974988",
+  "workflow_run_id": "27611974988",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611974988",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:29Z",
+  "workflow_updated_at": "2026-06-16T10:51:06Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-090.md",
+  "published_at": "2026-06-16T10:53:18.565Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently with no GitHub mutations. No security-sensitive items were present. The job blocks merge, fix, raise_pr, and instant close paths, so ready PRs stay open for maintainer review; two PRs need explicit maintainer judgment because their own hydrated state shows unresolved proof/check or lifecycle questions.",
+  "actions": [
+    {
+      "target": "#89686",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related maintainer-owned draft work; no close, merge, or fix action is allowed or justified."
+    },
+    {
+      "target": "#89696",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether the feature and proof/check state are acceptable to continue; this is not a low-signal or duplicate closeout."
+    },
+    {
+      "target": "#89714",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused bug-fix PR awaiting maintainer review; no merge or close action is permitted by this job."
+    },
+    {
+      "target": "#89716",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related provider cleanup awaiting maintainer review; the merged #89460 context is evidence only and does not make this PR closable."
+    },
+    {
+      "target": "#89721",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on the cron base-session lifecycle and whether this test-only PR is the desired next step for #89666."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 2,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89696 needs maintainer technical/product review because the low-memory guard changes tool-call availability/config, labels still say needs proof, and the full check inventory includes check-dependencies and check-lint failures.",
+    "#89721 needs maintainer direction on the cron base-session lifecycle question raised by the author; the PR is test-only while linked #89666 remains an open runtime bug report."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
