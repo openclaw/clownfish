@@ -74,3 +74,8 @@ Open candidates:
 Existing-overlap context refs:
 
 - #92831 fix(qqbot): honor durable media roots for cron TTS
+
+## Finalization
+
+- PR #92947 merged as `cfdcd5cdfdc3e91748f4a9e33e8d26faa8bedb23`.
+- Canonical issue #92816 was closed by the merged PR.
