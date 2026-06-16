@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-043",
+  "mode": "plan",
+  "run_id": "27651540410",
+  "workflow_run_id": "27651540410",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651540410",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:11:54Z",
+  "workflow_updated_at": "2026-06-16T22:15:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-043.md",
+  "published_at": "2026-06-16T22:20:06.797Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. Classified the five open inventory PRs independently per the job hint; no shared canonical was inferred and no close/merge/fix action is safe under the frontmatter. Two hydrated linked security-sensitive refs are routed to central security handling without blocking the non-security inventory classifications.",
+  "actions": [
+    {
+      "target": "#85261",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate or closure candidate; keep as an independently tracked gateway PR needing proof/rebase before maintainer judgment."
+    },
+    {
+      "target": "#85292",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking focused bug fix with proof, but frontmatter requires human for maintainer signal/green checks/focused bug fix/technical correctness and an actionable review-bot finding remains visible."
+    },
+    {
+      "target": "#85293",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not closable as duplicate or low-signal under this job; keep as a separate Codex app-server PR needing proof/rebase."
+    },
+    {
+      "target": "#85296",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#85242",
+      "reason": "Hydrated maintainer comments create an explicit scope/technical correctness decision; frontmatter requires human for maintainer signal, green checks, focused bug fix, and technical correctness judgment."
+    },
+    {
+      "target": "#85308",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-for-maintainer PR with meaningful session/message-delivery risk and rebase/update signal; frontmatter requires human for maintainer signal, green checks, focused bug fix, and technical correctness judgment."
+    },
+    {
+      "target": "#86210",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog cleanup; route only this exact ref."
+    },
+    {
+      "target": "#87086",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog cleanup; route only this exact ref."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85292: maintainer/technical correctness review is required because the PR is a focused config bug fix with proof but an actionable Codex review-bot finding remains visible.",
+    "#85296: maintainer decision is required on landing the narrow early-abort fix while leaving #85242's diagnostic-wording scope open, with failing checks present in the expanded artifact.",
+    "#85308: maintainer/technical correctness review is required for a P1 session-state/message-delivery PR that is proof-sufficient but has maintainer rebase/update signal."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
