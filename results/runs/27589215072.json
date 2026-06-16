@@ -1,0 +1,55 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-92491-20260616-bulk",
+  "mode": "execute",
+  "run_id": "27589215072",
+  "workflow_run_id": "27589215072",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27589215072",
+  "head_sha": "d2836181abae9bd5aa1fd28990b5beddebe95849",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T02:06:20Z",
+  "workflow_updated_at": "2026-06-16T02:08:12Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-92491-20260616-bulk.md",
+  "published_at": "2026-06-16T02:09:19.204Z",
+  "canonical": null,
+  "canonical_issue": "#92474",
+  "canonical_pr": null,
+  "summary": "Repaired the result by replacing the planned canonical/close actions for #92484 and #92491 with non-mutating route_security actions. The deterministic validator identified both hydrated PR targets as security-sensitive, so no closeout or canonical mutation is safe in this pass.",
+  "actions": [
+    {
+      "target": "#92484",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified #92484 as security-sensitive, so the only safe action is non-mutating security routing."
+    },
+    {
+      "target": "#92491",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified #92491 as security-sensitive, so the planned closeout must be replaced with non-mutating security routing."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92484 and #92491 were routed to central security handling after deterministic validation classified both PR targets as security-sensitive; no closeout was planned."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
