@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-045",
+  "mode": "autonomous",
+  "run_id": "27619375921",
+  "workflow_run_id": "27619375921",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27619375921",
+  "head_sha": "45b731e53ffdaac0dda0c17ee6c81b34acb691f8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:00:57Z",
+  "workflow_updated_at": "2026-06-16T13:03:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-045.md",
+  "published_at": "2026-06-16T13:07:41.940Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. PR #93551 is routed to central OpenClaw security handling as the exact security-sensitive target identified by deterministic validation; no close, merge, fix, or PR-creation actions are allowed for this job. Two other PRs need maintainer judgment because their current state includes maintainer signal, failed review/proof/check gates, or focused bug-fix correctness decisions; the remaining items should stay open or closed as-is.",
+  "actions": [
+    {
+      "target": "#48321",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48321",
+      "candidate_fix": null,
+      "reason": "Keep the broader feature issue open; no close or fix action is allowed in this live PR inventory job."
+    },
+    {
+      "target": "#82068",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation target."
+    },
+    {
+      "target": "#93237",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-authored active re-review loop with unresolved review outcome; leave open for maintainer judgment."
+    },
+    {
+      "target": "#93465",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93465",
+      "candidate_fix": "#93551",
+      "reason": "Keep the issue open while candidate PR #93551 receives review; no close action is permitted or justified."
+    },
+    {
+      "target": "#93530",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93530",
+      "candidate_fix": "#93591",
+      "reason": "Keep the issue open while the linked PR's proof and failing checks are resolved."
+    },
+    {
+      "target": "#93551",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive PR #93551 to central OpenClaw security handling; do not mutate it in ProjectClownfish cleanup."
+    },
+    {
+      "target": "#93578",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48321",
+      "candidate_fix": null,
+      "reason": "Useful related partial implementation for the broader #48321 feature; keep open for proof and normal review."
+    },
+    {
+      "target": "#93590",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR requiring normal product and technical review outside this cleanup shard; no close action is appropriate."
+    },
+    {
+      "target": "#93591",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93530",
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR has failing proof/check gates and needs maintainer technical review; keep it open."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_closed": 1,
+    "needs_human": 2,
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93237: Maintainer-authored PR with active re-review loop and failed/timed-out ClawSweeper re-review needs maintainer review before any final action.",
+    "#93591: Focused cron watchdog fix has failing Real behavior proof and failing type/tooling checks; proof and technical correctness need human review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
