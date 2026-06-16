@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-252-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27623484325",
+  "workflow_run_id": "27623484325",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27623484325",
+  "head_sha": "c581a46e2e3e5a962635976dc02b3902304668dd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:07:25Z",
+  "workflow_updated_at": "2026-06-16T14:22:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-252-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:28:55.509Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90643",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90643",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90648",
+  "summary": "Current main at 61b104cf73860aa3c45f6883f1f9e1febe464342 still has the regex-based Discord mention code-region skip, so #90643 remains the live canonical issue. #90648 is the narrow contributor PR that should carry the fix, but merge is blocked because mergeability is unknown and the artifact does not include a clean current Codex /review merge preflight. #90237 is security-sensitive and is routed only to central security handling.",
+  "actions": [
+    {
+      "target": "#90237",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive linked PR for central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#67587",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90643",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#90643",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90643",
+      "candidate_fix": "#90648",
+      "reason": "#90643 remains the best live canonical issue for the fenced-code mention-alias rewrite bug."
+    },
+    {
+      "target": "#90648",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90643",
+      "candidate_fix": "#90648",
+      "reason": "#90648 is the repairable canonical PR path, but it needs executor merge-prep before any merge recommendation."
+    },
+    {
+      "target": "cluster:gitcrawl-252-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90643",
+      "candidate_fix": "#90648",
+      "reason": "Build an executable repair plan for the existing contributor branch before merge or closeout."
+    },
+    {
+      "target": "cluster:gitcrawl-252-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90643",
+      "candidate_fix": "#90648",
+      "reason": "Provide the deterministic executor with a narrow branch-repair artifact for #90648."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #90648 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93662",
+      "branch": "clownfish/gitcrawl-252-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "3204295ff39961a65831d620ad5fd00d4682254b",
+      "checkpoint_commits": [
+        "5d2e15e16256d4cd60ad9964ffb0df1087bf8fd3"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93662"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93662",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(discord): protect mention aliases in code fences",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T14:22:03Z",
+      "merge_commit_sha": "6656c71c7a12f795298a7003f3eb1ece9f3a2a8b",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}

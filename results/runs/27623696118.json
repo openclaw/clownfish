@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-290-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27623696118",
+  "workflow_run_id": "27623696118",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27623696118",
+  "head_sha": "49af434b25e9ed881efb163fc22dc0077d559bf3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:10:42Z",
+  "workflow_updated_at": "2026-06-16T14:24:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-290-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:28:55.511Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/77344",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77344",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/75754",
+  "summary": "Current main at ea6704319ad7960a3149be51ff84b2cb0a420b6a still runs clawdock-dashboard through `docker compose run --rm openclaw-cli dashboard --no-open`, so #77344 remains the canonical published-port bug and #77574 is a related but distinct dependency-start regression in the same helper. The open linked PR #75754 is useful and maintainer-editable, but it is not merge-ready because its proof check failed, mergeability is unknown, and the bot review requires removing the direct CHANGELOG.md edit. Plan a narrow repair of #75754 that also covers #77574 by adding --no-deps and focused helper tests.",
+  "actions": [
+    {
+      "target": "#77344",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77344",
+      "candidate_fix": null,
+      "reason": "Keep #77344 as the canonical issue until the helper repair lands."
+    },
+    {
+      "target": "#77574",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#77344",
+      "candidate_fix": null,
+      "reason": "Keep open as related and include it in the narrow ClawDock helper repair path."
+    },
+    {
+      "target": "cluster:gitcrawl-290-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77344",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor PR branch and validate before any merge or closeout."
+    },
+    {
+      "target": "cluster:gitcrawl-290-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77344",
+      "candidate_fix": null,
+      "reason": "Produce an executable branch-repair plan for the deterministic fix executor."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #75754 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93663",
+      "branch": "clownfish/gitcrawl-290-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "c9fcea9fec88ba3775599e1f6c5f03bd4a6f7dbf",
+      "checkpoint_commits": [
+        "13ece83669472271eab9b93b6cbe68f378118cb5"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93663"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93663",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(clawdock): open dashboard on published port without starting deps",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T14:24:01Z",
+      "merge_commit_sha": "5939a2ac9fae61d19e022202fd49672a5f081d39",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
