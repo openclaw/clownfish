@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T083225-029",
+  "mode": "autonomous",
+  "run_id": "27605107865",
+  "workflow_run_id": "27605107865",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27605107865",
+  "head_sha": "6767b297d5776401ed54772d0ef15a8ab748127f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T08:36:53Z",
+  "workflow_updated_at": "2026-06-16T08:39:34Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T083225-029.md",
+  "published_at": "2026-06-16T08:43:12.613Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently. No GitHub mutations, close actions, merge actions, or fix artifacts are planned because this job disables instant close, low-signal close, merge, fix, and raise_pr. The validator identified #93567 as security-sensitive, so that exact PR is routed to central OpenClaw security handling while unrelated PRs remain non-mutating inventory classifications.",
+  "actions": [
+    {
+      "target": "#93110",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Inventory shard has no shared canonical; keep this PR open as its own review path."
+    },
+    {
+      "target": "#91807",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No close, merge, or fix action is allowed in this inventory job; leave PR open for maintainer review."
+    },
+    {
+      "target": "#46895",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product decision is needed on whether /model status and /model list should reserve those tokens and on the unresolved bot findings."
+    },
+    {
+      "target": "#93407",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for the assigned maintainer path; this inventory shard should not interfere."
+    },
+    {
+      "target": "#93545",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open and review alongside the Telegram rich-message family; do not choose a canonical in this inventory shard."
+    },
+    {
+      "target": "#93560",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused active PR with proof supplied; keep open for normal review."
+    },
+    {
+      "target": "#93564",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related Telegram rich-message work; proof failure blocks any stronger positive classification."
+    },
+    {
+      "target": "#93565",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep PR open for proof/review; no close/fix action is allowed."
+    },
+    {
+      "target": "#93537",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for focused technical review; inventory job cannot merge or repair it."
+    },
+    {
+      "target": "#93567",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route #93567 to central OpenClaw security handling; do not close, label, merge, or repair it in this inventory job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "needs_human": 1,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#46895 requires maintainer/product judgment on the /model status/list behavior and unresolved Codex bot findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
