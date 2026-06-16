@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-047",
+  "mode": "autonomous",
+  "run_id": "27611972866",
+  "workflow_run_id": "27611972866",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611972866",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:49:35Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-047.md",
+  "published_at": "2026-06-16T10:50:47.306Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five seed PRs from the live inventory shard independently. No shared canonical was selected. Security preflight reported no security-sensitive seed refs. The job disables instant close, low-signal close, merge, fix, and raise_pr, so the result preserves open contributor PRs and routes only the specific maintainer-review decisions that remain unresolved.",
+  "actions": [
+    {
+      "target": "#85399",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#85366",
+      "candidate_fix": null,
+      "reason": "Focused, high-risk contributor fix linked to open issue #85366; merge/fix are disallowed and the conflict/technical correctness decision is maintainer-scoped."
+    },
+    {
+      "target": "#85400",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Green, focused tooling PR with maintainer-review and rebase/update signal; not eligible for close or merge in this inventory job."
+    },
+    {
+      "target": "#90875",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent PR awaiting proof or maintainer follow-up; close and fix paths are not allowed and no safe close classification is supported."
+    },
+    {
+      "target": "#90876",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent docs/provider PR; low-signal close is disabled and proof remains unresolved."
+    },
+    {
+      "target": "#90882",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90713",
+      "candidate_fix": null,
+      "reason": "Product/prompt-behavior decision linked to open issue #90713; not closable in inventory cleanup and requires maintainer review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85399: maintainer needs to choose whether and how to proceed with the large session-state/availability fix for #85366 given cross-PR overlap with #86540, #86711, and #87342.",
+    "#85400: maintainer review/update decision remains for a green focused tooling PR that has a member rebase/update comment and cannot be merged by this job.",
+    "#90882: maintainer/product decision remains for the self-knowledge docs/system-prompt behavior linked to #90713."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

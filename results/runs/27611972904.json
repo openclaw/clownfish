@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-065",
+  "mode": "autonomous",
+  "run_id": "27611972904",
+  "workflow_run_id": "27611972904",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611972904",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:49:20Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-065.md",
+  "published_at": "2026-06-16T10:50:47.308Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently. No shared canonical was selected, no close/merge/fix action is allowed by this job, and the one hydrated security-sensitive linked issue is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#71930",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71930",
+      "candidate_fix": null,
+      "reason": "Keep the Mattermost bug issue open as the canonical tracking item; no closure or fix action is permitted in this inventory job."
+    },
+    {
+      "target": "#72513",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71930",
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review/proof against canonical issue #71930; not closable as low-signal or superseded."
+    },
+    {
+      "target": "#72771",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed before advancing a new Gateway event contract; this is not a cleanup-close candidate."
+    },
+    {
+      "target": "#72987",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a small docs PR needing branch/content cleanup; not eligible for low-signal closure in this job."
+    },
+    {
+      "target": "#73159",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof and rebase; it is a focused bug-fix PR, not a cleanup-close candidate."
+    },
+    {
+      "target": "#75593",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75593",
+      "candidate_fix": null,
+      "reason": "Keep #75593 open as the canonical issue for the subagent-list visibility bug."
+    },
+    {
+      "target": "#75679",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75593",
+      "candidate_fix": null,
+      "reason": "Keep open as the linked implementation candidate for #75593, pending rebase and real behavior proof."
+    },
+    {
+      "target": "#85914",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independent from the narrow guardrail PR inventory item; this remains a broader product-design issue."
+    },
+    {
+      "target": "#87870",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact security-sensitive issue to central OpenClaw security handling; do not close, comment, label, merge, or fix it through Clownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 4,
+    "needs_human": 1,
+    "keep_independent": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72771 needs maintainer/product judgment on the public Gateway agent.run.status event contract, including run identity/correlation and real behavior proof before any merge path.",
+    "#87870 is security-sensitive and must be handled by central OpenClaw security triage rather than backlog automation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-076",
+  "mode": "autonomous",
+  "run_id": "27611972432",
+  "workflow_run_id": "27611972432",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611972432",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:49:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-076.md",
+  "published_at": "2026-06-16T10:50:47.297Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative non-mutating classifications for five open pull requests in the live PR inventory shard. No security-sensitive items were present, no shared canonical was inferred, and no close, merge, or fix action is permitted by this job.",
+  "actions": [
+    {
+      "target": "#75545",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused bug-fix PR with unresolved proof/check gates; no mutation is safe or allowed in this inventory job."
+    },
+    {
+      "target": "#75777",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR requiring proof/maintainer judgment; leave open without mutation."
+    },
+    {
+      "target": "#82085",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused follow-up fix with failing proof gate; keep open for maintainer review/proof."
+    },
+    {
+      "target": "#83015",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47143",
+      "candidate_fix": null,
+      "reason": "Related to and potentially fixes #47143, but merge/final correctness is outside this inventory job and requires maintainer judgment."
+    },
+    {
+      "target": "#83235",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused UI PR with maintainer rebase signal and failing proof gate; keep open for author/maintainer follow-up."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83015 may be a merge candidate after maintainer technical review because proof and checks are green, but this job blocks merge and requires human judgment for focused bug-fix correctness.",
+    "#83235 has explicit maintainer rebase-needed signal before dependency guard can pass."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

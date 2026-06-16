@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-025",
+  "mode": "autonomous",
+  "run_id": "27611969718",
+  "workflow_run_id": "27611969718",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611969718",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:27Z",
+  "workflow_updated_at": "2026-06-16T10:49:48Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-025.md",
+  "published_at": "2026-06-16T10:50:47.252Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from hydrated preflight state. No shared canonical was chosen. No close, merge, fix, or PR-raise action is planned because instant close, merge, and fix PR paths are disabled and the open PRs either need author proof/rebase, have unresolved review blockers, require maintainer review, or were routed to central security triage by deterministic validation.",
+  "actions": [
+    {
+      "target": "#83560",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83560",
+      "candidate_fix": null,
+      "reason": "Open linked canonical issue for the CLI configure/onboard respawn problem; keep open because no merged fix is present in the artifact."
+    },
+    {
+      "target": "#83760",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but broad independent feature PR; keep open rather than close or merge because it has unresolved review blockers and failing relevant checks."
+    },
+    {
+      "target": "#83819",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft independent PR with missing proof and unresolved extension-point semantics; keep open for author/proof work."
+    },
+    {
+      "target": "#83826",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent test PR, but proof and rebase requirements remain; not closable as low signal and not mergeable in this job."
+    },
+    {
+      "target": "#83842",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact PR #83842 to central OpenClaw security triage per deterministic security-sensitive validation; do not mutate this PR in ProjectClownfish."
+    },
+    {
+      "target": "#83862",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83560",
+      "candidate_fix": null,
+      "reason": "Related implementation PR for #83560, but it is not currently a validated fix candidate because proof, rebase, and startup-env respawn review blockers remain."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_independent": 3,
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83842 is routed to central OpenClaw security triage per deterministic security-sensitive validation; no ProjectClownfish mutation is planned for that PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

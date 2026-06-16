@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-049",
+  "mode": "autonomous",
+  "run_id": "27611971626",
+  "workflow_run_id": "27611971626",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611971626",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:49:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-049.md",
+  "published_at": "2026-06-16T10:50:47.287Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently. No shared canonical was selected, no security-sensitive refs were present, and no close/merge/fix action is allowed or safe from this job. Four PRs should remain open as independent or related work; #85710 is ready enough that the remaining decision is maintainer technical review, so it is scoped to needs_human.",
+  "actions": [
+    {
+      "target": "#85561",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone docs churn with failed proof and a rebase-required maintainer note; keep open rather than close or merge in this inventory shard."
+    },
+    {
+      "target": "#85571",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85532",
+      "candidate_fix": null,
+      "reason": "Related to #85532 but not merge-ready; proof and technical review remain outside this close-only inventory job."
+    },
+    {
+      "target": "#85671",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#20756",
+      "candidate_fix": null,
+      "reason": "This is a plausible related fix for #20756, but proof, product/technical review, branch editability, and cross-PR conflict evidence block any close or merge path here."
+    },
+    {
+      "target": "#85710",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#83902",
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer technical review of a focused bug-fix PR with proof supplied; this job cannot merge and should not close it."
+    },
+    {
+      "target": "#85727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone docs PR with failed proof and a rebase-required maintainer note; keep open rather than close or merge in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85710 needs maintainer technical review before any merge decision; it has proof supplied/sufficient and tracks #83902, but this job blocks merge and lacks a clean merge preflight."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-033",
+  "mode": "autonomous",
+  "run_id": "27611971448",
+  "workflow_run_id": "27611971448",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611971448",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:27Z",
+  "workflow_updated_at": "2026-06-16T10:49:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-033.md",
+  "published_at": "2026-06-16T10:50:47.276Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical was selected because the job is an independent PR inventory shard. No close, merge, fix, or PR-raise actions are planned; those are disabled by the job/fix artifact gates. One closed security-sensitive linked PR is routed to central security handling while unrelated non-security PRs and linked issues remain open.",
+  "actions": [
+    {
+      "target": "#76355",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context; no mutation is valid or needed."
+    },
+    {
+      "target": "#76386",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open contributor PR with proof/review follow-up still required; no close or merge action is permitted."
+    },
+    {
+      "target": "#77539",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; keep open for normal maintainer review rather than close as inventory cleanup."
+    },
+    {
+      "target": "#78071",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent coverage PR with no low-signal closure permission; keep open."
+    },
+    {
+      "target": "#78100",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#78639",
+      "reason": "Issue should remain open and related to candidate fix PR #78639 until that PR is resolved."
+    },
+    {
+      "target": "#78101",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked ref is routed to central OpenClaw security handling without blocking unrelated non-security inventory classifications."
+    },
+    {
+      "target": "#78639",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#78100",
+      "candidate_fix": null,
+      "reason": "Keep open as the canonical non-security fix path for #78100; no merge, fix, or close action is permitted."
+    },
+    {
+      "target": "#82304",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#76386",
+      "reason": "Related issue remains open behind candidate fix PR #76386; close/post-merge close is disabled and the fix has not landed."
+    },
+    {
+      "target": "#85179",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful QA coverage PR; keep open for normal review/follow-up."
+    },
+    {
+      "target": "#90011",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "duplicate",
+      "canonical": "#82304",
+      "candidate_fix": "#76386",
+      "reason": "Duplicate relationship is clear, but closure is not permitted in this inventory job; keep related until #76386 is resolved."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 2,
+    "keep_independent": 3,
+    "keep_related": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

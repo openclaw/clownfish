@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-024",
+  "mode": "autonomous",
+  "run_id": "27611969835",
+  "workflow_run_id": "27611969835",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611969835",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:27Z",
+  "workflow_updated_at": "2026-06-16T10:49:43Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-024.md",
+  "published_at": "2026-06-16T10:50:47.258Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently with no shared canonical. Validator repair quarantined security-sensitive #83611 with an exact-ref route_security action. Close, merge, fix, and low-signal closeout paths remain disabled or unsafe for this job, so the other open PRs are preserved for the exact maintainer or technical decision still required.",
+  "actions": [
+    {
+      "target": "#83611",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Central security handling is required for #83611; no ProjectClownfish mutation is safe for this exact PR."
+    },
+    {
+      "target": "#83629",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused bug-fix PR tied to an open issue, but technical correctness, green-check status, and potential overlap with an unhydrated competing PR require maintainer review."
+    },
+    {
+      "target": "#83630",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR needs maintainer attention for the stale/rebase dependency-guard requirement and focused bug-fix correctness; no mutation path is allowed here."
+    },
+    {
+      "target": "#83703",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Accepting a repo-level ignore policy is a maintainer/tooling decision, and the branch also has an explicit maintainer rebase-needed comment."
+    },
+    {
+      "target": "#83718",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is useful focused memory-core follow-up work, but maintainer review and stale/rebase handling are required before any merge-style decision."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83629: focused sessions JSON fix needs technical review and green-check resolution; issue #80286 also mentions unhydrated overlapping PR #87917.",
+    "#83630: focused doctor preview fix needs current-main rebase/dependency-guard handling after maintainer comment.",
+    "#83703: repo-level .claudeignore policy needs maintainer/tooling decision and current-main update.",
+    "#83718: focused memory-core follow-up needs maintainer review and current-main rebase/dependency-guard handling."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

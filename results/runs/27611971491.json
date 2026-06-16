@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-027",
+  "mode": "autonomous",
+  "run_id": "27611971491",
+  "workflow_run_id": "27611971491",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611971491",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:28Z",
+  "workflow_updated_at": "2026-06-16T10:49:16Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-027.md",
+  "published_at": "2026-06-16T10:50:47.278Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently. No shared canonical exists for this inventory shard. Four PRs should remain open for normal maintainer review; #81208 needs human judgment because an actionable Codex review blocker remains unresolved and this job cannot fix or merge PR branches.",
+  "actions": [
+    {
+      "target": "#80788",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent contributor PR ready for maintainer review; close/merge/fix actions are not allowed for this inventory job."
+    },
+    {
+      "target": "#80928",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused PR; it has maintainer-visible readiness but still requires maintainer/rebase/merge-lane handling outside this close-only inventory job."
+    },
+    {
+      "target": "#80981",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a narrow docs PR for maintainer review; not low-signal under this job because it has supplied proof, review, and a focused docs/code mismatch rationale."
+    },
+    {
+      "target": "#81164",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent broad feature PR requiring maintainer product/technical review; it is not safe for closeout or automated replacement in this job."
+    },
+    {
+      "target": "#81208",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs human maintainer judgment or a refreshed review on whether the later dedupe implementation fully resolves the Codex P1 AWS credential-chain regression concern; this worker cannot repair or merge the PR."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81208 requires maintainer/technical judgment because an actionable Codex P1 review concern about preserving AWS default credential-chain discovery is still present in the hydrated artifact and the job does not allow fix or merge actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
