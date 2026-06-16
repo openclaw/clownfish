@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-193",
+  "mode": "plan",
+  "run_id": "27652698728",
+  "workflow_run_id": "27652698728",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652698728",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:41Z",
+  "workflow_updated_at": "2026-06-16T22:38:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-193.md",
+  "published_at": "2026-06-16T22:40:32.431Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative non-mutating classifications for the live PR inventory shard. No GitHub mutations are recommended because the job is plan mode, merge/fix are blocked, and close permissions are disabled by the preflight artifact.",
+  "actions": [
+    {
+      "target": "#70990",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is outside Clownfish backlog cleanup; quarantine only this item and continue classifying unrelated inventory items."
+    },
+    {
+      "target": "#93378",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93375",
+      "candidate_fix": null,
+      "reason": "The PR is a plausible narrow fix path for #93375 but still needs proof/maintainer judgment, so it should stay open and related rather than be closed or merged in this shard."
+    },
+    {
+      "target": "#93384",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93322",
+      "candidate_fix": null,
+      "reason": "This is a credible fix candidate for the hydrated issue #93322, but maintainer review and a failing check block any merge or fixed-by closeout recommendation."
+    },
+    {
+      "target": "#92676",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92672",
+      "candidate_fix": null,
+      "reason": "The PR is related to an open RFC/bug family and may be useful, but proof failure and broader product/message-lifecycle scope prevent close, merge, or fixed-by-candidate planning."
+    },
+    {
+      "target": "#92686",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft status and missing real behavior proof make this an open related candidate only; no closure or merge action is justified."
+    },
+    {
+      "target": "#79655",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76832",
+      "candidate_fix": null,
+      "reason": "The PR is related to the earlier landed replay-state fix but appears to add distinct pruning behavior with useful code and tests; failing checks/status block merge, while it is not a safe duplicate or low-signal close."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

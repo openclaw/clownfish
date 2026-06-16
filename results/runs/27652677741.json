@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-187",
+  "mode": "plan",
+  "run_id": "27652677741",
+  "workflow_run_id": "27652677741",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652677741",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:11Z",
+  "workflow_updated_at": "2026-06-16T22:37:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-187.md",
+  "published_at": "2026-06-16T22:40:32.395Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification for five listed open PRs. No GitHub mutations were executed. One clear superseded closeout is planned for #92310 because hydrated #92420 is the broader same-root replacement with green proof; the remaining PRs are kept open or routed to maintainer judgment without inventing a shared canonical.",
+  "actions": [
+    {
+      "target": "#92236",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical/product review is the unresolved decision; no close, merge, or fix action is allowed by this plan job."
+    },
+    {
+      "target": "#92310",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92420",
+      "candidate_fix": "#92420",
+      "reason": "Fresh hydrated evidence shows #92310 is the narrower same-root PR and is blocked on proof, while #92420 is the clearer replacement PR path. Closure requires applicator re-fetch and pre-close comment."
+    },
+    {
+      "target": "#92328",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer technical review of the focused replacement PR. Merge and fix actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#87590",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow contributor PR with related broader issue context; keep open for author/maintainer follow-up rather than closing or inventing a cluster canonical."
+    },
+    {
+      "target": "#77393",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad contributor PR blocked on proof; keep open without closure because low-signal closeout is disabled and no clear canonical replacement exists."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "close_superseded": 1,
+    "keep_related": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92236 requires maintainer review of a focused WebChat commentary-progress PR before any merge decision.",
+    "#92328 requires maintainer review of the clean dashboard history/approval follow-up replacement PR before any merge decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

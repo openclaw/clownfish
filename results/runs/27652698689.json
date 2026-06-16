@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-194",
+  "mode": "plan",
+  "run_id": "27652698689",
+  "workflow_run_id": "27652698689",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652698689",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:41Z",
+  "workflow_updated_at": "2026-06-16T22:38:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-194.md",
+  "published_at": "2026-06-16T22:40:32.426Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification for five open PRs. No GitHub mutations recommended: this shard has no shared canonical, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and several items need normal maintainer or review-bot follow-up rather than cleanup closure.",
+  "actions": [
+    {
+      "target": "#93222",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate focused PR, but it has unresolved review-bot feedback and requires normal maintainer review; no close action is justified."
+    },
+    {
+      "target": "#92700",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92664",
+      "candidate_fix": null,
+      "reason": "The PR appears superseded by a current-main fix, but the actual fix PR is unhydrated and instant/low-signal closeout is disabled, so keep it non-mutating for maintainer/application follow-up."
+    },
+    {
+      "target": "#92716",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92716",
+      "reason": "This is a plausible focused bug-fix PR, not a cleanup target. Keep it open for normal maintainer review since merge is out of scope."
+    },
+    {
+      "target": "#92774",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-state work should remain open, but failed proof and actionable bot review comments block closeout, fixed-by-candidate handling, or any merge recommendation."
+    },
+    {
+      "target": "#89203",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#88838",
+      "candidate_fix": null,
+      "reason": "This is not a dedupe or closure decision; it is a broad maintainer-owned migration slice that needs maintainer/product judgment before any action."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89203 requires maintainer/product judgment for the broad SDK/session compatibility migration slice tied to #88838."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

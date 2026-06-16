@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-157",
+  "mode": "plan",
+  "run_id": "27652611432",
+  "workflow_run_id": "27652611432",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652611432",
+  "head_sha": "3798ccf2fe4ddbf1270755d94c2f49f8f0f3add0",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:34:46Z",
+  "workflow_updated_at": "2026-06-16T22:36:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-157.md",
+  "published_at": "2026-06-16T22:40:32.314Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode inventory classification only. No GitHub mutations recommended; all five listed open PRs remain non-mutating classifications because the shard is not a dedupe cluster and closure/merge/fix paths are disabled or blocked by proof/review/maintainer state. Security-linked #66702 is quarantined separately.",
+  "actions": [
+    {
+      "target": "#66702",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of scope for Clownfish backlog cleanup; route only this exact ref."
+    },
+    {
+      "target": "#76617",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused channel fix with source/test signal, but proof and rebase state block any mutating recommendation. Keep as an independent inventory item related only to its own Zalouser area."
+    },
+    {
+      "target": "#76618",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small plausible provider compatibility fix, but it lacks real behavior proof and cannot be merged or closed from this shard."
+    },
+    {
+      "target": "#77774",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned UI redesign with overlapping draft work and product/design direction involved. Keep non-mutating; do not supersede or close from inventory."
+    },
+    {
+      "target": "#77843",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible narrow robustness fix with tests, but proof and current-main update gaps block merge or closeout. Keep for normal maintainer review."
+    },
+    {
+      "target": "#77848",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is the only listed PR with sufficient proof and green proof check, but the broader provider/auth runtime change and stale review-state mismatch need maintainer judgment rather than inventory cleanup."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77848 needs maintainer review to resolve the stale waiting-on-author status versus the author’s ready-for-review comment, and to judge the provider/auth runtime cache-scope change after ClawSweeper found issues before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

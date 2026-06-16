@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-183",
+  "mode": "plan",
+  "run_id": "27652676781",
+  "workflow_run_id": "27652676781",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652676781",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:10Z",
+  "workflow_updated_at": "2026-06-16T22:37:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-183.md",
+  "published_at": "2026-06-16T22:40:32.391Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. The shard is not a dedupe cluster, so no shared canonical was selected and no close, merge, fix, or label mutations are recommended. All five listed PRs remain open, non-security, and need either maintainer judgment or author follow-up before any higher-risk action.",
+  "actions": [
+    {
+      "target": "#79962",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Public session-lineage API and compatibility/session-state behavior need maintainer product and technical review before any mutation."
+    },
+    {
+      "target": "#79985",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is not a duplicate or low-signal PR; it needs maintainer review and likely branch refresh, while merge/fix actions are blocked by this plan-mode job."
+    },
+    {
+      "target": "#79999",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix appears viable but still requires maintainer technical correctness review; merge and fix actions are not allowed for this job."
+    },
+    {
+      "target": "#80139",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related live implementation work for #49190, but do not close or advance it because it is broad and waiting on author/review resolution."
+    },
+    {
+      "target": "#85829",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely useful fix path for #85822, but maintainer technical review and branch repair are required; merge/fix actions are blocked by job frontmatter."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79962 needs maintainer product/API judgment for the public session lineage surface and compatibility/session-state risk.",
+    "#79985 needs maintainer review and likely branch refresh after the Dependency Guard rebase-needed comment.",
+    "#79999 needs maintainer technical correctness review for the focused gateway config.get path fix.",
+    "#85829 needs maintainer review and branch repair because it is a promising P1 fix but currently dirty/unmergeable."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

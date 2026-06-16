@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-197",
+  "mode": "plan",
+  "run_id": "27652699846",
+  "workflow_run_id": "27652699846",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652699846",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:42Z",
+  "workflow_updated_at": "2026-06-16T22:37:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-197.md",
+  "published_at": "2026-06-16T22:40:32.437Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative single-PR classifications for the live inventory shard. No shared canonical was selected, no security-sensitive refs were found, and no close/merge/fix actions are recommended.",
+  "actions": [
+    {
+      "target": "#65936",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful small PR, but not closable as low-signal or duplicate and not mergeable in this plan shard because proof/update gates are unresolved."
+    },
+    {
+      "target": "#67946",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a plausible focused fix with proof, but the remaining decision is maintainer technical correctness review, which the job explicitly requires human handling."
+    },
+    {
+      "target": "#70105",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate or low-signal close candidate; keep it as an independent open PR blocked on proof rather than closing or escalating the whole shard."
+    },
+    {
+      "target": "#70471",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is substantive provider work with unresolved proof/review risk, not a safe close candidate and not eligible for merge or fix in this plan shard."
+    },
+    {
+      "target": "#72009",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has proof and useful implementation, but the remaining status is author/maintainer resolution plus technical correctness review, which the job marks as human-required."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#67946 requires maintainer technical correctness review before any merge path because hydrated evidence shows proof is supplied but ClawSweeper still requests maintainer review and prior Codex P1 review context needs acceptance.",
+    "#72009 requires maintainer/author resolution before any merge path because hydrated evidence shows proof is supplied, but status is waiting on author and ClawSweeper still reports issues before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

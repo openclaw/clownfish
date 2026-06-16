@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-173",
+  "mode": "plan",
+  "run_id": "27652653652",
+  "workflow_run_id": "27652653652",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652653652",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:35:40Z",
+  "workflow_updated_at": "2026-06-16T22:37:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-173.md",
+  "published_at": "2026-06-16T22:40:32.352Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative live PR inventory actions for five open PRs. No close, merge, label, comment, fix, or security routing action is recommended from this shard.",
+  "actions": [
+    {
+      "target": "#93209",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned automation/test-tooling PR with active maintainer signals, human-review label, unknown mergeability, and failing checks. The job forbids merge/fix and low-signal closure, so this needs maintainer judgment rather than an automated close or merge recommendation."
+    },
+    {
+      "target": "#93243",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93204",
+      "candidate_fix": null,
+      "reason": "The PR is a plausible implementation path for open issue #93204, but it is not ready for closeout or merge in this plan shard because review says changes are needed and proof failed."
+    },
+    {
+      "target": "#93277",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86238",
+      "candidate_fix": null,
+      "reason": "This is related to the already-merged Discord self-reply family but is not a duplicate of #86238 because it covers a broader cron notification reply-context behavior. Keep it open for normal maintainer review/proof rather than closing it in this inventory shard."
+    },
+    {
+      "target": "#91923",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like a ready, focused PR rather than a cleanup target. Because the job disallows merge and explicitly requires human judgment for green, focused bug fixes, the safe plan action is maintainer review."
+    },
+    {
+      "target": "#91984",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91986",
+      "candidate_fix": null,
+      "reason": "The PR is a real, related Telegram/media delivery fix path but has a failed native Telegram proof and a needs-changes review. Keep it open and related to the neighboring attachment/media hook work, with no close or merge recommendation from this shard."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93209: maintainer-owned automation/test-tooling PR with active maintainer signals, human-review label, failing checks, and unknown mergeability.",
+    "#91923: clean focused iOS bug-fix PR appears ready, but the job requires human judgment for green focused bug fixes and blocks merge actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

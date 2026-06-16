@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-182",
+  "mode": "plan",
+  "run_id": "27652676585",
+  "workflow_run_id": "27652676585",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652676585",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:10Z",
+  "workflow_updated_at": "2026-06-16T22:37:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-182.md",
+  "published_at": "2026-06-16T22:40:32.386Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. Classified the five listed open PRs conservatively with no close, merge, fix, or label mutations. One linked security-sensitive PR was quarantined with route_security; unrelated inventory items remain non-security and non-mutating.",
+  "actions": [
+    {
+      "target": "#79855",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR has useful focused code and author follow-up, but it is not a duplicate, superseded PR, low-signal PR, or safe close target in this inventory shard."
+    },
+    {
+      "target": "#79872",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is plausible related work for #51429, but the inventory job does not allow fix or merge actions, and the unresolved proof/review state makes closure or fixed-by-candidate classification unsafe."
+    },
+    {
+      "target": "#79892",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is meaningful work, not a low-signal or duplicate closeout target. Dirty merge state and open linked issues require it to remain on its own maintainer review path."
+    },
+    {
+      "target": "#79938",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft status and missing behavior proof make this not actionable for closure or merge, but the PR has concrete code/docs/tests and should remain independent of this inventory shard."
+    },
+    {
+      "target": "#79959",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is potentially viable but requires the normal maintainer/merge-review path outside this close/comment/label-only inventory plan. It is not duplicate, superseded, or low-signal."
+    },
+    {
+      "target": "#79913",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This linked PR touches an allowlist/security-boundary area and must be routed to central OpenClaw security handling, with no ProjectClownfish close, label, comment, merge, or fix action."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

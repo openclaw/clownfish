@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-198",
+  "mode": "plan",
+  "run_id": "27652700060",
+  "workflow_run_id": "27652700060",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652700060",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:36:43Z",
+  "workflow_updated_at": "2026-06-16T22:38:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-198.md",
+  "published_at": "2026-06-16T22:40:32.444Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode live PR inventory classification for five open PRs. No GitHub mutations are planned because the shard has no shared canonical, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and several items require maintainer or proof review.",
+  "actions": [
+    {
+      "target": "#72510",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated #56692 family, but not safe to close or treat as canonical because proof and mergeability gates are unresolved."
+    },
+    {
+      "target": "#73785",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears ready for maintainer review, but the allowed action set cannot merge and the job explicitly requires human judgment for this kind of green focused bug fix."
+    },
+    {
+      "target": "#87739",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to existing Telegram long-turn/progress work, but failed proof and unclear remaining scope make closeout unsafe in this plan."
+    },
+    {
+      "target": "#87759",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has proof passing but product/compatibility intent for per-group UI overrides remains a maintainer judgment call."
+    },
+    {
+      "target": "#87784",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an apparently focused Slack bug fix with passing proof checks, but technical correctness and merge readiness need maintainer review."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73785 requires maintainer technical review before any merge or closeout decision.",
+    "#87759 requires maintainer product/compatibility judgment for Telegram per-group UI overrides.",
+    "#87784 requires maintainer technical review for the Slack explicit mention timeout fallback."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

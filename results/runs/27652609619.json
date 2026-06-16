@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-152",
+  "mode": "plan",
+  "run_id": "27652609619",
+  "workflow_run_id": "27652609619",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652609619",
+  "head_sha": "3798ccf2fe4ddbf1270755d94c2f49f8f0f3add0",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:34:44Z",
+  "workflow_updated_at": "2026-06-16T22:36:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-152.md",
+  "published_at": "2026-06-16T22:40:32.302Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations performed. Five listed open PRs were classified independently; one security-sensitive linked PR is quarantined read-only.",
+  "actions": [
+    {
+      "target": "#63924",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked historical PR is out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#89688",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused non-security fix path, but proof is still failing, so no close or merge-style action is safe."
+    },
+    {
+      "target": "#89693",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical judgment is needed on the heuristic before this can be classified as a safe fix path or closed."
+    },
+    {
+      "target": "#91134",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a plausible ready fix path, but the job requires maintainer signal and does not allow merge."
+    },
+    {
+      "target": "#92526",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "Open PR is superseded by a hydrated narrower open PR for the same bug; planned close includes contributor credit and a reopen path."
+    },
+    {
+      "target": "#92576",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92467",
+      "candidate_fix": null,
+      "reason": "Open test-only PR is superseded by a hydrated maintainer not-planned decision on its linked request."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "needs_human": 2,
+    "close_superseded": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89693 requires maintainer technical judgment on the optional scanner search-miss heuristic before a safe fix-path classification.",
+    "#91134 requires maintainer review/merge judgment; this plan-mode job cannot merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

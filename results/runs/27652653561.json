@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-172",
+  "mode": "plan",
+  "run_id": "27652653561",
+  "workflow_run_id": "27652653561",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652653561",
+  "head_sha": "ab7ef73ab31b0081553d75f57fcab720232215da",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:35:40Z",
+  "workflow_updated_at": "2026-06-16T22:37:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-172.md",
+  "published_at": "2026-06-16T22:40:32.343Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode inventory classification only. No shared canonical was invented for this mixed open-PR shard; each listed PR is classified independently from the hydrated artifact. No GitHub mutations are planned because merge/fix/raise_pr are blocked and the only plausible closure candidate depends on unhydrated fixed-by PR #93555.",
+  "actions": [
+    {
+      "target": "#92962",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54409",
+      "candidate_fix": null,
+      "reason": "Keep as the implementation PR related to the still-open Feishu queue issue; merge is out of scope for this plan-mode shard."
+    },
+    {
+      "target": "#92983",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92664",
+      "candidate_fix": null,
+      "reason": "Likely superseded by a landed fix, but closure is not planned because the fixed-by PR is unhydrated and closeout permissions are conservative."
+    },
+    {
+      "target": "#93025",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#73488",
+      "candidate_fix": "#93025",
+      "reason": "Maintainer technical review is required for the provider API compatibility decision; no mutation is planned."
+    },
+    {
+      "target": "#93174",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93114",
+      "candidate_fix": "#93174",
+      "reason": "This is active maintainer-owned stacked work, so the remaining decision is maintainer sequencing/review rather than Clownfish closure."
+    },
+    {
+      "target": "#93180",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90448",
+      "candidate_fix": "#93180",
+      "reason": "The remaining decision is maintainer review of a broad legacy Codex migration contract; no merge, fix, or close action is allowed in this job."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93025 needs maintainer review for provider API/session identity compatibility before any merge path.",
+    "#93174 needs maintainer sequencing/review because it is active maintainer-owned stacked QA conversion work based on #93114.",
+    "#93180 needs maintainer technical/product review for the broad legacy Codex migration-plan contract and contributor follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
