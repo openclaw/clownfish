@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T074333-013",
+  "mode": "autonomous",
+  "run_id": "27602956446",
+  "workflow_run_id": "27602956446",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27602956446",
+  "head_sha": "4fb32760afbb26a0c37594cf851abefd8f1fff15",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T07:57:42Z",
+  "workflow_updated_at": "2026-06-16T07:59:59Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T074333-013.md",
+  "published_at": "2026-06-16T08:02:26.072Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard as independent open PRs with no shared canonical. No security-sensitive refs were present. Mutating close, merge, fix, and raise-PR paths are not safe for this job: instant close and low-signal close are disabled, merge/fix/raise_pr are blocked, and several PRs need maintainer proof, product, or technical correctness decisions.",
+  "actions": [
+    {
+      "target": "#85293",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open focused bug-fix PR; keep open for proof/rebase/maintainer review rather than close or merge."
+    },
+    {
+      "target": "#85399",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent substantial bug-fix PR with linked issue and conflict evidence; keep open."
+    },
+    {
+      "target": "#90875",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR still waiting on behavior proof; keep open."
+    },
+    {
+      "target": "#90905",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR that may be viable but requires normal maintainer review outside this close-only inventory job."
+    },
+    {
+      "target": "#85507",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Slack PR with failed proof and overlap evidence; keep open rather than close."
+    },
+    {
+      "target": "#85546",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product decision needed for the feature; this job cannot merge or fix."
+    },
+    {
+      "target": "#85561",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal-looking docs PR, but this job disables low-signal closure; keep open."
+    },
+    {
+      "target": "#85571",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product decision is needed on the diagnostic recovery boundary and observability-only scope."
+    },
+    {
+      "target": "#85611",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable review-bot findings remain unresolved, and this job cannot push fixes."
+    },
+    {
+      "target": "#85671",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product and technical correctness decisions are required; no fix or replacement PR is allowed in this job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85546 needs maintainer/product acceptance for adding session rename slash commands; checks alone are not enough for this feature.",
+    "#85571 needs maintainer judgment on the diagnostic recovery boundary and whether the observability-only revision is acceptable.",
+    "#85611 needs maintainer or author follow-up because Codex bot P1 findings remain unresolved and this job cannot fix the branch.",
+    "#85671 needs maintainer/product review for linked issue #20756, plus real behavior proof; the contributor branch is not maintainer-editable."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

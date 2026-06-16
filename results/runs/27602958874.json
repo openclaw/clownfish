@@ -1,0 +1,183 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T074333-017",
+  "mode": "autonomous",
+  "run_id": "27602958874",
+  "workflow_run_id": "27602958874",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27602958874",
+  "head_sha": "4fb32760afbb26a0c37594cf851abefd8f1fff15",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T07:57:44Z",
+  "workflow_updated_at": "2026-06-16T08:01:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T074333-017.md",
+  "published_at": "2026-06-16T08:02:26.086Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. There is no shared canonical because this shard is explicitly an inventory over unrelated open PRs. No close, merge, fix, raise_pr, or low-signal cleanup action is planned; security-sensitive items identified by deterministic validation are routed exactly, and all other open work is kept open for normal maintainer/proof/review flow.",
+  "actions": [
+    {
+      "target": "#88239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent PR with proof supplied; no shared canonical exists and mutations are not permitted."
+    },
+    {
+      "target": "#88396",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to #82662 and potentially useful, but it remains open for maintainer review and merge gates outside this job."
+    },
+    {
+      "target": "#64611",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR, but proof/rebase requirements block any merge-style conclusion; keep open."
+    },
+    {
+      "target": "#71382",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related feature/fix work should stay open; unresolved bot findings and proof failure block stronger action."
+    },
+    {
+      "target": "#71517",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR contains security-sensitive review evidence; route only this PR and continue non-security classification elsewhere."
+    },
+    {
+      "target": "#71678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator requires exact security routing for this PR; quarantine it without mutating GitHub."
+    },
+    {
+      "target": "#71837",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related memory-core work remains open; stale base, proof failure, and unresolved bot findings block stronger action."
+    },
+    {
+      "target": "#71839",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused PR, but proof and review gates prevent closure or merge; keep open."
+    },
+    {
+      "target": "#71885",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow bug-fix PR with failing proof/checks; keep open."
+    },
+    {
+      "target": "#71902",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-class CI template-injection evidence appears in the exact PR, so central security triage is the safe route."
+    },
+    {
+      "target": "#48788",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator requires exact security routing for this issue; quarantine it without mutating GitHub."
+    },
+    {
+      "target": "#54519",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact issue is security-sensitive and must be routed to central OpenClaw security triage."
+    },
+    {
+      "target": "#82662",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88396",
+      "reason": "Related issue remains open with candidate PR #88396, but no mutation is allowed."
+    },
+    {
+      "target": "#89264",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#71837",
+      "reason": "Related issue remains open; #71837 is a related candidate but not a validated fix path."
+    },
+    {
+      "target": "#48388",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed context only."
+    },
+    {
+      "target": "#71522",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed context only."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 5,
+    "route_security": 5,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 14,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157026-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27602240738",
+  "workflow_run_id": "27602240738",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27602240738",
+  "head_sha": "bb90f9cf4df0d1866c012593830268f375f16efa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T07:43:51Z",
+  "workflow_updated_at": "2026-06-16T07:59:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157026-autonomous-smoke.md",
+  "published_at": "2026-06-16T08:02:26.049Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/41296",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/41296",
+  "summary": "Canonical drift resolved from the hydrated artifact: the hinted canonical PR #41296 is already merged on main, and linked lifecycle PR #63084 is also merged. The only open hydrated item, #56258, is related but not covered completely by current main because non-HTTP subsystem stop calls can still hang; it is useful but not merge-ready due failing proof and unresolved bot review blockers, so plan a repair of the contributor branch with credit preserved.",
+  "actions": [
+    {
+      "target": "#41296",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#41296",
+      "candidate_fix": "#41296",
+      "reason": "Already merged canonical shutdown error-visibility path; no close, comment, label, or merge action is valid for this closed PR."
+    },
+    {
+      "target": "#63084",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#41296",
+      "candidate_fix": "#63084",
+      "reason": "Already merged related lifecycle-events path; closed historical refs are evidence only."
+    },
+    {
+      "target": "#56258",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#41296",
+      "candidate_fix": "#56258",
+      "reason": "Related follow-up bug remains real on current main, but #56258 must be rebased/refactored narrowly and validated before any merge or closeout."
+    },
+    {
+      "target": "#61407",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#63084",
+      "candidate_fix": "#63084",
+      "reason": "Already closed superseded lifecycle work; no mutation is valid."
+    },
+    {
+      "target": "#62448",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#63084",
+      "candidate_fix": "#63084",
+      "reason": "Already closed superseded lifecycle/restart-outbox work; no mutation is valid."
+    },
+    {
+      "target": "cluster:ghcrawl-157026-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#41296",
+      "candidate_fix": "#56258",
+      "reason": "Build a repair-contributor-branch fix artifact so the executor can rebase, patch, review, validate, and only then consider merge."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #56258 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, docs [check:changed] src/gateway/server-close.test.ts: core test [check:changed] src/gateway/server-close.ts: core production [check:changed] src/gateway/shutdown-timeout.test.ts: core test [check:changed] src/gateway/shutdown-timeout.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cac...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
