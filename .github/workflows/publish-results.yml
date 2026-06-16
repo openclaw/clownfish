@@ -68,7 +68,7 @@ jobs:
       - name: Download worker artifacts
         id: download-artifacts
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || secrets.CLOWNFISH_GH_TOKEN || github.token }}
           RUN_ID: ${{ github.event.workflow_run.id || github.event.inputs.run_id }}
           RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt || github.event.inputs.run_attempt || '1' }}
           BACKFILL_LIMIT: ${{ github.event.inputs.limit || vars.CLOWNFISH_PUBLISH_BACKFILL_LIMIT || '250' }}
@@ -128,7 +128,7 @@ jobs:
       - name: Publish and commit result ledger
         if: steps.download-artifacts.outputs.has_results == 'true'
         env:
-          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || secrets.CLOWNFISH_GH_TOKEN || github.token }}
           PUBLISH_AGGREGATE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.aggregate || 'false' }}
         run: |
           set -euo pipefail
