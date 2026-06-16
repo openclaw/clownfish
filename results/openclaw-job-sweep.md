@@ -4,11 +4,11 @@ Mode: applied
 
 | Metric | Count |
 | --- | ---: |
-| Jobs | 86 |
+| Jobs | 82 |
 | Delete test jobs | 0 |
-| Move to outbox | 4 |
+| Move to outbox | 6 |
 | Move to stuck queue | 0 |
-| Requeue candidates | 5 |
+| Requeue candidates | 4 |
 | Active | 1 |
 | Security hold | 16 |
 | Invalid | 0 |
@@ -23,10 +23,12 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/gitcrawl-2084-dedupe-only-20260429-remote.md | gitcrawl-2084-dedupe-only-20260429-remote | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/gitcrawl-3324-dedupe-only-20260429-remote.md | gitcrawl-3324-dedupe-only-20260429-remote | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/gitcrawl-6771-dedupe-only-20260429-remote.md | gitcrawl-6771-dedupe-only-20260429-remote | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/gitcrawl-772-dedupe-only-20260429-remote.md | gitcrawl-772-dedupe-only-20260429-remote | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-005.md | pr-inventory-mixed-20260616T013940-005 | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-013.md | pr-inventory-mixed-20260616T013940-013 | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-019.md | pr-inventory-mixed-20260616T013940-019 | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-006.md | pr-inventory-mixed-20260616T015330-006 | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-013.md | pr-inventory-mixed-20260616T015330-013 | latest run is clean and no open clownfish PR remains |
+| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-046.md | pr-inventory-mixed-20260616T015330-046 | latest run is clean and no open clownfish PR remains |
 
 ## Move To Stuck Queue
 
@@ -38,7 +40,6 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/gitcrawl-2203-dedupe-only-20260429-remote.md | gitcrawl-2203-dedupe-only-20260429-remote | latest result has blocked apply actions |
 | jobs/openclaw/inbox/gitcrawl-238819-dedupe-only-20260429b.md | gitcrawl-238819-dedupe-only-20260429b | latest result has blocked apply actions |
 | jobs/openclaw/inbox/gitcrawl-238861-dedupe-only-20260429c.md | gitcrawl-238861-dedupe-only-20260429c | latest result has blocked apply actions |
 | jobs/openclaw/inbox/gitcrawl-2685-dedupe-only-20260429-remote.md | gitcrawl-2685-dedupe-only-20260429-remote | latest result has blocked apply actions |

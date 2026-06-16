@@ -1,6 +1,6 @@
 {
   "status": "applied",
-  "generated_at": "2026-06-16T02:45:40.604Z",
+  "generated_at": "2026-06-16T03:07:16.284Z",
   "live": true,
   "verify_target_refs_live": true,
   "jobs_dir": "jobs/openclaw/inbox",
@@ -8,271 +8,1159 @@
   "stuck_dir": "jobs/openclaw/outbox/stuck",
   "active_cluster_runs": [],
   "totals": {
-    "jobs": 86,
-    "keep": 60,
+    "jobs": 82,
+    "keep": 55,
     "active": 1,
     "security_hold": 16,
-    "move_to_outbox": 4,
-    "requeue_candidate": 5
+    "requeue_candidate": 4,
+    "move_to_outbox": 6
   },
   "delete_test_jobs": [],
   "outbox_jobs": [
     {
-      "job": "jobs/openclaw/inbox/gitcrawl-2084-dedupe-only-20260429-remote.md",
-      "cluster_id": "gitcrawl-2084-dedupe-only-20260429-remote",
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-005.md",
+      "cluster_id": "pr-inventory-mixed-20260616T013940-005",
       "status": "move_to_outbox",
       "reason": "latest run is clean and no open clownfish PR remains",
       "mode": "autonomous",
-      "latest_run_id": "27590154117",
+      "latest_run_id": "27590649260",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
-      "live_target_refs_total": 5,
-      "live_target_refs_found": 5,
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
       "live_target_refs_missing": 0,
-      "live_target_refs_open": 1,
-      "live_target_refs_closed": 4,
-      "live_target_open_refs": [
-        {
-          "ref": "#49740",
-          "kind": "issue",
-          "state": "open",
-          "title": "Feature request: cron job auto-retry on failure (--retry-count, --retry-delay)",
-          "url": "https://github.com/openclaw/openclaw/issues/49740",
-          "labels": [
-            "stale",
-            "P2",
-            "clawsweeper:no-new-fix-pr",
-            "clawsweeper:needs-product-decision",
-            "clawsweeper:source-repro",
-            "clawsweeper:linked-pr-open",
-            "impact:message-loss",
-            "issue-rating: 🦞 diamond lobster"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#13609",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Add retry logic for failed cron jobs",
-          "url": "https://github.com/openclaw/openclaw/issues/13609",
-          "labels": [
-            "enhancement"
-          ]
-        },
-        {
-          "ref": "#38069",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Feature]: cron job execution retry with configurable delay after transient failure",
-          "url": "https://github.com/openclaw/openclaw/issues/38069",
-          "labels": [
-            "enhancement"
-          ]
-        },
-        {
-          "ref": "#38839",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Feature Request: Cron Job Reschedule & Retry Mechanism",
-          "url": "https://github.com/openclaw/openclaw/issues/38839",
-          "labels": [
-            "stale"
-          ]
-        },
-        {
-          "ref": "#43004",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Feature: Cron job retry with exponential backoff",
-          "url": "https://github.com/openclaw/openclaw/issues/43004"
-        }
-      ]
-    },
-    {
-      "job": "jobs/openclaw/inbox/gitcrawl-3324-dedupe-only-20260429-remote.md",
-      "cluster_id": "gitcrawl-3324-dedupe-only-20260429-remote",
-      "status": "move_to_outbox",
-      "reason": "latest run is clean and no open clownfish PR remains",
-      "mode": "autonomous",
-      "latest_run_id": "27590153848",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 5,
-      "live_target_refs_found": 5,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 1,
-      "live_target_refs_closed": 4,
-      "live_target_open_refs": [
-        {
-          "ref": "#54882",
-          "kind": "issue",
-          "state": "open",
-          "title": "[Bug]: Tool display missing file path when model uses \"file\" parameter alias",
-          "url": "https://github.com/openclaw/openclaw/issues/54882",
-          "labels": [
-            "stale",
-            "P2",
-            "clawsweeper:no-new-fix-pr",
-            "clawsweeper:fix-shape-clear",
-            "clawsweeper:needs-maintainer-review",
-            "clawsweeper:needs-product-decision",
-            "clawsweeper:source-repro",
-            "clawsweeper:linked-pr-open",
-            "issue-rating: 🦞 diamond lobster",
-            "impact:other"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#56694",
-          "kind": "issue",
-          "state": "closed",
-          "title": "read tool 'without path' warning is a false positive when model uses 'file' or 'filePath' parameter names",
-          "url": "https://github.com/openclaw/openclaw/issues/56694",
-          "labels": [
-            "P2"
-          ]
-        },
-        {
-          "ref": "#60008",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug] read tool diagnostic guard missing \"file\" and \"filePath\" aliases — false \"read tool called without path\" warnings",
-          "url": "https://github.com/openclaw/openclaw/issues/60008"
-        },
-        {
-          "ref": "#60550",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Read tool path validation misses filePath and file aliases",
-          "url": "https://github.com/openclaw/openclaw/issues/60550"
-        },
-        {
-          "ref": "#61904",
-          "kind": "issue",
-          "state": "closed",
-          "title": "embedded: false-positive \"read tool called without path\" when tool args use file/filePath aliases",
-          "url": "https://github.com/openclaw/openclaw/issues/61904"
-        }
-      ]
-    },
-    {
-      "job": "jobs/openclaw/inbox/gitcrawl-6771-dedupe-only-20260429-remote.md",
-      "cluster_id": "gitcrawl-6771-dedupe-only-20260429-remote",
-      "status": "move_to_outbox",
-      "reason": "latest run is clean and no open clownfish PR remains",
-      "mode": "autonomous",
-      "latest_run_id": "27590154272",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 3,
-      "live_target_refs_found": 3,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 1,
-      "live_target_refs_closed": 2,
-      "live_target_open_refs": [
-        {
-          "ref": "#15840",
-          "kind": "issue",
-          "state": "open",
-          "title": "[Feature]: Option to suppress `<media:audio>` placeholder text",
-          "url": "https://github.com/openclaw/openclaw/issues/15840",
-          "labels": [
-            "enhancement",
-            "P3",
-            "clawsweeper:no-new-fix-pr",
-            "clawsweeper:fix-shape-clear",
-            "clawsweeper:needs-maintainer-review",
-            "clawsweeper:needs-product-decision",
-            "clawsweeper:source-repro",
-            "issue-rating: 🦞 diamond lobster",
-            "impact:other"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#40252",
-          "kind": "issue",
-          "state": "closed",
-          "title": "iMessage: <media:image> placeholder text sent with media-only messages",
-          "url": "https://github.com/openclaw/openclaw/issues/40252"
-        },
-        {
-          "ref": "#48319",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Signal: media placeholder '<media:audio>' visible as caption on voice messages",
-          "url": "https://github.com/openclaw/openclaw/issues/48319"
-        }
-      ]
-    },
-    {
-      "job": "jobs/openclaw/inbox/gitcrawl-772-dedupe-only-20260429-remote.md",
-      "cluster_id": "gitcrawl-772-dedupe-only-20260429-remote",
-      "status": "move_to_outbox",
-      "reason": "latest run is clean and no open clownfish PR remains",
-      "mode": "autonomous",
-      "latest_run_id": "27590154384",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 3,
-      "live_target_refs_found": 3,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 2,
+      "live_target_refs_open": 9,
       "live_target_refs_closed": 1,
       "live_target_open_refs": [
         {
-          "ref": "#65305",
-          "kind": "issue",
+          "ref": "#88280",
+          "kind": "pull_request",
           "state": "open",
-          "title": "[Bug]: GroupChatSchema historyLimit rejects 0 (uses .positive() instead of .min(0))",
-          "url": "https://github.com/openclaw/openclaw/issues/65305",
+          "title": "Guard media store error cause traversal",
+          "url": "https://github.com/openclaw/openclaw/pull/88280",
           "labels": [
+            "size: S",
+            "proof: supplied",
             "P2",
-            "clawsweeper:no-new-fix-pr",
-            "clawsweeper:source-repro",
-            "clawsweeper:linked-pr-open",
-            "impact:session-state",
-            "issue-rating: 🦞 diamond lobster"
+            "rating: 🌊 off-meta tidepool"
           ]
         },
         {
-          "ref": "#65359",
+          "ref": "#88292",
           "kind": "pull_request",
           "state": "open",
-          "title": "fix(config): allow historyLimit: 0 in GroupChatSchema",
-          "url": "https://github.com/openclaw/openclaw/pull/65359",
+          "title": "fix(update): guard Windows task autostart during package updates",
+          "url": "https://github.com/openclaw/openclaw/pull/88292",
           "labels": [
             "gateway",
-            "stale",
+            "cli",
+            "maintainer",
+            "size: L",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 availability",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#88504",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "feat(memory): add multi-slot memory role architecture",
+          "url": "https://github.com/openclaw/openclaw/pull/88504",
+          "labels": [
+            "docs",
+            "gateway",
+            "extensions: memory-lancedb",
+            "cli",
+            "commands",
+            "agents",
+            "size: XL",
+            "extensions: qa-lab",
+            "extensions: memory-wiki",
+            "plugin: migrate-hermes",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 availability",
+            "status: 👀 ready for maintainer look",
+            "feature: ✨ showcase"
+          ]
+        },
+        {
+          "ref": "#88506",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "feat: add per-agent compaction overrides",
+          "url": "https://github.com/openclaw/openclaw/pull/88506",
+          "labels": [
+            "docs",
+            "app: macos",
+            "gateway",
+            "extensions: memory-core",
+            "commands",
+            "agents",
+            "size: XL",
+            "extensions: codex",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 auth-provider",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#88507",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "feat(plugins): accept slot owner records",
+          "url": "https://github.com/openclaw/openclaw/pull/88507",
+          "labels": [
+            "docs",
+            "gateway",
+            "cli",
+            "commands",
+            "agents",
+            "size: L",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 auth-provider",
+            "merge-risk: 🚨 availability",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#88522",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Fix Telegram active-run ingress sequencing",
+          "url": "https://github.com/openclaw/openclaw/pull/88522",
+          "labels": [
+            "docs",
+            "channel: telegram",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "mantis: telegram-visible-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#88531",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Suggest closest edit match when oldText is missing",
+          "url": "https://github.com/openclaw/openclaw/pull/88531",
+          "labels": [
+            "agents",
+            "size: M",
+            "proof: supplied",
+            "P3",
+            "rating: 🦐 gold shrimp",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#88533",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "test(core): align changed gate type fixtures",
+          "url": "https://github.com/openclaw/openclaw/pull/88533",
+          "labels": [
+            "agents",
+            "maintainer",
+            "size: XS",
+            "P3",
+            "rating: 🦐 gold shrimp",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#88550",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(codex-supervisor): disable app-server websocket compression",
+          "url": "https://github.com/openclaw/openclaw/pull/88550",
+          "labels": [
+            "size: XS",
+            "proof: sufficient",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 automation",
+            "merge-risk: 🚨 compatibility",
+            "status: ⏳ waiting on author",
+            "extensions: codex-supervisor"
+          ]
+        }
+      ],
+      "live_target_closed_refs_sample": [
+        {
+          "ref": "#91957",
+          "kind": "pull_request",
+          "state": "merged",
+          "title": "perf(sessions): share one enumeration across archive retention sweeps",
+          "url": "https://github.com/openclaw/openclaw/pull/91957",
+          "labels": [
+            "gateway",
+            "maintainer",
+            "size: M",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "status: 👀 ready for maintainer look"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-013.md",
+      "cluster_id": "pr-inventory-mixed-20260616T013940-013",
+      "status": "move_to_outbox",
+      "reason": "latest run is clean and no open clownfish PR remains",
+      "mode": "autonomous",
+      "latest_run_id": "27590649334",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 9,
+      "live_target_refs_closed": 1,
+      "live_target_open_refs": [
+        {
+          "ref": "#52120",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(mattermost): inherit thread context in message tool send action",
+          "url": "https://github.com/openclaw/openclaw/pull/52120",
+          "labels": [
+            "channel: mattermost",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#88382",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(config): compare size-drop guard against canonical config",
+          "url": "https://github.com/openclaw/openclaw/pull/88382",
+          "labels": [
+            "maintainer",
+            "size: S",
+            "P1",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 compatibility",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#88681",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Make runtime plugin startup stalls name in-flight plugins",
+          "url": "https://github.com/openclaw/openclaw/pull/88681",
+          "labels": [
+            "agents",
+            "size: M",
+            "proof: supplied",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#88919",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix: allow preflight compaction to reenter session locks",
+          "url": "https://github.com/openclaw/openclaw/pull/88919",
+          "labels": [
+            "agents",
+            "size: XS",
+            "proof: supplied",
+            "proof: sufficient",
+            "P1",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 session-state",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#88959",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(plugins): ignore throwing provider runtime hooks",
+          "url": "https://github.com/openclaw/openclaw/pull/88959",
+          "labels": [
+            "maintainer",
+            "size: S",
+            "proof: sufficient",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#92716",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(daemon): detect silently dropped schtasks /Run in Session 0 for restart",
+          "url": "https://github.com/openclaw/openclaw/pull/92716",
+          "labels": [
+            "gateway",
+            "size: XS",
+            "proof: supplied",
+            "P1",
+            "rating: 🦪 silver shellfish",
+            "merge-risk: 🚨 availability",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92770",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(media-understanding): place Qwen/DashScope image prompts in user content (#92688)",
+          "url": "https://github.com/openclaw/openclaw/pull/92770",
+          "labels": [
             "size: S",
             "proof: supplied",
+            "P2",
+            "rating: 🦪 silver shellfish",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92833",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(memory): search memory and wiki concurrently for corpus=all (#92633)",
+          "url": "https://github.com/openclaw/openclaw/pull/92833",
+          "labels": [
+            "extensions: memory-core",
+            "size: S",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#92847",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(codex): drain terminal native tool results",
+          "url": "https://github.com/openclaw/openclaw/pull/92847",
+          "labels": [
+            "size: M",
+            "extensions: codex",
+            "proof: supplied",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        }
+      ],
+      "live_target_closed_refs_sample": [
+        {
+          "ref": "#92831",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix(qqbot): honor durable media roots for cron TTS",
+          "url": "https://github.com/openclaw/openclaw/pull/92831",
+          "labels": [
+            "size: S",
+            "channel: qqbot",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-019.md",
+      "cluster_id": "pr-inventory-mixed-20260616T013940-019",
+      "status": "move_to_outbox",
+      "reason": "latest run is clean and no open clownfish PR remains",
+      "mode": "autonomous",
+      "latest_run_id": "27590649731",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 7,
+      "live_target_refs_closed": 3,
+      "live_target_open_refs": [
+        {
+          "ref": "#55351",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Preserve Open WebUI UUID sessions across Control UI",
+          "url": "https://github.com/openclaw/openclaw/pull/55351",
+          "labels": [
+            "app: web-ui",
+            "gateway",
+            "agents",
+            "size: XL",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 auth-provider",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#59835",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(cron): validate custom session ids",
+          "url": "https://github.com/openclaw/openclaw/pull/59835",
+          "labels": [
+            "gateway",
+            "maintainer",
+            "size: S",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#63123",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "feat(ios): add background alive beacon support",
+          "url": "https://github.com/openclaw/openclaw/pull/63123",
+          "labels": [
+            "app: ios",
+            "gateway",
+            "maintainer",
+            "size: L",
+            "rating: 🧂 unranked krab",
+            "status: ⏳ waiting on author"
+          ]
+        },
+        {
+          "ref": "#63456",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Scope workspace guidance to coding contexts",
+          "url": "https://github.com/openclaw/openclaw/pull/63456",
+          "labels": [
+            "agents",
+            "maintainer",
+            "size: XL",
+            "rating: 🧂 unranked krab",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92947",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(qqbot): deliver cron auto-TTS voice by trusting OpenClaw temp root",
+          "url": "https://github.com/openclaw/openclaw/pull/92947",
+          "labels": [
+            "size: S",
+            "channel: qqbot",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🦞 diamond lobster",
+            "status: 👀 ready for maintainer look",
+            "proof: 📸 screenshot"
+          ]
+        },
+        {
+          "ref": "#92978",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "refactor: consolidate duplicated escapeRegExp helpers",
+          "url": "https://github.com/openclaw/openclaw/pull/92978",
+          "labels": [
+            "gateway",
+            "agents",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P3",
+            "rating: 🧂 unranked krab",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92986",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(onboard): skip Homebrew prompt on unsupported platforms",
+          "url": "https://github.com/openclaw/openclaw/pull/92986",
+          "labels": [
+            "commands",
+            "size: XS",
+            "proof: supplied",
+            "P2",
+            "rating: 🦪 silver shellfish",
+            "status: 📣 needs proof"
+          ]
+        }
+      ],
+      "live_target_closed_refs_sample": [
+        {
+          "ref": "#64703",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix: parse scientific notation as number in parseConfigValue",
+          "url": "https://github.com/openclaw/openclaw/pull/64703",
+          "labels": [
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#64820",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix(feishu): break circular module init causing ReferenceError on group mention",
+          "url": "https://github.com/openclaw/openclaw/pull/64820",
+          "labels": [
+            "channel: feishu",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#68927",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "ui(chat): show explicit qualified model refs",
+          "url": "https://github.com/openclaw/openclaw/pull/68927",
+          "labels": [
+            "app: web-ui",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P3",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 auth-provider",
+            "status: 📣 needs proof"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-006.md",
+      "cluster_id": "pr-inventory-mixed-20260616T015330-006",
+      "status": "move_to_outbox",
+      "reason": "latest run is clean and no open clownfish PR remains",
+      "mode": "autonomous",
+      "latest_run_id": "27590649221",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 10,
+      "live_target_refs_closed": 0,
+      "live_target_open_refs": [
+        {
+          "ref": "#92349",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(feishu): keep memory probe replies visible",
+          "url": "https://github.com/openclaw/openclaw/pull/92349",
+          "labels": [
+            "channel: feishu",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92388",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "#92379: fix(session): refresh stale model before reading contextWindow in checkCompaction",
+          "url": "https://github.com/openclaw/openclaw/pull/92388",
+          "labels": [
+            "agents",
+            "size: XS",
+            "triage: needs-real-behavior-proof",
+            "mantis: telegram-visible-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92420",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(telegram): record sent messages in the source-delivery path",
+          "url": "https://github.com/openclaw/openclaw/pull/92420",
+          "labels": [
+            "channel: telegram",
+            "size: M",
+            "proof: supplied",
+            "mantis: telegram-visible-proof",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92441",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Harden synthetic session cleanup safety",
+          "url": "https://github.com/openclaw/openclaw/pull/92441",
+          "labels": [
+            "docs",
+            "app: web-ui",
+            "gateway",
+            "cli",
+            "commands",
+            "size: L",
+            "triage: refactor-only",
+            "triage: dirty-candidate",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 session-state",
+            "status: 👀 ready for maintainer look"
+          ]
+        },
+        {
+          "ref": "#92454",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(tasks): reconcile stale subagent tasks when backing CLI child is terminal (fixes #92285)",
+          "url": "https://github.com/openclaw/openclaw/pull/92454",
+          "labels": [
+            "size: M",
+            "proof: supplied",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#92477",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix: migrate watch app to single-target app",
+          "url": "https://github.com/openclaw/openclaw/pull/92477",
+          "labels": [
+            "app: ios",
+            "scripts",
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🦐 gold shrimp",
+            "merge-risk: 🚨 compatibility",
+            "status: ⏳ waiting on author",
+            "proof: 📸 screenshot"
+          ]
+        },
+        {
+          "ref": "#92484",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(mcp): reject blocked stdio env keys at write time and warn once per server",
+          "url": "https://github.com/openclaw/openclaw/pull/92484",
+          "labels": [
+            "docs",
+            "cli",
+            "commands",
+            "agents",
+            "size: M",
             "proof: sufficient",
             "P2",
             "rating: 🦞 diamond lobster",
             "merge-risk: 🚨 compatibility",
             "status: 👀 ready for maintainer look"
           ]
+        },
+        {
+          "ref": "#92491",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(mcp): reject blocked stdio env keys at MCP config write time (fixes #92474)",
+          "url": "https://github.com/openclaw/openclaw/pull/92491",
+          "labels": [
+            "agents",
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: ⏳ waiting on author"
+          ]
+        },
+        {
+          "ref": "#92499",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Memory/QMD: isolate mcporter sidecars per agent",
+          "url": "https://github.com/openclaw/openclaw/pull/92499",
+          "labels": [
+            "docs",
+            "extensions: memory-core",
+            "size: XL",
+            "proof: supplied",
+            "proof: sufficient",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 availability",
+            "status: ⏳ waiting on author"
+          ]
+        },
+        {
+          "ref": "#93387",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "feat(ios): add watch action surface",
+          "url": "https://github.com/openclaw/openclaw/pull/93387",
+          "labels": [
+            "app: ios",
+            "scripts",
+            "size: XL",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🦞 diamond lobster",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 message-delivery",
+            "status: 👀 ready for maintainer look",
+            "feature: ✨ showcase"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-013.md",
+      "cluster_id": "pr-inventory-mixed-20260616T015330-013",
+      "status": "move_to_outbox",
+      "reason": "latest run is clean and no open clownfish PR remains",
+      "mode": "autonomous",
+      "latest_run_id": "27590649560",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 9,
+      "live_target_refs_closed": 1,
+      "live_target_open_refs": [
+        {
+          "ref": "#67734",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(feishu): silence sdk logs during setup probe",
+          "url": "https://github.com/openclaw/openclaw/pull/67734",
+          "labels": [
+            "channel: feishu",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#68537",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "[codex] fix(telegram): allow ACP bindings for direct chats",
+          "url": "https://github.com/openclaw/openclaw/pull/68537",
+          "labels": [
+            "docs",
+            "channel: telegram",
+            "gateway",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "mantis: telegram-visible-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#69346",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(embedded-runner): actionable diagnostic for empty-stream config errors",
+          "url": "https://github.com/openclaw/openclaw/pull/69346",
+          "labels": [
+            "agents",
+            "size: M",
+            "proof: sufficient",
+            "mantis: telegram-visible-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 availability",
+            "status: ⏳ waiting on author"
+          ]
+        },
+        {
+          "ref": "#70056",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(gateway): clean up store and set running=false on stop timeout",
+          "url": "https://github.com/openclaw/openclaw/pull/70056",
+          "labels": [
+            "gateway",
+            "stale",
+            "size: XS",
+            "triage: refactor-only",
+            "triage: needs-real-behavior-proof",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 availability",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#70471",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "Feishu: harden comment reply delivery and bot identity refresh",
+          "url": "https://github.com/openclaw/openclaw/pull/70471",
+          "labels": [
+            "channel: feishu",
+            "stale",
+            "size: XL",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 auth-provider",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#72409",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(plugins): suppress false duplicate-id warnings across origins",
+          "url": "https://github.com/openclaw/openclaw/pull/72409",
+          "labels": [
+            "maintainer",
+            "size: M",
+            "clawsweeper",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: ⏳ waiting on author"
+          ]
+        },
+        {
+          "ref": "#74223",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "plugin-sdk: restore Feishu pairing facade",
+          "url": "https://github.com/openclaw/openclaw/pull/74223",
+          "labels": [
+            "docs",
+            "scripts",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "dependencies-changed",
+            "P1",
+            "rating: 🦪 silver shellfish",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#84975",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(heartbeat): suppress fallback after route-matched message tool",
+          "url": "https://github.com/openclaw/openclaw/pull/84975",
+          "labels": [
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "mantis: telegram-visible-proof",
+            "P1",
+            "rating: 🦐 gold shrimp",
+            "merge-risk: 🚨 message-delivery",
+            "status: ⏳ waiting on author",
+            "proof: 🎥 video"
+          ]
+        },
+        {
+          "ref": "#93105",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(doctor): repair null agents.list[].workspace values",
+          "url": "https://github.com/openclaw/openclaw/pull/93105",
+          "labels": [
+            "commands",
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "P1",
+            "rating: 🦞 diamond lobster",
+            "status: 👀 ready for maintainer look"
+          ]
         }
       ],
       "live_target_closed_refs_sample": [
         {
-          "ref": "#65425",
+          "ref": "#93308",
           "kind": "pull_request",
-          "state": "closed",
-          "title": "Allow zero group chat history limit",
-          "url": "https://github.com/openclaw/openclaw/pull/65425",
+          "state": "merged",
+          "title": "fix(discord): reject malformed realtime consult calls",
+          "url": "https://github.com/openclaw/openclaw/pull/93308",
           "labels": [
-            "extensions: memory-core",
-            "size: S"
+            "channel: discord",
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "P1",
+            "rating: 🦞 diamond lobster",
+            "status: 👀 ready for maintainer look"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-046.md",
+      "cluster_id": "pr-inventory-mixed-20260616T015330-046",
+      "status": "move_to_outbox",
+      "reason": "latest run is clean and no open clownfish PR remains",
+      "mode": "autonomous",
+      "latest_run_id": "27590649959",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 10,
+      "live_target_refs_found": 10,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 9,
+      "live_target_refs_closed": 1,
+      "live_target_open_refs": [
+        {
+          "ref": "#70497",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(agents): strip Gemini conditional schema keywords",
+          "url": "https://github.com/openclaw/openclaw/pull/70497",
+          "labels": [
+            "agents",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#70605",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "BUG: Strip strikethrough text from context files before sending to model",
+          "url": "https://github.com/openclaw/openclaw/pull/70605",
+          "labels": [
+            "agents",
+            "size: S",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#70907",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "docs(codex): document native model lifecycle hooks",
+          "url": "https://github.com/openclaw/openclaw/pull/70907",
+          "labels": [
+            "docs",
+            "maintainer",
+            "size: XS",
+            "P3",
+            "rating: 🧂 unranked krab",
+            "status: ⏳ waiting on author",
+            "merge-risk: 🚨 other"
+          ]
+        },
+        {
+          "ref": "#71062",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(/v1/responses): drop the extra phantom assistant turn on client-tool calls",
+          "url": "https://github.com/openclaw/openclaw/pull/71062",
+          "labels": [
+            "gateway",
+            "agents",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P1",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#71113",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "CI: add AGENTS.md size guard to check-additional",
+          "url": "https://github.com/openclaw/openclaw/pull/71113",
+          "labels": [
+            "scripts",
+            "stale",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P3",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 automation",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#71503",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(gateway): prefer physical LAN addresses before bridge interfaces",
+          "url": "https://github.com/openclaw/openclaw/pull/71503",
+          "labels": [
+            "gateway",
+            "extensions: device-pair",
+            "stale",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#71563",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(telegram): route /new, /reset to control lane to bypass queue",
+          "url": "https://github.com/openclaw/openclaw/pull/71563",
+          "labels": [
+            "channel: telegram",
+            "size: XS",
+            "triage: needs-real-behavior-proof",
+            "mantis: telegram-visible-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 session-state",
+            "merge-risk: 🚨 message-delivery",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#72025",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(signal): enable inbound status reactions",
+          "url": "https://github.com/openclaw/openclaw/pull/72025",
+          "labels": [
+            "channel: signal",
+            "size: M",
+            "triage: needs-real-behavior-proof",
+            "P2",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#72092",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(media): allow aws-sdk auth mode for image and audio/video paths",
+          "url": "https://github.com/openclaw/openclaw/pull/72092",
+          "labels": [
+            "agents",
+            "size: M",
+            "proof: supplied",
+            "proof: sufficient",
+            "P1",
+            "rating: 🦐 gold shrimp",
+            "merge-risk: 🚨 auth-provider",
+            "merge-risk: 🚨 availability",
+            "status: ⏳ waiting on author"
+          ]
+        }
+      ],
+      "live_target_closed_refs_sample": [
+        {
+          "ref": "#92578",
+          "kind": "pull_request",
+          "state": "merged",
+          "title": "refactor(whatsapp): add inbound admission foundation",
+          "url": "https://github.com/openclaw/openclaw/pull/92578",
+          "labels": [
+            "docs",
+            "channel: whatsapp-web",
+            "maintainer",
+            "size: L",
+            "P3",
+            "rating: 🐚 platinum hermit",
+            "merge-risk: 🚨 compatibility",
+            "status: 👀 ready for maintainer look"
           ]
         }
       ]
@@ -280,168 +1168,6 @@
   ],
   "stuck_jobs": [],
   "requeue_candidates": [
-    {
-      "job": "jobs/openclaw/inbox/gitcrawl-2203-dedupe-only-20260429-remote.md",
-      "cluster_id": "gitcrawl-2203-dedupe-only-20260429-remote",
-      "status": "requeue_candidate",
-      "reason": "latest result has blocked apply actions",
-      "mode": "autonomous",
-      "latest_run_id": "25132421068",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 17,
-      "live_target_refs_found": 17,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 2,
-      "live_target_refs_closed": 15,
-      "live_target_open_refs": [
-        {
-          "ref": "#65636",
-          "kind": "issue",
-          "state": "open",
-          "title": "[Feature]: cron add: support custom job IDs via --id",
-          "url": "https://github.com/openclaw/openclaw/issues/65636",
-          "labels": [
-            "enhancement",
-            "P2",
-            "clawsweeper:no-new-fix-pr",
-            "clawsweeper:needs-maintainer-review",
-            "clawsweeper:needs-product-decision",
-            "clawsweeper:source-repro",
-            "clawsweeper:linked-pr-open",
-            "issue-rating: 🦞 diamond lobster",
-            "impact:other"
-          ]
-        },
-        {
-          "ref": "#70046",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(cron): support HH:MM time-only strings in --at; apply --tz to time-only input",
-          "url": "https://github.com/openclaw/openclaw/pull/70046",
-          "labels": [
-            "docs",
-            "cli",
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🦞 diamond lobster",
-            "status: 👀 ready for maintainer look"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#40218",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "cron: optional custom job id and duplicate-id validation",
-          "url": "https://github.com/openclaw/openclaw/pull/40218",
-          "labels": [
-            "docs",
-            "app: macos",
-            "app: web-ui",
-            "gateway",
-            "cli",
-            "agents",
-            "size: S"
-          ]
-        },
-        {
-          "ref": "#42327",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "fix(cli): accept positional id for cron runs",
-          "url": "https://github.com/openclaw/openclaw/pull/42327",
-          "labels": [
-            "cli",
-            "size: XS",
-            "triage: needs-real-behavior-proof",
-            "P3",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#43695",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Cron delivery ignores threadId for Telegram forum topics",
-          "url": "https://github.com/openclaw/openclaw/issues/43695"
-        },
-        {
-          "ref": "#44270",
-          "kind": "issue",
-          "state": "closed",
-          "title": "Cron tool drops Telegram direct-chat thread context when inferring delivery target",
-          "url": "https://github.com/openclaw/openclaw/issues/44270"
-        },
-        {
-          "ref": "#46177",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "fix(cron): clarify default timezone for cron expressions",
-          "url": "https://github.com/openclaw/openclaw/pull/46177",
-          "labels": [
-            "cli",
-            "agents",
-            "size: XS"
-          ]
-        },
-        {
-          "ref": "#49388",
-          "kind": "issue",
-          "state": "closed",
-          "title": "fix(telegram): missing buildToolContext causes message tool, cron, and sessions_send to lose thread context",
-          "url": "https://github.com/openclaw/openclaw/issues/49388"
-        },
-        {
-          "ref": "#50982",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Feature]: cron jobs don't support --thread-id, can't send to Telegram topic",
-          "url": "https://github.com/openclaw/openclaw/issues/50982",
-          "labels": [
-            "enhancement",
-            "clownfish",
-            "P2",
-            "impact:message-loss"
-          ]
-        },
-        {
-          "ref": "#51581",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "feat(cron): add --thread-id flag to cron create/edit for Telegram forum topics",
-          "url": "https://github.com/openclaw/openclaw/pull/51581",
-          "labels": [
-            "cli",
-            "size: S"
-          ]
-        },
-        {
-          "ref": "#51969",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "Agents/cron tool: document IANA tz for cron schedules (#51922) (#51922)",
-          "url": "https://github.com/openclaw/openclaw/pull/51969",
-          "labels": [
-            "agents",
-            "size: XS"
-          ]
-        },
-        {
-          "ref": "#59441",
-          "kind": "issue",
-          "state": "closed",
-          "title": "[Bug]: cron add --at does not support HH:MM time-only strings; --tz has no effect on --at",
-          "url": "https://github.com/openclaw/openclaw/issues/59441"
-        }
-      ]
-    },
     {
       "job": "jobs/openclaw/inbox/gitcrawl-238819-dedupe-only-20260429b.md",
       "cluster_id": "gitcrawl-238819-dedupe-only-20260429b",
@@ -2581,8 +3307,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T013940-018",
       "status": "security_hold",
       "reason": "security-sensitive job stays out of automation cleanup",
-      "mode": "plan",
-      "latest_run_id": "27588299280",
+      "mode": "autonomous",
+      "latest_run_id": "27590649482",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -2765,8 +3491,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-005",
       "status": "security_hold",
       "reason": "security-sensitive job stays out of automation cleanup",
-      "mode": "plan",
-      "latest_run_id": "27588774722",
+      "mode": "autonomous",
+      "latest_run_id": "27590649499",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -2952,8 +3678,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-025",
       "status": "security_hold",
       "reason": "security-sensitive job stays out of automation cleanup",
-      "mode": "plan",
-      "latest_run_id": "27588775399",
+      "mode": "autonomous",
+      "latest_run_id": "27590649644",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -4592,6 +5318,168 @@
             "agents",
             "size: XS"
           ]
+        }
+      ]
+    },
+    {
+      "job": "jobs/openclaw/inbox/gitcrawl-2203-dedupe-only-20260429-remote.md",
+      "cluster_id": "gitcrawl-2203-dedupe-only-20260429-remote",
+      "status": "keep",
+      "reason": "job is still eligible for normal dispatch",
+      "mode": "autonomous",
+      "latest_run_id": "27590650014",
+      "latest_workflow_conclusion": "success",
+      "latest_result_status": "planned",
+      "open_prs": [],
+      "live_target_refs_total": 17,
+      "live_target_refs_found": 17,
+      "live_target_refs_missing": 0,
+      "live_target_refs_open": 2,
+      "live_target_refs_closed": 15,
+      "live_target_open_refs": [
+        {
+          "ref": "#65636",
+          "kind": "issue",
+          "state": "open",
+          "title": "[Feature]: cron add: support custom job IDs via --id",
+          "url": "https://github.com/openclaw/openclaw/issues/65636",
+          "labels": [
+            "enhancement",
+            "P2",
+            "clawsweeper:no-new-fix-pr",
+            "clawsweeper:needs-maintainer-review",
+            "clawsweeper:needs-product-decision",
+            "clawsweeper:source-repro",
+            "clawsweeper:linked-pr-open",
+            "issue-rating: 🦞 diamond lobster",
+            "impact:other"
+          ]
+        },
+        {
+          "ref": "#70046",
+          "kind": "pull_request",
+          "state": "open",
+          "title": "fix(cron): support HH:MM time-only strings in --at; apply --tz to time-only input",
+          "url": "https://github.com/openclaw/openclaw/pull/70046",
+          "labels": [
+            "docs",
+            "cli",
+            "size: S",
+            "proof: supplied",
+            "proof: sufficient",
+            "P2",
+            "rating: 🦞 diamond lobster",
+            "status: 👀 ready for maintainer look"
+          ]
+        }
+      ],
+      "live_target_closed_refs_sample": [
+        {
+          "ref": "#40218",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "cron: optional custom job id and duplicate-id validation",
+          "url": "https://github.com/openclaw/openclaw/pull/40218",
+          "labels": [
+            "docs",
+            "app: macos",
+            "app: web-ui",
+            "gateway",
+            "cli",
+            "agents",
+            "size: S"
+          ]
+        },
+        {
+          "ref": "#42327",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix(cli): accept positional id for cron runs",
+          "url": "https://github.com/openclaw/openclaw/pull/42327",
+          "labels": [
+            "cli",
+            "size: XS",
+            "triage: needs-real-behavior-proof",
+            "P3",
+            "rating: 🧂 unranked krab",
+            "merge-risk: 🚨 compatibility",
+            "status: 📣 needs proof"
+          ]
+        },
+        {
+          "ref": "#43695",
+          "kind": "issue",
+          "state": "closed",
+          "title": "Cron delivery ignores threadId for Telegram forum topics",
+          "url": "https://github.com/openclaw/openclaw/issues/43695"
+        },
+        {
+          "ref": "#44270",
+          "kind": "issue",
+          "state": "closed",
+          "title": "Cron tool drops Telegram direct-chat thread context when inferring delivery target",
+          "url": "https://github.com/openclaw/openclaw/issues/44270"
+        },
+        {
+          "ref": "#46177",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "fix(cron): clarify default timezone for cron expressions",
+          "url": "https://github.com/openclaw/openclaw/pull/46177",
+          "labels": [
+            "cli",
+            "agents",
+            "size: XS"
+          ]
+        },
+        {
+          "ref": "#49388",
+          "kind": "issue",
+          "state": "closed",
+          "title": "fix(telegram): missing buildToolContext causes message tool, cron, and sessions_send to lose thread context",
+          "url": "https://github.com/openclaw/openclaw/issues/49388"
+        },
+        {
+          "ref": "#50982",
+          "kind": "issue",
+          "state": "closed",
+          "title": "[Feature]: cron jobs don't support --thread-id, can't send to Telegram topic",
+          "url": "https://github.com/openclaw/openclaw/issues/50982",
+          "labels": [
+            "enhancement",
+            "clownfish",
+            "P2",
+            "impact:message-loss"
+          ]
+        },
+        {
+          "ref": "#51581",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "feat(cron): add --thread-id flag to cron create/edit for Telegram forum topics",
+          "url": "https://github.com/openclaw/openclaw/pull/51581",
+          "labels": [
+            "cli",
+            "size: S"
+          ]
+        },
+        {
+          "ref": "#51969",
+          "kind": "pull_request",
+          "state": "closed",
+          "title": "Agents/cron tool: document IANA tz for cron schedules (#51922) (#51922)",
+          "url": "https://github.com/openclaw/openclaw/pull/51969",
+          "labels": [
+            "agents",
+            "size: XS"
+          ]
+        },
+        {
+          "ref": "#59441",
+          "kind": "issue",
+          "state": "closed",
+          "title": "[Bug]: cron add --at does not support HH:MM time-only strings; --tz has no effect on --at",
+          "url": "https://github.com/openclaw/openclaw/issues/59441"
         }
       ]
     },
@@ -6370,10 +7258,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T013940-002",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588297920",
+      "mode": "autonomous",
+      "latest_run_id": "27590649194",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -6544,218 +7432,14 @@
       ]
     },
     {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-005.md",
-      "cluster_id": "pr-inventory-mixed-20260616T013940-005",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588298361",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 9,
-      "live_target_refs_closed": 1,
-      "live_target_open_refs": [
-        {
-          "ref": "#88280",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Guard media store error cause traversal",
-          "url": "https://github.com/openclaw/openclaw/pull/88280",
-          "labels": [
-            "size: S",
-            "proof: supplied",
-            "P2",
-            "rating: 🌊 off-meta tidepool"
-          ]
-        },
-        {
-          "ref": "#88292",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(update): guard Windows task autostart during package updates",
-          "url": "https://github.com/openclaw/openclaw/pull/88292",
-          "labels": [
-            "gateway",
-            "cli",
-            "maintainer",
-            "size: L",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 availability",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#88504",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "feat(memory): add multi-slot memory role architecture",
-          "url": "https://github.com/openclaw/openclaw/pull/88504",
-          "labels": [
-            "docs",
-            "gateway",
-            "extensions: memory-lancedb",
-            "cli",
-            "commands",
-            "agents",
-            "size: XL",
-            "extensions: qa-lab",
-            "extensions: memory-wiki",
-            "plugin: migrate-hermes",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 availability",
-            "status: 👀 ready for maintainer look",
-            "feature: ✨ showcase"
-          ]
-        },
-        {
-          "ref": "#88506",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "feat: add per-agent compaction overrides",
-          "url": "https://github.com/openclaw/openclaw/pull/88506",
-          "labels": [
-            "docs",
-            "app: macos",
-            "gateway",
-            "extensions: memory-core",
-            "commands",
-            "agents",
-            "size: XL",
-            "extensions: codex",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 auth-provider",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#88507",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "feat(plugins): accept slot owner records",
-          "url": "https://github.com/openclaw/openclaw/pull/88507",
-          "labels": [
-            "docs",
-            "gateway",
-            "cli",
-            "commands",
-            "agents",
-            "size: L",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 auth-provider",
-            "merge-risk: 🚨 availability",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#88522",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Fix Telegram active-run ingress sequencing",
-          "url": "https://github.com/openclaw/openclaw/pull/88522",
-          "labels": [
-            "docs",
-            "channel: telegram",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "mantis: telegram-visible-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#88531",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Suggest closest edit match when oldText is missing",
-          "url": "https://github.com/openclaw/openclaw/pull/88531",
-          "labels": [
-            "agents",
-            "size: M",
-            "proof: supplied",
-            "P3",
-            "rating: 🦐 gold shrimp",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#88533",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "test(core): align changed gate type fixtures",
-          "url": "https://github.com/openclaw/openclaw/pull/88533",
-          "labels": [
-            "agents",
-            "maintainer",
-            "size: XS",
-            "P3",
-            "rating: 🦐 gold shrimp",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#88550",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(codex-supervisor): disable app-server websocket compression",
-          "url": "https://github.com/openclaw/openclaw/pull/88550",
-          "labels": [
-            "size: XS",
-            "proof: sufficient",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 automation",
-            "merge-risk: 🚨 compatibility",
-            "status: ⏳ waiting on author",
-            "extensions: codex-supervisor"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#91957",
-          "kind": "pull_request",
-          "state": "merged",
-          "title": "perf(sessions): share one enumeration across archive retention sweeps",
-          "url": "https://github.com/openclaw/openclaw/pull/91957",
-          "labels": [
-            "gateway",
-            "maintainer",
-            "size: M",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "status: 👀 ready for maintainer look"
-          ]
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-008.md",
       "cluster_id": "pr-inventory-mixed-20260616T013940-008",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588298272",
+      "mode": "autonomous",
+      "latest_run_id": "27590649178",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -6932,10 +7616,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T013940-009",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588298781",
+      "mode": "autonomous",
+      "latest_run_id": "27590649430",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -7111,10 +7795,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T013940-012",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588298491",
+      "mode": "autonomous",
+      "latest_run_id": "27590649207",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -7310,188 +7994,12 @@
       ]
     },
     {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-013.md",
-      "cluster_id": "pr-inventory-mixed-20260616T013940-013",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588298759",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 9,
-      "live_target_refs_closed": 1,
-      "live_target_open_refs": [
-        {
-          "ref": "#52120",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(mattermost): inherit thread context in message tool send action",
-          "url": "https://github.com/openclaw/openclaw/pull/52120",
-          "labels": [
-            "channel: mattermost",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#88382",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(config): compare size-drop guard against canonical config",
-          "url": "https://github.com/openclaw/openclaw/pull/88382",
-          "labels": [
-            "maintainer",
-            "size: S",
-            "P1",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 compatibility",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#88681",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Make runtime plugin startup stalls name in-flight plugins",
-          "url": "https://github.com/openclaw/openclaw/pull/88681",
-          "labels": [
-            "agents",
-            "size: M",
-            "proof: supplied",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#88919",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix: allow preflight compaction to reenter session locks",
-          "url": "https://github.com/openclaw/openclaw/pull/88919",
-          "labels": [
-            "agents",
-            "size: XS",
-            "proof: supplied",
-            "proof: sufficient",
-            "P1",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 session-state",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#88959",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(plugins): ignore throwing provider runtime hooks",
-          "url": "https://github.com/openclaw/openclaw/pull/88959",
-          "labels": [
-            "maintainer",
-            "size: S",
-            "proof: sufficient",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#92716",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(daemon): detect silently dropped schtasks /Run in Session 0 for restart",
-          "url": "https://github.com/openclaw/openclaw/pull/92716",
-          "labels": [
-            "gateway",
-            "size: XS",
-            "proof: supplied",
-            "P1",
-            "rating: 🦪 silver shellfish",
-            "merge-risk: 🚨 availability",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92770",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(media-understanding): place Qwen/DashScope image prompts in user content (#92688)",
-          "url": "https://github.com/openclaw/openclaw/pull/92770",
-          "labels": [
-            "size: S",
-            "proof: supplied",
-            "P2",
-            "rating: 🦪 silver shellfish",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92833",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(memory): search memory and wiki concurrently for corpus=all (#92633)",
-          "url": "https://github.com/openclaw/openclaw/pull/92833",
-          "labels": [
-            "extensions: memory-core",
-            "size: S",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#92847",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(codex): drain terminal native tool results",
-          "url": "https://github.com/openclaw/openclaw/pull/92847",
-          "labels": [
-            "size: M",
-            "extensions: codex",
-            "proof: supplied",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#92831",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "fix(qqbot): honor durable media roots for cron TTS",
-          "url": "https://github.com/openclaw/openclaw/pull/92831",
-          "labels": [
-            "size: S",
-            "channel: qqbot",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-015.md",
       "cluster_id": "pr-inventory-mixed-20260616T013940-015",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588299201",
+      "mode": "autonomous",
+      "latest_run_id": "27590649399",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -7687,8 +8195,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T013940-017",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588299143",
+      "mode": "autonomous",
+      "latest_run_id": "27590649365",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "needs_human",
       "open_prs": [],
@@ -7875,398 +8383,14 @@
       ]
     },
     {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-019.md",
-      "cluster_id": "pr-inventory-mixed-20260616T013940-019",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588299256",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 7,
-      "live_target_refs_closed": 3,
-      "live_target_open_refs": [
-        {
-          "ref": "#55351",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Preserve Open WebUI UUID sessions across Control UI",
-          "url": "https://github.com/openclaw/openclaw/pull/55351",
-          "labels": [
-            "app: web-ui",
-            "gateway",
-            "agents",
-            "size: XL",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 auth-provider",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#59835",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(cron): validate custom session ids",
-          "url": "https://github.com/openclaw/openclaw/pull/59835",
-          "labels": [
-            "gateway",
-            "maintainer",
-            "size: S",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#63123",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "feat(ios): add background alive beacon support",
-          "url": "https://github.com/openclaw/openclaw/pull/63123",
-          "labels": [
-            "app: ios",
-            "gateway",
-            "maintainer",
-            "size: L",
-            "rating: 🧂 unranked krab",
-            "status: ⏳ waiting on author"
-          ]
-        },
-        {
-          "ref": "#63456",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Scope workspace guidance to coding contexts",
-          "url": "https://github.com/openclaw/openclaw/pull/63456",
-          "labels": [
-            "agents",
-            "maintainer",
-            "size: XL",
-            "rating: 🧂 unranked krab",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92947",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(qqbot): deliver cron auto-TTS voice by trusting OpenClaw temp root",
-          "url": "https://github.com/openclaw/openclaw/pull/92947",
-          "labels": [
-            "size: S",
-            "channel: qqbot",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🦞 diamond lobster",
-            "status: 👀 ready for maintainer look",
-            "proof: 📸 screenshot"
-          ]
-        },
-        {
-          "ref": "#92978",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "refactor: consolidate duplicated escapeRegExp helpers",
-          "url": "https://github.com/openclaw/openclaw/pull/92978",
-          "labels": [
-            "gateway",
-            "agents",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P3",
-            "rating: 🧂 unranked krab",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92986",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(onboard): skip Homebrew prompt on unsupported platforms",
-          "url": "https://github.com/openclaw/openclaw/pull/92986",
-          "labels": [
-            "commands",
-            "size: XS",
-            "proof: supplied",
-            "P2",
-            "rating: 🦪 silver shellfish",
-            "status: 📣 needs proof"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#64703",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "fix: parse scientific notation as number in parseConfigValue",
-          "url": "https://github.com/openclaw/openclaw/pull/64703",
-          "labels": [
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#64820",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "fix(feishu): break circular module init causing ReferenceError on group mention",
-          "url": "https://github.com/openclaw/openclaw/pull/64820",
-          "labels": [
-            "channel: feishu",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#68927",
-          "kind": "pull_request",
-          "state": "closed",
-          "title": "ui(chat): show explicit qualified model refs",
-          "url": "https://github.com/openclaw/openclaw/pull/68927",
-          "labels": [
-            "app: web-ui",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P3",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 auth-provider",
-            "status: 📣 needs proof"
-          ]
-        }
-      ]
-    },
-    {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-006.md",
-      "cluster_id": "pr-inventory-mixed-20260616T015330-006",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588774493",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 10,
-      "live_target_refs_closed": 0,
-      "live_target_open_refs": [
-        {
-          "ref": "#92349",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(feishu): keep memory probe replies visible",
-          "url": "https://github.com/openclaw/openclaw/pull/92349",
-          "labels": [
-            "channel: feishu",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92388",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "#92379: fix(session): refresh stale model before reading contextWindow in checkCompaction",
-          "url": "https://github.com/openclaw/openclaw/pull/92388",
-          "labels": [
-            "agents",
-            "size: XS",
-            "triage: needs-real-behavior-proof",
-            "mantis: telegram-visible-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92420",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(telegram): record sent messages in the source-delivery path",
-          "url": "https://github.com/openclaw/openclaw/pull/92420",
-          "labels": [
-            "channel: telegram",
-            "size: M",
-            "proof: supplied",
-            "mantis: telegram-visible-proof",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92441",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Harden synthetic session cleanup safety",
-          "url": "https://github.com/openclaw/openclaw/pull/92441",
-          "labels": [
-            "docs",
-            "app: web-ui",
-            "gateway",
-            "cli",
-            "commands",
-            "size: L",
-            "triage: refactor-only",
-            "triage: dirty-candidate",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 session-state",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#92454",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(tasks): reconcile stale subagent tasks when backing CLI child is terminal (fixes #92285)",
-          "url": "https://github.com/openclaw/openclaw/pull/92454",
-          "labels": [
-            "size: M",
-            "proof: supplied",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#92477",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix: migrate watch app to single-target app",
-          "url": "https://github.com/openclaw/openclaw/pull/92477",
-          "labels": [
-            "app: ios",
-            "scripts",
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🦐 gold shrimp",
-            "merge-risk: 🚨 compatibility",
-            "status: ⏳ waiting on author",
-            "proof: 📸 screenshot"
-          ]
-        },
-        {
-          "ref": "#92484",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(mcp): reject blocked stdio env keys at write time and warn once per server",
-          "url": "https://github.com/openclaw/openclaw/pull/92484",
-          "labels": [
-            "docs",
-            "cli",
-            "commands",
-            "agents",
-            "size: M",
-            "proof: sufficient",
-            "P2",
-            "rating: 🦞 diamond lobster",
-            "merge-risk: 🚨 compatibility",
-            "status: 👀 ready for maintainer look"
-          ]
-        },
-        {
-          "ref": "#92491",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(mcp): reject blocked stdio env keys at MCP config write time (fixes #92474)",
-          "url": "https://github.com/openclaw/openclaw/pull/92491",
-          "labels": [
-            "agents",
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: ⏳ waiting on author"
-          ]
-        },
-        {
-          "ref": "#92499",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Memory/QMD: isolate mcporter sidecars per agent",
-          "url": "https://github.com/openclaw/openclaw/pull/92499",
-          "labels": [
-            "docs",
-            "extensions: memory-core",
-            "size: XL",
-            "proof: supplied",
-            "proof: sufficient",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 availability",
-            "status: ⏳ waiting on author"
-          ]
-        },
-        {
-          "ref": "#93387",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "feat(ios): add watch action surface",
-          "url": "https://github.com/openclaw/openclaw/pull/93387",
-          "labels": [
-            "app: ios",
-            "scripts",
-            "size: XL",
-            "proof: supplied",
-            "proof: sufficient",
-            "P2",
-            "rating: 🦞 diamond lobster",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 message-delivery",
-            "status: 👀 ready for maintainer look",
-            "feature: ✨ showcase"
-          ]
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-008.md",
       "cluster_id": "pr-inventory-mixed-20260616T015330-008",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588774885",
+      "mode": "autonomous",
+      "latest_run_id": "27590649465",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -8445,209 +8569,14 @@
       ]
     },
     {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-013.md",
-      "cluster_id": "pr-inventory-mixed-20260616T015330-013",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775585",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 9,
-      "live_target_refs_closed": 1,
-      "live_target_open_refs": [
-        {
-          "ref": "#67734",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(feishu): silence sdk logs during setup probe",
-          "url": "https://github.com/openclaw/openclaw/pull/67734",
-          "labels": [
-            "channel: feishu",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#68537",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "[codex] fix(telegram): allow ACP bindings for direct chats",
-          "url": "https://github.com/openclaw/openclaw/pull/68537",
-          "labels": [
-            "docs",
-            "channel: telegram",
-            "gateway",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "mantis: telegram-visible-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#69346",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(embedded-runner): actionable diagnostic for empty-stream config errors",
-          "url": "https://github.com/openclaw/openclaw/pull/69346",
-          "labels": [
-            "agents",
-            "size: M",
-            "proof: sufficient",
-            "mantis: telegram-visible-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 availability",
-            "status: ⏳ waiting on author"
-          ]
-        },
-        {
-          "ref": "#70056",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(gateway): clean up store and set running=false on stop timeout",
-          "url": "https://github.com/openclaw/openclaw/pull/70056",
-          "labels": [
-            "gateway",
-            "stale",
-            "size: XS",
-            "triage: refactor-only",
-            "triage: needs-real-behavior-proof",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 availability",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#70471",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "Feishu: harden comment reply delivery and bot identity refresh",
-          "url": "https://github.com/openclaw/openclaw/pull/70471",
-          "labels": [
-            "channel: feishu",
-            "stale",
-            "size: XL",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 auth-provider",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#72409",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(plugins): suppress false duplicate-id warnings across origins",
-          "url": "https://github.com/openclaw/openclaw/pull/72409",
-          "labels": [
-            "maintainer",
-            "size: M",
-            "clawsweeper",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: ⏳ waiting on author"
-          ]
-        },
-        {
-          "ref": "#74223",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "plugin-sdk: restore Feishu pairing facade",
-          "url": "https://github.com/openclaw/openclaw/pull/74223",
-          "labels": [
-            "docs",
-            "scripts",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "dependencies-changed",
-            "P1",
-            "rating: 🦪 silver shellfish",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#84975",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(heartbeat): suppress fallback after route-matched message tool",
-          "url": "https://github.com/openclaw/openclaw/pull/84975",
-          "labels": [
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "mantis: telegram-visible-proof",
-            "P1",
-            "rating: 🦐 gold shrimp",
-            "merge-risk: 🚨 message-delivery",
-            "status: ⏳ waiting on author",
-            "proof: 🎥 video"
-          ]
-        },
-        {
-          "ref": "#93105",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(doctor): repair null agents.list[].workspace values",
-          "url": "https://github.com/openclaw/openclaw/pull/93105",
-          "labels": [
-            "commands",
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "P1",
-            "rating: 🦞 diamond lobster",
-            "status: 👀 ready for maintainer look"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#93308",
-          "kind": "pull_request",
-          "state": "merged",
-          "title": "fix(discord): reject malformed realtime consult calls",
-          "url": "https://github.com/openclaw/openclaw/pull/93308",
-          "labels": [
-            "channel: discord",
-            "size: S",
-            "proof: supplied",
-            "proof: sufficient",
-            "P1",
-            "rating: 🦞 diamond lobster",
-            "status: 👀 ready for maintainer look"
-          ]
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-017.md",
       "cluster_id": "pr-inventory-mixed-20260616T015330-017",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775666",
+      "mode": "autonomous",
+      "latest_run_id": "27590649527",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -8840,10 +8769,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-019",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775193",
+      "mode": "autonomous",
+      "latest_run_id": "27590649828",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -9022,10 +8951,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-020",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775337",
+      "mode": "autonomous",
+      "latest_run_id": "27590649673",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -9206,10 +9135,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-021",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775906",
+      "mode": "autonomous",
+      "latest_run_id": "27590649711",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -9391,8 +9320,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-024",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776267",
+      "mode": "autonomous",
+      "latest_run_id": "27590649760",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -9585,10 +9514,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-026",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775349",
+      "mode": "autonomous",
+      "latest_run_id": "27590649900",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "needs_human",
+      "latest_result_status": "planned",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -9766,10 +9695,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-030",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776440",
+      "mode": "autonomous",
+      "latest_run_id": "27590649921",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -9958,10 +9887,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-031",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776240",
+      "mode": "autonomous",
+      "latest_run_id": "27590649688",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -10143,8 +10072,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-035",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775983",
+      "mode": "autonomous",
+      "latest_run_id": "27590649805",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -10329,10 +10258,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-036",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588775767",
+      "mode": "autonomous",
+      "latest_run_id": "27590649993",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -10516,10 +10445,10 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-039",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776621",
+      "mode": "autonomous",
+      "latest_run_id": "27590650188",
       "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
+      "latest_result_status": "needs_human",
       "open_prs": [],
       "live_target_refs_total": 10,
       "live_target_refs_found": 10,
@@ -10699,8 +10628,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-040",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776141",
+      "mode": "autonomous",
+      "latest_run_id": "27590649944",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -10899,8 +10828,8 @@
       "cluster_id": "pr-inventory-mixed-20260616T015330-041",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776186",
+      "mode": "autonomous",
+      "latest_run_id": "27590650038",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
@@ -11077,201 +11006,12 @@
       ]
     },
     {
-      "job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-046.md",
-      "cluster_id": "pr-inventory-mixed-20260616T015330-046",
-      "status": "keep",
-      "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588776220",
-      "latest_workflow_conclusion": "success",
-      "latest_result_status": "planned",
-      "open_prs": [],
-      "live_target_refs_total": 10,
-      "live_target_refs_found": 10,
-      "live_target_refs_missing": 0,
-      "live_target_refs_open": 9,
-      "live_target_refs_closed": 1,
-      "live_target_open_refs": [
-        {
-          "ref": "#70497",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(agents): strip Gemini conditional schema keywords",
-          "url": "https://github.com/openclaw/openclaw/pull/70497",
-          "labels": [
-            "agents",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#70605",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "BUG: Strip strikethrough text from context files before sending to model",
-          "url": "https://github.com/openclaw/openclaw/pull/70605",
-          "labels": [
-            "agents",
-            "size: S",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#70907",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "docs(codex): document native model lifecycle hooks",
-          "url": "https://github.com/openclaw/openclaw/pull/70907",
-          "labels": [
-            "docs",
-            "maintainer",
-            "size: XS",
-            "P3",
-            "rating: 🧂 unranked krab",
-            "status: ⏳ waiting on author",
-            "merge-risk: 🚨 other"
-          ]
-        },
-        {
-          "ref": "#71062",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(/v1/responses): drop the extra phantom assistant turn on client-tool calls",
-          "url": "https://github.com/openclaw/openclaw/pull/71062",
-          "labels": [
-            "gateway",
-            "agents",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P1",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#71113",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "CI: add AGENTS.md size guard to check-additional",
-          "url": "https://github.com/openclaw/openclaw/pull/71113",
-          "labels": [
-            "scripts",
-            "stale",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P3",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 automation",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#71503",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(gateway): prefer physical LAN addresses before bridge interfaces",
-          "url": "https://github.com/openclaw/openclaw/pull/71503",
-          "labels": [
-            "gateway",
-            "extensions: device-pair",
-            "stale",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#71563",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(telegram): route /new, /reset to control lane to bypass queue",
-          "url": "https://github.com/openclaw/openclaw/pull/71563",
-          "labels": [
-            "channel: telegram",
-            "size: XS",
-            "triage: needs-real-behavior-proof",
-            "mantis: telegram-visible-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 session-state",
-            "merge-risk: 🚨 message-delivery",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#72025",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(signal): enable inbound status reactions",
-          "url": "https://github.com/openclaw/openclaw/pull/72025",
-          "labels": [
-            "channel: signal",
-            "size: M",
-            "triage: needs-real-behavior-proof",
-            "P2",
-            "rating: 🧂 unranked krab",
-            "merge-risk: 🚨 compatibility",
-            "status: 📣 needs proof"
-          ]
-        },
-        {
-          "ref": "#72092",
-          "kind": "pull_request",
-          "state": "open",
-          "title": "fix(media): allow aws-sdk auth mode for image and audio/video paths",
-          "url": "https://github.com/openclaw/openclaw/pull/72092",
-          "labels": [
-            "agents",
-            "size: M",
-            "proof: supplied",
-            "proof: sufficient",
-            "P1",
-            "rating: 🦐 gold shrimp",
-            "merge-risk: 🚨 auth-provider",
-            "merge-risk: 🚨 availability",
-            "status: ⏳ waiting on author"
-          ]
-        }
-      ],
-      "live_target_closed_refs_sample": [
-        {
-          "ref": "#92578",
-          "kind": "pull_request",
-          "state": "merged",
-          "title": "refactor(whatsapp): add inbound admission foundation",
-          "url": "https://github.com/openclaw/openclaw/pull/92578",
-          "labels": [
-            "docs",
-            "channel: whatsapp-web",
-            "maintainer",
-            "size: L",
-            "P3",
-            "rating: 🐚 platinum hermit",
-            "merge-risk: 🚨 compatibility",
-            "status: 👀 ready for maintainer look"
-          ]
-        }
-      ]
-    },
-    {
       "job": "jobs/openclaw/inbox/pr-inventory-needs_proof-20260616T013940-011.md",
       "cluster_id": "pr-inventory-needs_proof-20260616T013940-011",
       "status": "keep",
       "reason": "job is still eligible for normal dispatch",
-      "mode": "plan",
-      "latest_run_id": "27588299507",
+      "mode": "autonomous",
+      "latest_run_id": "27590650229",
       "latest_workflow_conclusion": "success",
       "latest_result_status": "planned",
       "open_prs": [],
