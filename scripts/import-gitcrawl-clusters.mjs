@@ -5,7 +5,25 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 
-const args = parseArgs(process.argv.slice(2));
+const DEFAULT_BLOCK_LABELS = [
+  "proof:*",
+  "status:*ready for maintainer look",
+  "status:*waiting on author",
+  "status:*needs proof",
+  "triage: needs-real-behavior-proof",
+  "triage: mock-only-proof",
+  "merge-risk:*",
+  "rating:*platinum",
+  "rating:*gold",
+  "rating:*diamond",
+  "issue-rating:*platinum",
+  "issue-rating:*gold",
+  "issue-rating:*diamond",
+  "impact:auth-provider",
+  "impact:session-state",
+];
+const rawArgv = process.argv.slice(2);
+const args = parseArgs(rawArgv);
 const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "gitcrawl", "gitcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
@@ -25,6 +43,10 @@ const existingResultsOnly = Boolean(args["existing-results-only"] ?? args.existi
 const securityPolicy = securityPolicyArg();
 const overlapPolicy = String(args["overlap-policy"] ?? "skip-any");
 const skipFeatureRequests = args["include-feature-requests"] !== true && args["skip-feature-requests"] !== "false";
+const includeBlockedLabels = Boolean(args["include-blocked-labels"] ?? args.include_blocked_labels);
+const blockedLabelPatterns = includeBlockedLabels
+  ? []
+  : compileLabelPatterns(argValues(rawArgv, ["block-label", "block_label"], args["block-label"] ?? args.block_label ?? DEFAULT_BLOCK_LABELS));
 const dryRun = Boolean(args["dry-run"]);
 const jsonOutput = Boolean(args.json);
 const fromGitcrawl = Boolean(args["from-gitcrawl"] || args["from-ghcrawl"] || args.all);
@@ -42,7 +64,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--block-label pattern] [--include-blocked-labels] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -105,6 +127,26 @@ for (const clusterId of clusterIds) {
   const targetMembers = overlapPolicy === "exclude-existing"
     ? members.filter((member) => !overlappingRefSet.has(Number(member.number)))
     : members;
+  if (targetMembers.length === 0) {
+    skipCluster(clusterId, "existing_member_overlap", "skip fully overlapped cluster", {
+      title: representativeTitle,
+      refs: overlappingRefs,
+      existingFiles,
+      overlap_policy: overlapPolicy,
+    });
+    continue;
+  }
+  const blockedLabelMembers = targetMembers
+    .map((member) => ({ member, labels: blockedLabelsForMember(member) }))
+    .filter((item) => item.labels.length > 0);
+  if (blockedLabelMembers.length > 0) {
+    skipCluster(clusterId, "blocked_label", "skip blocked-label cluster", {
+      title: representativeTitle,
+      refs: blockedLabelMembers.map((item) => Number(item.member.number)),
+      labels: unique(blockedLabelMembers.flatMap((item) => item.labels)),
+    });
+    continue;
+  }
   const targetMemberNumbers = new Set(targetMembers.map((member) => Number(member.number)));
   const targetSecuritySensitiveMembers = securitySensitiveMembers.filter((member) =>
     targetMemberNumbers.has(Number(member.number)),
@@ -123,15 +165,6 @@ for (const clusterId of clusterIds) {
       title: representativeTitle,
       refs: targetSecuritySensitiveMembers.map((member) => Number(member.number)),
       security_policy: securityPolicy,
-    });
-    continue;
-  }
-  if (targetMembers.length === 0) {
-    skipCluster(clusterId, "existing_member_overlap", "skip fully overlapped cluster", {
-      title: representativeTitle,
-      refs: overlappingRefs,
-      existingFiles,
-      overlap_policy: overlapPolicy,
     });
     continue;
   }
@@ -304,6 +337,8 @@ if (jsonOutput) {
       existing_dir: path.relative(repoRoot(), existingDir),
       existing_results_dir: path.relative(repoRoot(), existingResultsDir),
       skip_feature_requests: skipFeatureRequests,
+      include_blocked_labels: includeBlockedLabels,
+      blocked_labels: blockedLabelPatterns.map((pattern) => pattern.source),
       limit,
       min_size: minSize,
       min_open_members: minOpenMembers,
@@ -497,6 +532,64 @@ function safeJson(value) {
   }
 }
 
+function blockedLabelsForMember(member) {
+  const labels = labelNames(safeJson(member.labels_json));
+  return labels.filter((label) => {
+    const normalized = normalizeLabel(label);
+    return blockedLabelPatterns.some((pattern) => pattern.test(normalized));
+  });
+}
+
+function argValues(argv, names, fallback) {
+  const keys = new Set(names.map((name) => `--${name}`));
+  const values = [];
+  for (let index = 0; index < argv.length; index += 1) {
+    const item = argv[index];
+    const equalMatch = item.match(/^(--[^=]+)=(.*)$/);
+    if (equalMatch) {
+      if (keys.has(equalMatch[1])) values.push(equalMatch[2]);
+      continue;
+    }
+    if (!keys.has(item)) continue;
+    const next = argv[index + 1];
+    if (next && !next.startsWith("--")) {
+      values.push(next);
+      index += 1;
+    } else {
+      values.push("true");
+    }
+  }
+  return values.length > 0 ? values : fallback;
+}
+
+function listArgValues(value) {
+  const values = Array.isArray(value) ? value : [value];
+  return values
+    .flatMap((item) => String(item ?? "").split(/[\n,]/))
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function labelNames(labels) {
+  return labels.map((label) => label.name ?? label).filter(Boolean).map(String);
+}
+
+function normalizeLabel(label) {
+  return String(label ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function compileLabelPatterns(values) {
+  return listArgValues(values).map((value) => {
+    const normalized = normalizeLabel(value);
+    if (normalized.includes("*")) return new RegExp(`^${normalized.split("*").map(escapeRegExp).join(".*")}$`);
+    return new RegExp(`^${escapeRegExp(normalized)}$`);
+  });
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+}
+
 function isProductFeatureRequest(title) {
   return /^\s*\[?\s*feature(?:\s+(?:request|proposal))?\b/i.test(String(title ?? ""));
 }
@@ -636,6 +729,10 @@ function bulletList(members, { securitySensitiveMembers = [] } = {}) {
 
 function formatRefs(members) {
   return members.map((member) => `#${member.number}`).join(", ");
+}
+
+function unique(values) {
+  return [...new Set(values)];
 }
 
 function skipCluster(clusterId, reason, message, details = {}) {

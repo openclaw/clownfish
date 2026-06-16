@@ -33,6 +33,25 @@ test("cluster import can dedupe against published results without stale job id c
   assert.deepEqual(payload.generated[0].existing_overlap_refs, ["#101"]);
 });
 
+test("cluster import skips maintainer-only risk labels by default", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db, { secondLabels: ["impact:auth-provider"] });
+
+  const blocked = runImport(fixture);
+  assert.equal(blocked.status, 0, blocked.stderr || blocked.stdout);
+  const blockedPayload = JSON.parse(blocked.stdout);
+  assert.equal(blockedPayload.generated.length, 0);
+  assert.equal(blockedPayload.skipped[0].reason, "blocked_label");
+  assert.deepEqual(blockedPayload.skipped[0].refs, [102]);
+  assert.deepEqual(blockedPayload.skipped[0].labels, ["impact:auth-provider"]);
+
+  const included = runImport(fixture, "--include-blocked-labels");
+  assert.equal(included.status, 0, included.stderr || included.stdout);
+  const includedPayload = JSON.parse(included.stdout);
+  assert.equal(includedPayload.generated.length, 1);
+  assert.deepEqual(includedPayload.generated[0].cluster_refs, ["#101", "#102"]);
+});
+
 function runImport(fixture, ...extraArgs) {
   return spawnSync(
     process.execPath,
@@ -120,7 +139,7 @@ ${refs.map((ref) => `| ${ref} | keep_independent | planned | independent | alrea
   );
 }
 
-function seedPortableGitcrawlDb(dbPath) {
+function seedPortableGitcrawlDb(dbPath, { firstLabels = [], secondLabels = [] } = {}) {
   execFileSync("sqlite3", [dbPath], {
     input: `
 create table cluster_groups (
@@ -147,12 +166,16 @@ create table threads (
   updated_at text
 );
 insert into threads values
-  (1, 101, 'issue', 'open', 'Bug: first duplicate', 'body', 'body', '[]', '2026-06-01T00:00:00Z'),
-  (2, 102, 'issue', 'open', 'Bug: second duplicate', 'body', 'body', '[]', '2026-06-02T00:00:00Z');
+  (1, 101, 'issue', 'open', 'Bug: first duplicate', 'body', 'body', '${sqlJson(firstLabels)}', '2026-06-01T00:00:00Z'),
+  (2, 102, 'issue', 'open', 'Bug: second duplicate', 'body', 'body', '${sqlJson(secondLabels)}', '2026-06-02T00:00:00Z');
 insert into cluster_groups values (1, 1, 'active', '2026-06-01T00:00:00Z', null);
 insert into cluster_memberships values
   (1, 1, 'active'),
   (1, 2, 'active');
 `,
   });
+}
+
+function sqlJson(value) {
+  return JSON.stringify(value).replaceAll("'", "''");
 }
