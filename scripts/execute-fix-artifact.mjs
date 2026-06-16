@@ -490,7 +490,11 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
   noteFixStage("rebase_prepare_start", { pull_request: sourcePr.number });
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
-  run("git", ["fetch", `https://github.com/${pull.head.repo.full_name}.git`, `${pull.head.ref}:${branch}`], { cwd: targetDir });
+  // The base repo exposes every open PR head, including forks. Fetching that ref avoids
+  // slow or stalled direct fork fetches while preserving the exact reviewed PR head.
+  run("git", ["fetch", "--no-tags", "origin", `refs/pull/${sourcePr.number}/head:${branch}`], {
+    cwd: targetDir,
+  });
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
   noteFixStage("rebase_start", { pull_request: sourcePr.number });

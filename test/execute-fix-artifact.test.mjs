@@ -166,6 +166,19 @@ test("execute-fix-artifact retries transient GitHub reads before branch repair",
   assert.match(source, /HTTP\\s\+\(\?:408\|429\|5\\d\\d\)/);
 });
 
+test("execute-fix-artifact fetches contributor repair heads through the base PR ref", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+  const repairFetch = source.match(
+    /function executeRepairBranch\([\s\S]*?run\("git", \["checkout", branch\]/,
+  )?.[0];
+
+  assert.match(
+    repairFetch,
+    /\["fetch", "--no-tags", "origin", `refs\/pull\/\$\{sourcePr\.number\}\/head:\$\{branch\}`\]/,
+  );
+  assert.doesNotMatch(repairFetch, /https:\/\/github\.com\/\$\{pull\.head\.repo\.full_name\}\.git/);
+});
+
 test("execute-fix-artifact rejects review-fix workers that leave no diff", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
