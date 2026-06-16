@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-167-autonomous-issue-wave"
 mode: "autonomous"
-run_id: "27565931957"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27565931957"
-head_sha: "a6477b18dcd71c626ad8038187fcdc7ace119a05"
+run_id: "27602376377"
+workflow_run_id: "27602376377"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27602376377"
+head_sha: "28907bc59987ec38e7e4b2493512907b59c17a69"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-15T18:04:28.217Z"
+result_status: "blocked"
+published_at: "2026-06-16T07:52:51.488Z"
 canonical: "https://github.com/openclaw/openclaw/issues/77702"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/77702"
 canonical_pr: null
-actions_total: 12
+actions_total: 11
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +26,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27565931957](https://github.com/openclaw/clownfish/actions/runs/27565931957)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27602376377](https://github.com/openclaw/clownfish/actions/runs/27602376377)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: blocked
 
 Canonical: https://github.com/openclaw/openclaw/issues/77702
 
 ## Summary
 
-Closed representative #72860 is obsolete for action. The current canonical open item for this cluster is #77702, the standalone Telegram local MEDIA directive attachment-loss bug. No hydrated candidate PR fixes #77702, so the safe autonomous path is a narrow new fix artifact. Other hydrated open Telegram items are related but distinct subclusters and should stay open.
+Closed representative #72860 is obsolete. The current open canonical for this cluster is #77702, a source-backed Telegram local MEDIA directive delivery bug. #91383 and its linked PR #93059 are a related but separate Markdown/rich-parse fallback subfamily, and #92946 is a broader rich API compatibility PR with failing checks. No close or merge action is safe. Fix planning for #77702 is blocked only because the advertised target checkout does not contain the openclaw/openclaw source tree, so current-main source verification could not be completed locally.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 12 |
+| Worker actions | 11 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,18 +67,17 @@ Closed representative #72860 is obsolete for action. The current canonical open 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72860 | keep_closed | skipped | related | Already closed representative; replace canonical path with the live open issue #77702. |
-| #75156 | keep_closed | skipped | related | Closed context only; no mutation. |
-| #77702 | fix_needed | planned | canonical | Canonical open issue needs a narrow fix PR for standalone local MEDIA directive handling. |
-| #81411 | keep_closed | skipped | independent | Closed linked context only and not part of the #77702 fix path. |
-| #81742 | keep_closed | skipped | fixed_by_candidate | Closed linked context only; covered by already-merged #81764. |
-| #81764 | keep_closed | skipped | related | Merged historical context; no action needed. |
-| #81799 | keep_closed | skipped | fixed_by_candidate | Closed linked context only. |
-| #91383 | keep_related | planned | related | Related Telegram message-loss subcluster with its own open PR; keep open outside the #77702 fix path. |
-| #93059 | keep_related | planned | related | Useful but non-canonical related PR; leave open for its own repair/proof path. |
-| #93263 | keep_related | planned | related | Separate high-impact Telegram delivery subcluster; keep open. |
-| #93279 | keep_related | planned | related | Related but broad, conflicted, proof-blocked PR for #93263; no merge or close action from this cluster. |
-| cluster:gitcrawl-167-autonomous-issue-wave | build_fix_artifact | planned |  | Create a narrow credited fix plan for #77702. |
+| #72860 | keep_closed | skipped | related | Already closed items must not receive close actions. |
+| #75156 | keep_closed | skipped | fixed_by_candidate | Already closed context ref; no mutation. |
+| #77702 | fix_needed | blocked | canonical | A narrow fix is warranted from the hydrated artifact, but implementation planning is blocked until a valid target checkout is available for current-main source verification. |
+| #81411 | keep_closed | skipped | related | Closed linked context only. |
+| #81742 | keep_closed | skipped | related | Closed linked context only. |
+| #81764 | keep_closed | skipped | fixed_by_candidate | Merged historical PR; no merge or close action needed. |
+| #81799 | keep_closed | skipped | related | Closed linked context only. |
+| #91383 | keep_related | planned | related | Related subfamily should remain open; not a duplicate of #77702. |
+| #92946 | keep_related | planned | related | Related Telegram delivery work, but failing checks and broader compatibility scope block merge or fixed-by-candidate closeout. |
+| #93059 | keep_related | blocked | related | Useful related candidate for #91383, but draft state, failed proof checks, and review-bot coverage concerns block merge in this cluster. |
+| cluster:gitcrawl-167-autonomous-issue-wave | build_fix_artifact | blocked |  | Build a narrow fix for #77702 only after a valid target checkout is available for current-main verification. |
 
 ## Needs Human
 
