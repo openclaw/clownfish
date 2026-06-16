@@ -812,7 +812,7 @@ function editValidatePrepareMerge({
     targetDir,
     mode,
     baseBranch,
-    onReviewFix: (attempt) => {
+    onReviewFix: (attempt, reviewFix) => {
       const checkpoint = commitCheckpointIfNeeded({
         targetDir,
         message: `fix(clownfish): address review for ${result.cluster_id} (${attempt})`,
@@ -820,6 +820,10 @@ function editValidatePrepareMerge({
       });
       if (checkpoint) {
         checkpointCommits.push(checkpoint);
+        pushCheckpoint?.();
+      } else if (reviewFix.head_changed) {
+        const commit = currentHead(targetDir);
+        checkpointCommits.push(commit);
         pushCheckpoint?.();
       }
     },
@@ -1177,8 +1181,8 @@ function validateAndReviewLoop({ fixArtifact, targetDir, mode, baseBranch = DEFA
     lastReview.validation_commands_run = validationCommands;
     if (isCleanCodexReview(lastReview)) return lastReview;
     if (attempt === maxReviewAttempts) break;
-    runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
-    onReviewFix?.(attempt);
+    const reviewFix = runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
+    onReviewFix?.(attempt, reviewFix);
   }
   const summary =
     lastReview?.summary ??
@@ -1397,6 +1401,9 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
       `could not verify Codex review-fix worker changes: ${compactText(`${producedChanges.stderr ?? ""}\n${producedChanges.stdout ?? ""}`, 700)}`,
     );
   }
+  return {
+    head_changed: currentHead(targetDir) !== reviewFixBase,
+  };
 }
 
 function isCleanCodexReview(review) {

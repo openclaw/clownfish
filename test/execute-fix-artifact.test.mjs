@@ -108,6 +108,8 @@ test("execute-fix-artifact rejects review-fix workers that leave no diff", () =>
   assert.match(source, /reviewFixBase = run\("git", \["rev-parse", "HEAD"\]/);
   assert.match(source, /\["diff", "--quiet", reviewFixBase, "--"\]/);
   assert.match(source, /Codex review-fix worker produced no target repo changes while findings remained/);
+  assert.match(source, /onReviewFix\?\.\(attempt, reviewFix\)/);
+  assert.match(source, /else if \(reviewFix\.head_changed\)/);
 });
 
 function makeFixture() {
