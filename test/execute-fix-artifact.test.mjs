@@ -110,6 +110,16 @@ test("execute-fix-artifact validates a successful repair rebase without speculat
   );
 });
 
+test("execute-fix-artifact retries transient GitHub reads before branch repair", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /const maxGithubReadAttempts = .*CLOWNFISH_GITHUB_READ_ATTEMPTS/);
+  assert.match(source, /function fetchPullRequest\(number\)[\s\S]*runGithubReadWithRetry/);
+  assert.match(source, /function runGithubReadWithRetry\(commandArgs, options = \{\}\)/);
+  assert.match(source, /function isRetryableGithubReadError\(error\)/);
+  assert.match(source, /HTTP\\s\+\(\?:408\|429\|5\\d\\d\)/);
+});
+
 test("execute-fix-artifact rejects review-fix workers that leave no diff", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 

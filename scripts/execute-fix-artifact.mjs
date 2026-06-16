@@ -40,6 +40,7 @@ const codexStdoutMaxBufferBytes = Math.max(
 const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMPTS ?? 3));
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const maxRebaseAttempts = Math.max(4, Number(process.env.CLOWNFISH_REBASE_REPAIR_ATTEMPTS ?? 4));
+const maxGithubReadAttempts = Math.max(1, Number(process.env.CLOWNFISH_GITHUB_READ_ATTEMPTS ?? 4));
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
 const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT === "1";
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
@@ -2170,7 +2171,12 @@ function pullRequestNumberFromUrl(value) {
 }
 
 function fetchPullRequest(number) {
-  return JSON.parse(run("gh", ["api", `repos/${result.repo}/pulls/${number}`], { cwd: repoRoot(), env: ghEnv() }));
+  return JSON.parse(
+    runGithubReadWithRetry(["api", `repos/${result.repo}/pulls/${number}`], {
+      cwd: repoRoot(),
+      env: ghEnv(),
+    }),
+  );
 }
 
 function prepareReviewThreadsForMerge({ repo, number, targetDir }) {
@@ -2816,6 +2822,34 @@ function codexEnv() {
     delete env.CODEX_API_KEY;
   }
   return env;
+}
+
+function runGithubReadWithRetry(commandArgs, options = {}) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxGithubReadAttempts; attempt += 1) {
+    try {
+      return run("gh", commandArgs, options);
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableGithubReadError(error) || attempt === maxGithubReadAttempts) throw error;
+      const remainingMs = remainingFixExecutionMs(`GitHub read retry ${commandArgs.join(" ")}`, {
+        minMs: 10 * 1000,
+      });
+      const delayMs = Math.min(8_000, 1_000 * 2 ** (attempt - 1), Math.max(0, remainingMs - 10 * 1000));
+      if (delayMs > 0) sleepMs(delayMs);
+    }
+  }
+  throw lastError;
+}
+
+function isRetryableGithubReadError(error) {
+  return /\b(?:HTTP\s+(?:408|429|5\d\d)|rate limit|temporar(?:y|ily)|connection reset|connection refused|EOF|TLS handshake timeout)\b/i.test(
+    String(error?.message ?? error),
+  );
+}
+
+function sleepMs(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
 function run(command, commandArgs, options = {}) {
