@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156802-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597852112",
+  "workflow_run_id": "27597852112",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597852112",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:16Z",
+  "workflow_updated_at": "2026-06-16T06:19:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156802-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:20:47.537Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69256",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69256",
+  "summary": "Hydrated live state shows all three job candidate PRs are already closed, so no close, comment, label, or merge mutation is valid for them. Current target source still has the direct deleteAfterRun cleanup path deleting cron sessions without checking active run-scoped descendants, and the useful representative PR #69256 is closed, uneditable, failed real behavior proof, and has unresolved review comments. Plan a narrow credited replacement fix artifact instead of merging or closing anything.",
+  "actions": [
+    {
+      "target": "#43850",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "Already closed linked issue; do not mutate."
+    },
+    {
+      "target": "#44002",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "Closed obsolete PR; useful historical context only, not a candidate for merge or replacement in this narrower cleanup-deferral fix."
+    },
+    {
+      "target": "#57125",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "Closed independent cron delivery hardening PR; not part of the premature cleanup canonical path."
+    },
+    {
+      "target": "#67807",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69256",
+      "candidate_fix": "#67807",
+      "reason": "Merged related foundation; closed refs are evidence only."
+    },
+    {
+      "target": "#69256",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "Closed source canonical for the replacement plan; cannot be merged or closed by this worker."
+    },
+    {
+      "target": "cluster:ghcrawl-156802-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "No viable open canonical PR exists; build a narrow replacement fix that preserves #69256 credit and addresses the unresolved second-stage cleanup review feedback."
+    },
+    {
+      "target": "cluster:ghcrawl-156802-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69256",
+      "candidate_fix": null,
+      "reason": "Prepare an executable replacement fix artifact for the deterministic Clownfish executor."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156802-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, docs [check:changed] src/cron/isolated-agent/delivery-dispatch.double-announce.test.ts: core test [check:changed] src/cron/isolated-agent/delivery-dispatch.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsg...",
+      "commit": "3cf82e537f289391b1c8d243acd9b27debe6ff63",
+      "checkpoint_commits": [
+        "3cf82e537f289391b1c8d243acd9b27debe6ff63"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

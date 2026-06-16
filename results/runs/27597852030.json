@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156799-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27597852030",
+  "workflow_run_id": "27597852030",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27597852030",
+  "head_sha": "f28ffb87eae946384c35a92da08de8c8b8ab38e8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:08:16Z",
+  "workflow_updated_at": "2026-06-16T06:18:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156799-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:20:47.535Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/57256",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/57256",
+  "canonical_pr": null,
+  "summary": "The representative #60777 is obsolete because it is already closed. The live canonical path is the still-open linked issue #57256. Current main still lacks the live-gateway memory runtime/provider fallback requested by #57256, and all useful contributor PRs in this cluster are closed and uneditable, so the safe autonomous path is a narrow replacement fix PR that preserves contributor credit.",
+  "actions": [
+    {
+      "target": "#43527",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical bootstrap wording issue; independent from this memory-status fix lane."
+    },
+    {
+      "target": "#43614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed and outside the memory-status root cause."
+    },
+    {
+      "target": "#57256",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "Best live canonical is the open issue; the bug remains plausible on current main and needs a replacement fix path."
+    },
+    {
+      "target": "#57285",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "Closed historical source PR superseded by later contributor work; keep as credit/evidence only."
+    },
+    {
+      "target": "#59685",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "Useful but closed and uneditable contributor PR; replacement fix plan should preserve credit."
+    },
+    {
+      "target": "#60777",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "Closed representative is obsolete; keep as credited source evidence for the replacement fix."
+    },
+    {
+      "target": "cluster:ghcrawl-156799-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "A narrow replacement fix PR is required before any fix-first closeout can be planned."
+    },
+    {
+      "target": "cluster:ghcrawl-156799-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#57256",
+      "candidate_fix": null,
+      "reason": "Executable replacement fix artifact is safe and narrow enough for Clownfish execution."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 3
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-156799-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/commands/status-overview-rows.test.ts: core test [check:changed] src/commands/status.command-sections.ts: core production [check:changed] src/commands/status.scan-execute.ts: core production [check:changed] src/commands/status.scan-memory.test.ts: core test [check:changed] src/commands/status.scan-memory.ts: core production [check:changed] src/commands/status.scan.fast-json.ts: core production [check:changed] src/commands/status.scan.ts: core production [check:changed] src/gateway/server-methods/doctor.test.ts: core test [check:changed] src/gateway/server-methods/doctor.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ n...",
+      "commit": "079767ac4593f4f5f01c2d18ae6c694b7e5f9cc4",
+      "checkpoint_commits": [
+        "079767ac4593f4f5f01c2d18ae6c694b7e5f9cc4"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

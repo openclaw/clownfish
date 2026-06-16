@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156867-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598131181",
+  "workflow_run_id": "27598131181",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598131181",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:01Z",
+  "workflow_updated_at": "2026-06-16T06:18:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156867-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:20:47.540Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "The original representative #60143 and all job seed candidates are already closed in the hydrated live state, so no close/merge mutation is safe or needed for them. The only live hydrated item is linked follow-up #63234, but deterministic validation identifies it as security-sensitive, so it must be quarantined to central OpenClaw security handling and no ProjectClownfish fix PR should be planned from this artifact.",
+  "actions": [
+    {
+      "target": "#53311",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60143",
+      "candidate_fix": null,
+      "reason": "Already closed; keep as historical fixed context and do not mutate."
+    },
+    {
+      "target": "#60143",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#60143",
+      "candidate_fix": null,
+      "reason": "Original cluster representative is no longer open; keep as closed historical canonical for the older failure family."
+    },
+    {
+      "target": "#61683",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#60143",
+      "candidate_fix": null,
+      "reason": "Already closed as implemented; remaining live work is the narrower related #63234 follow-up, which is now quarantined separately."
+    },
+    {
+      "target": "#63234",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only the exact security-sensitive issue ref; do not close, comment, label, merge, or open a fix PR for this item through ProjectClownfish."
+    },
+    {
+      "target": "cluster:ghcrawl-156867-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Implementation is blocked pending central security triage for #63234; no ProjectClownfish fix PR should be built from this artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must decide whether #63234 can be treated as an ordinary plugin-loader config propagation bug or must stay in the security lane before any automated fix PR is planned."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

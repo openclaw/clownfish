@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157014-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598132482",
+  "workflow_run_id": "27598132482",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598132482",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:02Z",
+  "workflow_updated_at": "2026-06-16T06:19:33Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157014-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:20:47.543Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/66705",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/66705",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the original representative #40423 and linked issue #66705 are security-sensitive for the exec/session environment contract and must be routed to central OpenClaw security handling. The only non-security candidate, #68859, is already closed and remains related historical evidence. Current main at 6aa83374d90d35226b9cf3577155c3876a91b4b3 still only injects OPENCLAW_SHELL for exec child processes, but an executable fix PR is not safe from this cluster because the implementation depends on the quarantined ambient session/agent marker decision.",
+  "actions": [
+    {
+      "target": "#40423",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive PR to central OpenClaw security handling; do not mutate the closed PR from this cluster."
+    },
+    {
+      "target": "#66705",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The open linked issue is the live canonical problem statement, but its requested env contract is security-sensitive and must be handled outside ProjectClownfish mutation."
+    },
+    {
+      "target": "#68859",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#66705",
+      "candidate_fix": null,
+      "reason": "Already closed related PR; keep as historical evidence and do not mutate."
+    },
+    {
+      "target": "cluster:ghcrawl-157014-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#66705",
+      "candidate_fix": null,
+      "reason": "No complete executable fix artifact is safe from this cluster because the fix depends on the quarantined security/product decision for exposing session and agent identifiers to exec child environments."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security/product review must decide the exec child environment contract for #66705 before Clownfish can safely build or replace an implementation PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
