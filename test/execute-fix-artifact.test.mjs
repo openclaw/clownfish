@@ -101,6 +101,15 @@ test("execute-fix-artifact routes rebased fork repairs to replacement before exp
   assert.match(source, /fork branch requiring rebase/);
 });
 
+test("execute-fix-artifact rejects review-fix workers that leave no diff", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /function runCodexReviewFix/);
+  assert.match(source, /reviewFixBase = run\("git", \["rev-parse", "HEAD"\]/);
+  assert.match(source, /\["diff", "--quiet", reviewFixBase, "--"\]/);
+  assert.match(source, /Codex review-fix worker produced no target repo changes while findings remained/);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-exec-"));
   const binDir = path.join(root, "bin");

@@ -1322,11 +1322,15 @@ function isCodexReview(value) {
 }
 
 function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
+  const reviewFixBase = run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
   const prompt = [
     "Address every actionable finding from Codex /review.",
     "",
     "Rules:",
     "- keep the patch narrow;",
+    "- inspect the current files before editing; review line references may be stale after a prior repair;",
+    "- if an edit application fails, re-read the current file and retry against its actual contents;",
+    "- do not report success unless you made a concrete target-repo diff that addresses the findings;",
     "- do not commit, push, open PRs, close PRs, or call gh;",
     "- rerun is handled by ProjectClownFish after your edits;",
     "- if a finding is false-positive, adjust comments/tests only when that makes the proof clearer.",
@@ -1374,6 +1378,25 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
   const processError = codexProcessErrorMessage(child, "Codex review-fix worker", timeoutMs);
   if (processError) throw new Error(processError);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex review-fix worker failed");
+  const producedChanges = spawnSync("git", ["diff", "--quiet", reviewFixBase, "--"], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (producedChanges.status === 0) {
+    const summary = compactText(
+      readTextIfExists(path.join(workRoot, `${mode}-codex-review-fix-${attempt}.md`)),
+      700,
+    );
+    throw new Error(
+      `Codex review-fix worker produced no target repo changes while findings remained.${summary ? ` Last Codex summary: ${summary}` : ""}`,
+    );
+  }
+  if (producedChanges.status !== 1) {
+    throw new Error(
+      `could not verify Codex review-fix worker changes: ${compactText(`${producedChanges.stderr ?? ""}\n${producedChanges.stdout ?? ""}`, 700)}`,
+    );
+  }
 }
 
 function isCleanCodexReview(review) {
