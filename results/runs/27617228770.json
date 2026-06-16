@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-181",
+  "mode": "autonomous",
+  "run_id": "27617228770",
+  "workflow_run_id": "27617228770",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27617228770",
+  "head_sha": "1e288d053e17248c458702273a3062647cf8cacf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:23:24Z",
+  "workflow_updated_at": "2026-06-16T12:27:27Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-181.md",
+  "published_at": "2026-06-16T12:30:49.955Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical was selected. No close, merge, fix, or PR-creation action is allowed by this job; the only mutation-shaped lane is routing the exact security-sensitive linked PR #64127 to central security handling. The five inventory PRs remain open as independent PR work needing maintainer or author follow-up before any finalization.",
+  "actions": [
+    {
+      "target": "#64127",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated linked PR is security-sensitive and out of scope for Clownfish backlog cleanup."
+    },
+    {
+      "target": "#64436",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Requires maintainer/product review and technical correctness judgment for a public plugin runtime API; no close, merge, fix, or raise_pr action is permitted."
+    },
+    {
+      "target": "#64503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with failing proof, dirty merge state, and actionable review history; cannot close as low-signal or finalize in this job."
+    },
+    {
+      "target": "#66067",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with failing proof and unresolved review-bot findings; requires author or maintainer follow-up rather than closure."
+    },
+    {
+      "target": "#66098",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with conflicts, failed proof, and unresolved session-state review findings; requires technical correctness judgment and cannot be repaired by this job."
+    },
+    {
+      "target": "#66257",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is explicitly required before finalizing this CLI behavior change; no close, merge, or fix action is permitted."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#64436 requires maintainer/product review for adding public plugin runtime.usage API after ClawSweeper needs-changes signal.",
+    "#64503 requires maintainer/author follow-up for dirty merge state, failed proof, and actionable MS Teams messageBack review findings.",
+    "#66067 requires maintainer/author follow-up for failed proof and unresolved CRLF whitespace normalization review feedback.",
+    "#66098 requires maintainer/author follow-up for dirty merge state, failed proof, and unresolved Web UI session-state review findings.",
+    "#66257 requires maintainer review before changing devices CLI local fallback behavior."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
