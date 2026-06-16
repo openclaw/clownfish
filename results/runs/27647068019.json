@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-93694-20260617",
+  "mode": "autonomous",
+  "run_id": "27647068019",
+  "workflow_run_id": "27647068019",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27647068019",
+  "head_sha": "79280638411eb947110cf825df4653905a9c5823",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T20:46:31Z",
+  "workflow_updated_at": "2026-06-16T21:02:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-93694-20260617.md",
+  "published_at": "2026-06-16T21:05:58.896Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93694",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/82121",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93694",
+  "summary": "Planned a bounded repair of maintainer-editable canonical PR #93694. The PR is open, cleanly mergeable in the hydrated artifact, and all hydrated checks are passing, but merge is disallowed and the latest ClawSweeper review failed due infrastructure rather than assessing readiness. The executor should rebase/refresh the existing branch against current main c5b79e3b7a107fbb7ba7fec92d43794d365de41b, run changed-surface validation plus Codex /review, and push only the repaired contributor branch if needed.",
+  "actions": [
+    {
+      "target": "#93694",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "Canonical PR #93694 is useful and maintainer-editable but still needs the calibrated rebase/validation/Codex-review repair lane before any separate finalization."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-93694-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "A complete executable repair artifact is safe and allowed because the job permits fix/raise_pr, allow_fix_pr=true, and the branch is maintainer-editable."
+    },
+    {
+      "target": "#82121",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "Linked root issue should stay open in this rebase-only repair canary; it is related to the canonical PR but not a mutation target here."
+    },
+    {
+      "target": "#82128",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "Closed historical PR is superseded as implementation context by open canonical #93694 and must not receive any mutation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "rebase-only repair stopped: validation command failed (pnpm check:changed): pnpm check:changed timed out after 156937ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
