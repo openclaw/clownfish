@@ -13,6 +13,8 @@ const threshold = args.threshold === undefined ? null : numberArg("threshold", 0
 const json = Boolean(args.json);
 const fetch = args.fetch !== false && args.fetch !== "false";
 const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
+const ghRetries = numberArg("gh-retries", Number(process.env.CLOWNFISH_GH_RETRIES ?? 4));
+const ghRetryBaseMs = numberArg("gh-retry-base-ms", Number(process.env.CLOWNFISH_GH_RETRY_BASE_MS ?? 1500));
 
 if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutral", "skipped", "any"].includes(conclusion)) {
   throw new Error("--conclusion must be a GitHub Actions conclusion or any");
@@ -106,18 +108,38 @@ function readPublishedRunIds() {
 function ghJson(ghArgs) {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
-  const output = execFileSync(ghCommand, ghArgs, {
-    cwd: repoRoot(),
-    env,
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-    maxBuffer: 128 * 1024 * 1024,
-  });
-  return JSON.parse(stripAnsi(output) || "null");
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const output = execFileSync(ghCommand, ghArgs, {
+        cwd: repoRoot(),
+        env,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+        maxBuffer: 128 * 1024 * 1024,
+      });
+      return JSON.parse(stripAnsi(output) || "null");
+    } catch (error) {
+      if (attempt >= ghRetries || !isTransientGhError(error)) throw error;
+      const delayMs = ghRetryBaseMs * 2 ** attempt;
+      console.error(
+        `transient ${ghCommand} failure while listing workflow runs; retrying in ${delayMs}ms (${attempt + 1}/${ghRetries})`,
+      );
+      sleepMs(delayMs);
+    }
+  }
 }
 
 function stripAnsi(text) {
   return String(text ?? "").replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, "");
+}
+
+function isTransientGhError(error) {
+  const stderr = stripAnsi(error?.stderr ?? error?.output?.[2] ?? error?.message ?? "");
+  return /HTTP (?:502|503|504)|Server Error|timeout|timed out|connection reset|EOF/i.test(stderr);
+}
+
+function sleepMs(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
 function numberArg(name, fallback) {
