@@ -2,54 +2,54 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156620-autonomous-smoke"
 mode: "autonomous"
-run_id: "27585279455"
-workflow_run_id: "27585279455"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27585279455"
-head_sha: "5f250e096d9257d26e2a256c906e3b3aec75044a"
-workflow_conclusion: "success"
-result_status: "blocked"
-published_at: "2026-06-16T00:25:19.295Z"
+run_id: "27584186103"
+workflow_run_id: "27584186103"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27584186103"
+head_sha: "3eaef20c39c95c760c2eeb4e61adf6ea57afc054"
+workflow_conclusion: "failure"
+result_status: "planned"
+published_at: "2026-06-16T04:55:40.192Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 15
+actions_total: 8
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # ghcrawl-156620-autonomous-smoke
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27585279455](https://github.com/openclaw/clownfish/actions/runs/27585279455)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27584186103](https://github.com/openclaw/clownfish/actions/runs/27584186103)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
-Worker result: blocked
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-Repaired the structured result without GitHub mutations. Validator safety treats #25574 as security-sensitive, so it is routed to central security handling along with security-sensitive PRs #38295 and #61105. Closed refs remain non-mutating historical evidence. The cluster-level implementation lane is downgraded from a placeholder fix action to needs_human because the provided checkout is not a usable OpenClaw source checkout and no complete executable fix artifact is safe.
+Autonomous classification completed without GitHub mutation. Security-sensitive refs are routed out of Clownfish handling. The validator requires the linked open issue #25574 to be treated as security-sensitive in this result, so the prior executable warning-dedupe fix path is removed instead of opening a replacement PR from this cluster. Closed historical PRs remain closed as evidence only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 15 |
+| Worker actions | 8 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -67,22 +67,15 @@ Repaired the structured result without GitHub mutations. Validator safety treats
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #25574 | route_security | planned | security_sensitive | Security-sensitive issue must be quarantined to central OpenClaw security triage and not used as an ordinary canonical or fix path by Clownfish. |
-| #38295 | route_security | planned | security_sensitive | Security-sensitive item must be quarantined to central OpenClaw security triage and not merged, closed, or used as an ordinary fix path by Clownfish. |
-| #40427 | keep_closed | skipped | related | Already closed; no closure action is valid. |
-| #56468 | keep_closed | skipped | related | Already closed historical related work; no mutation is valid. |
-| #56671 | keep_closed | skipped | related | Representative is already closed; keep as historical evidence only. |
-| #57979 | keep_closed | skipped | related | Already closed; no close action is valid. |
-| #59520 | keep_closed | skipped | related | Already closed distinct related formatting fix; no mutation is valid. |
-| #61105 | route_security | planned | security_sensitive | Security-sensitive item must be quarantined to central OpenClaw security triage even though it is already closed. |
-| #29745 | keep_closed | skipped | related | Closed linked context; no mutation is valid. |
-| #40404 | keep_closed | skipped | related | Already closed duplicate-context issue; no mutation is valid. |
-| #56446 | keep_closed | skipped | independent | Closed independent linked context from a mixed PR; no mutation is valid. |
-| #56450 | keep_closed | skipped | related | Closed related config I/O issue; no mutation is valid. |
-| #56466 | keep_closed | skipped | independent | Closed independent linked PR; no mutation is valid. |
-| #75927 | keep_closed | skipped | related | Merged related warning-dedupe context; no additional action is valid. |
-| cluster:ghcrawl-156620-autonomous-smoke | needs_human | blocked | needs_human | Implementation is blocked on a valid OpenClaw target checkout and security routing now covers the only live issue path; no executable fix artifact is safe from the provided artifacts. |
+| #38295 | route_security | planned | security_sensitive | Security-sensitive open PR must be routed to central OpenClaw security handling and not merged, closed, commented on, or used as the canonical Clownfish fix path. |
+| #61105 | route_security | planned | security_sensitive | Security-sensitive PATH/exec-boundary work is outside Clownfish backlog cleanup even though the PR is already closed. |
+| #25574 | route_security | planned | security_sensitive | Route the linked issue out of Clownfish handling rather than planning a replacement fix PR against a validator-classified security-sensitive target. |
+| #40427 | keep_closed | skipped | superseded | Historical closed PR remains useful evidence, but no live mutation or replacement fix path is planned from this security-routed cluster. |
+| #57979 | keep_closed | skipped | superseded | Historical closed PR should remain closed and be credited as related prior work if security triage later authorizes a non-security replacement path. |
+| #56468 | keep_closed | skipped | fixed_by_candidate | Closed historical PR is not a live target and does not justify a mutation in this cluster. |
+| #56671 | keep_closed | skipped | fixed_by_candidate | The representative PR is closed and the doctor clobbered-snapshot subproblem is historical, not a live canonical path. |
+| #59520 | keep_closed | skipped | fixed_by_candidate | Closed typo fix is independent historical context and does not need action. |
 
 ## Needs Human
 
-- Cluster-level fix lane requires maintainer or infrastructure follow-up because #25574 is validator-classified security-sensitive and the provided OpenClaw target checkout is unavailable or unsafe for proving and patching current main.
+- none

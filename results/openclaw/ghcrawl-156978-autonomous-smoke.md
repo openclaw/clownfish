@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156978-autonomous-smoke"
 mode: "autonomous"
-run_id: "27584190732"
-workflow_run_id: "27584190732"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27584190732"
-head_sha: "3eaef20c39c95c760c2eeb4e61adf6ea57afc054"
-workflow_conclusion: "failure"
-result_status: "needs_human"
-published_at: "2026-06-16T01:43:38.856Z"
-canonical: "https://github.com/openclaw/openclaw/issues/38829"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/38829"
+run_id: "27594977909"
+workflow_run_id: "27594977909"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27594977909"
+head_sha: "18b34d1bcbd8ea89da8bf1b22f08d918abdc8088"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-06-16T04:55:40.195Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
-actions_total: 3
+actions_total: 7
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,23 +26,23 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27584190732](https://github.com/openclaw/clownfish/actions/runs/27584190732)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27594977909](https://github.com/openclaw/clownfish/actions/runs/27594977909)
 
-Workflow conclusion: failure
+Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/38829
+Canonical: unknown
 
 ## Summary
 
-#38829 remains the live canonical issue for the bundled TUI live transcript update gap. #43341 is already closed and stays historical duplicate context. Linked PR #73402 is security-sensitive and is routed to central OpenClaw security handling. The prior cluster-scoped fix_needed/build_fix_artifact actions are omitted because the deterministic validator treats cluster-scoped actions in this mixed-security cluster as security-sensitive targets; no GitHub mutation or executable fix artifact is planned from this repaired result.
+Hydrated preflight marks #40678 and #73402 security-sensitive, and deterministic validation also requires #38829 and #45388 to route through central security handling. #41964 and #43341 are already closed historical context only. Because the only live canonical/follow-up issue refs for the TUI transcript bug are now security-routed, no executable non-security fix lane is safe in this result; the cluster-level fix path is downgraded to maintainer/security triage.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 7 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,10 +67,14 @@ Canonical: https://github.com/openclaw/openclaw/issues/38829
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #38829 | keep_canonical | planned | canonical | #38829 is the best surviving open canonical issue and should remain open until a safe non-security fix path lands. |
-| #43341 | keep_closed | skipped | duplicate | Already-closed refs must not receive close actions; #43341 remains historical duplicate context for #38829. |
-| #73402 | route_security | planned | security_sensitive | Security-sensitive PRs are routed to central OpenClaw security handling and are not closed, merged, commented on, repaired, or used as a direct mutation target by this worker. |
+| #38829 | route_security | planned | security_sensitive | Validator security classification requires quarantining this exact issue ref for central OpenClaw security handling instead of keeping it as a non-security canonical target. |
+| #40678 | route_security | planned | security_sensitive | Security-sensitive cross-channel observation request is outside Clownfish backlog cleanup; quarantine this exact ref for central OpenClaw security handling. |
+| #41964 | keep_closed | skipped | superseded | Already closed historical PR; no mutation is valid. |
+| #43341 | keep_closed | skipped | duplicate | Already closed duplicate context; no mutation is valid. |
+| #45388 | route_security | planned | security_sensitive | Validator security classification requires quarantining this exact issue ref for central OpenClaw security handling instead of keeping it as a non-security related target. |
+| #73402 | route_security | planned | security_sensitive | Security-sensitive PR cannot be merged, closed, repaired, or used as candidate_fix by Clownfish; quarantine this exact ref for central security handling. |
+| cluster:ghcrawl-156978-autonomous-smoke | needs_human | blocked | needs_human | Cluster-level implementation must wait for central security/maintainer triage of the routed live issue and PR refs; no non-security fix artifact is safe to emit. |
 
 ## Needs Human
 
-- The prior cluster-scoped fix_needed/build_fix_artifact actions are not safely repairable from the provided artifacts because deterministic validation failed them as `cluster:ghcrawl-156978-autonomous-smoke security-sensitive target must use route_security` in a cluster containing security-sensitive #73402. #73402 is already routed with route_security; a refreshed non-security fix job or planner adjustment is needed before emitting an executable fix artifact for #38829.
+- Cluster-level fix path blocked: #38829 and #45388 must route_security per validator, while #40678 and #73402 are security-sensitive in hydrated preflight; no complete executable non-security fix artifact remains safe.

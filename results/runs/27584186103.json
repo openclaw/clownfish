@@ -1,0 +1,109 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156620-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27584186103",
+  "workflow_run_id": "27584186103",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27584186103",
+  "head_sha": "3eaef20c39c95c760c2eeb4e61adf6ea57afc054",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:52:45Z",
+  "workflow_updated_at": "2026-06-15T23:55:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156620-autonomous-smoke.md",
+  "published_at": "2026-06-16T04:55:40.192Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Autonomous classification completed without GitHub mutation. Security-sensitive refs are routed out of Clownfish handling. The validator requires the linked open issue #25574 to be treated as security-sensitive in this result, so the prior executable warning-dedupe fix path is removed instead of opening a replacement PR from this cluster. Closed historical PRs remain closed as evidence only.",
+  "actions": [
+    {
+      "target": "#38295",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive open PR must be routed to central OpenClaw security handling and not merged, closed, commented on, or used as the canonical Clownfish fix path."
+    },
+    {
+      "target": "#61105",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PATH/exec-boundary work is outside Clownfish backlog cleanup even though the PR is already closed."
+    },
+    {
+      "target": "#25574",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the linked issue out of Clownfish handling rather than planning a replacement fix PR against a validator-classified security-sensitive target."
+    },
+    {
+      "target": "#40427",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR remains useful evidence, but no live mutation or replacement fix path is planned from this security-routed cluster."
+    },
+    {
+      "target": "#57979",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical closed PR should remain closed and be credited as related prior work if security triage later authorizes a non-security replacement path."
+    },
+    {
+      "target": "#56468",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR is not a live target and does not justify a mutation in this cluster."
+    },
+    {
+      "target": "#56671",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The representative PR is closed and the doctor clobbered-snapshot subproblem is historical, not a live canonical path."
+    },
+    {
+      "target": "#59520",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed typo fix is independent historical context and does not need action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

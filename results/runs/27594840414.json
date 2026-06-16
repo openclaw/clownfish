@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156978-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27594840414",
+  "workflow_run_id": "27594840414",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594840414",
+  "head_sha": "6119f1651b4bb3b53801030ee2d8c0f45bbbd678",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:47:27Z",
+  "workflow_updated_at": "2026-06-16T04:49:32Z",
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156978-autonomous-smoke.md",
+  "published_at": "2026-06-16T04:55:40.194Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight plus deterministic validation now require #38829 to be treated as security-sensitive and routed to central OpenClaw security handling. #43341 and #41964 are already closed historical context, #45388 is related but has distinct --session/refresh/mirroring details, and security-sensitive linked refs #40678 and #73402 are also routed exactly. No close, merge, fixed-by-candidate closeout, or executable fix artifact is safe in this repaired result because the canonical issue and only hydrated implementation PR are quarantined and the local target checkout could not be verified as openclaw/openclaw source.",
+  "actions": [
+    {
+      "target": "#38829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact validator-identified security-sensitive issue must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#43341",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed duplicate context; preserve as evidence only."
+    },
+    {
+      "target": "#41964",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed superseded implementation context only."
+    },
+    {
+      "target": "#45388",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related live TUI transcript report with unique refresh and mirroring details; keep open."
+    },
+    {
+      "target": "#40678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked issue must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#73402",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive PR must be routed, not merged, repaired, or used for fixed-by-candidate closeout by this worker."
+    },
+    {
+      "target": "cluster:ghcrawl-156978-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cluster implementation needs central security triage and a valid openclaw/openclaw target checkout before any executable fix artifact or closeout plan."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 2,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must handle #38829, #40678, and #73402 before #38829 or #73402 can be used as ordinary canonical, merge, repair, or fixed-by-candidate evidence.",
+    "A refreshed worker/executor pass needs a valid openclaw/openclaw target checkout before emitting an executable replacement fix artifact for any remaining non-security TUI live transcript work."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

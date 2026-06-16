@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156978-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27594977909",
+  "workflow_run_id": "27594977909",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594977909",
+  "head_sha": "18b34d1bcbd8ea89da8bf1b22f08d918abdc8088",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:51:24Z",
+  "workflow_updated_at": "2026-06-16T04:54:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156978-autonomous-smoke.md",
+  "published_at": "2026-06-16T04:55:40.195Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated preflight marks #40678 and #73402 security-sensitive, and deterministic validation also requires #38829 and #45388 to route through central security handling. #41964 and #43341 are already closed historical context only. Because the only live canonical/follow-up issue refs for the TUI transcript bug are now security-routed, no executable non-security fix lane is safe in this result; the cluster-level fix path is downgraded to maintainer/security triage.",
+  "actions": [
+    {
+      "target": "#38829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator security classification requires quarantining this exact issue ref for central OpenClaw security handling instead of keeping it as a non-security canonical target."
+    },
+    {
+      "target": "#40678",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive cross-channel observation request is outside Clownfish backlog cleanup; quarantine this exact ref for central OpenClaw security handling."
+    },
+    {
+      "target": "#41964",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical PR; no mutation is valid."
+    },
+    {
+      "target": "#43341",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed duplicate context; no mutation is valid."
+    },
+    {
+      "target": "#45388",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator security classification requires quarantining this exact issue ref for central OpenClaw security handling instead of keeping it as a non-security related target."
+    },
+    {
+      "target": "#73402",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR cannot be merged, closed, repaired, or used as candidate_fix by Clownfish; quarantine this exact ref for central security handling."
+    },
+    {
+      "target": "cluster:ghcrawl-156978-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cluster-level implementation must wait for central security/maintainer triage of the routed live issue and PR refs; no non-security fix artifact is safe to emit."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Cluster-level fix path blocked: #38829 and #45388 must route_security per validator, while #40678 and #73402 are security-sensitive in hydrated preflight; no complete executable non-security fix artifact remains safe."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
