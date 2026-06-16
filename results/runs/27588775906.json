@@ -1,0 +1,129 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-021",
+  "mode": "plan",
+  "run_id": "27588775906",
+  "workflow_run_id": "27588775906",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588775906",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:17Z",
+  "workflow_updated_at": "2026-06-16T01:55:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-021.md",
+  "published_at": "2026-06-16T01:57:30.861Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification shard. No GitHub mutations planned; merge, fix, raise_pr, and low-signal closeout are disabled. Security preflight reported no security-sensitive signal in hydrated job refs. Each listed PR is classified independently without inventing a shared canonical.",
+  "actions": [
+    {
+      "target": "#90219",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent inventory item; live hydrated updated_at was not available in the compacted prompt, so only non-mutating classification is safe."
+    },
+    {
+      "target": "#90206",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider/auth bugfix PR; no hydrated timestamp was available in the compacted prompt."
+    },
+    {
+      "target": "#90184",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the chat-session rename family, but not safe to close or merge in plan mode with merge and post-merge close disabled."
+    },
+    {
+      "target": "#90151",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#83390",
+      "reason": "Clearly linked to open docs issue #83390, but closure/merge is disabled and the PR label indicates waiting on author, so keep related."
+    },
+    {
+      "target": "#90095",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open Telegram fix candidate with proof; no shared canonical should be invented in this inventory shard."
+    },
+    {
+      "target": "#90061",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89350",
+      "reason": "Related to the merged prompt-cache guard in #89350, but low-signal/duplicate closeout is not enabled and the item is draft."
+    },
+    {
+      "target": "#90059",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the plugin metadata hardening family, but it has distinct scope from #90032 and no safe canonical close path in this inventory shard."
+    },
+    {
+      "target": "#90005",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the CLI metadata hardening family but distinct captured-registration scope; no close/merge action is enabled."
+    },
+    {
+      "target": "#89783",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large Feishu feature with active review concerns needs maintainer technical judgment rather than inventory closeout."
+    },
+    {
+      "target": "#89673",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#87483",
+      "reason": "Related to open issue #87483 and likely candidate fix path, but merge/fixed-by closeout is disabled in this plan-mode inventory job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 6,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89783 requires maintainer technical/product judgment because it is a broad Feishu bot-to-bot feature with ClawSweeper-reported issues before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

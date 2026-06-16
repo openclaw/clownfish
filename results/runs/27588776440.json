@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-030",
+  "mode": "plan",
+  "run_id": "27588776440",
+  "workflow_run_id": "27588776440",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588776440",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:18Z",
+  "workflow_updated_at": "2026-06-16T01:55:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-030.md",
+  "published_at": "2026-06-16T01:57:30.900Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned one conservative action for each listed open PR. This PR inventory shard has no shared canonical, so non-security PRs are kept as independent inventory items unless a specific maintainer decision is still required. #92394 is quarantined to central security handling from the preflight security boundary.",
+  "actions": [
+    {
+      "target": "#69022",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No close or merge is safe in plan mode; keep as an independent open PR needing normal author/maintainer follow-up."
+    },
+    {
+      "target": "#92445",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep independently for normal maintainer review; no closure, merge, or security routing is justified from hydrated state."
+    },
+    {
+      "target": "#92394",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only #92394 to central OpenClaw security handling; do not close, merge, label, comment, or fix through Clownfish."
+    },
+    {
+      "target": "#92383",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent maintainer-review candidate."
+    },
+    {
+      "target": "#92375",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92134",
+      "reason": "Keep as an independent candidate fix path for hydrated issue #92134; no close action is allowed or needed."
+    },
+    {
+      "target": "#92356",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92260",
+      "reason": "Keep as the active independent candidate for the heartbeat reasoning leak; no merge action is allowed in this job."
+    },
+    {
+      "target": "#92351",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92241",
+      "reason": "Keep independently for maintainer review; related open issue state prevents duplicate closure or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#92342",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is required on whether to keep, split, or close this broad draft external-plugin candidate."
+    },
+    {
+      "target": "#92328",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent clean replacement PR awaiting normal maintainer review."
+    },
+    {
+      "target": "#91245",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91122",
+      "reason": "Specific maintainer/admin judgment is required on the dependency graph changes or whether the PR must be narrowed before review can proceed."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 7,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92342 requires maintainer/product decision on broad draft external-plugin candidate scope and proof requirements.",
+    "#91245 requires maintainer/admin decision on blocked dependency graph changes or narrowing the PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
