@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-018",
+  "mode": "autonomous",
+  "run_id": "27611970206",
+  "workflow_run_id": "27611970206",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611970206",
+  "head_sha": "82cb435ae0afb6412a2d2e7e8bca41c67c952529",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:43:27Z",
+  "workflow_updated_at": "2026-06-16T10:47:46Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-018.md",
+  "published_at": "2026-06-16T10:48:35.588Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently with no shared canonical. No security-sensitive refs were detected. The job disables merge, fix PRs, low-signal closeout, and instant close, so all useful focused PRs remain open for maintainer or proof decisions rather than mutation.",
+  "actions": [
+    {
+      "target": "#81388",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor bug fix appears plausible and related to #81089, but landing or accepting the remaining real-environment proof gap requires maintainer judgment outside this close/comment/label-only inventory job."
+    },
+    {
+      "target": "#82870",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with sufficient proof signal, but the final technical review/merge-readiness decision is a maintainer decision and merge/fix actions are disallowed for this job."
+    },
+    {
+      "target": "#82909",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small focused bug fix should stay open; deciding whether the branch is now current enough and merge-ready requires maintainer review, and this job cannot merge or repair it."
+    },
+    {
+      "target": "#82971",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is related to an already-closed protocol mismatch issue and currently has failing proof/checks, but this inventory job should not close it; leave it open for maintainer disposition or a separate targeted cleanup decision."
+    },
+    {
+      "target": "#82972",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful contributor fix for #81484, but unresolved/uncleared review-bot findings and schema compatibility judgment require maintainer or repair-loop handling outside this close/comment/label-only job."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81388: maintainer decision needed on whether the supplied proof is enough for the unsupported-hardlink fallback or whether a real SMB/NFS/virtiofs-style environment proof is required.",
+    "#82870: maintainer review needed for the current-main port/readiness decision after the author-reported rebase and proof update.",
+    "#82909: maintainer review needed to confirm the Dependency Guard/current-main update requirement is satisfied and the one-file Telegram cache type fix is merge-ready.",
+    "#82972: maintainer or repair-loop review needed for the unresolved scoped action-group/Codex review findings before any merge decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
