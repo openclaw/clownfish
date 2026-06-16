@@ -171,6 +171,10 @@ jobs:
               if (!/^[0-9a-f]{40,64}$/i.test(requiredAncestor)) {
                 throw new Error(`invalid repository_dispatch required_ancestor_sha: ${requiredAncestor}`);
               }
+              spawnSync("git", ["fetch", "--no-tags", "--depth=100", "origin", "main"], {
+                encoding: "utf8",
+                stdio: "pipe",
+              });
               const ancestorCheck = spawnSync("git", ["merge-base", "--is-ancestor", requiredAncestor, "HEAD"], {
                 encoding: "utf8",
                 stdio: "pipe",
