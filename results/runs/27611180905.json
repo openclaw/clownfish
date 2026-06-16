@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-172",
+  "mode": "autonomous",
+  "run_id": "27611180905",
+  "workflow_run_id": "27611180905",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180905",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:31:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-172.md",
+  "published_at": "2026-06-16T10:37:04.529Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently. No shared canonical was selected, no security-sensitive refs were detected, and no close, merge, or fix actions are safe under this job's permissions. Contributor PRs with failed proof stay open; maintainer-owned or ready-for-maintainer PRs stay open for human review.",
+  "actions": [
+    {
+      "target": "#88114",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/maintainer review; failing proof and related broader work block any fixed-by or superseded closeout."
+    },
+    {
+      "target": "#88426",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related skills work; proof failure and distinct technical scope require normal review rather than dedupe closeout."
+    },
+    {
+      "target": "#89329",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with useful focused code should remain under maintainer review; this inventory worker cannot merge or repair it."
+    },
+    {
+      "target": "#89396",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with sufficient proof needs maintainer review, but no merge or issue closeout action is allowed in this inventory job."
+    },
+    {
+      "target": "#89518",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-tracked draft migration should stay open for the planned review/proof path; no close, fix, or merge action is appropriate."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89329: maintainer-owned draft PR needs maintainer review; no merge/fix action is allowed by this job.",
+    "#89396: focused contributor bug-fix PR has sufficient proof but still needs maintainer review; merge and post-merge issue closeout are blocked by job permissions.",
+    "#89518: maintainer-tracked draft migration PR is broad session-state work and requires maintainer review/proof outside this inventory shard."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

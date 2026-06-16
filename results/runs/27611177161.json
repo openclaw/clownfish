@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-081",
+  "mode": "autonomous",
+  "run_id": "27611177161",
+  "workflow_run_id": "27611177161",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611177161",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:35:43Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-081.md",
+  "published_at": "2026-06-16T10:37:04.503Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently from the hydrated preflight artifact. No shared canonical was selected, and no close, merge, or fix actions are allowed by this job. Three PRs need maintainer judgment; two should remain open without mutation.",
+  "actions": [
+    {
+      "target": "#86925",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/language review is the remaining decision before any merge path; this worker cannot merge or fix in this job."
+    },
+    {
+      "target": "#87102",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for author proof and normal maintainer review; failing proof blocks merge readiness but does not justify closeout."
+    },
+    {
+      "target": "#87111",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned broad PR has unresolved review-bot findings and active maintainer follow-up; automation should not close, merge, or rewrite it in this inventory shard."
+    },
+    {
+      "target": "#87247",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related docs follow-up; it is not independently closable and merge/fix actions are blocked by the job."
+    },
+    {
+      "target": "#87255",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green bug fix appears useful, but the artifact has conflicting review state; maintainer review is needed before any merge path."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86925: Maintainer/language review needed for Simplified Chinese translation correctness before merge.",
+    "#87111: Maintainer-owned XL pagination PR has unresolved actionable bot review findings and active author follow-up.",
+    "#87255: Focused config bug fix has green checks but conflicting ClawSweeper vs author/resolved-review evidence; maintainer technical judgment needed."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

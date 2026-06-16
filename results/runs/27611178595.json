@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-101",
+  "mode": "autonomous",
+  "run_id": "27611178595",
+  "workflow_run_id": "27611178595",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611178595",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:31:13Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-101.md",
+  "published_at": "2026-06-16T10:37:04.512Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Reviewed the hydrated live PR inventory shard. No shared canonical is appropriate. Four seed PRs should stay open for maintainer or technical judgment: two maintainer-owned draft/runtime hardening PRs, one contributor TUI queue-mode PR tied to an open source issue, and one LaunchAgent restart PR tied to open issues but with a failing real-behavior proof. Validator security gating requires #89089 to be routed to central security handling. No close, merge, fix, or PR-raise action is permitted or justified by this job.",
+  "actions": [
+    {
+      "target": "#89077",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR with focused runtime hardening and passing proof; keep open for maintainer review rather than close or merge from this inventory shard."
+    },
+    {
+      "target": "#89078",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to be a focused candidate for #90012, but deciding whether the proof now satisfies the review and whether the queue-mode behavior is correct is maintainer/technical judgment outside this close-only inventory shard."
+    },
+    {
+      "target": "#89081",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR with passing proof and narrow agent-runtime scope; keep open for maintainer review rather than close or merge."
+    },
+    {
+      "target": "#89089",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The deterministic validator classified #89089 as security-sensitive for this result, so the exact PR is routed to central OpenClaw security handling without any ProjectClownfish mutation."
+    },
+    {
+      "target": "#89096",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is plausibly related to open LaunchAgent restart issues, but failing proof/checks and technical correctness questions make it maintainer-review work, not safe closeout or merge planning in this shard."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89077: maintainer-owned draft runtime PR needs maintainer review before any landing decision.",
+    "#89078: contributor PR appears tied to #90012, but queue-mode correctness and proof sufficiency remain maintainer/technical judgments.",
+    "#89081: maintainer-owned draft runtime PR needs maintainer review before any landing decision.",
+    "#89096: LaunchAgent restart PR has failing Real behavior proof and needs maintainer/technical review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

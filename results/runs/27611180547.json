@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-153",
+  "mode": "autonomous",
+  "run_id": "27611180547",
+  "workflow_run_id": "27611180547",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180547",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:31:53Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-153.md",
+  "published_at": "2026-06-16T10:37:04.525Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No GitHub mutations, merges, closures, labels, or fix PRs are planned because instant close, low-signal close, merge, fix, and raise_pr are disabled. Security-sensitive #68527 is routed only to central security triage; maintainer/draft/green-ready or bot-blocked PRs are scoped to item-level needs_human decisions.",
+  "actions": [
+    {
+      "target": "#64205",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no action target for this inventory run."
+    },
+    {
+      "target": "#68187",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related MCP session-reconnect family item; keep open because no merge/fix/close action is permitted and candidate proof is not clean."
+    },
+    {
+      "target": "#68527",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this exact ref to central OpenClaw security handling; continue unrelated non-security classification."
+    },
+    {
+      "target": "#79182",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#79200",
+      "candidate_fix": "#79200",
+      "reason": "Covered by the hydrated open PR #79200 path, but keep open until that PR lands or maintainers choose another path."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79200",
+      "candidate_fix": null,
+      "reason": "Canonical non-mutating path for the message send feature subfamily; no merge or closure is allowed in this job."
+    },
+    {
+      "target": "#87981",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged/closed; no close or merge action is valid."
+    },
+    {
+      "target": "#88172",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused but unproven MCP stability PR; keep open as related work rather than close, merge, or repair."
+    },
+    {
+      "target": "#88210",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone focused session-state PR with missing proof; not a duplicate, low-signal close, or shared-canonical item."
+    },
+    {
+      "target": "#88454",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer or author follow-up on the unresolved Codex P2 review finding before any finalization."
+    },
+    {
+      "target": "#88950",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned provider-policy PR requires maintainer decision; no close, repair, or merge is allowed."
+    },
+    {
+      "target": "#90700",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related MCP reconnect PR with failing proof/check signals; keep open for the MCP subfamily rather than close or finalization."
+    },
+    {
+      "target": "#91556",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct product/feature gap; keep independent from this PR inventory shard."
+    },
+    {
+      "target": "#93351",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93351",
+      "candidate_fix": null,
+      "reason": "Green focused contributor PR is ready for maintainer correctness/product review, but this worker cannot merge or close it."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 5,
+    "route_security": 1,
+    "keep_independent": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88454: unresolved Codex P2 review-bot finding on stale recovery route replacement in a broad maintainer-owned PR.",
+    "#88950: draft maintainer/member PR on provider-policy behavior requires maintainer review before any finalization.",
+    "#93351: green focused contributor PR needs maintainer review/product correctness decision; merge is blocked by job frontmatter."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

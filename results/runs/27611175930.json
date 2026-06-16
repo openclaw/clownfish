@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-017",
+  "mode": "autonomous",
+  "run_id": "27611175930",
+  "workflow_run_id": "27611175930",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175930",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:35:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-017.md",
+  "published_at": "2026-06-16T10:37:04.493Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified from the hydrated preflight artifact. No shared canonical was selected. The security-sensitive linked issue is routed to central security handling; the five open inventory PRs are kept out of automated close/merge because the job blocks merge/fix/raise_pr and their remaining decisions are maintainer or technical-correctness review points.",
+  "actions": [
+    {
+      "target": "#63589",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be routed to central OpenClaw security triage, not processed by Clownfish backlog automation."
+    },
+    {
+      "target": "#81835",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open as related context for PR #82179; no closure or fix action is allowed in this shard."
+    },
+    {
+      "target": "#81991",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open as related context for PR #82355."
+    },
+    {
+      "target": "#82002",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open as related context for PR #82079."
+    },
+    {
+      "target": "#82079",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR; final review/rebase/merge decision needs maintainer handling outside this close-only inventory shard."
+    },
+    {
+      "target": "#82160",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned PR with active maintainer signal; leave for maintainer review/finalization."
+    },
+    {
+      "target": "#82179",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider/API compatibility correctness should be reviewed by a maintainer; no automated closure or merge path is allowed here."
+    },
+    {
+      "target": "#82213",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing checks and compatibility-sensitive API work block any automated close or merge decision; maintainer judgment is required."
+    },
+    {
+      "target": "#82355",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused message-delivery fix; leave open for maintainer review/finalization rather than automated closeout."
+    },
+    {
+      "target": "#89129",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked context; no mutation planned."
+    },
+    {
+      "target": "#90463",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked context; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 3,
+    "needs_human": 5,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 5,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82079: maintainer review/rebase/finalization decision for a useful focused Telegram fix; merge/fix are blocked by this job.",
+    "#82160: maintainer-owned assigned PR with active maintainer signal and stale dependency-guard rebase note.",
+    "#82179: Volcengine provider/config/schema compatibility judgment for a green focused fix.",
+    "#82213: compatibility-sensitive Plugin SDK API expansion has failing proof/check/type/lint gates and needs maintainer product/technical judgment.",
+    "#82355: green focused HTTP SSE message-delivery fix needs maintainer technical review/finalization."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
