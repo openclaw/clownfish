@@ -7,22 +7,22 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
-test("live PR inventory can ignore non-terminal published result actions", () => {
+test("autonomous live PR inventory defaults to stale candidates and terminal result filtering", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
   writePublishedResult(path.join(fixture.results, "processed.md"));
 
-  const blocked = runImport(fixture);
-  assert.equal(blocked.status, 0, blocked.stderr || blocked.stdout);
-  assert.deepEqual(JSON.parse(blocked.stdout).candidates.map((candidate) => candidate.ref), ["#104"]);
+  const autonomous = runImport(fixture);
+  assert.equal(autonomous.status, 0, autonomous.stderr || autonomous.stdout);
+  const autonomousPayload = JSON.parse(autonomous.stdout);
 
-  const terminal = runImport(fixture, "--existing-results-action-policy", "terminal");
-  assert.equal(terminal.status, 0, terminal.stderr || terminal.stdout);
-  const payload = JSON.parse(terminal.stdout);
+  assert.equal(autonomousPayload.options.bucket, "stale_unassigned");
+  assert.equal(autonomousPayload.options.existing_results_action_policy, "terminal");
+  assert.deepEqual(autonomousPayload.candidates.map((candidate) => candidate.ref), ["#101", "#104"]);
 
-  assert.equal(payload.options.existing_results_action_policy, "terminal");
-  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#101", "#104"]);
-  assert.equal(payload.generated.length, 1);
+  const broad = runImport(fixture, "--bucket", "all", "--existing-results-action-policy", "all");
+  assert.equal(broad.status, 0, broad.stderr || broad.stdout);
+  assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106"]);
 });
 
 function runImport(fixture, ...extraArgs) {
@@ -79,6 +79,44 @@ function writeFakeGh(filePath) {
     labels: { nodes: [] },
     assignees: { nodes: [] },
   }));
+  pulls.push(
+    {
+      number: 105,
+      title: "maintainer candidate",
+      url: "https://github.com/openclaw/openclaw/pull/105",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-05T00:00:00Z",
+      isDraft: true,
+      author: { login: "maintainer" },
+      authorAssociation: "MEMBER",
+      labels: { nodes: [{ name: "maintainer" }] },
+      assignees: { nodes: [] },
+    },
+    {
+      number: 106,
+      title: "ready candidate",
+      url: "https://github.com/openclaw/openclaw/pull/106",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-06T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-106" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: { nodes: [{ name: "proof: sufficient" }] },
+      assignees: { nodes: [] },
+    },
+    {
+      number: 107,
+      title: "security candidate",
+      url: "https://github.com/openclaw/openclaw/pull/107",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-07T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-107" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: { nodes: [{ name: "security" }] },
+      assignees: { nodes: [] },
+    },
+  );
   fs.writeFileSync(
     filePath,
     `#!/usr/bin/env node

@@ -13,12 +13,14 @@ const existingDir = path.resolve(String(args["existing-dir"] ?? args.existing_di
 const existingResultsDir = path.resolve(
   String(args["existing-results-dir"] ?? args.existing_results_dir ?? path.join(repoRoot(), "results", owner)),
 );
-const existingResultsActionPolicy = String(args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "all");
 const mode = String(args.mode ?? "autonomous");
+const existingResultsActionPolicy = String(
+  args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? (mode === "autonomous" ? "terminal" : "all"),
+);
 const limit = limitArg("limit", 100);
 const batchSize = numberArg("batch-size", 5);
 const sort = String(args.sort ?? "stale");
-const bucketFilter = String(args.bucket ?? "all");
+const bucketFilter = String(args.bucket ?? (mode === "autonomous" ? "stale_unassigned" : "all"));
 const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
