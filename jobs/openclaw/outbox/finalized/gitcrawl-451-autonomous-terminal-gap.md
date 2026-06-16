@@ -74,3 +74,8 @@ Open candidates:
 Existing-overlap context refs:
 
 - #86898 fix(context-engine): resolve turn-maintenance livelock on Telegram DM sessions (#77340)
+
+## Finalization
+
+- Replacement PR #93727 merged as `c1df7aa08be26d3df1773613cf53e155d871822b`.
+- Canonical issue #77340 was closed after the merge.
