@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-451-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27629608793",
+  "workflow_run_id": "27629608793",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27629608793",
+  "head_sha": "cd08661d53227cd006d83585a7105f6259bea85a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T15:41:58Z",
+  "workflow_updated_at": "2026-06-16T15:57:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-451-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T16:02:12.267Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/86898",
+  "summary": "Issue #77340 remains the canonical live report. The open contributor PR #86898 is the best repair path, but it is not merge-ready: it is dirty against current main, has failing proof/check gates, and needs a current-main path refresh plus fresh validation and Codex review. No close or merge action is safe yet.",
+  "actions": [
+    {
+      "target": "#77340",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Keep #77340 open as the canonical issue until the repair path in #86898 is rebased, validated, reviewed, and merged."
+    },
+    {
+      "target": "#86898",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Repair the contributor branch instead of merging now: the branch is useful and editable, but dirty and not fully validated."
+    },
+    {
+      "target": "#86512",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not close or route #86512 in this cluster; it belongs to a separate provider-auth startup performance track."
+    },
+    {
+      "target": "cluster:gitcrawl-451-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Produce an executable repair artifact for the applicator/executor to update #86898, validate it, run /review, and only then merge or report a concrete blocker."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_independent": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #86898 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/gitcrawl-451-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Blocking finding found. Security-sensitive issues are absent in this diff, the original Codex self-deadlock review comment is addressed, and the old ClawSweeper ordering concern is mostly addressed by adding same-session read checkpoints. However, the embedded-run checkpoint is placed after acquiring the global lane, which can stall unrelated sessions and can consume the run lane timeout before the attempt starts. `pnpm check:changed` plus `git diff --check` is the right validation shape for this branch, but it does not cover this scheduling regression.",
+      "commit": "71e2858a169f6c3a7256833d3e7b9358457cc37c",
+      "checkpoint_commits": [
+        "71e2858a169f6c3a7256833d3e7b9358457cc37c"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
