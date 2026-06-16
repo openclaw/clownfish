@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-93689-20260617",
+  "mode": "autonomous",
+  "run_id": "27642767648",
+  "workflow_run_id": "27642767648",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27642767648",
+  "head_sha": "039b63fade6c48a83dee7a9ac3b17c1dfd0109c7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T19:31:00Z",
+  "workflow_updated_at": "2026-06-16T19:38:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-93689-20260617.md",
+  "published_at": "2026-06-16T19:41:11.502Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93689",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93689",
+  "summary": "#93689 is the sole hydrated canonical PR. It is open, maintainer-editable, narrow, non-security-sensitive, and currently mergeable-clean in the preflight artifact, but this calibrated rebase-only job requires the executor to refresh the contributor branch against current main, run changed-surface validation, and run a fresh Codex /review before any later finalization. Merge, close, label, replacement PR, and direct GitHub mutations are out of scope for this job.",
+  "actions": [
+    {
+      "target": "#93689",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "Canonical PR #93689 should be repaired in place because maintainer_can_modify is true and the job is a bounded rebase-only canary requiring branch refresh, validation, and Codex /review before any separate merge finalization."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-93689-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "Build an executable repair artifact so the deterministic executor can rebase/refactor narrowly on the existing maintainer-editable branch, run validation and Codex /review, and push only if clean."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93689",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "824baed13f77ace0487ced37e133b8785cbfcd1b",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93689",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
