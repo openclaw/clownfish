@@ -139,7 +139,7 @@ test("review-results ignores separately routed security refs for non-security ta
           classification: "canonical",
           target_kind: "issue",
           target_updated_at: "2026-06-15T10:00:00Z",
-          evidence: ["#91161 was routed as a linked security-sensitive ref."],
+          evidence: ["Linked implementation PR #91161 is hydrated as security-sensitive and must be quarantined."],
           reason:
             "#39476 remains canonical; any security-sensitive linked implementation path is quarantined separately.",
         },
@@ -155,6 +155,49 @@ test("review-results ignores separately routed security refs for non-security ta
             title: "A2A sessions_send causes duplicate messages",
             labels: ["bug"],
             updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results allows skipped keep_closed for closed security-shaped context refs", () => {
+  const dir = makeResultDir(
+    {
+      actions: [
+        {
+          target: "#41964",
+          action: "keep_closed",
+          status: "skipped",
+          idempotency_key: "cluster-test:keep-closed:41964",
+          classification: "superseded",
+          target_kind: "pull_request",
+          target_updated_at: "2026-04-28T09:03:01Z",
+          evidence: [
+            "#41964 is already closed.",
+            "Hydrated comments mention a hidden-run chat/node fanout security boundary and sensitive-data exposure risk.",
+          ],
+          reason: "Closed superseded implementation context only.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#41964",
+            kind: "pull_request",
+            state: "closed",
+            title: "fix(tui): render external-channel session messages live",
+            labels: ["gateway"],
+            updated_at: "2026-04-28T09:03:01Z",
             security_sensitive: false,
           },
         ],

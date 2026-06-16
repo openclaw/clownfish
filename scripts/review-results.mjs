@@ -160,7 +160,12 @@ function reviewResult(resultPath) {
     if (item?.security_sensitive && MUTATING_ACTIONS.has(name)) {
       failures.push(`${target} mutating action targets security-sensitive item`);
     }
-    if (!clusterScopedAction && isSecuritySensitiveActionContext(action, item) && name !== "route_security") {
+    if (
+      !clusterScopedAction &&
+      !isSkippedClosedContextAction(action, item) &&
+      isSecuritySensitiveActionContext(action, item) &&
+      name !== "route_security"
+    ) {
       failures.push(`${target} security-sensitive target must use route_security`);
     }
     if (ROUTE_SECURITY_ACTIONS.has(name)) {
@@ -350,6 +355,10 @@ function isSecuritySensitiveActionContext(action, item) {
   );
 }
 
+function isSkippedClosedContextAction(action, item) {
+  return action.action === "keep_closed" && action.status === "skipped" && item?.state === "closed";
+}
+
 function nonSecurityAssertionStrippedText(value) {
   return String(value ?? "")
     .replace(/\bsecurity[-_\s]?sensitive\s*[=:]\s*(?:false|0|no)\b/gi, "non-security classification")
@@ -364,6 +373,10 @@ function nonSecurityAssertionStrippedText(value) {
     )
     .replace(
       /\b(?:linked|related|other|unrelated|separate|adjacent)[^.]{0,80}\bsecurity[-_\s]?sensitive\b[^.]{0,80}\b(?:quarantined|routed|handled|triaged|excluded|refs?|issues?|prs?|items?|targets?|implementation\s+path)\b/gi,
+      "separate security context",
+    )
+    .replace(
+      /\b(?:linked|related|other|unrelated|separate|adjacent)[^.]{0,80}\b(?:hydrated|marked|classified|flagged|listed)\s+as\s+security[-_\s]?sensitive[^.]{0,80}\b(?:quarantined|routed|handled|triaged|excluded)\b/gi,
       "separate security context",
     )
     .replace(
