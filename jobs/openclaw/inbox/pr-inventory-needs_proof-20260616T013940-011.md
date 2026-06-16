@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: pr-inventory-needs_proof-20260616T013940-011
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label
@@ -43,7 +43,7 @@ cluster_refs:
 security_policy: central_security_only
 security_sensitive: false
 canonical_hint: "This is a PR inventory classification shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical."
-notes: "Generated from local gitcrawl open PR inventory on 2026-06-16T01:39:40.264Z; bucket=needs_proof; no GitHub mutation is possible in plan mode."
+notes: "Generated from local gitcrawl open PR inventory on 2026-06-16T01:39:40.264Z; bucket=needs_proof; write-mode is enabled for conservative close/comment/label actions only."
 ---
 
 # PR Inventory needs_proof 11
