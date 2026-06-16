@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-13538-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25109692428"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25109692428"
-head_sha: "7ac7590296085c93e29434b3af3e919aa257e029"
+run_id: "27595658524"
+workflow_run_id: "27595658524"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27595658524"
+head_sha: "2d3662c151e0b150b29dae63ba637e5edb6b6735"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-15T04:57:52.720Z"
+published_at: "2026-06-16T05:17:06.573Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 13
+actions_total: 19
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25109692428](https://github.com/openclaw/clownfish/actions/runs/25109692428)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27595658524](https://github.com/openclaw/clownfish/actions/runs/27595658524)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: unknown
 
 ## Summary
 
-Hydrated preflight shows current main at 9881a808f2fc0d5302f98a040a9efaad00336097 and the representative #57999 is already closed as implemented. The open candidates split into separate active subfamilies, so no duplicate/comment/close action is planned from this broad cluster.
+Autonomous dedupe-only classification repaired after deterministic validation. The original representative #57999 is closed and should stay historical. Validator output requires #47975 to be treated as security-sensitive, so it is quarantined with route_security and is no longer used as the canonical issue. Other open hydrated non-security issues remain related but not duplicates because they carry distinct stale-reply, scheduler, UI, retention-rule, or session-store scopes. #64199 is separately quarantined for central security handling. No close, merge, or fix PR action is planned; maintainer input is needed to choose any surviving non-security canonical path after #47975 is removed from dedupe automation.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 13 |
+| Worker actions | 19 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -66,20 +67,26 @@ Hydrated preflight shows current main at 9881a808f2fc0d5302f98a040a9efaad0033609
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #32296 | keep_independent | planned | independent | Separate active previous-message/session-context family; not safe to close or fold into the obsolete #57999 representative. |
-| #47975 | keep_canonical | planned | canonical | Best open canonical only for the subagent lifecycle/responsiveness subfamily, not for the whole over-broad cluster. |
-| #51767 | keep_related | planned | related | Related retention-specific work; keep open because it adds a narrower root cause and validation scope. |
-| #54797 | keep_related | planned | related | Related but distinct UI cleanup surface; keep open. |
-| #55807 | keep_related | planned | fixed_by_candidate | Covered by an open candidate PR, but closeout is blocked until the candidate is repaired or replaced and lands. |
-| #55896 | keep_related | planned | related | Useful open candidate for #55807, but not merge-ready and merge/fix are out of scope for this dedupe-only job. |
-| #56516 | keep_closed | skipped | duplicate | Already closed; no closure action is valid. |
-| #58411 | keep_independent | planned | independent | Independent feature/API gap; keep open. |
-| #60780 | keep_related | planned | related | Related ACP/Discord symptom family, but distinct root cause and no hydrated candidate fix; keep open. |
-| #61885 | route_security | planned | security_sensitive | Security-sensitive token storage decision; quarantine only this item. |
-| #64199 | keep_related | planned | related | Related ACP session-key routing bug with an unhydrated PR reference; keep open. |
-| #68162 | keep_independent | planned | independent | Independent Control UI reconnect bug; keep open. |
-| #69443 | keep_related | planned | related | Related subagent/Gateway routing family, but distinct current root cause; keep open. |
+| #57999 | keep_closed | skipped |  | Original canonical hint is obsolete because #57999 is already closed. |
+| #47975 | route_security | planned | security_sensitive | Route exact security-sensitive ref #47975 to central OpenClaw security handling; do not mutate it through Clownfish. |
+| #32296 | keep_related | planned | related | Keep open as a related broad stale-reply tracker, not a duplicate of the quarantined retention issue. |
+| #76888 | keep_related | planned | related | Keep open as a narrow related stale-reply tracker with unique implementation evidence. |
+| #54488 | keep_related | planned | related | Keep open as a related scheduler fairness issue with distinct scope. |
+| #50900 | keep_related | planned | related | Keep open as a related retention-policy design item. |
+| #52803 | keep_related | planned | related | Keep open as a related but broader Control UI orchestration feature request. |
+| #55334 | keep_related | planned | related | Keep open as a related session-store bloat/OOM tracker, not a duplicate of the quarantined #47975 item. |
+| #64199 | route_security | planned | security_sensitive | Route only #64199 to central OpenClaw security handling; do not mutate it through Clownfish. |
+| #51767 | keep_closed | skipped |  | Closed candidate retained only as historical retention-family evidence. |
+| #54797 | keep_closed | skipped |  | Closed candidate retained only as historical Control UI cleanup evidence. |
+| #55807 | keep_closed | skipped |  | Closed candidate retained only as historical ACP thread rendering evidence. |
+| #56516 | keep_closed | skipped |  | Closed candidate retained only as historical subagent UI persistence evidence. |
+| #58411 | keep_closed | skipped |  | Closed candidate retained only as historical ACP binding evidence. |
+| #60780 | keep_closed | skipped |  | Closed candidate retained only as historical Discord ACP duplicate-response evidence. |
+| #61885 | keep_closed | skipped |  | Closed candidate retained only as historical Control UI token persistence evidence. |
+| #68162 | keep_closed | skipped |  | Closed candidate retained only as historical webchat reconnection/session evidence. |
+| #69443 | keep_closed | skipped |  | Closed candidate retained only as historical WeChat callback-routing evidence. |
+| cluster:gitcrawl-13538-dedupe-only-20260429-remote | needs_human | blocked | needs_human | Maintainer must choose whether to split the non-security follow-up cluster or designate a different canonical after #47975 is quarantined. |
 
 ## Needs Human
 
-- No single open canonical safely replaces closed #57999 for this whole cluster; future cleanup should split the hydrated candidates into narrower subclusters before planning additional closeouts.
+- Canonical choice is unclear after validator-required security routing of #47975; remaining open non-security issues are related but not safe replacements from the provided artifacts.
