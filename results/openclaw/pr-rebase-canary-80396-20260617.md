@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-rebase-canary-80396-20260617"
 mode: "autonomous"
-run_id: "27649237393"
-workflow_run_id: "27649237393"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27649237393"
-head_sha: "1b12312e58a23aa38c75b90a17d4ad3667091db9"
+run_id: "27650752803"
+workflow_run_id: "27650752803"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27650752803"
+head_sha: "a670d7a23d085d1673cd2b428b76591fca49d375"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T21:54:12.704Z"
+published_at: "2026-06-16T22:07:19.143Z"
 canonical: "https://github.com/openclaw/openclaw/pull/80396"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/41966"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/80396"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 1
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27649237393](https://github.com/openclaw/clownfish/actions/runs/27649237393)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27650752803](https://github.com/openclaw/clownfish/actions/runs/27650752803)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/80396
 
 ## Summary
 
-#80396 is the sole canonical, maintainer-editable contributor PR for the #41966 fenced MEDIA warning path. The hydrated artifact shows it is open, narrow, mergeable, has passing relevant checks, no review comments, and no security-sensitive signal; because this canary is rebase-only with merge/close/new-PR actions blocked, the safe action is to repair/refresh the existing branch only and have the executor validate the changed surface plus run Codex /review before any later finalization job.
+Canonical PR #80396 is the sole repair target. The hydrated artifact shows a maintainer-editable, narrow contributor branch with passing checks and no hydrated review threads, but merge is disabled and the local checkout does not contain the PR head commit, so Clownfish should repair/rebase only if needed, validate, and run Codex /review on the existing branch before any later finalization job.
 
 ## Impact
 
@@ -45,9 +45,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/80396
 | Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 1 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -55,21 +55,21 @@ Canonical: https://github.com/openclaw/openclaw/pull/80396
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | blocked |  |  | rebase-only repair stopped: git fetch https://github.com/Bartok9/openclaw.git fix/41966-media-token-warn-in-fence:projectclownfish/repair-pr-rebase-canary-80396-20260617-80396 timed out after 1401738ms before fix execution deadline |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/80396 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #80396 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80396 | fix_needed | planned | canonical | The PR is the calibrated canonical path, but this worker must not merge and the canary asks for executable rebase/validation/review work on the existing branch. |
-| #41966 | keep_related | planned | fixed_by_candidate | #41966 is covered by the canonical candidate PR, but closure is out of scope for this rebase-only job. |
-| cluster:pr-rebase-canary-80396-20260617 | build_fix_artifact | planned |  | Build an executable repair artifact so the downstream executor can refresh the contributor branch, validate the changed surface, and run Codex /review without broadening the PR. |
+| #80396 | fix_needed | planned | canonical | Repair and review are needed as an executable branch-prep lane; merge and close are blocked by job policy, not by PR quality. |
+| #41966 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical candidate PR for validation purposes, but this rebase-only canary should not close or otherwise mutate the issue. |
+| cluster:pr-rebase-canary-80396-20260617 | build_fix_artifact | planned |  | Emit an executable cluster-scoped repair artifact for the deterministic executor to rebase if needed, validate, and run Codex /review on #80396. |
 
 ## Needs Human
 

@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-80396-20260617",
+  "mode": "autonomous",
+  "run_id": "27650752803",
+  "workflow_run_id": "27650752803",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27650752803",
+  "head_sha": "a670d7a23d085d1673cd2b428b76591fca49d375",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T21:56:06Z",
+  "workflow_updated_at": "2026-06-16T22:05:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-80396-20260617.md",
+  "published_at": "2026-06-16T22:07:19.143Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/80396",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41966",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/80396",
+  "summary": "Canonical PR #80396 is the sole repair target. The hydrated artifact shows a maintainer-editable, narrow contributor branch with passing checks and no hydrated review threads, but merge is disabled and the local checkout does not contain the PR head commit, so Clownfish should repair/rebase only if needed, validate, and run Codex /review on the existing branch before any later finalization job.",
+  "actions": [
+    {
+      "target": "#80396",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80396",
+      "candidate_fix": null,
+      "reason": "Repair and review are needed as an executable branch-prep lane; merge and close are blocked by job policy, not by PR quality."
+    },
+    {
+      "target": "#41966",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#80396",
+      "candidate_fix": "#80396",
+      "reason": "The issue is covered by the canonical candidate PR for validation purposes, but this rebase-only canary should not close or otherwise mutate the issue."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-80396-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#80396",
+      "candidate_fix": "#80396",
+      "reason": "Emit an executable cluster-scoped repair artifact for the deterministic executor to rebase if needed, validate, and run Codex /review on #80396."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/80396",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e803c2c24afb6944c25e43fc71bce0198dabea17",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#80396",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
