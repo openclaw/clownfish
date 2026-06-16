@@ -85,9 +85,18 @@ if (jsonOutput) {
 
 function collectPlannedCloseActions() {
   const items = [];
-  for (const file of fs.readdirSync(resultsDir).filter((entry) => entry.endsWith(".json")).sort()) {
-    const absolute = path.join(resultsDir, file);
-    const result = safeJsonFile(absolute);
+  const results = fs
+    .readdirSync(resultsDir)
+    .filter((entry) => entry.endsWith(".json"))
+    .map((file) => {
+      const absolute = path.join(resultsDir, file);
+      return { file, absolute, result: safeJsonFile(absolute) };
+    })
+    .sort((left, right) => {
+      const newest = Date.parse(right.result.published_at ?? "") - Date.parse(left.result.published_at ?? "");
+      return Number.isNaN(newest) || newest === 0 ? right.file.localeCompare(left.file) : newest;
+    });
+  for (const { file, absolute, result } of results) {
     const clusterId = String(result.cluster_id ?? result.clusterId ?? path.basename(file, ".json"));
     const actions = Array.isArray(result.actions) ? result.actions : [];
     for (const action of actions) {
