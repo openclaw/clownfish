@@ -1,0 +1,179 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-451-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27635155728",
+  "workflow_run_id": "27635155728",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27635155728",
+  "head_sha": "f93423ceb803d35f4fcd3d0f531c79c91d43bda2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T17:14:05Z",
+  "workflow_updated_at": "2026-06-16T17:30:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-451-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T17:33:41.949Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77340",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/86898",
+  "summary": "Classified #77340 as the live canonical issue. The linked contributor PR #86898 is the narrow canonical repair path, but it is not merge-ready: the artifact shows failing proof/check gates and no clean current-head Codex review, so the safe autonomous result is a repair-contributor-branch fix artifact rather than merge or close. No security-sensitive items were present.",
+  "actions": [
+    {
+      "target": "#77340",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Keep open until the canonical fix path is repaired and merged."
+    },
+    {
+      "target": "#86898",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Repair the contributor branch directly, then re-run review and validation before any merge recommendation."
+    },
+    {
+      "target": "cluster:gitcrawl-451-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": "#86898",
+      "reason": "Create an executable repair plan for the existing contributor PR rather than opening an unrelated replacement."
+    },
+    {
+      "target": "#86512",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Different root cause and affected subsystem; leave it to its own cluster."
+    },
+    {
+      "target": "#65233",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "No closure or merge action is valid for an already-closed PR."
+    },
+    {
+      "target": "#72865",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#82779",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate context; no action."
+    },
+    {
+      "target": "#85717",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#85941",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#77340",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 1,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 5
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #86898 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93727",
+      "branch": "clownfish/gitcrawl-451-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "5cc0c1d63ad4418213c127940007b66c4bef81e5",
+      "checkpoint_commits": [],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93727"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93727",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(context-engine): avoid turn-maintenance lane livelock",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T17:30:10Z",
+      "merge_commit_sha": "c1df7aa08be26d3df1773613cf53e155d871822b",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
