@@ -112,6 +112,51 @@ test("import-close-canaries writes open canonical duplicate closeouts", () => {
   assert.match(job, /Do not use `candidate_fix` for open canonical refs/);
 });
 
+test("import-close-canaries prioritizes newly published results before stale lexical run ids", () => {
+  const fixture = makeFixture();
+  for (let index = 1; index <= 5; index += 1) {
+    fs.writeFileSync(
+      path.join(fixture.results, `10000000000000${index}.json`),
+      JSON.stringify({
+        published_at: "2026-06-15T00:00:00.000Z",
+        actions: [{ target: `#9900${index}`, action: "close_superseded", status: "planned", canonical: "#74273" }],
+      }),
+    );
+  }
+  fs.writeFileSync(
+    path.join(fixture.results, "999.json"),
+    JSON.stringify({
+      published_at: "2026-06-16T23:07:18.007Z",
+      actions: [{ target: "#84902", action: "close_superseded", status: "planned", canonical: "#74273" }],
+    }),
+  );
+  writeFakeGhx(fixture.bin);
+
+  const run = spawnSync(
+    process.execPath,
+    [
+      "scripts/import-close-canaries-from-results.mjs",
+      "--results-dir",
+      fixture.results,
+      "--out",
+      fixture.inbox,
+      "--existing-dir",
+      fixture.existing,
+      "--limit",
+      "1",
+      "--live-fetch-limit",
+      "5",
+      "--suffix",
+      "newest",
+      "--json",
+    ],
+    { cwd: repoRoot, env: { ...process.env, PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}` }, encoding: "utf8" },
+  );
+
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  assert.deepEqual(JSON.parse(run.stdout).candidates.map((candidate) => candidate.target), ["#84902"]);
+});
+
 test("import-close-canaries quarantines security-shaped candidates before generation", () => {
   const fixture = makeFixture();
   fs.writeFileSync(
