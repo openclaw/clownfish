@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-123-dedupe-cleanup-wave",
+  "mode": "autonomous",
+  "run_id": "27608149032",
+  "workflow_run_id": "27608149032",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27608149032",
+  "head_sha": "d39befcd6309943509cd00e8e3cd0ee7c314e6be",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:31:55Z",
+  "workflow_updated_at": "2026-06-16T09:34:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-123-dedupe-cleanup-wave.md",
+  "published_at": "2026-06-16T10:04:56.990Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92819",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92819",
+  "summary": "Open PR #92819 is the hydrated stale auto-fallback origin candidate, but deterministic validation marks it security-sensitive, so this repaired result routes that exact PR to central security handling and avoids mutating closeout that depends on it. Open issue #92776 is kept open as related until the quarantined canonical/fix path is cleared. Broader fallback work in #75270 and #80502 remains related but not duplicate-cleanup material. Closed refs are retained only as historical evidence.",
+  "actions": [
+    {
+      "target": "#92819",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator-identified security-sensitive PR is quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#92776",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Non-mutating downgrade: the issue is related to the quarantined #92819 path, but fixed-by-candidate closure is not safe while #92819 is security-routed."
+    },
+    {
+      "target": "#75270",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Related fallback-session work, but not the clean canonical for the precise stale-origin issue and not safe to close as superseded in this close-only job."
+    },
+    {
+      "target": "#80502",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Same fallback/session-state family, but a meaningfully different product-scope issue; keep open."
+    },
+    {
+      "target": "#82544",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#82676",
+      "candidate_fix": "#82676",
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#82676",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Closed historical evidence for the fallback family."
+    },
+    {
+      "target": "#87484",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Closed historical related PR; no mutation."
+    },
+    {
+      "target": "#92486",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92573",
+      "candidate_fix": "#92573",
+      "reason": "Closed linked context; distinct from #92819's stale auto-fallback-origin root cause."
+    },
+    {
+      "target": "#92573",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92819",
+      "candidate_fix": null,
+      "reason": "Closed related context only."
+    },
+    {
+      "target": "#92790",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92819",
+      "candidate_fix": "#92819",
+      "reason": "Already-closed superseded PR; no mutation."
+    },
+    {
+      "target": "#92821",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92819",
+      "candidate_fix": "#92819",
+      "reason": "Closed historical candidate superseded by #92819."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 3,
+    "keep_closed": 7
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

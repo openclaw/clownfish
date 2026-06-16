@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-238819-dedupe-only-20260429b",
+  "mode": "autonomous",
+  "run_id": "27590650074",
+  "workflow_run_id": "27590650074",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27590650074",
+  "head_sha": "159a259d79f651da526767c13ba1f27b40151479",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T02:47:24Z",
+  "workflow_updated_at": "2026-06-16T02:49:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-238819-dedupe-only-20260429b.md",
+  "published_at": "2026-06-16T10:04:56.986Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations planned. The original representative #67544 is already closed. The hydrated linked issue #90158 is quarantined for central OpenClaw security triage because deterministic validation marked it security-sensitive. The open job refs #56284, #63491, and #68493 overlap the Windows restart family but each carries distinct unresolved scope, so they should remain open as related follow-up issues rather than be dedupe-closed.",
+  "actions": [
+    {
+      "target": "#90158",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact security-sensitive issue ref for central OpenClaw security triage; do not classify it as canonical in ProjectClownfish cleanup."
+    },
+    {
+      "target": "#56284",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related unresolved Windows restart behavior with distinct active-task drain and session-state scope; not safe to close as a duplicate."
+    },
+    {
+      "target": "#63491",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related, but not a true duplicate because it combines restart-health, probe, and session-state symptoms that need separate maintainer follow-up."
+    },
+    {
+      "target": "#68493",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Windows restart recovery issue with a distinct hot-reload/config-edit and port rebind failure mode; not safe to dedupe-close."
+    },
+    {
+      "target": "#67544",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#60480",
+      "reason": "Historical representative is already closed as implemented; retain as evidence only."
+    },
+    {
+      "target": "#67416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#69056",
+      "reason": "Already closed as implemented by the Windows SIGUSR1 restart fix; retain as evidence only."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 3,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90158 was routed to central OpenClaw security handling after deterministic validation marked it security-sensitive; ProjectClownfish should not choose it as a dedupe canonical until security triage clears the item or provides an override."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238819-dedupe-only-20260429b"
 mode: "autonomous"
-run_id: "27594231178"
-workflow_run_id: "27594231178"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27594231178"
-head_sha: "8364aec238559663a0a8644042702a5c6ccea4db"
-workflow_conclusion: "success"
+run_id: "27590650074"
+workflow_run_id: "27590650074"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27590650074"
+head_sha: "159a259d79f651da526767c13ba1f27b40151479"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-06-16T04:33:00.403Z"
-canonical: "https://github.com/openclaw/openclaw/issues/90158"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/90158"
+published_at: "2026-06-16T10:04:56.986Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
 actions_total: 6
 fix_executed: 0
@@ -19,24 +19,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-238819-dedupe-only-20260429b
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27594231178](https://github.com/openclaw/clownfish/actions/runs/27594231178)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27590650074](https://github.com/openclaw/clownfish/actions/runs/27590650074)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/issues/90158
+Canonical: unknown
 
 ## Summary
 
-Hydrated state shows the original representative #67544 is already closed as implemented. The best current open canonical for the remaining Windows Scheduled Task restart failure family is #90158. The other open original candidates remain related but not duplicate-cleanup safe because they carry distinct active-run drain, mixed restart-health, or hot-reload crash-loop details. No GitHub mutations are planned.
+No GitHub mutations planned. The original representative #67544 is already closed. The hydrated linked issue #90158 is quarantined for central OpenClaw security triage because deterministic validation marked it security-sensitive. The open job refs #56284, #63491, and #68493 overlap the Windows restart family but each carries distinct unresolved scope, so they should remain open as related follow-up issues rather than be dedupe-closed.
 
 ## Impact
 
@@ -49,7 +49,7 @@ Hydrated state shows the original representative #67544 is already closed as imp
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -67,13 +67,13 @@ Hydrated state shows the original representative #67544 is already closed as imp
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90158 | keep_canonical | planned | canonical | Current open canonical for the unresolved Windows Scheduled Task self-restart / relaunch failure family. |
-| #56284 | keep_related | planned | related | Related to the canonical Windows restart family, but it contains distinct active-task/session-state and product-decision scope, so it should not be closed as a duplicate. |
-| #63491 | keep_related | planned | related | Related to #90158, but broader and mixed-symptom enough that duplicate closure would risk losing unique restart-health and post-ready behavior. |
-| #68493 | keep_related | planned | related | Related to the canonical Windows restart failure, but hot-reload plus stale lock/EADDRINUSE is distinct enough to keep open. |
-| #67416 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented; included only to account for the original candidate list. |
-| #67544 | keep_closed | skipped | fixed_by_candidate | Original representative is closed and no longer the live canonical; included only to account for the original candidate list. |
+| #90158 | route_security | planned | security_sensitive | Quarantine exact security-sensitive issue ref for central OpenClaw security triage; do not classify it as canonical in ProjectClownfish cleanup. |
+| #56284 | keep_related | planned | related | Related unresolved Windows restart behavior with distinct active-task drain and session-state scope; not safe to close as a duplicate. |
+| #63491 | keep_related | planned | related | Related, but not a true duplicate because it combines restart-health, probe, and session-state symptoms that need separate maintainer follow-up. |
+| #68493 | keep_related | planned | related | Related Windows restart recovery issue with a distinct hot-reload/config-edit and port rebind failure mode; not safe to dedupe-close. |
+| #67544 | keep_closed | skipped | fixed_by_candidate | Historical representative is already closed as implemented; retain as evidence only. |
+| #67416 | keep_closed | skipped | fixed_by_candidate | Already closed as implemented by the Windows SIGUSR1 restart fix; retain as evidence only. |
 
 ## Needs Human
 
-- none
+- #90158 was routed to central OpenClaw security handling after deterministic validation marked it security-sensitive; ProjectClownfish should not choose it as a dedupe canonical until security triage clears the item or provides an override.

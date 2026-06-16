@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-336-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609382768",
+  "workflow_run_id": "27609382768",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609382768",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:40Z",
+  "workflow_updated_at": "2026-06-16T09:56:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-336-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:04:56.993Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_pr": null,
+  "summary": "Classified #48045 as the surviving canonical issue. The open overlap PR #89416 carries a security-boundary signal and is quarantined with route_security instead of ordinary backlog classification. No close, merge, or fix action is safe or allowed: #89416 is routed to central security handling, the historical PRs are already closed, and the job blocks merge, fix, and raise_pr actions.",
+  "actions": [
+    {
+      "target": "#48045",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "#48045 remains the best live canonical issue; no duplicate target exists in this cluster and the available open PR context is quarantined for security handling."
+    },
+    {
+      "target": "#89416",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "#89416 carries a security-boundary signal, so this exact PR is quarantined for central OpenClaw security handling; Clownfish should not close, merge, comment on, or use it as an actionable fix path in this run."
+    },
+    {
+      "target": "#48132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; retained as evidence for why the older implementation is not canonical."
+    },
+    {
+      "target": "#64558",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Historical closed PR only; useful as context, but it does not provide a current landed closeout for #48045."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

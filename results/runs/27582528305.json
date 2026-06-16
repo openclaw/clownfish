@@ -1,0 +1,56 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-90931-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582528305",
+  "workflow_run_id": "27582528305",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582528305",
+  "head_sha": "49c3b7a7e488d8827bdcd870f37e5eaf2b5b8c63",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:12:24Z",
+  "workflow_updated_at": "2026-06-15T23:13:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-90931-close-wave-20260616a.md",
+  "published_at": "2026-06-16T10:04:56.978Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Deterministic validation marked #91533 as security-sensitive, so the canonical candidate is quarantined with route_security instead of keep_canonical. Because the planned close of #90931 depended on #91533 as the surviving canonical path, that close is no longer safely replayable in this repaired result; #90931 is kept non-mutating as related pending central security handling for #91533. No GitHub mutation was performed by the worker.",
+  "actions": [
+    {
+      "target": "#91533",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive validator classification requires non-mutating quarantine for #91533."
+    },
+    {
+      "target": "#90931",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closeout depends on #91533, which is now routed as security-sensitive by deterministic validation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91533 was classified security-sensitive by deterministic validation and routed to central security handling; #90931 closeout is blocked because its canonical path depends on #91533."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

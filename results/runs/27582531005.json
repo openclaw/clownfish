@@ -1,0 +1,56 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-92301-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582531005",
+  "workflow_run_id": "27582531005",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582531005",
+  "head_sha": "49c3b7a7e488d8827bdcd870f37e5eaf2b5b8c63",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:12:28Z",
+  "workflow_updated_at": "2026-06-15T23:13:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-92301-close-wave-20260616a.md",
+  "published_at": "2026-06-16T10:04:56.980Z",
+  "canonical": null,
+  "canonical_issue": "#92285",
+  "canonical_pr": null,
+  "summary": "Hydrated close-only canary state can no longer safely support closing #92301 because the deterministic validator requires #92454 to be quarantined with route_security. #92454 is routed to central security handling, and #92301 is kept open as related pending maintainer/security disposition of the former canonical path. No GitHub mutation is planned.",
+  "actions": [
+    {
+      "target": "#92454",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator requires security quarantine for #92454; route the exact item and do not mutate it."
+    },
+    {
+      "target": "#92301",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#92301 remains related to the same #92285 work, but the planned superseded close is blocked because its canonical dependency #92454 must be routed to security."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92454 requires central security handling before it can be used as the canonical closeout path for #92301."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

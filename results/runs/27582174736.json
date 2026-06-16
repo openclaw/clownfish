@@ -1,0 +1,56 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-close-canary-84036-close-wave-20260616a",
+  "mode": "execute",
+  "run_id": "27582174736",
+  "workflow_run_id": "27582174736",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27582174736",
+  "head_sha": "628bd0577548681836c70f54751ba86a83a56eba",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:04:05Z",
+  "workflow_updated_at": "2026-06-15T23:05:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-close-canary-84036-close-wave-20260616a.md",
+  "published_at": "2026-06-16T10:04:56.975Z",
+  "canonical": null,
+  "canonical_issue": "#83999",
+  "canonical_pr": null,
+  "summary": "Hydrated preflight state shows #84036 and #91345 are both open, but deterministic validation classified #91345 as security-sensitive and requires route_security. Quarantine #91345 without mutation, and downgrade #84036 from close_superseded to non-mutating keep_related because its closeout depended on the quarantined canonical PR.",
+  "actions": [
+    {
+      "target": "#91345",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#91345 was classified as security-sensitive by deterministic validation, so the only safe scoped action is route_security."
+    },
+    {
+      "target": "#84036",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Downgraded from close_superseded because the planned canonical PR #91345 is security-routed, making the closeout unsafe to replay."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84036 closeout depends on #91345, which deterministic validation classified as security-sensitive and routed to central OpenClaw security handling."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
