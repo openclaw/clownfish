@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-336-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27623858685",
+  "workflow_run_id": "27623858685",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27623858685",
+  "head_sha": "4ebe1f639d4efef2df9839a187f40fb419457b7a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:13:16Z",
+  "workflow_updated_at": "2026-06-16T14:18:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-336-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:21:50.489Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_pr": null,
+  "summary": "#48045 remains the canonical open non-security issue. #89416 is an open same-root-cause PR, but validator security routing requires quarantining that exact PR instead of repairing or merging it through ProjectClownfish. Because the available fix artifact was built around repairing #89416 and the PR's review surface includes a security-boundary/persistence-gate decision, cluster implementation is downgraded to needs_human until central security triage clears or rejects that PR path.",
+  "actions": [
+    {
+      "target": "#48045",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Keep the canonical issue open until the security-routed PR path is cleared or a separate safe non-security fix path is planned."
+    },
+    {
+      "target": "#89416",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive PR for central OpenClaw security handling; do not comment, merge, close, or repair this PR through ProjectClownfish."
+    },
+    {
+      "target": "#48132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Closed historical PR, evidence only."
+    },
+    {
+      "target": "#64558",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Closed historical adjacent PR, evidence only."
+    },
+    {
+      "target": "cluster:gitcrawl-336-autonomous-terminal-gap",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked only for the cluster fix lane because the available executable fix plan depends on the quarantined #89416 PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must decide whether #89416 can be cleared for ordinary ProjectClownfish repair, replaced with a separate non-security fix path, or handled outside this cluster."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
