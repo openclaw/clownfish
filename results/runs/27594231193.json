@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1908-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27594231193",
+  "workflow_run_id": "27594231193",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594231193",
+  "head_sha": "8364aec238559663a0a8644042702a5c6ccea4db",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:30:04Z",
+  "workflow_updated_at": "2026-06-16T04:32:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1908-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T04:34:46.695Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/58775",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/58775",
+  "canonical_pr": null,
+  "summary": "Autonomous classification only. The original representative #48479 is closed, so the current non-security open canonical for the Google Vertex/auth-provider family is #58775. No close/merge/fix actions are safe or allowed: #9986 and #58957 are separate context-window/product-decision work, and security-sensitive refs are routed item-by-item.",
+  "actions": [
+    {
+      "target": "#58775",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#58775",
+      "candidate_fix": null,
+      "reason": "Use #58775 as the surviving non-security canonical issue for the Google Vertex/auth-provider lane, but keep it open because reproducibility is not proven and no fix path is allowed."
+    },
+    {
+      "target": "#9986",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#9986",
+      "candidate_fix": null,
+      "reason": "Separate context-overflow fallback subcluster; keep open and do not close into the Google Vertex auth lane."
+    },
+    {
+      "target": "#58957",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#9986",
+      "candidate_fix": null,
+      "reason": "Keep as related context-window/product-decision work; no close action is high-confidence."
+    },
+    {
+      "target": "#53578",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive OAuth credential handling path; route only this item to central OpenClaw security handling."
+    },
+    {
+      "target": "#41398",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated candidate; quarantine the exact ref without using it as a closure or fix target."
+    },
+    {
+      "target": "#92775",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked PR; quarantine the exact ref and keep unrelated non-security classification moving."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

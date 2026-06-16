@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2015-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27594231209",
+  "workflow_run_id": "27594231209",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27594231209",
+  "head_sha": "8364aec238559663a0a8644042702a5c6ccea4db",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T04:30:04Z",
+  "workflow_updated_at": "2026-06-16T04:32:29Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-2015-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T04:34:46.699Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "No GitHub mutations are safe for this run. The obsolete representative #53547 is closed but must be routed as security-sensitive per deterministic validation, the surviving open work is split across security-sensitive agentDir bootstrap semantics (#29387) and symlink/boundary bootstrap semantics (#38622, linked #64472), and #40210 is already closed as a duplicate of #38622. I routed only exact issue refs and left other closed context refs untouched.",
+  "actions": [
+    {
+      "target": "#29387",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact security-sensitive issue for central OpenClaw security handling; do not close, label, comment, merge, or fix through Clownfish."
+    },
+    {
+      "target": "#38622",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact security-sensitive issue for central OpenClaw security handling; do not close, label, comment, merge, or fix through Clownfish."
+    },
+    {
+      "target": "#64472",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact linked security-sensitive issue for central OpenClaw security handling; keep it out of dedupe cleanup."
+    },
+    {
+      "target": "#40210",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#38622",
+      "candidate_fix": null,
+      "reason": "Historical duplicate already closed; no mutation planned."
+    },
+    {
+      "target": "#43528",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no mutation planned."
+    },
+    {
+      "target": "#53547",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact security-sensitive issue ref for central OpenClaw security handling; no close, label, comment, merge, or fix action is planned."
+    },
+    {
+      "target": "#64173",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no mutation planned."
+    },
+    {
+      "target": "#69994",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no mutation planned."
+    },
+    {
+      "target": "cluster:gitcrawl-2015-dedupe-only-20260429-remote",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/security triage must split or own the surviving security-sensitive subfamilies before any future dedupe or fix-lane work."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_closed": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage should split or own the surviving open subfamilies: #29387 for agentDir bootstrap semantics, and #38622/#64472 for symlink boundary behavior. #53547 is closed, obsolete as canonical, and routed exactly because deterministic validation marks it security-sensitive."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

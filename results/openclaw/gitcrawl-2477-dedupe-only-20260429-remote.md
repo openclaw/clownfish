@@ -2,21 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-2477-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25133514336"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25133514336"
-head_sha: "70c8a777fa9eb04b416c45f07c80bfc38f2df21b"
+run_id: "27594231530"
+workflow_run_id: "27594231530"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27594231530"
+head_sha: "8364aec238559663a0a8644042702a5c6ccea4db"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-04-29T21:01:06.358Z"
+published_at: "2026-06-16T04:34:46.707Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73915"
-canonical_issue: null
+canonical_issue: "https://github.com/openclaw/openclaw/issues/65745"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73915"
-actions_total: 7
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25133514336](https://github.com/openclaw/clownfish/actions/runs/25133514336)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27594231530](https://github.com/openclaw/clownfish/actions/runs/27594231530)
 
 Workflow conclusion: success
 
@@ -35,18 +36,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/73915
 
 ## Summary
 
-Hydrated preflight shows the audit false-positive bug is fixed on current main by merged PR #73915. Plan to close open issue #65745 as fixed by that candidate, keep the separate write-time validation work around #50011/#50076 open as related, and skip already closed context refs.
+Classified the cluster from the hydrated preflight artifact. The only open item, #50011, is security-sensitive and should be routed to central OpenClaw security handling. Linked PR #50076 and merged PR #73915 are exact hydrated refs with security-sensitive routing requirements, so they are quarantined without mutation. The audit false-positive family represented by #51865/#65745 is already closed and covered by merged PR #73915/current main, so no close, merge, or fix actions are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 7 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,19 +61,17 @@ Hydrated preflight shows the audit false-positive bug is fixed on current main b
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65745 | close_fixed_by_candidate | blocked | fixed_by_candidate | candidate fix is not listed in job refs |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #65745 | close_fixed_by_candidate | planned | fixed_by_candidate | The representative issue is now covered by the hydrated, merged candidate fix #73915; require_fix_before_close is false and instant close is allowed. |
-| #50011 | keep_related | planned | related | #50011 is related denyCommands work but not a duplicate of the audit false-positive fixed by #73915. |
-| #50076 | keep_related | planned | related | Useful related implementation candidate for #50011; keep open outside this audit-false-positive closeout. |
-| #50320 | keep_related | planned | related | Related broad PR with unresolved review findings; not safe to close, merge, or use as the canonical fix for this dedupe-only cluster. |
-| #51865 | keep_closed | skipped | fixed_by_candidate | Already closed refs must not receive close actions. |
-| #50158 | keep_closed | skipped | superseded | Closed historical PR; no mutation is valid. |
-| #73915 | keep_closed | skipped | canonical | Merged canonical PR is evidence only for this worker result. |
+| #50011 | route_security | planned | security_sensitive | Open security-sensitive issue is outside ProjectClownfish mutation scope and must be routed to central OpenClaw security handling. |
+| #50076 | route_security | planned | security_sensitive | Hydrated security-sensitive linked PR should be quarantined; no GitHub close/comment/merge mutation is planned for this already-closed PR. |
+| #51865 | keep_closed | skipped | fixed_by_candidate | Already closed and covered by the merged/current-main audit fix; no mutation is needed. |
+| #65745 | keep_closed | skipped | canonical | Representative issue is already closed as implemented by the current-main audit fix. |
+| #73915 | route_security | planned | security_sensitive | Exact hydrated PR ref is treated as security-sensitive by deterministic validation and must be routed rather than kept closed; no GitHub mutation is planned for this already-merged PR. |
 
 ## Needs Human
 

@@ -2,21 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-1908-dedupe-only-20260429-remote"
 mode: "autonomous"
-run_id: "25130808080"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25130808080"
-head_sha: "e60ec11ddea49c43b3b3d13770368f7be20dc559"
+run_id: "27594231193"
+workflow_run_id: "27594231193"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27594231193"
+head_sha: "8364aec238559663a0a8644042702a5c6ccea4db"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T04:57:52.886Z"
+published_at: "2026-06-16T04:34:46.695Z"
 canonical: "https://github.com/openclaw/openclaw/issues/58775"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/58775"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/60860"
-actions_total: 21
+canonical_pr: null
+actions_total: 6
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25130808080](https://github.com/openclaw/clownfish/actions/runs/25130808080)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27594231193](https://github.com/openclaw/clownfish/actions/runs/27594231193)
 
 Workflow conclusion: success
 
@@ -35,18 +36,18 @@ Canonical: https://github.com/openclaw/openclaw/issues/58775
 
 ## Summary
 
-Preflight artifact at main f05b789736004a8ee93b7a8b44907b5f7f72ee1a showed no security-sensitive hydrated refs. The closed representative #48479 is obsolete for live routing; the current open canonical issue for the google-vertex auth/transport family is #58775, with #60860 as the active but not merge-ready implementation PR. Planned one high-confidence duplicate close for #62212 to #58775. All other open hydrated refs are kept open as related or independent because they carry distinct scope, unresolved review/check blockers, or separate follow-up work.
+Autonomous classification only. The original representative #48479 is closed, so the current non-security open canonical for the Google Vertex/auth-provider family is #58775. No close/merge/fix actions are safe or allowed: #9986 and #58957 are separate context-window/product-decision work, and security-sensitive refs are routed item-by-item.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 21 |
+| Worker actions | 6 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -60,33 +61,18 @@ Preflight artifact at main f05b789736004a8ee93b7a8b44907b5f7f72ee1a showed no se
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #62212 | close_duplicate | blocked | duplicate | candidate fix is not listed in job refs |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #48479 | keep_closed | skipped | superseded | Already closed refs are historical evidence only and must not receive closure actions. |
-| #58775 | keep_canonical | planned | canonical | Best live canonical issue for the original google-vertex auth/transport family. |
-| #60860 | keep_canonical | planned | canonical | Active canonical implementation path for #58775, but not merge-ready in this dedupe-only job. |
-| #62212 | close_duplicate | planned | duplicate | High-confidence duplicate of the open canonical google-vertex ADC/auth transport issue. |
-| #52648 | keep_related | planned | related | Related google-vertex auth family, but distinct proxychains reproduction and likely separate validation requirement. |
-| #65023 | keep_related | planned | related | Related broad provider work, not a clean canonical fix or close target for this dedupe-only cluster. |
-| #9409 | keep_related | planned | related | Related context-overflow subfamily; keep open for separate maintainer follow-up. |
-| #9986 | keep_related | planned | related | Related model/context fallback feature, not a duplicate of the google-vertex canonical issue. |
-| #39857 | keep_related | planned | fixed_by_candidate | Covered by an open candidate PR, but not closeable before the candidate lands. |
-| #39859 | keep_related | planned | related | Useful open candidate for the context-window subfamily; keep open. |
-| #41398 | keep_related | planned | related | Useful but not merge-ready, not safe to close without a replacement path, and outside this dedupe-only mutation scope. |
-| #41517 | keep_related | planned | related | Focused but unresolved overlapping implementation; keep open for maintainer consolidation. |
-| #41594 | keep_independent | planned | independent | Independent broad feature request; no dedupe close is appropriate. |
-| #50619 | keep_related | planned | related | Related context-switch subfamily with unique product decisions. |
-| #50719 | keep_independent | planned | independent | Independent local provider regression; keep open for a separate focused reproduction/fix path. |
-| #51205 | keep_related | planned | related | Related but insufficiently specified model-switch report; keep open for reporter details. |
-| #53578 | keep_independent | planned | independent | Independent Gemini CLI OAuth latency regression. |
-| #56594 | keep_independent | planned | independent | Independent post-doctor/update 404 regression; keep open. |
-| #58957 | keep_related | planned | related | Related context-management subfamily; keep open. |
-| #63685 | keep_related | planned | related | Related Google provider/model catalog issue with distinct setup-validation scope. |
-| #66830 | keep_related | planned | related | Related context/compaction follow-up; keep open. |
+| #58775 | keep_canonical | planned | canonical | Use #58775 as the surviving non-security canonical issue for the Google Vertex/auth-provider lane, but keep it open because reproducibility is not proven and no fix path is allowed. |
+| #9986 | keep_related | planned | related | Separate context-overflow fallback subcluster; keep open and do not close into the Google Vertex auth lane. |
+| #58957 | keep_related | planned | related | Keep as related context-window/product-decision work; no close action is high-confidence. |
+| #53578 | route_security | planned | security_sensitive | Security-sensitive OAuth credential handling path; route only this item to central OpenClaw security handling. |
+| #41398 | route_security | planned | security_sensitive | Security-sensitive hydrated candidate; quarantine the exact ref without using it as a closure or fix target. |
+| #92775 | route_security | planned | security_sensitive | Security-sensitive hydrated linked PR; quarantine the exact ref and keep unrelated non-security classification moving. |
 
 ## Needs Human
 

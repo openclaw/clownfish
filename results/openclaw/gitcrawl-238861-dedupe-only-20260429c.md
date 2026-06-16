@@ -2,14 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-238861-dedupe-only-20260429c"
 mode: "autonomous"
-run_id: "25107745553"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/25107745553"
-head_sha: "904a86eec936498f7b09cd1b845053509b2c784e"
+run_id: "27594232100"
+workflow_run_id: "27594232100"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27594232100"
+head_sha: "8364aec238559663a0a8644042702a5c6ccea4db"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T04:57:52.659Z"
+published_at: "2026-06-16T04:34:46.708Z"
 canonical: "https://github.com/openclaw/openclaw/pull/73228"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/24693"
+canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/73228"
 actions_total: 5
 fix_executed: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/25107745553](https://github.com/openclaw/clownfish/actions/runs/25107745553)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27594232100](https://github.com/openclaw/clownfish/actions/runs/27594232100)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/73228
 
 ## Summary
 
-The hydrated artifact shows the original representative #68667 is already closed and superseded by merged replacement PR #73228. Quarantine the closed security-sensitive issue #24693 to central security handling, keep closed historical refs as evidence only, and plan closure only for the remaining open draft PR #39046 as superseded by #73228.
+Classified the cluster against the hydrated preflight artifact and target checkout. The live non-mutating evidence path is merged PR #73228 on current main, but the security-shaped issue/PR refs #24693, #68667, and #73228 are quarantined to central security handling only. #39046 is an open draft PR with the same behavior and no unique remaining delta, so it can be closed as superseded by the landed replacement evidence. Closed linked refs are kept as historical evidence.
 
 ## Impact
 
@@ -66,11 +67,11 @@ The hydrated artifact shows the original representative #68667 is already closed
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #24016 | keep_closed | skipped | related | Closed related context only; no mutation planned. |
-| #24693 | route_security | planned | security_sensitive | Security-sensitive item is quarantined to central security handling without mutating it. |
-| #39046 | close_superseded | planned | superseded | The only open PR in the cluster is an obsolete draft covering the same root cause already merged through hydrated replacement PR #73228. |
-| #68667 | keep_closed | skipped | superseded | Closed source PR is already superseded by hydrated replacement PR #73228 with credit preserved. |
-| #73228 | keep_closed | skipped | canonical | Merged replacement PR is the canonical fixed path on current main. |
+| #24693 | route_security | planned | security_sensitive | Security-sensitive ref must be routed to central OpenClaw security triage without ProjectClownfish mutation. |
+| #39046 | close_superseded | planned | superseded | The open draft PR is fully covered by the already-merged hydrated replacement #73228 and has no unique remaining work shown in the artifact. |
+| #68667 | route_security | planned | security_sensitive | Security-sensitive PR ref must be routed to central OpenClaw security triage without ProjectClownfish mutation. |
+| #73228 | route_security | planned | security_sensitive | Security-sensitive PR ref must be routed to central OpenClaw security triage without ProjectClownfish mutation. |
+| #24016 | keep_closed | skipped | related | Closed related context only; not a target for this cluster's closeout. |
 
 ## Needs Human
 
