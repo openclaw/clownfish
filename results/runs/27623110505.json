@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-193-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27623110505",
+  "workflow_run_id": "27623110505",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27623110505",
+  "head_sha": "c581a46e2e3e5a962635976dc02b3902304668dd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:01:36Z",
+  "workflow_updated_at": "2026-06-16T14:08:15Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-193-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:12:14.102Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90980",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90980",
+  "canonical_pr": null,
+  "summary": "Classified #90980 as the surviving canonical issue for the non-security Docker exec hang/startup-blocking bug. Current main at 6b3e23aba73607c810f119cc0d183e8411ee188b has AbortSignal plumbing in execDockerRaw but no default deadline for sandbox Docker init/start/setup calls, so a wedged Docker CLI can still leave the promise pending. No close or merge action is planned; the safe path is a narrow new fix artifact because #91015 is excluded overlap context and is not a hydrated actionable PR in this job.",
+  "actions": [
+    {
+      "target": "#90980",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "#90980 is the only hydrated open actionable ref left after excluded overlap refs, and current main still lacks a bounded Docker exec deadline for sandbox init/start calls."
+    },
+    {
+      "target": "cluster:gitcrawl-193-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "A narrow non-security fix is still needed on current main, but it must be produced as a cluster fix artifact rather than closing or merging anything in this pass."
+    },
+    {
+      "target": "cluster:gitcrawl-193-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Build an executable narrow fix plan so the deterministic fix executor can open a guarded PR after editing, validation, and Codex /review."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/gitcrawl-193-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/sandbox/docker.execDockerRaw.timeout.test.ts: core test [check:changed] src/agents/sandbox/docker.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig....",
+      "commit": "38c4c36c356036bd66c8c25f5480e895dbe66793",
+      "checkpoint_commits": [
+        "38c4c36c356036bd66c8c25f5480e895dbe66793"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
