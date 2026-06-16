@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-121",
+  "mode": "autonomous",
+  "run_id": "27615423929",
+  "workflow_run_id": "27615423929",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27615423929",
+  "head_sha": "6b0210084f33fbd8e5f082788d6001df63778f93",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T11:50:40Z",
+  "workflow_updated_at": "2026-06-16T11:52:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-121.md",
+  "published_at": "2026-06-16T11:57:14.340Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Conservative live PR inventory classification only. The hydrated artifact shows no security-sensitive seed refs and the job forbids merge, fix, raise_pr, instant close, and low-signal closeout. No shared canonical is selected because this shard is not a dedupe cluster.",
+  "actions": [
+    {
+      "target": "#90566",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-for-maintainer focused bug-fix PR; the worker cannot merge or close it, and final technical/maintainer review is explicitly human-gated."
+    },
+    {
+      "target": "#90592",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with a green-check/technical correctness judgment remaining; merge and fix actions are forbidden in this job."
+    },
+    {
+      "target": "#90618",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Proof/status signals conflict on a risky session-state PR, and maintainer review is required before any finalization."
+    },
+    {
+      "target": "#90625",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related docs follow-up waiting on author changes/proof; this job cannot close it as low-signal and cannot repair it."
+    },
+    {
+      "target": "#90636",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related draft fix path; it is not ready for automated finalization and this job cannot merge or repair it."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "blocked": 3,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90566: maintainer technical review/finalization decision for a focused contributor PR.",
+    "#90592: maintainer technical review and check interpretation for a focused contributor PR with a recorded failing cron shard.",
+    "#90618: maintainer decision on proof/status conflict and session-state/message-delivery risk before finalization."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
