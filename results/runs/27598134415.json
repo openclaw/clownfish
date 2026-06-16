@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157067-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598134415",
+  "workflow_run_id": "27598134415",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598134415",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:04Z",
+  "workflow_updated_at": "2026-06-16T06:48:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157067-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:49:58.714Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Both hydrated candidate PRs are already closed and unmerged, so no close or merge mutation is valid. Current target main still contains the blanket group-chat prompt prohibition, so Clownfish should open a narrow credited replacement fix PR for the remaining bug.",
+  "actions": [
+    {
+      "target": "#43276",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed unmerged useful contributor PR; replacement fix PR is needed because the branch cannot be safely repaired or merged by automation."
+    },
+    {
+      "target": "#48004",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed duplicate/superseded contributor PR with useful wording input; replacement fix PR should carry attribution."
+    },
+    {
+      "target": "cluster:ghcrawl-157067-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow replacement fix PR is executable and allowed by the job because the bug is still present and the useful contributor PRs cannot be updated or merged."
+    },
+    {
+      "target": "cluster:ghcrawl-157067-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Construct a complete executable replacement fix artifact for the remaining non-security behavior bug."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93529",
+      "branch": "clownfish/ghcrawl-157067-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "664582b37a85d14003229c1c3a45eaf9c5e31ad4",
+      "checkpoint_commits": [],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93529"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93529",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(auto-reply): allow message tool for group attachments",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T06:48:17Z",
+      "merge_commit_sha": "63825369a24db68fb553b3df6320be8f318a6937",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
