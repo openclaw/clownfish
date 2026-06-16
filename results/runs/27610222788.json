@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-498-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610222788",
+  "workflow_run_id": "27610222788",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610222788",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:45Z",
+  "workflow_updated_at": "2026-06-16T10:11:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-498-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.458Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/74003",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/74003",
+  "canonical_pr": null,
+  "summary": "Live preflight shows the job representative #92080 is already closed, so no closure is valid. The surviving non-security canonical issue for the ordinary routing bug is #74003. Security-sensitive refs #90918 and #92080 are quarantined only for central security handling, while related non-security follow-up #93048 stays open because it asks for a distinct approval-evidence product/security design decision.",
+  "actions": [
+    {
+      "target": "#74003",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#74003",
+      "candidate_fix": null,
+      "reason": "#74003 is the best live non-security canonical issue for the ordinary plugin approval route-metadata failure."
+    },
+    {
+      "target": "#90918",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact security-sensitive PR for central security handling; do not merge, close, label, comment, or repair it from this cluster worker."
+    },
+    {
+      "target": "#91890",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#74003",
+      "candidate_fix": null,
+      "reason": "Already closed related context; no mutation is valid."
+    },
+    {
+      "target": "#92080",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed representative cannot be closed again; quarantine this exact security-sensitive issue for central security handling."
+    },
+    {
+      "target": "#93048",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#74003",
+      "candidate_fix": null,
+      "reason": "Related approval workflow follow-up, but not a duplicate of #74003 and not safe for closure or autonomous fix planning in this close-only job."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 2,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

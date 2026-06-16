@@ -1,0 +1,53 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-415-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610222706",
+  "workflow_run_id": "27610222706",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610222706",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:45Z",
+  "workflow_updated_at": "2026-06-16T10:11:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-415-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.457Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38439",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38439",
+  "canonical_pr": null,
+  "summary": "Hydrated preflight shows the only open job candidate, #38439, is security-sensitive and must be routed to central OpenClaw security handling. The linked existing-overlap context issue #41201 is also hydrated and security-sensitive, so it is routed separately. No close, merge, label, comment, or fix action is planned.",
+  "actions": [
+    {
+      "target": "#38439",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#38439",
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated issue must be quarantined to central OpenClaw security handling; no close/comment/label/fix mutation is safe from this worker."
+    },
+    {
+      "target": "#41201",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated security-sensitive linked/context issue must be quarantined separately; it is not an actionable dedupe target for this cluster."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

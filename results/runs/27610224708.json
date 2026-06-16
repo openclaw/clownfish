@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-889-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610224708",
+  "workflow_run_id": "27610224708",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610224708",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:46Z",
+  "workflow_updated_at": "2026-06-16T10:11:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-889-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.487Z",
+  "canonical": null,
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/87315",
+  "canonical_pr": null,
+  "summary": "Both open cluster candidates are security-sensitive in the hydrated preflight artifact and should be quarantined to central OpenClaw security handling. No close, merge, comment, label, or fix action is planned; linked closed PRs are retained only as historical evidence.",
+  "actions": [
+    {
+      "target": "#87315",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The open issue reports internal tool traces reaching a user-facing channel and is explicitly marked security-sensitive by the live preflight artifact; ProjectClownfish must quarantine the exact ref instead of deduping, closing, or planning a fix."
+    },
+    {
+      "target": "#88341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The open issue is explicitly security-sensitive and has unique Discord-path evidence; route only this exact ref to central security handling and avoid closeout or fix planning."
+    },
+    {
+      "target": "#80042",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked PR; no mutation is valid or needed."
+    },
+    {
+      "target": "#88494",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed linked PR; it remains evidence for why #88341 needs a narrower security/product decision, not a target for action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

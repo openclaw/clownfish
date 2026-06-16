@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1003-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610221172",
+  "workflow_run_id": "27610221172",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610221172",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:44Z",
+  "workflow_updated_at": "2026-06-16T10:12:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1003-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.440Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/64892",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/64892",
+  "canonical_pr": null,
+  "summary": "Canonical remains open issue #64892. The hydrated artifact and target checkout show the raw package-manager self-update guard is still the live root cause, with #78696 as the linked open fix PR but excluded from this job's actionable refs by overlap policy. No close, merge, fix, or label action is safe or needed in this close-only/no-fix job. #92241 is related but has distinct rollback/inbound lazy-loader scope, so it should stay open outside this dedupe cleanup.",
+  "actions": [
+    {
+      "target": "#64892",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#64892",
+      "candidate_fix": "#78696",
+      "reason": "#64892 is the best live canonical issue for the raw self-update bypass. It should stay open while the linked fix PR or maintainer-chosen enforcement path is reviewed."
+    },
+    {
+      "target": "#78696",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#64892",
+      "candidate_fix": null,
+      "reason": "#78696 is the concrete related fix path for #64892, but it is excluded from this cluster's actionable refs and this job cannot merge or repair PRs."
+    },
+    {
+      "target": "#92241",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#64892",
+      "candidate_fix": null,
+      "reason": "Related update/process-lifecycle failure family, but not a true duplicate of #64892 under the closure policy."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

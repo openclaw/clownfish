@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-223-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610220555",
+  "workflow_run_id": "27610220555",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610220555",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:43Z",
+  "workflow_updated_at": "2026-06-16T10:11:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-223-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.423Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/91893",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/91893",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/91907",
+  "summary": "No closeout is safe or needed in this pass. #91893 remains the live canonical issue for the live-test ENOSPC bug, and hydrated open PR #91907 is the current canonical landing path, but merge, fix, raise_pr, and post-merge close are blocked by job policy. Already-closed #93290 is historical evidence only.",
+  "actions": [
+    {
+      "target": "#91893",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91893",
+      "candidate_fix": "#91907",
+      "reason": "The report is still valid on current main and has a live open canonical fix path, so do not close the issue in this dedupe pass."
+    },
+    {
+      "target": "#91907",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91907",
+      "candidate_fix": null,
+      "reason": "#91907 is the best hydrated open landing path, but this job is close/comment/label only and cannot merge or repair it."
+    },
+    {
+      "target": "#93290",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91907",
+      "candidate_fix": null,
+      "reason": "Already closed; retained only as context showing #91907 was previously selected over another overlapping PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

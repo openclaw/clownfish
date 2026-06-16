@@ -1,0 +1,54 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-643-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610225502",
+  "workflow_run_id": "27610225502",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610225502",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:46Z",
+  "workflow_updated_at": "2026-06-16T10:11:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-643-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.495Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/62514",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/62514",
+  "canonical_pr": null,
+  "summary": "Hydrated state keeps #62514 as the live canonical issue for the mixed image/native vision gap. The linked PR #63710 is security-sensitive because its remote-media fetch path has SSRF-policy/security-boundary review findings, so it is routed to central security handling only. No close, merge, or fix PR action is planned because the only non-security candidate is the canonical open issue and the job blocks fix/merge work.",
+  "actions": [
+    {
+      "target": "#62514",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#62514",
+      "candidate_fix": null,
+      "reason": "#62514 is the best live canonical issue and should remain open for the mixed-image behavior/product decision."
+    },
+    {
+      "target": "#63710",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR touches remote media fetching and has unresolved security-boundary/SSRF-policy review findings, so it must be handled by central OpenClaw security triage rather than cluster cleanup automation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

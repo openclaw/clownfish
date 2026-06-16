@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-336-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610220130",
+  "workflow_run_id": "27610220130",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610220130",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:43Z",
+  "workflow_updated_at": "2026-06-16T10:12:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-336-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.411Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/48045",
+  "canonical_pr": null,
+  "summary": "Classified #48045 as the live canonical issue. Current main at 4fee34876462a577b1ed825ecbf7ce807f298a17 still has the direct Playwright /navigate path returning only {url} and rethrowing non-retryable navigation errors; the existing managed download work covers adjacent click/waiter paths but not the issue's direct Content-Disposition navigation case. No close, merge, or fix action is safe or allowed in this job. The excluded open overlap PR #89416 has security-boundary signals and is quarantined for central security routing as an exact PR ref, while remaining non-security items stay classified as evidence/context only.",
+  "actions": [
+    {
+      "target": "#48045",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "#48045 remains the best live canonical because it tracks the still-open direct /navigate CDP attachment-download bug, and no duplicate target exists in this cluster that can be closed."
+    },
+    {
+      "target": "#89416",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Security-sensitive signals are scoped to this exact open PR; route #89416 to central security triage without poisoning the non-security canonical issue classification."
+    },
+    {
+      "target": "#48132",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Already-closed historical PR; evidence only, no mutation."
+    },
+    {
+      "target": "#64558",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#48045",
+      "candidate_fix": null,
+      "reason": "Already-closed historical PR; it explains the adjacent landed managed-download work but does not close the canonical issue in this cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

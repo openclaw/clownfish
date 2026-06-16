@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-646-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610224870",
+  "workflow_run_id": "27610224870",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610224870",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:46Z",
+  "workflow_updated_at": "2026-06-16T10:12:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-646-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.489Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/89709",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/89709",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/89745",
+  "summary": "Kept #89709 open as the canonical issue. Current main at 4fee34876462a577b1ed825ecbf7ce807f298a17 still has the bounded-usage timestamp gap, and the hydrated candidate fix #89745 is open but not merge-ready in this job. Routed the exact security-sensitive linked PR #87222 only; closed PR #90485 remains historical superseded evidence.",
+  "actions": [
+    {
+      "target": "#87222",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact linked PR carries the security-sensitive signal and must route to central OpenClaw security handling without affecting the non-security #89709/#89745 usage bug path."
+    },
+    {
+      "target": "#89709",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89709",
+      "candidate_fix": "#89745",
+      "reason": "The bug is still present on current main and the candidate fix has not landed, so closing #89709 would be premature."
+    },
+    {
+      "target": "#89745",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89745",
+      "candidate_fix": null,
+      "reason": "#89745 is the canonical fix path for this cluster but must stay open for normal review/author follow-up; this worker cannot merge or repair it."
+    },
+    {
+      "target": "#90485",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89745",
+      "candidate_fix": "#89745",
+      "reason": "Closed context refs are historical evidence only and must not receive close actions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

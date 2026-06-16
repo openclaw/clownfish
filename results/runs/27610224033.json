@@ -1,0 +1,64 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-85-dedupe-cleanup-wave-3",
+  "mode": "autonomous",
+  "run_id": "27610224033",
+  "workflow_run_id": "27610224033",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27610224033",
+  "head_sha": "aa9af7b43a4e7ef8014e3f9de64f82296378ea4c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:09:46Z",
+  "workflow_updated_at": "2026-06-16T10:11:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-85-dedupe-cleanup-wave-3.md",
+  "published_at": "2026-06-16T10:16:39.474Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/79182",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79182",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/79200",
+  "summary": "Classified the hydrated non-security cluster without mutations. #79182 is the best live canonical issue among the actionable refs for the --message-file feature. #79200 is the already-hydrated active implementation PR but is an existing-overlap context ref owned by another job, so this worker does not plan merge, close, or repair actions for it. #42820 is related message-send/file fallout with a distinct poll-schema guard root cause and should remain open.",
+  "actions": [
+    {
+      "target": "#79182",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79182",
+      "candidate_fix": "#79200",
+      "reason": "Best live canonical issue for the actionable --message-file feature lane; keep open for the existing implementation path."
+    },
+    {
+      "target": "#42820",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79182",
+      "candidate_fix": null,
+      "reason": "Same message-send/file symptom family, but not a true duplicate and not safely covered by the --message-file canonical path."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_canonical",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#79200",
+      "candidate_fix": null,
+      "reason": "Hydrated context canonical PR for #79182, but excluded from this worker's actionable refs."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
