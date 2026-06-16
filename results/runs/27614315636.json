@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-056",
+  "mode": "autonomous",
+  "run_id": "27614315636",
+  "workflow_run_id": "27614315636",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27614315636",
+  "head_sha": "2153123e9d73bf32ba5fecfac6de2adecf14bcda",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T11:29:18Z",
+  "workflow_updated_at": "2026-06-16T11:32:00Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-056.md",
+  "published_at": "2026-06-16T11:36:43.069Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No merge, fix, raise-PR, or close path is available for this job; one open linked security-sensitive PR is routed to central security handling, closed security-sensitive context refs are kept closed, and the listed open PRs remain open for maintainer or author follow-up.",
+  "actions": [
+    {
+      "target": "#85335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR must be routed to central OpenClaw security triage rather than ProjectClownfish backlog cleanup."
+    },
+    {
+      "target": "#85465",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed security-sensitive context ref; no ProjectClownfish mutation is appropriate."
+    },
+    {
+      "target": "#87200",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed security-sensitive context ref; no ProjectClownfish mutation is appropriate."
+    },
+    {
+      "target": "#87343",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent contributor PR awaiting author or maintainer follow-up; no safe close or merge action is available."
+    },
+    {
+      "target": "#87433",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent draft PR; proof and maintainer review remain outside this close-only inventory job."
+    },
+    {
+      "target": "#87437",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed on whether to close the temporary proof head or leave it for proof workflow follow-up."
+    },
+    {
+      "target": "#89154",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent feature PR for maintainer review; this shard should not pick a shared canonical or merge path."
+    },
+    {
+      "target": "#90970",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent docs/i18n PR; low-signal closeout is not enabled and technical/product review remains with maintainers."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 2,
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87437: decide whether to close the maintainer-owned temporary Mantis proof head now that linked #87425 is closed, despite the latest proof-head checks including a failed Run agentic native Telegram proof lane."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
