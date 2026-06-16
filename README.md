@@ -41,44 +41,49 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 16, 2026, 09:28 UTC
+Last dashboard update: Jun 16, 2026, 09:45 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 4159 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 4178 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 4159 | 100% |
+| Latest clusters reviewed | 4178 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 2708 | 65.1% |
-| Needs-human clusters | 1184 | 28.5% |
-| Latest successful clusters | 4003 | 96.2% |
+| Clean completed clusters | 2722 | 65.2% |
+| Needs-human clusters | 1188 | 28.4% |
+| Latest successful clusters | 4022 | 96.3% |
 | Latest failed clusters | 99 | 2.4% |
 | Latest cancelled clusters | 3 | 0.1% |
-| Run attempts archived | 5321 | audit |
+| Run attempts archived | 5340 | audit |
 | Fix action attempts | 316 | audit |
 | Fix actions executed | 2 | 0.6% |
 | Fix actions failed | 68 | 21.5% |
 | Fix actions blocked | 115 | 36.4% |
-| Latest clusters with fix failures | 94 | 2.3% |
-| Distinct PRs touched | 7182 | 100% |
-| Open PRs tracked | 2941 | 40.9% |
-| Closed unmerged PRs tracked | 3310 | 46.1% |
-| Completed close actions | 68 | 14.8% |
-| Completed merge actions | 40 | 8.7% |
-| Duplicate closes | 25 | 36.8% |
-| Superseded closes | 21 | 30.9% |
-| Fixed-by-candidate closes | 12 | 17.6% |
+| Latest clusters with fix failures | 94 | 2.2% |
+| Distinct PRs touched | 7184 | 100% |
+| Open PRs tracked | 2929 | 40.8% |
+| Closed unmerged PRs tracked | 3322 | 46.2% |
+| Completed close actions | 72 | 15.5% |
+| Completed merge actions | 40 | 8.6% |
+| Duplicate closes | 25 | 34.7% |
+| Superseded closes | 22 | 30.6% |
+| Fixed-by-candidate closes | 15 | 20.8% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 197 | 42.9% |
-| Skipped mutation attempts | 154 | 33.6% |
+| Blocked mutation attempts | 198 | 42.5% |
+| Skipped mutation attempts | 156 | 33.5% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [gitcrawl-102-dedupe-cleanup-wave](results/openclaw/gitcrawl-102-dedupe-cleanup-wave.md) | needs human | jobs/openclaw/inbox/gitcrawl-102-dedupe-cleanup-wave.md | #87925 needs maintainer product direction: should model switches permanently rewrite stored thinkingLevel preferences, or should unsuppor... | [report](results/openclaw/gitcrawl-102-dedupe-cleanup-wave.md) | [27608149933](https://github.com/openclaw/clownfish/actions/runs/27608149933) |
+| [gitcrawl-73-dedupe-cleanup-wave](results/openclaw/gitcrawl-73-dedupe-cleanup-wave.md) | apply blocked | jobs/openclaw/inbox/gitcrawl-73-dedupe-cleanup-wave.md | candidate fix is not listed in job refs | [report](results/openclaw/gitcrawl-73-dedupe-cleanup-wave.md) | [27608149163](https://github.com/openclaw/clownfish/actions/runs/27608149163) |
+| [gitcrawl-100-dedupe-cleanup-wave](results/openclaw/gitcrawl-100-dedupe-cleanup-wave.md) | needs human | jobs/openclaw/inbox/gitcrawl-100-dedupe-cleanup-wave.md | #30452 needs maintainer/product decision on whether the remaining flush-then-reset behavior should stay open, be split, or be declined; t... | [report](results/openclaw/gitcrawl-100-dedupe-cleanup-wave.md) | [27608148111](https://github.com/openclaw/clownfish/actions/runs/27608148111) |
+| [gitcrawl-103-dedupe-cleanup-wave](results/openclaw/gitcrawl-103-dedupe-cleanup-wave.md) | needs human | jobs/openclaw/inbox/gitcrawl-103-dedupe-cleanup-wave.md | #86174: maintainer needs to choose the permanent WebChat child-session model contract before implementation: explicit default/no-inherit ... | [report](results/openclaw/gitcrawl-103-dedupe-cleanup-wave.md) | [27608148058](https://github.com/openclaw/clownfish/actions/runs/27608148058) |
+| [gitcrawl-117-dedupe-cleanup-wave](results/openclaw/gitcrawl-117-dedupe-cleanup-wave.md) | needs human | jobs/openclaw/inbox/gitcrawl-117-dedupe-cleanup-wave.md | #89245 was required by deterministic validation to route_security, so the previously selected open canonical path is quarantined and cann... | [report](results/openclaw/gitcrawl-117-dedupe-cleanup-wave.md) | [27608147908](https://github.com/openclaw/clownfish/actions/runs/27608147908) |
 | [live-pr-inventory-20260616T090421-052](results/openclaw/live-pr-inventory-20260616t090421-052.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-052.md | #70046 needs maintainer technical review and branch-update/rebase handling before any merge path; this autonomous inventory job cannot me... | [report](results/openclaw/live-pr-inventory-20260616t090421-052.md) | [27607592110](https://github.com/openclaw/clownfish/actions/runs/27607592110) |
 | [live-pr-inventory-20260616T090421-015](results/openclaw/live-pr-inventory-20260616t090421-015.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-015.md | Refresh live hydration for #83274; this run has no hydrated PR body, comments, review comments, files, checks, merge state, or updated_at... | [report](results/openclaw/live-pr-inventory-20260616t090421-015.md) | [27606776970](https://github.com/openclaw/clownfish/actions/runs/27606776970) |
 | [live-pr-inventory-20260616T090421-012](results/openclaw/live-pr-inventory-20260616t090421-012.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-012.md | Re-run hydration for #81298 after the GitHub installation API rate limit clears; current artifact lacks live state required for classific... | [report](results/openclaw/live-pr-inventory-20260616t090421-012.md) | [27606776688](https://github.com/openclaw/clownfish/actions/runs/27606776688) |
@@ -99,11 +104,6 @@ Scope: 4159 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [live-pr-inventory-20260616T090421-048](results/openclaw/live-pr-inventory-20260616t090421-048.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-048.md | #90468: maintainer CHANGES_REQUESTED parser compatibility review remains unresolved. | [report](results/openclaw/live-pr-inventory-20260616t090421-048.md) | [27606831564](https://github.com/openclaw/clownfish/actions/runs/27606831564) |
 | [live-pr-inventory-20260616T090421-036](results/openclaw/live-pr-inventory-20260616t090421-036.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-036.md | #87255: maintainer technical review required for a green focused config/session-state fix linked to #45765; merge/fix actions are disabled. | [report](results/openclaw/live-pr-inventory-20260616t090421-036.md) | [27606831421](https://github.com/openclaw/clownfish/actions/runs/27606831421) |
 | [live-pr-inventory-20260616T090421-047](results/openclaw/live-pr-inventory-20260616t090421-047.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-047.md | #90217: actionable Copilot review comments plus failing Real behavior proof; fix not allowed. | [report](results/openclaw/live-pr-inventory-20260616t090421-047.md) | [27606831328](https://github.com/openclaw/clownfish/actions/runs/27606831328) |
-| [live-pr-inventory-20260616T090421-039](results/openclaw/live-pr-inventory-20260616t090421-039.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-039.md | #89419 must be handled by central OpenClaw security triage after validator security-sensitive routing. | [report](results/openclaw/live-pr-inventory-20260616t090421-039.md) | [27606831276](https://github.com/openclaw/clownfish/actions/runs/27606831276) |
-| [live-pr-inventory-20260616T090421-044](results/openclaw/live-pr-inventory-20260616t090421-044.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-044.md | #87333: maintainer review/technical correctness decision for a focused P1 PR with proof sufficient and successful behavior proof. | [report](results/openclaw/live-pr-inventory-20260616t090421-044.md) | [27606831228](https://github.com/openclaw/clownfish/actions/runs/27606831228) |
-| [live-pr-inventory-20260616T090421-046](results/openclaw/live-pr-inventory-20260616t090421-046.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-046.md | #90019: maintainer review/rebase decision for a dirty but proof-passing focused memory-search PR. | [report](results/openclaw/live-pr-inventory-20260616t090421-046.md) | [27606831185](https://github.com/openclaw/clownfish/actions/runs/27606831185) |
-| [live-pr-inventory-20260616T090421-031](results/openclaw/live-pr-inventory-20260616t090421-031.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-031.md | #82148: author stated they were closing during work-management triage, but the PR remains open and closeout is disabled; maintainer/autho... | [report](results/openclaw/live-pr-inventory-20260616t090421-031.md) | [27606831161](https://github.com/openclaw/clownfish/actions/runs/27606831161) |
-| [live-pr-inventory-20260616T090421-032](results/openclaw/live-pr-inventory-20260616t090421-032.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260616T090421-032.md | #86901 needs maintainer decision: focused Feishu fix has passing proof but dirty merge state and ClawSweeper needs-changes signal; merge/... | [report](results/openclaw/live-pr-inventory-20260616t090421-032.md) | [27606831102](https://github.com/openclaw/clownfish/actions/runs/27606831102) |
 
 ### Fix Failure Queue
 
@@ -144,8 +144,8 @@ Scope: 4159 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | job does not allow merge | 12 | [clawsweeper-commit-openclaw-openclaw-806a0119f3cd](results/openclaw/clawsweeper-commit-openclaw-openclaw-806a0119f3cd.md) |
 | blocked: Close is blocked on the canonical fix path or fix PR. | 10 | [ghcrawl-165990-agentic-merge](results/openclaw/ghcrawl-165990-agentic-merge.md) |
 | canonical is not listed in job refs | 10 | [gitcrawl-238861-dedupe-only-20260429c](results/openclaw/gitcrawl-238861-dedupe-only-20260429c.md) |
+| candidate fix is not listed in job refs | 8 | [gitcrawl-73-dedupe-cleanup-wave](results/openclaw/gitcrawl-73-dedupe-cleanup-wave.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled for human review | 8 | [ghcrawl-156679-autonomous-smoke](results/openclaw/ghcrawl-156679-autonomous-smoke.md) |
-| candidate fix is not listed in job refs | 7 | [gitcrawl-6-dedupe-only-20260429-remote](results/openclaw/gitcrawl-6-dedupe-only-20260429-remote.md) |
 | target is not listed in job candidates | 7 | [gitcrawl-14501-dedupe-only-20260429-remote](results/openclaw/gitcrawl-14501-dedupe-only-20260429-remote.md) |
 | close requires ProjectClownfish fix PR opened/pushed or merge executed first | 6 | [ghcrawl-156593-autonomous-smoke](results/openclaw/ghcrawl-156593-autonomous-smoke.md) |
 | merge state status is UNSTABLE | 6 | [ghcrawl-156647-autonomous-smoke](results/openclaw/ghcrawl-156647-autonomous-smoke.md) |
@@ -171,6 +171,10 @@ Scope: 4159 active latest cluster reports. 4 policy-archived cluster(s) are excl
 
 | Target | Type | Title | Closed | Action | Cluster | Report | Run |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [#80536](https://github.com/openclaw/openclaw/issues/80536) | issue | Channel config-schema additions in downstream patches not picked up by runtime validator (codegen-bundled JSON schema is checked-in, not ... | Jun 16, 2026, 09:36 UTC | close_fixed_by_candidate | [gitcrawl-110-dedupe-cleanup-wave](results/openclaw/gitcrawl-110-dedupe-cleanup-wave.md) | [report](results/openclaw/gitcrawl-110-dedupe-cleanup-wave.md) | [27608148324](https://github.com/openclaw/clownfish/actions/runs/27608148324) |
+| [#92337](https://github.com/openclaw/openclaw/issues/92337) | issue | memory-core: mergeHybridResults ignores textScore when keyword/vector chunk IDs don't overlap | Jun 16, 2026, 09:34 UTC | close_fixed_by_candidate | [gitcrawl-78-dedupe-cleanup-wave](results/openclaw/gitcrawl-78-dedupe-cleanup-wave.md) | [report](results/openclaw/gitcrawl-78-dedupe-cleanup-wave.md) | [27608150680](https://github.com/openclaw/clownfish/actions/runs/27608150680) |
+| [#92061](https://github.com/openclaw/openclaw/issues/92061) | issue | memory-core: CJK text FTS5 search returns textScore=0 with trigram tokenizer | Jun 16, 2026, 09:34 UTC | close_fixed_by_candidate | [gitcrawl-78-dedupe-cleanup-wave](results/openclaw/gitcrawl-78-dedupe-cleanup-wave.md) | [report](results/openclaw/gitcrawl-78-dedupe-cleanup-wave.md) | [27608150680](https://github.com/openclaw/clownfish/actions/runs/27608150680) |
+| [#85932](https://github.com/openclaw/openclaw/pull/85932) | pull_request | fix(voice-call): suppress duplicate OpenAI initial greeting (#85846) | Jun 16, 2026, 09:33 UTC | close_superseded | [gitcrawl-120-dedupe-cleanup-wave](results/openclaw/gitcrawl-120-dedupe-cleanup-wave.md) | [report](results/openclaw/gitcrawl-120-dedupe-cleanup-wave.md) | [27608147987](https://github.com/openclaw/clownfish/actions/runs/27608147987) |
 | [#68020](https://github.com/openclaw/openclaw/pull/68020) | pull_request | fix(memory-core): silence expected operator.admin scope miss in dreaming cleanup | Jun 16, 2026, 07:26 UTC | close_fixed_by_candidate | [pr-close-canary-68020-20260616-bulk](results/openclaw/pr-close-canary-68020-20260616-bulk.md) | [report](results/openclaw/pr-close-canary-68020-20260616-bulk.md) | [27601320435](https://github.com/openclaw/clownfish/actions/runs/27601320435) |
 | [#41284](https://github.com/openclaw/openclaw/pull/41284) | pull_request | fix(ios): read IDEProvisioningTeamByIdentifier | Jun 16, 2026, 07:24 UTC | close_fixed_by_candidate | [pr-close-canary-41284-20260615-volume-a](results/openclaw/pr-close-canary-41284-20260615-volume-a.md) | [report](results/openclaw/pr-close-canary-41284-20260615-volume-a.md) | [27601172439](https://github.com/openclaw/clownfish/actions/runs/27601172439) |
 | [#42754](https://github.com/openclaw/openclaw/issues/42754) | issue | [Feature]: Feishu card action handler discards action.option, action.options, and action.form_value | Jun 16, 2026, 05:19 UTC | close_duplicate | [gitcrawl-14172-dedupe-only-20260429-remote](results/openclaw/gitcrawl-14172-dedupe-only-20260429-remote.md) | [report](results/openclaw/gitcrawl-14172-dedupe-only-20260429-remote.md) | [27595847269](https://github.com/openclaw/clownfish/actions/runs/27595847269) |
@@ -192,10 +196,6 @@ Scope: 4159 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [#90932](https://github.com/openclaw/openclaw/pull/90932) | pull_request | fix(ui): scope local assistant avatar override to agent ID (fixes #90890) | Jun 15, 2026, 23:13 UTC | close_superseded | [pr-close-canary-90932-close-wave-20260616a](results/openclaw/pr-close-canary-90932-close-wave-20260616a.md) | [report](results/openclaw/pr-close-canary-90932-close-wave-20260616a.md) | [27582528476](https://github.com/openclaw/clownfish/actions/runs/27582528476) |
 | [#81131](https://github.com/openclaw/openclaw/pull/81131) | pull_request | fix(telegram): combine voice payload with preceding streamed text | Jun 15, 2026, 23:05 UTC | close_superseded | [pr-close-canary-81131-close-wave-20260616a](results/openclaw/pr-close-canary-81131-close-wave-20260616a.md) | [report](results/openclaw/pr-close-canary-81131-close-wave-20260616a.md) | [27582174346](https://github.com/openclaw/clownfish/actions/runs/27582174346) |
 | [#86168](https://github.com/openclaw/openclaw/pull/86168) | pull_request | fix(edit): show best matching region on mismatch instead of raw file head | Jun 15, 2026, 23:05 UTC | close_superseded | [pr-close-canary-86168-close-wave-20260616a](results/openclaw/pr-close-canary-86168-close-wave-20260616a.md) | [report](results/openclaw/pr-close-canary-86168-close-wave-20260616a.md) | [27582175541](https://github.com/openclaw/clownfish/actions/runs/27582175541) |
-| [#87589](https://github.com/openclaw/openclaw/pull/87589) | pull_request | fix(memory): show signalCount in dreaming promotion annotation (#87588) | Jun 15, 2026, 23:05 UTC | close_superseded | [pr-close-canary-87589-close-wave-20260616a](results/openclaw/pr-close-canary-87589-close-wave-20260616a.md) | [report](results/openclaw/pr-close-canary-87589-close-wave-20260616a.md) | [27582176513](https://github.com/openclaw/clownfish/actions/runs/27582176513) |
-| [#76545](https://github.com/openclaw/openclaw/pull/76545) | pull_request | fix(cron): sweep base cron sessions, not just run sessions | Jun 15, 2026, 23:05 UTC | close_superseded | [pr-close-canary-76545-close-wave-20260616a](results/openclaw/pr-close-canary-76545-close-wave-20260616a.md) | [report](results/openclaw/pr-close-canary-76545-close-wave-20260616a.md) | [27582173703](https://github.com/openclaw/clownfish/actions/runs/27582173703) |
-| [#84902](https://github.com/openclaw/openclaw/pull/84902) | pull_request | fix(openai): honor provider thinking profiles | Jun 15, 2026, 13:17 UTC | close_fixed_by_candidate | [pr-close-canary-84902-20260615-bulk-a](results/openclaw/pr-close-canary-84902-20260615-bulk-a.md) | [report](results/openclaw/pr-close-canary-84902-20260615-bulk-a.md) | [27548872820](https://github.com/openclaw/clownfish/actions/runs/27548872820) |
-| [#90447](https://github.com/openclaw/openclaw/pull/90447) | pull_request | fix(memory-core): resolve adapter default model for index identity state | Jun 15, 2026, 13:10 UTC | close_superseded | [pr-close-canary-90447-20260615-a](results/openclaw/pr-close-canary-90447-20260615-a.md) | [report](results/openclaw/pr-close-canary-90447-20260615-a.md) | [27548478357](https://github.com/openclaw/clownfish/actions/runs/27548478357) |
 <!-- projectclownfish-dashboard:end -->
 
 ## How It Works
