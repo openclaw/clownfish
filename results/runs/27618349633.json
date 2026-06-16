@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-013",
+  "mode": "autonomous",
+  "run_id": "27618349633",
+  "workflow_run_id": "27618349633",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27618349633",
+  "head_sha": "3864885eee3c3fbeebcec900d431c597bf4ffd1e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:43:05Z",
+  "workflow_updated_at": "2026-06-16T12:45:48Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-013.md",
+  "published_at": "2026-06-16T12:49:52.992Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard from the hydrated preflight artifact. No security-sensitive refs were detected, and the job disables merge, fix PR, instant close, and low-signal closeout. The five inventory PRs should remain open for maintainer/proof/check decisions; linked open issues are kept related where a candidate PR is present.",
+  "actions": [
+    {
+      "target": "#93241",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose or combine the overlapping Zhipu candidate paths before any close or merge-oriented follow-up is safe."
+    },
+    {
+      "target": "#93212",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer selection against #93241; do not close or supersede without a chosen canonical path."
+    },
+    {
+      "target": "#93211",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the issue context until maintainers choose the canonical Zhipu PR path."
+    },
+    {
+      "target": "#93293",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused session-state/message-delivery fix requires maintainer technical review; no merge or fix action is permitted in this job."
+    },
+    {
+      "target": "#84139",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93293",
+      "reason": "Keep issue open and related to candidate PR #93293 until a maintainer lands or rejects that fix."
+    },
+    {
+      "target": "#93256",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Proof/check state is not clean, and the plugin startup behavior requires maintainer technical judgment."
+    },
+    {
+      "target": "#93378",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision on proof and product fit for the Telegram crash-loop recovery path."
+    },
+    {
+      "target": "#93375",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93378",
+      "reason": "Keep the issue open as the validation thread for candidate PR #93378."
+    },
+    {
+      "target": "#93384",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing relevant check and focused status/model resolution behavior need maintainer review before any landing or closeout path."
+    },
+    {
+      "target": "#93322",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93384",
+      "reason": "Keep open and tied to candidate PR #93384 until the PR is reviewed and checks are clean."
+    },
+    {
+      "target": "#87957",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as a broader related tracker; do not close or treat #93384 as fully covering the refactor scope."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 6,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93241/#93212: maintainer should choose or combine the overlapping Zhipu/GLM overload PRs before any supersede or merge path.",
+    "#93293: maintainer technical review is required for the compaction sessions_send replay-safety fix.",
+    "#93256: maintainer review is required because the Real behavior proof check failed despite an author proof comment.",
+    "#93378: maintainer/product decision is required for the Telegram crash-loop lease recovery proof and scope.",
+    "#93384: maintainer review is required because a relevant check failed on a focused /status model-resolution fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
