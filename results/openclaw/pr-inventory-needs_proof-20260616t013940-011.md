@@ -1,14 +1,14 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260616T013940-011"
-mode: "plan"
-run_id: "27588299507"
-workflow_run_id: "27588299507"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27588299507"
-head_sha: "5dca2d75714535cfb2131bd633dafaad578a123a"
+mode: "autonomous"
+run_id: "27590650229"
+workflow_run_id: "27590650229"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27590650229"
+head_sha: "159a259d79f651da526767c13ba1f27b40151479"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T01:45:27.308Z"
+published_at: "2026-06-16T02:50:33.643Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27588299507](https://github.com/openclaw/clownfish/actions/runs/27588299507)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27590650229](https://github.com/openclaw/clownfish/actions/runs/27590650229)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: unknown
 
 ## Summary
 
-Plan-only PR inventory classification. No shared canonical was selected. Open non-security PRs were kept for maintainer review/proof rather than closed or merged; already-closed PRs were kept closed; security-sensitive refs were routed to central security handling.
+Classified the PR inventory shard from hydrated preflight state. No shared canonical exists for this shard; close, merge, fix, and low-signal close paths are disabled or blocked by proof/review/security gates. Security-sensitive refs are routed individually, closed historical PRs are kept closed, and open non-security PRs remain open for maintainer/proof follow-up.
 
 ## Impact
 
@@ -67,18 +67,18 @@ Plan-only PR inventory classification. No shared canonical was selected. Open no
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41275 | keep_related | planned | related | Plausible active fix path, but proof/check state blocks merge or fixed-by-candidate closeout. |
-| #92704 | keep_closed | skipped | superseded | Already closed before this plan; no mutation is valid. |
-| #92714 | keep_related | planned | related | Keep as a viable independent PR candidate; do not merge from this inventory plan. |
-| #43938 | keep_related | planned | related | Plausible focused fix, but proof and mergeability are not sufficient for closure or merge. |
-| #90512 | keep_closed | skipped | fixed_by_candidate | Already closed by prior guarded closeout; no further action. |
-| #92723 | route_security | planned | security_sensitive | Security-sensitive item; route only this ref and do not mutate it through backlog cleanup. |
-| #92755 | keep_related | planned | related | Keep for the Discord status-reaction family; do not close or merge while checks/family choice are unresolved. |
-| #92774 | needs_human | blocked | needs_human | Technical correctness judgment is required before this can be classified as landable or superseded. |
-| #92756 | keep_related | planned | related | Plausible linked fix, but proof failure blocks merge or closing the linked issue as fixed. |
-| #92762 | route_security | planned | security_sensitive | Route this exact PR to central OpenClaw security handling. |
-| #92374 | route_security | planned | security_sensitive | Route this linked security-sensitive issue to central security handling. |
+| #41275 | keep_related | planned | related | Keep open as a related candidate needing proof/review resolution; do not close or merge from this inventory shard. |
+| #92704 | keep_closed | skipped | superseded | Already closed; no mutation should be planned. |
+| #92714 | keep_related | planned | related | Keep open for maintainer/proof review; this shard cannot merge or repair it. |
+| #43938 | keep_related | planned | related | Keep open as a related repair/proof candidate; no close or fix artifact is permitted by this job. |
+| #90512 | keep_closed | skipped | fixed_by_candidate | Already closed as fixed by #91181; no mutation should be planned. |
+| #92723 | route_security | planned | security_sensitive | Route exact security-sensitive ref to central OpenClaw security handling; do not mutate it. |
+| #92755 | keep_related | planned | related | Keep open for maintainer/proof comparison with #92822; no safe close or merge action is available. |
+| #92774 | needs_human | planned | needs_human | Actionable bot review and possible overlap with #93194 require maintainer/technical judgment; close or merge is unsafe from this shard. |
+| #92756 | keep_related | planned | related | Keep open as a plausible focused fix needing proof; no close or fix path is allowed. |
+| #92762 | route_security | planned | security_sensitive | Route exact security-sensitive PR to central security triage; do not close, comment, merge, or repair it in Clownfish. |
+| #92374 | route_security | planned | security_sensitive | Route exact linked security issue to central OpenClaw security handling. |
 
 ## Needs Human
 
-- #92774 requires maintainer technical judgment because hydrated Codex/Copilot review comments include unresolved correctness concerns and Real behavior proof is failing.
+- #92774 has an actionable Codex bot P2 review finding plus related open PR #93194; maintainer/technical judgment is needed before any close, replacement, or canonical choice.
