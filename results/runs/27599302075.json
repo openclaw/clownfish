@@ -1,0 +1,119 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-973-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27599302075",
+  "workflow_run_id": "27599302075",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27599302075",
+  "head_sha": "3793d73ce55606bb6b35576f7153086ef86c44dd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:42:24Z",
+  "workflow_updated_at": "2026-06-16T06:45:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/gitcrawl-973-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T06:48:18.543Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/69605",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/69605",
+  "canonical_pr": null,
+  "summary": "Hydrated state shows the original representative #69635 is closed and not the surviving canonical. The only live non-security canonical path in this cluster is #69605 for the Control UI code-block copy behavior. The remote-image policy lane is security-sensitive and is routed only on the exact affected refs. No close, merge, or fix PR actions are planned because all candidate PRs in the job are already closed and fix/merge/post-merge actions are blocked by the job frontmatter.",
+  "actions": [
+    {
+      "target": "#40945",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the live remote Markdown image policy issue to central OpenClaw security handling; do not mutate it through Clownfish."
+    },
+    {
+      "target": "#41025",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive remote-image PR; it is already closed, but the security signal should remain routed centrally."
+    },
+    {
+      "target": "#69605",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Use #69605 as the current open canonical for the non-security code-block copy family after the closed representative #69635 became obsolete."
+    },
+    {
+      "target": "#69634",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Closed context only; no close action is valid for an already-closed PR."
+    },
+    {
+      "target": "#69635",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Do not treat the closed representative as canonical; keep the live canonical issue #69605 open."
+    },
+    {
+      "target": "#69689",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Closed related overlap-fix PR; no worker mutation is valid."
+    },
+    {
+      "target": "#48993",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#40945",
+      "candidate_fix": null,
+      "reason": "Closed remote-image implementation context; the live policy issue #40945 is routed to security handling."
+    },
+    {
+      "target": "#47937",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Closed styling-context PR; no action required."
+    },
+    {
+      "target": "#49137",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#69605",
+      "candidate_fix": null,
+      "reason": "Closed independent markdown-performance context; no action required."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_canonical": 1,
+    "keep_closed": 6
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
