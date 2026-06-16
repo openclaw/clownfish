@@ -1,0 +1,78 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T132029-001",
+  "mode": "autonomous",
+  "run_id": "27620626963",
+  "workflow_run_id": "27620626963",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27620626963",
+  "head_sha": "6291a18e2194cbb0759e77ad0b352650702e2250",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:21:50Z",
+  "workflow_updated_at": "2026-06-16T13:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T132029-001.md",
+  "published_at": "2026-06-16T13:25:42.333Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard as two independent subfamilies. #93643 remains a focused operator.write fix candidate but needs human/author proof because its Real behavior proof check failed. #93644 appears superseded by current main for the Telegram lone-active-handler recovery path, but this inventory job has instant PR closeout disabled, so it is kept non-mutating.",
+  "actions": [
+    {
+      "target": "#93563",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93563",
+      "candidate_fix": null,
+      "reason": "Open linked issue remains the canonical tracker for the operator.write client reselection problem."
+    },
+    {
+      "target": "#93643",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93563",
+      "candidate_fix": null,
+      "reason": "The PR needs maintainer or author follow-up for behavior proof and technical correctness before any close, merge, or replacement decision; this job cannot merge, fix, or raise a PR."
+    },
+    {
+      "target": "#84158",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked issue is historical evidence only in this inventory run."
+    },
+    {
+      "target": "#93644",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears superseded by the current main implementation and the linked issue is already closed, but the job disables instant PR closeout and does not allow merge/fix actions; keep it open for maintainer/applicator handling with contributor credit preserved."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 1,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93643: Real behavior proof failed on a focused operator.write bug-fix PR, so maintainer or author proof is needed before technical correctness, merge, close, or replacement decisions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
