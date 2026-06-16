@@ -498,7 +498,7 @@ The workflow needs:
 - optional `CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA` variable for replacement PR backpressure; default is `50` open Clownfish PRs per touched area, `0` disables the area cap, and common changelog/release-note files are ignored for this check
 - ClawSweeper commit-finding repair PRs are labeled `clownfish:commit-finding`
 - optional `CLOWNFISH_CODEX_TIMEOUT_MS`, `CLOWNFISH_FIX_CODEX_TIMEOUT_MS`, and `CLOWNFISH_FIX_STEP_TIMEOUT_MS` variables; worker planning defaults to 30 minutes, while fix execution defaults to a 20 minute Codex budget inside a 40 minute executor step so timeout artifacts can be written
-- optional `CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS` variable; explicit `rebase_only` jobs default to 15 minutes, emit stage timing to the workflow log, and defer the Codex write preflight unless an actual rebase conflict needs a write worker
+- optional `CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS` and `CLOWNFISH_REBASE_ONLY_REVIEW_TIMEOUT_MS` variables; explicit `rebase_only` jobs default to 15 minutes with a five minute read-only review cap, emit stage timing to the workflow log, and defer the Codex write preflight unless an actual rebase conflict needs a write worker
 - optional `CLOWNFISH_CODEX_REVIEW_ATTEMPTS` and `CLOWNFISH_RESOLVE_REVIEW_THREADS` variables for agentic merge-prep review loops
 - optional `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR` and
   `CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_HEAD` variables for trusted

@@ -74,7 +74,7 @@ test("execute-fix-artifact preserves recoverable replacement branch when review 
   const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
   assert.equal(report.status, "blocked");
   assert.equal(report.actions.length, 1);
-  assert.equal(report.actions[0].action, "open_fix_pr");
+  assert.equal(report.actions[0].action, "open_fix_pr", JSON.stringify(report, null, 2));
   assert.equal(report.actions[0].status, "blocked");
   assert.equal(report.actions[0].branch, "clownfish/deadline-cluster");
   assert.equal(report.actions[0].repair_strategy, "new_fix_pr");
@@ -138,6 +138,7 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(source, /CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS/);
+  assert.match(source, /CLOWNFISH_REBASE_ONLY_REVIEW_TIMEOUT_MS/);
   assert.match(source, /if \(rebaseOnlyRepair\) \{\s*fixStepDeadlineAtMs = Math\.min/);
   assert.match(source, /function noteFixStage\(stage, details = \{\}\)/);
   assert.match(source, /event: "projectclownfish_fix_stage"/);
@@ -146,6 +147,8 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
   assert.match(source, /ensureCodexWritePreflight\?\.\(\);/);
   assert.match(source, /validation_command_start/);
   assert.match(source, /codex_review_start/);
+  assert.match(source, /do not rerun pnpm, npm, corepack, test, lint, build, or other validation commands/);
+  assert.match(source, /do not use gh, curl, or network reads to re-fetch PR or review state/);
 });
 
 test("execute-fix-artifact retries transient GitHub reads before branch repair", () => {

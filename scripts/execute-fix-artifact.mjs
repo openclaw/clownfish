@@ -36,6 +36,10 @@ const fixExecutionStartedAtMs = Date.now();
 let fixStepDeadlineAtMs = fixExecutionStartedAtMs + fixStepTimeoutMs;
 const codexTimeoutMs = Math.min(requestedCodexTimeoutMs, Math.max(60 * 1000, fixStepTimeoutMs - fixTimeoutReserveMs));
 const codexPreflightTimeoutMs = Number(process.env.CLOWNFISH_FIX_PREFLIGHT_TIMEOUT_MS ?? 2 * 60 * 1000);
+const rebaseOnlyReviewTimeoutMs = Math.max(
+  60 * 1000,
+  Number(process.env.CLOWNFISH_REBASE_ONLY_REVIEW_TIMEOUT_MS ?? 5 * 60 * 1000),
+);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 const codexServiceTier = String(process.env.CLOWNFISH_CODEX_SERVICE_TIER ?? "fast").trim();
 const codexStdoutMaxBufferBytes = Math.max(
@@ -1382,6 +1386,8 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
     "- `pnpm check:changed` plus git diff checks is sufficient local proof for OpenClaw changed-surface fixes;",
     "- do not require full CI, full test suites, e2e/live/docker lanes, or unrelated flaky main checks to pass;",
     "- block only when the changed-lane proof fails or the current diff plausibly caused the failure.",
+    "- the executor already ran the listed validation commands successfully; do not rerun pnpm, npm, corepack, test, lint, build, or other validation commands.",
+    "- do not use gh, curl, or network reads to re-fetch PR or review state; rely on the supplied fix artifact and local checkout.",
     "",
     `Validation commands actually run: ${validationCommands.join("; ") || "none"}`,
     `Original artifact validation commands: ${(fixArtifact.validation_commands ?? []).join("; ")}`,
@@ -1393,7 +1399,10 @@ function runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch = DE
     JSON.stringify(fixArtifact, null, 2),
     "```",
   ].join("\n");
-  const timeoutMs = boundedCodexTimeoutMs("Codex /review");
+  const timeoutMs = Math.min(
+    boundedCodexTimeoutMs("Codex /review"),
+    job.frontmatter.rebase_only === true ? rebaseOnlyReviewTimeoutMs : Number.POSITIVE_INFINITY,
+  );
   const child = spawnSync(
     "codex",
     [
