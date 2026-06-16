@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-036",
+  "mode": "plan",
+  "run_id": "27588775767",
+  "workflow_run_id": "27588775767",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588775767",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:17Z",
+  "workflow_updated_at": "2026-06-16T01:56:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-036.md",
+  "published_at": "2026-06-16T01:59:49.820Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification for 10 listed candidates. No GitHub mutations are planned beyond non-mutating classifications; two security-sensitive PRs are routed to central security handling and one already-closed PR is kept closed.",
+  "actions": [
+    {
+      "target": "#87589",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#87590",
+      "reason": "Already closed; no mutation is valid in plan mode."
+    },
+    {
+      "target": "#86898",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open bug-fix PR with failing gates; no closure or merge recommendation is safe."
+    },
+    {
+      "target": "#86627",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review and technical correctness judgment are the remaining decisions."
+    },
+    {
+      "target": "#77045",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author/review-bot follow-up and failing checks block closeout or merge classification."
+    },
+    {
+      "target": "#77020",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open diagnostic PR with failing proof; no close or merge action is justified."
+    },
+    {
+      "target": "#76806",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive DoS-shaped availability claim must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#76730",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context/session exposure must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#76235",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow open draft PR with failing proof; keep on its own validation path."
+    },
+    {
+      "target": "#76120",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft PR with failing proof; no closure or merge action is safe."
+    },
+    {
+      "target": "#75293",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Good candidate, but maintainer review/rebase decision is required before any merge path."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 4,
+    "needs_human": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86627: maintainer review and correctness judgment for a large dirty doctor health ordering PR.",
+    "#77045: author/review-bot follow-up is unresolved and checks are failing.",
+    "#75293: passing focused fix still needs maintainer review/rebase decision because maintainer_can_modify is false."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-034",
+  "mode": "plan",
+  "run_id": "27588776096",
+  "workflow_run_id": "27588776096",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588776096",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:17Z",
+  "workflow_updated_at": "2026-06-16T01:56:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-034.md",
+  "published_at": "2026-06-16T01:59:49.870Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 open PR candidates. No GitHub mutations, merges, labels, or fix PRs are executed. #93377 is routed to central security handling because deterministic validation marked the hydrated target security-sensitive; unrelated non-security PRs remain classified conservatively.",
+  "actions": [
+    {
+      "target": "#92107",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92094",
+      "candidate_fix": "#92107",
+      "reason": "Open implementation candidate for a hydrated open bug, but proof is failing and live update timestamp is unavailable."
+    },
+    {
+      "target": "#92099",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92013",
+      "candidate_fix": "#92099",
+      "reason": "Related implementation candidate for an open issue, but proof and checks block stronger action."
+    },
+    {
+      "target": "#92091",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53654",
+      "candidate_fix": "#92091",
+      "reason": "Related open PR with active linked issues, but proof failures and product/session-state risk block closure or merge planning."
+    },
+    {
+      "target": "#93377",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation marked the exact hydrated PR as security-sensitive, so it is quarantined to central security handling without mutating GitHub."
+    },
+    {
+      "target": "#93376",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct open state-migration PR with failing checks and no safe close or merge path in plan mode."
+    },
+    {
+      "target": "#92065",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#91947",
+      "candidate_fix": null,
+      "reason": "The hydrated artifact contains an explicit close recommendation and open canonical issue; close action is planned with target_updated_at and credit-preserving comment."
+    },
+    {
+      "target": "#92063",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63956",
+      "candidate_fix": "#92063",
+      "reason": "Useful open PR tied to an open bug; keep it associated for maintainer review without planning merge."
+    },
+    {
+      "target": "#92040",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92053",
+      "candidate_fix": null,
+      "reason": "Overlaps a merged targeted fix but has broader unique provider-policy scope and active review state, so it should stay open as related rather than be closed."
+    },
+    {
+      "target": "#92035",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open feature/fix PR with unresolved review and failing checks; not a duplicate or closure candidate."
+    },
+    {
+      "target": "#92014",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned open PR with unresolved review issues; keep independent for author follow-up."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "route_security": 1,
+    "keep_independent": 3,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

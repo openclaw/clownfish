@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-045",
+  "mode": "plan",
+  "run_id": "27588776293",
+  "workflow_run_id": "27588776293",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588776293",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:18Z",
+  "workflow_updated_at": "2026-06-16T01:56:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-045.md",
+  "published_at": "2026-06-16T01:59:49.921Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations planned; merge, fix, raise_pr, and low-signal closeout are disabled. The shard is not a dedupe cluster, so each listed PR is classified independently from the hydrated preflight artifact. Security-sensitive PRs are quarantined with exact-ref route_security actions.",
+  "actions": [
+    {
+      "target": "#93262",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open PR appears independently actionable, but hydrated updated_at is unavailable in the compacted artifact, so only a conservative non-mutating classification is safe."
+    },
+    {
+      "target": "#87169",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact candidate is marked security-sensitive in the authoritative preflight artifact."
+    },
+    {
+      "target": "#86852",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a real linked fix candidate, but proof is currently failing, so it should remain open for normal maintainer/proof follow-up."
+    },
+    {
+      "target": "#86577",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful, non-security candidate with proof supplied, but merge is blocked by job policy; keep it in the maintainer review lane."
+    },
+    {
+      "target": "#86563",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially valid bug fix, but proof is not established in the hydrated state, so keep related for proof/maintainer follow-up."
+    },
+    {
+      "target": "#93206",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Strong related fix candidate, but merge is disallowed in this job; keep in maintainer review lane."
+    },
+    {
+      "target": "#73440",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR addresses a real open issue but has failing proof/checks and actionable review-bot blockers, so it should not be closed or merged by this shard."
+    },
+    {
+      "target": "#72557",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The deterministic validator requires treating this exact PR as security-sensitive; route only #72557 and continue unrelated non-security classifications."
+    },
+    {
+      "target": "#72314",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful candidate with passing proof, but maintainer review is explicitly required and merge is disabled for this plan job."
+    },
+    {
+      "target": "#72224",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful but not merge-ready; proof is failing and job policy blocks merge/fix actions."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 8,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,169 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T015330-031",
+  "mode": "plan",
+  "run_id": "27588776240",
+  "workflow_run_id": "27588776240",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588776240",
+  "head_sha": "bf8199ba7cbca6f72bd06b31b2e3a33c3060c25e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:54:18Z",
+  "workflow_updated_at": "2026-06-16T01:56:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-031.md",
+  "published_at": "2026-06-16T01:59:49.906Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for 10 listed open PRs. No shared canonical was selected; merge, fix PR, and low-signal closeout are disabled by job frontmatter. Five hydrated security-sensitive refs are routed to central security handling without blocking unrelated PR classifications.",
+  "actions": [
+    {
+      "target": "#92303",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open candidate with a plausible related bug-fix scope, but proof is currently insufficient and merge/fix actions are disabled."
+    },
+    {
+      "target": "#92298",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive PR is out of scope for ProjectClownfish mutation and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92288",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR with passing proof context; this shard should not close, merge, or relabel it."
+    },
+    {
+      "target": "#92287",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether the passed proof is sufficient despite the failed Telegram proof lane."
+    },
+    {
+      "target": "#92284",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open bug-fix candidate for the queue stall family; keep it open for normal maintainer validation."
+    },
+    {
+      "target": "#92283",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open PR for a distinct sessions_send behavior issue; no duplicate or close action is justified in this inventory shard."
+    },
+    {
+      "target": "#92261",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related non-security memory visibility PR; keep it open for maintainer review rather than closing or merging in this plan job."
+    },
+    {
+      "target": "#92254",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable review-bot finding plus failing proof requires maintainer/author follow-up before any closure or merge recommendation."
+    },
+    {
+      "target": "#92025",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open CLI/docs-quality PR; keep open rather than closing or escalating the whole shard."
+    },
+    {
+      "target": "#92237",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer review/technical correctness, not dedupe cleanup."
+    },
+    {
+      "target": "#53550",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated linked security-sensitive issue must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#75085",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive PR must be routed to central OpenClaw security handling even though it is already closed; no ProjectClownfish mutation is valid."
+    },
+    {
+      "target": "#76490",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated linked security-sensitive PR must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#83094",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated linked security-sensitive PR is out of scope for ProjectClownfish mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "route_security": 5,
+    "keep_independent": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92287: maintainer/technical correctness decision on Telegram typing proof because Real behavior proof passed but Run agentic native Telegram proof failed.",
+    "#92254: unresolved Codex P1 review-bot finding plus failing proof on model-picker auth profile preservation.",
+    "#92237: maintainer review remains the explicit blocker after passing proof/checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
