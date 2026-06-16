@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-inventory-mixed-20260616T013940-016",
+  "mode": "plan",
+  "run_id": "27588299000",
+  "workflow_run_id": "27588299000",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27588299000",
+  "head_sha": "5dca2d75714535cfb2131bd633dafaad578a123a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T01:40:46Z",
+  "workflow_updated_at": "2026-06-16T01:42:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-016.md",
+  "published_at": "2026-06-16T01:43:38.892Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No shared canonical was selected because the job is an independent PR inventory shard. Closed candidates are kept closed, the security-sensitive PR is routed to central security handling, and open PRs are kept as related/independent non-mutating classifications because merge/fix/low-signal closure is not allowed in this job.",
+  "actions": [
+    {
+      "target": "#55742",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exact ref must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#55861",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related UI bug-fix PR, but not merge-ready and no closure/fix action is allowed."
+    },
+    {
+      "target": "#92837",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92837",
+      "reason": "Already merged; no action remains for this plan shard."
+    },
+    {
+      "target": "#90833",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related feature PR for an open issue, but merge/fix actions are blocked and proof/check state prevents fixed-by closeout."
+    },
+    {
+      "target": "#90846",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90846",
+      "reason": "Already merged; no closure or merge recommendation is valid."
+    },
+    {
+      "target": "#90855",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial related PR that may need maintainer review, but not closable or mergeable from this plan shard."
+    },
+    {
+      "target": "#90864",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related task-completion PR with useful narrow scope, but still waiting on changes/author and not eligible for mutation."
+    },
+    {
+      "target": "#92936",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related narrow fix PR for an open issue, but no merge or close action is available in plan mode."
+    },
+    {
+      "target": "#54862",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed as superseded/conflicting; no action remains."
+    },
+    {
+      "target": "#55770",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed after prior stale/conflicting branch review; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 5,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
