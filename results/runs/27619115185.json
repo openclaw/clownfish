@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-035",
+  "mode": "autonomous",
+  "run_id": "27619115185",
+  "workflow_run_id": "27619115185",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27619115185",
+  "head_sha": "a6f2956fe4ad4254060ba86eda7be3f11821085c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:56:25Z",
+  "workflow_updated_at": "2026-06-16T12:59:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-035.md",
+  "published_at": "2026-06-16T13:03:47.045Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified conservatively. #93303 and #93242 are already closed after maintainer squash merges, so no mutation is valid. #93559 is the same MCP stale-process cleanup family as hydrated #92696 but has failing real-behavior proof, so it is only kept related/superseded here because instant close is disabled. The validator identified #93572 as security-sensitive, so this repaired result routes that exact PR to central security handling without mutating it. #93516 remains an independent Matrix feature/provider-gap PR that still needs proof before any landing path.",
+  "actions": [
+    {
+      "target": "#93303",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#93303",
+      "candidate_fix": null,
+      "reason": "Already closed and merged; retain as historical canonical evidence for its own WhatsApp read-receipt timeout fix."
+    },
+    {
+      "target": "#93242",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#93242",
+      "candidate_fix": null,
+      "reason": "Already closed and merged; retain as historical canonical evidence for its own Mattermost bare-mention fix."
+    },
+    {
+      "target": "#92696",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92696",
+      "candidate_fix": null,
+      "reason": "Use #92696 as the non-mutating canonical path for the MCP session-reset cleanup family; do not merge in this job."
+    },
+    {
+      "target": "#93559",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#92696",
+      "candidate_fix": "#92696",
+      "reason": "Clearly superseded by hydrated #92696, but close-style actions are disabled for this run."
+    },
+    {
+      "target": "#93572",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact PR #93572 to central OpenClaw security handling; do not process it through ProjectClownfish backlog automation."
+    },
+    {
+      "target": "#93516",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Matrix feature PR; keep open for proof and maintainer review rather than closing or merging in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

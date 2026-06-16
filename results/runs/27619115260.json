@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-037",
+  "mode": "autonomous",
+  "run_id": "27619115260",
+  "workflow_run_id": "27619115260",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27619115260",
+  "head_sha": "a6f2956fe4ad4254060ba86eda7be3f11821085c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:56:25Z",
+  "workflow_updated_at": "2026-06-16T12:58:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-037.md",
+  "published_at": "2026-06-16T13:03:47.051Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified without GitHub mutations. There is no shared canonical for this mixed inventory. Security-sensitive ClawHub provenance refs are routed individually; the closed Telegram media PR is kept closed; the remaining open non-security PRs require maintainer/technical review rather than automated close, merge, or fix work because this job disallows merge, fix, raise_pr, instant close, and low-signal closeout.",
+  "actions": [
+    {
+      "target": "#93575",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged on the hydrated live state; keep as historical evidence only."
+    },
+    {
+      "target": "#93532",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ClawHub provenance/trust-boundary work must be quarantined to central OpenClaw security handling, not processed by Clownfish backlog automation."
+    },
+    {
+      "target": "#93576",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not close or merge a useful focused contributor bug-fix PR from this inventory shard; maintainer review is required because proof failed and merge/fix actions are blocked."
+    },
+    {
+      "target": "#93374",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful active contributor PR with pending/failed review automation; maintainer technical review is required before any merge decision."
+    },
+    {
+      "target": "#39245",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not close or merge; technical correctness, conflict repair, proof failure, and scope judgment require maintainer review in this no-fix/no-merge job."
+    },
+    {
+      "target": "#92860",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked PR to central OpenClaw security handling without poisoning unrelated non-security PR classification."
+    },
+    {
+      "target": "#87488",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive historical ref is routed only as an exact quarantine signal; it is otherwise closed context evidence."
+    },
+    {
+      "target": "#92077",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ClawHub provenance issue is outside Clownfish backlog cleanup and should remain with central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 4,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93576 needs maintainer technical review because it is a focused Telegram ingress bug-fix PR with Real behavior proof failing and merge/fix actions blocked.",
+    "#93374 needs maintainer review because automated ClawSweeper review did not complete and the open focused agents PR cannot be merged by this job.",
+    "#39245 needs maintainer technical review because it is dirty, proof failed, and prior review-bot concerns/scope changes require judgment."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
