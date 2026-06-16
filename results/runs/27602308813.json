@@ -1,0 +1,144 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157015-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27602308813",
+  "workflow_run_id": "27602308813",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27602308813",
+  "head_sha": "bb90f9cf4df0d1866c012593830268f375f16efa",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T07:45:10Z",
+  "workflow_updated_at": "2026-06-16T08:10:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157015-autonomous-smoke.md",
+  "published_at": "2026-06-16T08:13:45.564Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38966",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38966",
+  "canonical_pr": null,
+  "summary": "Current main still has the external reset gap: `sessions.reset` emits `sessions.changed`, but the TUI dispatch path handles only `chat`, `chat.side_result`, and `agent` events. The live canonical path is open issue #38966. Both job PRs are already closed; #40472 is useful prior art but closed, dirty, and not maintainer-editable, so the executable path is a narrow credited replacement fix artifact.",
+  "actions": [
+    {
+      "target": "#38966",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "#38966 is the only open hydrated item that tracks the still-present external session reset behavior."
+    },
+    {
+      "target": "#40472",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Already closed source PR; use as credited source material for the replacement fix rather than attempting merge or closure."
+    },
+    {
+      "target": "#62602",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38966",
+      "candidate_fix": "#67401",
+      "reason": "Already closed related PR; historical evidence only."
+    },
+    {
+      "target": "#62395",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#38966",
+      "candidate_fix": "#67401",
+      "reason": "Already closed historical linked issue; no mutation needed."
+    },
+    {
+      "target": "#67401",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#38966",
+      "candidate_fix": "#67401",
+      "reason": "Merged historical PR for a related streaming-state family; not the canonical reset-refresh fix."
+    },
+    {
+      "target": "cluster:ghcrawl-157015-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "No viable open canonical PR exists, and the job allows fix and raise_pr."
+    },
+    {
+      "target": "cluster:ghcrawl-157015-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Executable credited replacement fix is safer than repairing the closed uneditable #40472 branch."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93562",
+      "branch": "clownfish/ghcrawl-157015-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "6ade249173eb5772653077d5a95893dc1ec615e5",
+      "checkpoint_commits": [
+        "9e9e6ab242c12d359ec942ce5f3618768583a0fe"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93562"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93562",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(tui): refresh after external session reset",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T08:10:38Z",
+      "merge_commit_sha": "9b49387ad8c24e462ddae35e64d412b9e0055162",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
