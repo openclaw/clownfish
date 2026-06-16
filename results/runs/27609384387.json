@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-85-dedupe-cleanup-wave-2",
+  "mode": "autonomous",
+  "run_id": "27609384387",
+  "workflow_run_id": "27609384387",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27609384387",
+  "head_sha": "063b91b51477b9a3958bd940d26858d243770fdf",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:54:42Z",
+  "workflow_updated_at": "2026-06-16T09:59:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-85-dedupe-cleanup-wave-2.md",
+  "published_at": "2026-06-16T10:03:25.539Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/79182",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79182",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/79200",
+  "summary": "Classified the hydrated refs without GitHub mutations. #79182 is the best remaining live canonical issue for the --message-file request; #79200 is the hydrated active implementation path but is an existing-overlap context ref owned by another job. #42820 is related message.send work with a different poll-schema guard root cause and should stay open. The security-sensitive linked PR #57335 is routed only to central security handling.",
+  "actions": [
+    {
+      "target": "#42820",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79182",
+      "candidate_fix": null,
+      "reason": "Same message.send/attachment area, but meaningfully different root cause and user-visible failure from the --message-file canonical family."
+    },
+    {
+      "target": "#79182",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79182",
+      "candidate_fix": "#79200",
+      "reason": "Best surviving actionable canonical issue among the remaining open refs for the --message-file feature request."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#79182",
+      "candidate_fix": "#79200",
+      "reason": "Context-only existing-overlap PR; do not mutate or claim ownership in this cluster."
+    },
+    {
+      "target": "#53641",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed historical context; no mutation planned."
+    },
+    {
+      "target": "#57335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only the exact security-sensitive linked ref; continue non-security classification for #42820 and #79182."
+    },
+    {
+      "target": "#63578",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed historical context; no mutation planned."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_canonical": 1,
+    "keep_closed": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
