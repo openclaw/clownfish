@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T232308-001",
+  "mode": "plan",
+  "run_id": "27654886828",
+  "workflow_run_id": "27654886828",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27654886828",
+  "head_sha": "f6554decca731b8ae5a78d15f256146cd3b15424",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T23:26:37Z",
+  "workflow_updated_at": "2026-06-16T23:27:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T232308-001.md",
+  "published_at": "2026-06-16T23:29:32.145Z",
+  "canonical": "#93771",
+  "canonical_issue": "#93771",
+  "canonical_pr": null,
+  "summary": "Plan only: keep #93771 as the canonical open bug report and keep the three overlapping fresh-session status PRs related. No close, merge, fix, or raise-PR action is safe from this artifact because the PRs differ in fix surface and proof/check state, and #93795 still has an active ClawSweeper re-review placeholder.",
+  "actions": [
+    {
+      "target": "#93771",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93771",
+      "candidate_fix": null,
+      "reason": null
+    },
+    {
+      "target": "#93795",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93771",
+      "candidate_fix": null,
+      "reason": "Overlaps the canonical bug, but active review and failed lint make it unsuitable for canonical PR selection or closeout in plan mode."
+    },
+    {
+      "target": "#93798",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93771",
+      "candidate_fix": null,
+      "reason": "Related competing implementation for the same bug, but failed proof/checks and different fix surface require maintainer/technical review before choosing it as canonical."
+    },
+    {
+      "target": "#93802",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93771",
+      "candidate_fix": null,
+      "reason": "Related and promising, but pending checks and overlap with #93795/#93798 make canonical selection unsafe from this plan artifact alone."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Select the canonical PR or request a maintainer-authored fix after reviewing the active ClawSweeper result for #93795, the failed proof/checks on #93798, and the pending checks on #93802."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
