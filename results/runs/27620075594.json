@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T131123-002",
+  "mode": "autonomous",
+  "run_id": "27620075594",
+  "workflow_run_id": "27620075594",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27620075594",
+  "head_sha": "12b94c77e7ce680f9ed9c79e51e509a02046e4e2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:12:46Z",
+  "workflow_updated_at": "2026-06-16T13:14:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T131123-002.md",
+  "published_at": "2026-06-16T13:17:27.292Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical exists, no security-sensitive refs were detected, and close/merge/fix/raise-pr lanes are disabled or unsafe for this shard, so all refs remain open on their normal maintainer review paths.",
+  "actions": [
+    {
+      "target": "#93629",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81078",
+      "reason": "Keep open as a focused candidate fix for #81078; this inventory job does not merge or close focused green bug-fix PRs."
+    },
+    {
+      "target": "#93605",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93497",
+      "reason": "Keep open for maintainer review; the ClawSweeper infrastructure-failure review and compatibility note are not resolved by this close-only inventory job."
+    },
+    {
+      "target": "#93624",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93598",
+      "reason": "Keep open as related feature work with active maintainer blocking feedback; closure would require a maintainer/product decision and technical repair outside this job."
+    },
+    {
+      "target": "#93618",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#56818",
+      "reason": "Keep open for normal maintainer review; this job cannot merge, fix, or close focused bug-fix PRs."
+    },
+    {
+      "target": "#93634",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93628",
+      "reason": "Keep open but not as a clean merge candidate; the useful UI fix is mixed with unrelated gateway feature work and failing/unstable checks."
+    },
+    {
+      "target": "#56818",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93618",
+      "reason": "Keep issue open until candidate PR #93618 lands or maintainers choose another repair."
+    },
+    {
+      "target": "#81078",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93629",
+      "reason": "Keep issue open until candidate PR #93629 lands or maintainers choose another repair."
+    },
+    {
+      "target": "#93497",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93605",
+      "reason": "Keep issue open until #93605 completes review and lands or maintainers select another fix path."
+    },
+    {
+      "target": "#93598",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93624",
+      "reason": "Keep the feature request open; the linked implementation is not landable and needs maintainer-guided design/repair."
+    },
+    {
+      "target": "#93628",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93634",
+      "reason": "Keep issue open until a clean, reviewed copy-button fix lands; current candidate #93634 is mixed with unrelated blocked gateway work."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 10
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93624 has explicit maintainer blocking feedback and needs product/config-contract repair before it can become landable.",
+    "#93634 likely needs author or maintainer branch cleanup to split the HTTP copy-button fix from unrelated #93624 gateway streaming feature commits before technical review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
