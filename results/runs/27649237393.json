@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-80396-20260617",
+  "mode": "autonomous",
+  "run_id": "27649237393",
+  "workflow_run_id": "27649237393",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27649237393",
+  "head_sha": "1b12312e58a23aa38c75b90a17d4ad3667091db9",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T21:26:20Z",
+  "workflow_updated_at": "2026-06-16T21:52:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-80396-20260617.md",
+  "published_at": "2026-06-16T21:54:12.704Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/80396",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/41966",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/80396",
+  "summary": "#80396 is the sole canonical, maintainer-editable contributor PR for the #41966 fenced MEDIA warning path. The hydrated artifact shows it is open, narrow, mergeable, has passing relevant checks, no review comments, and no security-sensitive signal; because this canary is rebase-only with merge/close/new-PR actions blocked, the safe action is to repair/refresh the existing branch only and have the executor validate the changed surface plus run Codex /review before any later finalization job.",
+  "actions": [
+    {
+      "target": "#80396",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80396",
+      "candidate_fix": null,
+      "reason": "The PR is the calibrated canonical path, but this worker must not merge and the canary asks for executable rebase/validation/review work on the existing branch."
+    },
+    {
+      "target": "#41966",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#80396",
+      "candidate_fix": "#80396",
+      "reason": "#41966 is covered by the canonical candidate PR, but closure is out of scope for this rebase-only job."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-80396-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#80396",
+      "candidate_fix": null,
+      "reason": "Build an executable repair artifact so the downstream executor can refresh the contributor branch, validate the changed surface, and run Codex /review without broadening the PR."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "rebase-only repair stopped: git fetch https://github.com/Bartok9/openclaw.git fix/41966-media-token-warn-in-fence:projectclownfish/repair-pr-rebase-canary-80396-20260617-80396 timed out after 1401738ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
