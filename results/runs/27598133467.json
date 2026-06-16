@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157015-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27598133467",
+  "workflow_run_id": "27598133467",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27598133467",
+  "head_sha": "3456041b23c90140b1b609eea90480f39847d880",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T06:15:03Z",
+  "workflow_updated_at": "2026-06-16T06:36:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157015-autonomous-smoke.md",
+  "published_at": "2026-06-16T06:38:15.376Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38966",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38966",
+  "canonical_pr": null,
+  "summary": "Canonical hint #40472 is obsolete because the PR is already closed and unmerged. The live canonical path is open issue #38966; current main still emits sessions.changed on reset while the TUI only dispatches chat, side_result, and agent events, so a narrow credited replacement fix PR is needed.",
+  "actions": [
+    {
+      "target": "#38966",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical item for the external session reset TUI bug."
+    },
+    {
+      "target": "#40472",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Historical useful source PR, but not a live merge target."
+    },
+    {
+      "target": "#62602",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#67401",
+      "candidate_fix": null,
+      "reason": "Already-closed related streaming-gap PR; no mutation needed."
+    },
+    {
+      "target": "#62395",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#67401",
+      "candidate_fix": "#67401",
+      "reason": "Closed historical context for #62602, not a live cluster target."
+    },
+    {
+      "target": "#67401",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#67401",
+      "candidate_fix": "#67401",
+      "reason": "Merged historical fix for related stale streaming state, not the remaining external reset bug."
+    },
+    {
+      "target": "cluster:ghcrawl-157015-autonomous-smoke",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Open issue #38966 still needs a narrow replacement fix PR."
+    },
+    {
+      "target": "cluster:ghcrawl-157015-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38966",
+      "candidate_fix": null,
+      "reason": "Executable fix artifact is available and narrow."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/ghcrawl-157015-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Code path review found the TUI reset handling narrow and behaviorally sound, with no security-sensitive blockers. Merge is blocked by the CHANGELOG.md edit, which violates the repo rule that changelog edits are release-only for normal PRs.",
+      "commit": "b489bbb88677d623037117c0c2f8a3a5994a70aa",
+      "checkpoint_commits": [
+        "b489bbb88677d623037117c0c2f8a3a5994a70aa"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
