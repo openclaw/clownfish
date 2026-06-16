@@ -40,6 +40,7 @@ const allowFixPr = booleanArg("allow-fix-pr", editEnabledByDefault);
 const allowPostMergeClose = booleanArg("allow-post-merge-close", allowMerge || allowFixPr);
 const skipExisting = args["skip-existing"] !== "false";
 const existingResultsOnly = Boolean(args["existing-results-only"] ?? args.existing_results_only);
+const existingResultsActionPolicy = String(args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "all");
 const securityPolicy = securityPolicyArg();
 const overlapPolicy = String(args["overlap-policy"] ?? "skip-any");
 const skipFeatureRequests = args["include-feature-requests"] !== true && args["skip-feature-requests"] !== "false";
@@ -64,7 +65,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--block-label pattern] [--include-blocked-labels] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--existing-results-action-policy all|terminal] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--block-label pattern] [--include-blocked-labels] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -78,6 +79,10 @@ if (!["skip-any", "skip-full", "exclude-existing"].includes(overlapPolicy)) {
 }
 if (!["skip-full", "skip-any", "include"].includes(securityPolicy)) {
   console.error("security-policy must be skip-full, skip-any, or include");
+  process.exit(2);
+}
+if (!["all", "terminal"].includes(existingResultsActionPolicy)) {
+  console.error("existing-results-action-policy must be all or terminal");
   process.exit(2);
 }
 
@@ -334,6 +339,7 @@ if (jsonOutput) {
       security_policy: securityPolicy,
       skip_existing: skipExisting,
       existing_results_only: existingResultsOnly,
+      existing_results_action_policy: existingResultsActionPolicy,
       existing_dir: path.relative(repoRoot(), existingDir),
       existing_results_dir: path.relative(repoRoot(), existingResultsDir),
       skip_feature_requests: skipFeatureRequests,
@@ -354,7 +360,7 @@ if (jsonOutput) {
 
 function existingMemberRefMap() {
   const refs = existingResultsOnly ? new Map() : existingGitcrawlMemberRefs(existingDir);
-  mergeMemberRefs(refs, existingPublishedResultMemberRefs(existingResultsDir, repo));
+  mergeMemberRefs(refs, existingPublishedResultMemberRefs(existingResultsDir, repo, existingResultsActionPolicy));
   return refs;
 }
 
@@ -626,7 +632,7 @@ function existingGitcrawlMemberRefs(dir) {
   return refs;
 }
 
-function existingPublishedResultMemberRefs(dir, targetRepo) {
+function existingPublishedResultMemberRefs(dir, targetRepo, actionPolicy) {
   const refs = new Map();
   if (!fs.existsSync(dir)) return refs;
   for (const entry of fs.readdirSync(dir, { recursive: true })) {
@@ -637,7 +643,7 @@ function existingPublishedResultMemberRefs(dir, targetRepo) {
     if (!frontmatter) continue;
     const parsed = parsePublishedResultFrontmatter(frontmatter[1]);
     if (String(parsed.repo ?? "") !== targetRepo) continue;
-    for (const ref of workerActionRefs(text)) {
+    for (const ref of publishedResultRefs(text, actionPolicy)) {
       const number = Number(ref.slice(1));
       if (!Number.isSafeInteger(number)) continue;
       const files = refs.get(number) ?? [];
@@ -646,6 +652,18 @@ function existingPublishedResultMemberRefs(dir, targetRepo) {
     }
   }
   return refs;
+}
+
+function publishedResultRefs(markdown, actionPolicy) {
+  if (actionPolicy === "all") return workerActionRows(markdown).map((row) => row.target);
+  const refs = new Set();
+  for (const row of applyActionRows(markdown)) {
+    if (row.status === "executed") refs.add(row.target);
+  }
+  for (const row of workerActionRows(markdown)) {
+    if (row.action === "keep_closed" || row.action === "route_security") refs.add(row.target);
+  }
+  return [...refs];
 }
 
 function mergeMemberRefs(target, source) {
@@ -667,13 +685,35 @@ function parsePublishedResultFrontmatter(text) {
   return out;
 }
 
-function workerActionRefs(markdown) {
-  const heading = markdown.match(/^## Worker Action Matrix[^\n]*\n/m);
+function applyActionRows(markdown) {
+  return actionTableRows(markdown, "Apply Actions");
+}
+
+function workerActionRows(markdown) {
+  return actionTableRows(markdown, "Worker Action Matrix");
+}
+
+function actionTableRows(markdown, headingName) {
+  const heading = markdown.match(new RegExp(`^## ${escapeRegExp(headingName)}[^\\n]*\\n`, "m"));
   if (!heading) return [];
   const rest = markdown.slice((heading.index ?? 0) + heading[0].length);
   const nextHeading = rest.search(/\n## /);
   const section = nextHeading >= 0 ? rest.slice(0, nextHeading) : rest;
-  return [...section.matchAll(/^\|\s*(#\d+)\s*\|/gm)].map((match) => match[1]);
+  const rows = [];
+  for (const line of section.split(/\r?\n/)) {
+    const cells = line.split("|").slice(1, -1).map((cell) => cell.trim());
+    if (cells.length < 3 || cells[0] === "Target" || cells[0] === "---" || cells[0] === "_None_") continue;
+    const target = cells[0];
+    if (!/^#\d+$/.test(target)) continue;
+    rows.push({
+      target,
+      action: String(cells[1] ?? "").trim(),
+      status: String(cells[2] ?? "").trim(),
+      classification: String(cells[3] ?? "").trim(),
+      reason: String(cells[4] ?? "").trim(),
+    });
+  }
+  return rows;
 }
 
 function yamlField(name, values) {

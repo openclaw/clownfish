@@ -52,6 +52,32 @@ test("cluster import skips maintainer-only risk labels by default", { skip: hasS
   assert.deepEqual(includedPayload.generated[0].cluster_refs, ["#101", "#102"]);
 });
 
+test("cluster import can ignore non-terminal published result actions", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db);
+  writePublishedResultRows(path.join(fixture.results, "processed.md"), [
+    { ref: "#101", action: "keep_related", status: "planned" },
+    { ref: "#102", action: "keep_closed", status: "skipped" },
+  ]);
+
+  const result = runImport(
+    fixture,
+    "--existing-results-only",
+    "--overlap-policy",
+    "exclude-existing",
+    "--existing-results-action-policy",
+    "terminal",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.options.existing_results_action_policy, "terminal");
+  assert.equal(payload.totals.existing_refs, 1);
+  assert.equal(payload.generated.length, 1);
+  assert.deepEqual(payload.generated[0].cluster_refs, ["#101"]);
+  assert.deepEqual(payload.generated[0].existing_overlap_refs, ["#102"]);
+});
+
 function runImport(fixture, ...extraArgs) {
   return spawnSync(
     process.execPath,
@@ -115,6 +141,13 @@ security_sensitive: false
 }
 
 function writePublishedResult(filePath, refs) {
+  writePublishedResultRows(
+    filePath,
+    refs.map((ref) => ({ ref, action: "keep_independent", status: "planned" })),
+  );
+}
+
+function writePublishedResultRows(filePath, rows) {
   fs.writeFileSync(
     filePath,
     `---
@@ -134,7 +167,7 @@ mentions #102 outside the worker table
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-${refs.map((ref) => `| ${ref} | keep_independent | planned | independent | already processed |`).join("\n")}
+${rows.map((row) => `| ${row.ref} | ${row.action} | ${row.status} | independent | already processed |`).join("\n")}
 `,
   );
 }
