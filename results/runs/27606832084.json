@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-033",
+  "mode": "autonomous",
+  "run_id": "27606832084",
+  "workflow_run_id": "27606832084",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606832084",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:08:02Z",
+  "workflow_updated_at": "2026-06-16T09:10:59Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-033.md",
+  "published_at": "2026-06-16T09:18:46.440Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the ten inventory PRs independently using the hydrated preflight artifact. The validator identified #74083 as security-sensitive, so that exact PR is routed to central security handling without mutating it. Instant close/low-signal close/fix/merge paths are disabled, and no shared canonical was invented. Eight non-security PRs should remain open without mutation; two focused PRs need exact maintainer decisions before any merge/finalization path.",
+  "actions": [
+    {
+      "target": "#73199",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent PR; no safe close, merge, or fix action is available in this job."
+    },
+    {
+      "target": "#73311",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent feature PR awaiting proof/review work; not closable under this inventory job."
+    },
+    {
+      "target": "#73355",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related cron follow-up work; unresolved review/test proof blocks any close or merge-style outcome."
+    },
+    {
+      "target": "#73746",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent broad feature work; no conservative close or automated repair path is allowed."
+    },
+    {
+      "target": "#73809",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact maintainer decision needed: whether this focused, proof-backed heartbeat PR is ready for maintainer review/finalization after the rebase."
+    },
+    {
+      "target": "#73897",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent PR awaiting real behavior proof and check cleanup."
+    },
+    {
+      "target": "#74083",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact PR #74083 to central OpenClaw security handling; ProjectClownfish should not mutate or classify it as ordinary backlog work after the security-sensitive validator finding."
+    },
+    {
+      "target": "#74274",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent PR with unresolved review-bot findings and proof gap."
+    },
+    {
+      "target": "#87968",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact maintainer decision needed: whether to advance this UI-side #87889 fix now, and how to sequence it with the separate hydrated #88224 gateway-side fix."
+    },
+    {
+      "target": "#74734",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related replacement/follow-up migration work; proof and validation remain unresolved, but closure is not allowed or warranted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "keep_related": 2,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73809: maintainer review/finalization decision for a proof-backed focused heartbeat PR; merge is blocked by job and no merge preflight is present.",
+    "#87968: maintainer sequencing decision for the UI-side #87889 fix versus hydrated gateway-side PR #88224."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

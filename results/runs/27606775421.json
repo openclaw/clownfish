@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-021",
+  "mode": "autonomous",
+  "run_id": "27606775421",
+  "workflow_run_id": "27606775421",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606775421",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:06:59Z",
+  "workflow_updated_at": "2026-06-16T09:10:14Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-021.md",
+  "published_at": "2026-06-16T09:18:46.264Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard from the hydrated preflight artifact. PR #85611 is routed to central security handling because the validator identified it as security-sensitive; all other outcomes are non-mutating because the job disables merge, fix PRs, post-merge closeout, instant close, and low-signal closeout. Several PRs need maintainer or author/review follow-up before any future merge path.",
+  "actions": [
+    {
+      "target": "#90875",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused script bugfix remains open for proof; classify independently from the inventory shard."
+    },
+    {
+      "target": "#90876",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer docs/product acceptance; automation cannot close as low-signal or merge in this job."
+    },
+    {
+      "target": "#90882",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-for-maintainer PR; the remaining decision is maintainer review, not a cluster cleanup action."
+    },
+    {
+      "target": "#90905",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable review-bot findings and a relevant failing check block any merge-ready classification."
+    },
+    {
+      "target": "#85507",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Slack message-delivery work; keep open for proof/conflict resolution."
+    },
+    {
+      "target": "#85561",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs PR remains open for author update/rebase; no closure policy applies here."
+    },
+    {
+      "target": "#85571",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related diagnostic recovery work should stay open for proof and maintainer product review."
+    },
+    {
+      "target": "#85611",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive PR to central OpenClaw security handling; do not close, merge, comment, label, or fix it in this inventory job."
+    },
+    {
+      "target": "#85671",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider/message-delivery fix remains open; this job cannot fix, replace, merge, or close it."
+    },
+    {
+      "target": "#85710",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related focused fix remains open; failing checks and disabled merge prevent further action in this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 3,
+    "keep_related": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90876: maintainer docs/product decision for ForAI provider documentation; low-signal closeout is disabled.",
+    "#90882: maintainer review decision for proof-sufficient self-knowledge prompt/docs PR.",
+    "#90905: unresolved Codex review findings on marker failure acknowledgement scope and recovered warning suppression."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

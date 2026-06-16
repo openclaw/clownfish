@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-029",
+  "mode": "autonomous",
+  "run_id": "27606777661",
+  "workflow_run_id": "27606777661",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606777661",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:07:01Z",
+  "workflow_updated_at": "2026-06-16T09:09:59Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-029.md",
+  "published_at": "2026-06-16T09:18:46.327Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the 10 hydrated open PRs independently as a live inventory shard. #75857 is routed to central security handling based on the deterministic security-sensitive validator signal; the remaining PRs have no shared canonical, and no close, merge, fix, or PR-opening action is planned because this job disables instant close, low-signal close, merge, fix, and raise_pr.",
+  "actions": [
+    {
+      "target": "#75857",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the exact PR to central OpenClaw security handling; continue classifying unrelated non-security inventory items."
+    },
+    {
+      "target": "#80396",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a green focused bug-fix candidate with explicit maintainer-review/rebase signal, which this job marks for human decision rather than merge or fix."
+    },
+    {
+      "target": "#80651",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent draft PR blocked on author proof; no maintainer closeout or fix action is safe or allowed."
+    },
+    {
+      "target": "#80789",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent but not merge-ready; it needs author changes and proof, not autonomous closeout."
+    },
+    {
+      "target": "#80921",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused bug-fix PR blocked on proof; no closure or fix action is permitted."
+    },
+    {
+      "target": "#81147",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent contributor PR blocked on proof; the job disables low-signal closeout and fix work."
+    },
+    {
+      "target": "#81374",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix candidate with passing proof but unresolved review/proof signal; needs maintainer review rather than autonomous action."
+    },
+    {
+      "target": "#81397",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has passing checks but unresolved technical review state on a session-state repair, so maintainer review is required."
+    },
+    {
+      "target": "#81503",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent draft docs PR; no close, merge, or fix action is allowed."
+    },
+    {
+      "target": "#81513",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent draft feature PR with unresolved review findings; it is not a safe closeout candidate."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 3,
+    "keep_independent": 6
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75857 is routed to central security handling because the deterministic validator identified it as security-sensitive.",
+    "#80396 requires maintainer review/rebase judgment before any merge path; this job cannot merge or repair it.",
+    "#81374 requires maintainer judgment because proof checks pass but the hydrated ClawSweeper review still says real behavior proof is needed before merge.",
+    "#81397 requires maintainer or author review because ClawSweeper reported needed changes on a session-state repair and no clean merge preflight is present."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

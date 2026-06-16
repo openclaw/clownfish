@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-043",
+  "mode": "autonomous",
+  "run_id": "27606833202",
+  "workflow_run_id": "27606833202",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606833202",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:08:03Z",
+  "workflow_updated_at": "2026-06-16T09:10:15Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-043.md",
+  "published_at": "2026-06-16T09:18:46.507Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No shared canonical was selected, no close/merge/fix actions are allowed by this job, and the only security-sensitive hydrated linked ref is routed separately.",
+  "actions": [
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive linked issue to central OpenClaw security handling; do not mutate it in this backlog inventory job."
+    },
+    {
+      "target": "#56145",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but not closeable or merge-ready in this inventory shard."
+    },
+    {
+      "target": "#56720",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for its own Gmail watcher track; no safe closure or merge action is permitted here."
+    },
+    {
+      "target": "#59920",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is the remaining decision; worker must not merge or fix in this job."
+    },
+    {
+      "target": "#61322",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact unresolved blocker is the Codex P1 sessionsDir review finding plus failed proof gate."
+    },
+    {
+      "target": "#61624",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as its own feature/fix track; no low-signal or superseded closeout is supported."
+    },
+    {
+      "target": "#61675",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent session-state work remains open but is not ready for any automated mutation in this shard."
+    },
+    {
+      "target": "#61775",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision is needed on whether to accept this tooling surface."
+    },
+    {
+      "target": "#62338",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as its own doctor/memory track; no close, fix, or merge path is allowed here."
+    },
+    {
+      "target": "#62403",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent UI bug-fix PR should stay open; it is not a duplicate of the base feature PR."
+    },
+    {
+      "target": "#62682",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is required before any finalization; merge is blocked by job frontmatter."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 6,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#59920 requires maintainer review before any merge/finalization.",
+    "#61322 has an unresolved Codex P1 review finding about non-default sessionsDir plus failed proof gate.",
+    "#61775 needs maintainer decision on accepting the Makefile tooling surface.",
+    "#62682 needs maintainer review for a green focused bug-fix PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

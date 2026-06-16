@@ -1,0 +1,160 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-013",
+  "mode": "autonomous",
+  "run_id": "27606774672",
+  "workflow_run_id": "27606774672",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606774672",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:06:58Z",
+  "workflow_updated_at": "2026-06-16T09:09:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-013.md",
+  "published_at": "2026-06-16T09:18:46.223Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated artifact reviewed as a live PR inventory shard, not a dedupe cluster. No shared canonical is selected. All open PRs/issues are kept open or routed to item-scoped human review; security-linked #83451 is quarantined. No close, merge, label, comment, fix, or PR-opening action is planned because the job disables instant close, low-signal close, merge, and fix PRs.",
+  "actions": [
+    {
+      "target": "#83451",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of scope for Clownfish backlog automation."
+    },
+    {
+      "target": "#59360",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the issue open while the linked fix PR remains unproven and unmerged."
+    },
+    {
+      "target": "#93031",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed to decide whether #93099 is the right fix for #93031."
+    },
+    {
+      "target": "#83874",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful-looking but broad open feature PR; keep open for normal review/proof outside this no-merge inventory shard."
+    },
+    {
+      "target": "#84023",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused PR is not closable as low-signal or duplicate, and merge/fix actions are disabled."
+    },
+    {
+      "target": "#84072",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable review-bot findings and failing checks require author or maintainer follow-up; this worker cannot fix or merge."
+    },
+    {
+      "target": "#84111",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer signal plus failed proof/preflight require human or author follow-up; no fix or merge is allowed in this job."
+    },
+    {
+      "target": "#84122",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/review; closing is disabled and the linked issue remains unresolved."
+    },
+    {
+      "target": "#84123",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider feature/fix PR needs proof and technical review; no close or fix action is allowed."
+    },
+    {
+      "target": "#84280",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like a potentially useful focused bug fix, but merge and technical correctness judgment are outside this inventory job."
+    },
+    {
+      "target": "#84334",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/check cleanup; it is a focused P1 bug-fix PR, not low-signal or a duplicate."
+    },
+    {
+      "target": "#84424",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/maintainer review; this is not a duplicate closeout candidate."
+    },
+    {
+      "target": "#93099",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The linked issue's root cause is disputed by source inspection, so technical/product judgment is needed before treating this PR as the fix."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 7,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 13
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93031: decide whether the reported cron migration root cause is valid and whether #93099 is the intended fix.",
+    "#84072: resolve actionable Copilot review findings about circuit-breaker failure classification and unbounded/stale Map entries before any merge path.",
+    "#84111: maintainer/author follow-up needed for the rebase/dependency-guard signal and failed proof/preflight.",
+    "#84280: focused green Windows restart bug fix with author follow-up requires maintainer technical review; merge is disabled here.",
+    "#93099: linked issue #93031 has maintainer-review/product-decision labels and source-inspection disagreement; do not close or merge from this shard."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

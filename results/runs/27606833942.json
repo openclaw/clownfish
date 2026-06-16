@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-059",
+  "mode": "autonomous",
+  "run_id": "27606833942",
+  "workflow_run_id": "27606833942",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606833942",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:08:04Z",
+  "workflow_updated_at": "2026-06-16T09:10:51Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-059.md",
+  "published_at": "2026-06-16T09:18:46.548Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard without planning GitHub mutations. Most open PRs should stay open because they are independent work items with failed proof checks or unresolved review blockers. Two proof-sufficient or maintainer-signaled PRs need maintainer judgment, and the one hydrated security-sensitive linked PR is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#50248",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open as related context for the #69954 session-cleanup PR; no closure or fix action is allowed in this shard."
+    },
+    {
+      "target": "#69245",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider/cache behavior PR; keep open because proof is missing and merge/fix actions are disabled."
+    },
+    {
+      "target": "#69355",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent doctor feature PR; keep open because proof and review blockers remain, with no low-signal or duplicate close path."
+    },
+    {
+      "target": "#69413",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Signal behavior fix; keep open pending proof and normal maintainer review."
+    },
+    {
+      "target": "#69426",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider capability fix; keep open because it is not a duplicate and remains proof/check blocked."
+    },
+    {
+      "target": "#69428",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused channel bug fix; keep open because it has active review context and still needs real behavior proof."
+    },
+    {
+      "target": "#69495",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent heartbeat feature PR; keep open because unresolved review findings and failed checks make close, merge, or fixed-by-candidate routing unsafe."
+    },
+    {
+      "target": "#69822",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed because the PR is proof-sufficient but still has a CodeQL correctness review comment and status waiting on author; this job cannot merge or fix."
+    },
+    {
+      "target": "#69954",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50248",
+      "candidate_fix": null,
+      "reason": "Keep related to open issue #50248; the PR is useful but still proof/review blocked, and this shard cannot repair or merge it."
+    },
+    {
+      "target": "#69999",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent macOS feature PR; keep open because it is not low-signal or duplicate, but proof, CI, and review blockers remain."
+    },
+    {
+      "target": "#70002",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed for a risky-infra PR with maintainer rebase signal and proof/check drift; this job cannot merge, fix, or close it."
+    },
+    {
+      "target": "#82042",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the exact security-sensitive linked PR to central OpenClaw security handling without affecting the ordinary PR inventory classifications."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_independent": 7,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 12
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#69822: proof-sufficient socket.drain PR needs maintainer decision because a GitHub Advanced Security CodeQL review comment remains and the PR is still waiting on author.",
+    "#70002: risky-infra CI PR needs maintainer decision because a maintainer requested rebase for Dependency Guard and current proof/check state is not clean."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

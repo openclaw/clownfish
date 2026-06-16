@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-023",
+  "mode": "autonomous",
+  "run_id": "27606775401",
+  "workflow_run_id": "27606775401",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606775401",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:06:59Z",
+  "workflow_updated_at": "2026-06-16T09:10:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-023.md",
+  "published_at": "2026-06-16T09:18:46.260Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Read the provided autonomous live PR inventory job and compacted preflight/fix artifacts. No GitHub mutations are planned: instant close, low-signal close, fix PRs, and merges are disabled by the job. The shard has no shared canonical; open candidate PRs are classified independently where safe, with maintainer/author/proof/check gates preserved as evidence. Security-sensitive refs are quarantined separately with exact route_security actions, including #86088 per deterministic validator failure.",
+  "actions": [
+    {
+      "target": "#86062",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; this inventory job cannot merge or repair the PR."
+    },
+    {
+      "target": "#86064",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent focused bug-fix work; no close or merge action is permitted."
+    },
+    {
+      "target": "#86088",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive PR #86088 to central OpenClaw security handling; do not mutate it in this inventory job."
+    },
+    {
+      "target": "#86224",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable review state and runtime/auth-provider correctness need maintainer judgment; no fix or merge path is allowed in this job."
+    },
+    {
+      "target": "#86233",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR needs maintainer technical/product judgment on the Codex retention approach and unresolved review findings."
+    },
+    {
+      "target": "#86605",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/maintainer review; classification is independent within this shard."
+    },
+    {
+      "target": "#86608",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dependency guard and maintainer-policy wording need human review; no close or repair is allowed."
+    },
+    {
+      "target": "#86649",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unresolved review state and requested maintainer review make this a human decision."
+    },
+    {
+      "target": "#86670",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Provider plugin scope plus dependency-change and waiting-on-author status need maintainer review."
+    },
+    {
+      "target": "#86674",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Blocked by dependency-guard/proof state and waiting-on-author status; maintainer review is required."
+    },
+    {
+      "target": "#75036",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked context ref to central OpenClaw security handling."
+    },
+    {
+      "target": "#86210",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked context ref to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 3,
+    "needs_human": 6
+  },
+  "action_status_counts": {
+    "planned": 12
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86224 needs maintainer technical judgment because the latest ClawSweeper review still says changes are needed for CLI-runtime/memory gate behavior and the PR has active author follow-up.",
+    "#86233 needs maintainer technical/product judgment because the Codex log-retention PR has unresolved ClawSweeper findings and is linked to an issue with partial fixes still open.",
+    "#86608 needs maintainer judgment because dependency-guard failed and the change modifies repository agent-policy guardrails.",
+    "#86649 needs maintainer judgment because the latest ClawSweeper review still says changes are needed for message streaming behavior and a reviewer is requested.",
+    "#86670 needs maintainer judgment because it is a large provider plugin with dependency-change signal and waiting-on-author status.",
+    "#86674 needs maintainer judgment because dependency-guard failed, proof jobs are skipped, and the PR is waiting on author."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

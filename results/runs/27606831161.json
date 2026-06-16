@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-031",
+  "mode": "autonomous",
+  "run_id": "27606831161",
+  "workflow_run_id": "27606831161",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606831161",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:08:01Z",
+  "workflow_updated_at": "2026-06-16T09:11:04Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-031.md",
+  "published_at": "2026-06-16T09:18:46.341Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the 10 open PRs in this live inventory shard independently. No shared canonical exists, no security-sensitive seed ref was detected, and the job disables merge, fix PRs, instant close, and low-signal PR closeout. The only human escalations are PR-local maintainer/author judgment points; all other PRs should remain open outside this cluster.",
+  "actions": [
+    {
+      "target": "#80627",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused PR; this inventory job cannot repair, merge, or close it."
+    },
+    {
+      "target": "#81382",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as independent work; it needs normal author/maintainer follow-up outside this inventory cluster."
+    },
+    {
+      "target": "#82148",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/author intent is ambiguous because the author signaled closure but the PR is still open; closeout is also disabled by this job."
+    },
+    {
+      "target": "#93198",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The next step is a maintainer technical correctness/merge decision for a focused bug-fix PR, which the job explicitly routes to human review."
+    },
+    {
+      "target": "#48942",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open; this is useful focused work with unresolved review/CI state, not a close candidate for this shard."
+    },
+    {
+      "target": "#49488",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for the existing author/maintainer review path; no close action is permitted or safe."
+    },
+    {
+      "target": "#86018",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed to decide whether the author’s SafeOps validation plus approval is sufficient despite the failing proof gate."
+    },
+    {
+      "target": "#51868",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human maintainer direction is needed because the author requested a verdict, review-bot findings remain to judge, and automated repair/replacement is disabled."
+    },
+    {
+      "target": "#54758",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for normal review/rebase; no merge, fix, or close action is allowed by this job."
+    },
+    {
+      "target": "#86646",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open; this is active focused bug-fix work with proof/review concerns, not a close candidate for this inventory job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 6,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82148: author stated they were closing during work-management triage, but the PR remains open and closeout is disabled; maintainer/author intent needs confirmation.",
+    "#93198: focused bug-fix PR appears ready for maintainer review, but technical correctness and merge readiness are outside this no-merge inventory job.",
+    "#86018: maintainer judgment is needed on whether author SafeOps validation plus an approval satisfies proof despite the failing proof gate.",
+    "#51868: contributor branch is not maintainer-editable, review-bot findings remain to judge, and the author requested a human maintainer verdict while fix/replacement is disabled."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T090421-010",
+  "mode": "autonomous",
+  "run_id": "27606776722",
+  "workflow_run_id": "27606776722",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27606776722",
+  "head_sha": "dad44ce9408e98bfaab207d75c77949dc841350a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T09:07:00Z",
+  "workflow_updated_at": "2026-06-16T09:09:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T090421-010.md",
+  "published_at": "2026-06-16T09:18:46.301Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No GitHub mutations are planned because instant close, low-signal close, merge, fix, and raise_pr are disabled; maintainer review/proof/check gates block any stronger action. One linked security-sensitive historical PR is quarantined only as a non-mutating route_security action.",
+  "actions": [
+    {
+      "target": "#40618",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked ref to central OpenClaw security handling without affecting unrelated inventory PRs."
+    },
+    {
+      "target": "#83242",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR linked to an open product/UI issue, but proof and maintainer/rebase gates keep it open for maintainer follow-up."
+    },
+    {
+      "target": "#93093",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small, plausible docs PR with green relevant checks, but the job permits no merge and the artifact still calls for maintainer review."
+    },
+    {
+      "target": "#83590",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused compatibility PR with useful code, but proof/rebase/maintainer review gates mean it should stay open."
+    },
+    {
+      "target": "#83629",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR should remain open; check/review ambiguity and job-level human gates block stronger action."
+    },
+    {
+      "target": "#83630",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with useful code, but maintainer/rebase and job gates require keeping it open."
+    },
+    {
+      "target": "#83703",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Automation/cost-control PR is not safely closable under this job; keep open for maintainer decision."
+    },
+    {
+      "target": "#83718",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused memory-core follow-up with useful code and passing proof, but it needs maintainer review/rebase handling outside this inventory job."
+    },
+    {
+      "target": "#83760",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature/config surface with failing proof/types and waiting-on-author status needs maintainer judgment; no mutation is safe."
+    },
+    {
+      "target": "#83819",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft focused PR with failing proof should remain open for author/maintainer follow-up."
+    },
+    {
+      "target": "#83826",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused Android test stability PR is useful but failing proof/rebase gates require keeping it open."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 9,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83760 requires maintainer judgment because it is broad, waiting on author, and has failing Real behavior proof plus check-test-types; job cannot fix, merge, or close it."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
