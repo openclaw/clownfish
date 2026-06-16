@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-125-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27621454079",
+  "workflow_run_id": "27621454079",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27621454079",
+  "head_sha": "5c1cfa936860dd59b65eecce00e5079b5bfc9d4a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:35:07Z",
+  "workflow_updated_at": "2026-06-16T13:43:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-125-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T13:46:34.359Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/92688",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/92688",
+  "canonical_pr": null,
+  "summary": "#92688 remains the canonical open issue. It is not a duplicate of the older closed Qwen model-resolution issues; current main still routes Qwen/DashScope image-understanding prompts through the generic image runtime with prompt text outside user content, so a narrow fix PR is appropriate.",
+  "actions": [
+    {
+      "target": "#92688",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92688",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical path is an open issue plus a new narrow fix PR; no hydrated canonical PR is merge-ready in this job."
+    },
+    {
+      "target": "cluster:gitcrawl-125-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92688",
+      "candidate_fix": null,
+      "reason": "A new narrow fix PR should teach DashScope/Model Studio image requests to place prompt text in user content alongside image blocks."
+    },
+    {
+      "target": "cluster:gitcrawl-125-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92688",
+      "candidate_fix": null,
+      "reason": "Cluster-scoped executable fix artifact is required because #92688 is open, real from source-level evidence, and no viable hydrated PR exists."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93649",
+      "branch": "clownfish/gitcrawl-125-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "f114920a7bec8b9abc5171f5d8fcfe38ee04b109",
+      "checkpoint_commits": [
+        "f114920a7bec8b9abc5171f5d8fcfe38ee04b109"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93649"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93649",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(qwen): place DashScope image prompts in user content",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T13:43:00Z",
+      "merge_commit_sha": "998445ea20fdb9534eb26a6613869ad759b64853",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-133-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27621454110",
+  "workflow_run_id": "27621454110",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27621454110",
+  "head_sha": "5c1cfa936860dd59b65eecce00e5079b5bfc9d4a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:35:07Z",
+  "workflow_updated_at": "2026-06-16T13:42:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-133-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T13:46:34.361Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90418",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90418",
+  "canonical_pr": null,
+  "summary": "Current main still has the repeated-warning path: `migrateLegacyInstalledPluginIndex` returns before archiving `plugins/installs.json` when `mergeLegacyInstalledPluginIndexRecords` reports same-plugin install-record conflicts. The narrow canonical lane is open issue #90418, with #90213 kept related because it now covers a broader legacy-source retirement policy beyond plugin install-index conflicts.",
+  "actions": [
+    {
+      "target": "#90418",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90418",
+      "candidate_fix": null,
+      "reason": "Best live canonical for the narrow plugin install-index conflict-warning lane after excluding existing-overlap refs #90252, #90267, and #90474."
+    },
+    {
+      "target": "#90213",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90418",
+      "candidate_fix": null,
+      "reason": "Related broader terminal-cleanliness issue; keep open while the cluster builds a narrow plugin install-index fix from #90418."
+    },
+    {
+      "target": "#90040",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90418",
+      "candidate_fix": null,
+      "reason": "Already closed; included only as context that #90418 is the remaining repeated-warning problem, not the already-resolved stdout JSON corruption report."
+    },
+    {
+      "target": "cluster:gitcrawl-133-autonomous-terminal-gap",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90418",
+      "candidate_fix": null,
+      "reason": "A new narrow fix PR is needed for the plugin install-index conflict-warning lane."
+    },
+    {
+      "target": "cluster:gitcrawl-133-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90418",
+      "candidate_fix": null,
+      "reason": "Build an executable narrow fix artifact for #90418 without closing any issue before a fix PR exists."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93648",
+      "branch": "clownfish/gitcrawl-133-autonomous-terminal-gap",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "dd8523432e123b5cdbd419ed1d33ed5a69c0fd18",
+      "checkpoint_commits": [
+        "dd8523432e123b5cdbd419ed1d33ed5a69c0fd18"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93648"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93648",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(doctor): archive superseded plugin install index conflicts",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-16T13:42:47Z",
+      "merge_commit_sha": "5cebe9666790104b22ae94c2a15c69ca21a4f7f9",
+      "live_state": "merged",
+      "live_updated_at": null
+    }
+  ]
+}
