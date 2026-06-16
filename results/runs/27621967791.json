@@ -1,0 +1,57 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-166-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27621967791",
+  "workflow_run_id": "27621967791",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27621967791",
+  "head_sha": "fc7e38b0b5ba007b17312c4888977987f6358c6a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T13:43:41Z",
+  "workflow_updated_at": "2026-06-16T13:46:06Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-166-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T13:49:08.128Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/85268",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/85268",
+  "canonical_pr": null,
+  "summary": "Classified #85268 as the live canonical issue for this cluster. No close, merge, or fix PR action is safe: the hydrated record and source inspection show a plausible Windows exec hang, but the available evidence does not prove the current main behavior is fixed or identify a narrow non-speculative patch without native Windows reproduction.",
+  "actions": [
+    {
+      "target": "#85268",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85268",
+      "candidate_fix": null,
+      "reason": "#85268 is the only live hydrated actionable ref and remains the best canonical issue for the Windows exec no-output hang family."
+    },
+    {
+      "target": "cluster:gitcrawl-166-autonomous-terminal-gap",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#85268",
+      "candidate_fix": null,
+      "reason": "A complete executable fix artifact would be speculative until a Windows-capable reviewer reproduces #85268 and traces whether the hang occurs in direct runCommandWithTimeout spawning, supervisor child adapter lifecycle, stream close/drain behavior, or a gateway-specific interaction."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Native Windows reproduction is needed for #85268 before Clownfish can safely build a narrow fix PR: capture whether a simple exec call like echo hello reaches runCommandWithTimeout or the supervisor path, whether stdout/stderr data or close events fire, and whether the child process exits independently of timeout/taskkill."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
