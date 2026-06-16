@@ -436,6 +436,18 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
+  const currentBaseBlock = validatePullRequestCurrentBase({ repo: result.repo, pullRequest });
+  if (currentBaseBlock) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: currentBaseBlock.reason,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      pull_request_base_sha: currentBaseBlock.pull_request_base_sha,
+      current_main_sha: currentBaseBlock.current_main_sha,
+    };
+  }
 
   if (process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
     if (!dryRun) labelForClownfishReview(result.repo, target);
@@ -682,6 +694,26 @@ function validateMergeablePullRequest({ pullRequest, view }) {
   return "";
 }
 
+function validatePullRequestCurrentBase({ repo, pullRequest }) {
+  const pullRequestBaseSha = String(pullRequest?.base?.sha ?? "");
+  const currentMainSha = fetchBranchHeadSha(repo, "main");
+  if (!pullRequestBaseSha || !currentMainSha) {
+    return {
+      reason: "could not verify that the pull request base matches current main",
+      pull_request_base_sha: pullRequestBaseSha || null,
+      current_main_sha: currentMainSha || null,
+    };
+  }
+  if (pullRequestBaseSha !== currentMainSha) {
+    return {
+      reason: "pull request base is stale relative to current main; rebase and rerun validation",
+      pull_request_base_sha: pullRequestBaseSha,
+      current_main_sha: currentMainSha,
+    };
+  }
+  return null;
+}
+
 function validateStatusChecks(checks) {
   if (!Array.isArray(checks) || checks.length === 0) return "no PR checks found";
   const blockers = [];
@@ -827,6 +859,11 @@ function fetchIssue(repo, number) {
 
 function fetchPullRequest(repo, number) {
   return ghJson(["api", `repos/${repo}/pulls/${number}`]);
+}
+
+function fetchBranchHeadSha(repo, branch) {
+  const ref = ghJson(["api", `repos/${repo}/git/ref/heads/${branch}`]);
+  return String(ref?.object?.sha ?? "");
 }
 
 function fetchPullRequestView(repo, number) {

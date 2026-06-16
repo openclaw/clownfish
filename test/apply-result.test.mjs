@@ -92,6 +92,28 @@ test("apply-result records primary GitHub rate limits as retryable blocks", () =
   assert.match(report.actions[0].reason, /GitHub rate limit/);
 });
 
+test("apply-result blocks a merge when the PR base is behind current main", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeStaleMergeGhStub(binDir);
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /base is stale relative to current main/);
+  assert.equal(report.actions[0].pull_request_base_sha, "stale-base");
+  assert.equal(report.actions[0].current_main_sha, "current-main");
+});
+
 function apply(jobPath, resultPath, reportPath, binDir) {
   return spawnSync(
     process.execPath,
@@ -153,6 +175,58 @@ process.exit(1);
   fs.chmodSync(ghPath, 0o755);
 }
 
+function writeStaleMergeGhStub(binDir) {
+  const ghPath = path.join(binDir, "gh");
+  fs.writeFileSync(
+    ghPath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+function write(value) {
+  process.stdout.write(JSON.stringify(value));
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
+  write({
+    number: 60063,
+    state: "open",
+    title: "streaming fix",
+    updated_at: "2026-06-11T05:07:30Z",
+    labels: [],
+    author_association: "NONE",
+    pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
+  });
+} else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") {
+  write({
+    number: 60063,
+    state: "open",
+    draft: false,
+    updated_at: "2026-06-11T05:07:30Z",
+    labels: [],
+    base: { ref: "main", sha: "stale-base" }
+  });
+} else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
+  write([[]]);
+} else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
+  write({ object: { sha: "current-main" } });
+} else if (args[0] === "api" && args[1] === "graphql") {
+  write({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: [] } } } } });
+} else if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
+  write({
+    baseRefName: "main",
+    isDraft: false,
+    mergeable: "MERGEABLE",
+    mergeStateStatus: "CLEAN",
+    reviewDecision: "APPROVED",
+    statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }]
+  });
+} else {
+  process.stderr.write("unexpected gh call: " + args.join(" ") + "\\n");
+  process.exit(1);
+}
+`,
+  );
+  fs.chmodSync(ghPath, 0o755);
+}
+
 function jobMarkdown({ allowUnmergedFixClose }) {
   return `---
 repo: openclaw/openclaw
@@ -179,6 +253,29 @@ security_sensitive: false
 `;
 }
 
+function mergeJobMarkdown() {
+  return `---
+repo: openclaw/openclaw
+cluster_id: stale-merge-test
+mode: autonomous
+allowed_actions:
+  - merge
+blocked_actions:
+  - force_push
+allow_merge: true
+security_sensitive: false
+canonical:
+  - "#60063"
+candidates:
+  - "#60063"
+cluster_refs:
+  - "#60063"
+---
+
+# Test job
+`;
+}
+
 function resultJson() {
   return {
     status: "planned",
@@ -196,6 +293,44 @@ function resultJson() {
         target_updated_at: "2026-06-11T05:07:30Z",
         reason: "current main already contains the narrow streaming fix and regression coverage",
         idempotency_key: "openclaw/openclaw#60063:close_fixed_by_current_main:test",
+      },
+    ],
+  };
+}
+
+function mergeResultJson() {
+  return {
+    status: "planned",
+    repo: "openclaw/openclaw",
+    cluster_id: "stale-merge-test",
+    mode: "autonomous",
+    actions: [
+      {
+        target: "#60063",
+        target_kind: "pull_request",
+        target_updated_at: "2026-06-11T05:07:30Z",
+        action: "merge_canonical",
+        status: "planned",
+        classification: "fix_pr",
+        idempotency_key: "openclaw/openclaw#60063:merge:stale-test",
+      },
+    ],
+    merge_preflight: [
+      {
+        target: "#60063",
+        security_status: "cleared",
+        security_evidence: ["no security-sensitive labels or comments"],
+        comments_status: "resolved",
+        comments_evidence: ["no unresolved human review threads"],
+        bot_comments_status: "resolved",
+        bot_comments_evidence: ["no unresolved bot review threads"],
+        validation_commands: ["pnpm check:changed"],
+        codex_review: {
+          command: "/review",
+          status: "clean",
+          findings_addressed: true,
+          evidence: ["Codex /review returned clean"],
+        },
       },
     ],
   };
