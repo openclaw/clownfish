@@ -787,6 +787,12 @@ function sleepMs(milliseconds) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
 }
 
+function ghEnv() {
+  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0", CLICOLOR_FORCE: "0", GH_FORCE_TTY: "0" };
+  delete env.FORCE_COLOR;
+  return env;
+}
+
 function numberEnv(name, fallback) {
   const value = Number(process.env[name] ?? fallback);
   return Number.isFinite(value) && value >= 0 ? value : fallback;
@@ -797,12 +803,10 @@ function escapeRegExp(value) {
 }
 
 function ghJson(ghArgs) {
-  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
-  delete env.FORCE_COLOR;
   const text = execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
-    env,
+    env: ghEnv(),
     maxBuffer: 64 * 1024 * 1024,
     stdio: ["ignore", "pipe", "pipe"],
   }).trim();
