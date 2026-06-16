@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-034",
+  "mode": "autonomous",
+  "run_id": "27611175076",
+  "workflow_run_id": "27611175076",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175076",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:29:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-034.md",
+  "published_at": "2026-06-16T10:35:53.942Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical was selected because this is a mixed live PR inventory shard. No close, merge, fix, or raise-PR actions are planned because low-signal/instant close are disabled and fix/merge/raise_pr are blocked by job frontmatter.",
+  "actions": [
+    {
+      "target": "#85179",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for normal maintainer/author follow-up; not eligible for low-signal or duplicate closeout in this job."
+    },
+    {
+      "target": "#76386",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the current contributor fix path; technical correctness and merge decisions are outside this close/comment/label-only inventory job."
+    },
+    {
+      "target": "#77539",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical judgment is needed to confirm the resolved Copilot comment status and decide whether the session-state behavior change is acceptable."
+    },
+    {
+      "target": "#78071",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for proof/rebase or maintainer follow-up; it is a focused test PR and not eligible for low-signal closeout."
+    },
+    {
+      "target": "#78639",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78100",
+      "candidate_fix": null,
+      "reason": "Keep open as related to the #78100 performance issue; too broad for closeout and not merge/fix eligible in this job."
+    },
+    {
+      "target": "#78100",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78639",
+      "candidate_fix": null,
+      "reason": "Keep the issue open until #78639 lands, is replaced, or is rejected; post-merge closeout is disabled."
+    },
+    {
+      "target": "#78101",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked PR to central OpenClaw security handling; do not mutate it in this inventory job."
+    },
+    {
+      "target": "#82304",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76386",
+      "candidate_fix": null,
+      "reason": "Keep open until #76386 lands, is replaced, or is rejected; post-merge closeout is disabled."
+    },
+    {
+      "target": "#90011",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76386",
+      "candidate_fix": null,
+      "reason": "Keep open as related to the #76386 fix path; no duplicate or fixed-by-candidate closeout is allowed before the fix lands."
+    },
+    {
+      "target": "#76355",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed context ref; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 1,
+    "keep_related": 4,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77539 requires maintainer technical judgment: hydrated Copilot inline comments are still present in the artifact, while the author says the latest head fixed them, and ClawSweeper still asks for maintainer review before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

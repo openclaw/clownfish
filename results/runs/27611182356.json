@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-158",
+  "mode": "autonomous",
+  "run_id": "27611182356",
+  "workflow_run_id": "27611182356",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611182356",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-158.md",
+  "published_at": "2026-06-16T10:35:54.356Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified five open PRs from the live inventory shard independently. No shared canonical was selected. PRs #75121 and #75126 are quarantined to central security handling because deterministic validation marked them security-sensitive; unrelated non-security PRs remain open with their own proof/review/maintainer gates. Close, merge, fix, and raise-PR paths are not planned because the job disables instant close, low-signal closeout, merge, and fix PRs.",
+  "actions": [
+    {
+      "target": "#64064",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63930",
+      "candidate_fix": null,
+      "reason": "Keep open as related to the advisor feature tracker. The branch is broad feature work with failed proof, so it is not closable, merge-ready, or eligible for a fix artifact in this job."
+    },
+    {
+      "target": "#64310",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused bug-fix PR. It has maintainer/rebase/proof gates, and the job explicitly requires human judgment for focused bug fixes and green-check decisions."
+    },
+    {
+      "target": "#75065",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65636",
+      "candidate_fix": null,
+      "reason": "Keep open as related to the cron custom-ID tracker. It is not a duplicate cleanup target, and failed proof/checks block any merge or fixed-by-candidate conclusion."
+    },
+    {
+      "target": "#75121",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only exact PR #75121 to central OpenClaw security handling. No GitHub mutation or cluster-scoped security action is planned."
+    },
+    {
+      "target": "#75126",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only exact PR #75126 to central OpenClaw security handling. No GitHub mutation or cluster-scoped security action is planned."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_independent": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-062",
+  "mode": "autonomous",
+  "run_id": "27611176302",
+  "workflow_run_id": "27611176302",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176302",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:30:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-062.md",
+  "published_at": "2026-06-16T10:35:54.016Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively using the hydrated preflight artifact. No shared canonical was chosen because the job is an inventory shard, not a dedupe cluster. No close, merge, fix, or PR-opening actions are planned because instant close, merge, and fix PR execution are disabled for this job.",
+  "actions": [
+    {
+      "target": "#88048",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related implementation work for the WebChat OpenResponses progress-event issue; this inventory job should not choose or land the canonical fix path."
+    },
+    {
+      "target": "#88061",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent documentation PR. Low-signal closeout is disabled and the broad docs accuracy judgment is outside this inventory shard."
+    },
+    {
+      "target": "#88078",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related focused implementation work for the Active Memory prompt-envelope issue; this shard cannot merge or repair it."
+    },
+    {
+      "target": "#88082",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open independently; it is a draft provider feature PR needing author/maintainer follow-up, not a closeout candidate."
+    },
+    {
+      "target": "#88085",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related implementation work for #83893; choosing between #88085 and the overlapping #91193 requires maintainer review outside this inventory shard."
+    },
+    {
+      "target": "#91193",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related overlapping work. Do not close or supersede from this inventory shard because canonical selection among #88085 and #91193 is a maintainer decision."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88085 and linked #91193 both address #83893 with different scopes; maintainer review should choose the preferred canonical CLI rawArgs path before either PR is merged or the other is superseded.",
+    "#88048 remains waiting on author with compatibility-risk labels and an unresolved ClawSweeper review; maintainer/author follow-up is needed before any merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

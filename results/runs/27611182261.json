@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-134",
+  "mode": "autonomous",
+  "run_id": "27611182261",
+  "workflow_run_id": "27611182261",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611182261",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:07Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-134.md",
+  "published_at": "2026-06-16T10:35:54.353Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently as requested. No shared canonical was selected, no security-sensitive item was found, and no close/merge/fix action is planned because this job disables instant close, merge, fix, and fix PR creation. Three proof-gated PRs should stay open as independent inventory items; two PRs need maintainer attention before any further action.",
+  "actions": [
+    {
+      "target": "#68833",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent proof-gated Telegram PR; closure is not allowed or justified, and merge/fix actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#68857",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent gateway feature PR with unresolved proof and review-bot findings; no close, fix, or merge path is allowed in this job."
+    },
+    {
+      "target": "#70046",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review and branch refresh are required before any merge path; this worker cannot repair, merge, or open a fix PR in this job."
+    },
+    {
+      "target": "#87697",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active maintainer signal and overlapping auth-provider repair paths require human decision; this worker should not close, merge, or repair the PR in this inventory-only job."
+    },
+    {
+      "target": "#88425",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent ACP PR with proof and check failures; closure is not allowed or justified, and the job cannot repair or merge it."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#70046 requires maintainer review and branch refresh before any merge path; this job blocks repair, merge, and fix PR actions.",
+    "#87697 has active maintainer feedback saying not to merge in its current shape and overlaps the #70903/#87694 auth-provider cooldown repair family."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

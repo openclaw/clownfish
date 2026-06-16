@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-171",
+  "mode": "autonomous",
+  "run_id": "27611182798",
+  "workflow_run_id": "27611182798",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611182798",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:29:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-171.md",
+  "published_at": "2026-06-16T10:35:54.364Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently from the hydrated preflight artifact. No shared canonical exists, no security-sensitive refs were detected, and job permissions disable merge, fix PRs, low-signal closeout, and instant close. Open focused PRs with failed proof remain open; ready-for-maintainer PRs need maintainer or technical correctness judgment before any mutating action.",
+  "actions": [
+    {
+      "target": "#77067",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent focused bug-fix PR; closure is not allowed and the unresolved blocker is proof/technical validation, not low-signal cleanup."
+    },
+    {
+      "target": "#77312",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment remains on whether OpenClaw should preserve file-alias display compatibility, and the current PR needs rebase/tests/proof before any merge path."
+    },
+    {
+      "target": "#80497",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a useful, proof-backed public API change, but it requires maintainer compatibility judgment before any merge or close action."
+    },
+    {
+      "target": "#82718",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is focused and not low-signal, but technical correctness and failing checks require human/author follow-up outside this no-fix, no-merge job."
+    },
+    {
+      "target": "#87961",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent narrow candidate; it is not closable as low-signal and cannot be fixed or merged in this job."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77312: maintainer/product decision needed on file-alias display compatibility for #54882 before repair or merge planning.",
+    "#80497: maintainer API compatibility review needed for a new public Plugin SDK diagnostic callback and model-event allowlist semantics.",
+    "#82718: maintainer/technical correctness judgment needed for Telegram doctor warning semantics and failing relevant checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

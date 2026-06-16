@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-097",
+  "mode": "autonomous",
+  "run_id": "27611176984",
+  "workflow_run_id": "27611176984",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176984",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:30:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-097.md",
+  "published_at": "2026-06-16T10:35:54.059Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No GitHub mutations are planned because instant close, low-signal close, fix PRs, and merge are disabled for this job. The five seed PRs remain open for maintainer/author handling, and the two hydrated security-sensitive context PRs are routed to central security triage only.",
+  "actions": [
+    {
+      "target": "#40846",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive context ref must be quarantined to central OpenClaw security handling; this does not block unrelated inventory classifications."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive context ref must be quarantined to central OpenClaw security handling; no backlog-cleanup mutation is planned."
+    },
+    {
+      "target": "#86450",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused test PR with passing proof, but this inventory job cannot merge and should leave maintainer review as the next step."
+    },
+    {
+      "target": "#86564",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused gateway bug-fix PR appears useful, but maintainer/product judgment and merge are explicitly outside this job's allowed actions."
+    },
+    {
+      "target": "#86584",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for author/maintainer follow-up; closing, fixing, and merging are not permitted, and the hydrated bot review blocks merge readiness."
+    },
+    {
+      "target": "#87394",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs contribution may still be useful but needs maintainer judgment; low-signal and instant close are disabled."
+    },
+    {
+      "target": "#87471",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer PR should stay open for maintainer completion; this worker cannot merge or repair it."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

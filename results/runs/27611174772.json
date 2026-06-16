@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-002",
+  "mode": "autonomous",
+  "run_id": "27611174772",
+  "workflow_run_id": "27611174772",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611174772",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:29:50Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-002.md",
+  "published_at": "2026-06-16T10:35:53.923Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently. No shared canonical was invented. No close, merge, fix, or PR-opening action is safe in this job: instant close, low-signal close, merge, and fix PR lanes are disabled, and several items require maintainer or product judgment. Security-sensitive linked PR #56442 is quarantined only for central security handling; it does not block unrelated non-security classification.",
+  "actions": [
+    {
+      "target": "#90819",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90819",
+      "candidate_fix": null,
+      "reason": "Focused, proofed contributor bug-fix PR should remain open for maintainer review; this inventory job cannot merge or repair it."
+    },
+    {
+      "target": "#50250",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50245",
+      "candidate_fix": "#50250",
+      "reason": "Keep open as the implementation candidate for #50245; proof/check blockers require maintainer follow-up."
+    },
+    {
+      "target": "#60402",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#52249",
+      "candidate_fix": "#60402",
+      "reason": "The PR is a plausible narrow candidate for the ACP heartbeat-disabled seam, but conflicts, missing real behavior proof, and architecture/product scope require human review."
+    },
+    {
+      "target": "#87627",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#87627",
+      "candidate_fix": null,
+      "reason": "Docs content is not low-signal enough for automated close; the core decision is maintainer product policy."
+    },
+    {
+      "target": "#87695",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#87695",
+      "candidate_fix": null,
+      "reason": "Maintainer-authored draft PR with maintainer signal must stay in human review; no automated close or merge is allowed."
+    },
+    {
+      "target": "#50245",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50245",
+      "candidate_fix": "#50250",
+      "reason": "Keep open as the issue tracked by the open implementation candidate; closeout is not permitted before the PR path resolves."
+    },
+    {
+      "target": "#52249",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52249",
+      "candidate_fix": "#60402",
+      "reason": "Keep open as the issue family for #60402 and broader yielded-parent follow-up; not a duplicate or safe close target."
+    },
+    {
+      "target": "#56442",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed to central OpenClaw security triage without poisoning unrelated non-security items."
+    },
+    {
+      "target": "#76562",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context refs are evidence only; no mutation is valid."
+    },
+    {
+      "target": "#86790",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86790",
+      "candidate_fix": null,
+      "reason": "Related performance/metadata issue, but not a duplicate of the inventory PRs and the linked implementation ref is unhydrated."
+    },
+    {
+      "target": "#90814",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90814",
+      "candidate_fix": "#90819",
+      "reason": "Keep open as the issue tracked by the proofed open PR #90819 until maintainers resolve that PR path."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_related": 5,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90819: maintainer review required for proofed focused gateway performance PR; merge is blocked by job policy.",
+    "#60402: maintainer architecture/proof decision required for ACP heartbeat-disabled wake fix with conflicts and failed real-behavior proof.",
+    "#87627: maintainer product/support-boundary decision required for first-party docs listing of commercial third-party hardware.",
+    "#87695: maintainer-owned draft PR requires maintainer review and cannot be closed or merged by this inventory job."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

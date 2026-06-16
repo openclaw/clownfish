@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-149",
+  "mode": "autonomous",
+  "run_id": "27611180139",
+  "workflow_run_id": "27611180139",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180139",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:32Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-149.md",
+  "published_at": "2026-06-16T10:35:54.250Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard from the hydrated preflight artifact. No close, merge, fix, or PR-open actions are planned: instant close, low-signal close, merge, fix, and raise_pr are disabled for this job, and the open PRs each need proof, review-bot, maintainer, or technical-correctness follow-up. The security-sensitive linked ref #82042 is routed separately without blocking unrelated non-security classifications.",
+  "actions": [
+    {
+      "target": "#50248",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open linked bug remains live and should not be closed from this PR inventory shard."
+    },
+    {
+      "target": "#63374",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69822",
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no mutation is valid for an already-closed issue."
+    },
+    {
+      "target": "#65539",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69822",
+      "candidate_fix": null,
+      "reason": "Historical closed PR; preserve as evidence for #69822 but do not mutate."
+    },
+    {
+      "target": "#69434",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69495",
+      "candidate_fix": null,
+      "reason": "Closed context issue; no close/comment action is valid."
+    },
+    {
+      "target": "#69495",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer or author follow-up is needed for proof and the unresolved P1/P2 fallback semantics before any safe action."
+    },
+    {
+      "target": "#69822",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining CodeQL review finding and waiting-on-author state require maintainer or author resolution; no merge/fix action is permitted here."
+    },
+    {
+      "target": "#69954",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused data-loss bug fix needs proof and a technical correctness decision on cleanup mutation reporting before automation can proceed."
+    },
+    {
+      "target": "#69999",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This feature PR needs proof, Swift check recovery, and review-bot issue resolution; closing or merging would be unsafe."
+    },
+    {
+      "target": "#70002",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer signal and infrastructure-risk review require human follow-up; no fix, merge, or close action is allowed by this job."
+    },
+    {
+      "target": "#82042",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked ref to central OpenClaw security handling without affecting the unrelated PR inventory decisions."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_closed": 3,
+    "needs_human": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3,
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#69495 needs real behavior proof plus resolution of the heartbeat `fallbacks: []` review-bot findings.",
+    "#69822 needs maintainer/author resolution of the hydrated CodeQL non-function finding and waiting-on-author state.",
+    "#69954 needs proof and a technical decision on whether repaired transcript paths must be reported as cleanup mutations.",
+    "#69999 needs proof, macOS Swift check recovery, and resolution of P1/P2 review-bot findings.",
+    "#70002 needs maintainer follow-up after the rebase-required comment and risky-infra review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

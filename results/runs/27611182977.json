@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-169",
+  "mode": "autonomous",
+  "run_id": "27611182977",
+  "workflow_run_id": "27611182977",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611182977",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-169.md",
+  "published_at": "2026-06-16T10:35:54.373Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently. No GitHub mutations, merges, fixes, or closeouts are planned because this job disables fix/raise_pr/merge, instant close is disabled in the fix artifact, no low-signal cleanup policy is enabled, and the open PRs either need proof, have unresolved review/maintainer signals, or are maintainer-owned drafts.",
+  "actions": [
+    {
+      "target": "#69346",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor bug-fix PR with unresolved proof/review state; keep open and do not invent a shared canonical for the inventory shard."
+    },
+    {
+      "target": "#70056",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#70024",
+      "candidate_fix": null,
+      "reason": "Related to the live #70024 gateway stop-timeout issue, but unresolved P1 bot review findings and failing proof make it non-closable and non-mergeable in this close/comment/label-only job."
+    },
+    {
+      "target": "#75198",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75163",
+      "candidate_fix": null,
+      "reason": "Related to hydrated open issue #75163 and plausibly useful, but proof is still failing and this job cannot fix or merge it."
+    },
+    {
+      "target": "#75299",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#79589",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed to choose whether this contributor PR or the overlapping maintainer PR #80199 should own the #79589 command-queue starvation path before any closeout or merge-adjacent action."
+    },
+    {
+      "target": "#76115",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft experimental PR should remain open; it is related to stuck-session recovery work but is not an inventory cleanup close candidate."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75299: choose canonical ownership for the command-queue starvation path between the contributor PR #75299 and the overlapping hydrated maintainer PR #80199 before any supersede/close or merge-adjacent planning."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

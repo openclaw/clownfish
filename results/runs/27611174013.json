@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-004",
+  "mode": "autonomous",
+  "run_id": "27611174013",
+  "workflow_run_id": "27611174013",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611174013",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:51Z",
+  "workflow_updated_at": "2026-06-16T10:30:06Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-004.md",
+  "published_at": "2026-06-16T10:35:53.876Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No close, merge, fix, label, or PR-opening actions are planned because this job disables instant close, low-signal close, merge, fix, and raise_pr. The broad/draft PRs stay open, the security-sensitive linked PR is routed to central security handling, and three focused or maintainer-signaled PRs need exact maintainer judgment.",
+  "actions": [
+    {
+      "target": "#83637",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked PR to central OpenClaw security handling; continue classifying unrelated non-security PRs."
+    },
+    {
+      "target": "#88506",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related compaction feature work; it is draft, broad, proof-blocked, and not eligible for close or fix planning in this inventory job."
+    },
+    {
+      "target": "#88522",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open and classify independent from the compaction-related refs; proof failures block any stronger action."
+    },
+    {
+      "target": "#88531",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical review is required before any merge or closeout decision for this green focused behavior change."
+    },
+    {
+      "target": "#88533",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft work should remain with maintainer review; automation should not close, merge, or repair it in this shard."
+    },
+    {
+      "target": "#88550",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and maintainer technical judgment are required before any merge, close, or repair path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "keep_independent": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88531: green focused edit-tool behavior PR needs maintainer technical review; merge is blocked by job policy.",
+    "#88533: maintainer-authored draft PR with maintainer signal should stay with maintainer review.",
+    "#88550: focused codex-supervisor bug-fix PR is waiting on author and has failed proof/relevant checks; maintainer judgment is needed before any stronger action."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

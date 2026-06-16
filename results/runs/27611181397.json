@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-163",
+  "mode": "autonomous",
+  "run_id": "27611181397",
+  "workflow_run_id": "27611181397",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611181397",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-163.md",
+  "published_at": "2026-06-16T10:35:54.317Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified conservatively from the hydrated preflight artifact. No GitHub mutations are proposed because instant close, low-signal close, merge, fix, and raise_pr are disabled; four seed PRs are open and useful enough to preserve for maintainer review or follow-up, and #90206 is routed to central security handling because deterministic validation requires security quarantine for that exact PR.",
+  "actions": [
+    {
+      "target": "#90059",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with an overlapping open maintainer PR; no close, merge, or fix action is allowed in this job."
+    },
+    {
+      "target": "#90095",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR with green proof and an overlapping open candidate; choosing/merging is outside this job and requires maintainer judgment."
+    },
+    {
+      "target": "#90151",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs PR has active author follow-up and a bot review state that still says needs changes; keep for maintainer/author resolution rather than closing."
+    },
+    {
+      "target": "#90184",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful large contributor UI PR with an overlapping open contributor PR; canonical selection and technical review are outside this inventory job."
+    },
+    {
+      "target": "#90206",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact PR #90206 to central OpenClaw security handling; no GitHub mutation or cluster-scoped security routing is emitted."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90059: maintainer-owned draft with overlapping open maintainer PR #90032; maintainer must choose the plugin metadata canonical path.",
+    "#90095: focused Telegram bug fix with overlapping open PR #90114; maintainer must choose the canonical implementation before any close/merge path.",
+    "#90151: docs PR has active author follow-up and bot review still says needs changes; maintainer/author must resolve correctness.",
+    "#90184: large session rename UI PR overlaps open PR #88479; maintainer must choose or combine canonical implementation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

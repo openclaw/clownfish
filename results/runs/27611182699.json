@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-195",
+  "mode": "autonomous",
+  "run_id": "27611182699",
+  "workflow_run_id": "27611182699",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611182699",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:46Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-195.md",
+  "published_at": "2026-06-16T10:35:54.360Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently using the hydrated preflight artifact. No shared canonical was selected, no security-sensitive items were detected, and no close/merge/fix actions are allowed for this job. Two proof-gated contributor PRs should remain open; three PRs need maintainer judgment or are maintainer-owned.",
+  "actions": [
+    {
+      "target": "#92962",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR should remain open for the Feishu followup queue lane; this inventory job should not close or merge it."
+    },
+    {
+      "target": "#92983",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related proof-gated bug-fix PR; technical validation is not complete."
+    },
+    {
+      "target": "#93025",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The next decision is maintainer technical correctness review for an API/runtime compatibility change; no close or automated merge path is available in this job."
+    },
+    {
+      "target": "#93174",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned stacked test migration with failing checks requires maintainer handling; automation should not close, relabel as low-signal, or merge it."
+    },
+    {
+      "target": "#93180",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is the plausible replacement path for the legacy Codex migration issue, but its breadth and compatibility/auth/session-state surface require maintainer review outside this inventory job."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93025: maintainer technical correctness review is required before any merge or closeout; job blocks merge/fix actions.",
+    "#93174: maintainer-owned assigned stacked PR has failing checks and should stay with the maintainer.",
+    "#93180: broad replacement PR for legacy Codex migration needs maintainer review across compatibility, auth-provider, and session-state surfaces."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

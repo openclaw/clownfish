@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-170",
+  "mode": "autonomous",
+  "run_id": "27611180647",
+  "workflow_run_id": "27611180647",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180647",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:16Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-170.md",
+  "published_at": "2026-06-16T10:35:54.267Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard without mutating GitHub. No shared canonical was selected. Draft/proof-blocked maintainer PRs and linked follow-up issues stay open; three open contributor PRs need maintainer/product or technical review before any merge/close decision; the exact security-sensitive linked PR is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#76245",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer proof work; not a duplicate, not low-signal, and no close/merge/fix action is allowed."
+    },
+    {
+      "target": "#76664",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as the linked source issue for #76668 until maintainers decide whether to accept the new public issue form."
+    },
+    {
+      "target": "#76668",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#76664",
+      "candidate_fix": null,
+      "reason": "Maintainer/product acceptance is required for the new issue-template surface; this job cannot merge, fix, or raise a replacement PR."
+    },
+    {
+      "target": "#76873",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused message-delivery bug fix with green checks requires maintainer technical correctness judgment; merge/fix actions are not allowed in this job."
+    },
+    {
+      "target": "#76927",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a related maintainer draft, but do not treat it as canonical for #81490 or as merge-ready."
+    },
+    {
+      "target": "#77053",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product and technical review is required for this provider feature/config surface; this job cannot merge or repair it."
+    },
+    {
+      "target": "#81490",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a distinct follow-up issue; no fix PR or close action is allowed by this inventory job."
+    },
+    {
+      "target": "#77918",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact linked ref to central OpenClaw security handling; do not mutate it through Clownfish."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "needs_human": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#76668 needs maintainer/product acceptance for adding a public docs bug issue form linked to #76664.",
+    "#76873 needs maintainer technical correctness judgment for a focused Discord message-delivery bug fix after ClawSweeper still reported needs changes.",
+    "#77053 needs maintainer product and technical review for the LM Studio ttlSeconds provider feature/config surface."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-181",
+  "mode": "autonomous",
+  "run_id": "27611183010",
+  "workflow_run_id": "27611183010",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611183010",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:08Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-181.md",
+  "published_at": "2026-06-16T10:35:54.375Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently from the hydrated preflight artifact. No security-sensitive refs were detected, and no close, merge, fix, or PR-opening action is safe or allowed for this shard. Three PRs should stay open as related follow-up work; two need explicit maintainer/product judgment before automation can proceed.",
+  "actions": [
+    {
+      "target": "#78094",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR for an open session-state/message-delivery bug, but it is not merge-ready and this job cannot repair or merge it."
+    },
+    {
+      "target": "#78124",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer/product decision and proof/rebase follow-up before it can be treated as a canonical fix path."
+    },
+    {
+      "target": "#78129",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related focused PR with a plausible source-level bug path, but linked issue context is closed and proof is insufficient for readiness."
+    },
+    {
+      "target": "#78130",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow memory-core PR related to an open issue, but it still needs proof/rebase and cannot be repaired or merged in this job."
+    },
+    {
+      "target": "#78139",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking focused PR with proof, but merge is blocked by this job and human maintainer judgment is explicitly required for maintainer review, green checks, conflicts/rebase, and technical correctness."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78124: decide whether X-Chat-Id / X-Thread-Id should be accepted as stable OpenAI-compatible session identity, then require proof/rebase before any merge path.",
+    "#78139: maintainer review is needed for the cron disable hint PR, including whether the remaining failed check/conflict evidence is inherited or must be resolved first."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

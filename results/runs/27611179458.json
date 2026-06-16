@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-142",
+  "mode": "autonomous",
+  "run_id": "27611179458",
+  "workflow_run_id": "27611179458",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611179458",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:29:42Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-142.md",
+  "published_at": "2026-06-16T10:35:54.208Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five open live-inventory PRs independently. No close, merge, fix, or PR-raise actions are permitted by this job. Three focused contributor bug-fix PRs should stay open as related to their hydrated source issues; the maintainer-owned claw-score skill PR and the broad Gateway keepalive PR need maintainer judgment before any cleanup or finalization.",
+  "actions": [
+    {
+      "target": "#91399",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#56078",
+      "candidate_fix": null,
+      "reason": "Useful focused bug-fix PR linked to an open source issue, but proof is failing and this inventory job cannot merge or repair it."
+    },
+    {
+      "target": "#91444",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90786",
+      "candidate_fix": null,
+      "reason": "Focused candidate fix with proof supplied; not eligible for closure or merge in this job."
+    },
+    {
+      "target": "#91446",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91095",
+      "candidate_fix": null,
+      "reason": "Focused candidate fix with proof supplied; not eligible for closure or merge in this job."
+    },
+    {
+      "target": "#91452",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned broad automation/skill PR has unresolved bot findings and failing checks; cleanup or finalization requires maintainer judgment."
+    },
+    {
+      "target": "#91466",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad Gateway availability/config change lacks required real behavior proof and is not clearly duplicate or low-signal under this job."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91452: maintainer-labeled XL claw-score skill PR has unresolved Codex review-bot findings and failing dependency/boundary checks.",
+    "#91466: broad Gateway keepalive/config PR lacks real behavior proof and needs maintainer technical judgment; it is not safely closable as duplicate of the already-merged #76111."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

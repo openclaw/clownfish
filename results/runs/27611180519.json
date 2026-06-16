@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-167",
+  "mode": "autonomous",
+  "run_id": "27611180519",
+  "workflow_run_id": "27611180519",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180519",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:15Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-167.md",
+  "published_at": "2026-06-16T10:35:54.261Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard without mutating GitHub. No shared canonical was selected because this shard contains unrelated open PRs. The only security-sensitive hydrated ref is the linked, already-closed #76262, which is routed to central security handling. Each open inventory PR needs maintainer or author follow-up rather than automated close/merge/fix because merge/fix/raise_pr are blocked, low-signal closeout is disabled, and the PRs involve focused bug-fix or maintainer-review judgment.",
+  "actions": [
+    {
+      "target": "#76262",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#91729",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a focused draft bug fix with failing proof, active author negative-result follow-up, and unresolved bot review; technical correctness needs maintainer judgment."
+    },
+    {
+      "target": "#91770",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91742",
+      "reason": "The PR appears superseded by merged #91742, but it is maintainer-owned and needs a maintainer decision before any close/supersede action."
+    },
+    {
+      "target": "#91786",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#91772",
+      "candidate_fix": null,
+      "reason": "This is a focused green maintainer bug-fix PR with review requested; it should stay open for maintainer review."
+    },
+    {
+      "target": "#91797",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93194",
+      "reason": "The PR is a focused bug fix with a needs-changes review and possible overlap with merged #93194; maintainer technical judgment is required."
+    },
+    {
+      "target": "#91810",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#91727",
+      "candidate_fix": null,
+      "reason": "This is a focused green UI bug-fix PR that should remain open for maintainer review."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91729: decide whether to close, revise, or wait for a new Teams double-post fix path after failing behavior proof, author negative reproduction, and unresolved Codex P2 review.",
+    "#91770: decide whether maintainer-owned PR #91770 should be closed as superseded by merged #91742 or kept for additional memory-core follow-up.",
+    "#91786: maintainer review required for the green managed npm root override/peer-pin fix for #91772.",
+    "#91797: decide whether #93194 fully covers the one-line no-op in-place session rewrite case or whether #91797 still needs changes.",
+    "#91810: maintainer review required for the green WebChat deferred-thinking history reload fix for #91727."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

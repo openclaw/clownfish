@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-042",
+  "mode": "autonomous",
+  "run_id": "27611175042",
+  "workflow_run_id": "27611175042",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175042",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:30:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-042.md",
+  "published_at": "2026-06-16T10:35:53.940Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No GitHub mutations, merges, fix PRs, or low-signal closes are planned because this job disables merge/fix/raise_pr and low-signal closeout. Validator-marked security-sensitive refs #77804 and #81829 are quarantined with exact-ref route_security actions only; unrelated open PRs remain non-mutating keep_independent classifications.",
+  "actions": [
+    {
+      "target": "#81714",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open contributor PR, but not a close candidate and not merge-ready in this job."
+    },
+    {
+      "target": "#81743",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent i18n PR with unresolved review blockers; no close, merge, or fix action is allowed."
+    },
+    {
+      "target": "#77804",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact issue ref to central OpenClaw security handling; ProjectClownfish should not decide or mutate this item."
+    },
+    {
+      "target": "#81829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR ref to central OpenClaw security handling; ProjectClownfish should not decide, repair, or mutate this item."
+    },
+    {
+      "target": "#82098",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal/docs-only closeout is not permitted for this job; keep open without mutation."
+    },
+    {
+      "target": "#82105",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but technically unresolved Docker compatibility PR; keep open for author/maintainer review."
+    },
+    {
+      "target": "#90463",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed historical context item; no mutation should be emitted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

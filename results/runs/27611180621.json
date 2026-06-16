@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-155",
+  "mode": "autonomous",
+  "run_id": "27611180621",
+  "workflow_run_id": "27611180621",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180621",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:01Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-155.md",
+  "published_at": "2026-06-16T10:35:54.265Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No GitHub mutations, fix PRs, or merges are planned because this job disables instant close, low-signal close, fix, raise_pr, and merge. No security-sensitive refs were detected. #92223 is the only item needing maintainer judgment because it is a focused, proof-backed, green replacement PR ready for technical review, while this worker cannot merge or validate correctness beyond the artifact.",
+  "actions": [
+    {
+      "target": "#20173",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open linked canonical-family issue should remain open for maintainer follow-up."
+    },
+    {
+      "target": "#38505",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20173",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate context; no mutation is valid."
+    },
+    {
+      "target": "#53654",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open tracker for #92091; not safe to close until a fix lands."
+    },
+    {
+      "target": "#90098",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related open tracker for #92223; no closeout is allowed before a landed fix."
+    },
+    {
+      "target": "#90111",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92223",
+      "candidate_fix": "#92223",
+      "reason": "Already closed superseded PR; no mutation is valid."
+    },
+    {
+      "target": "#92091",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#53654",
+      "candidate_fix": null,
+      "reason": "Keep open as related implementation work; proof and review blockers prevent close, fixed-by-candidate, or merge classification."
+    },
+    {
+      "target": "#92147",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful provider-compatibility PR; keep open for normal draft/maintainer review flow."
+    },
+    {
+      "target": "#92160",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused bug-fix PR that should stay open while proof is missing."
+    },
+    {
+      "target": "#92223",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#90098",
+      "candidate_fix": "#92223",
+      "reason": "Maintainer technical review is the remaining decision; worker cannot merge or close anything in this job."
+    },
+    {
+      "target": "#92342",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad draft PR; keep open for proof and maintainer/product review rather than cleanup action."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_closed": 2,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92223: focused proof-backed replacement PR for #90098 has green checks and a production confirmation, but still needs maintainer technical correctness review; merge is blocked by job frontmatter."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

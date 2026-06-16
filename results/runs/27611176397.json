@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-084",
+  "mode": "autonomous",
+  "run_id": "27611176397",
+  "workflow_run_id": "27611176397",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176397",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:29:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-084.md",
+  "published_at": "2026-06-16T10:35:54.020Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently using the hydrated preflight artifact. No GitHub mutations are emitted: instant close, low-signal close, fix PRs, merge, and post-merge close are disabled for this job; no security-sensitive item was detected. Three PRs should remain open as clear non-mutating classifications, and two need maintainer/author judgment before any further automation.",
+  "actions": [
+    {
+      "target": "#87552",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87544",
+      "candidate_fix": null,
+      "reason": "Draft partial mitigation with missing real behavior proof; no close or merge path is allowed in this inventory job."
+    },
+    {
+      "target": "#87560",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87560",
+      "candidate_fix": null,
+      "reason": "Useful open contributor PR with proof supplied; leave open for maintainer technical review because merge is blocked for this job."
+    },
+    {
+      "target": "#87592",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Feature/product UI behavior and generated-locale correctness need maintainer judgment before automation can safely proceed."
+    },
+    {
+      "target": "#87601",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow docs PR with supplied proof; no mutation is allowed or needed in this shard."
+    },
+    {
+      "target": "#87617",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned active-author PR with unresolved review-bot findings and waiting-on-author status; leave to maintainer/author judgment."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87592 needs maintainer/product and generated-locale correctness judgment before any close, fix, or merge automation.",
+    "#87617 is maintainer-owned, assigned, waiting on author, and has review-bot findings before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

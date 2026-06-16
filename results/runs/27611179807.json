@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-130",
+  "mode": "autonomous",
+  "run_id": "27611179807",
+  "workflow_run_id": "27611179807",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611179807",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:30:02Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-130.md",
+  "published_at": "2026-06-16T10:35:54.230Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five open PRs in this live inventory shard independently. No shared canonical was selected, no security-sensitive refs were detected, and no close/merge/fix actions are allowed by the job. Three PRs should stay open with concrete proof/review blockers; two PRs need maintainer judgment because they are focused fixes with green/proof-sufficient evidence or unresolved maintainer-review gates.",
+  "actions": [
+    {
+      "target": "#66213",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Release asset verification may be useful, but this PR has concrete proof/review/update blockers and is independent of the other PRs in this inventory shard."
+    },
+    {
+      "target": "#93307",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like a focused, proof-supplied candidate, but deciding whether it is technically correct and merge-worthy is explicitly maintainer-gated for this job."
+    },
+    {
+      "target": "#66735",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a useful focused daemon branch, but the current blockers are concrete proof, CI, and review-bot issues rather than a dedupe/closure decision."
+    },
+    {
+      "target": "#67077",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has strong proof and checks, but maintainer review is still needed to resolve the latest needs-changes/waiting-on-author state."
+    },
+    {
+      "target": "#68046",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The MCP gateway bug may be real, but this PR has clear proof, update, and review-bot blockers and should stay open rather than be closed from this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93307: maintainer technical correctness and merge-readiness decision for a green focused browser-download fix linked to #93250.",
+    "#67077: maintainer decision needed to resolve proof-sufficient green auth-profiles PR state versus latest ClawSweeper needs-changes/waiting-on-author signal."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

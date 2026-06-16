@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-174",
+  "mode": "autonomous",
+  "run_id": "27611181503",
+  "workflow_run_id": "27611181503",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611181503",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:56Z",
+  "workflow_updated_at": "2026-06-16T10:30:01Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-174.md",
+  "published_at": "2026-06-16T10:35:54.320Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No shared canonical was selected. No GitHub mutations, merges, fix PRs, or close actions are planned because instant close, merge, fix, and raise_pr are disabled for this job; two PRs need maintainer judgment before any landing path.",
+  "actions": [
+    {
+      "target": "#92526",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92892",
+      "reason": "Useful overlapping Gateway fix for #91739; linked #92892 may be the better narrow path, but it is not landed and has a failing proof check."
+    },
+    {
+      "target": "#92576",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The linked coverage request was closed not planned by a maintainer, and this PR adds test coverage without a remaining live product bug."
+    },
+    {
+      "target": "#92647",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92833",
+      "reason": "Related memory-core work for #92633, but not ready for merge and likely secondary to the more direct #92833 fix path."
+    },
+    {
+      "target": "#92648",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether the five-minute waiting TaskFlow expiry is the correct product behavior and whether the proof is sufficient."
+    },
+    {
+      "target": "#92649",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product review is needed before deciding whether this Kimi quota surface should land as-is."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92648: decide whether the TaskFlow waiting-expiry behavior and proof are sufficient for the #92523 fix path.",
+    "#92649: decide whether the Kimi Code quota feature and auth/provider-usage integration should land as proposed."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-131",
+  "mode": "autonomous",
+  "run_id": "27611178467",
+  "workflow_run_id": "27611178467",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611178467",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:29:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-131.md",
+  "published_at": "2026-06-16T10:35:54.147Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "This live PR inventory shard has no shared canonical. All five seed PRs are open, non-security-sensitive, and useful enough to keep open; close, merge, fix, and raise_pr lanes are disabled. Each remaining decision is a PR-specific maintainer/proof or technical-correctness review gate.",
+  "actions": [
+    {
+      "target": "#68112",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused P1 cron behavior change still needs real behavior proof and maintainer technical review; automation cannot close, merge, or repair it in this job."
+    },
+    {
+      "target": "#68146",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like a viable focused gateway PR, but deciding whether to land it requires maintainer technical review outside this inventory job."
+    },
+    {
+      "target": "#68196",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has useful focused work but still has an actionable bot-review correctness blocker and failing relevant guard checks; maintainer or author follow-up is needed."
+    },
+    {
+      "target": "#68236",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft test coverage should remain under maintainer control; no inventory closeout or automated repair is appropriate."
+    },
+    {
+      "target": "#68306",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a focused provider-visible behavior change with missing real behavior proof; it should stay open for maintainer/proof review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#68112: maintainer/proof decision needed because Real behavior proof is failing for a focused cron P1 fix.",
+    "#68146: maintainer technical review needed before any merge decision despite supplied proof.",
+    "#68196: author/maintainer follow-up needed for actionable Codex P1 review finding and failing dependency/label guard checks.",
+    "#68236: maintainer-owned draft PR should remain with maintainer review.",
+    "#68306: real Telegram-visible behavior proof and maintainer review needed before any merge decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

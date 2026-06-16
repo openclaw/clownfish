@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-039",
+  "mode": "autonomous",
+  "run_id": "27611178025",
+  "workflow_run_id": "27611178025",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611178025",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:30:09Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-039.md",
+  "published_at": "2026-06-16T10:35:54.119Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live-inventory PRs independently. No security-sensitive signal was present, and no close, merge, fix, or PR-opening action is allowed or safe from this job. Each open PR has an explicit maintainer, proof, author-followup, or technical-correctness gate, so the result keeps the inventory non-mutating and scopes human review to the exact PR decisions.",
+  "actions": [
+    {
+      "target": "#84680",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision/proof follow-up before any merge path; no close or replacement action is permitted in this job."
+    },
+    {
+      "target": "#84708",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking contributor fix requires maintainer review of persisted repair behavior; the worker cannot merge or repair it."
+    },
+    {
+      "target": "#84719",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs real behavior proof and maintainer acceptance of the exported helper behavior change; failing proof blocks any fixed-by-candidate or merge-style outcome."
+    },
+    {
+      "target": "#84728",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer acceptance of persisted native transcript mutation behavior; no merge or fix action is allowed in this inventory job."
+    },
+    {
+      "target": "#90776",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs author changes and maintainer technical review; failing lint blocks any merge-style or fixed-by-candidate outcome."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84680: maintainer-labeled Codex behavior guidance needs real behavior proof and maintainer decision.",
+    "#84708: persisted session repair PR is proof-sufficient but needs maintainer review of durable JSONL repair behavior.",
+    "#84719: focused webhook limiter fix has failing Real behavior proof and public SDK behavior semantics that need acceptance.",
+    "#84728: Codex rollout transcript repair is proof-sufficient but needs maintainer acceptance of automatic persisted transcript mutation.",
+    "#90776: author follow-up is needed for lint/review findings before maintainer review can continue."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

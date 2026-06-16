@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-113",
+  "mode": "autonomous",
+  "run_id": "27611179042",
+  "workflow_run_id": "27611179042",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611179042",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:30:19Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-113.md",
+  "published_at": "2026-06-16T10:35:54.183Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No security-sensitive refs were detected. No close, merge, fix, or PR actions are planned because instant close, low-signal close, merge, fix, and raise-pr permissions are disabled, and the open PRs require maintainer or technical correctness judgment.",
+  "actions": [
+    {
+      "target": "#40611",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open linked bug report remains useful context for #89989; no post-merge closeout is allowed or proven."
+    },
+    {
+      "target": "#82063",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed merged PR is context for the gateway descriptor family, not a mutation target."
+    },
+    {
+      "target": "#89989",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#40611",
+      "candidate_fix": null,
+      "reason": "Focused heartbeat/message-delivery behavior change needs maintainer proof and correctness judgment; merge/fix actions are blocked by job permissions."
+    },
+    {
+      "target": "#89990",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with useful focused gateway code; require_human_for maintainer_signal applies."
+    },
+    {
+      "target": "#89991",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft in an overlapping gateway descriptor family; do not close or choose a canonical automatically."
+    },
+    {
+      "target": "#89992",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Ready-looking but broad user-facing config/docs change needs maintainer review; no automated merge or fix path is allowed."
+    },
+    {
+      "target": "#89993",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with useful plugin/gateway code; require_human_for maintainer_signal applies."
+    },
+    {
+      "target": "#90026",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft and overlapping implementation scope require maintainer consolidation judgment."
+    },
+    {
+      "target": "#90054",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely gateway descriptor-row consolidation candidate, but maintainer-owned draft overlap requires human canonical/landing-order decision."
+    },
+    {
+      "target": "#93104",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed merged context PR is independent of this inventory shard's open PR decisions."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_closed": 2,
+    "needs_human": 7
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89989: maintainer must decide whether the heartbeat retry fix has enough real behavior proof and is technically safe for #40611.",
+    "#89990/#89991/#89993/#90026/#90054: maintainer-owned draft gateway descriptor-row PRs overlap; maintainer should choose the canonical/consolidation path and landing order.",
+    "#89992: maintainer must review the user-facing config/editor-schema feature after active author follow-up; merge/fix is outside this job's permissions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

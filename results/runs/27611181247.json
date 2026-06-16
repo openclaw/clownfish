@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-179",
+  "mode": "autonomous",
+  "run_id": "27611181247",
+  "workflow_run_id": "27611181247",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611181247",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:17Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-179.md",
+  "published_at": "2026-06-16T10:35:54.307Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical was chosen because the job is an inventory shard, close/merge/fix paths are disabled or unsafe, and each open PR has either proof/review/maintainer blockers, stands as an independent follow-up, or must be routed to central security handling.",
+  "actions": [
+    {
+      "target": "#66702",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must route to central OpenClaw security handling without affecting unrelated inventory PRs."
+    },
+    {
+      "target": "#77774",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer-signaled UI feature work; keep open and do not invent a shared canonical in this inventory shard."
+    },
+    {
+      "target": "#77843",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor PR with proof and rebase blockers; keep open for author/maintainer follow-up."
+    },
+    {
+      "target": "#77848",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial focused provider-runtime PR with unresolved review/author status; keep open as independent inventory work."
+    },
+    {
+      "target": "#77973",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green contributor bug-fix PR needs maintainer review, but this inventory job cannot merge or close linked work."
+    },
+    {
+      "target": "#77996",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad contributor fix PR with failing proof check; keep open for proof and maintainer review rather than closing or replacing."
+    },
+    {
+      "target": "#86460",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR ref must be quarantined through central OpenClaw security handling without choosing a canonical dashboard path in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_independent": 5
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77774 and #86460 overlap on Control UI overview redesign direction; maintainer judgment is needed if a future cluster wants to choose a canonical dashboard path.",
+    "#77973 is a focused green bug-fix PR with proof supplied, but merge is blocked by this job and requires maintainer review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

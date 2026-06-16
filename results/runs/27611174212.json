@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-001",
+  "mode": "autonomous",
+  "run_id": "27611174212",
+  "workflow_run_id": "27611174212",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611174212",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:51Z",
+  "workflow_updated_at": "2026-06-16T10:30:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-001.md",
+  "published_at": "2026-06-16T10:35:53.888Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No shared canonical was selected because the job is an inventory shard, not a dedupe cluster. No GitHub mutations, closes, merges, or fix PRs are planned; the only routed item is the exact hydrated security-sensitive linked PR #85711.",
+  "actions": [
+    {
+      "target": "#58367",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open maintainer-signal draft PR with failed proof and unresolved actionable bot review finding; closure/merge/fix are not allowed in this job."
+    },
+    {
+      "target": "#58812",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref; no action planned."
+    },
+    {
+      "target": "#59705",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open draft automation/logging PR; not a duplicate or close candidate in this inventory shard."
+    },
+    {
+      "target": "#85537",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88487",
+      "reason": "Keep open as related to the #88487 build-fix lane; do not close before a landed fix."
+    },
+    {
+      "target": "#85711",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive linked ref; route to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#86314",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88497",
+      "reason": "Keep open as related to the #88497 gateway channel startup fix lane; no closeout before a landed fix."
+    },
+    {
+      "target": "#88487",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused useful maintainer PR, but it requires maintainer review/readying outside this close-only inventory job."
+    },
+    {
+      "target": "#88497",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused gateway fix PR, but dirty merge state and maintainer-review requirement block automation in this job."
+    },
+    {
+      "target": "#88554",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed merged context ref; no mutation planned."
+    },
+    {
+      "target": "#88639",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large maintainer documentation PR requires maintainer correctness judgment; not a duplicate, low-signal, or close candidate."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_closed": 2,
+    "keep_independent": 1,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#58367: maintainer/product and technical correctness decision needed for gateway pairing behavior; failed proof and actionable Codex P1 review comment remain unresolved.",
+    "#88487: maintainer review/readying needed for focused protobufjs externalization PR; no merge or fix action allowed in this job.",
+    "#88497: maintainer review and conflict/dirty-state resolution needed for focused gateway channel startup PR; no merge or fix action allowed in this job.",
+    "#88639: maintainer correctness review needed for large documentation/comment pass."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,147 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-055",
+  "mode": "autonomous",
+  "run_id": "27611175460",
+  "workflow_run_id": "27611175460",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175460",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:30:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-055.md",
+  "published_at": "2026-06-16T10:35:53.959Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No close, merge, fix, or raise-pr action is planned because the job disables those paths and the shard is not opted into low-signal cleanup. Useful focused PRs stay open, historical closed refs stay skipped, and the single hydrated security-sensitive linked PR is routed to central security handling.",
+  "actions": [
+    {
+      "target": "#3701",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions."
+    },
+    {
+      "target": "#13479",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open until its candidate PR path is resolved outside this close-disabled inventory shard."
+    },
+    {
+      "target": "#14747",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Issue is related to #86676, but no closeout is safe before a validated canonical fix lands."
+    },
+    {
+      "target": "#85335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated refs are routed only to central OpenClaw security handling."
+    },
+    {
+      "target": "#85373",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical PR is evidence only."
+    },
+    {
+      "target": "#85696",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a close candidate in this shard; keep open for its own review/fix path."
+    },
+    {
+      "target": "#86674",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful contributor PR; close/merge/fix actions are disabled and the PR is not boringly low-signal."
+    },
+    {
+      "target": "#86676",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful contributor PR requiring normal maintainer/technical review outside this inventory shard."
+    },
+    {
+      "target": "#86681",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not security-sensitive by the hydrated artifact, but not safe to close under low-signal policy because that policy is not enabled."
+    },
+    {
+      "target": "#86716",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix should stay open for normal review; merge/fix/close are not available in this job."
+    },
+    {
+      "target": "#86776",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful contributor PR with unresolved review path; not a low-signal or superseded close candidate."
+    },
+    {
+      "target": "#87343",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related context PR should remain open for its own review; it is not a close candidate in this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 4,
+    "route_security": 1,
+    "keep_independent": 5
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

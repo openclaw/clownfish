@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-031",
+  "mode": "autonomous",
+  "run_id": "27611176452",
+  "workflow_run_id": "27611176452",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176452",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:29:55Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-031.md",
+  "published_at": "2026-06-16T10:35:54.024Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/83991",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38327",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/83991",
+  "summary": "Conservative autonomous live PR inventory classification completed for the five open PRs. No close, merge, fix, or raise-PR action is allowed by this job. Four PRs remain related work needing proof, review, or check repair. The maintainer-authored Google sanitizer PR is the clearest canonical PR for #38327 but merge is blocked by job policy. One linked security-sensitive historical PR is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#83980",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related to #83958; technical correctness and narrowing/merge readiness require maintainer or fix-enabled follow-up outside this close/comment/label-only inventory job."
+    },
+    {
+      "target": "#83991",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38327",
+      "candidate_fix": null,
+      "reason": "Classify as the canonical open PR path for #38327, but keep non-mutating because merge is blocked by job frontmatter and missing merge preflight."
+    },
+    {
+      "target": "#84023",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related/independent inventory work; it is not a duplicate or low-signal close candidate, and technical correctness judgment is explicitly human-gated."
+    },
+    {
+      "target": "#84072",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable bot review findings remain unresolved and the job disallows fix/merge; maintainer or a fix-enabled follow-up must decide whether to repair, narrow, or close."
+    },
+    {
+      "target": "#84111",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86220",
+      "reason": "Keep open as related follow-up rather than close as superseded; #86220 is a hydrated merged candidate for part of the auth-sidecar family, but the artifact does not prove full coverage and checks/proof are not green."
+    },
+    {
+      "target": "#83451",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact security-sensitive linked ref to central OpenClaw security handling; do not use this inventory job for security triage."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_canonical": 1,
+    "needs_human": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84072 requires maintainer or fix-enabled follow-up because actionable Copilot review findings remain unresolved and relevant checks fail while this job disallows fix, merge, and raise_pr.",
+    "#84111 may need maintainer product/technical judgment if maintainers want to close it as superseded by #86220; current artifact proves overlap but not full coverage."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

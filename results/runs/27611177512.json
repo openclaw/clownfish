@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-106",
+  "mode": "autonomous",
+  "run_id": "27611177512",
+  "workflow_run_id": "27611177512",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611177512",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:30:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-106.md",
+  "published_at": "2026-06-16T10:35:54.089Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical was chosen. No close, merge, or fix actions are planned because instant close, merge, and fix PR execution are disabled for this job; security-sensitive linked issue #25592 is routed only to central security handling.",
+  "actions": [
+    {
+      "target": "#59920",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is the remaining decision; this job cannot merge or repair PRs."
+    },
+    {
+      "target": "#61322",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Technical correctness remains unresolved, and this job is not allowed to fix, push, or merge."
+    },
+    {
+      "target": "#61624",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but unready feature work should remain open in this inventory shard; no shared canonical or safe close path is available."
+    },
+    {
+      "target": "#61675",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a useful related implementation candidate, but proof/check status blocks finalization in this job."
+    },
+    {
+      "target": "#61775",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer product/workflow judgment; this job cannot merge."
+    },
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive linked issue to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#10142",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the linked issue open as related context while the implementation/product decision remains unresolved."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_related": 3,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#59920 requires maintainer review before any merge decision.",
+    "#61322 has an unresolved P1 technical correctness finding around custom session stores and cannot be repaired in this job.",
+    "#61775 requires maintainer judgment on whether to add a root Makefile workflow surface."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

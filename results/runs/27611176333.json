@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-066",
+  "mode": "autonomous",
+  "run_id": "27611176333",
+  "workflow_run_id": "27611176333",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176333",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:53Z",
+  "workflow_updated_at": "2026-06-16T10:29:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-066.md",
+  "published_at": "2026-06-16T10:35:54.019Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No GitHub mutations are planned: instant close, low-signal close, merge, fix, and raise_pr are disabled; several PRs also carry maintainer signal, draft state, unresolved proof/review requirements, or failing/stale checks.",
+  "actions": [
+    {
+      "target": "#82662",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88396",
+      "reason": "Linked context for #88396; keep open because it is not closable in this inventory job and the candidate PR is not merge-ready."
+    },
+    {
+      "target": "#85057",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88384",
+      "reason": "Related linked issue for #88384; no close is allowed or safe before the canonical PR lands."
+    },
+    {
+      "target": "#85058",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#88384",
+      "candidate_fix": null,
+      "reason": "Historical evidence only; already closed."
+    },
+    {
+      "target": "#86314",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88497",
+      "reason": "Related linked issue; keep open until a reviewed channel-startup PR lands."
+    },
+    {
+      "target": "#88379",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#88497",
+      "reason": "Maintainer-owned draft PR with active author follow-up and overlapping open draft #88497; maintainer judgment is needed on whether to continue this branch, switch to #88497, or combine the approaches."
+    },
+    {
+      "target": "#88384",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#85057",
+      "candidate_fix": null,
+      "reason": "Clear useful narrow PR, but draft/maintainer-owned state and missing merge preflight require maintainer review rather than automated close or merge."
+    },
+    {
+      "target": "#88396",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#82662",
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR with missing required behavior proof and failing checks; keep blocked for maintainer/proof review."
+    },
+    {
+      "target": "#88400",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with proof supplied, but failed check state and provider allowlist correctness require maintainer review; no close/merge/fix action is allowed."
+    },
+    {
+      "target": "#88401",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix appears ready for maintainer look, but stale/failing checks and final technical correctness judgment block automation in this close-only inventory job."
+    },
+    {
+      "target": "#88497",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86314",
+      "candidate_fix": null,
+      "reason": "Related linked draft PR for the #86314 channel-startup family; keep open and use as evidence for maintainer choice with #88379."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_closed": 1,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1,
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88379: maintainer-owned draft, waiting on author, and overlaps #88497 on #86314.",
+    "#88384: maintainer-owned draft narrow replacement for #85057/#85058 needs maintainer review before merge.",
+    "#88396: focused cron watchdog PR lacks required real behavior proof and has failing checks.",
+    "#88400: focused provider overlay PR has supplied proof but still needs maintainer correctness review and clean checks.",
+    "#88401: focused transport error PR appears useful but has stale/failing checks requiring maintainer rerun/review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

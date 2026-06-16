@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-073",
+  "mode": "autonomous",
+  "run_id": "27611175972",
+  "workflow_run_id": "27611175972",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175972",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:30:17Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-073.md",
+  "published_at": "2026-06-16T10:35:54.001Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. No security-sensitive refs were detected, and close, merge, fix, and raise-pr paths are disabled by the job/fix artifact. Four focused PRs need maintainer or author follow-up; one proof-blocked comment-only PR should stay open without mutation.",
+  "actions": [
+    {
+      "target": "#86018",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not a duplicate or canonical candidate for this inventory shard; keep open while proof remains missing."
+    },
+    {
+      "target": "#51868",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused useful PR with active author follow-up and unresolved technical review questions requires maintainer judgment."
+    },
+    {
+      "target": "#54758",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix with sufficient proof but rebase/review work outstanding; technical correctness and final path need maintainer or author follow-up."
+    },
+    {
+      "target": "#86646",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug fix with linked open issue context and overlapping WebChat work requires maintainer technical judgment before any close or merge path."
+    },
+    {
+      "target": "#86901",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused Feishu bug fix with proof but outstanding review/overlap questions requires maintainer technical correctness judgment."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#51868: maintainer verdict needed for a focused useful PR where author requested review, maintainer_can_modify=false, and Codex/Greptile bot findings remain unresolved in the hydrated artifact.",
+    "#54758: maintainer or author follow-up needed because the PR has sufficient proof but needs rebase/review changes, and this job cannot fix or merge it.",
+    "#86646: maintainer judgment needed on whether the focused duplicate-assistant fix covers the still-open #85771 symptom family and how it interacts with overlapping WebChat work.",
+    "#86901: maintainer technical review needed because the Feishu table-limit fix is proofed and ready-looking but ClawSweeper still reports changes needed and it overlaps related Feishu outbound work."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

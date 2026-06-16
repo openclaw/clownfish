@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-093",
+  "mode": "autonomous",
+  "run_id": "27611178496",
+  "workflow_run_id": "27611178496",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611178496",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:54Z",
+  "workflow_updated_at": "2026-06-16T10:30:23Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-093.md",
+  "published_at": "2026-06-16T10:35:54.149Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live inventory PRs independently using the hydrated preflight artifact. No security-sensitive item was detected, no PR is a boring duplicate/superseded/low-signal closeout candidate, and merge/fix/raise-PR actions are blocked by the job. Two PRs need explicit maintainer judgment before any next step.",
+  "actions": [
+    {
+      "target": "#89644",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR with focused code and proof should remain open for maintainer handling; it is not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#89646",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused maintainer-owned draft PR should stay open; no safe close, label, merge, or fix action is available in this job."
+    },
+    {
+      "target": "#89686",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated MCP schema PR #63634 but not safely duplicate/superseded in this inventory job; keep open for maintainer review."
+    },
+    {
+      "target": "#89696",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed on the low-memory guard behavior, proof gap, and failing checks before any close or merge path."
+    },
+    {
+      "target": "#89714",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green contributor bug fix with active author proof should stay open for maintainer final review; no autonomous close/merge/fix action is permitted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89696 needs maintainer/product judgment on the low-memory tool guard proof gap and failing check-dependencies/check-lint before any next action.",
+    "#89714 needs maintainer final review because it is a focused green contributor bug fix and this job blocks merge/fix actions."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

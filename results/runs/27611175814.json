@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-012",
+  "mode": "autonomous",
+  "run_id": "27611175814",
+  "workflow_run_id": "27611175814",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611175814",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:29:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-012.md",
+  "published_at": "2026-06-16T10:35:53.992Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified independently. No shared canonical was selected, no security-sensitive refs were found, and no close/merge/fix mutations are planned because instant close, low-signal PR close, merge, and fix PR execution are disabled for this job. Several open PRs need maintainer or technical correctness decisions before any future mutation.",
+  "actions": [
+    {
+      "target": "#80649",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical correctness decision is required because the PR combines unrelated locale and Code Mode behavior surfaces; close, merge, and fix paths are not allowed in this job."
+    },
+    {
+      "target": "#80658",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closeout is not permitted, and the remaining decision is docs correctness plus author/rebase follow-up."
+    },
+    {
+      "target": "#80664",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80666",
+      "reason": "Related canonical issue for #80666 should remain open until its linked PR lands; post-merge close is disabled in this job."
+    },
+    {
+      "target": "#80666",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#80664",
+      "candidate_fix": null,
+      "reason": "The PR is a focused bug fix with green checks and open review follow-up; job policy requires human judgment for focused_bug_fix, green_checks, active_author_followup, and technical_correctness_judgment."
+    },
+    {
+      "target": "#80670",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large focused gateway/session-state PR with active author follow-up and technical correctness risk requires maintainer review; automation cannot close, merge, or repair it in this job."
+    },
+    {
+      "target": "#80716",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Product/docs direction and technical accuracy remain unresolved; closeout is not permitted and author explicitly invited maintainer direction."
+    },
+    {
+      "target": "#92856",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed merged context; no mutation needed or allowed."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80649 needs maintainer technical correctness judgment because the PR mixes Indonesian i18n changes with Code Mode timeout/disposal changes.",
+    "#80658 needs maintainer/docs correctness and rebase-author follow-up judgment; low-signal closeout is disabled.",
+    "#80666 needs maintainer review for a focused, green, linked bug-fix PR with prior ClawSweeper needs-changes feedback.",
+    "#80670 needs maintainer review because it is a large gateway/session-state PR with active author follow-up and broad message-delivery/session-state risk.",
+    "#80716 needs maintainer direction on whether the long-task reliability write-up should become an issue, a shorter troubleshooting section, or a corrected runbook."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

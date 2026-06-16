@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-175",
+  "mode": "autonomous",
+  "run_id": "27611180687",
+  "workflow_run_id": "27611180687",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611180687",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:55Z",
+  "workflow_updated_at": "2026-06-16T10:30:21Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-175.md",
+  "published_at": "2026-06-16T10:35:54.270Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated live state shows no security-sensitive items and no safe closeout. This is an inventory shard, not a dedupe cluster; each open PR is classified independently. Merge, fix, raise_pr, instant close, and low-signal closeout are disabled by the job, so maintainer or technical-review decisions remain for the open PRs.",
+  "actions": [
+    {
+      "target": "#16896",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92654",
+      "reason": "Context issue for #92654; not a closure target in this inventory job."
+    },
+    {
+      "target": "#37966",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92665",
+      "reason": "Context issue for #92665; keep open while the candidate PR awaits maintainer review."
+    },
+    {
+      "target": "#38221",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#92665",
+      "reason": "Closed historical context only; no mutation is valid for an already-closed PR."
+    },
+    {
+      "target": "#49046",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92863",
+      "reason": "Context issue for #92863; keep open until the docs PR is reviewed."
+    },
+    {
+      "target": "#79603",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93402",
+      "reason": "Context issue for #93402; keep open while the current PR awaits maintainer review."
+    },
+    {
+      "target": "#79654",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#93402",
+      "reason": "Closed historical context only; no mutation is valid for an already-closed PR."
+    },
+    {
+      "target": "#92654",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#16896",
+      "candidate_fix": null,
+      "reason": "Requires maintainer/technical review and bot-comment resolution; job blocks fix and merge actions."
+    },
+    {
+      "target": "#92665",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#37966",
+      "candidate_fix": null,
+      "reason": "Focused provider behavior fix needs maintainer technical judgment; job blocks fix and merge actions."
+    },
+    {
+      "target": "#92714",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Config/behavior change requires maintainer technical correctness judgment; job blocks fix and merge actions."
+    },
+    {
+      "target": "#92863",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#49046",
+      "candidate_fix": null,
+      "reason": "Docs PR appears reviewable but still explicitly needs maintainer review; job blocks merge actions."
+    },
+    {
+      "target": "#93402",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#79603",
+      "candidate_fix": null,
+      "reason": "Focused bug fix with mixed check evidence needs maintainer/technical review; job blocks merge actions."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_closed": 2,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92654: unresolved actionable Copilot review comments plus failing check shards; fix/merge are blocked by job.",
+    "#92665: focused provider behavior fix needs maintainer technical judgment and proof-sufficiency decision before merge.",
+    "#92714: config/timeout behavior PR has review-identified technical concerns and needs maintainer judgment.",
+    "#92863: clean docs PR still requires maintainer review before any merge, and merge is blocked by job.",
+    "#93402: focused Gateway diagnostics fix has mixed check evidence and needs maintainer technical review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

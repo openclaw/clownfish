@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T102641-024",
+  "mode": "autonomous",
+  "run_id": "27611176074",
+  "workflow_run_id": "27611176074",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27611176074",
+  "head_sha": "3f27fe181b7fb76e012d9ba22a828a7667d55715",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T10:27:52Z",
+  "workflow_updated_at": "2026-06-16T10:29:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T102641-024.md",
+  "published_at": "2026-06-16T10:35:54.005Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively from the hydrated preflight artifact. No shared canonical exists. No close, merge, fix, or raise-PR action is safe or permitted; useful open PRs remain open for maintainer review, proof, rebase, or technical judgment. The single security-sensitive linked ref is scoped to security routing only.",
+  "actions": [
+    {
+      "target": "#40618",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked context must be routed to central OpenClaw security handling without poisoning unrelated inventory items."
+    },
+    {
+      "target": "#54524",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93093",
+      "reason": "The issue remains related to the active docs PR path, but post-merge closeout is disabled and the PR is not merged."
+    },
+    {
+      "target": "#55210",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#83203",
+      "reason": "Already-closed context ref; no closure action is valid."
+    },
+    {
+      "target": "#80301",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#83242",
+      "reason": "The issue should remain open behind the active linked PR because post-merge closeout is disabled and the PR is not merged."
+    },
+    {
+      "target": "#83177",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#83178",
+      "reason": "The issue remains related to its open candidate PR; closeout is not allowed before a merged fix."
+    },
+    {
+      "target": "#83178",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but it needs maintainer/technical review and branch update; no mutation path is permitted in this inventory job."
+    },
+    {
+      "target": "#83203",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active but not merge-ready PR; keep open for proof/rebase rather than close or replace."
+    },
+    {
+      "target": "#83242",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful linked UI PR, but proof, rebase, and technical review remain; no close/fix action is permitted."
+    },
+    {
+      "target": "#83590",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer_signal and technical_correctness_judgment are required for expanding a public compat API; merge/fix are blocked in this job."
+    },
+    {
+      "target": "#93093",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears ready for maintainer review, but this job cannot merge and explicitly requires human handling for maintainer-ready green PRs."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 6,
+    "keep_closed": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83590 requires maintainer judgment on expanding the deprecated public plugin-sdk compat API surface and reconciling the latest Real behavior proof failure with prior sufficient proof/CI evidence.",
+    "#93093 is a green, narrow docs PR ready for maintainer review, but merge is blocked by job frontmatter and maintainer_signal/green_checks require human review."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
