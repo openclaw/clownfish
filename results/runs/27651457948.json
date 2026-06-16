@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-013",
+  "mode": "plan",
+  "run_id": "27651457948",
+  "workflow_run_id": "27651457948",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651457948",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:10:11Z",
+  "workflow_updated_at": "2026-06-16T22:11:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-013.md",
+  "published_at": "2026-06-16T22:16:45.703Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Conservative plan for live PR inventory shard. No shared canonical was selected because the job explicitly says this is not a dedupe cluster. No close, merge, fix, label, or comment mutations are planned.",
+  "actions": [
+    {
+      "target": "#80985",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct cron compatibility PR with maintainer product judgment remaining; not a duplicate, low-signal, or safe close candidate."
+    },
+    {
+      "target": "#81039",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80667",
+      "reason": "Related to hydrated issue #80667 and plausible owner of that fix path, but failing checks and review blockers prevent fixed-by-candidate closeout or merge planning."
+    },
+    {
+      "target": "#81046",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer technical and compatibility judgment; not a duplicate/low-signal close candidate, and this job forbids fix or merge actions."
+    },
+    {
+      "target": "#90224",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR with useful focused code; closure would require maintainer signal, so keep for human maintainer review."
+    },
+    {
+      "target": "#90232",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR touching public SDK helpers; it needs maintainer review rather than inventory closeout."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81046 requires maintainer judgment on config/session-state compatibility and missing real behavior proof after failing checks.",
+    "#90224 is maintainer-owned draft work and should remain with the maintainer until they undraft or request cleanup.",
+    "#90232 is maintainer-owned draft work touching public provider SDK helpers and should remain with the maintainer until they undraft or request cleanup."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

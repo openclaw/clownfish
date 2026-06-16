@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-023",
+  "mode": "plan",
+  "run_id": "27651489507",
+  "workflow_run_id": "27651489507",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651489507",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:10:50Z",
+  "workflow_updated_at": "2026-06-16T22:11:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-023.md",
+  "published_at": "2026-06-16T22:16:45.741Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode inventory classification for five open PRs. No GitHub mutations are planned because this shard is not a dedupe cluster, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and the hydrated evidence does not support safe closure.",
+  "actions": [
+    {
+      "target": "#83630",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#54877",
+      "candidate_fix": "#83630",
+      "reason": "Useful linked fix for an open issue, but it needs branch/update or maintainer follow-up rather than cleanup closure."
+    },
+    {
+      "target": "#83703",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone tooling/config PR that should stay outside this shard's dedupe cleanup."
+    },
+    {
+      "target": "#83718",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80613",
+      "candidate_fix": "#83718",
+      "reason": "Related memory-core follow-up with useful focused code, not safe to close as duplicate or merge in this job."
+    },
+    {
+      "target": "#83760",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility-affecting feature PR with failing proof/types and waiting-on-author state requires maintainer judgment."
+    },
+    {
+      "target": "#83819",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#83819",
+      "reason": "Draft availability-related fix should remain open for author proof and validation, not closed by inventory cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83760 requires maintainer/product judgment because it is broad, compatibility-affecting, waiting on author, and has failing Real behavior proof/check-test-types in the hydrated artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,108 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-046",
+  "mode": "plan",
+  "run_id": "27651542097",
+  "workflow_run_id": "27651542097",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651542097",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:11:56Z",
+  "workflow_updated_at": "2026-06-16T22:13:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-046.md",
+  "published_at": "2026-06-16T22:16:45.814Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PR candidates. No shared canonical was selected because the job identifies this as a mixed live PR inventory shard. No close, merge, fix, or raise-PR actions are planned; low-signal closeout and merge/fix paths are disabled by the job frontmatter. Security-sensitive linked refs are quarantined separately.",
+  "actions": [
+    {
+      "target": "#85478",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful open Slack/progress PR with proof and review context; keep it out of closeout and leave maintainer review as the next path."
+    },
+    {
+      "target": "#85507",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different Slack behavior change with missing proof; no duplicate/superseded close is safe from the supplied evidence."
+    },
+    {
+      "target": "#85561",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Looks low-signal/stalled, but this job does not allow low-signal PR closeout, so the conservative non-mutating classification is to keep it independent."
+    },
+    {
+      "target": "#85571",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as its own unproven diagnostic PR; the supplied artifact does not justify closure or a shared canonical."
+    },
+    {
+      "target": "#85671",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct outbound account-selection fix with missing proof and unhydrated conflict context; no close or fix action is allowed."
+    },
+    {
+      "target": "#85465",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact linked ref to central OpenClaw security handling without affecting unrelated non-security inventory items."
+    },
+    {
+      "target": "#85992",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact linked ref to central OpenClaw security handling without affecting unrelated non-security inventory items."
+    },
+    {
+      "target": "#87200",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-listed linked ref; no mutation is planned because hydrated state is unavailable in the compacted artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

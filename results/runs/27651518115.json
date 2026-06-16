@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-036",
+  "mode": "plan",
+  "run_id": "27651518115",
+  "workflow_run_id": "27651518115",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651518115",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:11:25Z",
+  "workflow_updated_at": "2026-06-16T22:12:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-036.md",
+  "published_at": "2026-06-16T22:16:45.783Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode live PR inventory classification only. The shard is not a dedupe cluster and has no shared canonical; each open PR is classified independently or as related to its own hydrated issue context. No close, merge, label, comment, fix, or raise-PR action is planned.",
+  "actions": [
+    {
+      "target": "#90776",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer-owned feature/docs PR with active author/review state. No duplicate/superseded evidence and no close permission outcome is safe."
+    },
+    {
+      "target": "#90788",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad feature PR with failed proof and unresolved review-bot findings. It is not a duplicate or low-signal close candidate under this job's conservative inventory rules."
+    },
+    {
+      "target": "#90821",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90821",
+      "reason": "This is a related active fix path for hydrated issue #66535, but the shard is plan-only and cannot merge or close fixed-by-candidate. Keep it related for maintainer validation."
+    },
+    {
+      "target": "#90834",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90834",
+      "reason": "Related active fix path for hydrated issue #90325. No duplicate/superseded evidence, and merge/fix/close actions are blocked by job mode and permissions."
+    },
+    {
+      "target": "#90836",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR with proof and passing checks. Merge is blocked by job frontmatter, so no mutating recommendation is emitted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-027",
+  "mode": "plan",
+  "run_id": "27651490935",
+  "workflow_run_id": "27651490935",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651490935",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:10:52Z",
+  "workflow_updated_at": "2026-06-16T22:12:21Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-027.md",
+  "published_at": "2026-06-16T22:16:45.748Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No GitHub mutations performed. Four PRs should stay open/non-mutating; #81470 is a planned superseded close candidate because hydrated #86759 is the stronger same-bug fix path with sufficient proof and passing checks. #81407 needs maintainer technical judgment before any close or merge path.",
+  "actions": [
+    {
+      "target": "#81407",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical judgment is needed on whether the public outbound hook contract should grow senderId when the reviewed source path may not populate it."
+    },
+    {
+      "target": "#81418",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR; keep open for proof/check remediation rather than close in this inventory shard."
+    },
+    {
+      "target": "#81431",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to prior closed Feishu work but not safely closable as duplicate or superseded because the surviving open PR still has proof and technical validation gaps."
+    },
+    {
+      "target": "#81470",
+      "action": "close_superseded",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#86759",
+      "candidate_fix": "#86759",
+      "reason": "The hydrated replacement PR #86759 covers the same root bug with stronger proof, tests, and current checks, while #81470 has unresolved review and failing checks."
+    },
+    {
+      "target": "#81592",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent draft PR; keep open for author proof and normal review rather than close in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_independent": 2,
+    "keep_related": 1,
+    "close_superseded": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81407 requires maintainer technical/product judgment on adding a plugin-facing senderId field when hydrated review evidence says the outbound producer path may not provide a real sender identity."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

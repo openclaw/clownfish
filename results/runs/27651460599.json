@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-018",
+  "mode": "plan",
+  "run_id": "27651460599",
+  "workflow_run_id": "27651460599",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651460599",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:10:14Z",
+  "workflow_updated_at": "2026-06-16T22:11:37Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-018.md",
+  "published_at": "2026-06-16T22:16:45.728Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations planned. The job is not a dedupe cluster, so open PRs are classified independently unless an exact security-sensitive linked ref must be routed.",
+  "actions": [
+    {
+      "target": "#82985",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with proof, no duplicate/superseded evidence, and merge/fix actions are disallowed in this plan job."
+    },
+    {
+      "target": "#83041",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open focused PR with unresolved mergeability/review state; not low-signal and not safely closeable in this inventory job."
+    },
+    {
+      "target": "#83048",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR with proof but still requiring maintainer/review judgment and affected by a failing check in the artifact; no closure path is supported."
+    },
+    {
+      "target": "#83081",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with broad scope and explicit maintainer decision state; no close, merge, or fix action is appropriate in this inventory shard."
+    },
+    {
+      "target": "#90419",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small focused PR but proof and checks are insufficient; not low-signal enough for closure under this job, and fix/merge actions are blocked."
+    },
+    {
+      "target": "#79738",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact linked security-sensitive ref must be routed to central OpenClaw security handling without blocking unrelated non-security PR classifications."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

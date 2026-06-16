@@ -1,0 +1,151 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-002",
+  "mode": "plan",
+  "run_id": "27651429612",
+  "workflow_run_id": "27651429612",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651429612",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:09:37Z",
+  "workflow_updated_at": "2026-06-16T22:11:35Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-002.md",
+  "published_at": "2026-06-16T22:16:45.688Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result. No shared canonical was selected because the job is an independent live PR inventory shard. No close, merge, fix, or label mutations are recommended. Security-sensitive linked ref #56442 is quarantined only for security routing; unrelated PRs remain classified independently.",
+  "actions": [
+    {
+      "target": "#2451",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation is valid."
+    },
+    {
+      "target": "#52249",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#60402",
+      "reason": "Related issue should stay open while the linked PR remains proof-blocked."
+    },
+    {
+      "target": "#56442",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is out of ProjectClownfish cleanup scope and should be handled by central OpenClaw security triage."
+    },
+    {
+      "target": "#57225",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#87707",
+      "reason": "Issue remains related to open PR #87707, but current evidence does not support closure."
+    },
+    {
+      "target": "#60402",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52249",
+      "candidate_fix": "#60402",
+      "reason": "Useful related fix candidate, but proof failure blocks merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#76562",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed context ref; no mutation is valid."
+    },
+    {
+      "target": "#86790",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related follow-up issue should remain open; no hydrated PR in this job supports closure."
+    },
+    {
+      "target": "#87695",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft PR needs maintainer action; no cleanup close or merge recommendation is appropriate in this plan job."
+    },
+    {
+      "target": "#87707",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#57225",
+      "candidate_fix": "#87707",
+      "reason": "Related candidate should stay open; dirty merge state and failed proof block merge or issue closeout."
+    },
+    {
+      "target": "#88121",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused maintainer-labeled PR with failing checks and an unresolved technical correctness/test issue; human follow-up is required because fix and merge are blocked in this job."
+    },
+    {
+      "target": "#90814",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90819",
+      "reason": "Already-closed linked issue; no closure action is valid."
+    },
+    {
+      "target": "#90819",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90819",
+      "reason": "Ready-for-maintainer PR with nontrivial gateway/session behavior; merge and technical correctness judgment require maintainer review and merge is blocked by job frontmatter."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_related": 5,
+    "route_security": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87695: maintainer-owned draft PR needs maintainer action before any merge or closeout decision.",
+    "#88121: focused maintainer-labeled PR has failing checks and an unresolved test/mock concern; fix and merge are not allowed in this job.",
+    "#90819: ready-for-maintainer gateway performance PR has sufficient proof but still needs maintainer technical review; merge is blocked by job frontmatter."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

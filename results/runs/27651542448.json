@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-047",
+  "mode": "plan",
+  "run_id": "27651542448",
+  "workflow_run_id": "27651542448",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651542448",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:11:56Z",
+  "workflow_updated_at": "2026-06-16T22:13:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-047.md",
+  "published_at": "2026-06-16T22:16:45.828Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No close, merge, fix, or PR-raising action is safe or allowed by this job; one linked security-sensitive ref is quarantined without affecting unrelated items.",
+  "actions": [
+    {
+      "target": "#85710",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83902",
+      "candidate_fix": null,
+      "reason": "Keep open as the related implementation path for #83902; do not invent a shared canonical or mutate in plan mode."
+    },
+    {
+      "target": "#85727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone docs proposal with unresolved proof/rebase requirements; no safe close or merge action is available in this job."
+    },
+    {
+      "target": "#85745",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the Discord/gateway overlap set, but not safely duplicate or superseded because it has a narrow unique timeout scope."
+    },
+    {
+      "target": "#85747",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related stacked/broad PR with unresolved proof and overlap; not safe to close as duplicate because the worker-pool scope is unique."
+    },
+    {
+      "target": "#85748",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone active PR with proof but pending changes/author follow-up; keep open without mutation."
+    },
+    {
+      "target": "#87200",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-shaped linked context is out of ProjectClownfish backlog-cleanup scope and should be routed to central OpenClaw security handling only."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-050",
+  "mode": "plan",
+  "run_id": "27651542835",
+  "workflow_run_id": "27651542835",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651542835",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:11:57Z",
+  "workflow_updated_at": "2026-06-16T22:13:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-050.md",
+  "published_at": "2026-06-16T22:16:45.831Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. Classified the live PR inventory shard conservatively with no GitHub mutations, no shared canonical, no merge/fix/close recommendations, and scoped quarantine for the one security-sensitive linked PR.",
+  "actions": [
+    {
+      "target": "#86608",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open docs PR with a maintainer-requested update and failing guard, not a duplicate or closeout candidate."
+    },
+    {
+      "target": "#86649",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86050",
+      "reason": "Related candidate fix for #86050, but not mergeable or closable in this plan-only inventory job."
+    },
+    {
+      "target": "#86670",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial standalone provider-plugin feature PR with review findings, not duplicate, superseded, or low-signal under this job."
+    },
+    {
+      "target": "#86674",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#13479",
+      "reason": "Related implementation for #13479, but it has review/check blockers and a conflict with a quarantined security-sensitive PR."
+    },
+    {
+      "target": "#86676",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#14747",
+      "reason": "Related implementation for #14747, but review findings and overlap with #87343 make this a non-mutating keep decision."
+    },
+    {
+      "target": "#85335",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked PR must be routed to central OpenClaw security handling without blocking unrelated non-security classifications."
+    },
+    {
+      "target": "#13479",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86674",
+      "reason": "Open linked issue should remain related to PR #86674 until the candidate lands and closeout is explicitly allowed."
+    },
+    {
+      "target": "#14747",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86676",
+      "reason": "Open linked issue should remain related to PR #86676 until the candidate lands and closeout is explicitly allowed."
+    },
+    {
+      "target": "#86050",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86649",
+      "reason": "Open linked issue should remain related to PR #86649 until the candidate lands and closeout is explicitly allowed."
+    },
+    {
+      "target": "#87343",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related conflict/context PR for this inventory shard, but it is not a duplicate or closure candidate."
+    },
+    {
+      "target": "#92092",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation should be emitted."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 7,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
