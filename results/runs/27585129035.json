@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2791-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27585129035",
+  "workflow_run_id": "27585129035",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585129035",
+  "head_sha": "029567b88e02d3fb42050a9ee72b98ee92930545",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:15:28Z",
+  "workflow_updated_at": "2026-06-16T00:17:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/gitcrawl-2791-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:20:07.496Z",
+  "canonical": "#43661",
+  "canonical_issue": "#43661",
+  "canonical_pr": null,
+  "summary": "Autonomous plan only. The original representative #42158 is closed on live preflight state, so #43661 is the best surviving canonical for the active stuck-session timeout/retry/duplicate-send lane. No close, merge, or fix actions are planned: the open items are related but not true duplicates, and several require maintainer/product choices or linked PR review before closure.",
+  "actions": [
+    {
+      "target": "#42158",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Original representative is obsolete because it is already closed."
+    },
+    {
+      "target": "#43661",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Best surviving canonical for the active timeout retry and duplicate-send lane."
+    },
+    {
+      "target": "#45686",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Closed before this run; no mutation is valid."
+    },
+    {
+      "target": "#48238",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Related compaction resilience work, but not the same root cause as #43661 and not closable as a duplicate."
+    },
+    {
+      "target": "#48278",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Related open PR for #48238, but not mergeable or closable in this dedupe-only job."
+    },
+    {
+      "target": "#54383",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43661",
+      "candidate_fix": "#54392",
+      "reason": "Already closed as fixed; no action needed."
+    },
+    {
+      "target": "#58838",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43661",
+      "candidate_fix": "#86900",
+      "reason": "Related active bug with an open linked PR; keep open until the candidate PR is reviewed and lands or is replaced."
+    },
+    {
+      "target": "#64960",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43661",
+      "candidate_fix": "#74470",
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#64962",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Already closed; any reopening or policy decision is outside this close-only cluster pass."
+    },
+    {
+      "target": "#67750",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Related open compaction timeout recovery issue, but not a duplicate and not closable from hydrated state."
+    },
+    {
+      "target": "#86900",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43661",
+      "candidate_fix": null,
+      "reason": "Valid related candidate PR for #58838, but this job blocks merge and fix actions."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 5,
+    "keep_canonical": 1,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "skipped": 5,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#43661 needs maintainer/product direction for durable logical-send identity and retry semantics before a safe fix can be queued.",
+    "#48238 needs maintainer/product direction on the loop-aware guard/reset policy and a sanitized repro or proof path.",
+    "#64962 was closed by stale automation despite prior evidence of a valid policy-dependent recovery gap; reopening or choosing a lossy escalation ladder is a maintainer decision outside this close-only pass."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

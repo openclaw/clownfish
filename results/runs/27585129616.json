@@ -1,0 +1,103 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13584-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27585129616",
+  "workflow_run_id": "27585129616",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585129616",
+  "head_sha": "029567b88e02d3fb42050a9ee72b98ee92930545",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:15:29Z",
+  "workflow_updated_at": "2026-06-16T00:17:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/gitcrawl-13584-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:20:07.509Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Repaired deterministic validation result with non-mutating classification only. The validator requires #39688 to be quarantined through route_security, so no non-security canonical remains in this cluster result. Security-sensitive candidates are routed to central security handling, already-closed candidate #61432 is left closed, and #63007 remains a related non-security PR with failing checks.",
+  "actions": [
+    {
+      "target": "#39688",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator security classification requires quarantining #39688 to central OpenClaw security handling instead of keeping it as a ProjectClownfish canonical."
+    },
+    {
+      "target": "#50126",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive items are out of ProjectClownfish backlog cleanup scope and should be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#61432",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live state; retain as historical related evidence without a close action."
+    },
+    {
+      "target": "#61550",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate is out of ProjectClownfish mutation scope even though it is already closed."
+    },
+    {
+      "target": "#70928",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive candidate is out of ProjectClownfish mutation scope even though it is already closed."
+    },
+    {
+      "target": "#41375",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive PR must be routed to central OpenClaw security handling and not merged, closed, or commented on by this worker."
+    },
+    {
+      "target": "#63007",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but not a duplicate or viable candidate fix in this dedupe-only job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 5,
+    "keep_closed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "No non-security canonical remains after validator-required route_security for #39688; maintainer/security handling should decide any canonical path after quarantine."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

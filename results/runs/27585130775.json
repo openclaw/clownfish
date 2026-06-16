@@ -1,0 +1,73 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-2516-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27585130775",
+  "workflow_run_id": "27585130775",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585130775",
+  "head_sha": "029567b88e02d3fb42050a9ee72b98ee92930545",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:15:31Z",
+  "workflow_updated_at": "2026-06-16T00:17:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stuck/gitcrawl-2516-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:20:07.522Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Hydrated live state shows #54669 as the open issue carrying the Chrome IPv6-only CDP binding report, but deterministic validation identified #54669 as security-sensitive for this run. The exact ref #54669 is routed to central security handling with no GitHub mutation. #59209 is already closed and related but not the same root cause; #68666 is already closed as a duplicate whose useful Chrome 147 details were copied into #54669.",
+  "actions": [
+    {
+      "target": "#54669",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive issue ref to central OpenClaw security handling; no close, label, comment, merge, or fix action is planned for #54669."
+    },
+    {
+      "target": "#59209",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#54669",
+      "candidate_fix": null,
+      "reason": "Already closed; keep as related historical context rather than duplicate-close it again."
+    },
+    {
+      "target": "#68666",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#54669",
+      "candidate_fix": null,
+      "reason": "Already closed as a duplicate of #54669; no further action is needed."
+    },
+    {
+      "target": "#39407",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#54669",
+      "candidate_fix": null,
+      "reason": "Merged historical context for the WSL2 CDP documentation area, not an open candidate for this closeout pass."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
