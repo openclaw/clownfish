@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-023",
+  "mode": "autonomous",
+  "run_id": "27618670980",
+  "workflow_run_id": "27618670980",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27618670980",
+  "head_sha": "bc0f4dc46dbfa4a9f04c9a57f6aca1df675768ee",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:48:43Z",
+  "workflow_updated_at": "2026-06-16T12:50:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-023.md",
+  "published_at": "2026-06-16T12:55:41.558Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five live PR inventory refs independently. No shared canonical was selected. Four open PRs need maintainer/technical review rather than closure; one seed PR is already closed as superseded by a hydrated landed PR. No security-sensitive item was detected, and no fix, merge, or close action is allowed by this job.",
+  "actions": [
+    {
+      "target": "#43938",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical judgment is required because the PR is a focused message-delivery behavior fix with failing real-behavior proof; the job forbids merge and fix actions."
+    },
+    {
+      "target": "#93264",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93242",
+      "candidate_fix": "#93242",
+      "reason": "Already closed refs are historical evidence only; keep closed as superseded by hydrated merged PR #93242."
+    },
+    {
+      "target": "#93299",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical judgment is required because checks are not green and the PR combines daemon availability behavior with amazon-bedrock provider changes; the job forbids merge and fix actions."
+    },
+    {
+      "target": "#69707",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical judgment is required for a user-facing compatibility fix with prior bot review findings and a large focused diff; the job forbids merge and fix actions."
+    },
+    {
+      "target": "#93502",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is required for a green open PR because the job forbids merge and does not permit low-signal PR closeout."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#43938: focused gateway message-delivery behavior PR has failing Real behavior proof and needs maintainer/technical review.",
+    "#93299: focused Windows Scheduled Task availability PR has failing checks and mixed daemon/amazon-bedrock scope that needs maintainer/technical review.",
+    "#69707: memory-lancedb compatibility PR has passing checks but prior bot review context and a large focused diff that needs maintainer review before any merge path.",
+    "#93502: small green docs/scripts PR needs maintainer review because merge is blocked by job policy and it is not a closeout candidate."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

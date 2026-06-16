@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-027",
+  "mode": "autonomous",
+  "run_id": "27618792933",
+  "workflow_run_id": "27618792933",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27618792933",
+  "head_sha": "f90d9c9e7342efe53752a7f896ce951c15b38db6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:50:52Z",
+  "workflow_updated_at": "2026-06-16T12:52:49Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-027.md",
+  "published_at": "2026-06-16T12:55:41.566Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard without GitHub mutations. No shared canonical exists. The open PRs are useful but require maintainer or technical review because the job blocks merge/fix work and the hydrated artifact shows proof failures, dirty/unknown mergeability, failing checks, active contributor work, or unresolved review-bot concerns. Linked issues are kept open as their local canonical threads; the already closed context issue remains closed.",
+  "actions": [
+    {
+      "target": "#40644",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#40644",
+      "candidate_fix": "#41892",
+      "reason": "Keep the feature issue open as the local canonical thread for the cron calendar/timeline UI subfamily."
+    },
+    {
+      "target": "#41299",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/technical correctness judgment is required before this focused behavior change can move forward."
+    },
+    {
+      "target": "#41892",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#40644",
+      "candidate_fix": null,
+      "reason": "This broad feature PR needs maintainer review and technical correctness judgment; it is not safe to close or merge from this inventory shard."
+    },
+    {
+      "target": "#83538",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83538",
+      "candidate_fix": "#83933",
+      "reason": "Keep the P1 data-loss issue open as the local canonical thread until the linked fix PR is reviewed and landed."
+    },
+    {
+      "target": "#83933",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#83538",
+      "candidate_fix": null,
+      "reason": "The PR appears useful and credited to the contributor, but final technical/merge judgment must stay with a maintainer."
+    },
+    {
+      "target": "#85595",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#40644",
+      "candidate_fix": "#41892",
+      "reason": "Closed context ref is historical evidence only."
+    },
+    {
+      "target": "#93507",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93507",
+      "candidate_fix": "#93523",
+      "reason": "Keep the feature issue open as the local canonical thread until PR #93523 is reviewed and validated."
+    },
+    {
+      "target": "#93523",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93507",
+      "candidate_fix": null,
+      "reason": "Small useful PR, but failing/unstable checks and lack of review make this a maintainer decision rather than an automated close or merge."
+    },
+    {
+      "target": "#93530",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93530",
+      "candidate_fix": "#93535",
+      "reason": "Keep the issue open as the local canonical thread until the linked PR receives proof and technical review."
+    },
+    {
+      "target": "#93535",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93530",
+      "candidate_fix": null,
+      "reason": "The fix needs proof and maintainer/technical correctness review before any close or merge path is safe."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "needs_human": 5,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#41299: focused separator behavior change needs real behavior proof and technical correctness review before maintainers can decide whether to land it.",
+    "#41892: broad cron calendar/timeline feature is dirty, large, and has unresolved review/check risk; maintainer product and technical review is required.",
+    "#83933: useful P1 cron data-loss fix has contributor proof, but ClawSweeper explicitly asks for maintainer review and the hydrated checks include a failure.",
+    "#93523: small cron model selector PR is linked to an open feature issue but has unstable/failing checks and no review signal.",
+    "#93535: one-file cron watchdog fix is plausible but lacks successful real behavior proof and has failing checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
