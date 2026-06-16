@@ -34,9 +34,10 @@ allow_instant_close: true
 allow_fix_pr: true
 allow_merge: true
 allow_post_merge_close: true
+allow_unmerged_fix_close: true
 require_fix_before_close: true
 canonical_hint: "gitcrawl representative #92816 is open; worker must verify it is still the best live canonical."
-notes: "Generated from gitcrawl run cluster 339 on 2026-06-16. Existing-overlap refs #92831 were excluded from actionable refs and kept as context only."
+notes: "Generated from gitcrawl run cluster 339 on 2026-06-16. Existing-overlap refs #92831 were excluded from actionable refs and kept as context only. A close_fixed_by_candidate action may use fresh source evidence from current main for #92816; no unhydrated overlap PR may be used as the candidate fix."
 ---
 
 # Gitcrawl Cluster 339
