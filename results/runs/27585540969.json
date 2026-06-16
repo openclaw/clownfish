@@ -1,0 +1,78 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156978-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27585540969",
+  "workflow_run_id": "27585540969",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585540969",
+  "head_sha": "5e82215786ac19fe491f47890a61d1228ca3e0a2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:26:08Z",
+  "workflow_updated_at": "2026-06-16T00:28:31Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156978-autonomous-smoke.md",
+  "published_at": "2026-06-16T00:29:59.578Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/38829",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/38829",
+  "canonical_pr": null,
+  "summary": "Canonical issue #38829 remains the best open non-security tracker for the bundled TUI live transcript bug. #43341 is already closed and should not receive a close action. The linked implementation PR #73402 is hydrated and security-sensitive, with explicit security-boundary findings and a failing behavior-proof check, so it must be routed to central security handling and cannot be used for merge or fixed-by-candidate closeout. Because that quarantined PR is the current implementation path for the canonical issue, the cluster-level fix lane needs maintainer/security direction before Clownfish opens a replacement fix PR.",
+  "actions": [
+    {
+      "target": "#38829",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#38829",
+      "candidate_fix": null,
+      "reason": "Keep the open canonical issue as the non-security tracking path; do not close it before a safe fix path lands."
+    },
+    {
+      "target": "#43341",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#38829",
+      "candidate_fix": null,
+      "reason": "Already-closed duplicate/superseded context ref; no mutation should be planned."
+    },
+    {
+      "target": "#73402",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PRs are out of scope for Clownfish mutation and must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "cluster:ghcrawl-156978-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#38829",
+      "candidate_fix": null,
+      "reason": "Maintainer/security triage needs to decide whether a separate non-security TUI-only replacement fix may proceed after #73402 is quarantined, or whether the canonical fix must wait for central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide the safe implementation path for #38829 after routing security-sensitive PR #73402 to central OpenClaw security handling."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
