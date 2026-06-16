@@ -1,0 +1,172 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157058-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27584191031",
+  "workflow_run_id": "27584191031",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27584191031",
+  "head_sha": "3eaef20c39c95c760c2eeb4e61adf6ea57afc054",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T23:52:52Z",
+  "workflow_updated_at": "2026-06-16T00:03:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-157058-autonomous-smoke.md",
+  "published_at": "2026-06-16T00:05:26.821Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/43015",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/43015",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/65301",
+  "summary": "#43015 remains the open canonical issue. Current main still treats channel-extra poll metadata such as pollDurationSeconds as send-blocking poll intent. #65301 is the narrow maintainer-modifiable contributor repair path, but it is not merge-ready because hydrated checks fail and mergeability/review preflight are not clean.",
+  "actions": [
+    {
+      "target": "#43015",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#43015",
+      "candidate_fix": "#65301",
+      "reason": "Best surviving canonical issue for the remaining message.send poll-metadata false positive; no closure is appropriate before the repair path lands."
+    },
+    {
+      "target": "#65301",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#43015",
+      "candidate_fix": "#65301",
+      "reason": "Repair the contributor branch, rebase/refactor narrowly onto current main, address current review/proof gates, run Codex /review and pnpm check:changed, then only merge if clean."
+    },
+    {
+      "target": "cluster:ghcrawl-157058-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#43015",
+      "candidate_fix": "#65301",
+      "reason": "Build an executable repair artifact for the open, maintainer-modifiable contributor PR rather than opening an unrelated replacement PR."
+    },
+    {
+      "target": "#65849",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43015",
+      "candidate_fix": null,
+      "reason": "Already closed; no action beyond retaining historical context."
+    },
+    {
+      "target": "#79681",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different subsystem and user-visible failure; keep out of this cluster's fix/close path."
+    },
+    {
+      "target": "#56039",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43015",
+      "candidate_fix": null,
+      "reason": "Already closed historical schema-overexposure context, not an open target."
+    },
+    {
+      "target": "#88853",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#43015",
+      "candidate_fix": null,
+      "reason": "Already closed mixed PR; no mutation target."
+    },
+    {
+      "target": "#89601",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#43015",
+      "candidate_fix": null,
+      "reason": "Already merged partial fix; useful evidence but not sufficient to close #43015."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #65301 is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93441",
+      "branch": "clownfish/ghcrawl-157058-autonomous-smoke",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "4d9329c473d9c245705f1504ca004d57f6bb8f9f",
+      "checkpoint_commits": [
+        "4d9329c473d9c245705f1504ca004d57f6bb8f9f"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93441"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93441",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(outbound): ignore schema-padded poll metadata on send",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
