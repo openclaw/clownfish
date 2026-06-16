@@ -91,6 +91,14 @@ const publishBacklogThreshold = Number(
 const publishBacklogLookback = Number(
   args["publish-backlog-lookback"] ?? process.env.CLOWNFISH_PUBLISH_BACKLOG_LOOKBACK ?? 500,
 );
+const publishBacklogWaitMs = numberArg(
+  args["publish-backlog-wait-ms"] ?? process.env.CLOWNFISH_PUBLISH_BACKLOG_WAIT_MS ?? 600_000,
+  "publish-backlog-wait-ms",
+);
+const publishBacklogPollMs = positiveNumberArg(
+  args["publish-backlog-poll-ms"] ?? process.env.CLOWNFISH_PUBLISH_BACKLOG_POLL_MS ?? 30_000,
+  "publish-backlog-poll-ms",
+);
 const skipPublishBacklogCheck = Boolean(args["skip-publish-backlog-check"]);
 const skipTokenSecretCheck = Boolean(args["skip-token-secret-check"] ?? args.skip_token_secret_check);
 const allowAppTokenAuth = Boolean(
@@ -123,7 +131,7 @@ const headSha = currentHeadSha();
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--dispatch-event workflow|repository-worker|repository-batch] [--batch-max-parallel N] [--publish-backlog-threshold 25] [--hydrate-comments 0|1] [--max-linked-refs N] [--dry-run 0|1] [--allow-app-token-auth] [--skip-token-secret-check]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--dispatch-event workflow|repository-worker|repository-batch] [--batch-max-parallel N] [--publish-backlog-threshold 25] [--publish-backlog-wait-ms 600000] [--publish-backlog-poll-ms 30000] [--hydrate-comments 0|1] [--max-linked-refs N] [--dry-run 0|1] [--allow-app-token-auth] [--skip-token-secret-check]",
   );
   process.exit(2);
 }
@@ -226,7 +234,38 @@ if (!failed) {
 }
 
 function assertPublishBacklog() {
-  const result = spawnSync(
+  let result = readPublishBacklog();
+  if (result.status === 0) {
+    writePublishBacklogOutput(result);
+    return;
+  }
+  if (!waitForCapacity || publishBacklogWaitMs === 0) {
+    writePublishBacklogOutput(result);
+    failed = true;
+    return;
+  }
+
+  const startedAt = Date.now();
+  const deadline = startedAt + publishBacklogWaitMs;
+  const initial = publishBacklogSummary(result);
+  console.log(
+    `publish backlog ${initial?.missing_count ?? "unknown"} exceeds threshold ${publishBacklogThreshold}; waiting up to ${publishBacklogWaitMs}ms for publisher reconciliation`,
+  );
+  while (Date.now() < deadline) {
+    sleepMs(Math.min(publishBacklogPollMs, deadline - Date.now()));
+    result = readPublishBacklog();
+    if (result.status === 0) {
+      writePublishBacklogOutput(result);
+      console.log(`publish backlog drained after ${Date.now() - startedAt}ms`);
+      return;
+    }
+  }
+  writePublishBacklogOutput(result);
+  failed = true;
+}
+
+function readPublishBacklog() {
+  return spawnSync(
     process.execPath,
     [
       path.join(repoRoot(), "scripts", "publish-backlog.mjs"),
@@ -246,11 +285,19 @@ function assertPublishBacklog() {
     ],
     { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
   );
+}
+
+function publishBacklogSummary(result) {
+  try {
+    return JSON.parse(String(result.stdout ?? ""));
+  } catch {
+    return null;
+  }
+}
+
+function writePublishBacklogOutput(result) {
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
-  if (result.status !== 0) {
-    failed = true;
-  }
 }
 
 let dispatched = 0;
