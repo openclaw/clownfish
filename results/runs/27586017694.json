@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13716-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27586017694",
+  "workflow_run_id": "27586017694",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27586017694",
+  "head_sha": "e3eb8644e505a7248576d80431c73eb422cab7c4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:38:51Z",
+  "workflow_updated_at": "2026-06-16T00:40:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13716-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:42:48.794Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/59330",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/59330",
+  "canonical_pr": null,
+  "summary": "Open canonical issue #59330 and linked PR #59336 are both explicitly security-sensitive in the hydrated preflight and must be routed to central OpenClaw security handling. The prior representative #67926 and related #66988 are already closed duplicates/superseded context, so no close/comment mutation is planned. Current main 2365a137d88cd8ae3902159267545b9edc7cf54a still contains the reported raw-mode fallback behavior, but fix and merge actions are disallowed for this job and blocked by the security route.",
+  "actions": [
+    {
+      "target": "#59330",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive raw redaction and exec safe-bin normalization issue; quarantine this exact ref for central OpenClaw security handling."
+    },
+    {
+      "target": "#59336",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive implementation PR with unresolved security-boundary review finding; route this exact PR to central OpenClaw security handling instead of merging, closing, or fixing through Clownfish."
+    },
+    {
+      "target": "#66988",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#59330",
+      "candidate_fix": null,
+      "reason": "Already closed; closed context refs are historical evidence only and must not receive close actions."
+    },
+    {
+      "target": "#67926",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#59330",
+      "candidate_fix": null,
+      "reason": "Already closed representative is obsolete; #59330 is the surviving open canonical issue, but it is security-routed."
+    },
+    {
+      "target": "#1824",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed first-hop context ref is independent historical evidence and not a target for this cluster."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

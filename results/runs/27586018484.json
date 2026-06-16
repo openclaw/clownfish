@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1567-dedupe-only-20260429-remote",
+  "mode": "autonomous",
+  "run_id": "27586018484",
+  "workflow_run_id": "27586018484",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27586018484",
+  "head_sha": "e3eb8644e505a7248576d80431c73eb422cab7c4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:38:52Z",
+  "workflow_updated_at": "2026-06-16T00:40:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1567-dedupe-only-20260429-remote.md",
+  "published_at": "2026-06-16T00:42:48.797Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/56699",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/56699",
+  "canonical_pr": null,
+  "summary": "Autonomous close-only pass found no open non-security candidate left to close or merge. The obsolete representative #64650 and all non-security seed candidates are already closed; #6457 and #49980 are already merged, while #64650 was closed unmerged and remains historical evidence only. The only open hydrated ref is security-sensitive issue #56699, so it is routed to central OpenClaw security handling without poisoning the unrelated closed non-security items.",
+  "actions": [
+    {
+      "target": "#6457",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#6457",
+      "reason": "Already closed and merged; no mutation is valid."
+    },
+    {
+      "target": "#49980",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#49980",
+      "reason": "Already closed and merged; no mutation is valid."
+    },
+    {
+      "target": "#56741",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling; closed state prevents any cleanup mutation."
+    },
+    {
+      "target": "#64609",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close/comment mutation is valid."
+    },
+    {
+      "target": "#64650",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Obsolete closed representative; no open canonical PR replaces it in the non-security prompt-fallback subfamily."
+    },
+    {
+      "target": "#56699",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive issue must be routed to central OpenClaw security handling, not handled by ProjectClownfish backlog cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
