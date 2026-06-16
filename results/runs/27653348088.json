@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T224810-005",
+  "mode": "plan",
+  "run_id": "27653348088",
+  "workflow_run_id": "27653348088",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27653348088",
+  "head_sha": "4cf9d4105ee2b44463a05786cc5ef72aecb0cec9",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:50:57Z",
+  "workflow_updated_at": "2026-06-16T22:52:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T224810-005.md",
+  "published_at": "2026-06-16T23:07:18.003Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification for five open PRs. Four non-security PRs remain non-mutating keep classifications because this shard has no shared canonical and merge/fix are blocked. #93792 is quarantined with route_security for central OpenClaw security handling per validator-detected security sensitivity.",
+  "actions": [
+    {
+      "target": "#93791",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#52115",
+      "candidate_fix": "#93791",
+      "reason": "Narrow active fix candidate for the hydrated memory-search issue; keep it open for maintainer review rather than closing or merging in this inventory shard."
+    },
+    {
+      "target": "#93788",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related ClawHub docs-discoverability work, but not boringly duplicate or closable under this job's disabled low-signal closeout gate."
+    },
+    {
+      "target": "#93787",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active maintainer-owned migration work with review findings and author follow-up; not a cleanup close or merge candidate for this shard."
+    },
+    {
+      "target": "#93789",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93036",
+      "candidate_fix": "#93789",
+      "reason": "Plausible active fix path for #93036 and replacement for #93730; keep related for maintainer review instead of closing or merging."
+    },
+    {
+      "target": "#93792",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive PR ref is routed to central OpenClaw security handling; unrelated non-security PR classifications remain in scope."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
