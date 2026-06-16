@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-005",
+  "mode": "plan",
+  "run_id": "27651429370",
+  "workflow_run_id": "27651429370",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651429370",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:09:36Z",
+  "workflow_updated_at": "2026-06-16T22:10:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-005.md",
+  "published_at": "2026-06-16T22:14:06.094Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory shard. No shared canonical was selected; each listed open PR was classified independently from the hydrated preflight artifact. #88841 is routed to central security handling per deterministic validation; unrelated non-security PRs remain conservative keep classifications. No close, merge, fix, or cluster-scoped security action is recommended.",
+  "actions": [
+    {
+      "target": "#88925",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated stuck-session recovery family, but not closable or mergeable in this plan shard."
+    },
+    {
+      "target": "#88841",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Routed to central OpenClaw security handling for the exact PR ref per deterministic security validation."
+    },
+    {
+      "target": "#88633",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer draft PR; keep open for normal maintainer handling."
+    },
+    {
+      "target": "#88192",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the diagnostic stuck-session recovery family, but failing proof blocks fixed-by-candidate closeout or merge-style treatment."
+    },
+    {
+      "target": "#88850",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related to the hydrated Teams attachment-threading issue, but keep open because proof and checks are insufficient and closeout is not allowed."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "route_security": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

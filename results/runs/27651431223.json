@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-008",
+  "mode": "plan",
+  "run_id": "27651431223",
+  "workflow_run_id": "27651431223",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27651431223",
+  "head_sha": "a3a23c75ed086ba27de6a5268edd698ff2bd73ad",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:09:39Z",
+  "workflow_updated_at": "2026-06-16T22:10:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-008.md",
+  "published_at": "2026-06-16T22:14:06.112Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations are proposed because this shard is not a dedupe cluster, merge/fix/raise_pr are blocked, low-signal closeout is disabled, and the open PRs need ordinary maintainer review rather than automated closure.",
+  "actions": [
+    {
+      "target": "https://github.com/openclaw/openclaw/issues/63829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be routed to central OpenClaw security handling without ProjectClownfish triage."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/67584",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is read-only and out of scope for ProjectClownfish cleanup."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/90194",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89666",
+      "reason": "Open focused fix related to #89666 should remain open for maintainer review; no close, merge, or fix action is allowed in this plan shard."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/90202",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a substantial independent feature PR that needs maintainer/product and technical review, not automated closure."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/89999",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused draft hardening/fix PR should remain open in its own track; no duplicate or superseded evidence supports closure."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/89983",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent draft PR with unresolved review/maintainer considerations; it is not closable as duplicate or low-signal in this shard."
+    },
+    {
+      "target": "https://github.com/openclaw/openclaw/pull/80235",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80234",
+      "reason": "Open contributor PR remains the related candidate fix path for #80234, but failing checks and maintainer-review requirements block merge or fixed-by-candidate closure."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 3,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}
