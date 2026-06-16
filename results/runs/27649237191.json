@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-81312-20260617",
+  "mode": "autonomous",
+  "run_id": "27649237191",
+  "workflow_run_id": "27649237191",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27649237191",
+  "head_sha": "1b12312e58a23aa38c75b90a17d4ad3667091db9",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T21:26:20Z",
+  "workflow_updated_at": "2026-06-16T21:37:05Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-81312-20260617.md",
+  "published_at": "2026-06-16T21:39:10.675Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/81312",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77982",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/81312",
+  "summary": "Canonical PR #81312 remains the sole viable path and is maintainer-editable, but this rebase-only calibrated job still needs the executor to refresh the contributor branch, run changed-surface validation, and run Codex /review before any separate finalization. No merge, close, label, comment, replacement PR, or GitHub mutation is planned.",
+  "actions": [
+    {
+      "target": "#81312",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81312",
+      "candidate_fix": "#81312",
+      "reason": "The canonical contributor PR is viable but needs the required rebase/validation/review repair loop; allow_merge=false and blocked_actions forbid merge/close/label mutations in this job."
+    },
+    {
+      "target": "#77982",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81312",
+      "candidate_fix": "#81312",
+      "reason": "The issue is covered by the canonical PR path, but this rebase-only job must leave the issue open."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-81312-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81312",
+      "candidate_fix": "#81312",
+      "reason": "Autonomous worker output should hand the guarded executor a concrete repair plan instead of mutating GitHub directly."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/81312",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "25856614792203bb5e474c172ea5f33a189c8847",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#81312",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
