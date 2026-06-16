@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-130",
+  "mode": "plan",
+  "run_id": "27652335116",
+  "workflow_run_id": "27652335116",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652335116",
+  "head_sha": "a0e95bb51d97dadff1db7d08afd9d95b975e0c95",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:28:46Z",
+  "workflow_updated_at": "2026-06-16T22:30:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-130.md",
+  "published_at": "2026-06-16T22:32:23.655Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations, merges, fix PRs, or closeouts are planned. Open non-security PRs are kept for ordinary maintainer/contributor follow-up; security-sensitive linked WhatsApp PRs are routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#91877",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Meaningful standalone Discord PR, but proof is missing and no close/merge action is safe in this plan-only inventory job."
+    },
+    {
+      "target": "#91885",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91885",
+      "reason": "Plausible focused fix for the hydrated linked issue, but this inventory job allows neither merge nor fixed-by-candidate closeout."
+    },
+    {
+      "target": "#65180",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but not merge-ready draft work with a remaining source-reproducible scope; keep it out of this inventory cleanup rather than close it."
+    },
+    {
+      "target": "#67432",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#67432",
+      "reason": "Narrow accessibility PR should stay open for maintainer review; no close or merge action is allowed or sufficiently proven here."
+    },
+    {
+      "target": "#67818",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#67818",
+      "reason": "Related WhatsApp QR follow-up PR remains useful but blocked by review findings/proof; keep it open and do not let linked security refs poison this non-security classification."
+    },
+    {
+      "target": "#67816",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive WhatsApp auth/logout boundary item is out of ProjectClownfish backlog-cleanup scope."
+    },
+    {
+      "target": "#67820",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive WhatsApp QR/auth-provider item is out of ProjectClownfish backlog-cleanup scope."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

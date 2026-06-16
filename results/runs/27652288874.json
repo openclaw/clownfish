@@ -1,0 +1,82 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-103",
+  "mode": "plan",
+  "run_id": "27652288874",
+  "workflow_run_id": "27652288874",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652288874",
+  "head_sha": "6718bcb588224dc04a03f0dcab06f92cb62ccdc6",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:27:46Z",
+  "workflow_updated_at": "2026-06-16T22:28:58Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-103.md",
+  "published_at": "2026-06-16T22:32:23.551Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations are planned because two listed PRs are already closed and the remaining open PRs are useful but not merge-ready, close-ready, or safe to treat as low-signal under this job's permissions and hydrated evidence.",
+  "actions": [
+    {
+      "target": "#59285",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#52510",
+      "candidate_fix": null,
+      "reason": "Already closed in live state; record as skipped keep_closed rather than planning a duplicate/superseded close."
+    },
+    {
+      "target": "#62157",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93629",
+      "reason": "Already closed in live state; record as skipped keep_closed and preserve the hydrated fixed-by-candidate evidence."
+    },
+    {
+      "target": "#59986",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft work in progress should remain open and independent of this inventory shard; no close, merge, or fix action is allowed or safe."
+    },
+    {
+      "target": "#62727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but blocked contributor PR; not a duplicate, not low-signal, and not merge-ready. Keep independent for maintainer/author follow-up."
+    },
+    {
+      "target": "#62822",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Meaningful performance PR, but unresolved failing checks and stale/dirty state block merge or fixed-by-candidate closeout; no low-signal close is permitted."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [],
+  "apply_actions": []
+}

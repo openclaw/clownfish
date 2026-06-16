@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-133",
+  "mode": "plan",
+  "run_id": "27652356221",
+  "workflow_run_id": "27652356221",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652356221",
+  "head_sha": "a0e95bb51d97dadff1db7d08afd9d95b975e0c95",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:29:14Z",
+  "workflow_updated_at": "2026-06-16T22:30:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-133.md",
+  "published_at": "2026-06-16T22:32:23.667Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification for five independent open PRs. No GitHub mutations, merges, fix PRs, or low-signal closeouts are planned. Four PRs stay open pending real behavior proof; one PR is ready for maintainer technical review.",
+  "actions": [
+    {
+      "target": "#71503",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR with unresolved behavior-proof gate; no close, merge, or fix action is allowed in this inventory shard."
+    },
+    {
+      "target": "#71563",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor PR remains potentially useful but blocked on proof and review gates; it is not a duplicate or low-signal close candidate."
+    },
+    {
+      "target": "#72025",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR has a clear standalone scope but unresolved proof and review-bot correctness questions, so it should stay open rather than be closed or advanced by Clownfish."
+    },
+    {
+      "target": "#72224",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Substantial contributor PR with active proof and check blockers; no low-signal or superseded closeout is safe under the plan-only inventory job."
+    },
+    {
+      "target": "#72314",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining decision is maintainer technical/product judgment on the ready PR, not dedupe cleanup."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72314 requires maintainer review before any merge decision; plan mode and blocked merge/fix actions prevent Clownfish from advancing it."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

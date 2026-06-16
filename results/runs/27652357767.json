@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-140",
+  "mode": "plan",
+  "run_id": "27652357767",
+  "workflow_run_id": "27652357767",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652357767",
+  "head_sha": "a0e95bb51d97dadff1db7d08afd9d95b975e0c95",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:29:17Z",
+  "workflow_updated_at": "2026-06-16T22:30:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-140.md",
+  "published_at": "2026-06-16T22:32:23.672Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only live PR inventory classification. No GitHub mutations planned; merge, fix, raise_pr, instant close, and low-signal closeout are disabled by job frontmatter. The five listed PRs are not a dedupe cluster and should remain independently tracked for maintainer review or author follow-up. Security-sensitive linked issue #53550 is routed only for central security handling.",
+  "actions": [
+    {
+      "target": "#53550",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed to central OpenClaw security handling and must not drive backlog cleanup actions."
+    },
+    {
+      "target": "#80947",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR with focused code, docs, and tests; no duplicate/superseded/low-signal closeout is justified in this inventory shard."
+    },
+    {
+      "target": "#84792",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor PR with linked bug context and passing evidence; not safe to close or merge from this plan-only inventory job."
+    },
+    {
+      "target": "#88789",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with active author-followup status, broad compatibility surface, non-main base, and review findings requires maintainer/author judgment; no close action is appropriate."
+    },
+    {
+      "target": "#89334",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small docs PR with passing evidence should remain available for maintainer review; low-signal closeout is disabled and no duplicate/superseded canonical is established."
+    },
+    {
+      "target": "#89493",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned draft with dirty merge state and overlapping draft MCP schema work needs maintainer judgment on canonical path; no close, merge, or fix action is allowed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88789: maintainer-owned draft on a non-main base with ClawSweeper findings, broad compatibility/config/docs/generated-baseline surface, and waiting-on-author status.",
+    "#89493: maintainer-owned draft with dirty merge state and overlapping draft MCP plugin tool schema PRs (#89056 and #90311); maintainer must choose the canonical path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

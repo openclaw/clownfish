@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T185209-121",
+  "mode": "plan",
+  "run_id": "27652332992",
+  "workflow_run_id": "27652332992",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27652332992",
+  "head_sha": "a0e95bb51d97dadff1db7d08afd9d95b975e0c95",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T22:28:43Z",
+  "workflow_updated_at": "2026-06-16T22:30:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T185209-121.md",
+  "published_at": "2026-06-16T22:32:23.634Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode inventory classification only. No GitHub mutations are planned because the shard has no shared canonical, low-signal/instant close are disabled by the job artifact, merge/fix/raise_pr are blocked, and each open PR still has either proof, review, or checks gating.",
+  "actions": [
+    {
+      "target": "#90997",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90997",
+      "reason": "Open contributor PR with a plausible narrow fix but failed behavior proof and unresolved scope/proof questions; keep it related for maintainer follow-up rather than closing."
+    },
+    {
+      "target": "#91000",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91000",
+      "reason": "This is a green, focused fix candidate that appears ready for maintainer technical judgment, but this job cannot merge or finalize it."
+    },
+    {
+      "target": "#91050",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91050",
+      "reason": "Related to prior active-memory scoped-channel fixes but not a duplicate or safe close candidate; failed proof and CI keep it in follow-up state."
+    },
+    {
+      "target": "#91157",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91157",
+      "reason": "Plausible linked fix for an open issue, but failed behavior proof means it should remain related and open for proof/maintainer review."
+    },
+    {
+      "target": "#91162",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91162",
+      "reason": "Plausible linked fix for an open cron-delivery issue, but failed behavior proof blocks closure or merge-style finalization."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91000 requires maintainer technical review because it is a clean, proof-sufficient focused bug-fix candidate, while this plan-mode inventory job blocks merge/fix actions and marks maintainer_signal/green_checks/technical_correctness_judgment as human-required."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
