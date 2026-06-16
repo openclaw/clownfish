@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156951-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27589624467",
+  "workflow_run_id": "27589624467",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27589624467",
+  "head_sha": "6a654d1757156670f15b7d53c36c840c3e903935",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T02:18:00Z",
+  "workflow_updated_at": "2026-06-16T02:20:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156951-autonomous-smoke.md",
+  "published_at": "2026-06-16T02:21:27.642Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/20786",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/20786",
+  "canonical_pr": null,
+  "summary": "Validator repair routed exact security-sensitive refs #20786 and #53629 to central security handling. Historical linked refs are already closed and remain non-mutating evidence only. No executable fix artifact is safe from this worker because the canonical tracker is now security-routed by deterministic validation, the only hydrated implementation candidate is security-sensitive/closed, maintainer comments ask for Telegram-owner direction, and the provided target checkout is not an OpenClaw source tree.",
+  "actions": [
+    {
+      "target": "#20786",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive canonical tracker must be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "#51916",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; no closure action is valid."
+    },
+    {
+      "target": "#21947",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; historical evidence only."
+    },
+    {
+      "target": "#2286",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Already closed related historical context."
+    },
+    {
+      "target": "#15975",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Closed historical implementation context; not a live candidate for merge or repair."
+    },
+    {
+      "target": "#1324",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent historical ref."
+    },
+    {
+      "target": "#53629",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked implementation candidate must be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "cluster:ghcrawl-156951-autonomous-smoke",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#20786",
+      "candidate_fix": null,
+      "reason": "Fix lane is blocked on security routing, maintainer/Telegram-owner direction, and a usable OpenClaw target checkout; do not emit a placeholder build_fix_artifact."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 5,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Route #20786 and #53629 through central OpenClaw security handling before any ProjectClownfish fix PR or closeout work.",
+    "Decide the Telegram Business product/security direction for #20786 before any new fix PR: whether Clownfish may implement personal-DM Business handling and outbound business_connection_id mapping, or whether this must stay with Telegram-owner/security review.",
+    "Provide or refresh a usable OpenClaw target checkout before an executable fix artifact is built."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

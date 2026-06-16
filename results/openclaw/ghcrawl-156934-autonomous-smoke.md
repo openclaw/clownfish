@@ -2,31 +2,31 @@
 repo: "openclaw/openclaw"
 cluster_id: "ghcrawl-156934-autonomous-smoke"
 mode: "autonomous"
-run_id: "27584189363"
-workflow_run_id: "27584189363"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27584189363"
-head_sha: "3eaef20c39c95c760c2eeb4e61adf6ea57afc054"
+run_id: "27589624918"
+workflow_run_id: "27589624918"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27589624918"
+head_sha: "6a654d1757156670f15b7d53c36c840c3e903935"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T23:57:44.407Z"
+published_at: "2026-06-16T02:21:27.646Z"
 canonical: "https://github.com/openclaw/openclaw/issues/8147"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/8147"
 canonical_pr: null
-actions_total: 8
+actions_total: 6
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 1
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 1
-needs_human_count: 0
+needs_human_count: 2
 ---
 
 # ghcrawl-156934-autonomous-smoke
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27584189363](https://github.com/openclaw/clownfish/actions/runs/27584189363)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27589624918](https://github.com/openclaw/clownfish/actions/runs/27589624918)
 
 Workflow conclusion: success
 
@@ -36,26 +36,26 @@ Canonical: https://github.com/openclaw/openclaw/issues/8147
 
 ## Summary
 
-Classified #8147 as the canonical WebChat send-shortcut issue. #39821 and #19859 are already closed duplicates and receive no closure action. #10118 and #16711 are related but distinct open feature tracks. The open implementation PR #73390 is useful but not merge-ready because the hydrated artifact shows maintainer_can_modify=false, unknown mergeability, a failing Real behavior proof check, and unresolved Greptile review comments, so the safe autonomous path is a narrow credited replacement fix artifact rather than merge or duplicate closeout.
+Deterministic validation flagged #8147 and #86035 as security-sensitive, so both exact refs are quarantined with route_security. Closed duplicate context #39821 and #19859 remains non-mutating keep_closed. PR #73390 remains blocked from superseded closeout because the replacement path cannot proceed while the canonical/security-linked fix lane is routed to central security handling. The cluster-level fix lane is downgraded to needs_human; no executable fix artifact is emitted.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 8 |
+| Worker actions | 6 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 1 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 1 |
-| Needs human | 0 |
+| Needs human | 2 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -67,15 +67,14 @@ Classified #8147 as the canonical WebChat send-shortcut issue. #39821 and #19859
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #8147 | keep_canonical | planned | canonical | Best surviving canonical issue for the WebChat send-shortcut feature; keep open until a viable fix PR lands. |
-| #39821 | keep_closed | skipped | duplicate | Already-closed duplicate; retained as historical evidence only. |
-| #19859 | keep_closed | skipped | duplicate | Already-closed duplicate; retained as historical evidence only. |
-| #10118 | keep_related | planned | related | Related keyboard-composition feature family, but not a duplicate of the WebChat send-shortcut root cause. |
-| #16711 | keep_related | planned | related | Adjacent Control UI composer keyboard behavior, but distinct expanded-editor product work rather than a duplicate of #8147. |
-| #73390 | close_superseded | blocked | superseded | Useful but not automation-mergeable. Closure is blocked until a replacement fix PR exists, preserving contributor credit. |
-| cluster:ghcrawl-156934-autonomous-smoke | fix_needed | planned |  | A narrow credited replacement PR is needed before closing the canonical issue or superseding the uneditable implementation PR. |
-| cluster:ghcrawl-156934-autonomous-smoke | build_fix_artifact | planned |  | The executor can open a narrow replacement PR that preserves credit and avoids unsafe branch mutation. |
+| #8147 | route_security | planned | security_sensitive | Quarantine the exact canonical issue for central OpenClaw security handling before any further ProjectClownfish fix or closeout work. |
+| #39821 | keep_closed | skipped | duplicate | Already closed duplicate; closure actions are invalid for closed live targets. |
+| #19859 | keep_closed | skipped | duplicate | Already closed duplicate; no mutation should be planned. |
+| #73390 | close_superseded | blocked | superseded | Supersede only after a replacement fix PR exists and the security-routed canonical path is cleared; candidate_fix must remain null until that PR is hydrated. |
+| #86035 | route_security | planned | security_sensitive | Quarantine the exact linked issue for central OpenClaw security handling. |
+| cluster:ghcrawl-156934-autonomous-smoke | needs_human | blocked | needs_human | Central security handling must decide whether and how the #8147/#86035-linked composer work can proceed before any ProjectClownfish replacement fix PR is planned. |
 
 ## Needs Human
 
-- none
+- Security-routed #8147 blocks the canonical WebChat send-shortcut replacement fix lane; central OpenClaw security handling must clear or redirect the work before ProjectClownfish emits an executable fix artifact.
+- Security-routed #86035 should be handled by central OpenClaw security triage and not closed or fixed from this cluster.

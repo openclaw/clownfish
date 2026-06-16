@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156934-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27589624918",
+  "workflow_run_id": "27589624918",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27589624918",
+  "head_sha": "6a654d1757156670f15b7d53c36c840c3e903935",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T02:18:01Z",
+  "workflow_updated_at": "2026-06-16T02:20:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-156934-autonomous-smoke.md",
+  "published_at": "2026-06-16T02:21:27.646Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/8147",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/8147",
+  "canonical_pr": null,
+  "summary": "Deterministic validation flagged #8147 and #86035 as security-sensitive, so both exact refs are quarantined with route_security. Closed duplicate context #39821 and #19859 remains non-mutating keep_closed. PR #73390 remains blocked from superseded closeout because the replacement path cannot proceed while the canonical/security-linked fix lane is routed to central security handling. The cluster-level fix lane is downgraded to needs_human; no executable fix artifact is emitted.",
+  "actions": [
+    {
+      "target": "#8147",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Quarantine the exact canonical issue for central OpenClaw security handling before any further ProjectClownfish fix or closeout work."
+    },
+    {
+      "target": "#39821",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; closure actions are invalid for closed live targets."
+    },
+    {
+      "target": "#19859",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate; no mutation should be planned."
+    },
+    {
+      "target": "#73390",
+      "action": "close_superseded",
+      "status": "blocked",
+      "classification": "superseded",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Supersede only after a replacement fix PR exists and the security-routed canonical path is cleared; candidate_fix must remain null until that PR is hydrated."
+    },
+    {
+      "target": "#86035",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Quarantine the exact linked issue for central OpenClaw security handling."
+    },
+    {
+      "target": "cluster:ghcrawl-156934-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "reason": "Central security handling must decide whether and how the #8147/#86035-linked composer work can proceed before any ProjectClownfish replacement fix PR is planned."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 2,
+    "close_superseded": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 2,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "Security-routed #8147 blocks the canonical WebChat send-shortcut replacement fix lane; central OpenClaw security handling must clear or redirect the work before ProjectClownfish emits an executable fix artifact.",
+    "Security-routed #86035 should be handled by central OpenClaw security triage and not closed or fixed from this cluster."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#73390",
+      "action": "close_superseded",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#8147",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "ghcrawl-156934-autonomous-smoke:#73390:close_superseded_blocked:2026-06-15T17:49:48Z",
+      "source_status": "blocked",
+      "source_reason": "Supersede only after a replacement fix PR exists and the security-routed canonical path is cleared; candidate_fix must remain null until that PR is hydrated.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
