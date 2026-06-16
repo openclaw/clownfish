@@ -1,0 +1,67 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-352-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27624181687",
+  "workflow_run_id": "27624181687",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27624181687",
+  "head_sha": "448224a5fbe97e588452ff54d356f827b93c9e5e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T14:18:17Z",
+  "workflow_updated_at": "2026-06-16T14:21:20Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-352-autonomous-terminal-gap.md",
+  "published_at": "2026-06-16T14:25:25.046Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/45469",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/45469",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77961",
+  "summary": "#45469 remains the live canonical issue. Current main at 8c7690b256856bb17af7846f432d5ef6d9037755 still schedules reconnects without a max-attempt ceiling in the package GatewayClient. The linked PR #77961 is hydrated as context and is a plausible fix path, but it is not merge-ready: proof/product-policy gates remain unresolved and the job marked #77961 as existing-overlap context rather than an actionable cluster ref. No close, merge, or new fix PR is safe from this cluster.",
+  "actions": [
+    {
+      "target": "#45469",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "#45469 is still open, still reproduces at source level on current main, and should remain the canonical issue while the linked PR/proof path is resolved."
+    },
+    {
+      "target": "#77961",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "#77961 is related as the linked implementation candidate for #45469, but this cluster should not merge or repair it directly because it is an existing-overlap context ref and has unresolved proof/product-policy blockers."
+    },
+    {
+      "target": "cluster:gitcrawl-352-autonomous-terminal-gap",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "Maintainer input is needed on the exact remaining decision: whether to accept the opt-in reconnect-limit API/caller policy in #77961 and what real behavior proof or override is required before that PR can proceed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#45469/#77961 product and proof decision: current main is still unbounded, but the linked fix candidate #77961 is existing-overlap context for this cluster and remains blocked on Real behavior proof plus Gateway retry API/caller-default policy."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
