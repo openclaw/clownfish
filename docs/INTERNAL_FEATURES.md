@@ -296,10 +296,12 @@ clearly transient jobs, and pass branch-caused failures into the repair prompt.
 Workflow: `.github/workflows/self-heal.yml`
 Script: `scripts/self-heal-failed-runs.mjs`
 
-Self-heal retries failed Clownfish cluster-worker runs. It reads published
-`results/runs/*.json`, selects the latest failed run per source job, skips jobs
-already retried unless `--allow-repeat` is set, and dispatches fresh worker
-runs.
+Self-heal retries explicit recoverable fix failures from published
+`results/runs/*.json`. It selects the latest active inbox job only when a
+checkpointed fix reports `retry_recommended` and a recoverable branch was
+pushed. A failed batch/workflow conclusion, finalized outbox job, or
+already-opened/merged replacement path is not enough to requeue work. Jobs
+already retried are skipped unless `--allow-repeat` is set.
 
 Important distinction: this heals failed Clownfish worker runs. It does not
 currently inspect target PR CI logs. Target PR repair belongs in the open PR

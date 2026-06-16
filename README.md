@@ -412,7 +412,9 @@ npm run dispatch -- --jobs-file /tmp/clownfish-close-retry.txt \
   --runner blacksmith-4vcpu-ubuntu-2404 \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
-# Find failed cluster jobs that have not been superseded by a later success.
+# Find explicitly recoverable, checkpointed active-inbox fix failures that have
+# not been superseded by a later child result. A failed batch alone is not
+# enough to requeue work.
 npm run self-heal
 
 # Resolve a job from a run id or job path and show the requeue plan.

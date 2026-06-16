@@ -13,6 +13,7 @@ import {
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
 import { restoreGateValue } from "./gate-restore.mjs";
+import { isActiveInboxJob, selectRetryableFailedRuns } from "./self-heal-selection.mjs";
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
@@ -135,24 +136,11 @@ try {
 function selectCandidates() {
   const records = readRunRecords();
   const attempts = readSelfHealLedger().attempts ?? [];
-  const attemptedJobs = new Set(attempts.map((attempt) => attempt.source_job).filter(Boolean));
-  const latestByJob = new Map();
-
-  for (const record of records) {
-    const sourceJob = record.source_job;
-    if (!sourceJob) continue;
-    const current = latestByJob.get(sourceJob);
-    if (!current || runSortKey(record) > runSortKey(current)) {
-      latestByJob.set(sourceJob, record);
-    }
-  }
-
-  return [...latestByJob.values()]
-    .filter((record) => record.workflow_conclusion === "failure")
-    .filter((record) => allowRepeat || !attemptedJobs.has(record.source_job))
+  return selectRetryableFailedRuns(records, attempts, { allowRepeat })
     .map((record) => {
       const sourceJob = resolveExistingJobPath(record.source_job);
       if (!sourceJob) return null;
+      if (!isActiveInboxJob(sourceJob)) return null;
       const job = parseJob(sourceJob);
       const errors = validateJob(job);
       if (errors.length > 0) {
@@ -164,8 +152,7 @@ function selectCandidates() {
         mode: requestedMode ?? record.mode ?? job.frontmatter.mode,
       };
     })
-    .filter(Boolean)
-    .sort((left, right) => runSortKey(right) - runSortKey(left));
+    .filter(Boolean);
 }
 
 function resolveExistingJobPath(sourceJob) {
@@ -358,12 +345,6 @@ function ghJson(ghArgs) {
   return JSON.parse(text || "null");
 }
 
-function runSortKey(record) {
-  const runId = Number(record.run_id);
-  if (Number.isFinite(runId) && runId > 0) return runId;
-  return Date.parse(record.published_at ?? "") || 0;
-}
-
 function summarizeCandidate(candidate) {
   return {
     source_run_id: candidate.run_id,
@@ -371,6 +352,7 @@ function summarizeCandidate(candidate) {
     source_job: candidate.source_job,
     mode: candidate.mode,
     result_status: candidate.result_status,
+    retry_reason: candidate.self_heal_reason,
     run_url: candidate.run_url,
   };
 }
