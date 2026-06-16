@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104849-001",
+  "mode": "autonomous",
+  "run_id": "27617956341",
+  "workflow_run_id": "27617956341",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27617956341",
+  "head_sha": "e9313645769364ca763e3d93eb9c29230076581f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:36:11Z",
+  "workflow_updated_at": "2026-06-16T12:40:06Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104849-001.md",
+  "published_at": "2026-06-16T12:44:11.846Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified five open PRs from the live inventory shard independently. No shared canonical exists, no security-sensitive signal was detected, and the job disables merge, fix PRs, low-signal closeout, and instant close. Draft/proof-blocked PRs are kept open; ready focused PRs require maintainer technical review rather than automated close/merge.",
+  "actions": [
+    {
+      "target": "#79938",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent draft PR blocked on proof, not a duplicate or close candidate."
+    },
+    {
+      "target": "#79959",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical judgment is needed to verify the review finding is fully resolved and decide whether the compatibility-risk API change should proceed."
+    },
+    {
+      "target": "#79962",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related follow-up session-state work; it is not a duplicate, not low-signal, and not safe to close or merge in this inventory job."
+    },
+    {
+      "target": "#79985",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review/rebase decision is required; the PR is focused and useful but cannot be finalized by this close-only inventory worker."
+    },
+    {
+      "target": "#79999",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer technical review is required for a focused bug fix with green checks; this worker cannot merge or repair it and there is no closure basis."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79959: verify the later commits resolve the Codex P2 originAgent review finding and decide whether the compatibility-risk gateway API change should proceed.",
+    "#79985: maintainer review/rebase decision after dependency-guard backfill comment on current main.",
+    "#79999: maintainer technical correctness review for the focused gateway config.get path fix."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
