@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-187",
+  "mode": "autonomous",
+  "run_id": "27617418395",
+  "workflow_run_id": "27617418395",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27617418395",
+  "head_sha": "1cfae9cdcfdc8a3080acc292cbe899a0f712efb4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:26:43Z",
+  "workflow_updated_at": "2026-06-16T12:28:54Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-187.md",
+  "published_at": "2026-06-16T12:32:54.479Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Live PR inventory shard classified without mutations. No shared canonical was selected. All listed PRs remain open: two require maintainer judgment, one Mattermost PR is related to its focused issue but blocked by author/review work, and two larger feature/follow-up PRs are not safe close candidates. Linked closed refs are treated as historical evidence only.",
+  "actions": [
+    {
+      "target": "#91923",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer merge decision is required for a focused, apparently healthy contributor PR; Clownfish cannot merge or fix in this job."
+    },
+    {
+      "target": "#93209",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer signal and mixed check state make this an explicit maintainer decision, not an inventory cleanup close."
+    },
+    {
+      "target": "#93243",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93204",
+      "candidate_fix": null,
+      "reason": "The PR is a plausible focused repair for #93204 but is not merge-ready and should remain open for author/review follow-up."
+    },
+    {
+      "target": "#93244",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is independent feature work with conflicts/proof and compatibility blockers, so it should stay open rather than be closed or folded into this shard."
+    },
+    {
+      "target": "#93277",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is related follow-up work in the Discord self-reply family, but it has a distinct scope and unresolved proof/review blockers."
+    },
+    {
+      "target": "#93203",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainers need to decide the product/config contract for opt-in Mattermost DM threading."
+    },
+    {
+      "target": "#93204",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep the focused issue open as the canonical Mattermost backfill tracking issue while #93243 remains under author/review follow-up."
+    },
+    {
+      "target": "#65729",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation should target it."
+    },
+    {
+      "target": "#86238",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed merged PR is evidence only; no mutation should target it."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_related": 3,
+    "keep_independent": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91923: maintainer merge decision for a focused iOS bug fix with sufficient proof and green relevant checks, in a job that blocks merge.",
+    "#93209: maintainer-owned/member PR with explicit maintainer commands and human-review label plus mixed check state requires maintainer decision.",
+    "#93203: product/config decision needed for opt-in Mattermost DM threading contract before implementation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
