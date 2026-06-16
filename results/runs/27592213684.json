@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T033019-004",
+  "mode": "autonomous",
+  "run_id": "27592213684",
+  "workflow_run_id": "27592213684",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27592213684",
+  "head_sha": "b0158c0f54ddae7f71c85cc08921ef5306d5cd78",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T03:31:39Z",
+  "workflow_updated_at": "2026-06-16T03:33:31Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T033019-004.md",
+  "published_at": "2026-06-16T03:34:39.747Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently with no shared canonical. No GitHub mutations, merge, fix, or PR creation are planned because this job only permits comment/label/close and instant close/low-signal close/fix/merge are disabled by the hydrated fix artifact. Two PRs need human or author follow-up because their hydrated evidence contains failed proof or actionable bot-review blockers.",
+  "actions": [
+    {
+      "target": "#93467",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused plugin behavior fix requires technical correctness judgment, and the proof/check state is not clean enough for closure or merge classification in this close-only inventory shard."
+    },
+    {
+      "target": "#93466",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93453",
+      "candidate_fix": "#93466",
+      "reason": "Keep open as the candidate fix path for #93453; merge/fix/post-merge close are outside this job and one relevant check is failing."
+    },
+    {
+      "target": "#93470",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93219",
+      "candidate_fix": "#93470",
+      "reason": "Keep open as the candidate fix path for #93219; merge/fix/post-merge close are not allowed in this inventory job."
+    },
+    {
+      "target": "#93458",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature work should remain open for normal maintainer review, not backlog closeout."
+    },
+    {
+      "target": "#93471",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Actionable bot-review feedback and failed proof block merge/fixed classification; fix work is disabled, so this needs human or author follow-up."
+    },
+    {
+      "target": "#93219",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93219",
+      "candidate_fix": "#93470",
+      "reason": "Keep the issue open as the canonical bug thread while #93470 remains the candidate fix under normal review."
+    },
+    {
+      "target": "#93453",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93453",
+      "candidate_fix": "#93466",
+      "reason": "Keep the issue open as the canonical bug thread while #93466 remains under normal review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93467 requires maintainer technical judgment because real behavior proof failed and relevant checks are not clean for a focused plugin diagnostics fix.",
+    "#93471 requires human or author follow-up because Codex left an actionable P1 review finding and real behavior proof failed."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

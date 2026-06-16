@@ -1,0 +1,105 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T033019-001",
+  "mode": "autonomous",
+  "run_id": "27592213633",
+  "workflow_run_id": "27592213633",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27592213633",
+  "head_sha": "b0158c0f54ddae7f71c85cc08921ef5306d5cd78",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T03:31:39Z",
+  "workflow_updated_at": "2026-06-16T03:33:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T033019-001.md",
+  "published_at": "2026-06-16T03:34:39.744Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard independently. No shared canonical was selected, no security-sensitive refs were found, and no close/merge/fix actions are allowed or safe from this artifact. #93432 needs maintainer/admin judgment because dependency graph changes are explicitly blocked by the repo guard.",
+  "actions": [
+    {
+      "target": "#92070",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone Anthropic CLI behavior PR; keep open for normal maintainer review and CI, with no closure or merge action planned."
+    },
+    {
+      "target": "#93430",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused bug-fix PR related to the already-closed #93419, but conflicts and failed relevant checks block any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#93432",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/admin authorization is required for the dependency graph change and technical acceptance of the broader publication feature. This is a scoped human decision for #93432 only."
+    },
+    {
+      "target": "#93433",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused candidate PR for #93296, but failed relevant checks block merge or fixed-by-candidate closeout. Keep it open for normal review/proof."
+    },
+    {
+      "target": "#93434",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone focused bug-fix PR outside this shard's shared scope; keep open because the linked issue is unhydrated and proof/checks are not fully green."
+    },
+    {
+      "target": "#93296",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93433",
+      "reason": "Open issue appears covered by candidate PR #93433, but that PR has failed checks and is not landed, so the issue should remain open."
+    },
+    {
+      "target": "#93419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93430",
+      "reason": "Already closed; included only to record that it is historical context for #93430."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 3,
+    "needs_human": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93432 requires maintainer/admin authorization for dependency graph changes and technical acceptance of the broader advisor publication PR."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
