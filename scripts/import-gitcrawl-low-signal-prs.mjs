@@ -5,7 +5,20 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 
-const args = parseArgs(process.argv.slice(2));
+const DEFAULT_BLOCK_LABELS = [
+  "proof:*",
+  "status:*ready for maintainer look",
+  "status:*waiting on author",
+  "status:*needs proof",
+  "triage: needs-real-behavior-proof",
+  "triage: mock-only-proof",
+  "merge-risk:*",
+  "rating:*platinum",
+  "rating:*gold",
+  "rating:*diamond",
+];
+const rawArgv = process.argv.slice(2);
+const args = parseArgs(rawArgv);
 const repo = String(args.repo ?? "openclaw/openclaw");
 const dbPath = path.resolve(String(args.db ?? path.join(os.homedir(), ".config", "gitcrawl", "gitcrawl.db")));
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", repo.split("/")[0], "inbox")));
@@ -19,8 +32,13 @@ const suffix = optionalSlug(args.suffix ?? "");
 const skipExisting = args["skip-existing"] !== "false";
 const hydrateFilesLive = Boolean(args["hydrate-files-live"] ?? args.hydrate_files_live);
 const liveFileCandidateLimit = numberArg("live-file-candidate-limit", Math.max(limit * 10, 300));
-const requiredSignals = signalSet(args["require-signal"] ?? args.require_signal ?? "");
-const excludedSignals = signalSet(args["exclude-signal"] ?? args.exclude_signal ?? "");
+const requiredSignals = signalSet(argValues(rawArgv, ["require-signal", "require_signal"], args["require-signal"] ?? args.require_signal ?? ""));
+const excludedSignals = signalSet(argValues(rawArgv, ["exclude-signal", "exclude_signal"], args["exclude-signal"] ?? args.exclude_signal ?? ""));
+const requiredLabels = labelSet(argValues(rawArgv, ["require-label", "require_label"], args["require-label"] ?? args.require_label ?? ""));
+const excludedLabels = labelSet(argValues(rawArgv, ["exclude-label", "exclude_label"], args["exclude-label"] ?? args.exclude_label ?? ""));
+const blockedLabelPatterns = compileLabelPatterns(
+  argValues(rawArgv, ["block-label", "block_label"], args["block-label"] ?? args.block_label ?? DEFAULT_BLOCK_LABELS),
+);
 const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
 const dryRun = Boolean(args["dry-run"]);
 const jsonOutput = Boolean(args.json);
@@ -45,7 +63,30 @@ fs.mkdirSync(outDir, { recursive: true });
 const generated = batches.map((batch, index) => writeJob(batch, index + 1));
 
 if (jsonOutput) {
-  console.log(JSON.stringify({ generated, candidates }, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        options: {
+          repo,
+          mode,
+          limit,
+          batch_size: batchSize,
+          min_score: minScore,
+          max_files: maxFiles,
+          sort,
+          required_signals: [...requiredSignals],
+          excluded_signals: [...excludedSignals],
+          required_labels: [...requiredLabels],
+          excluded_labels: [...excludedLabels],
+          blocked_labels: blockedLabelPatterns.map((pattern) => pattern.source),
+        },
+        generated,
+        candidates,
+      },
+      null,
+      2,
+    ),
+  );
 } else {
   for (const item of generated) console.log(item.path);
 }
@@ -87,6 +128,8 @@ function selectCandidates() {
     .filter((candidate) => candidate.score >= minScore)
     .filter((candidate) => requiredSignals.size === 0 || candidate.signals.some((signal) => requiredSignals.has(signal)))
     .filter((candidate) => !candidate.signals.some((signal) => excludedSignals.has(signal)))
+    .filter((candidate) => requiredLabels.size === 0 || candidate.labels_normalized.some((label) => requiredLabels.has(label)))
+    .filter((candidate) => !candidate.labels_normalized.some((label) => excludedLabels.has(label)))
     .filter((candidate) => candidate.files.length <= maxFiles)
     .sort(compareCandidates)
     .slice(0, limit);
@@ -178,6 +221,11 @@ function scoreCandidate(row) {
   if (isMaintainerAssociated(raw.author_association)) blockers.push(`author association is ${raw.author_association}`);
   if (assignees.length > 0) blockers.push("assigned PR");
   if (hasSecuritySignalText(title, body, labels)) blockers.push("security-sensitive text or labels");
+  for (const label of labelNames(labels)) {
+    const normalized = normalizeLabel(label);
+    const blockedBy = blockedLabelPatterns.find((pattern) => pattern.test(normalized));
+    if (blockedBy) blockers.push(`close-blocking label: ${label}`);
+  }
 
   addSignal(signals, blankTemplateSignal(body), "blank_template");
   addSignal(signals, docsOnlySignal(title, files), "docs_only");
@@ -204,7 +252,8 @@ function scoreCandidate(row) {
     is_draft: Boolean(row.is_draft),
     files,
     file_count: files.length,
-    labels: labels.map((label) => label.name ?? label).filter(Boolean),
+    labels: labelNames(labels),
+    labels_normalized: labelNames(labels).map((label) => normalizeLabel(label)),
     score,
     signals,
     blockers,
@@ -378,12 +427,61 @@ function addSignal(signals, enabled, name) {
 }
 
 function signalSet(value) {
-  return new Set(
-    String(value ?? "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean),
-  );
+  return new Set(listArgValues(value));
+}
+
+function labelSet(value) {
+  return new Set(listArgValues(value).map((label) => normalizeLabel(label)));
+}
+
+function argValues(argv, names, fallback) {
+  const keys = new Set(names.map((name) => `--${name}`));
+  const values = [];
+  for (let index = 0; index < argv.length; index += 1) {
+    const item = argv[index];
+    const equalMatch = item.match(/^(--[^=]+)=(.*)$/);
+    if (equalMatch) {
+      if (keys.has(equalMatch[1])) values.push(equalMatch[2]);
+      continue;
+    }
+    if (!keys.has(item)) continue;
+    const next = argv[index + 1];
+    if (next && !next.startsWith("--")) {
+      values.push(next);
+      index += 1;
+    } else {
+      values.push("true");
+    }
+  }
+  return values.length > 0 ? values : fallback;
+}
+
+function listArgValues(value) {
+  const values = Array.isArray(value) ? value : [value];
+  return values
+    .flatMap((item) => String(item ?? "").split(/[\n,]/))
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function labelNames(labels) {
+  return labels.map((label) => label.name ?? label).filter(Boolean).map(String);
+}
+
+function normalizeLabel(label) {
+  return String(label ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function compileLabelPatterns(values) {
+  return listArgValues(values).map((value) => {
+    const normalized = normalizeLabel(value);
+    if (normalized.includes("*")) return new RegExp(`^${normalized.split("*").map(escapeRegExp).join(".*")}$`);
+    return new RegExp(`^${escapeRegExp(normalized)}$`);
+  });
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
 }
 
 function optionalSlug(value) {
