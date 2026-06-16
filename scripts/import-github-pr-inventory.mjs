@@ -103,9 +103,18 @@ function fetchOpenPullRequests() {
       }
     }
   }`;
-  const text = ghRaw(["api", "graphql", "--paginate", "-f", `query=${query}`]);
-  const pages = parseJsonDocuments(stripAnsi(text));
-  const pulls = pages.flatMap((page) => page?.data?.repository?.pullRequests?.nodes ?? []);
+  const pulls = [];
+  let endCursor = null;
+  for (;;) {
+    const args = ["api", "graphql", "-f", `query=${query}`];
+    if (endCursor) args.push("-F", `endCursor=${endCursor}`);
+    const page = ghJsonWithRetry(args, { operation: "fetch open pull request inventory page" });
+    const pullRequests = page?.data?.repository?.pullRequests;
+    pulls.push(...(pullRequests?.nodes ?? []));
+    if (!pullRequests?.pageInfo?.hasNextPage) break;
+    endCursor = pullRequests.pageInfo.endCursor;
+    if (!endCursor) throw new Error("GitHub open PR pagination returned hasNextPage without endCursor");
+  }
   fetchOpenPullRequests.cache = pulls;
   return pulls;
 }
@@ -363,39 +372,42 @@ function ghRaw(ghArgs) {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
     maxBuffer: 128 * 1024 * 1024,
+    timeout: Number(process.env.CLOWNFISH_GITHUB_IMPORT_PAGE_TIMEOUT_MS ?? 180_000),
   });
 }
 
-function parseJsonDocuments(text) {
-  const documents = [];
-  let depth = 0;
-  let start = -1;
-  let inString = false;
-  let escape = false;
-  for (let index = 0; index < text.length; index += 1) {
-    const char = text[index];
-    if (inString) {
-      if (escape) escape = false;
-      else if (char === "\\") escape = true;
-      else if (char === "\"") inString = false;
-      continue;
-    }
-    if (char === "\"") {
-      inString = true;
-      continue;
-    }
-    if (char === "{") {
-      if (depth === 0) start = index;
-      depth += 1;
-    } else if (char === "}") {
-      depth -= 1;
-      if (depth === 0 && start >= 0) {
-        documents.push(JSON.parse(text.slice(start, index + 1)));
-        start = -1;
-      }
+function ghJsonWithRetry(ghArgs, { operation }) {
+  const attempts = numberFromEnv("CLOWNFISH_GITHUB_IMPORT_RETRIES", 4);
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return JSON.parse(stripAnsi(ghRaw(ghArgs)) || "null");
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts || !isRetryableGhError(error)) break;
+      const delayMs = Math.min(30_000, 1_000 * 2 ** (attempt - 1));
+      console.error(`${operation} failed on attempt ${attempt}/${attempts}; retrying in ${delayMs}ms`);
+      sleepMs(delayMs);
     }
   }
-  return documents;
+  throw lastError;
+}
+
+function isRetryableGhError(error) {
+  const message = String(error?.stderr ?? error?.message ?? error);
+  return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate/i.test(
+    message,
+  );
+}
+
+function numberFromEnv(name, fallback) {
+  const value = Number(process.env[name] ?? fallback);
+  if (!Number.isInteger(value) || value < 1) return fallback;
+  return value;
+}
+
+function sleepMs(milliseconds) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
 }
 
 function stripAnsi(text) {
