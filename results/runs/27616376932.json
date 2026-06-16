@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260616T104132-152",
+  "mode": "autonomous",
+  "run_id": "27616376932",
+  "workflow_run_id": "27616376932",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27616376932",
+  "head_sha": "b74bbb750170d7b221b24201a3d6f65ef83fecfe",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T12:08:00Z",
+  "workflow_updated_at": "2026-06-16T12:09:58Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260616T104132-152.md",
+  "published_at": "2026-06-16T12:12:01.489Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five open PRs from the hydrated live inventory shard. No shared canonical was selected because the job is a mixed live PR inventory, instant close and low-signal closeout are disabled, and fix/merge/raise_pr are blocked. No security-sensitive refs were detected.",
+  "actions": [
+    {
+      "target": "#75157",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused contributor bug fix with maintainer/author follow-up and bot-requested changes; requires maintainer or author action outside this close-only inventory job."
+    },
+    {
+      "target": "#75160",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independent PR pending proof/technical review; no safe close, merge, or fix action is available in this job."
+    },
+    {
+      "target": "#75201",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#74543",
+      "candidate_fix": null,
+      "reason": "Related follow-up to the merged #74543 area, but not a duplicate or already covered closeout; keep open for maintainer review/proof reconciliation."
+    },
+    {
+      "target": "#75427",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer-owned or maintainer-signaled focused bug fix with active user follow-up and failed proof/bot findings; requires maintainer judgment outside this non-merge, non-fix job."
+    },
+    {
+      "target": "#75554",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature/API PR with failing proof/type check and compatibility/session-state risk needs maintainer technical/product review; no autonomous close, merge, or fix path is permitted."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "blocked": 3,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75157: maintainer/author follow-up required because the hydrated maintainer comment requests rebase for Dependency Guard and the latest ClawSweeper bot review says changes are needed before merge.",
+    "#75427: maintainer judgment required because this focused Signal fix has active user confirmation but failed Real behavior proof and latest ClawSweeper findings before merge.",
+    "#75554: maintainer technical/product review required because the PR is broad, proof and type checks are failing, and the job cannot fix or merge it."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
