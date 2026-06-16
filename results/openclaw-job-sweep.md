@@ -1,12 +1,12 @@
 # OpenClaw Job Sweep
 
-Mode: applied
+Mode: dry_run
 
 | Metric | Count |
 | --- | ---: |
-| Jobs | 82 |
+| Jobs | 78 |
 | Delete test jobs | 0 |
-| Move to outbox | 6 |
+| Move to outbox | 0 |
 | Move to stuck queue | 0 |
 | Requeue candidates | 4 |
 | Active | 1 |
@@ -23,12 +23,7 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-005.md | pr-inventory-mixed-20260616T013940-005 | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-013.md | pr-inventory-mixed-20260616T013940-013 | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T013940-019.md | pr-inventory-mixed-20260616T013940-019 | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-006.md | pr-inventory-mixed-20260616T015330-006 | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-013.md | pr-inventory-mixed-20260616T015330-013 | latest run is clean and no open clownfish PR remains |
-| jobs/openclaw/inbox/pr-inventory-mixed-20260616T015330-046.md | pr-inventory-mixed-20260616T015330-046 | latest run is clean and no open clownfish PR remains |
+| _None_ |  |  |
 
 ## Move To Stuck Queue
 
