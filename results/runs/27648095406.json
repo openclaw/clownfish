@@ -1,0 +1,115 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-93694-20260617",
+  "mode": "autonomous",
+  "run_id": "27648095406",
+  "workflow_run_id": "27648095406",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27648095406",
+  "head_sha": "ca30160e45fd2af6a3470825cc1647099d0dcbef",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T21:05:17Z",
+  "workflow_updated_at": "2026-06-16T21:24:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-93694-20260617.md",
+  "published_at": "2026-06-16T21:28:18.398Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93694",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/82121",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93694",
+  "summary": "Planned a bounded repair of the maintainer-editable canonical contributor PR #93694. No GitHub mutation, merge, close, label, replacement PR, or broad search is proposed; the executor should rebase the existing branch onto current main, keep the patch scoped to the hydrated PR surface, run changed-surface validation and Codex /review, then push the repaired contributor branch if clean.",
+  "actions": [
+    {
+      "target": "#93694",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "Canonical PR #93694 is useful and maintainer-editable, but the calibrated canary requires branch refresh and review validation before any later finalization."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-93694-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "A complete executable repair artifact is needed for the deterministic executor to rebase, validate, run /review, and push the contributor branch without merging."
+    },
+    {
+      "target": "#82121",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "The issue is covered by the canonical repair path but should not be closed in this job."
+    },
+    {
+      "target": "#82128",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "Already-closed related implementation context is superseded by the open canonical PR #93694 for this canary."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93694",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "9141e36c8d0602ac4ec3359cfc48dc153d65868b",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93694",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
