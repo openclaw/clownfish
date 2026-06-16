@@ -380,6 +380,14 @@ function nonSecurityAssertionStrippedText(value) {
       "separate security context",
     )
     .replace(
+      /\b(?:existing\s+)?(?:linked|related|other|unrelated|separate|adjacent)[^.]{0,120}\b(?:quarantined|routed|handled|triaged|excluded)[^.]{0,120}\b(?:central\s+security|security[-_\s]?(?:sensitive|signal|boundary)|merge-risk:\s*[^\n,;]*security)\b/gi,
+      "separate security context",
+    )
+    .replace(
+      /\b(?:existing\s+)?(?:linked|related|other|unrelated|separate|adjacent)[^.]{0,120}\b(?:central\s+security|security[-_\s]?(?:sensitive|signal|boundary)|merge-risk:\s*[^\n,;]*security)[^.]{0,120}\b(?:quarantined|routed|handled|triaged|excluded)\b/gi,
+      "separate security context",
+    )
+    .replace(
       /\b(?:linked|related|other|unrelated|separate|adjacent)[^.]{0,80}\b(?:hydrated|marked|classified|flagged|listed)\s+as\s+security[-_\s]?sensitive[^.]{0,80}\b(?:quarantined|routed|handled|triaged|excluded)\b/gi,
       "separate security context",
     )

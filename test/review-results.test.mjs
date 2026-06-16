@@ -403,6 +403,64 @@ test("review-results allows non-security fix artifact with separately routed sec
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results allows non-security fix actions that mention sibling security-boundary routes", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#81410",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:81410",
+          classification: "related",
+          target_kind: "issue",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: [
+            "#81410 reports a root shell with stale SUDO_USER causing lifecycle commands to target the wrong user manager.",
+            "The existing linked #79538 PR does not list #81410 and is quarantined to central security handling due to security-signal/security-boundary indicators.",
+          ],
+          reason: "A narrow new fix PR is appropriate for #81410 while the linked security-boundary PR is routed separately.",
+        },
+      ],
+      fix_artifact: {
+        summary: "Repair stale SUDO_USER user-scope resolution for root gateway lifecycle commands.",
+        affected_surfaces: ["gateway", "systemd"],
+        likely_files: ["src/daemon/systemd.ts", "src/daemon/systemd.test.ts"],
+        linked_refs: ["#81410"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: true,
+        credit_notes: ["Sibling security-boundary PR #79538 is routed separately."],
+        pr_title: "fix(gateway): ignore stale sudo scope for root systemd commands",
+        pr_body: "## Summary\n- fix stale root systemd user scope resolution\n\n## Test plan\n- pnpm check:changed",
+        repair_strategy: "new_fix_pr",
+        allow_no_pr: false,
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        items: [
+          {
+            ref: "#81410",
+            kind: "issue",
+            state: "open",
+            title: "Gateway lifecycle commands target stale SUDO_USER scope from root shell",
+            labels: ["bug", "systemd"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
 test("review-results allows unavailable non-mutating plan classifications", () => {
   const dir = makeResultDir(
     {
