@@ -139,6 +139,7 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
 
   assert.match(source, /CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS/);
   assert.match(source, /CLOWNFISH_REBASE_ONLY_REVIEW_TIMEOUT_MS/);
+  assert.match(source, /CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS \?\? 25 \* 60 \* 1000/);
   assert.match(source, /if \(rebaseOnlyRepair\) \{\s*fixStepDeadlineAtMs = Math\.min/);
   assert.match(source, /function noteFixStage\(stage, details = \{\}\)/);
   assert.match(source, /event: "projectclownfish_fix_stage"/);
@@ -147,6 +148,9 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
   assert.match(source, /ensureCodexWritePreflight\?\.\(\);/);
   assert.match(source, /validation_command_start/);
   assert.match(source, /codex_review_start/);
+  assert.match(source, /refreshBaseBeforeReview: rebaseOnly/);
+  assert.match(source, /noteFixStage\("base_refresh_before_review"/);
+  assert.match(source, /refreshBaseBeforeReview && branch && refreshValidatedBranchBase/);
   assert.match(source, /do not rerun pnpm, npm, corepack, test, lint, build, or other validation commands/);
   assert.match(source, /may run the minimum read-only `gh pr view` or `gh api` query needed to satisfy them/);
   assert.match(source, /do not mutate GitHub: do not push, comment, review, label, close, merge, assign, or change any remote state/);

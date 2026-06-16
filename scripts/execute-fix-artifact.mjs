@@ -30,7 +30,7 @@ const fixTimeoutReserveMs = Number(process.env.CLOWNFISH_FIX_TIMEOUT_RESERVE_MS 
 const fixReportReserveMs = Number(process.env.CLOWNFISH_FIX_REPORT_RESERVE_MS ?? 90 * 1000);
 const rebaseOnlyFixStepTimeoutMs = Math.max(
   2 * 60 * 1000,
-  Number(process.env.CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS ?? 15 * 60 * 1000),
+  Number(process.env.CLOWNFISH_REBASE_ONLY_FIX_STEP_TIMEOUT_MS ?? 25 * 60 * 1000),
 );
 const fixExecutionStartedAtMs = Date.now();
 let fixStepDeadlineAtMs = fixExecutionStartedAtMs + fixStepTimeoutMs;
@@ -536,6 +536,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     // without asking Codex to manufacture an unrelated source edit.
     allowExistingChanges: rebased,
     allowReviewFixes: !rebaseOnly,
+    refreshBaseBeforeReview: rebaseOnly,
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     rebased = true;
@@ -548,6 +549,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
         baseBranch,
         allowExistingChanges: true,
         allowReviewFixes: false,
+        refreshBaseBeforeReview: true,
       });
       if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
         throw new Error("base branch advanced again during rebase-only validation; requeue before pushing");
@@ -891,6 +893,7 @@ function editValidatePrepareMerge({
   contributorCredits = [],
   allowExistingChanges = false,
   allowReviewFixes = true,
+  refreshBaseBeforeReview = false,
   pushCheckpoint = null,
 }) {
   let producedChanges = allowExistingChanges;
@@ -972,6 +975,8 @@ function editValidatePrepareMerge({
     mode,
     baseBranch,
     allowReviewFixes,
+    refreshBaseBeforeReview,
+    branch,
     onReviewFix: (attempt, reviewFix) => {
       const checkpoint = commitCheckpointIfNeeded({
         targetDir,
@@ -1337,6 +1342,8 @@ function validateAndReviewLoop({
   mode,
   baseBranch = DEFAULT_BASE_BRANCH,
   allowReviewFixes = true,
+  refreshBaseBeforeReview = false,
+  branch = null,
   onReviewFix = null,
 }) {
   let lastReview = null;
@@ -1346,6 +1353,10 @@ function validateAndReviewLoop({
     validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
     runDiffCheck({ targetDir, baseBranch });
     noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length });
+    if (refreshBaseBeforeReview && branch && refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+      noteFixStage("base_refresh_before_review", { mode, attempt });
+      continue;
+    }
     noteFixStage("codex_review_start", { mode, attempt });
     lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch, validationCommands });
     noteFixStage("codex_review_complete", { mode, attempt, status: lastReview.status ?? "unknown" });
