@@ -1,0 +1,176 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156620-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27585279455",
+  "workflow_run_id": "27585279455",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585279455",
+  "head_sha": "5f250e096d9257d26e2a256c906e3b3aec75044a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:19:24Z",
+  "workflow_updated_at": "2026-06-16T00:22:20Z",
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156620-autonomous-smoke.md",
+  "published_at": "2026-06-16T00:25:19.295Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Repaired the structured result without GitHub mutations. Validator safety treats #25574 as security-sensitive, so it is routed to central security handling along with security-sensitive PRs #38295 and #61105. Closed refs remain non-mutating historical evidence. The cluster-level implementation lane is downgraded from a placeholder fix action to needs_human because the provided checkout is not a usable OpenClaw source checkout and no complete executable fix artifact is safe.",
+  "actions": [
+    {
+      "target": "#25574",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue must be quarantined to central OpenClaw security triage and not used as an ordinary canonical or fix path by Clownfish."
+    },
+    {
+      "target": "#38295",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item must be quarantined to central OpenClaw security triage and not merged, closed, or used as an ordinary fix path by Clownfish."
+    },
+    {
+      "target": "#40427",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#56468",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical related work; no mutation is valid."
+    },
+    {
+      "target": "#56671",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Representative is already closed; keep as historical evidence only."
+    },
+    {
+      "target": "#57979",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#59520",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed distinct related formatting fix; no mutation is valid."
+    },
+    {
+      "target": "#61105",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item must be quarantined to central OpenClaw security triage even though it is already closed."
+    },
+    {
+      "target": "#29745",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed linked context; no mutation is valid."
+    },
+    {
+      "target": "#40404",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed duplicate-context issue; no mutation is valid."
+    },
+    {
+      "target": "#56446",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent linked context from a mixed PR; no mutation is valid."
+    },
+    {
+      "target": "#56450",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed related config I/O issue; no mutation is valid."
+    },
+    {
+      "target": "#56466",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent linked PR; no mutation is valid."
+    },
+    {
+      "target": "#75927",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merged related warning-dedupe context; no additional action is valid."
+    },
+    {
+      "target": "cluster:ghcrawl-156620-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Implementation is blocked on a valid OpenClaw target checkout and security routing now covers the only live issue path; no executable fix artifact is safe from the provided artifacts."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 11,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 11,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Cluster-level fix lane requires maintainer or infrastructure follow-up because #25574 is validator-classified security-sensitive and the provided OpenClaw target checkout is unavailable or unsafe for proving and patching current main."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

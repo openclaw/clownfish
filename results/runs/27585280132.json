@@ -1,0 +1,132 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-156857-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27585280132",
+  "workflow_run_id": "27585280132",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27585280132",
+  "head_sha": "5f250e096d9257d26e2a256c906e3b3aec75044a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-16T00:19:25Z",
+  "workflow_updated_at": "2026-06-16T00:22:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/ghcrawl-156857-autonomous-smoke.md",
+  "published_at": "2026-06-16T00:25:19.300Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/51620",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/51620",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/82572",
+  "summary": "The original representative #51803 is closed and security-sensitive, so the live canonical path is open issue #51620 plus repairable PR #82572. Security-sensitive refs are routed item-by-item, including #51623, #51803, #52234, and #63330. Non-security repair remains scoped to #82572.",
+  "actions": [
+    {
+      "target": "#51620",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#51620",
+      "candidate_fix": "#82572",
+      "reason": "#51620 is the best open canonical issue for the restart/durable queue root cause while #82572 owns the current repair path."
+    },
+    {
+      "target": "#51623",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish cleanup scope and must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#51803",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish cleanup scope and must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#52234",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is out of ProjectClownfish cleanup scope and must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#63330",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive linked PR must be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "#63637",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#51620",
+      "candidate_fix": null,
+      "reason": "Already closed related context; no mutation planned."
+    },
+    {
+      "target": "#82572",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#51620",
+      "candidate_fix": "#82572",
+      "reason": "Useful canonical contributor PR is not merge-ready; repair the existing branch rather than merge or close around it."
+    },
+    {
+      "target": "cluster:ghcrawl-156857-autonomous-smoke",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#51620",
+      "candidate_fix": "#82572",
+      "reason": "Create an executable repair artifact for the canonical contributor PR."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 4,
+    "keep_closed": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
