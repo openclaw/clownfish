@@ -446,7 +446,7 @@ test("review-results allows non-security fix artifact with separately routed sec
         affected_surfaces: ["tui"],
         likely_files: ["src/tui/tui.ts", "src/tui/tui-event-handlers.ts", "src/tui/tui.test.ts"],
         linked_refs: ["#38829"],
-        validation_commands: ["pnpm check:changed"],
+        validation_commands: ["pnpm check:changed", "scripts/pr review-validate-artifacts 94022"],
         changelog_required: true,
         credit_notes: ["Security-shaped linked PR #73402 is quarantined separately."],
         pr_title: "fix(tui): subscribe to live session transcript updates",
@@ -741,6 +741,41 @@ test("review-results rejects fix artifacts when source job disallows fix PRs", (
   assert.match(result.stdout, /fix actions are not permitted by job frontmatter/);
   assert.match(result.stdout, /allowed_actions lacks fix/);
   assert.match(result.stdout, /allow_fix_pr is not true/);
+});
+
+test("review-results rejects PR lifecycle commands in fix artifact validation", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The repair has a focused validation plan."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed", "scripts/pr prepare-run 94022"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    { job: fixEnabledJob() },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /fix_artifact\.validation_commands must not invoke PR lifecycle command: scripts\/pr prepare-run 94022/);
 });
 
 test("review-results verifies fix artifacts with a permission snapshot after source job removal", () => {
