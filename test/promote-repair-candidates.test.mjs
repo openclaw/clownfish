@@ -119,6 +119,8 @@ candidates:
   assert.match(job, /mode: autonomous/);
   assert.match(job, /allowed_actions:\n  - fix\n  - raise_pr/);
   assert.match(job, /blocked_actions:\n  - comment\n  - label\n  - close\n  - merge\n  - force_push\n  - bypass_checks/);
+  assert.match(job, /require_human_for:\n  - security_sensitive\n  - active_author_followup\n  - broad_code_delta/);
+  assert.doesNotMatch(job, /failing_checks|conflicting_prs/);
   assert.match(job, /repair_strategy: "replace_uneditable_branch"/);
   assert.match(job, /source report: .*eligible-new\.md/);
   assert.match(job, /#101/);
