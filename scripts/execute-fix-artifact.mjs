@@ -568,9 +568,9 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     branch,
     mode: "repair",
     baseBranch,
-    // A successful rebase is already a concrete branch change. Validate and review it
-    // without asking Codex to manufacture an unrelated source edit.
-    allowExistingChanges: rebased,
+    // Only explicit rebase-only jobs may stop after a successful rebase. Ordinary
+    // contributor repairs still need Codex to address the artifact's concrete defect.
+    allowExistingChanges: rebaseOnly && rebased,
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: rebaseOnly,
   });

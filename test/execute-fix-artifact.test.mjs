@@ -174,12 +174,12 @@ test("execute-fix-artifact routes rebased fork repairs to replacement before exp
   assert.match(source, /fork branch requiring rebase/);
 });
 
-test("execute-fix-artifact validates a successful repair rebase without speculative edits", () => {
+test("execute-fix-artifact runs ordinary contributor repairs after a successful rebase", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(
     source,
-    /mode: "repair",\s*baseBranch,\s*\/\/ A successful rebase[\s\S]*?allowExistingChanges: rebased,/,
+    /mode: "repair",\s*baseBranch,\s*\/\/ Only explicit rebase-only jobs[\s\S]*?allowExistingChanges: rebaseOnly && rebased,/,
   );
 });
 
