@@ -1,0 +1,174 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-92902-live-pr-inventory-20260617t080414-001-20260617a",
+  "mode": "autonomous",
+  "run_id": "27675936862",
+  "workflow_run_id": "27675936862",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675936862",
+  "head_sha": "e7571f9d7fd3b78cc03fd976ce6c8a35eab4e3f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:26:10Z",
+  "workflow_updated_at": "2026-06-17T08:28:15Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-92902-live-pr-inventory-20260617t080414-001-20260617a.md",
+  "published_at": "2026-06-17T08:29:14.175Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92902",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/92884",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92902",
+  "summary": "Canonical path is to repair contributor PR #92902 on its existing editable branch for issue #92884. The PR is narrow and credited to @YonganZhang, but the hydrated preflight shows its Real behavior proof is failing, so it is not merge-ready and should become an executable repair artifact rather than a merge or close action. Other open refs in this cluster are unrelated open work and should stay open.",
+  "actions": [
+    {
+      "target": "#92884",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92884",
+      "candidate_fix": "#92902",
+      "reason": "Open canonical issue remains the tracking thread while #92902 is repaired."
+    },
+    {
+      "target": "#92902",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92902",
+      "candidate_fix": "#92902",
+      "reason": "Repair the contributor branch before any merge or closeout; merge is disabled by job frontmatter and proof is failing."
+    },
+    {
+      "target": "cluster:repair-92902-live-pr-inventory-20260617t080414-001-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92902",
+      "candidate_fix": "#92902",
+      "reason": "Executor needs a concrete repair plan for the existing contributor branch."
+    },
+    {
+      "target": "#76744",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and surface from #92884/#92902."
+    },
+    {
+      "target": "#76920",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and implementation surface."
+    },
+    {
+      "target": "#92996",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and surface."
+    },
+    {
+      "target": "#93087",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related broad config area but independent issue and fix path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92902",
+    "source_refs": [
+      "#92902",
+      "#92884",
+      "#12293",
+      "#30892",
+      "#43808",
+      "#49704",
+      "#52824",
+      "#76744",
+      "#76920",
+      "#84901",
+      "#92490",
+      "#92996",
+      "#93087",
+      "#52286",
+      "#73900",
+      "#76734",
+      "#78724",
+      "#78755",
+      "#93069"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #92902 so replacement channel plugins that declare preferOver keep ownership of active channel config schemas deterministically and the Real behavior proof for #92884 passes.",
+    "pr_title": "fix(config): repair replacement channel schema ownership",
+    "pr_body": "## Summary\n- Repair #92902 so replacement channel plugins that declare `preferOver` keep ownership of the active channel config schema deterministically.\n- Preserve the intended behavior from @YonganZhang's source PR: plugin-owned replacement `channels.<id>` schema metadata should not be overwritten by later bundled metadata.\n- Keep the patch focused to config metadata ordering and regression coverage unless the failing Real behavior proof identifies one minimal adjacent harness update.\n\nFixes https://github.com/openclaw/openclaw/issues/92884.\nSource PR and credit: https://github.com/openclaw/openclaw/pull/92902 by @YonganZhang.\n\n## Verification\n- `node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts`\n- `node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts src/plugins/channel-plugin-ids.test.ts src/cli/config-cli.test.ts src/config/runtime-schema.test.ts`\n- `git diff --check`\n- `pnpm check:changed`\n- Rerun Real behavior proof for #92902\n- `/review` before any merge recommendation",
+    "likely_files": [
+      "src/config/channel-config-metadata.ts",
+      "src/config/validation.channel-metadata.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts",
+      "node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts src/plugins/channel-plugin-ids.test.ts src/cli/config-cli.test.ts src/config/runtime-schema.test.ts",
+      "git diff --check",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/92902 by @YonganZhang.",
+      "Preserve @YonganZhang attribution in the repaired PR branch, PR body update, and final merge notes.",
+      "Do not edit CHANGELOG.md directly for this normal PR; carry the user-facing release-note context in the PR body or squash message."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-92902-live-pr-inventory-20260617t080414-001-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
