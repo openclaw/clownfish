@@ -70,10 +70,14 @@ function publishResult(resultPath) {
   const repo = String(result.repo ?? "unknown/unknown");
   const owner = repo.split("/")[0] || "unknown";
   const clusterId = String(result.cluster_id ?? path.basename(runDir));
-  const applyActions = uniquePlainActionRows([
-    ...(applyReport.actions ?? []),
-    ...(postFlightReport.actions ?? []).filter(isPostFlightApplyAction).map(postFlightToApplyAction),
-  ].filter(isApplicatorAction));
+  const applyAuditActions = [
+    ...readApplyAuditActions(applyReport),
+    ...(postFlightReport.actions ?? [])
+      .filter(isPostFlightApplyAction)
+      .map(postFlightToApplyAction)
+      .map((action) => ({ ...action, report_source: "post_flight" })),
+  ].filter(isApplicatorAction);
+  const applyActions = uniquePlainActionRows(applyAuditActions);
   const fixActions = (fixReport.actions ?? []).map(sanitizeFixAction);
   const repairCandidate = sanitizeRepairCandidate({
     result,
@@ -111,6 +115,7 @@ function publishResult(resultPath) {
     repair_candidate: repairCandidate,
     fix_actions: fixActions,
     apply_actions: applyActions.map(sanitizeApplyAction),
+    apply_audit_actions: applyAuditActions.map(sanitizeApplyAction),
   };
 
   const reportDir = path.join(repoRoot(), "results", owner);
@@ -149,6 +154,12 @@ function renderClusterReport(report) {
     .map(
       (action) =>
         `| ${action.target || ""} | ${action.action || ""} | ${action.status || ""} | ${action.classification || ""} | ${action.reason || ""} |`,
+    )
+    .join("\n");
+  const applyAuditActions = report.apply_audit_actions
+    .map(
+      (action) =>
+        `| ${action.apply_attempt ?? ""} | ${action.report_source || ""} | ${action.target || ""} | ${action.action || ""} | ${action.status || ""} | ${action.reason || ""} |`,
     )
     .join("\n");
   const fixActions = (report.fix_actions ?? [])
@@ -231,6 +242,12 @@ ${fixActions || "| _None_ |  |  |  |  |"}
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 ${applyActions || "| _None_ |  |  |  |  |"}
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+${applyAuditActions || "| _None_ |  |  |  |  |  |"}
 
 ## Worker Action Matrix
 
@@ -728,7 +745,29 @@ function sanitizeApplyAction(action) {
     merge_commit_sha: action.merge_commit_sha ?? null,
     live_state: action.live_state ?? null,
     live_updated_at: action.live_updated_at ?? null,
+    apply_attempt: action.apply_attempt ?? null,
+    applied_at: action.applied_at ?? null,
+    report_source: action.report_source ?? null,
   };
+}
+
+function readApplyAuditActions(report) {
+  const attempts = Array.isArray(report?.apply_attempts)
+    ? report.apply_attempts
+    : [
+        {
+          applied_at: report?.applied_at ?? null,
+          actions: report?.actions ?? [],
+        },
+      ];
+  return attempts.flatMap((attempt, index) =>
+    (attempt?.actions ?? []).map((action) => ({
+      ...action,
+      apply_attempt: index + 1,
+      applied_at: attempt?.applied_at ?? null,
+      report_source: "apply",
+    })),
+  );
 }
 
 function sanitizeFixAction(action) {

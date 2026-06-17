@@ -148,6 +148,43 @@ test("apply-result treats closed target with matching marker as idempotently exe
   assert.equal(report.actions[0].live_state, "closed");
 });
 
+test("apply-result retains prior reports as apply attempts", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeGhStub(binDir);
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(resultJson(), null, 2)}\n`);
+  fs.writeFileSync(
+    reportPath,
+    `${JSON.stringify(
+      {
+        repo: "openclaw/openclaw",
+        cluster_id: "ghcrawl-199237-agentic-merge",
+        dry_run: false,
+        result_path: "result.json",
+        applied_at: "2026-06-17T00:00:00.000Z",
+        actions: [{ target: "#60063", action: "close_fixed_by_candidate", status: "executed" }],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "planned");
+  assert.equal(report.apply_attempts.length, 2);
+  assert.equal(report.apply_attempts[0].actions[0].status, "executed");
+  assert.equal(report.apply_attempts[1].actions[0].status, "planned");
+});
+
 test("apply-result records primary GitHub rate limits as retryable blocks", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
