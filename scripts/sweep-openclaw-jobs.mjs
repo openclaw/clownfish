@@ -224,8 +224,16 @@ function needsRequeue(record) {
   if ((record.fix_actions ?? []).some((action) => ["failed", "blocked"].includes(String(action.status ?? "")))) {
     return true;
   }
-  if ((record.apply_actions ?? []).some((action) => String(action.status ?? "") === "blocked")) return true;
+  if ((record.apply_actions ?? []).some((action) => String(action.status ?? "") === "blocked")) {
+    return !hasTerminalFixOutcome(record);
+  }
   return false;
+}
+
+function hasTerminalFixOutcome(record) {
+  return (record.fix_actions ?? []).some((action) =>
+    ["pushed", "opened", "executed", "merged"].includes(String(action.status ?? "")),
+  );
 }
 
 function requeueReason(record) {
