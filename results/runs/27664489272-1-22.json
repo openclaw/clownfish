@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-132",
+  "mode": "plan",
+  "run_id": "27664489272-1-22",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "22",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-132.md",
+  "published_at": "2026-06-17T03:56:13.026Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR remediation shard. No GitHub mutations are allowed by this job, and no PR has complete merge preflight evidence with Codex /review. One PR has an actionable maintainer review repair path; one broad PR needs maintainer judgment; three focused PRs are plausible candidates but need the missing review/preflight step before merge.",
+  "actions": [
+    {
+      "target": "#93100",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge may be plausible after final review, but merge_preflight is incomplete because Codex /review evidence is absent."
+    },
+    {
+      "target": "#90468",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90468",
+      "reason": "The maintainer review is actionable and the branch is editable, so the finalization path is to repair the contributor branch narrowly before another merge preflight."
+    },
+    {
+      "target": "#92196",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge may be plausible after final review, but merge_preflight is incomplete because Codex /review evidence is absent."
+    },
+    {
+      "target": "#75223",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Cannot recommend merge without Codex /review preflight; if repair is required, the uneditable branch may need a credited replacement path."
+    },
+    {
+      "target": "#91057",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be valuable, but its broad cross-surface delta requires maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#90468",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90468",
+      "reason": "Create an executable repair artifact for the small editable contributor branch with outstanding maintainer-requested parser fixes."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93100: missing Codex /review merge-preflight proof before merge recommendation.",
+    "#92196: missing Codex /review merge-preflight proof before merge recommendation.",
+    "#75223: missing Codex /review merge-preflight proof; branch is not maintainer-editable if repair is needed.",
+    "#91057: broad 37-file cross-surface delta requires maintainer judgment."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-117",
+  "mode": "plan",
+  "run_id": "27664489272-1-7",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-117.md",
+  "published_at": "2026-06-17T03:56:13.057Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory review. All five hydrated PRs are open, non-security, and have current updated_at values from the preflight artifact. No merge action is recommended because mergeability is unknown and no Codex /review merge preflight is present. The three ready-looking PRs are independent maintainer-review candidates; the two waiting/broad compatibility PRs need human review before any repair or merge path.",
+  "actions": [
+    {
+      "target": "#79985",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; keep it out of cluster-level merge/repair until a full merge preflight exists."
+    },
+    {
+      "target": "#79999",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; no duplicate/superseding relationship to the other inventory items."
+    },
+    {
+      "target": "#80139",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility-affecting delta and waiting-on-author label require maintainer judgment before repair, replacement, or merge."
+    },
+    {
+      "target": "#80193",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The compatibility label plus waiting-on-author status make the behavior change a maintainer decision despite the small diff."
+    },
+    {
+      "target": "#84794",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR; keep as a separate finalization candidate pending full merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80139: broad compatibility-affecting PR with status waiting on author.",
+    "#80193: compatibility-labeled behavior change with status waiting on author."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

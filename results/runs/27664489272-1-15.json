@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-125",
+  "mode": "plan",
+  "run_id": "27664489272-1-15",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-125.md",
+  "published_at": "2026-06-17T03:56:13.008Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No merge action is safe from the hydrated preflight: four PRs require maintainer judgment because the job explicitly requires human review for broad deltas or active author follow-up, and #93222 is routed to central security handling per deterministic validation, so no ProjectClownfish fix action is planned for that PR.",
+  "actions": [
+    {
+      "target": "#85643",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta and incomplete mergeability proof require maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#79655",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up plus failing checks block automated merge or repair finalization in this plan shard."
+    },
+    {
+      "target": "#93222",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact PR #93222 to central OpenClaw security handling; do not plan ProjectClownfish repair or merge for this target."
+    },
+    {
+      "target": "#92731",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up blocks automated merge or repair finalization despite a focused diff and passing checks."
+    },
+    {
+      "target": "#42637",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up, dirty merge state, and unresolved review-bot/comment preflight require maintainer judgment before finalization."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85643: broad code delta and unknown mergeability require maintainer review.",
+    "#79655: status waiting on author plus failing checks require maintainer decision before repair or merge.",
+    "#92731: status waiting on author requires maintainer decision before repair or merge.",
+    "#42637: status waiting on author plus unresolved review-bot/comment preflight require maintainer decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

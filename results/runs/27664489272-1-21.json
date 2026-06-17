@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-131",
+  "mode": "plan",
+  "run_id": "27664489272-1-21",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-131.md",
+  "published_at": "2026-06-17T03:56:13.024Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment for five independent open PRs. No merge recommendation is safe because none has complete merge preflight with Codex /review. One PR has a concrete repair path for a failed proof check; the remaining PRs need maintainer decisions or author-followup resolution before finalization.",
+  "actions": [
+    {
+      "target": "#79702",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Compatibility-affecting provider behavior needs maintainer acceptance and required merge preflight before any merge recommendation."
+    },
+    {
+      "target": "#88301",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup state blocks automated finalization; maintainer should resolve the waiting-on-author thread before merge or repair planning."
+    },
+    {
+      "target": "#87481",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup plus unrelated test-file churn requires maintainer/author resolution before automated merge or repair."
+    },
+    {
+      "target": "#77921",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#77921",
+      "reason": "A narrow repair of the contributor branch is concrete: address the failing proof/check path, rerun targeted Inworld validation, run Codex /review, and preserve @cshape credit."
+    },
+    {
+      "target": "#87627",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "External hardware/platform documentation is a product-scope decision; automated closure is blocked and merge requires maintainer acceptance plus merge preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79702: maintainer acceptance required for compatibility-affecting embedding-prefix behavior and missing merge preflight.",
+    "#88301: waiting-on-author state must be resolved before finalization.",
+    "#87481: waiting-on-author state and unrelated test churn must be resolved before finalization.",
+    "#87627: maintainer product-scope decision required for external hardware documentation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

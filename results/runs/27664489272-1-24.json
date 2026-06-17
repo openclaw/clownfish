@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-134",
+  "mode": "plan",
+  "run_id": "27664489272-1-24",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-134.md",
+  "published_at": "2026-06-17T03:56:13.033Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are recommended. One PR is routed to central security handling, two narrow/medium independent PRs remain non-mutating because merge preflight is incomplete or proof is failing, and two XL PRs need maintainer judgment for broad code deltas.",
+  "actions": [
+    {
+      "target": "#51822",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential-handling/security-hardening signal requires central security routing rather than ProjectClownfish merge or repair planning."
+    },
+    {
+      "target": "#89168",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad availability-sensitive browser process recovery is not safe to finalize from this artifact without maintainer judgment and complete review preflight."
+    },
+    {
+      "target": "#75754",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Classification is clear as independent, but failing proof and missing merge preflight block a merge recommendation in this plan."
+    },
+    {
+      "target": "#88686",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be valuable, but the XL cross-surface chat/gateway diff needs maintainer judgment before merge or automated repair."
+    },
+    {
+      "target": "#53920",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Classification is clear as independent and the PR is plausibly repairable, but this plan lacks the required merge preflight proof to recommend merge."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 2,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89168 requires maintainer judgment for a broad, availability-sensitive browser process recovery diff before merge or automated repair.",
+    "#88686 requires maintainer judgment for a broad WebChat/gateway replay diff with compatibility and message-delivery risk before merge or automated repair."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-122",
+  "mode": "plan",
+  "run_id": "27664489272-1-12",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-122.md",
+  "published_at": "2026-06-17T03:56:13.000Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No merge is recommended because none has complete merge preflight with Codex /review proof. One narrow repair path is concrete for #92359; #92341, #92411, and #92441 require maintainer judgment due waiting-author or broad-risk signals; #92383 is an independent passing PR that should wait for merge preflight.",
+  "actions": [
+    {
+      "target": "#92341",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup/status label and missing required merge preflight block a plan-mode merge recommendation."
+    },
+    {
+      "target": "#92359",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is useful and narrow, but the failed behavior proof blocks merge; repair the contributor branch before review and merge preflight."
+    },
+    {
+      "target": "#92359",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create an executable repair artifact scoped to #92359 rather than asking for maintainer judgment."
+    },
+    {
+      "target": "#92359",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plan the fix PR path for the deterministic executor after it repairs and validates the contributor branch."
+    },
+    {
+      "target": "#92383",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR appears independently viable but cannot be recommended for merge without the required merge preflight."
+    },
+    {
+      "target": "#92411",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-author status, broad cross-surface change, and failing checks make this a maintainer judgment call rather than a safe automated repair."
+    },
+    {
+      "target": "#92441",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The broad session-cleanup and protocol/docs surface plus dirty/refactor labels require maintainer judgment before repair or merge."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92341: waiting-author/status label and session-state merge-risk need maintainer confirmation before merge preflight.",
+    "#92411: broad tools/plugin/docs change has failing checks and waiting-author status.",
+    "#92441: broad dirty/refactor-only session cleanup change crosses compatibility and session-state risk surfaces."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

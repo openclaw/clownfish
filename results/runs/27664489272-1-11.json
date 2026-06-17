@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-121",
+  "mode": "plan",
+  "run_id": "27664489272-1-11",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-121.md",
+  "published_at": "2026-06-17T03:56:12.997Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open pull requests. No merge recommendation is safe because the artifact does not include a completed Codex /review merge preflight, and several PRs also have dirty/unknown mergeability, failing checks, broad deltas, or active waiting-on-author status.",
+  "actions": [
+    {
+      "target": "#81184",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81184",
+      "reason": "Useful focused contributor PR, but dirty merge state, failed checks, missing Codex /review proof, and waiting-on-author status block merge. Repairing the contributor branch is the appropriate non-mutating plan."
+    },
+    {
+      "target": "#81391",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Scope is a small feature crossing gateway and UI surfaces with unknown mergeability and waiting-on-author status. Product/maintainer acceptance is required before repair or merge planning."
+    },
+    {
+      "target": "#81621",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81621",
+      "reason": "Useful contributor PR in the same agents/subagent family, but dirty merge state, failed proof check, review-bot comments without addressed proof, missing Codex /review, and waiting-on-author status require repair before any merge path."
+    },
+    {
+      "target": "#82023",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is too broad for an automated finalization recommendation in this shard. It needs maintainer judgment or a narrower follow-up split before repair or merge work."
+    },
+    {
+      "target": "#89110",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89110",
+      "reason": "Narrow useful contributor PR, but failing behavior proof, unknown mergeability, and missing Codex /review block merge. Repairing the contributor branch is a concrete next path."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-121",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create a bounded repair artifact for the three narrow bug-fix PRs rather than replacing contributor work."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "needs_human": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81391 requires maintainer/product judgment before proceeding because it is a gateway/UI feature with unknown mergeability, incomplete merge preflight, and waiting-on-author status.",
+    "#82023 requires maintainer judgment or a split plan because it is a broad Telegram/thread-binding feature delta with 33 files and +2030/-29 changes, unknown mergeability, incomplete merge preflight, and waiting-on-author status."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

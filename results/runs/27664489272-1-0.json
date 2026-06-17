@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-110",
+  "mode": "plan",
+  "run_id": "27664489272-1-0",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-110.md",
+  "published_at": "2026-06-17T03:56:12.991Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment completed for five open PRs. No merge is recommended because no candidate has complete merge preflight proof. One narrow repair artifact is proposed for #92072, #92243 is scoped to central security routing, and #78964 needs maintainer review because it is broad, waiting on author, has failed checks, and has unresolved Codex bot review context.",
+  "actions": [
+    {
+      "target": "#78852",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR remains viable but is not merge-ready under the merge policy without current mergeability and Codex /review preflight."
+    },
+    {
+      "target": "#78884",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs change is independent and small, but failed checks block merge recommendation."
+    },
+    {
+      "target": "#78964",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed because the PR is broad, author-followup-labeled, has unresolved automated review context, and has failed checks."
+    },
+    {
+      "target": "#92072",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92072",
+      "reason": "A concrete repair path exists: update the contributor branch or replacement branch narrowly around gateway model image-capability handling and rerun targeted tests plus check:changed."
+    },
+    {
+      "target": "#92243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of scope for Clownfish backlog automation and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#92072",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#92072",
+      "reason": "Build a cluster-scoped repair artifact for the narrow #92072 gateway fix path."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 1,
+    "fix_needed": 1,
+    "route_security": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78964 requires maintainer judgment before merge or repair because it is broad, labeled waiting on author, has failed checks, and has unresolved Codex bot review context."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

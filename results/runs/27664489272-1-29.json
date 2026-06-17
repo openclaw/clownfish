@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-139",
+  "mode": "plan",
+  "run_id": "27664489272-1-29",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "29",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-139.md",
+  "published_at": "2026-06-17T03:56:13.048Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation inventory over five open PRs. No GitHub mutations are planned. None has complete merge preflight proof for a merge recommendation; each item needs maintainer or follow-up preflight before finalization.",
+  "actions": [
+    {
+      "target": "#93580",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Candidate may be useful, but pending checks and missing Codex /review preflight block merge. Because maintainer_can_modify=false, repair or replacement cannot be planned safely until checks settle and any failures are known."
+    },
+    {
+      "target": "#18860",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility-impacting plugin API feature with failing proof/boundary checks. The artifact does not include enough failure detail to build a narrow repair artifact, and merge is blocked."
+    },
+    {
+      "target": "#22439",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Checks look favorable, but broad config/session-state behavior and unresolved review-bot/Codex preflight proof block a merge recommendation under the merge policy."
+    },
+    {
+      "target": "#53467",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Message-delivery and compatibility PR with failed behavior proof and unresolved automated review history. Merge is blocked, and the artifact does not expose a narrow concrete repair path."
+    },
+    {
+      "target": "#90450",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears closest to merge-ready, but merge policy requires complete merge preflight with passed Codex /review and current mergeability proof before a merge_candidate action."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93580: wait for pending checks to settle, then decide whether to replace the uneditable contributor branch or merge if all required preflight passes.",
+    "#18860: maintainer judgment needed on broad plugin hook API plus failed behavior/boundary checks; failure details are needed before any repair artifact.",
+    "#22439: maintainer judgment needed on broad tiered bootstrap/config behavior and unresolved Greptile/Codex-review preflight before merge.",
+    "#53467: maintainer judgment needed because behavior proof failed and prior automated review findings lack resolved evidence.",
+    "#90450: likely merge candidate after a fresh Codex /review and mergeability check, but current artifact lacks that proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

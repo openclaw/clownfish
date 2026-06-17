@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-135",
+  "mode": "plan",
+  "run_id": "27664489272-1-25",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "25",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-135.md",
+  "published_at": "2026-06-17T03:56:13.036Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only review of five open PRs. No PR has complete merge preflight evidence with a passed Codex /review, so no merge_candidate is emitted. Three PRs remain independently viable maintainer-review candidates, while #54982 and #93394 need human attention because their live state shows unresolved author/re-review/proof blockers.",
+  "actions": [
+    {
+      "target": "#54593",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small compatibility fix candidate, but missing required merge preflight for merge recommendation."
+    },
+    {
+      "target": "#93351",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature candidate with passing checks, but missing required merge preflight for merge recommendation."
+    },
+    {
+      "target": "#93356",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent performance regression fix candidate with passing checks, but missing required merge preflight for merge recommendation."
+    },
+    {
+      "target": "#93394",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed for the re-review/proof failure before any merge or repair path is safe."
+    },
+    {
+      "target": "#54982",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human follow-up is required because the PR is waiting on author and has failed proof plus unresolved review-bot context."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93394: re-review-loop PR with failed Real behavior proof; maintainer should decide whether to request author updates or authorize a repair job.",
+    "#54982: waiting-on-author PR with blank-template/refactor-only signals, failed Real behavior proof, and unresolved review-bot context."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

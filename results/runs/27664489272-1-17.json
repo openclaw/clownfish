@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-127",
+  "mode": "plan",
+  "run_id": "27664489272-1-17",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-127.md",
+  "published_at": "2026-06-17T03:56:13.012Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five unrelated open PRs. No security-sensitive refs were detected. No merge action is recommended because every PR is missing a complete merge preflight with current Codex /review proof; #91089 also has failing checks and broader automation scope.",
+  "actions": [
+    {
+      "target": "#88437",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent low-risk docs PR, but merge is blocked in plan output until the applicator has a complete merge preflight including current Codex /review proof."
+    },
+    {
+      "target": "#69707",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider compatibility fix with useful contributor code; keep it in maintainer review rather than merge without current review preflight."
+    },
+    {
+      "target": "#93007",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone broad feature PR. Keep independent; do not merge or repair from this cluster without maintainer review and a complete merge preflight."
+    },
+    {
+      "target": "#93051",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused bug fix with useful contributor code; merge is blocked until the failing boundary check is understood or repaired and complete merge preflight exists."
+    },
+    {
+      "target": "#91089",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad automation PR with failing checks and release-process implications; maintainer judgment is needed before deciding whether to repair contributor branch, split scope, or decline."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91089 requires maintainer decision because it is broad release automation with multiple failing checks and release-process scope."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

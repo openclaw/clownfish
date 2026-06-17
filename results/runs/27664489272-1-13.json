@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-123",
+  "mode": "plan",
+  "run_id": "27664489272-1-13",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "13",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-123.md",
+  "published_at": "2026-06-17T03:56:13.002Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five PRs. No merge is recommended because no open PR has the required complete merge preflight with Codex /review evidence. #75469 is routed to central security handling per deterministic validation, so the replacement fix path that depended on #75469 is not emitted. #93183 is already closed and receives no closure action.",
+  "actions": [
+    {
+      "target": "#75469",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation classified #75469 as security-sensitive, so it must be routed to central OpenClaw security handling instead of ProjectClownfish fix automation."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-123",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The replacement fix cannot safely proceed until central security handling decides whether the #75469 heartbeat-runner finding is in scope for ordinary fix automation."
+    },
+    {
+      "target": "#90122",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The patch may be mergeable after final review, but plan mode cannot recommend merge without Codex /review and complete merge preflight proof."
+    },
+    {
+      "target": "#91093",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a broad feature/config/docs/API change and requires maintainer judgment before any merge or repair path."
+    },
+    {
+      "target": "#92445",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The waiting-on-author label indicates active author follow-up, and required merge preflight is missing."
+    },
+    {
+      "target": "#93183",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No action is valid against an already closed PR in this plan."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "cluster: replacement fix path is blocked because it depends on quarantined security-sensitive PR #75469.",
+    "#90122: maintainer/finalization decision needed because the PR is otherwise plausible but lacks required Codex /review and complete merge_preflight evidence.",
+    "#91093: maintainer judgment needed because the PR is an XL broad feature/API/config/docs change across 56 files.",
+    "#92445: maintainer judgment or author follow-up needed because the PR is labeled waiting on author and lacks complete merge_preflight evidence."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

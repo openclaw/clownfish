@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-124",
+  "mode": "plan",
+  "run_id": "27664489272-1-14",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-124.md",
+  "published_at": "2026-06-17T03:56:13.006Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment for five unrelated open PRs. #93384 and #93388 are routed to central security handling because deterministic validation flagged them as security-sensitive targets. The remaining PRs have no merge_candidate path because the artifact has no completed Codex /review merge preflight and some items have active waiting-author labels, unknown mergeability, or broad code deltas.",
+  "actions": [
+    {
+      "target": "#93293",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially mergeable after final merge preflight, but missing Codex /review and mergeability proof blocks merge_candidate."
+    },
+    {
+      "target": "#93384",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this target as security-sensitive, so ProjectClownfish must quarantine the exact PR with route_security and avoid merge, close, comment, label, or fix actions for it."
+    },
+    {
+      "target": "#93388",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this target as security-sensitive, so ProjectClownfish must quarantine the exact PR with route_security and avoid merge, close, comment, label, or fix actions for it."
+    },
+    {
+      "target": "#92591",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Checks look clean, but active waiting-author label and missing Codex /review/mergeability proof block merge_candidate."
+    },
+    {
+      "target": "#92610",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large session-state delta and missing Codex /review/mergeability proof require maintainer review before merge_candidate."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93293: run final merge preflight including current mergeability check and Codex /review before considering merge.",
+    "#92591: author-follow-up state and missing Codex /review block finalization.",
+    "#92610: XL session-usage rewrite needs maintainer review and Codex /review before finalization."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

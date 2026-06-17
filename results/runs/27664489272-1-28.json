@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-138",
+  "mode": "plan",
+  "run_id": "27664489272-1-28",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "28",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-138.md",
+  "published_at": "2026-06-17T03:56:13.045Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PR inventory items. No GitHub mutations planned because closure/comment/label actions are blocked and merge preflight is incomplete for every PR; security-shaped guard/hash wording is treated under the hydrated artifact's central security assessment unless maintainers choose otherwise.",
+  "actions": [
+    {
+      "target": "#59694",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The patch looks small and potentially useful, but the job requires complete merge preflight before merge. Because no Codex /review proof and no resolved mergeability proof are present, maintainer or applicator follow-up is required before finalization."
+    },
+    {
+      "target": "#59695",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing checks and missing merge preflight block merge. The change is narrow, but the current artifact does not prove a safe repair or merge path."
+    },
+    {
+      "target": "#77158",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is broad, stateful work with explicit risk labels. The job requires human judgment for broad code deltas and merge preflight proof is incomplete."
+    },
+    {
+      "target": "#62063",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is broad, waiting on author, and has failing checks plus unresolved automated review evidence. That is an explicit human-review blocker under the job frontmatter."
+    },
+    {
+      "target": "#64316",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The code delta is small and checks look healthy, but the live label says waiting on author and required merge preflight proof is missing. Human/applicator follow-up is needed before merge."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#59694: missing Codex /review and mergeability proof before any merge recommendation; security-shaped prototype-pollution wording may warrant maintainer confirmation despite artifact security_sensitive=false.",
+    "#59695: checks-node-core-tooling is failing and merge preflight is incomplete.",
+    "#77158: broad compatibility/session-state change with dirty-candidate/refactor-only labels, conflicting failing-check evidence, and no complete review proof.",
+    "#62063: waiting-on-author, broad XL automation/i18n delta, failing preflight/security-fast checks, and unresolved Codex bot review evidence.",
+    "#64316: waiting-on-author label remains live and merge preflight lacks Codex /review plus mergeability proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

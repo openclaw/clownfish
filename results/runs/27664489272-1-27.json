@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-137",
+  "mode": "plan",
+  "run_id": "27664489272-1-27",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "27",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-137.md",
+  "published_at": "2026-06-17T03:56:13.043Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation inventory over five independent open PRs. #92294 is routed to central security handling because deterministic validation marked it security-sensitive; no ProjectClownfish fix or merge path is emitted for that PR. No merge_candidate is safe for the remaining PRs because the artifact does not contain complete merge preflight proof, especially current Codex /review pass evidence and resolved review-bot findings. #56145 also has failing proof. No cluster-wide fix artifact is safe because the remaining PRs are unrelated and would need separate repair jobs.",
+  "actions": [
+    {
+      "target": "#92294",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR is out of ProjectClownfish scope and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92957",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92957",
+      "reason": "Independent feature PR with passing checks in the artifact, but merge is blocked by missing complete review/preflight proof and broad API-surface scope."
+    },
+    {
+      "target": "#56145",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#56145",
+      "reason": "Maintainer judgment is needed because the PR is marked waiting on author, has failing proof, and the artifact lacks enough detail to produce a concrete safe repair plan."
+    },
+    {
+      "target": "#59365",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#59365",
+      "reason": "Independent focused PR that appears viable, but must receive complete merge preflight before merge recommendation."
+    },
+    {
+      "target": "#59414",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#59414",
+      "reason": "Independent large feature PR with strong check evidence, but broad size and missing complete merge preflight block automated merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92294 is security-sensitive per deterministic validation and must be handled by central OpenClaw security review, not ProjectClownfish automation.",
+    "#56145 requires maintainer decision or author follow-up because it is marked waiting on author, has Real behavior proof failing, and lacks enough hydrated failure/review detail for a concrete repair artifact.",
+    "#92957, #59365, and #59414 need normal maintainer/review finalization before merge because the artifact lacks current Codex /review pass evidence and resolved review-bot proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

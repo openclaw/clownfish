@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-126",
+  "mode": "plan",
+  "run_id": "27664489272-1-16",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "16",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-126.md",
+  "published_at": "2026-06-17T03:56:13.010Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard reviewed against the hydrated preflight artifact and repaired after deterministic validation. Four PRs still need maintainer review for active-author status, broad scope, failed proof, or missing required merge proof. #87831 is quarantined as security-sensitive per validator output and routed to central security handling without mutating GitHub.",
+  "actions": [
+    {
+      "target": "#92877",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up status and missing required merge preflight block a merge recommendation; a maintainer should decide when to run final review or wait for the author."
+    },
+    {
+      "target": "#40874",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad iOS feature scope, failed Real behavior proof, waiting-on-author status, unresolved or unproven review-bot feedback, and missing merge-preflight proof require maintainer review."
+    },
+    {
+      "target": "#72009",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is small but has waiting-on-author status and lacks current merge-preflight proof at head; maintainer review is needed before finalization."
+    },
+    {
+      "target": "#73785",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears close to mergeable, but the artifact does not prove required Codex /review, comment resolution, or mergeability; maintainer finalization is needed."
+    },
+    {
+      "target": "#87831",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Deterministic validation identified #87831 as security-sensitive for this result, so ProjectClownfish must quarantine the exact PR and route it to central OpenClaw security handling without mutating GitHub."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92877: active author follow-up status and no current Codex /review or mergeability proof.",
+    "#40874: broad iOS feature scope, failed Real behavior proof, waiting-on-author status, and unresolved or unproven review-bot feedback.",
+    "#72009: waiting-on-author status and current head lacks required Codex /review merge preflight.",
+    "#73785: otherwise plausible merge candidate, but missing required Codex /review and mergeability proof."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

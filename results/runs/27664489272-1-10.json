@@ -1,0 +1,97 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-120",
+  "mode": "plan",
+  "run_id": "27664489272-1-10",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-120.md",
+  "published_at": "2026-06-17T03:56:12.995Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No GitHub mutations are planned because the job blocks comment/label/close and merge recommendations lack complete merge preflight proof. One narrow repair path is concrete for #92328; the other PRs remain independent maintainer-review candidates or scoped human decisions.",
+  "actions": [
+    {
+      "target": "#92328",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92328",
+      "reason": "Narrow contributor-branch repair is concrete, but the failing check and missing merge preflight block merge."
+    },
+    {
+      "target": "#87590",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#87590",
+      "reason": "The live label indicates waiting on author, so finalization should not be automated from this inventory shard."
+    },
+    {
+      "target": "#74235",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#74235",
+      "reason": "The code delta is broad for an automated finalization decision, and review-bot findings cannot be proven resolved from the compacted artifact."
+    },
+    {
+      "target": "#78916",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#78916",
+      "reason": "The live label indicates waiting on author, so finalization should not be automated from this inventory shard."
+    },
+    {
+      "target": "#79687",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#79687",
+      "reason": "Independent PR appears promising, but missing required merge preflight prevents a merge recommendation."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-120",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92328",
+      "reason": "The executor can repair the contributor branch narrowly and preserve author credit."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "needs_human": 3,
+    "keep_independent": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87590 is labeled waiting on author; maintainer/author follow-up is required before finalization.",
+    "#74235 has a broad XL delivery/threading delta and compacted bot-review findings that cannot be proven resolved.",
+    "#78916 is labeled waiting on author; maintainer/author follow-up is required before finalization."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-128",
+  "mode": "plan",
+  "run_id": "27664489272-1-18",
+  "workflow_run_id": "27664489272",
+  "run_attempt": "1",
+  "matrix_index": "18",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664489272",
+  "head_sha": "0b14d4b71d38c660efcad256d3b1c5969a1ca49e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:49:48Z",
+  "workflow_updated_at": "2026-06-17T03:53:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-128.md",
+  "published_at": "2026-06-17T03:56:13.014Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory items. No GitHub mutations are planned because close/comment/label are blocked, no PR has complete merge preflight evidence, and several items have failing checks or unresolved review/preflight blockers. No executable fix artifact is safe from the provided artifacts because the only plausible repair target lacks CI failure logs and resolved review-bot details.",
+  "actions": [
+    {
+      "target": "#41892",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature scope plus failed real-behavior proof and incomplete merge preflight require maintainer judgment; no merge or repair action is safe from the artifact."
+    },
+    {
+      "target": "#78715",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent low-signal docs polish PR. Close actions are blocked by job frontmatter and merge preflight is incomplete."
+    },
+    {
+      "target": "#92125",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is the closest merge candidate, but merge policy requires a complete preflight including Codex /review and resolved review evidence; maintainer or applicator follow-up is needed before merge."
+    },
+    {
+      "target": "#48942",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR, but failing checks block merge and the artifact lacks the CI logs and review-bot details required for an executable repair artifact."
+    },
+    {
+      "target": "#49488",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active unresolved human review and product/platform compatibility scope require maintainer judgment; merge and automated replacement are unsafe."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#41892 requires maintainer decision because it is a broad XL feature PR with failed real-behavior proof and incomplete latest review preflight.",
+    "#92125 requires maintainer/applicator follow-up for required Codex /review and merge preflight despite passing Android/dependency checks.",
+    "#48942 requires maintainer/applicator follow-up because the focused contributor PR has failing checks but the artifact lacks CI failure logs and resolved review-bot details needed for an executable repair artifact.",
+    "#49488 requires maintainer decision because a changes-requested review says lowering minSdk needs a broader API 26-30 compatibility audit."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
