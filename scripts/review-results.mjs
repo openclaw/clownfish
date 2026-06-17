@@ -588,6 +588,11 @@ function validateFixArtifact(fixArtifact, failures) {
       failures.push(`fix_artifact.${key} must be a non-empty list`);
     }
   }
+  for (const command of fixArtifact.validation_commands ?? []) {
+    if (isDisallowedPullRequestLifecycleValidationCommand(command)) {
+      failures.push(`fix_artifact.validation_commands must not invoke PR lifecycle command: ${command}`);
+    }
+  }
   if (typeof fixArtifact.changelog_required !== "boolean") {
     failures.push("fix_artifact.changelog_required must be boolean");
   }
@@ -610,6 +615,11 @@ function validateFixArtifact(fixArtifact, failures) {
       failures.push("replacement fix artifact credit must include original PR URL");
     }
   }
+}
+
+function isDisallowedPullRequestLifecycleValidationCommand(command) {
+  const text = String(command ?? "").trim();
+  return text.startsWith("scripts/pr ") && !/^scripts\/pr review-validate-artifacts [1-9][0-9]*$/.test(text);
 }
 
 function readSiblingJson(runDir, filename) {
