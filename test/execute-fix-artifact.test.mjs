@@ -190,6 +190,95 @@ test("execute-fix-artifact rejects review-fix workers that leave no diff", () =>
   assert.match(source, /else if \(reviewFix\.head_changed\)/);
 });
 
+test("execute-fix-artifact preserves failed validation diagnostics in the uploaded debug artifacts", () => {
+  const fixture = makeFixture();
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+
+  fs.writeFileSync(fixture.jobPath, jobFile("validation-debug-cluster"));
+  fs.writeFileSync(
+    resultPath,
+    `${JSON.stringify(
+      {
+        ...resultFile("validation-debug-cluster"),
+        fix_artifact: {
+          ...resultFile("validation-debug-cluster").fix_artifact,
+          validation_commands: ["pnpm check:changed"],
+        },
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+const cd = args[args.indexOf("--cd") + 1];
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : "";
+fs.appendFileSync(path.join(cd, "src", "app.js"), "\\n// ProjectClownfish validation debug edit\\n");
+if (output) fs.writeFileSync(output, "edited\\n");
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "pnpm"),
+    `#!/usr/bin/env node
+console.log("validation stdout token=ghp_abcdefghijklmnopqrstuvwxyz123456");
+console.error("validation stderr api_key=should-not-leak");
+process.exit(9);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_FIX_STEP_TIMEOUT_MS: "120000",
+        CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: "0",
+        CLOWNFISH_FIX_REPORT_RESERVE_MS: "0",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
+        CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.actions[0].reason, /validation command failed/);
+  assert.match(report.debug_artifacts, /fix-executor-debug$/);
+
+  const diagnostics = JSON.parse(
+    fs.readFileSync(path.join(fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
+  );
+  assert.equal(diagnostics.command, "pnpm check:changed");
+  assert.equal(diagnostics.exit_code, 9);
+  assert.equal(diagnostics.timed_out, false);
+  assert.match(diagnostics.stdout, /validation stdout token=\[redacted\]/);
+  assert.match(diagnostics.stderr, /api_key=\[redacted\]/);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-exec-"));
   const binDir = path.join(root, "bin");

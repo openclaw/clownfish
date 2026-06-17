@@ -59,6 +59,10 @@ const closeSupersededSourcePrs = process.env.CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_P
 const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
 const maxAutonomousFixSurfaces = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_SURFACES ?? 4));
 const maxActivePrsPerArea = Number(process.env.CLOWNFISH_MAX_ACTIVE_PRS_PER_AREA ?? 50);
+const validationDebugOutputMaxChars = Math.max(
+  16 * 1024,
+  Number(process.env.CLOWNFISH_VALIDATION_DEBUG_OUTPUT_MAX_CHARS ?? 512 * 1024),
+);
 const CLOWNFISH_LABEL = "clownfish";
 const CLOWNFISH_LABEL_COLOR = "F97316";
 const CLOWNFISH_LABEL_DESCRIPTION = "Tracked by Clownfish automation";
@@ -81,6 +85,7 @@ let workRoot = "";
 let targetDir = "";
 let activeFixProgress = null;
 let writePreflight = null;
+let validationDebugSequence = 0;
 
 if (!jobPath) {
   console.error("usage: node scripts/execute-fix-artifact.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -2060,7 +2065,7 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
       if (executed.includes(rendered)) continue;
       try {
         noteFixStage("validation_command_start", { command: rendered });
-        run(parts[0], parts.slice(1), { cwd, env: validationEnv });
+        runValidationCommand(parts, { cwd, env: validationEnv, rendered });
         executed.push(rendered);
         noteFixStage("validation_command_complete", { command: rendered });
       } catch (error) {
@@ -2070,7 +2075,12 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
             const fallbackRendered = fallbackParts.join(" ");
             if (executed.includes(fallbackRendered)) continue;
             noteFixStage("validation_command_start", { command: fallbackRendered, fallback: true });
-            run(fallbackParts[0], fallbackParts.slice(1), { cwd, env: validationEnv });
+            runValidationCommand(fallbackParts, {
+              cwd,
+              env: validationEnv,
+              rendered: fallbackRendered,
+              fallback: true,
+            });
             executed.push(fallbackRendered);
             noteFixStage("validation_command_complete", { command: fallbackRendered, fallback: true });
           }
@@ -2081,6 +2091,87 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
     }
   }
   return executed;
+}
+
+function runValidationCommand(parts, { cwd, env, rendered, fallback = false }) {
+  const timeoutMs = remainingFixExecutionMs(rendered, { minMs: 10 * 1000 });
+  const startedAt = new Date().toISOString();
+  const startedAtMs = Date.now();
+  const child = spawnSync(parts[0], parts.slice(1), {
+    cwd,
+    env,
+    encoding: "utf8",
+    timeout: timeoutMs,
+  });
+  const stdout = captureValidationDebugOutput(child.stdout);
+  const stderr = captureValidationDebugOutput(child.stderr);
+  const processError = child.error
+    ? {
+        code: child.error.code ?? null,
+        message: redactValidationDebugText(child.error.message),
+      }
+    : null;
+  writeValidationDebugRecord({
+    command: rendered,
+    argv: parts,
+    fallback,
+    started_at: startedAt,
+    duration_ms: Date.now() - startedAtMs,
+    timeout_ms: timeoutMs,
+    exit_code: child.status ?? null,
+    signal: child.signal ?? null,
+    timed_out: child.error?.code === "ETIMEDOUT",
+    error: processError,
+    stdout: stdout.text,
+    stdout_original_chars: stdout.originalChars,
+    stdout_truncated: stdout.truncated,
+    stderr: stderr.text,
+    stderr_original_chars: stderr.originalChars,
+    stderr_truncated: stderr.truncated,
+  });
+  if (child.error?.code === "ETIMEDOUT") {
+    throw new Error(`${rendered} timed out after ${timeoutMs}ms before fix execution deadline`);
+  }
+  if (child.error) throw child.error;
+  if (child.status !== 0) {
+    const detail = child.stderr || child.stdout || `${rendered} exited ${child.status}`;
+    throw new Error(String(detail).trim());
+  }
+}
+
+function writeValidationDebugRecord(record) {
+  if (!workRoot) return;
+  const sequence = String((validationDebugSequence += 1)).padStart(3, "0");
+  fs.writeFileSync(
+    path.join(workRoot, `validation-command-${sequence}.json`),
+    `${JSON.stringify(record, null, 2)}\n`,
+  );
+}
+
+function captureValidationDebugOutput(value) {
+  const text = redactValidationDebugText(value);
+  if (text.length <= validationDebugOutputMaxChars) {
+    return { text, originalChars: text.length, truncated: false };
+  }
+  const headLength = Math.floor(validationDebugOutputMaxChars * 0.75);
+  const tailLength = validationDebugOutputMaxChars - headLength;
+  return {
+    text: `${text.slice(0, headLength)}\n\n... [truncated ${text.length - validationDebugOutputMaxChars} chars] ...\n\n${text.slice(-tailLength)}`,
+    originalChars: text.length,
+    truncated: true,
+  };
+}
+
+function redactValidationDebugText(value) {
+  return String(value ?? "")
+    .replace(
+      /\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b/g,
+      "[redacted]",
+    )
+    .replace(
+      /\b(authorization|bearer|token|api[_-]?key|password|secret)\b(\s*[:=]\s*)([^\s]+)/gi,
+      "$1$2[redacted]",
+    );
 }
 
 function preflightTargetValidationPlan({ fixArtifact, targetDir, baseBranch = DEFAULT_BASE_BRANCH }) {
