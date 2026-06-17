@@ -1,0 +1,229 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T082059-004",
+  "mode": "plan",
+  "run_id": "27675726160",
+  "workflow_run_id": "27675726160",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675726160",
+  "head_sha": "772bf72cb91bccf2a6cb67b13221117cbe6d6d64",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:22:15Z",
+  "workflow_updated_at": "2026-06-17T08:23:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-004.md",
+  "published_at": "2026-06-17T08:24:32.563Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five fresh open PRs and their hydrated linked refs. No GitHub mutations are planned because close/comment actions are blocked and no PR has complete merge preflight proof.",
+  "actions": [
+    {
+      "target": "#94020",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94020",
+      "reason": "Looks merge-shaped, but merge policy requires complete merge preflight including Codex /review proof before recommending merge."
+    },
+    {
+      "target": "#94018",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94018",
+      "reason": "The fix path is plausible, but merge proof is incomplete and #92361 discussion explicitly warned against competing PRs, so maintainer judgment is needed before finalization."
+    },
+    {
+      "target": "#94021",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94021",
+      "reason": "Repair/validation is needed before merge consideration because checks are failing or incomplete and merge preflight proof is missing."
+    },
+    {
+      "target": "#94009",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94009",
+      "reason": "A concrete repair/validation path exists, but merge is blocked by missing review proof and required compatibility proof for serialized state."
+    },
+    {
+      "target": "#93882",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93882",
+      "reason": "The patch is small and relevant, but merge preflight is incomplete and artifact state is unstable."
+    },
+    {
+      "target": "#80587",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94020",
+      "reason": "Keep open as related to the candidate fix until #94020 is reviewed and merged."
+    },
+    {
+      "target": "#92361",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94018",
+      "reason": "Related to #94018, but the preferred implementation path needs maintainer judgment."
+    },
+    {
+      "target": "#93211",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94021",
+      "reason": "Same model fallback symptom family, but distinct provider/root-cause scope from #94021."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93810",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no closure action is valid."
+    },
+    {
+      "target": "#93835",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93882",
+      "reason": "Keep open as related to the candidate fix until #93882 is reviewed and merged."
+    },
+    {
+      "target": "#93918",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent from the docs, tools diagnostics, model fallback, cron deferral, and Telegram think-menu PRs in this cluster."
+    },
+    {
+      "target": "#93931",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94021",
+      "reason": "Keep open as related to #94021 until the candidate is repaired and merge-ready."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94009",
+      "reason": "Keep open as related to #94009 until the candidate has review and compatibility proof."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T082059-004",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#94009",
+      "reason": "Two open contributor PRs need bounded repair/validation rather than replacement."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 2,
+    "keep_related": 6,
+    "keep_closed": 1,
+    "keep_independent": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 13,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94020 merge decision after Codex /review and maintainer review proof are available.",
+    "#94018 implementation path because linked issue discussion mentions existing competing PRs #92368 and #92411.",
+    "#93882 merge decision after unstable state and failed ClawSweeper infrastructure review are resolved."
+  ],
+  "repair_candidate": {
+    "target": "#94009",
+    "source_refs": [
+      "#94009",
+      "#94021",
+      "#93935",
+      "#93810",
+      "#93931",
+      "#93211",
+      "#94020",
+      "#80587",
+      "#94018",
+      "#92361",
+      "#93882",
+      "#93835",
+      "#93918"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair useful contributor branches rather than opening replacement PRs. #94009 needs serialized state compatibility proof and fresh review before merge. #94021 needs failing/pending checks resolved and fresh review before merge. Other PRs appear narrow but lack complete merge preflight, so they remain maintainer-review items.",
+    "pr_title": "Repair PR validation for cron deferral and model fallback fixes",
+    "pr_body": "Cluster: live-pr-inventory-20260617T082059-004\n\nThis plan repairs useful contributor PRs instead of replacing them. For #94009, confirm serialized state migration/upgrade compatibility and rerun cron-focused validation plus review. For #94021, resolve checks-node-core-fast and any pending checks, then rerun model fallback validation and review.\n\nSource PR credit: #94009 by @mmyzwl and #94021 by @lsr911.",
+    "likely_files": [
+      "src/cron/service.startup-overflow-clobber.test.ts",
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/state.ts",
+      "src/cron/service/timer.ts",
+      "src/agents/embedded-agent-helpers/failover-matches.ts",
+      "src/agents/embedded-agent-helpers/provider-error-patterns.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+      "node scripts/run-vitest.mjs src/agents/embedded-agent-helpers/*.test.ts",
+      "pnpm check:changed",
+      ".agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main",
+      "scripts/pr review-validate-artifacts 94009",
+      "scripts/pr review-validate-artifacts 94021"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for mmyzwl on source PR https://github.com/openclaw/openclaw/pull/94009.",
+      "Preserve contributor credit for lsr911 on source PR https://github.com/openclaw/openclaw/pull/94021.",
+      "Do not replace contributor branches unless repair proves unsafe or impossible."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-004.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#94020 merge decision after Codex /review and maintainer review proof are available.",
+      "#94018 implementation path because linked issue discussion mentions existing competing PRs #92368 and #92411.",
+      "#93882 merge decision after unstable state and failed ClawSweeper infrastructure review are resolved."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}

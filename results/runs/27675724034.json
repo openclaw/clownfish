@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T082059-003",
+  "mode": "plan",
+  "run_id": "27675724034",
+  "workflow_run_id": "27675724034",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675724034",
+  "head_sha": "772bf72cb91bccf2a6cb67b13221117cbe6d6d64",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:22:12Z",
+  "workflow_updated_at": "2026-06-17T08:23:57Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-003.md",
+  "published_at": "2026-06-17T08:24:32.558Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR candidates and hydrated first-hop refs. No GitHub mutations are planned. No item has complete merge preflight proof, so merge is not recommended in this run.",
+  "actions": [
+    {
+      "target": "#86013",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad contributor PR plus failing checks and missing Codex /review proof block merge; maintainer judgment is required before repair or finalization."
+    },
+    {
+      "target": "#94006",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small and plausibly useful, but merge_candidate is blocked by the hydrated ClawSweeper maintainer-review recommendation and missing required /review proof."
+    },
+    {
+      "target": "#94016",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94016",
+      "reason": "Narrow candidate fix for #94008, but plan mode cannot recommend merge without the required Codex /review and merge preflight evidence."
+    },
+    {
+      "target": "#94019",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94019",
+      "reason": "This is a related diagnostic improvement, not a proven root-cause fix for #93908, and failing/unstable merge state plus missing /review proof block merge."
+    },
+    {
+      "target": "#94013",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94013",
+      "reason": "Narrow follow-up candidate for the Feishu monitor path, but merge requires review/preflight proof that is absent from the artifact."
+    },
+    {
+      "target": "#92595",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94013",
+      "reason": "Related to #94013, but the issue should stay open until the candidate fix is reviewed and validated."
+    },
+    {
+      "target": "#93466",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-merged context ref; no closure or merge action is valid."
+    },
+    {
+      "target": "#93908",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94019",
+      "reason": "#94019 is related diagnostic work, but it does not prove the root-cause fix for #93908."
+    },
+    {
+      "target": "#94008",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94016",
+      "reason": "Tracked as fixed-by-candidate for planning, but the issue must remain open until #94016 is reviewed/merged and closeout is separately allowed."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86013: broad LINE delivery PR has failing checks and missing Codex /review proof.",
+    "#94006: ClawSweeper explicitly says maintainer review is needed before merge; required merge_preflight is absent.",
+    "#94016: narrow Telegram fix lacks required Codex /review and merge_preflight proof.",
+    "#94019: diagnostic-only PR is unstable/failing checks and does not prove root-cause resolution for #93908.",
+    "#94013: narrow Feishu follow-up lacks required Codex /review and merge_preflight proof."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

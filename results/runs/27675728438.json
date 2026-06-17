@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T082059-005",
+  "mode": "plan",
+  "run_id": "27675728438",
+  "workflow_run_id": "27675728438",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675728438",
+  "head_sha": "772bf72cb91bccf2a6cb67b13221117cbe6d6d64",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:22:17Z",
+  "workflow_updated_at": "2026-06-17T08:23:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-005.md",
+  "published_at": "2026-06-17T08:24:32.565Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment from the hydrated preflight artifact. No merge action is safe because neither open PR has complete merge preflight proof. #94017 is a small related fix for #93835 but still needs full review/validation before merge. #94022 is the clearer repair path for #93935 but is blocked by failing and pending checks, so the plan is to repair the contributor branch with credit preserved.",
+  "actions": [
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context; no action needed."
+    },
+    {
+      "target": "#93835",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93835",
+      "candidate_fix": "#94017",
+      "reason": "The issue is covered by a candidate PR, but closure is blocked by job policy and incomplete candidate preflight."
+    },
+    {
+      "target": "#93935",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "The issue has a concrete candidate fix, but the candidate is not merge-ready."
+    },
+    {
+      "target": "#94017",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93835",
+      "candidate_fix": "#94017",
+      "reason": "Small plausible fix, but not merge-ready under the required merge gates."
+    },
+    {
+      "target": "#94022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "Concrete contributor-branch repair is needed before merge can be reconsidered."
+    },
+    {
+      "target": "#94022",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "Executable repair plan is available without opening a replacement PR yet."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 2,
+    "fix_needed": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94022",
+    "source_refs": [
+      "#94022",
+      "#93935",
+      "#93810",
+      "#94017",
+      "#93835"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94022 on the contributor branch so the cron startup catch-up deferral state survives all maintenance recompute callers, then rerun merge preflight before any merge recommendation.",
+    "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
+    "pr_body": "Fixes #93935. Repairs the #94022 approach by keeping startup catch-up deferral ids in cron service state so read RPCs, finalize paths, empty-due timer maintenance, manual run preflight, and reservation release do not advance deferred catch-up runs to the next natural schedule before the staggered catch-up fires.\n\nCredit: based on source PR #94022 by @Jah-xy, with #93810 by @yetval as prior related cron deferral work.\n\nValidation plan:\n- node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts\n- pnpm check:changed\n- scripts/pr review-validate-artifacts 94022\n- scripts/pr prepare-run 94022\n- /review",
+    "likely_files": [
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/state.ts",
+      "src/cron/service/timer.ts",
+      "src/cron/service.startup-overflow-clobber.test.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/service/jobs.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+      "pnpm check:changed",
+      "scripts/pr review-validate-artifacts 94022",
+      "scripts/pr prepare-run 94022",
+      "/review"
+    ],
+    "credit_notes": [
+      "Credit Jah-xy as the source PR author for #94022.",
+      "Preserve #93810/yetval as historical context for the earlier startup-only fix and regression analysis.",
+      "If a replacement PR becomes necessary, the PR body and any closeout comment must mention #94022 as the source PR and preserve contributor attribution."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-005.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}
