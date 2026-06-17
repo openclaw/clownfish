@@ -1,0 +1,210 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27715153759",
+  "workflow_run_id": "27715153759",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27715153759",
+  "head_sha": "eb3b2743b289c568d346f3e4097fbe0fb3fbaff9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T19:44:01Z",
+  "workflow_updated_at": "2026-06-17T19:46:39Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+  "published_at": "2026-06-17T19:47:40.560Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94022",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93935",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94022",
+  "summary": "Planned a non-mutating repair path for open canonical PR #94022. Current main d988851fe016e43cbcec408c91ddd090ab2f05cd still has the reported cron startup catch-up deferral gap: the startup pass carries a transient skip set, but read RPCs, result finalization, reservation release, and timer maintenance recompute without preserving deferred overflow ids. No close, comment, label, merge, force-push, or GitHub mutation is planned because those actions are blocked by the job.",
+  "actions": [
+    {
+      "target": "#94022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "Repair the contributor branch instead of opening a replacement because maintainer_can_modify is true, the diff is narrow, and the job requested repair_contributor_branch."
+    },
+    {
+      "target": "cluster:repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "The bug is still present on current main and the canonical contributor PR is useful but not merge-ready."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "Canonical issue for the repair PR."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "Closed historical context only; no closure action is valid for an already-closed PR."
+    },
+    {
+      "target": "#93835",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different product surface and root cause from the cron repair cluster."
+    },
+    {
+      "target": "#94017",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent open PR for a different issue family."
+    },
+    {
+      "target": "#81691",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81731",
+      "candidate_fix": "#81731",
+      "reason": "Related cron scheduler bug, separate canonical path #81731."
+    },
+    {
+      "target": "#81731",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81731",
+      "candidate_fix": "#81731",
+      "reason": "Related but independent cron stale-future repair subcluster."
+    },
+    {
+      "target": "#78272",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context only."
+    },
+    {
+      "target": "#90315",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#91248",
+      "reason": "Closed independent context only."
+    },
+    {
+      "target": "#91248",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context only."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94022",
+    "source_refs": [
+      "#94022",
+      "#93810",
+      "#93935",
+      "#78272",
+      "#81731",
+      "#91248",
+      "#94017",
+      "#81691",
+      "#90315",
+      "#93835"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #94022 so startup catch-up deferral ids survive all cron maintenance recompute callers, not only the immediate startup recompute. Store protected deferral ids in CronServiceState, have recomputeNextRunsForMaintenance consult that state or a passed skip set, and clear/consume ids when the deferred catch-up is no longer protected.",
+    "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
+    "pr_body": "## Summary\n\nFixes #93935 by repairing #94022 so startup overflow catch-up deferral ids are retained in cron service state and respected by all maintenance recompute callers. The repair should cover read RPCs/status/list, finalize paths, empty-due timer maintenance, manual run preflight, and reservation release so deferred catch-up runs are not advanced to the next natural cron schedule before their staggered catch-up fires.\n\nCredit: based on source PR #94022 by @Jah-xy, with #93810 by @yetval as prior related cron deferral work.\n\n## Verification\n\n- `node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts`\n- `pnpm check:changed`\n- `scripts/pr review-validate-artifacts 94022`\n- `scripts/pr prepare-run 94022`\n- Codex `/review` clean before any merge recommendation\n\n## Current Evidence\n\nCurrent main d988851fe016e43cbcec408c91ddd090ab2f05cd still only passes startup deferred ids through the immediate startup recompute. Later maintenance recompute callers do not receive that skip set, so #93935 remains source-reproducible until #94022 is repaired.",
+    "likely_files": [
+      "src/cron/service/state.ts",
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/timer.ts",
+      "src/cron/service.startup-overflow-clobber.test.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/service/jobs.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+      "pnpm check:changed",
+      "scripts/pr review-validate-artifacts 94022",
+      "scripts/pr prepare-run 94022"
+    ],
+    "credit_notes": [
+      "Credit @Jah-xy as the author of source PR https://github.com/openclaw/openclaw/pull/94022.",
+      "Preserve #93810 by @yetval as prior related cron startup-only repair and regression context.",
+      "PR body should state that Clownfish repaired the contributor branch rather than replacing it, so attribution remains on #94022."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "unsupported validation command: scripts/pr review-validate-artifacts 94022",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
