@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T075937-003",
+  "mode": "plan",
+  "run_id": "27674691600-1-2",
+  "workflow_run_id": "27674691600",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27674691600",
+  "head_sha": "e0ce6628ab9e89b0356b8212f88ae6dcb3dd846d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:02:49Z",
+  "workflow_updated_at": "2026-06-17T08:04:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T075937-003.md",
+  "published_at": "2026-06-17T08:08:01.185Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open pull requests. No GitHub mutations are planned because close/comment/label actions are blocked and merge preflight lacks Codex /review proof for every PR. #92584 is routed to central security handling because its hydrated body describes token-in-query secret exposure. #92654 is blocked for human or repair-run follow-up because checks fail and review-bot findings were not hydrated, so no complete executable fix artifact is safe from the provided artifacts.",
+  "actions": [
+    {
+      "target": "#92574",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-ready PR. Keep in queue for normal review or a later merge-preflight run."
+    },
+    {
+      "target": "#92584",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact PR to central security handling. Do not merge, close, label, comment on, or repair it through ProjectClownfish."
+    },
+    {
+      "target": "#92649",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent larger feature PR. Keep for maintainer product/API review and later merge preflight rather than planning an automatic merge."
+    },
+    {
+      "target": "#92654",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer or repair-run follow-up with hydrated CI logs and review-bot comments before a concrete fix artifact or merge recommendation can be produced."
+    },
+    {
+      "target": "#92863",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small docs PR. Keep in queue for normal review or a later complete merge-preflight run."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92654 requires maintainer or repair-run follow-up with hydrated CI logs and review-bot comments before a concrete fix artifact or merge recommendation can be produced.",
+    "#92649 may require maintainer product/API review because it is a broad 20-file provider/auth/docs change with compatibility and auth-provider risk labels."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

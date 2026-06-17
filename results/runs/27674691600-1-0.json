@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T075937-001",
+  "mode": "plan",
+  "run_id": "27674691600-1-0",
+  "workflow_run_id": "27674691600",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27674691600",
+  "head_sha": "e0ce6628ab9e89b0356b8212f88ae6dcb3dd846d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:02:49Z",
+  "workflow_updated_at": "2026-06-17T08:04:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T075937-001.md",
+  "published_at": "2026-06-17T08:08:01.179Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open contributor PRs. No GitHub mutations are allowed by this job. Three non-security PRs lack complete merge preflight because mergeability is unknown and Codex /review proof is absent, so they need maintainer/review preflight before merge or repair can be recommended. The deterministic validator identified #91921 and #89577 as security-sensitive targets, so those exact PR refs are routed to central security handling instead of ProjectClownfish remediation.",
+  "actions": [
+    {
+      "target": "#91663",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing merge proof requires maintainer/review preflight before merge recommendation."
+    },
+    {
+      "target": "#91810",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad UI/message-delivery change and missing merge proof require maintainer/review preflight."
+    },
+    {
+      "target": "#91907",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "PR looks narrow, but merge proof is incomplete."
+    },
+    {
+      "target": "#91921",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this exact PR as security-sensitive; central security handling is required."
+    },
+    {
+      "target": "#89577",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator classified this exact PR as security-sensitive; central security handling is required."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91663 requires live mergeability plus Codex /review and review/bot comment resolution proof before merge can be recommended.",
+    "#91810 requires maintainer/review preflight because it is a larger UI/message-delivery change and lacks complete merge proof.",
+    "#91907 requires live mergeability plus Codex /review and review/bot comment resolution proof before merge can be recommended."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T075937-005",
+  "mode": "plan",
+  "run_id": "27674691600-1-4",
+  "workflow_run_id": "27674691600",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27674691600",
+  "head_sha": "e0ce6628ab9e89b0356b8212f88ae6dcb3dd846d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:02:49Z",
+  "workflow_updated_at": "2026-06-17T08:04:32Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T075937-005.md",
+  "published_at": "2026-06-17T08:08:01.190Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification repaired after deterministic validation. No GitHub mutations are planned. #78139 is quarantined with an exact-ref route_security action per validator security handling. The remaining PRs have no complete merge preflight proof: mergeability is unknown, Codex /review proof is absent, and several items have failing checks, compatibility/auth risk, or unresolved/unhydrated discussion.",
+  "actions": [
+    {
+      "target": "#78139",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact PR ref for central OpenClaw security handling. No ProjectClownfish backlog cleanup or merge recommendation is safe for this target."
+    },
+    {
+      "target": "#78411",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a standalone low-signal docs cleanup PR. It should not be closed or merged by this cluster plan because closeout is disabled and merge preflight is incomplete."
+    },
+    {
+      "target": "#78438",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This changes Telegram runtime networking behavior behind an opt-in flag. Compatibility/product review and complete merge preflight are required before merge or repair can be recommended."
+    },
+    {
+      "target": "#78554",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The fix is potentially important but touches auth-provider compatibility. Merge is blocked until current discussion/review state and Codex /review are proven resolved."
+    },
+    {
+      "target": "#89767",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not merge-ready under merge policy because review-bot findings and Codex /review are not proven resolved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_independent": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78438: Telegram networking compatibility decision and incomplete merge preflight.",
+    "#78554: Google Chat auth-provider compatibility path needs maintainer/review confirmation despite passing checks.",
+    "#89767: Copilot reported generated comments, but review comments are not hydrated and cannot be proven addressed."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T075937-004",
+  "mode": "plan",
+  "run_id": "27674691600-1-3",
+  "workflow_run_id": "27674691600",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27674691600",
+  "head_sha": "e0ce6628ab9e89b0356b8212f88ae6dcb3dd846d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:02:49Z",
+  "workflow_updated_at": "2026-06-17T08:04:32Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T075937-004.md",
+  "published_at": "2026-06-17T08:08:01.188Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No GitHub mutations are planned. None has the complete merge preflight required for merge_candidate because the artifact has no Codex /review proof and no hydrated issue/review-bot comment evidence; #78105 is additionally dirty/unmergeable and needs contributor-branch repair.",
+  "actions": [
+    {
+      "target": "#91685",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91685",
+      "reason": "Potentially viable PR, but merge recommendation is blocked by missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#77973",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77973",
+      "reason": "Narrow PR with passing checks, but merge_candidate is blocked by unknown mergeability and missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#77987",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77987",
+      "reason": "Narrow PR with passing checks, but merge_candidate is blocked by unknown mergeability and missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#77999",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77999",
+      "reason": "Merge is blocked by failing checks and missing mandatory review preflight; no narrow repair can be safely specified from the artifact alone."
+    },
+    {
+      "target": "#78105",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#78105",
+      "reason": "Concrete repair path exists for dirty but focused contributor PR."
+    },
+    {
+      "target": "#78105",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#78105",
+      "reason": "Build an executable repair artifact for the dirty contributor branch; do not open or mutate in plan mode."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "blocked": 4,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91685: merge may be appropriate after live re-fetch, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+    "#77973: merge may be appropriate after live re-fetch, mergeability resolution, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+    "#77987: merge may be appropriate after live re-fetch, mergeability resolution, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+    "#77999: failing security-fast and security-dependency-audit checks must be explained or repaired before merge consideration, alongside Codex /review and hydrated comment/review-bot proof."
+  ],
+  "repair_candidate": {
+    "target": "#78105",
+    "source_refs": [
+      "#78105",
+      "#68780",
+      "#77973",
+      "#77987",
+      "#77999",
+      "#91685"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #78105 by updating the dirty branch against current main while preserving the scoped plugin allowlist warning UX change and source contributor credit.",
+    "pr_title": "fix(plugins): make empty allowlist warning actionable",
+    "pr_body": "## Summary\n- Repairs contributor PR #78105 against current main.\n- Keeps the warning remediation scoped to paste-ready plugins.allow guidance and plugin id discovery docs.\n- Preserves attribution for @pahuchi-joe as the source PR contributor.\n\n## Source credit\nSource PR: https://github.com/openclaw/openclaw/pull/78105\nContributor: @pahuchi-joe\n\n## Validation\n- pnpm test src/plugins/loader.test.ts\n- pnpm check:changed\n- /review",
+    "likely_files": [
+      "CHANGELOG.md",
+      "docs/cli/plugins.md",
+      "docs/tools/plugin.md",
+      "src/plugins/loader-provenance.ts",
+      "src/plugins/loader.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/plugins/loader.test.ts",
+      "pnpm check:changed",
+      "/review"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/78105",
+      "Credit contributor @pahuchi-joe in the repaired PR body and changelog attribution if the user-facing warning text remains derived from the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T075937-004.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#91685: merge may be appropriate after live re-fetch, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+      "#77973: merge may be appropriate after live re-fetch, mergeability resolution, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+      "#77987: merge may be appropriate after live re-fetch, mergeability resolution, hydrated comments/review-bot comments, Codex /review, and complete merge_preflight proof.",
+      "#77999: failing security-fast and security-dependency-audit checks must be explained or repaired before merge consideration, alongside Codex /review and hydrated comment/review-bot proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}
