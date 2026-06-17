@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-442-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27625948983"
-workflow_run_id: "27625948983"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27625948983"
-head_sha: "85f24beeeb970d650e0705017b582c86e25c6e9f"
+run_id: "27666808055"
+workflow_run_id: "27666808055"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808055"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-16T14:53:46.411Z"
+published_at: "2026-06-17T05:00:37.635Z"
 canonical: "https://github.com/openclaw/openclaw/issues/92494"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/92494"
 canonical_pr: null
@@ -19,14 +19,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 2
+needs_human_count: 1
 ---
 
 # gitcrawl-442-autonomous-terminal-gap
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27625948983](https://github.com/openclaw/clownfish/actions/runs/27625948983)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808055](https://github.com/openclaw/clownfish/actions/runs/27666808055)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/92494
 
 ## Summary
 
-#92494 remains the only hydrated open candidate and the best canonical issue for the large-skill ARM Dreaming narrative timeout. No close, merge, or fixed-by-candidate action is safe: the only PR-like refs are existing-overlap context, not hydrated actionable items, and the hydrated ClawSweeper comment says maintainer direction is still needed on whether the repair belongs in shared tool preparation or the narrative wait policy. The advertised target checkout is not an OpenClaw application checkout, so I cannot safely emit an executable fix artifact from local source inspection.
+Hydrated #92494 remains the only actionable open item and is the best live canonical issue. Current main still has the fixed 60 second dreaming narrative wait, but the hydrated ClawSweeper review says the safe repair needs maintainer direction between optimizing tool preparation and changing the bounded wait policy, so no executable fix artifact is safe from this cluster alone.
 
 ## Impact
 
@@ -49,7 +49,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/92494
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 2 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -67,10 +67,9 @@ Canonical: https://github.com/openclaw/openclaw/issues/92494
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92494 | keep_canonical | planned | canonical | #92494 is the best surviving canonical issue; there are no hydrated duplicates or mergeable/fixed-by-candidate refs to close or merge in this cluster. |
-| cluster:gitcrawl-442-autonomous-terminal-gap | needs_human | blocked | needs_human | Maintainer decision is needed on the repair locus, and the target checkout is unsafe for building a verified OpenClaw fix artifact. |
+| #92494 | keep_canonical | planned | canonical | Keep #92494 open as the canonical issue because it is live, non-security, not a duplicate, and no hydrated candidate PR is available in this cluster. |
+| cluster:gitcrawl-442-autonomous-terminal-gap | needs_human | blocked | needs_human | Maintainer direction is required on the repair boundary before Clownfish can produce a complete executable fix artifact without risking a policy-only timeout bump where the canonical fix may belong in tool preparation. |
 
 ## Needs Human
 
-- #92494: choose whether the fix should optimize/reuse shared skill/tool preparation, make the Dreaming narrative wait configurable/longer, or follow another maintainer-approved approach; current artifact evidence is not enough to scope an autonomous patch safely.
-- cluster:gitcrawl-442-autonomous-terminal-gap: provide a valid openclaw/openclaw target checkout before executing a fix artifact, because the advertised checkout path resolves to the Clownfish control repo in this worker environment.
+- Decide whether #92494 should be fixed by optimizing/reusing shared tool preparation for large skill inventories or by changing the memory-core dreaming narrative wait policy. The current hydrated evidence proves the 60 second bound remains on main, but does not prove the safe owner boundary for an autonomous fix.

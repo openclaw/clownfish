@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-166-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27621967791"
-workflow_run_id: "27621967791"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27621967791"
-head_sha: "fc7e38b0b5ba007b17312c4888977987f6358c6a"
+run_id: "27666808092"
+workflow_run_id: "27666808092"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808092"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-16T13:49:08.128Z"
+published_at: "2026-06-17T05:00:37.636Z"
 canonical: "https://github.com/openclaw/openclaw/issues/85268"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/85268"
 canonical_pr: null
-actions_total: 2
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27621967791](https://github.com/openclaw/clownfish/actions/runs/27621967791)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808092](https://github.com/openclaw/clownfish/actions/runs/27666808092)
 
 Workflow conclusion: success
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/85268
 
 ## Summary
 
-Classified #85268 as the live canonical issue for this cluster. No close, merge, or fix PR action is safe: the hydrated record and source inspection show a plausible Windows exec hang, but the available evidence does not prove the current main behavior is fixed or identify a narrow non-speculative patch without native Windows reproduction.
+#85268 is the only hydrated open candidate and is the best canonical issue for this remaining non-overlap cluster. No close, merge, or fix PR action is safe from the current artifact: current main is at 0baaa63def44a6117c0a34c1d347c300fbb2776e, the issue remains open, no candidate PR is hydrated, and the hydrated ClawSweeper review says native Windows reproduction is still required before an automated fix would be non-speculative.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,9 +67,8 @@ Classified #85268 as the live canonical issue for this cluster. No close, merge,
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85268 | keep_canonical | planned | canonical | #85268 is the only live hydrated actionable ref and remains the best canonical issue for the Windows exec no-output hang family. |
-| cluster:gitcrawl-166-autonomous-terminal-gap | needs_human | blocked | needs_human | A complete executable fix artifact would be speculative until a Windows-capable reviewer reproduces #85268 and traces whether the hang occurs in direct runCommandWithTimeout spawning, supervisor child adapter lifecycle, stream close/drain behavior, or a gateway-specific interaction. |
+| #85268 | keep_canonical | planned | canonical | Keep #85268 open as the canonical remaining issue. The cluster has no hydrated viable PR or duplicate target, and the current evidence supports reproduce-first maintainer/Windows review rather than closure or a speculative fix artifact. |
 
 ## Needs Human
 
-- Native Windows reproduction is needed for #85268 before Clownfish can safely build a narrow fix PR: capture whether a simple exec call like echo hello reaches runCommandWithTimeout or the supervisor path, whether stdout/stderr data or close events fire, and whether the child process exits independently of timeout/taskkill.
+- #85268 needs native Windows reproduction or maintainer-provided trace to determine whether the current main exec wrapper still hangs and which narrow fix is appropriate.

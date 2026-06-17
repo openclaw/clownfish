@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-274-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666807953",
+  "workflow_run_id": "27666807953",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666807953",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T04:59:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-274-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:00:37.633Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/80432",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/80432",
+  "canonical_pr": null,
+  "summary": "Hydrated state keeps #80432 as the canonical non-security issue for Matrix outbound sibling mention rendering. Current main still explicitly treats bare localpart text such as @alice as plain text with empty m.mentions, while qualified Matrix IDs render as matrix.to mentions. #45184 is related inbound dispatch policy, not a duplicate. #52146 is security-sensitive and must be routed only to central security triage. No executable fix artifact is safe yet because #80432 depends on maintainer product direction for sibling roster and alias semantics.",
+  "actions": [
+    {
+      "target": "#80432",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80432",
+      "candidate_fix": null,
+      "reason": "Canonical issue remains live and reproducible, but implementation requires maintainer product direction on sibling roster and alias semantics before Clownfish can build a narrow fix PR."
+    },
+    {
+      "target": "#45184",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80432",
+      "candidate_fix": null,
+      "reason": "Same Matrix multi-account symptom family, but different user-visible failure and likely different product/config contract; keep open as related context, not duplicate closure."
+    },
+    {
+      "target": "#45766",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid."
+    },
+    {
+      "target": "#52146",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact ref to central OpenClaw security triage; it should not block unrelated non-security classification for #80432 or #45184."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80432 needs maintainer product direction before a fix PR: choose the Matrix-owned sibling roster/alias contract, default behavior, and interaction with inbound sibling-mention dispatch policy."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

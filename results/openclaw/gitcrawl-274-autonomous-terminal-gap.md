@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-274-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623651756"
-workflow_run_id: "27623651756"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623651756"
-head_sha: "49af434b25e9ed881efb163fc22dc0077d559bf3"
+run_id: "27666807953"
+workflow_run_id: "27666807953"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666807953"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-16T14:15:48.717Z"
+published_at: "2026-06-17T05:00:37.633Z"
 canonical: "https://github.com/openclaw/openclaw/issues/80432"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/80432"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623651756](https://github.com/openclaw/clownfish/actions/runs/27623651756)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666807953](https://github.com/openclaw/clownfish/actions/runs/27666807953)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/issues/80432
 
 ## Summary
 
-Canonical issue #80432 remains open and source-reproducible on current main for Matrix outbound bare sibling-name mention rendering. No close, merge, or fix PR action is safe in this run because the fix depends on maintainer product direction for the Matrix sibling roster or alias contract. #45184 is related but inbound dispatch suppression, #45766 is already closed historical context, and #52146 is security-sensitive and must be routed only to central security triage.
+Hydrated state keeps #80432 as the canonical non-security issue for Matrix outbound sibling mention rendering. Current main still explicitly treats bare localpart text such as @alice as plain text with empty m.mentions, while qualified Matrix IDs render as matrix.to mentions. #45184 is related inbound dispatch policy, not a duplicate. #52146 is security-sensitive and must be routed only to central security triage. No executable fix artifact is safe yet because #80432 depends on maintainer product direction for sibling roster and alias semantics.
 
 ## Impact
 
@@ -67,11 +67,11 @@ Canonical issue #80432 remains open and source-reproducible on current main for 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80432 | keep_canonical | planned | canonical | Keep #80432 as the canonical issue; maintainer product direction is needed before Clownfish can safely build a fix PR. |
-| #45184 | keep_related | planned | related | Related Matrix sibling-account work, but not a true duplicate of #80432 and not safe to close in this cluster. |
-| #45766 | keep_closed | skipped | superseded | Already closed historical context; no mutation is valid. |
-| #52146 | route_security | planned | security_sensitive | Quarantine only #52146 to central OpenClaw security triage; do not comment, close, label, merge, or fix it from this cluster. |
+| #80432 | keep_canonical | planned | canonical | Canonical issue remains live and reproducible, but implementation requires maintainer product direction on sibling roster and alias semantics before Clownfish can build a narrow fix PR. |
+| #45184 | keep_related | planned | related | Same Matrix multi-account symptom family, but different user-visible failure and likely different product/config contract; keep open as related context, not duplicate closure. |
+| #45766 | keep_closed | skipped | related | Already closed historical context; no mutation is valid. |
+| #52146 | route_security | planned | security_sensitive | Route only this exact ref to central OpenClaw security triage; it should not block unrelated non-security classification for #80432 or #45184. |
 
 ## Needs Human
 
-- #80432 needs maintainer product direction for Matrix sibling roster or alias semantics before an outbound bare @name rendering fix can be scoped safely.
+- #80432 needs maintainer product direction before a fix PR: choose the Matrix-owned sibling roster/alias contract, default behavior, and interaction with inbound sibling-mention dispatch policy.
