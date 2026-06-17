@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-90468-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27701188166",
+  "workflow_run_id": "27701188166",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27701188166",
+  "head_sha": "0e178d4cacf5506eccaae14801a325346a58a31a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T15:42:02Z",
+  "workflow_updated_at": "2026-06-17T15:49:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T15:51:34.925Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/90468",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90468",
+  "summary": "PR #90468 remains the canonical repair path. The branch is useful, narrow, editable by maintainers, and scoped to the prompt-template argument parser, but it is not merge-ready because a maintainer requested parser-shape changes and the job does not allow merge/comment/close actions. Plan repair on the contributor branch and preserve @yetval credit.",
+  "actions": [
+    {
+      "target": "#90468",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90468",
+      "candidate_fix": null,
+      "reason": "Useful contributor PR exists and is editable, but maintainer-requested parser regressions must be repaired and freshly validated before any merge path."
+    },
+    {
+      "target": "cluster:repair-90468-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90468",
+      "candidate_fix": null,
+      "reason": "Allowed actions include fix and raise_pr, allow_fix_pr=true, allow_merge=false. The correct next action is branch repair plus validation, not merge or closure."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90468",
+    "source_refs": [
+      "#90468"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90468 in place so the prompt-template slash-command argument parser preserves prose apostrophes without regressing documented shell-style quote grouping and concatenation.",
+    "pr_title": "fix(agents): preserve apostrophes in prompt-template arguments",
+    "pr_body": "## Summary\n- Repairs #90468 in place, preserving @yetval's apostrophe parsing fix and contributor credit.\n- Keeps ordinary prose apostrophes and plural possessives literal while preserving shell-style single/double quote grouping and concatenation.\n- Adds/keeps focused regression coverage for contractions, plural possessives before quoted spans, embedded single-quote concatenation, and prompt-template substitution.\n\n## Verification\n- pnpm test packages/agent-core/src/harness/prompt-templates.test.ts\n- pnpm check:changed\n- Fresh Codex /review before merge recommendation\n\nSource PR: https://github.com/openclaw/openclaw/pull/90468",
+    "likely_files": [
+      "packages/agent-core/src/harness/prompt-template-arguments.ts",
+      "packages/agent-core/src/harness/prompt-templates.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test packages/agent-core/src/harness/prompt-templates.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing maintainer-editable contributor branch from @yetval rather than replacing it.",
+      "Keep PR #90468 as the source PR and preserve @yetval attribution in the repaired PR body/squash release-note context.",
+      "Mention that the repair carries forward @yetval's apostrophe parsing fix while addressing maintainer-requested parser regressions."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags https://github.com/yetval/openclaw.git refs/heads/fix/prompt-template-args-apostrophe:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline (strategies: base_pull_ref, fork_head_ref)",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags https://github.com/yetval/openclaw.git refs/heads/fix/prompt-template-args-apostrophe:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline (strategies: base_pull_ref, fork_head_ref)",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": true,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

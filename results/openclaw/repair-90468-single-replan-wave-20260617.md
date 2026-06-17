@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-90468-single-replan-wave-20260617"
 mode: "autonomous"
-run_id: "27700158123"
-workflow_run_id: "27700158123"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27700158123"
-head_sha: "bd9d50ac7c2fa84ab3d1e7aa29f30b56a5e04c50"
+run_id: "27701188166"
+workflow_run_id: "27701188166"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27701188166"
+head_sha: "0e178d4cacf5506eccaae14801a325346a58a31a"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T15:34:53.834Z"
+published_at: "2026-06-17T15:51:34.925Z"
 canonical: "https://github.com/openclaw/openclaw/pull/90468"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/90468"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27700158123](https://github.com/openclaw/clownfish/actions/runs/27700158123)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27701188166](https://github.com/openclaw/clownfish/actions/runs/27701188166)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/90468
 
 ## Summary
 
-PR #90468 remains the canonical repair path. The change is narrow, maintainer_can_modify is true, and the hydrated artifact shows the concrete parser review concerns plus passing checks; Clownfish should repair/validate the contributor branch rather than replace it or merge it in this run.
+PR #90468 remains the canonical repair path. The branch is useful, narrow, editable by maintainers, and scoped to the prompt-template argument parser, but it is not merge-ready because a maintainer requested parser-shape changes and the job does not allow merge/comment/close actions. Plan repair on the contributor branch and preserve @yetval credit.
 
 ## Impact
 
@@ -64,20 +64,21 @@ PR #90468 remains the canonical repair path. The change is narrow, maintainer_ca
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair PR #90468 in place by preserving the contributor's apostrophe parsing fix while validating the explicit parser rule against maintainer-requested regressions: shell-style single-quote concatenation, plural possessives before quoted spans, ordinary contractions, and standalone quoted spans.",
-  "pr_title": "fix(agents): keep apostrophes in prompt-template arguments",
-  "pr_body": "## Summary\n- Repairs #90468 on the contributor branch, preserving @yetval's apostrophe parsing fix.\n- Keeps ordinary prose apostrophes and plural possessives literal while preserving documented shell-style quoted spans and embedded single-quote concatenation.\n- Adds/keeps focused regression coverage for contractions, users' before a later quoted span, foo'bar baz' concatenation, and contraction-before-standalone-quoted-span cases.\n\n## Credit\nThis repair carries forward the fix from @yetval in https://github.com/openclaw/openclaw/pull/90468.\n\n## Verification\n- node scripts/run-vitest.mjs packages/agent-core/src/harness/prompt-templates.test.ts\n- pnpm check:changed",
+  "summary": "Repair contributor PR #90468 in place so the prompt-template slash-command argument parser preserves prose apostrophes without regressing documented shell-style quote grouping and concatenation.",
+  "pr_title": "fix(agents): preserve apostrophes in prompt-template arguments",
+  "pr_body": "## Summary\n- Repairs #90468 in place, preserving @yetval's apostrophe parsing fix and contributor credit.\n- Keeps ordinary prose apostrophes and plural possessives literal while preserving shell-style single/double quote grouping and concatenation.\n- Adds/keeps focused regression coverage for contractions, plural possessives before quoted spans, embedded single-quote concatenation, and prompt-template substitution.\n\n## Verification\n- pnpm test packages/agent-core/src/harness/prompt-templates.test.ts\n- pnpm check:changed\n- Fresh Codex /review before merge recommendation\n\nSource PR: https://github.com/openclaw/openclaw/pull/90468",
   "likely_files": [
     "packages/agent-core/src/harness/prompt-template-arguments.ts",
     "packages/agent-core/src/harness/prompt-templates.test.ts"
   ],
   "validation_commands": [
-    "node scripts/run-vitest.mjs packages/agent-core/src/harness/prompt-templates.test.ts",
+    "pnpm test packages/agent-core/src/harness/prompt-templates.test.ts",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve contributor credit for @yetval as the author of https://github.com/openclaw/openclaw/pull/90468.",
-    "PR body should retain release-note context for the user-visible prompt-template parsing fix; do not edit CHANGELOG.md in this repair job."
+    "Repair the existing maintainer-editable contributor branch from @yetval rather than replacing it.",
+    "Keep PR #90468 as the source PR and preserve @yetval attribution in the repaired PR body/squash release-note context.",
+    "Mention that the repair carries forward @yetval's apostrophe parsing fix while addressing maintainer-requested parser regressions."
   ],
   "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
   "security_sensitive": false,
@@ -92,8 +93,8 @@ PR #90468 remains the canonical repair path. The change is narrow, maintainer_ca
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags origin refs/pull/90468/head:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline |
-| execute_fix | blocked |  |  | source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags origin refs/pull/90468/head:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline |
+| repair_contributor_branch | failed |  |  | source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags https://github.com/yetval/openclaw.git refs/heads/fix/prompt-template-args-apostrophe:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline (strategies: base_pull_ref, fork_head_ref) |
+| execute_fix | blocked |  |  | source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags https://github.com/yetval/openclaw.git refs/heads/fix/prompt-template-args-apostrophe:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline (strategies: base_pull_ref, fork_head_ref) |
 
 ## Apply Actions
 
@@ -111,8 +112,8 @@ PR #90468 remains the canonical repair path. The change is narrow, maintainer_ca
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90468 | fix_needed | planned | canonical | Repair the contributor branch in place: the branch is editable and narrow, but review state is still CHANGES_REQUESTED and merge is blocked by job policy. |
-| cluster:repair-90468-single-replan-wave-20260617 | build_fix_artifact | planned |  | Build an executable repair artifact for the existing contributor PR branch instead of opening a replacement PR. |
+| #90468 | fix_needed | planned | canonical | Useful contributor PR exists and is editable, but maintainer-requested parser regressions must be repaired and freshly validated before any merge path. |
+| cluster:repair-90468-single-replan-wave-20260617 | build_fix_artifact | planned |  | Allowed actions include fix and raise_pr, allow_fix_pr=true, allow_merge=false. The correct next action is branch repair plus validation, not merge or closure. |
 
 ## Needs Human
 
