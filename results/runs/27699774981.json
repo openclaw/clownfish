@@ -1,0 +1,79 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-93814-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27699774981",
+  "workflow_run_id": "27699774981",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27699774981",
+  "head_sha": "df797f33c27a77afacc17f16311f97f1bc2de7e2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T15:19:49Z",
+  "workflow_updated_at": "2026-06-17T15:22:27Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/repair-93814-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T15:24:14.981Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93814",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93814",
+  "summary": "Repaired the plan to honor the validator security gate. PR #93814 must be quarantined with an exact-ref route_security action, so the prior executable repair path is blocked pending central OpenClaw security handling. Closed linked refs remain historical context only.",
+  "actions": [
+    {
+      "target": "#70291",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#93814",
+      "candidate_fix": null,
+      "reason": "Already merged/closed context for the trajectory export surface; not a live target for this repair job."
+    },
+    {
+      "target": "#93194",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#93814",
+      "candidate_fix": null,
+      "reason": "Already merged/closed context; not part of the isolated #93814 repair path."
+    },
+    {
+      "target": "#93814",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#93814",
+      "candidate_fix": null,
+      "reason": "The deterministic validator classified #93814 as security-sensitive, so ProjectClownfish must quarantine this exact PR for central OpenClaw security handling."
+    },
+    {
+      "target": "cluster:repair-93814-single-replan-wave-20260617",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93814",
+      "candidate_fix": null,
+      "reason": "Cluster repair is blocked until central security handling decides whether and how #93814 can proceed."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security handling must decide whether #93814 can be repaired/finalized or needs a separate security process."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
