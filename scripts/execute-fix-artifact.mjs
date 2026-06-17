@@ -333,8 +333,23 @@ try {
       reason: "Codex produced no target repo changes; treating this allow_no_pr artifact as an audited no-PR outcome",
     };
   } else {
-    if (!isBlockedFixError(error)) throw error;
-    outcome = blockedFixOutcome(error, fixArtifact);
+    if (isBlockedFixError(error)) {
+      outcome = blockedFixOutcome(error, fixArtifact);
+    } else {
+      report.status = "failed";
+      report.reason = error.message;
+      if (!report.actions.some((action) => action.status === "failed")) {
+        report.actions.push({
+          ...(activeFixProgress ?? {}),
+          action: activeFixProgress?.action ?? "execute_fix",
+          status: "failed",
+          repair_strategy: activeFixProgress?.repair_strategy ?? fixArtifact.repair_strategy,
+          reason: error.message,
+        });
+      }
+      writeReport(report, resultPath);
+      throw error;
+    }
   }
 }
 
@@ -738,10 +753,26 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
   }
 
   pushRecoverableBranch({ targetDir, branch });
+  const existingPrUrl = findOpenPullRequestForBranch(branch, targetDir);
+  if (!existingPrUrl && !branchHasBaseDiff({ targetDir, baseBranch })) {
+    return {
+      action: "open_fix_pr",
+      status: "skipped",
+      code: "no_diff_from_base",
+      reason: `replacement branch has no commits ahead of ${baseBranch}; no PR is needed`,
+      branch,
+      resumed_branch: branchState.resumed,
+      commit: prep.commit,
+      checkpoint_commits: prep.checkpoint_commits,
+      merge_preflight: prep.merge_preflight,
+      supersede_sources: supersedeSources ? fixArtifact.source_prs ?? [] : [],
+      contributor_credit: contributorCredits.map(publicContributorCredit),
+    };
+  }
   const bodyPath = path.join(workRoot, "replacement-pr-body.md");
   fs.writeFileSync(bodyPath, body);
   const prUrl =
-    findOpenPullRequestForBranch(branch, targetDir) ||
+    existingPrUrl ||
     run(
       "gh",
       ["pr", "create", "--repo", result.repo, "--base", baseBranch, "--head", branch, "--title", fixArtifact.pr_title, "--body-file", bodyPath],
