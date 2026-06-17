@@ -1,0 +1,150 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-123",
+  "mode": "plan",
+  "run_id": "27682214783-1-22",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "22",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-123.md",
+  "published_at": "2026-06-17T10:29:14.758Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five PR inventory items. No merge action is safe because no candidate has complete merge preflight with Codex /review proof. #75469 has a concrete replacement-fix path because the source branch is not maintainer-modifiable and has a failing check; #90122, #91093, and #92445 need maintainer decisions or complete merge preflight; #93183 is already closed.",
+  "actions": [
+    {
+      "target": "#75469",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#75469",
+      "reason": "Focused contributor/bot PR is useful but not currently mergeable; replacement repair is concrete and allowed by allow_fix_pr."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-123:#75469",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#75469",
+      "reason": "Build a narrow replacement fix artifact for the heartbeat commitment starvation regression."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-123:#75469",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#75469",
+      "reason": "Open a Clownfish replacement PR only after executor repair, validation, and review gates complete."
+    },
+    {
+      "target": "#90122",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90122",
+      "reason": "Potentially mergeable small UI fix, but merge_candidate is blocked by missing required merge preflight and unhydrated discussion context."
+    },
+    {
+      "target": "#91093",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91093",
+      "reason": "Broad feature PR requires maintainer review and complete hydrated discussion/review context before any merge or repair recommendation."
+    },
+    {
+      "target": "#92445",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92445",
+      "reason": "Author follow-up is active per label, so maintainer decision or refreshed author-response context is required before merge planning."
+    },
+    {
+      "target": "#93183",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed PR is historical context only for this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "needs_human": 3,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90122 requires complete merge preflight before merge_candidate: live mergeability, hydrated discussion/review-bot context, Codex /review, and addressed findings are missing from the artifact.",
+    "#91093 is a broad XL feature/config/docs PR with 56 files and 86 unhydrated comments; maintainer review is required before merge or autonomous repair.",
+    "#92445 is labeled waiting on author, so maintainer or refreshed author-response context is required before finalization."
+  ],
+  "repair_candidate": {
+    "target": "#75469",
+    "source_refs": [
+      "#75469",
+      "#90122",
+      "#91093",
+      "#92445",
+      "#93183"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Replace uneditable source PR #75469 with a narrow Clownfish-owned fix for the heartbeat-runner regression where recurring due HEARTBEAT.md tasks can starve same-session inferred commitments indefinitely.",
+    "pr_title": "fix(heartbeat): deliver commitments after due tasks",
+    "pr_body": "## Summary\n\nReplace source PR https://github.com/openclaw/openclaw/pull/75469 with a narrow Clownfish-owned repair for the heartbeat-runner commitment starvation regression. The source branch is not maintainer-modifiable and the hydrated preflight shows checks-node-core-tooling failing, so this PR carries the fix forward on a repairable branch while preserving attribution.\n\n## Credit\n\nBased on source PR #75469 by clawsweeper[bot]. Clownfish preserves source PR credit and attribution for the original finding and patch direction.\n\n## Validation\n\n- pnpm -s vitest run src/infra/heartbeat-runner.commitments.test.ts\n- pnpm check:changed\n- Codex /review must pass cleanly before merge.",
+    "likely_files": [
+      "src/infra/heartbeat-runner.ts",
+      "src/infra/heartbeat-runner.commitments.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/infra/heartbeat-runner.commitments.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve attribution to source PR https://github.com/openclaw/openclaw/pull/75469 and author clawsweeper[bot].",
+      "Replacement PR body should state that the patch is based on #75469 and carries source PR credit."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-123.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#90122 requires complete merge preflight before merge_candidate: live mergeability, hydrated discussion/review-bot context, Codex /review, and addressed findings are missing from the artifact.",
+      "#91093 is a broad XL feature/config/docs PR with 56 files and 86 unhydrated comments; maintainer review is required before merge or autonomous repair.",
+      "#92445 is labeled waiting on author, so maintainer or refreshed author-response context is required before finalization."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

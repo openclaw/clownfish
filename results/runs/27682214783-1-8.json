@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-109",
+  "mode": "plan",
+  "run_id": "27682214783-1-8",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "8",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-109.md",
+  "published_at": "2026-06-17T10:29:14.782Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. Four PRs remain non-mutating classifications. PR #84545 is routed to central security handling because deterministic validation identified it as security-sensitive; no GitHub mutations are planned. No merge_candidate actions were emitted because the preflight artifact does not include hydrated comments/review comments, review-bot findings, Codex /review proof, or known mergeability.",
+  "actions": [
+    {
+      "target": "#77904",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent maintainer-ready PR; it needs refreshed mergeability, hydrated comments/review-bot comments, Codex /review, and final validation before any merge action."
+    },
+    {
+      "target": "#78606",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent PR; approval-delivery behavior is compatibility-sensitive and needs complete review/comment hydration plus merge preflight before finalization."
+    },
+    {
+      "target": "#84545",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR ref to central OpenClaw security handling and quarantine ProjectClownfish actions for this item."
+    },
+    {
+      "target": "#78741",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up is explicitly present via label and required_human_for, and missing hydrated discussion prevents safe repair or finalization planning."
+    },
+    {
+      "target": "#78747",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent high-priority PR; it appears close but still needs complete merge preflight before a merge_candidate action."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78741 requires maintainer judgment because the PR is explicitly labeled waiting on author, has active-author-followup risk, has 41 unhydrated comments, and has a failing lint check."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

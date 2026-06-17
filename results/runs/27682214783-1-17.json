@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-118",
+  "mode": "plan",
+  "run_id": "27682214783-1-17",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-118.md",
+  "published_at": "2026-06-17T10:29:14.740Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No GitHub mutations are allowed by this job. All five refs are open pull requests with hydrated kind/state/updated_at and no security-sensitive signal. None can be recommended for merge because the artifact does not prove a clean merge preflight with passed Codex /review and addressed findings. The concrete path is contributor-branch repair/finalization for the narrow PRs, with human review for the broad i18n PR and active-author/failing-proof PRs.",
+  "actions": [
+    {
+      "target": "#85829",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#85829",
+      "reason": "Small contributor PR appears repairable/finalizable, but merge_candidate is blocked until Clownfish obtains current mergeability/conflict state, runs Codex /review, addresses any findings, and records complete merge_preflight."
+    },
+    {
+      "target": "#89238",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#89238",
+      "reason": "Active-author label, failing proof, and unresolved/opaque Codex review feedback require maintainer or author follow-up before Clownfish can repair or merge safely."
+    },
+    {
+      "target": "#92176",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92176",
+      "reason": "Compatibility-risk PR with waiting-on-author status and a failing relevant agent-chat lane needs human/author resolution before repair or merge recommendation."
+    },
+    {
+      "target": "#79049",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#79049",
+      "reason": "The PR has broad generated/localization churn and failing required checks, which the job marks as requiring human judgment rather than autonomous repair."
+    },
+    {
+      "target": "#92230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92230",
+      "reason": "Small contributor PR appears repairable/finalizable, but merge_candidate is blocked until Clownfish obtains current mergeability/conflict state, runs Codex /review, addresses any findings, and records complete merge_preflight."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89238: waiting-on-author PR has failing Real behavior proof plus unresolved Codex review excerpt; author/maintainer decision needed before repair or merge.",
+    "#92176: waiting-on-author compatibility-risk PR has a failing agent-chat lane; maintainer/author decision needed before repair or merge.",
+    "#79049: broad i18n/generated metadata PR with multiple failing required checks; broad-code-delta gate requires human review."
+  ],
+  "repair_candidate": {
+    "target": "#85829",
+    "source_refs": [
+      "#85829",
+      "#92230",
+      "#85822",
+      "#79049",
+      "#89238",
+      "#92176"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/finalize the two narrow maintainer-modifiable contributor PR branches that have clean hydrated checks but lack complete merge preflight: #85829 and #92230. Do not open a replacement PR unless contributor-branch repair cannot be completed safely; preserve original authorship and source PR credit.",
+    "pr_title": "Finalize narrow PR inventory repairs for auth success lane and model menu choices",
+    "pr_body": "Cluster: live-pr-inventory-20260617T015524-118\n\nSource PRs:\n- https://github.com/openclaw/openclaw/pull/85829 by @TurboTheTurtle\n- https://github.com/openclaw/openclaw/pull/92230 by @clawSean\n\nPlan:\n- Prefer repairing the contributor branches directly because maintainer_can_modify=true on both PRs.\n- Re-fetch current main and PR state, rebase/refactor narrowly if needed, run targeted tests plus pnpm check:changed, run Codex /review, address any findings, and only then emit merge_candidate with complete merge_preflight.\n- If a branch cannot be safely updated, open a replacement Clownfish PR that carries source PR attribution and validation evidence.",
+    "likely_files": [
+      "src/agents/embedded-agent-runner/run.ts",
+      "src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts",
+      "src/auto-reply/commands-registry.shared.ts",
+      "src/auto-reply/commands-registry.test.ts",
+      "src/auto-reply/thinking.shared.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts src/auto-reply/commands-registry.test.ts",
+      "pnpm check:changed",
+      "Codex /review on the repaired contributor branch before merge recommendation"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for #85829 by TurboTheTurtle if a replacement PR is required.",
+      "Preserve source PR credit for #92230 by clawSean if a replacement PR is required."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-118.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#89238: waiting-on-author PR has failing Real behavior proof plus unresolved Codex review excerpt; author/maintainer decision needed before repair or merge.",
+      "#92176: waiting-on-author compatibility-risk PR has a failing agent-chat lane; maintainer/author decision needed before repair or merge.",
+      "#79049: broad i18n/generated metadata PR with multiple failing required checks; broad-code-delta gate requires human review."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-113",
+  "mode": "plan",
+  "run_id": "27682214783-1-12",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-113.md",
+  "published_at": "2026-06-17T10:29:14.727Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs: four remain independent non-mutating classifications, and #79336 is routed to central security handling after deterministic validation flagged it as security-sensitive. No close/comment/label/merge mutation is planned. None of the non-security PRs has complete merge preflight proof: mergeability is unknown, Codex /review passed-clean proof is absent, comments were not hydrated despite existing comment counts, and #77895/#78931 have blocking check or review signals. No concrete replacement fix artifact is safe from the available evidence.",
+  "actions": [
+    {
+      "target": "#77895",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR in this inventory shard; do not merge or build a replacement from the available proof. Rehydrate comments/review details and repair failing checks in a PR-specific follow-up before any merge recommendation."
+    },
+    {
+      "target": "#78931",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent test/harness PR; failing Real behavior proof blocks merge, and the artifact does not include enough failure detail for a concrete repair artifact."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with promising checks, but this plan shard lacks the required merge proof. Keep it as a standalone candidate for full review hydration and Codex /review before merge."
+    },
+    {
+      "target": "#79336",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator identified #79336 as security-sensitive, so ProjectClownfish must quarantine only this exact PR ref and route it to central OpenClaw security handling."
+    },
+    {
+      "target": "#79339",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent, focused PR with passing checks, but merge is blocked until live mergeability, hydrated comments, and Codex /review proof are available."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

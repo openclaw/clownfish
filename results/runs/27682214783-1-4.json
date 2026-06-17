@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-105",
+  "mode": "plan",
+  "run_id": "27682214783-1-4",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-105.md",
+  "published_at": "2026-06-17T10:29:14.771Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No merge is recommended because none has complete merge preflight proof from the artifact, including hydrated comments/review-bot comments and passed Codex /review. One small independent PR can stay queued for full merge preflight; four PRs need specific maintainer/author decisions or repair context before finalization.",
+  "actions": [
+    {
+      "target": "#91923",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-looking PR, but merge is blocked until a refreshed preflight proves comments, bot findings, Codex /review, and validation are complete."
+    },
+    {
+      "target": "#91963",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup state plus failing validation requires maintainer decision or refreshed repair instructions before Clownfish can recommend merge or repair."
+    },
+    {
+      "target": "#91967",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Product/platform risk and App Store compatibility need maintainer judgment before any merge path; merge preflight is also incomplete."
+    },
+    {
+      "target": "#93180",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad auth/provider/session-state delta is explicitly a human-gated scope, and merge preflight is incomplete."
+    },
+    {
+      "target": "#93243",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author state is an active follow-up blocker; do not merge or replace until author/maintainer state is refreshed."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91963: waiting-on-author label plus failing Real behavior proof and auto-reply/security/label checks block finalization.",
+    "#91967: feature-level iOS notch branding and private notch geometry/App Store risk need maintainer product/platform judgment.",
+    "#93180: XL doctor/auth/provider/session-state migration plan is broad and human-gated by job policy.",
+    "#93243: waiting-on-author label blocks finalization despite otherwise passing checks."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

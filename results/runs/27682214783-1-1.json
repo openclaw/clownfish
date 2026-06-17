@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-102",
+  "mode": "plan",
+  "run_id": "27682214783-1-1",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-102.md",
+  "published_at": "2026-06-17T10:29:14.719Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No merge_candidate actions emitted because the artifact does not contain complete merge preflight proof for any PR, including a clean latest Codex /review with addressed findings. #78452 is broad and has failing checks plus unresolved bot-review evidence, so it needs maintainer judgment rather than automated repair in this shard.",
+  "actions": [
+    {
+      "target": "#76744",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#76744",
+      "reason": "Small, credible docs PR, but merge cannot be recommended without complete merge preflight. A narrow replacement/refresh path is concrete if final preflight cannot be completed on the source branch."
+    },
+    {
+      "target": "#76920",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#76920",
+      "reason": "Potentially mergeable contributor PR after maintainer-side finalization, but plan mode lacks required merge preflight. Repair should target contributor branch finalization rather than replacement first because maintainer_can_modify=true."
+    },
+    {
+      "target": "#77339",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#77339",
+      "reason": "Small contributor fix with useful tests, but merge recommendation is blocked until final branch/current-main preflight and Codex review are completed."
+    },
+    {
+      "target": "#78452",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature/config/schema delta with failing checks and unresolved bot-review proof. This is outside a safe automated repair plan for this shard."
+    },
+    {
+      "target": "#89745",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The core fix appears plausible and validated, but the large fixture snapshot churn requires maintainer judgment or a narrower follow-up job before merge/fix automation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78452: broad WhatsApp feature PR has failing checks plus unresolved bot-review/preflight proof.",
+    "#89745: usage fix has passing checks but broad snapshot churn that requires maintainer judgment or a narrower split."
+  ],
+  "repair_candidate": {
+    "target": "#76744",
+    "source_refs": [
+      "#76744",
+      "#76920",
+      "#77339",
+      "#78452",
+      "#89745"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/finalization plan for the small non-security PRs that are useful but missing required merge preflight. Do not attempt #78452 or #89745 in this fix artifact because they require maintainer judgment for broad code delta.",
+    "pr_title": "chore: finalize ready small PR remediation shard 102",
+    "pr_body": "## Summary\n- Finalize the small ready PRs from Clownfish inventory shard live-pr-inventory-20260617T015524-102 when direct merge preflight cannot be completed.\n- Preserve contributor/source credit for #76744, #76920, and #77339.\n- Leave #78452 and #89745 for maintainer judgment because their hydrated artifacts show broad code deltas, and #78452 also has failing checks plus unresolved bot-review proof.\n\n## Source PRs and Credit\n- #76744 docs: standardize ACP behavior spelling; credit source issue #76734 by @steipete and the ClawSweeper replacement PR body.\n- #76920 fix(telegram): preserve forum topic routing; source PR by @kesslerio.\n- #77339 fix(auto-reply): clear runtime model cache on reset; source PR by @mjamiv / commit author hewekdyou.\n\n## Validation\n- `pnpm check:changed`\n- `pnpm check:docs`\n- `pnpm -s vitest run extensions/telegram/src/draft-stream.test.ts src/cron/isolated-agent.direct-delivery-core-channels.test.ts src/infra/outbound/targets.test.ts src/auto-reply/reply/session.test.ts`\n- Codex `/review` must pass cleanly before any merge recommendation.",
+    "likely_files": [
+      "docs/tools/acp-agents.md",
+      "extensions/telegram/src/bot/helpers.ts",
+      "extensions/telegram/src/draft-stream.ts",
+      "extensions/telegram/src/send.ts",
+      "extensions/telegram/src/draft-stream.test.ts",
+      "src/cron/isolated-agent/run.ts",
+      "src/cron/isolated-agent.direct-delivery-core-channels.test.ts",
+      "src/infra/outbound/targets.ts",
+      "src/infra/outbound/targets.test.ts",
+      "src/auto-reply/reply/session.ts",
+      "src/auto-reply/reply/session.test.ts",
+      "CHANGELOG.md"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm check:docs",
+      "pnpm -s vitest run extensions/telegram/src/draft-stream.test.ts src/cron/isolated-agent.direct-delivery-core-channels.test.ts src/infra/outbound/targets.test.ts src/auto-reply/reply/session.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve #76744 credit to source issue #76734 by @steipete and the ClawSweeper replacement PR body credit note.",
+      "Preserve #76920 source PR credit to @kesslerio for Telegram topic routing work.",
+      "Preserve #77339 source PR credit to @mjamiv / commit author hewekdyou for the auto-reply reset cache fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-102.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#78452: broad WhatsApp feature PR has failing checks plus unresolved bot-review/preflight proof.",
+      "#89745: usage fix has passing checks but broad snapshot churn that requires maintainer judgment or a narrower split."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

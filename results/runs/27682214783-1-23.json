@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-124",
+  "mode": "plan",
+  "run_id": "27682214783-1-23",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-124.md",
+  "published_at": "2026-06-17T10:29:14.762Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No merge is recommended because the artifact does not include Codex /review proof and several PRs also have failed checks, waiting-on-author state, or broad-delta risk.",
+  "actions": [
+    {
+      "target": "#93293",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93293",
+      "reason": "Potentially landable after final maintainer repair/preflight, but merge_candidate is not safe without required /review and mergeability proof."
+    },
+    {
+      "target": "#93384",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93384",
+      "reason": "Contributor branch is maintainable, but failed checks and missing review preflight require repair before any merge recommendation."
+    },
+    {
+      "target": "#93388",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad provider/config/docs delta plus active waiting-on-author state and failed checks require maintainer judgment before repair or merge planning."
+    },
+    {
+      "target": "#92591",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The code appears focused, but the waiting-on-author label is an explicit active follow-up blocker for this job."
+    },
+    {
+      "target": "#92610",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be valuable but its XL session-state rewrite needs maintainer review before merge or replacement planning."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93388: broad dirty provider/config/docs delta, waiting-on-author state, and failed checks need maintainer judgment.",
+    "#92591: waiting-on-author state blocks finalization despite otherwise focused passing checks.",
+    "#92610: XL session-state delta needs maintainer judgment before merge or repair path."
+  ],
+  "repair_candidate": {
+    "target": "#93293",
+    "source_refs": [
+      "#93293",
+      "#93384",
+      "#92591",
+      "#92610",
+      "#93388"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "No replacement PR should be opened from this plan. #93293 and #93384 are the only concrete repair candidates, but the artifact lacks failure logs and required Codex /review/mergeability proof, so the next safe step is contributor-branch repair/preflight rather than a new replacement branch.",
+    "pr_title": "Repair contributor PR preflight for compaction replay and status model usage",
+    "pr_body": "Plan-only repair artifact for contributor-branch preflight on source PRs https://github.com/openclaw/openclaw/pull/93293 and https://github.com/openclaw/openclaw/pull/93384. No replacement PR should be opened from this plan. Repair should preserve source PR attribution and contributor credit for @mushuiyu886 on #93293 and @zhangguiping-xydt on #93384, then rerun pnpm check:changed and Codex /review before any merge recommendation.",
+    "likely_files": [
+      "src/agents/agent-hooks/compaction-safeguard.ts",
+      "src/agents/agent-hooks/compaction-safeguard.test.ts",
+      "src/auto-reply/model-runtime.ts",
+      "src/auto-reply/reply/commands-status.test.ts",
+      "src/status/status-message.ts",
+      "src/status/status-text.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "/review"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for mushuiyu886 on #93293 if repaired.",
+      "Preserve contributor credit for zhangguiping-xydt on #93384 if repaired."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-124.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#93388: broad dirty provider/config/docs delta, waiting-on-author state, and failed checks need maintainer judgment.",
+      "#92591: waiting-on-author state blocks finalization despite otherwise focused passing checks.",
+      "#92610: XL session-state delta needs maintainer judgment before merge or repair path."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

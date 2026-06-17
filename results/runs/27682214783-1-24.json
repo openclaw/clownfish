@@ -1,0 +1,139 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-125",
+  "mode": "plan",
+  "run_id": "27682214783-1-24",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-125.md",
+  "published_at": "2026-06-17T10:29:14.765Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five PRs. No merge candidate has complete merge preflight proof. One closed PR is kept closed, one open PR needs bounded branch repair before any merge recommendation, and three open PRs need maintainer judgment because the artifact shows broad scope, waiting-on-author state, or unresolved review/comment proof.",
+  "actions": [
+    {
+      "target": "#85643",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta is explicitly require_human_for in the job, and merge cannot be recommended without resolved comment and Codex /review proof."
+    },
+    {
+      "target": "#79655",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is marked waiting on author and has failing checks. Because active author follow-up is require_human_for, do not recommend merge or autonomous repair from this plan shard."
+    },
+    {
+      "target": "#93222",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not merge while checks fail and bot-review proof is incomplete. The branch is maintainer-editable and scoped enough for a targeted repair pass before a future merge preflight."
+    },
+    {
+      "target": "#92731",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive closure or merge actions in this plan."
+    },
+    {
+      "target": "#42637",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is marked waiting on author and has unresolved bot-review/comment proof, so merge or repair needs maintainer direction before any finalization path."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85643: broad XL session/model/status/config PR needs maintainer judgment despite passing checks because merge preflight proof is incomplete.",
+    "#79655: waiting-on-author PR with multiple failing checks; active author follow-up blocks autonomous repair/merge recommendation.",
+    "#42637: waiting-on-author PR with many historical Codex bot reviews and no clean /review preflight."
+  ],
+  "repair_candidate": {
+    "target": "#93222",
+    "source_refs": [
+      "#93222",
+      "#85745",
+      "#42637",
+      "#79655",
+      "#85643",
+      "#92731"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair PR #93222 on its maintainer-editable contributor branch before any merge recommendation. Keep the Discord REST API timeout change scoped to the existing config/docs/runtime/test surfaces, resolve the failing checks-node-core-tooling and check-additional-boundaries-a gates, refresh any generated config metadata only as required, and rerun a clean Codex /review before merge preflight.",
+    "pr_title": "fix(discord): repair REST API timeout config PR",
+    "pr_body": "Repair path for #93222.\n\nThis keeps the contributor's Discord REST API timeout work as the source PR and preserves attribution for the original implementation. The repair should stay limited to the existing Discord config/docs/runtime/test files and generated config metadata needed by the branch.\n\nSource PR: https://github.com/openclaw/openclaw/pull/93222\nRelated ref: #85745\n\nRequired before merge recommendation:\n- resolve the failing checks-node-core-tooling and check-additional-boundaries-a gates shown in the cluster artifact;\n- rerun targeted Discord/config validation and npm run validate;\n- run Codex /review on the repaired head and address or explicitly block every finding;\n- populate merge_preflight only after checks, comments, bot comments, and review proof are clean.",
+    "likely_files": [
+      "extensions/discord/src/client.ts",
+      "extensions/discord/src/client.test.ts",
+      "extensions/discord/src/client.proxy.test.ts",
+      "extensions/discord/src/config-schema.test.ts",
+      "extensions/discord/src/config-ui-hints.ts",
+      "extensions/discord/src/monitor/provider.startup.ts",
+      "extensions/discord/src/monitor/provider.startup.test.ts",
+      "extensions/discord/src/monitor/provider.test.ts",
+      "src/config/types.discord.ts",
+      "src/config/zod-schema.providers-core.ts",
+      "src/config/bundled-channel-config-metadata.generated.ts",
+      "docs/channels/discord.md",
+      "docs/.generated/config-baseline.sha256"
+    ],
+    "validation_commands": [
+      "npm run validate",
+      "run the repo's narrow Discord/config checks that cover checks-node-core-tooling and check-additional-boundaries-a",
+      "run Codex /review after the repair and address or explicitly block every finding before merge preflight"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for #93222. Source PR: https://github.com/openclaw/openclaw/pull/93222. Credited author in the artifact: geekhuashan; commit author shown in the artifact: AuroraBrain666."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-125.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#85643: broad XL session/model/status/config PR needs maintainer judgment despite passing checks because merge preflight proof is incomplete.",
+      "#79655: waiting-on-author PR with multiple failing checks; active author follow-up blocks autonomous repair/merge recommendation.",
+      "#42637: waiting-on-author PR with many historical Codex bot reviews and no clean /review preflight."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

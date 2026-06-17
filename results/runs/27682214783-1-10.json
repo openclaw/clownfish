@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-111",
+  "mode": "plan",
+  "run_id": "27682214783-1-10",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-111.md",
+  "published_at": "2026-06-17T10:29:14.722Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five unrelated open PRs. No merge is recommended because the artifact lacks the required merge preflight proof, including Codex /review. Two PRs have failing proof/check signals but no complete executable fix artifact is safe for this unrelated inventory shard, one is explicitly waiting on author with compatibility/message-delivery risk, and the remaining two should stay as independent maintainer-review candidates.",
+  "actions": [
+    {
+      "target": "#93330",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR, but merge_candidate is blocked until current mergeability, review/comment state, and Codex /review preflight are proven."
+    },
+    {
+      "target": "#93338",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup label plus compatibility/message-delivery risk requires maintainer judgment before repair or merge planning."
+    },
+    {
+      "target": "#93340",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent contributor PR with failing proof; merge is blocked and planned fix_needed cannot be emitted without a complete executable fix_artifact."
+    },
+    {
+      "target": "#92012",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR needing maintainer product/docs review; closeout is disabled and merge preflight is incomplete."
+    },
+    {
+      "target": "#92025",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent contributor PR with failing proof/checks; merge is blocked and planned fix_needed cannot be emitted without a complete executable fix_artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93338 has status: waiting on author plus compatibility/message-delivery risk and should not be finalized without maintainer review.",
+    "#93340 and #92025 need repair/proof refresh before any merge plan; no complete executable single cluster fix artifact is safe because this shard contains unrelated PRs.",
+    "#92012 needs maintainer docs/product judgment on adding an LLMBase provider page; low-signal closeout is disabled."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

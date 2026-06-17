@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-121",
+  "mode": "plan",
+  "run_id": "27682214783-1-20",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "20",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-121.md",
+  "published_at": "2026-06-17T10:29:14.752Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment for five open PRs. No merge recommendation is safe because none has a complete merge preflight with hydrated comments, resolved bot review findings, Codex /review evidence, and clean applicable checks. Four PRs need maintainer judgment because of active author-followup labels, broad scope, or missing merge proof. One small WhatsApp PR has a concrete contributor-branch repair path.",
+  "actions": [
+    {
+      "target": "#81184",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup label plus failing applicable checks and missing merge preflight require maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#81391",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not a duplicate and may be useful, but the active author-followup label and incomplete merge proof block merge recommendation."
+    },
+    {
+      "target": "#81621",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup, a failing proof check, and unresolved review-bot preflight evidence block merge; maintainer judgment is needed before repair or finalization."
+    },
+    {
+      "target": "#82023",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is broad and crosses multiple runtime surfaces; job frontmatter requires human review for broad code delta and active author follow-up."
+    },
+    {
+      "target": "#89110",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89110",
+      "reason": "A narrow repair path is concrete: update the contributor branch to restore or replace the failing behavior proof, rerun targeted WhatsApp validation, then re-run merge preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81184 requires maintainer judgment because it is waiting on author and has failing applicable checks without merge preflight.",
+    "#81391 requires maintainer judgment because it is waiting on author and lacks complete validation/review preflight.",
+    "#81621 requires maintainer judgment because it is waiting on author, has a failing Telegram proof check, and has unresolved review-bot evidence.",
+    "#82023 requires maintainer judgment because it is an XL broad code delta with active author-followup status."
+  ],
+  "repair_candidate": {
+    "target": "#89110",
+    "source_refs": [
+      "#89110",
+      "#81184",
+      "#81391",
+      "#81621",
+      "#82023"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #89110 by preserving its narrow WhatsApp typing-suppression change while addressing the failing Real behavior proof and refreshing validation on the contributor branch.",
+    "pr_title": "fix(whatsapp): repair unmentioned group typing suppression proof",
+    "pr_body": "## Summary\n- Repairs the contributor branch for #89110 while preserving @Bluetegu's narrow WhatsApp typing suppression fix.\n- Restores/updates proof for unmentioned group runs so typing indicators stay suppressed regardless of delivery mode.\n\n## Credit\nThis repair carries forward the implementation and attribution from source PR #89110 by @Bluetegu.\n\n## Validation\n- pnpm -s vitest run extensions/whatsapp/src/auto-reply/monitor/inbound-dispatch.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "extensions/whatsapp/src/auto-reply/monitor/inbound-dispatch.ts",
+      "extensions/whatsapp/src/auto-reply/monitor/inbound-dispatch.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/whatsapp/src/auto-reply/monitor/inbound-dispatch.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve credit for @Bluetegu as the source PR author.",
+      "Source PR: https://github.com/openclaw/openclaw/pull/89110"
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-121.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#81184 requires maintainer judgment because it is waiting on author and has failing applicable checks without merge preflight.",
+      "#81391 requires maintainer judgment because it is waiting on author and lacks complete validation/review preflight.",
+      "#81621 requires maintainer judgment because it is waiting on author, has a failing Telegram proof check, and has unresolved review-bot evidence.",
+      "#82023 requires maintainer judgment because it is an XL broad code delta with active author-followup status."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

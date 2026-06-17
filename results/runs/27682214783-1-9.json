@@ -1,0 +1,128 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-110",
+  "mode": "plan",
+  "run_id": "27682214783-1-9",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-110.md",
+  "published_at": "2026-06-17T10:29:14.785Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment for five independent open PRs. No merge is recommended because the artifact does not include complete merge preflight proof for any PR. One narrow contributor-branch repair path is concrete for #92072; #92243 is routed to central security handling per deterministic validation, and the remaining PRs need maintainer review or author/CI follow-up.",
+  "actions": [
+    {
+      "target": "#78852",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#78852",
+      "reason": "Potentially viable PR, but merge cannot be planned without complete merge preflight proof and current maintainer review context."
+    },
+    {
+      "target": "#78884",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#78884",
+      "reason": "Docs-only PR appears narrow, but a failing required-style CI signal and missing merge preflight proof require maintainer/CI triage before finalization."
+    },
+    {
+      "target": "#78964",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#78964",
+      "reason": "Active author-followup label, broad message-delivery surface, failing checks, and unresolved bot-review proof make this a maintainer decision rather than an automated merge or repair plan."
+    },
+    {
+      "target": "#92072",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92072",
+      "reason": "Narrow repair is concrete: update or minimally adjust the gateway capability shim/tests on the contributor branch, then rerun targeted tests, check:changed, and Codex /review before any merge recommendation."
+    },
+    {
+      "target": "#92243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR #92243 is quarantined to central OpenClaw security handling; no GitHub mutation or fix action is planned for this security-sensitive target."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78852: missing complete merge preflight proof for a medium agents PR with unhydrated comments and no clean current Codex /review.",
+    "#78884: docs-only PR has failing actionlint and no complete merge preflight proof.",
+    "#78964: waiting-on-author Feishu/Lark message-delivery PR has broad code delta, failing checks, and unresolved bot-review proof."
+  ],
+  "repair_candidate": {
+    "target": "#92072",
+    "source_refs": [
+      "#92072",
+      "#78852",
+      "#78884",
+      "#78964",
+      "#92243"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #92072 so google-gemini-cli Gemini models remain image-capable at the gateway attachment capability gate, with focused tests proving catalog-entry and missing-entry behavior. Preserve HaozheZhang6 credit and do not broaden into general provider-catalog normalization.",
+    "pr_title": "fix(gateway): repair Gemini CLI image capability handling",
+    "pr_body": "## Summary\n- Repair the #92072 gateway capability fix on the contributor branch.\n- Keep google-gemini-cli Gemini models image-capable when catalog data is stale or missing.\n- Preserve the narrow scope; broader provider-catalog normalization remains out of scope.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/92072 by HaozheZhang6. Clownfish should preserve attribution in the repaired branch or any replacement PR.\n\n## Validation\n- pnpm -s vitest run src/gateway/session-utils.test.ts\n- pnpm check:changed\n- Codex /review before merge recommendation",
+    "likely_files": [
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/gateway/session-utils.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/92072",
+      "Credit HaozheZhang6 for the original google-gemini-cli image capability fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-110.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#92243"
+    ],
+    "needs_human": [
+      "#78852: missing complete merge preflight proof for a medium agents PR with unhydrated comments and no clean current Codex /review.",
+      "#78884: docs-only PR has failing actionlint and no complete merge preflight proof.",
+      "#78964: waiting-on-author Feishu/Lark message-delivery PR has broad code delta, failing checks, and unresolved bot-review proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

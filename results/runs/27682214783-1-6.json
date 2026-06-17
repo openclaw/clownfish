@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-107",
+  "mode": "plan",
+  "run_id": "27682214783-1-6",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-107.md",
+  "published_at": "2026-06-17T10:29:14.777Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No merge recommendations emitted because none of the open PRs has complete merge preflight proof, and broad deltas, active waiting-author signals, failing checks, unresolved review-bot/comment proof, or missing executable repair artifacts block automated finalization. No security-sensitive item was detected in the hydrated artifact.",
+  "actions": [
+    {
+      "target": "#75961",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cross-surface feature work needs maintainer judgment before any merge or repair path."
+    },
+    {
+      "target": "#91408",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature scope plus waiting-author signal and failing checks make this a maintainer decision, not an automated merge or replacement PR."
+    },
+    {
+      "target": "#76811",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The repair path depends on hydrating/addressing the Codex review suggestions and verifying the out-of-scope-looking pi-bundle edits; without a complete executable fix artifact this cannot remain a planned fix_needed action."
+    },
+    {
+      "target": "#77232",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The docs claim needs behavior verification and failing checks need investigation; without a complete executable fix artifact this cannot remain a planned fix_needed action."
+    },
+    {
+      "target": "#77325",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a bounded repair candidate, but failing checks, waiting-author label state, and incomplete merge preflight block merge; without a complete executable fix artifact this cannot remain a planned fix_needed action."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75961: broad Discord feature/config/runtime change without hydrated comments or complete merge preflight.",
+    "#91408: broad ACP/Telegram direct-peer binding feature with waiting-author signal and failing checks.",
+    "#76811: Codex review-bot suggestions are not hydrated and out-of-scope-looking pi-bundle edits need maintainer verification; no complete executable fix artifact is available.",
+    "#77232: behavior proof and required checks failed for the docs-only change; no complete executable fix artifact is available.",
+    "#77325: bounded auto-reply repair still has failed plugin-contract checks and waiting-author label state; no complete executable fix artifact is available."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

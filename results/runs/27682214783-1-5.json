@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-106",
+  "mode": "plan",
+  "run_id": "27682214783-1-5",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "5",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-106.md",
+  "published_at": "2026-06-17T10:29:14.774Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are allowed. #76666 has a concrete contributor-branch repair path because required proof is failing. #91981 is a small independent test-only PR but lacks merge preflight proof. #91984, #91986, and #92990 are blocked on maintainer judgment because live labels say waiting on author.",
+  "actions": [
+    {
+      "target": "#91981",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#91981",
+      "reason": "Standalone, low-risk test timeout PR. Keep it open for normal maintainer finalization; do not recommend merge without complete merge preflight."
+    },
+    {
+      "target": "#91984",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91984",
+      "reason": "Active author-followup label plus a failing Telegram proof makes this a maintainer decision, not a merge or replacement-fix recommendation from this shard."
+    },
+    {
+      "target": "#91986",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91986",
+      "reason": "Compatibility-sensitive feature PR with a live waiting-on-author label; maintainer review is required before merge or repair planning."
+    },
+    {
+      "target": "#76666",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#76666",
+      "reason": "Useful contributor PR with a narrow repairable failure. Build a repair_contributor_branch fix artifact instead of replacing or escalating."
+    },
+    {
+      "target": "#92990",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92990",
+      "reason": "Narrow fix looks plausible, but the live waiting-on-author label and unhydrated linked issue make finalization a maintainer decision."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "needs_human": 3,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91984: live status is waiting on author, Telegram proof failed, and the message-delivery risk/comment context is not hydrated.",
+    "#91986: live status is waiting on author for a compatibility-sensitive plugin hook API change.",
+    "#92990: live status is waiting on author and the claimed fixed issue #92684 is not hydrated as a primary item."
+  ],
+  "repair_candidate": {
+    "target": "#76666",
+    "source_refs": [
+      "#76666",
+      "#91981",
+      "#91984",
+      "#91986",
+      "#92990"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #76666 in place: rebase/refit the gateway startup memory preload patch onto current main, investigate the failing Real behavior proof, keep the diff narrow, run Codex /review, and preserve @buyitsydney attribution.",
+    "pr_title": "fix(memory): repair session transcript listener preload at gateway startup",
+    "pr_body": "Repairs the contributor branch from #76666. The goal is to keep the builtin backend session transcript listener preload fix, resolve the failing Real behavior proof, and preserve @buyitsydney attribution.\n\nSource PR: https://github.com/openclaw/openclaw/pull/76666\nCluster: live-pr-inventory-20260617T015524-106\n\nValidation:\n- pnpm -s vitest run src/gateway/server-startup-memory.test.ts\n- pnpm check:changed\n- Codex /review before merge",
+    "likely_files": [
+      "CHANGELOG.md",
+      "src/gateway/server-startup-memory.test.ts",
+      "src/gateway/server-startup-memory.ts",
+      "src/gateway/server-startup-post-attach.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/gateway/server-startup-memory.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @buyitsydney.",
+      "Use https://github.com/openclaw/openclaw/pull/76666 as the source PR in the repair PR/body if a replacement or Clownfish-authored branch is needed.",
+      "Keep the existing changelog attribution or carry equivalent source PR credit forward."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-106.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#91984: live status is waiting on author, Telegram proof failed, and the message-delivery risk/comment context is not hydrated.",
+      "#91986: live status is waiting on author for a compatibility-sensitive plugin hook API change.",
+      "#92990: live status is waiting on author and the claimed fixed issue #92684 is not hydrated as a primary item."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

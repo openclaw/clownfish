@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-108",
+  "mode": "plan",
+  "run_id": "27682214783-1-7",
+  "workflow_run_id": "27682214783",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682214783",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:22:25Z",
+  "workflow_updated_at": "2026-06-17T10:24:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-108.md",
+  "published_at": "2026-06-17T10:29:14.780Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification completed from the provided cluster preflight artifact. No GitHub mutations were planned because merge preflight is incomplete for every open PR: no Codex /review proof is present, mergeability is unknown, and review/comment hydration was intentionally omitted.",
+  "actions": [
+    {
+      "target": "#77432",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR looks plausible and focused, but merge cannot be recommended without required review/comment hydration, current mergeability, and Codex /review proof."
+    },
+    {
+      "target": "#77537",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing current proof plus missing review/comment and /review preflight block merge; maintainer decision or repair run is needed before finalization."
+    },
+    {
+      "target": "#77538",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item directly discusses auth token bounds and remote pre-auth resource amplification, so quarantine this exact PR for central security review without poisoning unrelated PRs."
+    },
+    {
+      "target": "#77638",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup status, failing checks, and missing merge preflight block merge; this needs maintainer/author resolution or a dedicated repair job."
+    },
+    {
+      "target": "#77875",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The patch appears focused, but waiting-on-author state and missing required merge preflight prevent an automated merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77432: Needs complete merge preflight before any merge recommendation: hydrated comments/review-bot findings, current mergeability, and Codex /review proof.",
+    "#77537: Needs maintainer or repair follow-up because current Real behavior proof failed and required merge preflight is incomplete.",
+    "#77638: Needs maintainer/author follow-up because the PR is marked waiting on author and has failing checks in the artifact.",
+    "#77875: Needs maintainer/author follow-up because the PR is marked waiting on author despite passing checks.",
+    "#77538: Routed to central security handling due auth/token/exploitability-shaped scope; no ProjectClownfish merge/fix/close action should be taken."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
