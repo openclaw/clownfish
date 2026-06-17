@@ -91,6 +91,8 @@ const allowedRefs = new Set(
     .map((ref) => normalizeIssueRef(ref, result.repo))
     .filter(Boolean),
 );
+const hydratedCloseRefs = hydratedPreflightCloseRefs(resultPath, result.repo);
+const allowedCloseRefs = new Set([...allowedRefs, ...hydratedCloseRefs]);
 const maintainerCloseRefs = new Set(
   (job.frontmatter.maintainer_close_refs ?? [])
     .map((ref) => normalizeIssueRef(ref, result.repo))
@@ -123,6 +125,27 @@ function findLatestResultPath() {
   candidates.sort((left, right) => right.mtimeMs - left.mtimeMs);
   if (!candidates[0]) throw new Error("no result.json files found");
   return candidates[0].path;
+}
+
+function hydratedPreflightCloseRefs(resultPath, repo) {
+  const planPath = path.join(path.dirname(resultPath), "cluster-plan.json");
+  if (!fs.existsSync(planPath)) return new Set();
+  const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+  return new Set(
+    (plan.items ?? [])
+      .filter(
+        (item) =>
+          item &&
+          !item.hydration_error &&
+          item.security_sensitive !== true &&
+          item.ref &&
+          item.kind &&
+          item.state &&
+          item.updated_at,
+      )
+      .map((item) => normalizeIssueRef(item.ref, repo))
+      .filter(Boolean),
+  );
 }
 
 function readFixExecutionReport() {
@@ -238,14 +261,14 @@ function applyCloseAction({
     return { ...base, status: "blocked", reason: "closure requires canonical or duplicate_of" };
   }
   const isPostMergeFixedClose = actionName === "post_merge_close" && classification === "fixed_by_candidate";
-  if (canonical && !allowedRefs.has(canonical) && !isPostMergeFixedClose) {
-    return { ...base, status: "blocked", reason: "canonical is not listed in job refs" };
+  if (canonical && !allowedCloseRefs.has(canonical) && !isPostMergeFixedClose) {
+    return { ...base, status: "blocked", reason: "canonical is not a hydrated close reference" };
   }
   if (classification === "fixed_by_candidate" && !candidateFix && !allowCurrentMainFixedClose) {
     return { ...base, status: "blocked", reason: "closure requires candidate_fix" };
   }
-  if (candidateFix && !allowedRefs.has(candidateFix) && !isPostMergeFixedClose) {
-    return { ...base, status: "blocked", reason: "candidate fix is not listed in job refs" };
+  if (candidateFix && !allowedCloseRefs.has(candidateFix) && !isPostMergeFixedClose) {
+    return { ...base, status: "blocked", reason: "candidate fix is not a hydrated close reference" };
   }
   if (actionName === "post_merge_close" || explicitSupersededByCandidate) {
     const candidateBlock = validateMergedCandidateFix(result.repo, candidateFix);

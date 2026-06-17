@@ -49,6 +49,84 @@ test("apply-result keeps fixed-by close blocked without explicit unmerged-fix op
   assert.match(report.actions[0].reason, /fixed_by_candidate close requires a merged fix PR/);
 });
 
+test("apply-result allows a candidate fix hydrated in the preflight plan", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeGhStub(binDir);
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(resultJsonWithHydratedCandidate(), null, 2)}\n`);
+  fs.writeFileSync(
+    path.join(tmp, "cluster-plan.json"),
+    `${JSON.stringify(
+      {
+        items: [
+          {
+            ref: "#60064",
+            kind: "pull_request",
+            state: "closed",
+            updated_at: "2026-06-11T05:07:30Z",
+            hydration_error: null,
+            security_sensitive: false,
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "planned");
+  assert.equal(report.actions[0].candidate_fix, "#60064");
+});
+
+test("apply-result blocks a candidate fix with failed preflight hydration", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeGhStub(binDir);
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(resultJsonWithHydratedCandidate(), null, 2)}\n`);
+  fs.writeFileSync(
+    path.join(tmp, "cluster-plan.json"),
+    `${JSON.stringify(
+      {
+        items: [
+          {
+            ref: "#60064",
+            kind: "pull_request",
+            state: "closed",
+            updated_at: "2026-06-11T05:07:30Z",
+            hydration_error: "pull request details unavailable",
+            security_sensitive: false,
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /candidate fix is not a hydrated close reference/);
+});
+
 test("apply-result treats closed target with matching marker as idempotently executed", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -293,6 +371,28 @@ function resultJson() {
         target_updated_at: "2026-06-11T05:07:30Z",
         reason: "current main already contains the narrow streaming fix and regression coverage",
         idempotency_key: "openclaw/openclaw#60063:close_fixed_by_current_main:test",
+      },
+    ],
+  };
+}
+
+function resultJsonWithHydratedCandidate() {
+  return {
+    status: "planned",
+    repo: "openclaw/openclaw",
+    cluster_id: "ghcrawl-199237-agentic-merge",
+    mode: "autonomous",
+    summary: "a hydrated pull request contains the fix",
+    actions: [
+      {
+        target: "#60063",
+        action: "close_fixed_by_candidate",
+        status: "planned",
+        classification: "fixed_by_candidate",
+        candidate_fix: "#60064",
+        target_updated_at: "2026-06-11T05:07:30Z",
+        reason: "a hydrated pull request contains the narrow streaming fix and regression coverage",
+        idempotency_key: "openclaw/openclaw#60063:close_fixed_by_candidate:60064:test",
       },
     ],
   };
