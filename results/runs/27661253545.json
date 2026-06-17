@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-51868-qr-rendering",
+  "mode": "autonomous",
+  "run_id": "27661253545",
+  "workflow_run_id": "27661253545",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27661253545",
+  "head_sha": "673fe763791e7ae1c517bac298e0f869db66869d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T02:14:37Z",
+  "workflow_updated_at": "2026-06-17T02:39:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-51868-qr-rendering.md",
+  "published_at": "2026-06-17T02:40:06.229Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/51868",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/51868",
+  "summary": "PR #51868 is the canonical source for the UTF-8 half-block QR rendering defect, but it is not automation-mergeable: the hydrated PR is open, dirty/unmergeable, from an uneditable fork branch, and review-bot findings require a narrow replacement that preserves @emg110's credit. Current main at a588a33ffa599fc88c6ab46d7a0ccbf3f65db8b8 still lacks half-block-art detection/styling in the markdown renderer and tool-output sidebar path, so a replacement fix PR is appropriate. No GitHub mutations, closures, or merges are planned directly by the worker.",
+  "actions": [
+    {
+      "target": "#51868",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#51868",
+      "candidate_fix": null,
+      "reason": "Create a narrow credited replacement on clownfish/repair-51868-qr-rendering instead of repairing the uneditable dirty source branch."
+    },
+    {
+      "target": "cluster:repair-51868-qr-rendering",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#51868",
+      "candidate_fix": null,
+      "reason": "A complete, narrow replacement fix artifact can be executed without maintainer judgment."
+    },
+    {
+      "target": "cluster:repair-51868-qr-rendering",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#51868",
+      "candidate_fix": null,
+      "reason": "Job allows raise_pr and the canonical source branch is uneditable/dirty, so the executor should open one credited replacement PR after gates pass."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/93869",
+      "branch": "clownfish/repair-51868-qr-rendering",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "6e155e3bbf4b1afddb5e2d2b66b254b6bea74e86",
+      "checkpoint_commits": [
+        "99a76880a61b30144c521e9bbd9bef37c040786d",
+        "2b6dba7ead31a00618f5f67101fbc582207198fa"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/93869"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93869",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
