@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-86608-existing-solutions-guardrail"
 mode: "autonomous"
-run_id: "27671916782"
-workflow_run_id: "27671916782"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27671916782"
-head_sha: "63cd43b253ade6bf82bd4bd79c922f5c35bcf90e"
+run_id: "27705471481"
+workflow_run_id: "27705471481"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27705471481"
+head_sha: "11055a7e49bd4d7a4f5c6d331788c99e8595d963"
 workflow_conclusion: "success"
-result_status: "blocked"
-published_at: "2026-06-17T07:13:57.951Z"
-canonical: "https://github.com/openclaw/openclaw/pull/86608"
+result_status: "planned"
+published_at: "2026-06-17T16:55:15.256Z"
+canonical: "#86608"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/86608"
-actions_total: 3
+canonical_pr: "#86608"
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,28 +26,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27671916782](https://github.com/openclaw/clownfish/actions/runs/27671916782)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27705471481](https://github.com/openclaw/clownfish/actions/runs/27705471481)
 
 Workflow conclusion: success
 
-Worker result: blocked
+Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/86608
+Canonical: #86608
 
 ## Summary
 
-Hydrated preflight keeps #86608 as the canonical useful contributor PR, but it is not repairable in this worker because the target checkout path resolves to openclaw/clownfish instead of openclaw/openclaw and is missing the five expected OpenClaw files. No GitHub mutations are planned; the executable repair path should resume only after refreshing the correct target checkout.
+Canonical PR #86608 is open, hydrated, non-security-sensitive, scoped to the five existing-solutions guardrail surfaces, and already repaired on the contributor branch with current checks passing. No close, comment, label, merge, or force-push action is allowed by this job.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -55,21 +55,25 @@ Hydrated preflight keeps #86608 as the canonical useful contributor PR, but it i
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/86608 |  |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #86608 | merge_canonical | blocked | fix_pr | job does not allow merge |
+| _None_ |  |  |  |  |
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #86608 | keep_canonical | planned | canonical | #86608 is the only hydrated item and remains the canonical contributor PR, but it needs branch repair before any future merge consideration. |
-| cluster:repair-86608-existing-solutions-guardrail | fix_needed | planned |  | Repair the existing contributor branch by rebasing/updating it against current main, rerunning dependency guard and changed-file checks, and preserving cablackmon's authorship and PR credit. |
-| cluster:repair-86608-existing-solutions-guardrail | build_fix_artifact | blocked |  | Implementation is blocked because the local target checkout is unsafe for OpenClaw repair work. The executor should refresh the correct openclaw/openclaw checkout before editing or opening/updating a fix PR. |
+| #86608 | keep_canonical | planned | canonical | The repair path is already represented on the useful contributor PR with passing checks and preserved credit; merge is explicitly disallowed for this job. |
 
 ## Needs Human
 

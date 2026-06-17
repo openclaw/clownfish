@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-147-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27705467201",
+  "workflow_run_id": "27705467201",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27705467201",
+  "head_sha": "11055a7e49bd4d7a4f5c6d331788c99e8595d963",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T16:53:16Z",
+  "workflow_updated_at": "2026-06-17T16:54:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-147-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T16:55:15.247Z",
+  "canonical": "#90982",
+  "canonical_issue": "#90982",
+  "canonical_pr": "#91002",
+  "summary": "Keep #90982 as the canonical open bug. #91002 is a useful contributor fix for the same root cause, but it is not merge-ready from the hydrated preflight because mergeability is unknown, two checks are failing, and no complete merge_preflight/Codex /review proof is present. Plan repair of the contributor branch with credit preserved.",
+  "actions": [
+    {
+      "target": "#90982",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90982",
+      "candidate_fix": "#91002",
+      "reason": "#90982 remains the best canonical issue for the root cause and should stay open until a fix lands."
+    },
+    {
+      "target": "#91002",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90982",
+      "candidate_fix": "#91002",
+      "reason": "The PR is a plausible useful fix, but failing checks and missing merge preflight block merge. Because maintainer_can_modify is true, the next safe action is repairing the contributor branch rather than replacing or closing it."
+    },
+    {
+      "target": "cluster:gitcrawl-147-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90982",
+      "candidate_fix": "#91002",
+      "reason": "Emit an executable repair artifact for the contributor branch so the guarded executor can rebase/repair, validate, run review, and preserve source PR credit."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#91002",
+    "source_refs": [
+      "#91002",
+      "#90982"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #91002 so the TUI abort surface can show a sanitized last tool-call validation error summary for #90982 without expanding into provider retry policy, parser changes, config, or broader Gateway behavior.",
+    "pr_title": "fix(tui): show tool validation error on aborted runs",
+    "pr_body": "## Summary\n\nRepair and land the focused fix from source PR #91002 for #90982. The TUI should keep the existing plain `run aborted` fallback, but when the agent has a sanitized last tool-error summary for an abort/error terminal state, the abort line should include that summary so users can distinguish a tool schema validation loop from other abort causes.\n\n## Scope\n\n- Reuse existing `lastToolError` / `ToolErrorSummary` plumbing.\n- Keep model/tool argument payloads stripped from the terminal surface.\n- Keep the patch limited to lifecycle metadata, embedded TUI backend forwarding, abort rendering, and focused tests.\n- Do not add provider retry policy, parser changes, config, broad Gateway rewrites, or new persistent data model behavior beyond the existing PR intent.\n\n## Credit\n\nBased on source PR https://github.com/openclaw/openclaw/pull/91002 by @wsyjh8. Clownfish preserves attribution for the original diagnosis and implementation path.\n\n## Validation\n\n- `pnpm -s vitest run src/agents/embedded-agent-subscribe.handlers.lifecycle.test.ts src/agents/tool-error-summary.test.ts src/tui/embedded-backend.test.ts src/tui/tui-event-handlers.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before merge, with findings addressed.",
+    "likely_files": [
+      "src/agents/embedded-agent-subscribe.handlers.lifecycle.ts",
+      "src/agents/embedded-agent-subscribe.handlers.lifecycle.test.ts",
+      "src/agents/tool-error-summary.ts",
+      "src/agents/tool-error-summary.test.ts",
+      "src/tui/embedded-backend.ts",
+      "src/tui/embedded-backend.test.ts",
+      "src/tui/tui-event-handlers.ts",
+      "src/tui/tui-event-handlers.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/embedded-agent-subscribe.handlers.lifecycle.test.ts src/agents/tool-error-summary.test.ts src/tui/embedded-backend.test.ts src/tui/tui-event-handlers.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @wsyjh8 as the author of source PR https://github.com/openclaw/openclaw/pull/91002.",
+      "If Clownfish opens or updates a repair PR, include source PR attribution in the PR body and changelog note because the user-facing TUI behavior changes."
+    ],
+    "source_job": "jobs/openclaw/inbox/gitcrawl-147-autonomous-terminal-gap.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

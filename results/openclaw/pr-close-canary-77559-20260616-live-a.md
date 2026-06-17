@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-close-canary-77559-20260616-live-a"
 mode: "execute"
-run_id: "27665545313"
-workflow_run_id: "27665545313"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27665545313"
-head_sha: "4c098bd9122cabae12add972ef61ec0d2f47df96"
+run_id: "27705469027"
+workflow_run_id: "27705469027"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27705469027"
+head_sha: "11055a7e49bd4d7a4f5c6d331788c99e8595d963"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T04:22:49.715Z"
-canonical: "#77502"
+published_at: "2026-06-17T16:55:15.253Z"
+canonical: null
 canonical_issue: null
 canonical_pr: "#77502"
-actions_total: 1
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27665545313](https://github.com/openclaw/clownfish/actions/runs/27665545313)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27705469027](https://github.com/openclaw/clownfish/actions/runs/27705469027)
 
 Workflow conclusion: success
 
@@ -36,18 +36,18 @@ Canonical: #77502
 
 ## Summary
 
-#77559 remains open and is covered by merged #77502. Plan one close_fixed_by_candidate action for #77559; no action for already-merged #77502.
+Plan one guarded closeout: #77559 is still open and overlaps the already-merged #77502 fix for the same missing channel plugin diagnostic path. No merge or fix work is planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -61,13 +61,20 @@ Canonical: #77502
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77559 | close_fixed_by_candidate | blocked | fixed_by_candidate | target author association is MEMBER |
+| _None_ |  |  |  |  |
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77559 | close_fixed_by_candidate | planned | fixed_by_candidate | The job explicitly asks for a close-only canary: close #77559 if it remains open and #77502 remains merged, using candidate_fix because #77502 is already merged/closed. |
+| #77559 | close_fixed_by_candidate | planned | fixed_by_candidate | The job explicitly asks for close_fixed_by_candidate when #77559 remains open and #77502 remains merged; both conditions are satisfied by the preflight artifact. |
+| #77502 | keep_closed | skipped | canonical | Already-merged PR is historical/candidate-fix evidence only for this close-only canary. |
 
 ## Needs Human
 

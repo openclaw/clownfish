@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-90468-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27705471753",
+  "workflow_run_id": "27705471753",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27705471753",
+  "head_sha": "11055a7e49bd4d7a4f5c6d331788c99e8595d963",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T16:53:21Z",
+  "workflow_updated_at": "2026-06-17T16:54:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T16:55:15.258Z",
+  "canonical": "#90468",
+  "canonical_issue": null,
+  "canonical_pr": "#90468",
+  "summary": "PR #90468 remains the canonical repair candidate for the prompt-template apostrophe parser bug. The hydrated state shows a narrow two-file contributor PR, maintainer_can_modify=true, no security-sensitive signal, passing checks, and contributor follow-up addressing the concrete maintainer parser regressions. Merge, close, comment, label, and force-push are blocked by the job, so the safe autonomous path is to build an executable repair artifact for Clownfish to refresh/repair the contributor branch, preserve @yetval credit, validate the parser cases, and open/prepare the target fix path without merging.",
+  "actions": [
+    {
+      "target": "#90468",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90468",
+      "candidate_fix": null,
+      "reason": "Canonical PR is narrow, editable, credited, and relevant, but job blocks merge/comment/close and requires a repair/fix artifact path rather than direct mutation."
+    },
+    {
+      "target": "#90468",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90468",
+      "candidate_fix": "#90468",
+      "reason": "Executor should perform the narrow branch repair/revalidation loop and prepare the fix path while preserving contributor authorship."
+    },
+    {
+      "target": "repair-90468-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90468",
+      "candidate_fix": "#90468",
+      "reason": "A cluster-scoped executable fix artifact is permitted and appropriate for the autonomous repair path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90468",
+    "source_refs": [
+      "#90468"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and validate contributor PR #90468's prompt-template argument parser fix. Preserve prose apostrophes in contractions and possessives while retaining documented shell-style single and double quote grouping, including bare single-quote concatenation. Keep the patch scoped to the parser and regression tests, preserve @yetval authorship/credit, and do not merge or close anything in this run.",
+    "pr_title": "fix(agents): preserve apostrophes in prompt-template arguments",
+    "pr_body": "## Summary\n\nRepair the prompt-template slash-command argument parser so prose apostrophes remain literal without regressing documented shell-style quote behavior.\n\nThis carries forward @yetval's source PR #90468 and preserves attribution for the original apostrophe parsing fix.\n\n## Scope\n\n- keep contractions and prose apostrophes literal, including `don't`, `it's`, `users'`, `O'Brien's`, and `rock'n'roll`\n- preserve shell-style single/double quoted spans and bare single-quote concatenation such as `foo'bar baz' next`\n- prevent contractions or plural possessives from consuming later standalone quoted spans\n\n## Validation\n\n- `pnpm -s vitest run packages/agent-core/src/harness/prompt-templates.test.ts`\n- `pnpm check:changed`\n\nSource PR: https://github.com/openclaw/openclaw/pull/90468\nCredited author: @yetval",
+    "likely_files": [
+      "packages/agent-core/src/harness/prompt-template-arguments.ts",
+      "packages/agent-core/src/harness/prompt-templates.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run packages/agent-core/src/harness/prompt-templates.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @yetval as the source PR author.",
+      "Reference source PR https://github.com/openclaw/openclaw/pull/90468 in any replacement or repair PR body.",
+      "If user-facing release notes mention the parser fix, include attribution to @yetval/source PR #90468."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
