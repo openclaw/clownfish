@@ -2962,10 +2962,22 @@ function parseAllowedValidationCommand(command) {
   const text = String(command ?? "").trim();
   if (!text) throw new Error("empty validation command");
   const parts = stripAllowedValidationEnvPrefixes(splitValidationCommand(text), text);
+  if (isAllowedAutoreviewValidation(parts)) return parts;
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
   return parts;
+}
+
+function isAllowedAutoreviewValidation(parts) {
+  return (
+    parts.length === 5 &&
+    parts[0] === ".agents/skills/autoreview/scripts/autoreview" &&
+    parts[1] === "--mode" &&
+    parts[2] === "branch" &&
+    parts[3] === "--base" &&
+    /^origin\/[A-Za-z0-9._/-]+$/.test(parts[4])
+  );
 }
 
 function stripAllowedValidationEnvPrefixes(parts, originalText) {

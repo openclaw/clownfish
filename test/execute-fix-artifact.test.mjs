@@ -584,6 +584,19 @@ test("execute-fix-artifact accepts the allowed OpenClaw env prefixes for changed
   assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "2");
 });
 
+test("execute-fix-artifact accepts the bounded OpenClaw branch autoreview command", () => {
+  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "openclaw-autoreview-validation-cluster",
+    baselineOutput: output,
+    postOutput: output,
+    validationCommands: [".agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+});
+
 test("execute-fix-artifact rejects unrecognized validation env prefixes", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "unsupported-validation-env-prefix-cluster",
