@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-93869-qr-ci"
 mode: "autonomous"
-run_id: "27662872108"
-workflow_run_id: "27662872108"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27662872108"
-head_sha: "72176b9641ae7fff0e9357bad5c3b4a3860623e8"
+run_id: "27664042467"
+workflow_run_id: "27664042467"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27664042467"
+head_sha: "c00b4fe4e36daa0ccb107d03aab89928929dda78"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T03:28:02.185Z"
+published_at: "2026-06-17T03:51:35.903Z"
 canonical: "https://github.com/openclaw/openclaw/pull/93869"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/93869"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27662872108](https://github.com/openclaw/clownfish/actions/runs/27662872108)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27664042467](https://github.com/openclaw/clownfish/actions/runs/27664042467)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 
 ## Summary
 
-Plan repair of canonical replacement PR #93869 only. The hydrated artifact shows #93869 is open, non-security, and failing relevant UI/runtime-media checks; #51868 remains the credited source PR and is not a mutation target for this job.
+Canonical PR #93869 is the existing Clownfish replacement branch and still needs a narrow CI repair for QR/block-art clipboard quiet-zone preservation. #51868 is the credited original source PR and should not be altered. No close, comment, label, merge, push, or new PR action is planned.
 
 ## Impact
 
@@ -67,9 +67,9 @@ Plan repair of canonical replacement PR #93869 only. The hydrated artifact shows
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93869 | fix_needed | planned | canonical | Canonical replacement PR #93869 needs a narrow CI repair on its existing branch before it can be validated; merge and close actions are blocked by job policy. |
-| #51868 | keep_related | planned | related | #51868 is preserved as the credited source PR and should not be changed by this repair job. |
-| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | A complete, narrow repair artifact is safe: update the existing replacement branch, address the QR/block-art CI failure, preserve #51868 credit, and validate only the touched UI surface. |
+| #93869 | fix_needed | planned | canonical | #93869 is the canonical branch to repair, but it is not merge-ready because the current head still fails the QR/block-art CI path described in the job. |
+| #51868 | keep_related | planned | fixed_by_candidate | Keep #51868 open and untouched as the credited source PR while #93869 owns the repair path. |
+| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | A complete narrow same-branch repair artifact is safe and executable; merge and close actions are blocked by job policy. |
 
 ## Needs Human
 

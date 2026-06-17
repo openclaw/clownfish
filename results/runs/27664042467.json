@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-93869-qr-ci",
+  "mode": "autonomous",
+  "run_id": "27664042467",
+  "workflow_run_id": "27664042467",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664042467",
+  "head_sha": "c00b4fe4e36daa0ccb107d03aab89928929dda78",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:36:07Z",
+  "workflow_updated_at": "2026-06-17T03:48:58Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-93869-qr-ci.md",
+  "published_at": "2026-06-17T03:51:35.903Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93869",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93869",
+  "summary": "Canonical PR #93869 is the existing Clownfish replacement branch and still needs a narrow CI repair for QR/block-art clipboard quiet-zone preservation. #51868 is the credited original source PR and should not be altered. No close, comment, label, merge, push, or new PR action is planned.",
+  "actions": [
+    {
+      "target": "#93869",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93869",
+      "candidate_fix": null,
+      "reason": "#93869 is the canonical branch to repair, but it is not merge-ready because the current head still fails the QR/block-art CI path described in the job."
+    },
+    {
+      "target": "#51868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93869",
+      "candidate_fix": "#93869",
+      "reason": "Keep #51868 open and untouched as the credited source PR while #93869 owns the repair path."
+    },
+    {
+      "target": "cluster:repair-93869-qr-ci",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93869",
+      "candidate_fix": null,
+      "reason": "A complete narrow same-branch repair artifact is safe and executable; merge and close actions are blocked by job policy."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93869",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "d20a3bd9ed72db0b5f7e88f7fc8288d057351595",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93869",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
