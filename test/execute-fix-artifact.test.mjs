@@ -18,6 +18,79 @@ test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffe
   assert.match(source, /child\.error\?\.code === "ENOBUFS"/);
 });
 
+test("execute-fix-artifact skips blocked worker results before invoking Codex or mutating", () => {
+  const fixture = makeFixture();
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const codexMarker = path.join(fixture.root, "codex-invoked");
+
+  fs.writeFileSync(fixture.jobPath, jobFile("blocked-result-cluster"));
+  fs.writeFileSync(
+    resultPath,
+    `${JSON.stringify(
+      {
+        ...resultFile("blocked-result-cluster"),
+        status: "blocked",
+        actions: [
+          { action: "fix_needed", status: "planned", target: "cluster:blocked-result-cluster" },
+          { action: "build_fix_artifact", status: "planned", target: "cluster:blocked-result-cluster" },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+require("node:fs").writeFileSync(${JSON.stringify(codexMarker)}, "invoked\\n");
+process.exit(99);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  assert.equal(fs.existsSync(codexMarker), false);
+  assert.equal(git(["status", "--porcelain"], { cwd: fixture.targetDir }), "");
+  assert.equal(git(["ls-remote", "--heads", fixture.originDir, "clownfish/blocked-result-cluster"], { cwd: fixture.root }), "");
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "skipped");
+  assert.equal(report.reason, "worker result status blocked is not executable");
+  assert.deepEqual(report.actions, [
+    {
+      action: "execute_fix",
+      status: "skipped",
+      reason: "worker result status blocked is not executable",
+    },
+  ]);
+});
+
 test("execute-fix-artifact preserves recoverable replacement branch when review deadline blocks", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");

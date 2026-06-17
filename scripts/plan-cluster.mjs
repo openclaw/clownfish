@@ -415,7 +415,7 @@ function buildFixArtifact(plan, job) {
     mode: plan.mode,
     generated_at: plan.generated_at,
     source_job: plan.source_job,
-    target_checkout: job.frontmatter.target_checkout ?? process.env.CLOWNFISH_TARGET_CHECKOUT ?? null,
+    target_checkout: process.env.CLOWNFISH_TARGET_CHECKOUT ?? job.frontmatter.target_checkout ?? null,
     permissions: {
       allow_instant_close: job.frontmatter.allow_instant_close === true,
       allow_low_signal_pr_close: job.frontmatter.allow_low_signal_pr_close === true,

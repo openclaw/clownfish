@@ -7,6 +7,15 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
+test("plan-cluster records the workflow target checkout ahead of a job-local override", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "plan-cluster.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /target_checkout: process\.env\.CLOWNFISH_TARGET_CHECKOUT \?\? job\.frontmatter\.target_checkout \?\? null/,
+  );
+});
+
 test("plan-cluster records PR hydration errors without failing the run", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-plan-"));
   const binDir = path.join(tmp, "bin");

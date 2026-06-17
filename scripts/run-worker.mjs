@@ -60,9 +60,17 @@ const runDir = makeRunDir(job, mode);
 const promptPath = path.join(runDir, "prompt.md");
 const resultPath = path.join(runDir, "result.json");
 const transcriptPath = path.join(runDir, "codex.jsonl");
+const targetCheckout = resolveTargetCheckout(job.frontmatter.repo);
+if (targetCheckout.error) {
+  writeBlockedResult(targetCheckout.error);
+  console.error(targetCheckout.error);
+  process.exit(0);
+}
+
+const codexWorkingDir = targetCheckout.path ?? repoRoot();
 const promptContext = {};
-if (process.env.CLOWNFISH_TARGET_CHECKOUT) {
-  promptContext.targetCheckoutPath = process.env.CLOWNFISH_TARGET_CHECKOUT;
+if (targetCheckout.path) {
+  promptContext.targetCheckoutPath = targetCheckout.path;
   promptContext.targetCheckoutRepo = job.frontmatter.repo;
 }
 
@@ -173,7 +181,7 @@ function runCodex({ input, outputPath, transcriptPath: codexTranscriptPath, stde
   const codexArgs = [
     "exec",
     "--cd",
-    repoRoot(),
+    codexWorkingDir,
     "--model",
     model,
     "--sandbox",
@@ -189,7 +197,7 @@ function runCodex({ input, outputPath, transcriptPath: codexTranscriptPath, stde
   ];
 
   const child = spawnSync("codex", codexArgs, {
-    cwd: repoRoot(),
+    cwd: codexWorkingDir,
     input,
     encoding: "utf8",
     env: codexEnv(),
@@ -317,6 +325,46 @@ function parsePositiveIntegerEnv(value, fallback) {
   const parsed = Number(value);
   if (!Number.isSafeInteger(parsed) || parsed <= 0) return fallback;
   return parsed;
+}
+
+function resolveTargetCheckout(expectedRepo) {
+  const configuredPath = process.env.CLOWNFISH_TARGET_CHECKOUT;
+  if (!configuredPath) return { path: null };
+
+  const targetPath = path.resolve(configuredPath);
+  const checkout = spawnSync("git", ["rev-parse", "--is-inside-work-tree"], {
+    cwd: targetPath,
+    encoding: "utf8",
+  });
+  if (checkout.status !== 0 || checkout.stdout.trim() !== "true") {
+    return { error: "CLOWNFISH_TARGET_CHECKOUT is not a git checkout" };
+  }
+
+  const origin = spawnSync("git", ["config", "--get", "remote.origin.url"], {
+    cwd: targetPath,
+    encoding: "utf8",
+  });
+  const actualRepo = repoFromGithubRemote(origin.stdout);
+  if (origin.status !== 0 || !actualRepo) {
+    return { error: "CLOWNFISH_TARGET_CHECKOUT origin is not a GitHub repository remote" };
+  }
+
+  if (actualRepo.toLowerCase() !== expectedRepo.toLowerCase()) {
+    return {
+      error: `CLOWNFISH_TARGET_CHECKOUT origin repo mismatch: expected ${expectedRepo}, got ${actualRepo}`,
+    };
+  }
+
+  return { path: targetPath };
+}
+
+function repoFromGithubRemote(remote) {
+  const value = String(remote ?? "").trim();
+  const match = value.match(
+    /^(?:git@github\.com:|(?:https?|ssh):\/\/(?:[^@/\s]+@)?github\.com\/)([^/\s]+)\/([^/\s]+?)(?:\.git)?\/?$/i,
+  );
+  if (!match) return null;
+  return `${match[1]}/${match[2]}`;
 }
 
 function writeBlockedResult(summary) {

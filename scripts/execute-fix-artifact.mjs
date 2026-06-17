@@ -140,6 +140,18 @@ const report = {
   actions: [],
 };
 
+if (["blocked", "failed"].includes(result.status)) {
+  report.status = "skipped";
+  report.reason = `worker result status ${result.status} is not executable`;
+  report.actions.push({
+    action: "execute_fix",
+    status: "skipped",
+    reason: report.reason,
+  });
+  writeReport(report, resultPath);
+  process.exit(0);
+}
+
 if (plannedFixActions.length === 0) {
   report.status = "skipped";
   report.reason = "no planned fix actions";
