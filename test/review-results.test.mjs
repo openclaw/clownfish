@@ -170,6 +170,48 @@ test("review-results ignores security-boundary no-signal prose in mutating actio
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results ignores no-signal prose with a security_boundary field name", () => {
+  const dir = makeResultDir(
+    {
+      actions: [
+        {
+          target: "#90672",
+          action: "comment",
+          status: "planned",
+          idempotency_key: "cluster-test:comment:90672",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z",
+          comment: "Rebase review is required before finalization.",
+          evidence: ["No security-sensitive signal in the hydrated preflight; security_boundary reports no security-sensitive job refs."],
+          reason: "The contributor branch needs a fresh review before finalization.",
+        },
+      ],
+    },
+    {
+      job: closeOnlyJob(),
+      plan: {
+        items: [
+          {
+            ref: "#90672",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(telegram): report blocked group ingress in /status",
+            labels: ["channel: telegram", "proof: sufficient"],
+            updated_at: "2026-06-15T14:15:01Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
 test("review-results ignores separately routed security refs for non-security targets", () => {
   const dir = makeResultDir(
     {
@@ -584,7 +626,7 @@ test("review-results rejects non-security routes for security-shaped targets", (
   assert.match(result.stdout, /security-sensitive target must use route_security/);
 });
 
-test("review-results allows route_security for security-shaped targets", () => {
+test("review-results rejects route_security when preflight marks the target non-security", () => {
   const dir = makeResultDir(
     {
       actions: [
@@ -620,8 +662,8 @@ test("review-results allows route_security for security-shaped targets", () => {
 
   const result = review(dir);
 
-  assert.equal(result.status, 0, result.stdout || result.stderr);
-  assert.match(result.stdout, /"status": "passed"/);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /route_security target was not marked security_sensitive in preflight/);
 });
 
 test("review-results rejects unavailable close-style plan actions", () => {
