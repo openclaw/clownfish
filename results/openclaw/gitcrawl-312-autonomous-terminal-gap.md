@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-312-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623784958"
-workflow_run_id: "27623784958"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623784958"
-head_sha: "49af434b25e9ed881efb163fc22dc0077d559bf3"
+run_id: "27666808114"
+workflow_run_id: "27666808114"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808114"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T14:19:31.090Z"
+published_at: "2026-06-17T05:02:17.706Z"
 canonical: "https://github.com/openclaw/openclaw/pull/86503"
-canonical_issue: null
+canonical_issue: "https://github.com/openclaw/openclaw/issues/84821"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/86503"
 actions_total: 5
 fix_executed: 0
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623784958](https://github.com/openclaw/clownfish/actions/runs/27623784958)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808114](https://github.com/openclaw/clownfish/actions/runs/27666808114)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/86503
 
 ## Summary
 
-Current main already contains the gateway session-tool fanout dedupe from merged PR #86503, with regression coverage proving overlapping run/session subscribers do not receive duplicate tool events. Plan closeout for #84821 as fixed by #86503; keep #84850 open as related because it still carries a distinct CPU/live-repro/product-decision thread; treat #84823 as excluded overlap context only.
+Classified the cluster from the hydrated preflight artifact. #84821 is high-confidence fixed by merged PR #86503 on current main and can be closed with credit preserved. #84850 remains related but not duplicate-cleanup: it carries a distinct residual CPU/throttled exec-update/product-decision thread and should stay open. #84823 is existing-overlap context only for this job, so no mutation is planned for it.
 
 ## Impact
 
@@ -67,11 +67,11 @@ Current main already contains the gateway session-tool fanout dedupe from merged
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #84821 | close_fixed_by_candidate | planned | fixed_by_candidate | The reported duplicate websocket tool-event fanout is fixed on current main by hydrated merged PR #86503; #84821 remains open and can be safely closed with credit and a reopen path. |
-| #84850 | keep_related | planned | related | Related but not a true duplicate: #86503 covers the primary fanout, while #84850 preserves a distinct CPU/live-repro and product-decision thread. |
-| #84823 | keep_related | skipped | superseded | Superseded by #86503 as evidence, but excluded by overlap policy from closeout in this cluster. |
-| #86503 | keep_closed | skipped | canonical | Already merged canonical fix; no mutation is needed. |
-| #90463 | keep_closed | skipped | independent | Closed historical context, independent of the narrow #84821/#86503 tool-event dedupe closeout. |
+| #84821 | close_fixed_by_candidate | planned | fixed_by_candidate | #84821 describes duplicate run-scoped agent tool events plus session-scoped session.tool mirrors. #86503 already shipped the dedupe and tests for that same root cause, so fixed-by-candidate closeout is high confidence. |
+| #84850 | keep_related | planned | related | #84850 is related to the same gateway performance/event fanout family, but it is not fully covered by #86503 or #84821 because it preserves a distinct residual CPU/throttled exec-update question. |
+| #84823 | keep_related | skipped | superseded | Existing-overlap context only; do not mutate #84823 in this cluster. |
+| #86503 | keep_closed | skipped | fixed_by_candidate | Already-merged candidate fix retained as evidence only. |
+| #90463 | keep_closed | skipped | independent | Closed independent context; no cluster mutation. |
 
 ## Needs Human
 
