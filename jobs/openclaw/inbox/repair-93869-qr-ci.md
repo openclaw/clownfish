@@ -46,6 +46,7 @@ Repair only the QR/block-art regression shown by the new PR head:
 - `ui/src/ui/chat/grouped-render.test.ts` has a module mock for `../markdown.ts` that now needs the exported `isMarkdownBlockArtText` helper used by the repaired rendering path.
 - QR half-block rendering must preserve its leading quiet-zone spaces in the clipboard payload as well as the rendered code block. Encode only block-art `data-code` payloads in `ui/src/ui/markdown.ts`, then decode those marked payloads before `copyToClipboard` in `ui/src/ui/views/chat.ts`, while retaining support for existing raw payloads.
 - Keep the focused markdown assertions' whitespace-preserving intent and add coverage for normal and truncated block-art copy behavior.
+- The previous repair still fails because the parsed DOM normalizes the first line of raw `dataset.code` from `"  ▀▀▀▀"` to `"▀▀▀▀"`. Do not store raw leading-space block art in the HTML data attribute. Use a deterministic marked representation that survives DOM parsing, decode it only at copy time, and prove through the rendered DOM plus the clipboard handler that the two leading spaces survive for normal and truncated QR art.
 
 The known `prompt:snapshots:check` drift and the ClawHub temporary-directory cleanup failure are unrelated current-main failures. Do not edit snapshots, ClawHub scripts, or unrelated tests to make those checks green.
 
