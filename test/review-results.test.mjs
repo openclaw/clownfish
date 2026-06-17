@@ -777,6 +777,7 @@ test("review-results verifies fix artifacts with a permission snapshot after sou
           blocked_actions: ["force_push"],
           allow_fix_pr: true,
           allow_merge: false,
+          maintainer_calibration: [],
         },
       },
     },
@@ -822,6 +823,7 @@ test("review-results rejects incomplete permission snapshots after source job re
           allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
           blocked_actions: ["force_push"],
           allow_fix_pr: true,
+          maintainer_calibration: [],
         },
       },
     },
@@ -832,6 +834,42 @@ test("review-results rejects incomplete permission snapshots after source job re
 
   assert.notEqual(result.status, 0);
   assert.match(result.stdout, /fix actions require source job permissions/);
+});
+
+test("review-results enforces calibrated canonical finalization after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      canonical_pr: "#1",
+    },
+    {
+      job: calibratedFixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+          maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
+        },
+        items: [
+          {
+            ref: "#1",
+            kind: "pull_request",
+            state: "open",
+            updated_at: "2026-06-18T00:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#1 calibrated canonical PR requires either a planned merge action with merge_preflight or a planned fix action/);
 });
 
 function makeResultDir(overrides, options = {}) {
@@ -916,5 +954,29 @@ allow_fix_pr: true
 ---
 
 # Fix-enabled job
+`;
+}
+
+function calibratedFixEnabledJob() {
+  return `---
+repo: openclaw/openclaw
+cluster_id: cluster-test
+mode: autonomous
+allowed_actions:
+  - comment
+  - label
+  - close
+  - fix
+  - raise_pr
+blocked_actions:
+  - force_push
+maintainer_calibration:
+  - "Require a planned fix or merge for an open canonical PR."
+candidates:
+  - "#1"
+allow_fix_pr: true
+---
+
+# Calibrated fix-enabled job
 `;
 }

@@ -74,6 +74,8 @@ cluster_id: test-pr-hydration
 mode: plan
 allowed_actions:
   - comment
+maintainer_calibration:
+  - "Require a planned fix or merge for an open canonical PR."
 candidates:
   - "#2"
 canonical:
@@ -102,6 +104,7 @@ canonical:
     blocked_actions: [],
     allow_fix_pr: false,
     allow_merge: false,
+    maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
   });
   assert.equal(candidate.kind, "pull_request");
   assert.match(candidate.hydration_error, /pull request #2: unexpected end of JSON input/);

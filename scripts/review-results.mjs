@@ -84,7 +84,7 @@ function reviewResult(resultPath) {
   const result = JSON.parse(fs.readFileSync(resultPath, "utf8"));
   const plan = readSiblingJson(runDir, "cluster-plan.json");
   const sourceJob = readSourceJob(plan);
-  const sourceJobPermissions = sourceJob?.frontmatter ?? readSourceJobPermissionSnapshot(plan);
+  const sourceJobPolicy = sourceJob?.frontmatter ?? readSourceJobPolicySnapshot(plan);
   const failures = [];
   const warnings = [];
   const itemByRef = buildItemMap(plan, result.repo);
@@ -257,7 +257,7 @@ function reviewResult(resultPath) {
   }
 
   if (fixActions.length > 0) {
-    validateFixActionPermissions(sourceJobPermissions, fixActions, failures);
+    validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
   }
   const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
@@ -265,7 +265,7 @@ function reviewResult(resultPath) {
     validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
   }
   validateCalibratedPrFinalization({
-    job: sourceJob,
+    sourceJobPolicy,
     result,
     itemByRef,
     fixActions,
@@ -308,8 +308,8 @@ function reviewResult(resultPath) {
   };
 }
 
-function validateCalibratedPrFinalization({ job, result, itemByRef, fixActions, mergeActions, failures }) {
-  if (!Array.isArray(job?.frontmatter?.maintainer_calibration) || job.frontmatter.maintainer_calibration.length === 0) {
+function validateCalibratedPrFinalization({ sourceJobPolicy, result, itemByRef, fixActions, mergeActions, failures }) {
+  if (!Array.isArray(sourceJobPolicy?.maintainer_calibration) || sourceJobPolicy.maintainer_calibration.length === 0) {
     return;
   }
   const canonicalPrRef = normalizeRef(result.canonical_pr ?? result.canonical);
@@ -633,7 +633,7 @@ function readSourceJob(plan) {
   }
 }
 
-function readSourceJobPermissionSnapshot(plan) {
+function readSourceJobPolicySnapshot(plan) {
   const permissions = plan?.source_job_permissions;
   if (!permissions || typeof permissions !== "object" || Array.isArray(permissions)) return null;
   if (
@@ -642,7 +642,9 @@ function readSourceJobPermissionSnapshot(plan) {
     !Array.isArray(permissions.blocked_actions) ||
     !permissions.blocked_actions.every((action) => typeof action === "string") ||
     typeof permissions.allow_fix_pr !== "boolean" ||
-    typeof permissions.allow_merge !== "boolean"
+    typeof permissions.allow_merge !== "boolean" ||
+    !Array.isArray(permissions.maintainer_calibration) ||
+    !permissions.maintainer_calibration.every((entry) => typeof entry === "string")
   ) {
     return null;
   }

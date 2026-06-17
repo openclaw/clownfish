@@ -41,7 +41,7 @@ if (errors.length > 0) {
 }
 
 assertAllowedOwner(job.frontmatter.repo, process.env.CLOWNFISH_ALLOWED_OWNER);
-const sourceJobPermissions = snapshotSourceJobPermissions(job);
+const sourceJobPolicy = snapshotSourceJobPolicy(job);
 
 const runDir = args["run-dir"]
   ? path.resolve(String(args["run-dir"]))
@@ -114,7 +114,7 @@ const plan = {
   mode: job.frontmatter.mode,
   triage_policy: job.frontmatter.triage_policy ?? null,
   source_job: job.relativePath,
-  source_job_permissions: sourceJobPermissions,
+  source_job_permissions: sourceJobPolicy,
   generated_at: new Date().toISOString(),
   offline,
   main: branch,
@@ -482,12 +482,15 @@ function buildFixArtifact(plan, job) {
   };
 }
 
-function snapshotSourceJobPermissions(job) {
+function snapshotSourceJobPolicy(job) {
   return {
     allowed_actions: [...job.frontmatter.allowed_actions],
     blocked_actions: [...(job.frontmatter.blocked_actions ?? [])],
     allow_fix_pr: job.frontmatter.allow_fix_pr === true,
     allow_merge: job.frontmatter.allow_merge === true,
+    maintainer_calibration: Array.isArray(job.frontmatter.maintainer_calibration)
+      ? [...job.frontmatter.maintainer_calibration]
+      : [],
   };
 }
 
