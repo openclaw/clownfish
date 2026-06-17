@@ -284,7 +284,13 @@ test("execute-fix-artifact bounds and verifies contributor repair head fetches",
   assert.match(source, /function boundedPositiveIntegerEnv\(value, fallback, \{ min, max \}\)/);
   assert.match(source, /Number\.isInteger\(parsed\)/);
   assert.match(source, /\{ min: 10 \* 1000, max: 5 \* 60 \* 1000 \}/);
-  assert.match(source, /function fetchContributorPullHead\(\{ targetDir, sourcePr, branch, expectedHeadSha \}\)/);
+  assert.match(source, /function fetchContributorPullHead\(\{ targetDir, sourcePr, pull, branch \}\)/);
+  assert.match(source, /function contributorHeadFetchStrategies\(\{ sourcePr, pull \}\)/);
+  assert.match(source, /name: "base_pull_ref"/);
+  assert.match(source, /name: "same_repo_head_ref"/);
+  assert.match(source, /name: "fork_head_ref"/);
+  assert.match(source, /remote: `https:\/\/github\.com\/\$\{pull\.head\.repo\.full_name\}\.git`/);
+  assert.match(source, /strategies\[\(attempt - 1\) % strategies\.length\]/);
   assert.match(source, /GIT_TERMINAL_PROMPT: "0"/);
   assert.match(source, /"credential\.interactive=false"/);
   assert.match(source, /"http\.lowSpeedLimit=1"/);
@@ -296,9 +302,10 @@ test("execute-fix-artifact bounds and verifies contributor repair head fetches",
   assert.match(source, /code: "source_pr_head_fetch_failed"/);
   assert.match(
     repairFetch,
-    /fetchContributorPullHead\(\{\s*targetDir,\s*sourcePr,\s*branch,\s*expectedHeadSha: pull\.head\.sha,\s*\}\)/,
+    /fetchContributorPullHead\(\{\s*targetDir,\s*sourcePr,\s*pull,\s*branch,\s*\}\)/,
   );
-  assert.doesNotMatch(repairFetch, /https:\/\/github\.com\/\$\{pull\.head\.repo\.full_name\}\.git/);
+  assert.match(repairFetch, /if \(!dryRun\) ghAuthSetupGit\(targetDir\);[\s\S]*?fetchContributorPullHead/);
+  assert.match(source, /if \(!sameRepoBranch && !dryRun\) \{\s*assertRepairBranchWritable/);
 });
 
 test("execute-fix-artifact rejects review-fix workers that leave no diff", () => {
