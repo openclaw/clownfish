@@ -28,6 +28,8 @@ const codexStdoutMaxBufferBytes = parsePositiveIntegerEnv(
   process.env.CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES,
   64 * 1024 * 1024,
 );
+const defaultCodexWorkerSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "read-only";
+const codexWorkerSandbox = String(process.env.CLOWNFISH_CODEX_WORKER_SANDBOX ?? defaultCodexWorkerSandbox);
 
 if (!jobPath) {
   console.error("usage: node scripts/run-worker.mjs <job.md> --mode plan|execute|autonomous [--dry-run]");
@@ -185,7 +187,7 @@ function runCodex({ input, outputPath, transcriptPath: codexTranscriptPath, stde
     "--model",
     model,
     "--sandbox",
-    "read-only",
+    codexWorkerSandbox,
     ...codexConfigArgs(),
     "--output-schema",
     path.join(repoRoot(), "schemas", "codex-result.schema.json"),
@@ -317,6 +319,10 @@ function codexEnv() {
   delete env.CLOWNFISH_GH_TOKEN;
   delete env.CLOWNFISH_READ_GH_TOKEN;
   delete env.CLOWNFISH_CODEX_GH_TOKEN;
+  if (process.env.GITHUB_ACTIONS === "true") {
+    delete env.OPENAI_API_KEY;
+    delete env.CODEX_API_KEY;
+  }
   return env;
 }
 

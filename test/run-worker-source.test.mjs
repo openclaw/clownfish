@@ -30,3 +30,15 @@ test("run-worker runs Codex from the verified target checkout", () => {
   assert.match(source, /"--cd",\s*codexWorkingDir/);
   assert.match(source, /spawnSync\("codex", codexArgs, \{\s*cwd: codexWorkingDir,/s);
 });
+
+test("run-worker uses an Actions-safe sandbox without exposing credentials to Codex", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "run-worker.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /const defaultCodexWorkerSandbox = process\.env\.GITHUB_ACTIONS === "true" \? "danger-full-access" : "read-only";/,
+  );
+  assert.match(source, /CLOWNFISH_CODEX_WORKER_SANDBOX \?\? defaultCodexWorkerSandbox/);
+  assert.match(source, /"--sandbox",\s*codexWorkerSandbox/);
+  assert.match(source, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
+});
