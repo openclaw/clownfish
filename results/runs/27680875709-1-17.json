@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-018",
+  "mode": "plan",
+  "run_id": "27680875709-1-17",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-018.md",
+  "published_at": "2026-06-17T10:02:19.634Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified five open PRs from the provided preflight artifact. No merge actions are recommended because every merge candidate is missing required merge preflight proof, including current mergeability and Codex /review. One PR is routed to central security handling and one broad waiting-on-author PR needs maintainer judgment; the remaining PRs are independent ready-for-maintainer PRs with no cluster-level close or repair action planned.",
+  "actions": [
+    {
+      "target": "#83227",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful provider fix; keep in normal maintainer review rather than merging without complete preflight or replacing a viable contributor PR."
+    },
+    {
+      "target": "#83296",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact PR to central OpenClaw security handling because it involves plaintext credential/API-key persistence. Continue classifying unrelated non-security PRs."
+    },
+    {
+      "target": "#83368",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required for this exact PR because the artifact shows active author follow-up status, broad session-state scope, and failing required checks."
+    },
+    {
+      "target": "#93093",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR with passing docs checks; keep for normal maintainer review rather than merging without required preflight."
+    },
+    {
+      "target": "#83489",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused gateway availability fix with passing checks; keep for normal maintainer review rather than merging without complete preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#83368 requires maintainer judgment because it is broad, labeled waiting on author, and has failing required checks. #83296 is security-sensitive and should be handled by central OpenClaw security rather than ProjectClownfish."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

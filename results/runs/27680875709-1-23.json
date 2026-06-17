@@ -1,0 +1,140 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-024",
+  "mode": "plan",
+  "run_id": "27680875709-1-23",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-024.md",
+  "published_at": "2026-06-17T10:02:19.652Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No merge is recommended because no item has a complete merge preflight with Codex /review proof. One narrow contributor-branch repair path is concrete for #84438; broad or author-waiting PRs need maintainer/author resolution.",
+  "actions": [
+    {
+      "target": "#78639",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta, explicit waiting-on-author status, and failing checks require maintainer/author follow-up before merge or repair planning."
+    },
+    {
+      "target": "#80181",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The failed behavior-proof gate and waiting-on-author label leave an unresolved author/maintainer decision before this can be merged or repaired by Clownfish."
+    },
+    {
+      "target": "#81278",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent small docs/install PR that should proceed through normal maintainer merge preflight; it is not a duplicate or repair target in this shard."
+    },
+    {
+      "target": "#81279",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The change is broad, the branch is not maintainer-editable, and the PR is waiting on author; this needs maintainer judgment before replacement, split, or merge review."
+    },
+    {
+      "target": "#84438",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#84438",
+      "reason": "The PR is small and maintainer-editable, but its behavior-proof failure blocks merge. Repair the contributor branch and rerun focused CLI validation before any merge recommendation."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-024",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#84438",
+      "reason": "Build one narrow repair artifact for #84438 rather than a broad multi-PR replacement."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78639: broad L-sized gateway/plugin/WhatsApp change, waiting on author, failing check/check-lint/check-test-types, and no merge preflight.",
+    "#80181: Real behavior proof failed and PR is waiting on author for a compatibility/auth-provider-risk change.",
+    "#81279: XL i18n/UI change, maintainer_can_modify=false, waiting on author, and touches many locale/generated metadata files beyond the zh-CN title scope."
+  ],
+  "repair_candidate": {
+    "target": "#84438",
+    "source_refs": [
+      "#84438",
+      "#83902",
+      "#78639",
+      "#80181",
+      "#81278",
+      "#81279"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #84438 by validating and, if needed, correcting the CLI argv flag-terminator behavior proof without expanding the scope beyond argv parsing and tests.",
+    "pr_title": "fix(cli): use flag terminator constant",
+    "pr_body": "Repair and finalize contributor PR #84438 from @humanbeingz-7. Keep the scope limited to CLI argv command-path parsing around FLAG_TERMINATOR and the focused regression tests for #83902. Before any merge recommendation, rerun the focused vitest files, pnpm check:changed, git diff --check, and Codex /review; carry contributor credit forward in the merge notes.",
+    "likely_files": [
+      "src/cli/argv.ts",
+      "src/cli/argv.test.ts",
+      "src/cli/argv-invocation.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/cli/argv.test.ts src/cli/argv-invocation.test.ts --config vitest.config.ts",
+      "pnpm check:changed",
+      "git diff --check"
+    ],
+    "credit_notes": [
+      "Repair source PR #84438 from @humanbeingz-7 and preserve attribution in any maintainer notes or final merge commit.",
+      "Source PR URL: https://github.com/openclaw/openclaw/pull/84438"
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-024.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#78639: broad L-sized gateway/plugin/WhatsApp change, waiting on author, failing check/check-lint/check-test-types, and no merge preflight.",
+      "#80181: Real behavior proof failed and PR is waiting on author for a compatibility/auth-provider-risk change.",
+      "#81279: XL i18n/UI change, maintainer_can_modify=false, waiting on author, and touches many locale/generated metadata files beyond the zh-CN title scope."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

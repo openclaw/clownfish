@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-022",
+  "mode": "plan",
+  "run_id": "27680875709-1-21",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-022.md",
+  "published_at": "2026-06-17T10:02:19.647Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. #84028 is security-sensitive and is routed to central OpenClaw security handling with no ProjectClownfish mutation. No remaining PR has complete merge preflight proof: mergeability is unknown, hydrated comments/review comments are absent, and no Codex /review result is present. #84156 looks narrow and promising but needs full merge preflight. #84060 and #84157 are labeled waiting on author, with #84157 also blocked by failing checks. #84140 is broad formatter churn across many surfaces and matches the job's broad-code-delta human gate.",
+  "actions": [
+    {
+      "target": "#84028",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive PR to central OpenClaw security handling. Do not merge, close, comment on, label, or repair it through ProjectClownfish."
+    },
+    {
+      "target": "#84060",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#84060",
+      "reason": "Active author follow-up label plus missing merge preflight blocks merge recommendation."
+    },
+    {
+      "target": "#84140",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#84140",
+      "reason": "Broad formatter churn across many ownership areas triggers the job's broad_code_delta human gate and is not suitable for merge or autonomous repair from this shard."
+    },
+    {
+      "target": "#84156",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#84156",
+      "reason": "Narrow and likely repairable/mergeable, but compatibility risk and missing required merge preflight mean a maintainer/preflight step is required before merge_candidate."
+    },
+    {
+      "target": "#84157",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#84157",
+      "reason": "Active author follow-up, high-risk session/message-delivery labels, and failing checks block merge. Human or refreshed repair planning is needed after author/check status is resolved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84060: PR is labeled waiting on author and lacks complete merge preflight.",
+    "#84140: broad dirty formatter PR across many surfaces triggers the broad_code_delta human gate.",
+    "#84156: focused cron fix has compatibility-risk label and lacks complete merge preflight/Codex review proof.",
+    "#84157: PR is labeled waiting on author, has session/message-delivery merge-risk labels, and has failing dependency-guard and Scan changed paths checks."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

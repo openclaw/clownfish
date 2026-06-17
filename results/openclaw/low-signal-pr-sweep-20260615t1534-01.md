@@ -8,7 +8,7 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/27560323972"
 head_sha: "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T08:11:07.516Z"
+published_at: "2026-06-17T10:02:19.450Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -62,6 +62,12 @@ Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly c
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 

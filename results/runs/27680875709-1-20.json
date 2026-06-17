@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-021",
+  "mode": "plan",
+  "run_id": "27680875709-1-20",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "20",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-021.md",
+  "published_at": "2026-06-17T10:02:19.646Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No merge_candidate actions emitted because the artifact lacks required Codex /review proof and live mergeability is unknown for all PRs; #81258 also has failing checks and #81786 is broad/XL with waiting-on-author status.",
+  "actions": [
+    {
+      "target": "#80928",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent maintainer-ready PR; it can be considered for merge only after fresh mergeability, full comment/review-bot hydration, Codex /review, and merge_preflight are available."
+    },
+    {
+      "target": "#80981",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent docs PR; no closure or merge action is safe from this plan artifact alone."
+    },
+    {
+      "target": "#81258",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human/author follow-up is required because the PR is marked waiting on author and has failing required quality checks. Do not merge or replace until the failures are understood and resolved."
+    },
+    {
+      "target": "#81572",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as an independent strong merge candidate, but do not emit merge_candidate because mergeable_state is unknown and the artifact lacks required Codex /review merge_preflight proof."
+    },
+    {
+      "target": "#81786",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human maintainer judgment is required due broad code delta and waiting-on-author status; this should not be merged or auto-repaired from this shard without explicit calibration."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81258: waiting-on-author PR with failing check-lint, check-test-types, and check-additional-extension-bundled.",
+    "#81786: XL broad automation/agent change marked waiting on author; requires maintainer judgment before finalization."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-016",
+  "mode": "plan",
+  "run_id": "27680875709-1-15",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-016.md",
+  "published_at": "2026-06-17T10:02:19.629Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. All five hydrated targets are open non-security pull requests, but none has the complete merge preflight required for a merge recommendation. #82906 and #83048 also have failing checks. No cluster-scoped replacement fix artifact is safe from the hydrated evidence alone.",
+  "actions": [
+    {
+      "target": "#82906",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge is blocked by failing check and missing required merge preflight proof. Human review or a refreshed repair/preflight run is needed before merge or repair planning."
+    },
+    {
+      "target": "#82909",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "PR looks narrow and likely mergeable, but merge policy requires complete merge preflight including resolved comments, resolved bot comments, and Codex /review proof. Missing proof requires maintainer/preflight follow-up."
+    },
+    {
+      "target": "#82985",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes plugin contract/API surface and carries compatibility risk. Merge is blocked until maintainer review and complete merge preflight are present."
+    },
+    {
+      "target": "#83041",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Implementation appears focused, but merge recommendation is blocked by missing required merge preflight proof and unhydrated comments/review state."
+    },
+    {
+      "target": "#83048",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge is blocked by a failing relevant agent/control-plane check and missing required merge preflight proof. A refreshed repair/preflight run should decide whether the contributor branch can be repaired."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82906: decide whether to repair contributor branch or wait after android-test-play failure and missing complete merge preflight.",
+    "#82909: complete maintainer/Codex merge preflight before merge recommendation.",
+    "#82985: maintainer review required for compatibility/API contract change before merge recommendation.",
+    "#83041: complete review/comment hydration and merge preflight before merge recommendation.",
+    "#83048: repair or rerun after checks-node-agentic-control-plane-agent-chat failure, then complete merge preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

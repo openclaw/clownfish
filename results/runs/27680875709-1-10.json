@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-011",
+  "mode": "plan",
+  "run_id": "27680875709-1-10",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-011.md",
+  "published_at": "2026-06-17T10:02:19.617Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment completed for five open PRs. No security-sensitive items were detected. None can be recommended for merge because the artifact does not contain complete merge preflight proof, including Codex /review results; three also have failing required checks or proof jobs. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#81190",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81190",
+      "reason": "Likely mergeable after maintainer review or executor preflight, but merge cannot be recommended without complete comment hydration and Codex /review proof."
+    },
+    {
+      "target": "#90227",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90227",
+      "reason": "Repair should happen on the contributor branch if pursued: inspect the failed Real behavior proof, keep the one-file test-only scope, run the Zalo credential test on relevant platforms, run pnpm check:changed, then run Codex /review before any merge recommendation."
+    },
+    {
+      "target": "#90266",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90266",
+      "reason": "Repair is required before merge consideration, and the waiting-on-author label plus failing checks make this unsuitable for direct merge planning."
+    },
+    {
+      "target": "#80632",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80632",
+      "reason": "This is a medium Slack message-delivery/session-state change with active-author-followup labeling. Maintainer judgment or a dedicated repair/review job is required before merge planning."
+    },
+    {
+      "target": "#92892",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92892",
+      "reason": "Repair should focus on the failed proof job or missing proof path, then rerun gateway-focused validation and Codex /review before merge can be recommended."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "fix_needed": 3
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81190: merge may be reasonable, but complete comment hydration and Codex /review proof are missing.",
+    "#80632: broad Slack routing/session-state/message-delivery impact plus waiting-on-author label requires maintainer judgment or a dedicated repair/review job."
+  ],
+  "repair_candidate": {
+    "target": "#90227",
+    "source_refs": [
+      "#90227",
+      "#90266",
+      "#92892",
+      "#91739",
+      "#80632",
+      "#81190"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair and preflight are needed before any merge recommendation for the failing or under-proven PRs in this shard. Work should be split per PR; do not combine these independent fixes into one code PR.",
+    "pr_title": "Repair failing ready-for-maintainer PR preflight",
+    "pr_body": "Cluster: live-pr-inventory-20260617T015524-011\n\nThis artifact identifies per-PR repair paths for #90227, #90266, and #92892. Each should be repaired on the contributor branch when possible, preserving source PR attribution, and should not be combined into one implementation PR unless a maintainer explicitly asks for a batch repair.\n\nRequired gates before merge: targeted tests for the touched file, pnpm check:changed, clean Codex /review, and resolved human/review-bot comments.",
+    "likely_files": [
+      "extensions/zalouser/src/zalo-js.credentials.test.ts",
+      "src/infra/json-file.test.ts",
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/zalouser/src/zalo-js.credentials.test.ts",
+      "pnpm -s vitest run src/infra/json-file.test.ts",
+      "pnpm -s vitest run src/gateway/session-utils.test.ts",
+      "pnpm check:changed",
+      "/review"
+    ],
+    "credit_notes": [
+      "Preserve attribution for aniruddhaadak80 if repairing #90227 or #90266.",
+      "Preserve attribution for YonganZhang if repairing #92892."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-011.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#81190: merge may be reasonable, but complete comment hydration and Codex /review proof are missing.",
+      "#80632: broad Slack routing/session-state/message-delivery impact plus waiting-on-author label requires maintainer judgment or a dedicated repair/review job."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

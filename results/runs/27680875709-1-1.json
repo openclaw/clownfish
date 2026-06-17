@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-002",
+  "mode": "plan",
+  "run_id": "27680875709-1-1",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-002.md",
+  "published_at": "2026-06-17T10:02:19.614Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment: #88442 and #88709 are quarantined to central security handling because their hydrated PR content includes security-sensitive signals. No merge recommendations because none of the remaining open PRs has complete merge preflight proof including current mergeability and clean Codex /review evidence. One narrow non-security repair path remains concrete for #88550; #88551 and #88726 need maintainer judgment because of auth-provider scope, broad deltas, failed checks, or incomplete review/comment preflight.",
+  "actions": [
+    {
+      "target": "#88442",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive agent safety and credential-access regression content must be quarantined to central security handling."
+    },
+    {
+      "target": "#88550",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#88550",
+      "reason": "Small focused PR with concrete failing checks and unresolved bot-review preflight; repair is appropriate before merge."
+    },
+    {
+      "target": "#88550",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#88550",
+      "reason": "Concrete bounded repair artifact can be handed to the executor without closing or replacing the contributor PR."
+    },
+    {
+      "target": "#88551",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auth-provider behavior change appears plausible and checks pass, but merge cannot be recommended without complete mergeability, comments, and Codex /review preflight."
+    },
+    {
+      "target": "#88709",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Inline API key and credential-handling changes are security-sensitive and must be quarantined to central security handling."
+    },
+    {
+      "target": "#88726",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cross-extension feature PR with failed checks, waiting-on-author state, and unrelated-looking file drift is not safe for an automated repair or merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88551: auth-provider behavior change has passing checks but lacks hydrated comments, current mergeability, and Codex /review proof.",
+    "#88726: broad cross-extension/docs feature PR has failed checks, waiting-on-author state, and unrelated-looking file drift."
+  ],
+  "repair_candidate": {
+    "target": "#88550",
+    "source_refs": [
+      "#88550",
+      "#88442",
+      "#88551",
+      "#88709",
+      "#88726"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #88550 on the contributor branch before any merge attempt. Keep the scope to disabling WebSocket compression for Codex Supervisor app-server clients and the existing Unix socket handshake regression test, then re-run failed checks and hydrate/address the Codex review bot comment.",
+    "pr_title": "fix(codex-supervisor): disable app-server websocket compression",
+    "pr_body": "Repair path for Clownfish cluster live-pr-inventory-20260617T015524-002.\n\nSource PR: https://github.com/openclaw/openclaw/pull/88550\nContributor credit: imwyvern / sakaenyeniceri5\n\nScope:\n- Keep the Codex Supervisor WebSocket compression fix narrow.\n- Preserve the Unix socket handshake regression test.\n- Resolve failing Real behavior proof, check-test-types, check-dependencies, and checks-node-agentic-agents-core.\n- Hydrate and address the Codex review bot comment before merge preflight.\n\nValidation:\n- node scripts/run-vitest.mjs extensions/codex-supervisor/src/supervisor.test.ts\n- pnpm build\n- npm run validate\n- Codex /review clean before merge recommendation",
+    "likely_files": [
+      "extensions/codex-supervisor/src/json-rpc-client.ts",
+      "extensions/codex-supervisor/src/supervisor.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs extensions/codex-supervisor/src/supervisor.test.ts",
+      "pnpm build",
+      "npm run validate",
+      "rerun GitHub checks: Real behavior proof, check-test-types, check-dependencies, checks-node-agentic-agents-core",
+      "hydrate Codex review bot findings and rerun Codex /review before merge preflight"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for https://github.com/openclaw/openclaw/pull/88550.",
+      "Credit PR author imwyvern and commit author sakaenyeniceri5 in any replacement or repair summary."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#88442",
+      "#88709"
+    ],
+    "needs_human": [
+      "#88551: auth-provider behavior change has passing checks but lacks hydrated comments, current mergeability, and Codex /review proof.",
+      "#88726: broad cross-extension/docs feature PR has failed checks, waiting-on-author state, and unrelated-looking file drift."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

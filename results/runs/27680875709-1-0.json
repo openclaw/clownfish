@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-001",
+  "mode": "plan",
+  "run_id": "27680875709-1-0",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-001.md",
+  "published_at": "2026-06-17T10:02:19.611Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No merge action is safe from the compacted preflight because mergeability is unknown or dirty and the artifact does not prove a clean Codex /review plus resolved bot-review findings. Narrow contributor-branch repair is concrete for #87702. #88479 needs maintainer judgment because the delta is broad, has an unresolved failing check, and has repeated Codex review-bot comments without hydrated finding resolution.",
+  "actions": [
+    {
+      "target": "#87696",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR, but missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#90819",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR, but missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#88479",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature delta with failing check and unresolved review-bot proof requires maintainer judgment."
+    },
+    {
+      "target": "#87681",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR, but missing mandatory merge preflight proof."
+    },
+    {
+      "target": "#87702",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#87702",
+      "reason": "Concrete narrow repair path exists: rebase/repair contributor branch #87702 onto current main, then run required validation and Codex /review before any merge recommendation."
+    },
+    {
+      "target": "#87702",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#87702",
+      "reason": "Create an executable contributor-branch repair artifact rather than replacing or closing the PR."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88479 requires maintainer judgment for broad UI/i18n delta, failing checks-node-agentic-commands-agent-channel, and unresolved Codex review-bot comments."
+  ],
+  "repair_candidate": {
+    "target": "#87702",
+    "source_refs": [
+      "#87702",
+      "#57858",
+      "#87681",
+      "#87696",
+      "#88479",
+      "#90819"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor branch #87702 so the narrow Claude Code nesting-env fix can be re-evaluated for merge after conflicts are resolved and required review gates are run.",
+    "pr_title": "fix(coding-agent): strip Claude Code nesting env vars when spawning claude",
+    "pr_body": "Repair path for source PR #87702 by @sweetcornna. Rebase/resolve the dirty branch against current main, preserve the narrow env-cleanup behavior, run targeted vitest coverage plus pnpm check:changed, then run Codex /review and address any findings before merge consideration.\n\nSource PR: https://github.com/openclaw/openclaw/pull/87702\nLinked issue: #57858\nCredit: implementation and attribution should remain with @sweetcornna.",
+    "likely_files": [
+      "extensions/anthropic/cli-shared.ts",
+      "extensions/anthropic/cli-shared.test.ts",
+      "skills/coding-agent/SKILL.md",
+      "src/agents/cli-backends.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/anthropic/cli-shared.test.ts src/agents/cli-backends.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/87702",
+      "Credit @sweetcornna as the contributor author when repairing or finalizing this PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#88479 requires maintainer judgment for broad UI/i18n delta, failing checks-node-agentic-commands-agent-channel, and unresolved Codex review-bot comments."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

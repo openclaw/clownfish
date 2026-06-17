@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-004",
+  "mode": "plan",
+  "run_id": "27680875709-1-3",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-004.md",
+  "published_at": "2026-06-17T10:02:19.657Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open maintainer-ready PRs. No PR has complete merge preflight proof in the hydrated artifact, so no merge action is recommended. Four PRs are independent maintainer-review candidates; #90864 needs maintainer/author-follow-up handling because live labels show it is waiting on author.",
+  "actions": [
+    {
+      "target": "#88905",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused feature/docs PR, but not merge-ready for Clownfish recommendation without complete merge preflight."
+    },
+    {
+      "target": "#88919",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused bug-fix PR, but merge recommendation is blocked by missing complete merge preflight proof."
+    },
+    {
+      "target": "#88681",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent scoped diagnostic PR. The diff is larger than the other shard items and should stay in maintainer review until complete merge preflight exists."
+    },
+    {
+      "target": "#90998",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent SMS channel bug-fix PR. Despite passing security-shaped checks, the PR changes command authorization flow and should not be merged without complete merge preflight."
+    },
+    {
+      "target": "#90864",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is explicitly waiting on author in live labels, which is a job-level human gate. Do not merge, replace, or close from this plan without refreshed author-follow-up context."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90864 is labeled waiting on author; comments are not hydrated, so maintainer judgment or refreshed hydration is needed to determine whether the author-follow-up gate is resolved."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

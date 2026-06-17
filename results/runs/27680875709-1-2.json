@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-003",
+  "mode": "plan",
+  "run_id": "27680875709-1-2",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-003.md",
+  "published_at": "2026-06-17T10:02:19.643Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory result. No GitHub mutations are recommended because merge preflight is incomplete for every PR; #88180 has a narrow repair path due to a failing proof check, and #88899 is waiting on author follow-up.",
+  "actions": [
+    {
+      "target": "#88180",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#88180",
+      "reason": "Failing proof check blocks merge, but the diff is small and repairable in-place."
+    },
+    {
+      "target": "#88581",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR; merge requires complete review/comment preflight not present in the artifact."
+    },
+    {
+      "target": "#88885",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent risky runtime PR; keep for maintainer review until merge preflight is complete."
+    },
+    {
+      "target": "#88743",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR; no close or merge action is allowed from this incomplete preflight."
+    },
+    {
+      "target": "#88899",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup status and mixed-scope files require maintainer judgment before repair or merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88899: PR is explicitly waiting on author and includes mixed Android/tooling/i18n baseline changes; maintainer should decide whether to wait, request narrowing, or split repair."
+  ],
+  "repair_candidate": {
+    "target": "#88180",
+    "source_refs": [
+      "#88180",
+      "#65777",
+      "#88581",
+      "#88743",
+      "#88885",
+      "#88899"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #88180 in-place on the contributor branch by resolving the failing Real behavior proof and then completing the normal merge-preflight loop before any merge recommendation.",
+    "pr_title": "fix(prompt): preserve IDENTITY defaults in system prompt",
+    "pr_body": "Repair path for #88180.\n\nThis keeps @yozu's contributor PR as the source of the fix and focuses only on the failing proof/check path around IDENTITY.md prompt guidance. Validation should include the focused system-prompt regression test and pnpm check:changed before any merge preflight is emitted.\n\nSource PR: https://github.com/openclaw/openclaw/pull/88180\nCredit: @yozu",
+    "likely_files": [
+      "src/agents/system-prompt.ts",
+      "src/agents/system-prompt.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/system-prompt.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @yozu as the author of #88180.",
+      "Reference https://github.com/openclaw/openclaw/pull/88180 as the source PR if Clownfish repairs the branch or opens a replacement."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-003.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#88899: PR is explicitly waiting on author and includes mixed Android/tooling/i18n baseline changes; maintainer should decide whether to wait, request narrowing, or split repair."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-023",
+  "mode": "plan",
+  "run_id": "27680875709-1-22",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "22",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-023.md",
+  "published_at": "2026-06-17T10:02:19.650Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five unrelated open PRs. No merge is recommended because the artifact does not include complete merge preflight proof, especially Codex /review and hydrated comment/review-thread resolution evidence. Waiting-on-author PRs are routed to maintainer review when non-security, and #78247 is routed to central security handling per deterministic validation.",
+  "actions": [
+    {
+      "target": "#84288",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent viable PR, but merge cannot be recommended from this artifact without the required merge preflight."
+    },
+    {
+      "target": "#81467",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent usage fix candidate, but dependency/preflight uncertainty and missing merge preflight block a merge recommendation."
+    },
+    {
+      "target": "#85179",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author state is an active author follow-up gate, so maintainer review is required before any merge or repair path."
+    },
+    {
+      "target": "#77539",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent contributor PR with useful code, but session-state risk and missing merge preflight block a merge recommendation."
+    },
+    {
+      "target": "#78247",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR to central OpenClaw security handling per validator and security-boundary repair rules."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85179 waiting on author: active author follow-up before finalization."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

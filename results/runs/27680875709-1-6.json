@@ -1,0 +1,133 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-007",
+  "mode": "plan",
+  "run_id": "27680875709-1-6",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-007.md",
+  "published_at": "2026-06-17T10:02:19.664Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory items using the provided hydrated cluster preflight artifact. No GitHub mutations are recommended because merge preflight proof is incomplete for all items: mergeability is unknown, Codex /review clean-pass proof is missing for each merge candidate, and #80473 has a failing lint check. Items remain independently classifiable with concrete blockers.",
+  "actions": [
+    {
+      "target": "#80383",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80383",
+      "reason": "Useful contributor PR with passing checks and sufficient proof, but not merge-ready under policy without current mergeability and Codex /review proof."
+    },
+    {
+      "target": "#80392",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80392",
+      "reason": "Small useful fix, but policy requires resolving author-followup/review-bot state and proving clean review before merge."
+    },
+    {
+      "target": "#80422",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#80422",
+      "reason": "Product/session-state behavior and active waiting-on-author status make finalization a maintainer judgment call in this plan shard."
+    },
+    {
+      "target": "#80455",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80455",
+      "reason": "Narrow useful contributor PR with tests and changelog entry, but merge recommendation lacks required live mergeability and Codex /review proof."
+    },
+    {
+      "target": "#80473",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80473",
+      "reason": "Small useful PR, but the failing check-lint result blocks merge and requires branch repair or revalidation before finalization."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80422 requires maintainer judgment: Android feature PR changes session-state behavior, is labeled waiting on author, and the artifact lacks hydrated comments to resolve the author-followup/product-intent question."
+  ],
+  "repair_candidate": {
+    "target": "#80383",
+    "source_refs": [
+      "#80383",
+      "#80392",
+      "#80422",
+      "#80455",
+      "#80473",
+      "#80428",
+      "#80435",
+      "#52747",
+      "#80239",
+      "#13744"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/finalization plan for five independent open PRs in the inventory shard. Prioritize contributor-branch repair where maintainer_can_modify is true; do not open replacement PRs until a specific branch is proven unrepairable. #80473 needs lint repair/revalidation. #80383, #80392, and #80455 need current mergeability plus Codex /review proof before merge. #80422 should wait for maintainer decision because it is a session-state Android feature with active author-followup signal.",
+    "pr_title": "Repair ready-for-maintainer PR inventory shard 7",
+    "pr_body": "Cluster: live-pr-inventory-20260617T015524-007\n\nThis plan does not open a replacement PR yet. The useful contributor PRs are editable by maintainers, so the next executable path is to repair or refresh contributor branches in place, prove mergeability, run Codex /review, and rerun targeted validation. #80473 additionally needs the failing check-lint result repaired or revalidated. #80422 should not be finalized until a maintainer resolves the session-state feature/author-followup question.\n\nSource PRs: #80383, #80392, #80422, #80455, #80473.\n\nCredit: carry forward the original authors in any repair commit, replacement PR body, and changelog entry where user-facing behavior changes.",
+    "likely_files": [
+      ".projectclownfish/runs/live-pr-inventory-20260617T015524-007-plan-2026-06-17T09-58-03-456Z/cluster-plan.json",
+      "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-007.md"
+    ],
+    "validation_commands": [
+      "For #80383: run the ACP/session actor queue targeted tests plus pnpm check:changed after branch refresh.",
+      "For #80392: run the gateway startup trace proof and gateway startup/runtime checks plus pnpm check:changed after resolving bot/author state.",
+      "For #80422: rerun Android build/test shards and obtain maintainer confirmation on session-state UX before merge consideration.",
+      "For #80455: run doctor health contribution tests and pnpm check:changed after branch refresh.",
+      "For #80473: fix/revalidate lint, then run oxlint/check-lint for extensions/discord/src/monitor/native-command-route.ts plus pnpm check:changed."
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for #80383 by helaskeutuja if repaired or replaced.",
+      "Preserve contributor credit for #80392 by ejames-dev if repaired or replaced.",
+      "Preserve contributor credit for #80422 by bcperry if maintained, split, or replaced after maintainer decision.",
+      "Preserve contributor credit for #80455 by KeWang0622 / commit author kewang-pika if repaired or merged.",
+      "Preserve contributor credit for #80473 by KhanCold if lint repair or replacement is needed."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-007.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#80422 requires maintainer judgment: Android feature PR changes session-state behavior, is labeled waiting on author, and the artifact lacks hydrated comments to resolve the author-followup/product-intent question."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

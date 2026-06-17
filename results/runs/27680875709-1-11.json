@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-012",
+  "mode": "plan",
+  "run_id": "27680875709-1-11",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-012.md",
+  "published_at": "2026-06-17T10:02:19.619Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard classified from the provided preflight artifact. No merge actions are safe because none of the PRs has a complete merge preflight proving current Codex /review, addressed findings, and resolved review/bot comments. One narrow contributor-branch repair path is concrete for #81300; the other PRs need maintainer/preflight follow-up rather than mutation.",
+  "actions": [
+    {
+      "target": "#79747",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature PR with waiting-on-author status and incomplete merge preflight; maintainer judgment is required before repair or merge."
+    },
+    {
+      "target": "#81243",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially viable PR, but merge is blocked by incomplete merge preflight: current Codex /review and resolved bot-review proof are missing, and one security-high check is cancelled."
+    },
+    {
+      "target": "#81300",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#81300",
+      "reason": "Narrow contributor branch with a concrete failing proof gate; repair the contributor branch and rerun targeted Codex app-server validation before any merge recommendation."
+    },
+    {
+      "target": "#81641",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be useful, but the failing dependency guard is not diagnosable from this artifact and merge proof is incomplete."
+    },
+    {
+      "target": "#81778",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small passing PR, but merge policy still requires a complete preflight with current Codex /review before recommending merge."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79747: broad XL/session-state feature PR with status waiting on author; maintainer decision needed before repair or merge.",
+    "#81243: incomplete merge preflight, old Codex review evidence, and one cancelled security-high check block merge recommendation.",
+    "#81641: dependency-guard failure details are missing from the artifact, so the repair/merge path is not concrete.",
+    "#81778: apparently healthy narrow PR, but current Codex /review merge proof is missing."
+  ],
+  "repair_candidate": {
+    "target": "#81300",
+    "source_refs": [
+      "#81300",
+      "#79747",
+      "#81243",
+      "#81641",
+      "#81778"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #81300 so the Codex app-server reasoning summary plumbing passes real behavior proof and current merge preflight.",
+    "pr_title": "codex: repair reasoning summary plumbing",
+    "pr_body": "Repair path for Clownfish cluster live-pr-inventory-20260617T015524-012, source PR #81300 by @iYoungblood. Keep the change limited to Codex app-server reasoning summary resolution and its tests, rerun the targeted vitest file plus pnpm check:changed, then require a fresh Codex /review before merge.",
+    "likely_files": [
+      "extensions/codex/src/app-server/thread-lifecycle.ts",
+      "extensions/codex/src/app-server/thread-lifecycle.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/codex/src/app-server/thread-lifecycle.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @iYoungblood and source PR https://github.com/openclaw/openclaw/pull/81300.",
+      "Repair should stay on the contributor branch because maintainer_can_modify is true."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-012.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#79747: broad XL/session-state feature PR with status waiting on author; maintainer decision needed before repair or merge.",
+      "#81243: incomplete merge preflight, old Codex review evidence, and one cancelled security-high check block merge recommendation.",
+      "#81641: dependency-guard failure details are missing from the artifact, so the repair/merge path is not concrete.",
+      "#81778: apparently healthy narrow PR, but current Codex /review merge proof is missing."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

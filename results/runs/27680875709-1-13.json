@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-014",
+  "mode": "plan",
+  "run_id": "27680875709-1-13",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "13",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-014.md",
+  "published_at": "2026-06-17T10:02:19.624Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. #81864 is routed to central security handling because its hydrated body and labels explicitly describe plugin approvals as a security boundary. No merge candidate is safe to recommend for the remaining PRs because none has complete merge preflight proof, with blockers including unresolved review state, failing checks, active waiting-on-author state, check hydration failure, or missing Codex /review proof.",
+  "actions": [
+    {
+      "target": "#81864",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR ref is security-sensitive from hydrated body and labels, so ProjectClownfish must route it to central OpenClaw security handling without merge, close, label, comment, or fix action."
+    },
+    {
+      "target": "#81916",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Looks like a focused independent PR, but merge cannot be recommended without current mergeability and Codex /review preflight proof."
+    },
+    {
+      "target": "#82495",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Requires maintainer judgment or a refreshed review because the current diff appears narrowed but an outstanding changes-requested review still blocks merge preflight."
+    },
+    {
+      "target": "#82514",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing check proof and XL generated i18n surface block merge recommendation; maintainer review is needed before deciding whether to merge, split, or refresh the PR."
+    },
+    {
+      "target": "#82552",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Requires maintainer or author follow-up before automation because the PR is waiting on author, has a failing check, and lacks Codex /review preflight proof."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81916: focused PR has passing checks but mergeability is unknown and Codex /review preflight proof is missing.",
+    "#82495: current diff is focused, but an outstanding CHANGES_REQUESTED review remains unresolved in the hydrated state.",
+    "#82514: checks hydration failed with EOF for an XL generated i18n PR, so merge proof is incomplete.",
+    "#82552: focused compatibility PR is waiting on author and has failing checks-node-agentic-agents."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

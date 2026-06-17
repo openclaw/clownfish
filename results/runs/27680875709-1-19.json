@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-020",
+  "mode": "plan",
+  "run_id": "27680875709-1-19",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "19",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-020.md",
+  "published_at": "2026-06-17T10:02:19.640Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment of five independent open PRs. No merge is recommended because the artifact does not include a complete merge preflight with current mergeability, resolved review/comment proof, and passed Codex /review. Two contributor branches with failing relevant checks are repair candidates; two clean-looking PRs should stay independent pending normal maintainer merge preflight; one PR is waiting on author and needs maintainer judgment before automation proceeds.",
+  "actions": [
+    {
+      "target": "#90738",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent ready-for-maintainer PR with promising checks, but missing required merge preflight proof."
+    },
+    {
+      "target": "#79397",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with useful channel-specific code; not mergeable from this plan artifact without resolved review-bot proof and Codex /review preflight."
+    },
+    {
+      "target": "#79910",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79910",
+      "reason": "Useful contributor PR but failing checks block merge; repair contributor branch narrowly before any merge recommendation."
+    },
+    {
+      "target": "#79910",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79910",
+      "reason": "Executor should attempt a narrow repair of PR #79910 rather than replacing or closing it."
+    },
+    {
+      "target": "#80681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80681",
+      "reason": "Useful contributor PR but failing checks block merge; repair contributor branch narrowly before any merge recommendation."
+    },
+    {
+      "target": "#80681",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80681",
+      "reason": "Executor should attempt a narrow repair of PR #80681 rather than replacing or closing it."
+    },
+    {
+      "target": "#80707",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author state should not be overridden by plan-only automation without maintainer confirmation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "fix_needed": 2,
+    "build_fix_artifact": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80707 is labeled waiting on author; maintainer should decide whether author follow-up is still required before any repair or merge path proceeds."
+  ],
+  "repair_candidate": {
+    "target": "#79910",
+    "source_refs": [
+      "#79910",
+      "#80681",
+      "#79397",
+      "#80707",
+      "#90738"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor branches for #79910 and #80681 before any merge recommendation. Both branches are editable by maintainers and have useful focused code, but current failing checks block merge.",
+    "pr_title": "Repair ready maintainer PR checks for sessions and trajectory shard",
+    "pr_body": "Clownfish plan-only repair artifact for live-pr-inventory-20260617T015524-020.\n\nSource PRs:\n- https://github.com/openclaw/openclaw/pull/79910 by @wAngByg\n- https://github.com/openclaw/openclaw/pull/80681 by @wAngByg\n\nPlan:\n- Prefer repairing the contributor branches because maintainer_can_modify is true.\n- Keep changes narrow to the failing check surfaces.\n- Run targeted vitest files plus pnpm check:changed.\n- Run Codex /review and address any findings before a merge recommendation.\n\nCredit: preserve source PR attribution for @wAngByg in any replacement or final PR notes.",
+    "likely_files": [
+      "src/config/sessions/artifacts.ts",
+      "src/config/sessions/disk-budget.ts",
+      "src/config/sessions/store-load.recovery.test.ts",
+      "src/config/sessions/store-load.ts",
+      "docs/tools/trajectory.md",
+      "extensions/codex/src/app-server/trajectory.test.ts",
+      "extensions/codex/src/app-server/trajectory.ts",
+      "src/trajectory/paths.test.ts",
+      "src/trajectory/paths.ts",
+      "src/trajectory/runtime.test.ts",
+      "src/trajectory/runtime.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm -s vitest run src/config/sessions/store-load.recovery.test.ts",
+      "pnpm -s vitest run src/trajectory/paths.test.ts src/trajectory/runtime.test.ts extensions/codex/src/app-server/trajectory.test.ts"
+    ],
+    "credit_notes": [
+      "Repair #79910 on the contributor branch where possible; preserve credit for @wAngByg as source author.",
+      "Repair #80681 on the contributor branch where possible; preserve credit for @wAngByg as source author."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-020.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#80707 is labeled waiting on author; maintainer should decide whether author follow-up is still required before any repair or merge path proceeds."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

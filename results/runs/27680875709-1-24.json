@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-025",
+  "mode": "plan",
+  "run_id": "27680875709-1-24",
+  "workflow_run_id": "27680875709",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680875709",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:57:27Z",
+  "workflow_updated_at": "2026-06-17T09:59:28Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-025.md",
+  "published_at": "2026-06-17T10:02:19.654Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only review of five independent open PRs. No PR has a complete merge preflight with Codex /review evidence. One PR is security-sensitive and should be routed centrally. One narrow memory-core PR has a concrete contributor-branch repair path; the remaining PRs need maintainer review because proof, review, or scope gates are incomplete.",
+  "actions": [
+    {
+      "target": "#84453",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Complete merge preflight is missing for an automation-risk PR; no merge_candidate may be emitted without Codex /review and resolved-comment evidence."
+    },
+    {
+      "target": "#84465",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The item appears to involve API keys/auth material persistence and should be routed to central OpenClaw security handling without ProjectClownfish mutation."
+    },
+    {
+      "target": "#84485",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an XL message-delivery compatibility change with unresolved review context and missing complete merge preflight proof."
+    },
+    {
+      "target": "#84547",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Author/proof follow-up and failing checks block merge or fixed-by-candidate handling; the artifact lacks enough resolved bot-review detail for an automated repair recommendation."
+    },
+    {
+      "target": "#84554",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#84554",
+      "reason": "Repair the contributor branch, rebase if needed, run focused memory-core validation plus check:changed, run Codex /review, and only then reconsider merge."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "route_security": 1,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84453: maintainer must review automation-risk diff because complete merge preflight is missing, including Codex /review and hydrated comment resolution.",
+    "#84465: route centrally as security-sensitive because it involves API key/auth material persistence.",
+    "#84485: maintainer must decide the broad Discord message-delivery behavior change and unresolved review question before merge planning.",
+    "#84547: maintainer/author follow-up is needed because behavior proof and lint failed, and bot review comments are not hydrated."
+  ],
+  "repair_candidate": {
+    "target": "#84554",
+    "source_refs": [
+      "#84554",
+      "#84453",
+      "#84465",
+      "#84485",
+      "#84547"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #84554 in place: rebase or refresh the branch, address CI failures for the narrow memory-core fallback guard, run focused memory-core tests plus changed-file validation, then run Codex /review before any merge recommendation.",
+    "pr_title": "fix(memory-core): guard qmd builtin fallback",
+    "pr_body": "## Summary\nRepair source PR #84554 by keeping the narrow memory-core behavior change while making the branch current and CI-clean.\n\n## Source credit\nThis repair is based on https://github.com/openclaw/openclaw/pull/84554 by @jetd1 / jet. Clownfish should preserve attribution in the final PR and changelog notes if user-facing release notes are needed.\n\n## Validation\n- pnpm -s vitest run extensions/memory-core/src/memory/search-manager.test.ts\n- pnpm check:changed\n- Codex /review clean before merge consideration",
+    "likely_files": [
+      "extensions/memory-core/src/memory/search-manager.ts",
+      "extensions/memory-core/src/memory/search-manager.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/memory-core/src/memory/search-manager.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair should preserve contributor credit for @jetd1 / jet from source PR https://github.com/openclaw/openclaw/pull/84554.",
+      "If a replacement PR becomes necessary, the PR body must mention source PR #84554 and carry attribution to the original author."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-025.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#84465"
+    ],
+    "needs_human": [
+      "#84453: maintainer must review automation-risk diff because complete merge preflight is missing, including Codex /review and hydrated comment resolution.",
+      "#84465: route centrally as security-sensitive because it involves API key/auth material persistence.",
+      "#84485: maintainer must decide the broad Discord message-delivery behavior change and unresolved review question before merge planning.",
+      "#84547: maintainer/author follow-up is needed because behavior proof and lint failed, and bot review comments are not hydrated."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
