@@ -548,6 +548,7 @@ test("execute-fix-artifact gives eligible baseline diagnostics to the initial re
   const output = [
     "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
     "[ELIFECYCLE] Command failed with exit code 2.",
+    "5.81s  failed:2   typecheck core",
   ].join("\n");
   const run = runBaselineChangedGateFixture({
     clusterId: "baseline-diagnostic-prompt-cluster",
