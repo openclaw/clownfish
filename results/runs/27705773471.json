@@ -1,0 +1,186 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-93689-20260617",
+  "mode": "autonomous",
+  "run_id": "27705773471",
+  "workflow_run_id": "27705773471",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27705773471",
+  "head_sha": "a35c8907ec29188d7b2eb3a504f94102b6ac8592",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T16:58:39Z",
+  "workflow_updated_at": "2026-06-17T17:09:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-93689-20260617.md",
+  "published_at": "2026-06-17T17:10:38.366Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93689",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/57594",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93689",
+  "summary": "#93689 is the sole canonical maintainer-editable PR for the Zalo outbound chat_id fix. Current main is aa498cfe11c162ec2621f4b61935835b4312b1ab and still uses Zalo's numeric-only target predicate, while the hydrated PR branch is open, maintainer-editable, mergeability is unknown, and one relevant CI check is failing. The safe autonomous path is to repair the contributor branch only: rebase onto current main, preserve the existing narrow Zalo change, rerun changed-surface validation and Codex /review, then push the rebased branch for later merge finalization.",
+  "actions": [
+    {
+      "target": "#93689",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "Canonical PR is useful and editable but not finalization-ready: it needs a rebase against current main, check rerun, and fresh /review before any later merge decision."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-93689-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "A cluster-scoped repair artifact is required so the executor can rebase and validate the existing contributor branch without manufacturing unrelated edits."
+    },
+    {
+      "target": "#57594",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "Linked issue is covered by the canonical PR path but should not be closed during this rebase-only canary."
+    },
+    {
+      "target": "#90859",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93689",
+      "candidate_fix": "#93689",
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#84599",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93689",
+      "candidate_fix": null,
+      "reason": "Independent maintainer dashboard context; not part of the rebase-only PR repair."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93689",
+    "source_refs": [
+      "#93689",
+      "#57594",
+      "#90859",
+      "#84599"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing maintainer-editable contributor PR #93689 by rebasing goutamadwant/openclaw:fix/57594-zalo-hex-chat-id onto current main aa498cfe11c162ec2621f4b61935835b4312b1ab, preserving the existing narrow Zalo chat_id resolver change and tests, then rerunning validation and Codex /review. Do not broaden the PR or open a replacement PR.",
+    "pr_title": "fix(zalo): accept string chat ids for outbound sends",
+    "pr_body": "## Summary\n\nRepair existing PR #93689 by rebasing the maintainer-editable contributor branch onto current main and preserving its narrow Zalo outbound target resolver fix. The fix should continue treating normalized nonblank Zalo targets as opaque chat_id strings and keep resolver coverage for numeric, reported hex-like, documented abc.xyz, and prefixed zalo:/zl: forms.\n\nSource PR: https://github.com/openclaw/openclaw/pull/93689\nLinked issue: https://github.com/openclaw/openclaw/issues/57594\nHistorical superseded attempt: https://github.com/openclaw/openclaw/pull/90859\n\n## Verification\n\n- pnpm test extensions/zalo/src/channel.directory.test.ts\n- pnpm check:changed\n- Codex /review after the rebase\n\n## Notes\n\nDo not broaden the PR or create a replacement branch. If conflicts appear, resolve only enough to preserve the existing two-file Zalo behavior and tests. Final merge remains out of scope for this canary.",
+    "likely_files": [
+      "extensions/zalo/src/channel.ts",
+      "extensions/zalo/src/channel.directory.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/zalo/src/channel.directory.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve #93689 as the canonical contributor PR so @goutamadwant keeps authorship and review history.",
+      "Mention #57594 as the linked user report in validation/proof comments after repair.",
+      "Keep #90859 only as historical superseded context; do not rewrite the repair as a replacement PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/pr-rebase-canary-93689-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93689",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e90bdb95bb69a53e419e8d8b60fc41fb07ec003d",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93689",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#93689",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}

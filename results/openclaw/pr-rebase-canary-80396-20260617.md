@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-rebase-canary-80396-20260617"
 mode: "autonomous"
-run_id: "27705469091"
-workflow_run_id: "27705469091"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27705469091"
-head_sha: "11055a7e49bd4d7a4f5c6d331788c99e8595d963"
+run_id: "27705773540"
+workflow_run_id: "27705773540"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27705773540"
+head_sha: "a35c8907ec29188d7b2eb3a504f94102b6ac8592"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T16:56:26.435Z"
-canonical: "#80396"
-canonical_issue: "#41966"
-canonical_pr: "#80396"
+published_at: "2026-06-17T17:10:38.369Z"
+canonical: "https://github.com/openclaw/openclaw/pull/80396"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/41966"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/80396"
 actions_total: 3
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 0
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27705469091](https://github.com/openclaw/clownfish/actions/runs/27705469091)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27705773540](https://github.com/openclaw/clownfish/actions/runs/27705773540)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #80396
+Canonical: https://github.com/openclaw/openclaw/pull/80396
 
 ## Summary
 
-Canonical PR #80396 is the sole maintainer-editable contributor branch and should remain the repair path. It is open and narrowly scoped, but it is not merge-ready because a member review requested changes on 2026-06-16 and one check is failing. The executable next step is to repair the contributor branch in place, keeping the PR narrow and preserving Bartok9 credit.
+PR #80396 is the sole canonical PR and remains the right branch to repair because it is open, focused, maintainer-editable, and tied to #41966. It is not merge-ready: the hydrated review state has a maintainer CHANGES_REQUESTED review asking that the parser signal remain but the warning be emitted only once at the actual outbound delivery boundary, and Codex /review proof is not present. No GitHub mutations, close actions, merge actions, labels, or replacement PRs are planned.
 
 ## Impact
 
@@ -45,7 +45,7 @@ Canonical PR #80396 is the sole maintainer-editable contributor branch and shoul
 | Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -65,26 +65,26 @@ Canonical PR #80396 is the sole maintainer-editable contributor branch and shoul
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair PR #80396 in place by moving the fenced MEDIA warning to the actual outbound delivery boundary so repeated parser calls used for planning/comparison do not emit duplicate delivery warnings. Keep the parser signal and tests narrow, preserve the existing no-extract behavior for fenced MEDIA tokens, and preserve Bartok9's contributor branch/credit.",
-  "pr_title": "fix(media): warn once for fenced MEDIA tokens at delivery boundary",
-  "pr_body": "Repairs #80396 in place for #41966. Keeps the warn-only parser contract, avoids duplicate warnings from repeated parser calls used for planning/comparison paths, and emits the user-facing warning only at the outbound delivery boundary. Contributor credit remains with Bartok9 via the source PR branch.\n\nValidation:\n- pnpm vitest src/media/parse.test.ts\n- pnpm oxlint src/media/parse.ts src/media/parse.test.ts src/auto-reply/reply/reply-directives.ts\n- node scripts/ui.js build\n- pnpm check:changed\n- Codex /review",
+  "summary": "Repair PR #80396 in place. Keep the `splitMediaFromOutput()` fenced-token callback, but remove unconditional logging from shared parser wrappers and emit the warning only from real outbound delivery boundaries so repeated planning/comparison parser calls do not duplicate misleading `will not be delivered` warnings.",
+  "pr_title": "fix(media): warn once for fenced MEDIA tokens at delivery",
+  "pr_body": "## Summary\n\nRepair #80396 in place for #41966. Keep the warn-only behavior: fenced `MEDIA:` lines remain visible text and are not extracted, but the skipped-token signal is surfaced only at the outbound delivery boundary so parser reuse in planning/comparison paths does not log duplicate misleading warnings.\n\nThis preserves @Bartok9's original narrow fix and attribution while addressing the maintainer review on #80396.\n\n## Repair Plan\n\n- Keep `splitMediaFromOutput()` browser-safe and callback-based.\n- Thread an optional fenced-token callback through reply parsing without importing the logger into shared parser code.\n- Pass the warning callback only from real delivery paths, not from comparison, mirror, JSON, or planning-only parser calls.\n- Add regression coverage proving repeated parser/planning calls do not emit duplicate warnings, while actual delivery emits one warning for the fenced `MEDIA:` payload.\n\n## Verification\n\n- `pnpm test src/media/parse.test.ts src/infra/outbound/payloads.test.ts`\n- `pnpm check:changed`\n- Codex `/review` after the repair, with any findings addressed before a later merge job.",
   "likely_files": [
     "src/media/parse.ts",
     "src/media/parse.test.ts",
     "src/auto-reply/reply/reply-directives.ts",
     "src/infra/outbound/payloads.ts",
-    "src/agents/embedded-agent-runner/run/payloads.ts"
+    "src/infra/outbound/payloads.test.ts",
+    "src/infra/outbound/deliver.ts",
+    "src/infra/outbound/message.ts",
+    "src/agents/command/delivery.ts"
   ],
   "validation_commands": [
-    "pnpm vitest src/media/parse.test.ts",
-    "pnpm oxlint src/media/parse.ts src/media/parse.test.ts src/auto-reply/reply/reply-directives.ts",
-    "node scripts/ui.js build",
-    "pnpm check:changed",
-    "/review"
+    "pnpm test src/media/parse.test.ts src/infra/outbound/payloads.test.ts",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair the existing maintainer-editable contributor PR by Bartok9; preserve authorship and attribution on the source PR.",
-    "If any follow-up PR body is generated by automation, include: Source PR: https://github.com/openclaw/openclaw/pull/80396 by Bartok9."
+    "Repair contributor PR #80396 in place; preserve @Bartok9 authorship and PR credit.",
+    "PR body/finalization should continue to reference #41966 and credit @Bartok9 for the warn-only parser signal and browser-safe callback approach."
   ],
   "source_job": "jobs/openclaw/inbox/pr-rebase-canary-80396-20260617.md",
   "security_sensitive": false,
@@ -99,7 +99,7 @@ Canonical PR #80396 is the sole maintainer-editable contributor branch and shoul
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | blocked |  |  | rebase-only repair stopped: Codex /review did not pass after 1 attempt(s): Merge is blocked. The branch adds the fenced MEDIA callback in parse.ts, but wires logging into the shared parseReplyDirectives wrapper, which violates the fix artifact's required boundary and reintroduces duplicate misleading warnings from planning/comparison paths. I did not rerun validation per instruction; git diff checks are clean, and no security-sensitive issue was found in the changed parser logic. |
 
 ## Apply Actions
 
@@ -117,9 +117,9 @@ Canonical PR #80396 is the sole maintainer-editable contributor branch and shoul
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80396 | fix_needed | planned | canonical | Repair is allowed and calibrated for this PR, but merge and close are blocked by job frontmatter and by unresolved review/failing check gates. |
-| #80396 | build_fix_artifact | planned | canonical | An executable repair artifact is needed because the calibrated canonical PR is not currently merge-ready. |
-| #41966 | keep_related | planned | related | The issue is related to the canonical PR but should not be closed or marked fixed while #80396 still has unresolved review and failing-check blockers. |
+| #80396 | fix_needed | planned | canonical | Repair the existing contributor branch rather than replacing it; the branch is maintainer-editable and the remaining work is narrow. |
+| #41966 | keep_related | planned | related | Linked issue is evidence and validation context, not a target for closure in this rebase-only cluster. |
+| cluster:pr-rebase-canary-80396-20260617 | build_fix_artifact | planned |  | Maintainer calibration requests rebase/validate/Codex-review repair of the existing branch; this artifact hands that exact work to the executor without opening a replacement PR. |
 
 ## Needs Human
 
