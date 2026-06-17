@@ -2965,6 +2965,7 @@ function parseAllowedValidationCommand(command) {
   const parts = stripAllowedValidationEnvPrefixes(rawParts, text);
   if (isAllowedAutoreviewValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedShellSyntaxValidation(parts)) return parts;
+  if (rawParts.length === parts.length && isAllowedPullRequestArtifactReviewValidation(parts)) return parts;
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
@@ -2984,6 +2985,15 @@ function isAllowedAutoreviewValidation(parts) {
 
 function isAllowedShellSyntaxValidation(parts) {
   return parts.length === 3 && parts[0] === "bash" && parts[1] === "-n" && isSafeRelativeShellScriptPath(parts[2]);
+}
+
+function isAllowedPullRequestArtifactReviewValidation(parts) {
+  return (
+    parts.length === 3 &&
+    parts[0] === "scripts/pr" &&
+    parts[1] === "review-validate-artifacts" &&
+    /^[1-9][0-9]*$/.test(parts[2])
+  );
 }
 
 function isSafeRelativeShellScriptPath(value) {

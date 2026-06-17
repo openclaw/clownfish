@@ -610,6 +610,34 @@ test("execute-fix-artifact accepts a bounded shell syntax validation", () => {
   assert.equal(run.report.status, "planned");
 });
 
+test("execute-fix-artifact accepts bounded OpenClaw PR review artifact validation", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "pr-review-artifact-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    strict: true,
+    validationCommands: ["scripts/pr review-validate-artifacts 94022"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+});
+
+test("execute-fix-artifact rejects non-bounded OpenClaw PR validation commands", () => {
+  for (const validationCommand of ["scripts/pr review-validate-artifacts 0", "scripts/pr prepare-run 94022"]) {
+    const run = runBaselineChangedGateFixture({
+      clusterId: `rejected-pr-review-validation-${validationCommand.split(" ")[1]}`,
+      baselineOutput: "",
+      postOutput: "",
+      validationCommands: [validationCommand],
+    });
+
+    assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
+    assert.match(run.child.stderr, /unsupported validation command/);
+    assert.equal(run.report.status, "failed");
+  }
+});
+
 test("execute-fix-artifact rejects shell execution validation commands", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "shell-execution-validation-cluster",
@@ -885,6 +913,14 @@ function makeFixture() {
   fs.writeFileSync(path.join(seedDir, "src", "app.js"), "export const value = 1;\n");
   fs.mkdirSync(path.join(seedDir, "scripts"), { recursive: true });
   fs.writeFileSync(path.join(seedDir, "scripts", "setup-auth-system.sh"), "#!/usr/bin/env bash\nset -euo pipefail\n");
+  writeExecutable(
+    path.join(seedDir, "scripts", "pr"),
+    `#!/usr/bin/env bash
+set -euo pipefail
+test "$1" = "review-validate-artifacts"
+test "$2" = "94022"
+`,
+  );
   git(["add", "."], { cwd: seedDir });
   git(["commit", "-m", "initial"], { cwd: seedDir });
   git(["remote", "add", "origin", originDir], { cwd: seedDir });
