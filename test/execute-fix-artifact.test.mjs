@@ -597,6 +597,45 @@ test("execute-fix-artifact accepts the bounded OpenClaw branch autoreview comman
   assert.equal(run.report.status, "planned");
 });
 
+test("execute-fix-artifact accepts a bounded shell syntax validation", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "shell-syntax-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    strict: true,
+    validationCommands: ["bash -n scripts/setup-auth-system.sh"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+});
+
+test("execute-fix-artifact rejects shell execution validation commands", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "shell-execution-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    validationCommands: ["bash -c true"],
+  });
+
+  assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
+  assert.match(run.child.stderr, /unsupported validation command/);
+  assert.equal(run.report.status, "failed");
+});
+
+test("execute-fix-artifact rejects shell syntax validation paths outside the checkout", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "shell-syntax-path-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    validationCommands: ["bash -n ../setup-auth-system.sh"],
+  });
+
+  assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
+  assert.match(run.child.stderr, /unsupported validation command/);
+  assert.equal(run.report.status, "failed");
+});
+
 test("execute-fix-artifact rejects unrecognized validation env prefixes", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "unsupported-validation-env-prefix-cluster",
@@ -844,6 +883,8 @@ function makeFixture() {
     `${JSON.stringify({ scripts: { "check:changed": "node scripts/check-changed.mjs" } }, null, 2)}\n`,
   );
   fs.writeFileSync(path.join(seedDir, "src", "app.js"), "export const value = 1;\n");
+  fs.mkdirSync(path.join(seedDir, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(seedDir, "scripts", "setup-auth-system.sh"), "#!/usr/bin/env bash\nset -euo pipefail\n");
   git(["add", "."], { cwd: seedDir });
   git(["commit", "-m", "initial"], { cwd: seedDir });
   git(["remote", "add", "origin", originDir], { cwd: seedDir });

@@ -2961,8 +2961,10 @@ function uniqueStrings(values) {
 function parseAllowedValidationCommand(command) {
   const text = String(command ?? "").trim();
   if (!text) throw new Error("empty validation command");
-  const parts = stripAllowedValidationEnvPrefixes(splitValidationCommand(text), text);
+  const rawParts = splitValidationCommand(text);
+  const parts = stripAllowedValidationEnvPrefixes(rawParts, text);
   if (isAllowedAutoreviewValidation(parts)) return parts;
+  if (rawParts.length === parts.length && isAllowedShellSyntaxValidation(parts)) return parts;
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
@@ -2977,6 +2979,20 @@ function isAllowedAutoreviewValidation(parts) {
     parts[2] === "branch" &&
     parts[3] === "--base" &&
     /^origin\/[A-Za-z0-9._/-]+$/.test(parts[4])
+  );
+}
+
+function isAllowedShellSyntaxValidation(parts) {
+  return parts.length === 3 && parts[0] === "bash" && parts[1] === "-n" && isSafeRelativeShellScriptPath(parts[2]);
+}
+
+function isSafeRelativeShellScriptPath(value) {
+  const filePath = String(value ?? "");
+  return (
+    /^[A-Za-z0-9._/-]+\.sh$/.test(filePath) &&
+    !path.isAbsolute(filePath) &&
+    !filePath.includes("\\") &&
+    !filePath.split("/").some((segment) => !segment || segment === "." || segment === "..")
   );
 }
 
