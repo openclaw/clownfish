@@ -545,7 +545,10 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
 });
 
 test("execute-fix-artifact gives eligible baseline diagnostics to the initial repair worker", () => {
-  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const output = [
+    "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    "[ELIFECYCLE] Command failed with exit code 2.",
+  ].join("\n");
   const run = runBaselineChangedGateFixture({
     clusterId: "baseline-diagnostic-prompt-cluster",
     baselineOutput: output,

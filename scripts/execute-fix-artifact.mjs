@@ -2818,7 +2818,7 @@ function isPotentialFailureLine(line) {
 }
 
 function isKnownChangedGateFailureSummary(line) {
-  return /^(?:[>\u2713\u2714]|\s)*(?:ELIFECYCLE|ERR_PNPM_|command failed with exit code|found \d+ errors?|failed with exit code)/i.test(
+  return /^(?:[>\u2713\u2714]|\s)*(?:\[(?:ELIFECYCLE|ERR_PNPM_[^\]]*)\]|ELIFECYCLE|ERR_PNPM_|command failed with exit code|found \d+ errors?|failed with exit code)/i.test(
     line,
   );
 }
