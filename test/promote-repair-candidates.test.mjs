@@ -38,6 +38,12 @@ test("promote-repair-candidates selects only the newest viable repair, dedupes j
     target: "#104",
     hold: true,
   });
+  writeReport(fixture.results, "broad.md", {
+    clusterId: "broad",
+    publishedAt: "2026-06-16T00:00:00.000Z",
+    target: "#108",
+    likelyFiles: Array.from({ length: 9 }, (_, index) => `src/broad-${index}.ts`),
+  });
   writeReport(fixture.results, "dedupe.md", {
     clusterId: "dedupe",
     publishedAt: "2026-06-16T00:00:00.000Z",
@@ -106,6 +112,7 @@ candidates:
       ["#103", "security-sensitive candidate"],
       ["#104", "candidate requires human review"],
       ["#105", "source ref already has a job"],
+      ["#108", "repair candidate exceeds autonomous file limit (8)"],
     ]),
   );
 
@@ -148,6 +155,7 @@ function writeReport(
     repairStatus = "",
     security = false,
     hold = false,
+    likelyFiles = ["src/example.ts"],
   },
 ) {
   const candidate = {
@@ -158,7 +166,7 @@ function writeReport(
     summary: `Repair ${target} narrowly.`,
     pr_title: `fix: repair ${target}`,
     pr_body: `Preserve credit for ${target}.`,
-    likely_files: ["src/example.ts"],
+    likely_files: likelyFiles,
     validation_commands: ["pnpm test:serial src/example.test.ts"],
     credit_notes: [`Preserve source credit for ${target}.`],
     source_job: `jobs/openclaw/inbox/${clusterId}.md`,

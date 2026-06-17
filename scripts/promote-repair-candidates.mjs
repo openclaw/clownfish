@@ -6,6 +6,7 @@ import { parseArgs, parseJob, parseSimpleYaml, repoRoot, validateJob } from "./l
 const REPAIR_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"]);
 const EXECUTABLE_STRATEGIES = new Set(["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"]);
 const TERMINAL_FIX_STATUSES = new Set(["executed", "opened", "pushed", "merged", "closed", "already_closed"]);
+const maxAutonomousFixFiles = Math.max(1, Number(process.env.CLOWNFISH_MAX_AUTONOMOUS_FIX_FILES ?? 8));
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
@@ -148,6 +149,9 @@ function promotionBlocker(candidate, existingRefs) {
   if (!hasPlannedRepairAction(candidate)) return "no planned repair action";
   if (hasSecuritySignal(candidate)) return "security-sensitive candidate";
   if (hasHumanHold(candidate)) return "candidate requires human review";
+  if (arrayOfStrings(candidate.candidate.likely_files).length > maxAutonomousFixFiles) {
+    return `repair candidate exceeds autonomous file limit (${maxAutonomousFixFiles})`;
+  }
   if (hasTerminalRepairOutcome(candidate)) return "repair already has a terminal outcome";
   if (candidate.source_refs.some((ref) => existingRefs.has(ref))) return "source ref already has a job";
   return "";
