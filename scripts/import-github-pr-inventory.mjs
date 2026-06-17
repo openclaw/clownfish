@@ -168,11 +168,11 @@ function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
   if (hasExactSecuritySignal({ title, labels })) return "security_route_candidate";
   if (isMaintainerAssociated(authorAssociation) || assignees.length > 0) return "maintainer_owned";
   if (Boolean(raw.isDraft)) return "draft";
-  if (labels.some((label) => /proof:\s*sufficient|ready for maintainer look/i.test(label))) {
-    return "ready_for_maintainer";
-  }
   if (labels.some((label) => /needs-real-behavior-proof|needs proof|mock-only-proof|waiting on author/i.test(label))) {
     return "needs_proof";
+  }
+  if (labels.some((label) => /proof:\s*sufficient|ready for maintainer look/i.test(label))) {
+    return "ready_for_maintainer";
   }
   if (daysSince(raw.updatedAt) >= 14) return "stale_unassigned";
   return "recent_active";

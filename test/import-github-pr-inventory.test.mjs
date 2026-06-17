@@ -22,7 +22,7 @@ test("autonomous live PR inventory defaults to stale candidates and terminal res
 
   const broad = runImport(fixture, "--bucket", "all", "--existing-results-action-policy", "all");
   assert.equal(broad.status, 0, broad.stderr || broad.stdout);
-  assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106"]);
+  assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106", "#108"]);
 });
 
 test("remediation inventory is plan-only and enables finalization recommendations", () => {
@@ -152,6 +152,18 @@ function writeFakeGh(filePath) {
       author: { login: "contributor-107" },
       authorAssociation: "CONTRIBUTOR",
       labels: { nodes: [{ name: "security" }] },
+      assignees: { nodes: [] },
+    },
+    {
+      number: 108,
+      title: "waiting candidate",
+      url: "https://github.com/openclaw/openclaw/pull/108",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-08T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-108" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: { nodes: [{ name: "proof: sufficient" }, { name: "status: waiting on author" }] },
       assignees: { nodes: [] },
     },
     {
