@@ -1,0 +1,61 @@
+---
+repo: openclaw/openclaw
+cluster_id: repair-92165-memory-dreaming
+mode: autonomous
+allowed_actions:
+  - comment
+  - label
+  - close
+  - fix
+  - raise_pr
+blocked_actions:
+  - merge
+require_human_for:
+  - merge
+canonical:
+  - #92165
+candidates:
+  - #92165
+  - #87637
+cluster_refs:
+  - #92165
+  - #87637
+allow_instant_close: false
+allow_fix_pr: true
+allow_merge: false
+allow_unmerged_fix_close: false
+allow_post_merge_close: true
+require_fix_before_close: true
+security_policy: central_security_only
+security_sensitive: false
+target_branch: clownfish/repair-92165-memory-dreaming
+source: clawsweeper
+---
+
+# ClawSweeper-promoted fix PR candidate
+
+ProjectClownfish should create or update one implementation PR from `clownfish/repair-92165-memory-dreaming`.
+
+## Operator Prompt
+
+Repair #92165 for linked issue #87637 only. Rehydrate the live contributor PR and review threads, then make the narrowest safe repair for showing dreaming status without search. Preserve contributor intent and credit; update the contributor branch when safely editable, otherwise use a guarded credited replacement. Do not merge, close, or touch security-linked work. Require focused OpenClaw-native validation and Codex review before opening or updating a repair PR.
+
+## Related Refs
+
+- #92165
+- #87637
+
+## Likely Files
+
+- unknown
+
+## Validation
+
+- choose the narrowest repo-native validation for the touched surface
+
+## Guardrails
+
+- Do not merge.
+- Do not close issues before a fix PR is opened, landed, or explicitly proven unnecessary.
+- Keep one PR for this cluster; reuse `clownfish/repair-92165-memory-dreaming` if it already exists.
+- Preserve contributor credit and add a changelog entry when the target repo expects one.
