@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-128",
+  "mode": "plan",
+  "run_id": "27660661038-1-27",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "27",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-128.md",
+  "published_at": "2026-06-17T02:04:43.351Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation result for five independent open PRs. No merge is recommended because none has complete merge preflight with resolved bot review state and Codex /review proof. One narrow contributor-branch repair is actionable for #48942; #41892 and #49488 need maintainer/product judgment before automation should proceed.",
+  "actions": [
+    {
+      "target": "#41892",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad product feature with incomplete merge proof and unresolved review-bot evidence; job requires human for broad_code_delta and unclear product/design finalization."
+    },
+    {
+      "target": "#78715",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small independent docs PR. Do not close or merge from this plan because low-signal close is disabled and merge preflight is incomplete."
+    },
+    {
+      "target": "#92125",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent dependency maintenance PR with clean relevant checks, but merge preflight lacks Codex /review and explicit review resolution proof."
+    },
+    {
+      "target": "#48942",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#48942",
+      "reason": "Useful, narrow contributor PR but not merge-ready. Repair the contributor branch by rebasing/refreshing, verifying current precedence, addressing any still-applicable bot review findings, rerunning narrow tests, and obtaining Codex /review."
+    },
+    {
+      "target": "#49488",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active human changes-requested review plus broad Android compatibility/product support decision. A replacement or repair would require an API 26-30 audit beyond a narrow safe fix artifact."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-128",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#48942",
+      "reason": "Create an executable repair plan for #48942 only; other PRs are independent or need human judgment."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#41892: broad Control UI feature and linked product/design issue require maintainer decision before automation can merge or replace.",
+    "#49488: Android minSdk reduction has human changes-requested review and a broad API 26-30 compatibility/support decision."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

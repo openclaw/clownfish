@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-123",
+  "mode": "plan",
+  "run_id": "27660661038-1-22",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "22",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-123.md",
+  "published_at": "2026-06-17T02:04:43.340Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR remediation shard. No GitHub mutations are allowed by this job. The hydrated artifact shows no security-sensitive items. None of the PRs has a complete merge preflight with clean Codex /review proof, resolved comments/bot findings, known mergeability, and passing relevant checks where required; each open PR is therefore classified non-mutatingly or blocked for maintainer judgment/repair.",
+  "actions": [
+    {
+      "target": "#92445",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92445",
+      "reason": "Useful focused contributor PR, but merge is blocked by the current ClawSweeper needs-changes verdict and missing merge preflight. Repair path should stay on the contributor branch if possible."
+    },
+    {
+      "target": "#90122",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90122",
+      "reason": "The implementation appears focused and useful, but the stored data model change is a maintainer judgment call under the job's require_human rules and merge preflight is incomplete."
+    },
+    {
+      "target": "#75469",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#75469",
+      "reason": "Useful narrow fix, but failing checks-node-core-tooling and missing merge preflight block merge. Because maintainer_can_modify=false, any repair may need a replacement path if the branch cannot be safely updated by automation."
+    },
+    {
+      "target": "#91093",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91093",
+      "reason": "Broad feature/config/protocol surface requires maintainer judgment under the job rules. It should not be merged or repaired automatically from this inventory shard."
+    },
+    {
+      "target": "#93183",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93183",
+      "reason": "Small high-quality candidate, but it changes auth/provider fallback routing and lacks the complete merge preflight required for a merge recommendation."
+    },
+    {
+      "target": "#53548",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91093",
+      "reason": "Related product/session-state issue, but not covered fully by #91093 and not closable in this shard."
+    },
+    {
+      "target": "#89683",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90122",
+      "reason": "Clearly covered by #90122, but post-merge closure is disabled and #90122 has not landed; keep issue open as related/fixed-by-candidate context."
+    },
+    {
+      "target": "#89975",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89975",
+      "reason": "Related complementary PR, not duplicate of #90122. It needs its own completed review/finalization outside this seed PR inventory decision."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 3,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90122 needs maintainer judgment on the stored UI chat data-model change before merge.",
+    "#91093 is a broad feature/config/protocol/docs PR and requires maintainer product/scope review, not automated merge or repair from this shard.",
+    "#93183 changes /btw auth/provider fallback routing and lacks complete merge preflight despite passing checks.",
+    "#89975 has an unresolved/failed targeted re-review and prior maintainer regression concern; it should be reviewed separately before any merge recommendation."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

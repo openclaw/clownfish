@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-103",
+  "mode": "plan",
+  "run_id": "27660661038-1-2",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-103.md",
+  "published_at": "2026-06-17T02:04:43.333Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result: no PR has complete merge preflight proof. #89800 has a narrow repair path for an unresolved review edge case; #89806 and #89855 are otherwise small and green but still need maintainer/Codex review proof before merge; #89817 and #89818 are blocked by waiting-on-author/needs-changes state. No security-sensitive items were detected.",
+  "actions": [
+    {
+      "target": "#87920",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical merged stop-sequence PR; no mutation planned."
+    },
+    {
+      "target": "#89773",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89800",
+      "reason": "Keep issue open and related to the open fix PR path."
+    },
+    {
+      "target": "#83913",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89806",
+      "reason": "Keep issue open and related to the open fix PR path."
+    },
+    {
+      "target": "#89800",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#89800",
+      "reason": "Repair the contributor branch narrowly by addressing the normalized-current edge case, then rerun validation and review."
+    },
+    {
+      "target": "#89806",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#89806",
+      "reason": "No concrete repair blocker is visible, but merge cannot be recommended without maintainer/Codex review preflight proof."
+    },
+    {
+      "target": "#89817",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#89817",
+      "reason": "Active author-followup/needs-changes state is a required human decision for this shard."
+    },
+    {
+      "target": "#89818",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#87920",
+      "candidate_fix": "#89818",
+      "reason": "Related follow-up provider fix, but current state requires human/author follow-up before merge or automated repair."
+    },
+    {
+      "target": "#89855",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#89855",
+      "reason": "No concrete repair blocker is visible, but merge cannot be recommended without maintainer/Codex review preflight proof."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89806: maintainer/Codex review preflight proof is missing before merge can be recommended.",
+    "#89817: waiting-on-author and needs-changes state lacks a complete actionable repair artifact in the hydrated data.",
+    "#89818: waiting-on-author and needs-changes state lacks a complete actionable repair artifact in the hydrated data.",
+    "#89855: maintainer/Codex review preflight proof is missing before merge can be recommended."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

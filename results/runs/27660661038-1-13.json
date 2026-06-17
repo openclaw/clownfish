@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-114",
+  "mode": "plan",
+  "run_id": "27660661038-1-13",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "13",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-114.md",
+  "published_at": "2026-06-17T02:04:43.315Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PR candidates plus hydrated linked context. Exact ref #79398 is routed to central security handling per deterministic validator. No merge is recommended because none has complete merge preflight with fresh mergeability, resolved bot findings, passed Codex /review, and validation proof. One narrow non-security repair path remains concrete for #79572; several PRs need maintainer judgment before merge or repair.",
+  "actions": [
+    {
+      "target": "#11044",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context ref; evidence only."
+    },
+    {
+      "target": "#58348",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context ref; evidence only."
+    },
+    {
+      "target": "#79398",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine exact ref #79398 for central OpenClaw security handling; do not merge, close, label, comment, or repair it through ProjectClownfish."
+    },
+    {
+      "target": "#79401",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required for the new event-stream contract before any merge or repair recommendation."
+    },
+    {
+      "target": "#79405",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up, failing required proof, and broad session/message-delivery changes require maintainer judgment rather than an automated merge or replacement plan."
+    },
+    {
+      "target": "#79507",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79547",
+      "candidate_fix": "#79547",
+      "reason": "Related source issue should stay open until #79547 or an equivalent fix lands; post-merge closure is disabled in this job."
+    },
+    {
+      "target": "#79547",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#79547",
+      "reason": "Maintainer judgment is required for persisted transcript marker and session-state semantics before merge or automated branch repair."
+    },
+    {
+      "target": "#79572",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#79572",
+      "reason": "Narrow useful PR is not merge-ready because key checks fail and merge preflight is incomplete; repair the contributor branch, rerun targeted validation, then rerun Codex /review."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "route_security": 1,
+    "needs_human": 3,
+    "keep_related": 1,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79401: maintainer decision on the new structured incident event-stream contract.",
+    "#79405: active author follow-up, failing Telegram proof, and broad session/message-delivery risk.",
+    "#79547: maintainer decision on persisted runtime-only transcript marker and upgrade/session-state semantics."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

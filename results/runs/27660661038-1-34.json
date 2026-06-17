@@ -1,0 +1,115 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-135",
+  "mode": "plan",
+  "run_id": "27660661038-1-34",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "34",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-135.md",
+  "published_at": "2026-06-17T02:04:43.380Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for independent ready-for-maintainer PR inventory shard. No merge is recommended because no item has a complete merge preflight with resolved review-bot comments, clean Codex /review proof, current mergeability, and validation commands. Three PRs have plausible contributor-branch repair paths but no complete executable fix_artifact is safe from the provided artifacts, so those fix recommendations are downgraded to maintainer decisions. Two additional PRs require maintainer judgment; one security-sensitive linked ref is quarantined; linked message-send work is kept as a separate related follow-up.",
+  "actions": [
+    {
+      "target": "#54593",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#54593",
+      "candidate_fix": "#54593",
+      "reason": "The PR remains the plausible canonical path for this root cause, but without a complete executable fix_artifact or merge preflight the safe plan-mode outcome is maintainer review before repair or merge."
+    },
+    {
+      "target": "#93351",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93351",
+      "candidate_fix": "#93351",
+      "reason": "The PR is the plausible canonical path for the openclaw agent --message-file feature, but it needs maintainer review, current mergeability, and full merge preflight before repair or merge can be recommended."
+    },
+    {
+      "target": "#93356",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#93356",
+      "candidate_fix": "#93356",
+      "reason": "The PR is the plausible canonical path for this performance regression, but the compatibility-sensitive cache change needs maintainer review, current mergeability, Codex /review, and targeted validation before repair or merge."
+    },
+    {
+      "target": "#93394",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93394",
+      "reason": "Active author follow-up plus failing real-behavior proof requires maintainer/reviewer decision before Clownfish should repair or replace the branch."
+    },
+    {
+      "target": "#54982",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#54982",
+      "reason": "This needs maintainer product/UX judgment and review-loop resolution before repair, replacement, or merge planning."
+    },
+    {
+      "target": "#79182",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79200",
+      "reason": "Keep as related follow-up for the message send command family rather than folding it into #93351's openclaw agent command work."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79200",
+      "reason": "Keep related as a separate message-send repair/finalization follow-up; it is not a duplicate of #93351."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route this exact linked ref to central OpenClaw security handling; do not use it for ProjectClownfish mutation."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#54593: plausible canonical contributor PR, but branch refresh/merge preflight is incomplete and no complete executable fix_artifact is present.",
+    "#93351: plausible canonical contributor PR, but maintainer review/current mergeability/full merge preflight are incomplete and no complete executable fix_artifact is present.",
+    "#93356: plausible canonical contributor PR, but compatibility-sensitive cache change lacks current mergeability/Codex review/targeted validation and no complete executable fix_artifact is present.",
+    "#93394: active author re-review loop plus failing Real behavior proof; maintainer/reviewer decision needed before repair or replacement.",
+    "#54982: unresolved review-bot findings and author product/UX question about streaming preservation behavior; maintainer decision needed before repair or replacement."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

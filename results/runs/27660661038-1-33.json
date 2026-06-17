@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-134",
+  "mode": "plan",
+  "run_id": "27660661038-1-33",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "33",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-134.md",
+  "published_at": "2026-06-17T02:04:43.374Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are planned. #51822 is routed to central security handling; #53920 has a bounded contributor-branch repair path; #75754 is related to an unhydrated replacement path and blocked from fixed-by closeout; #88686 needs maintainer review because of broad XL gateway/web UI scope; #89168 is covered by the hydrated merged replacement #93670 but closeout is disabled for this job.",
+  "actions": [
+    {
+      "target": "#51822",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential and sensitive-data exposure shaped evidence is present, so this exact PR should be quarantined from Clownfish backlog automation."
+    },
+    {
+      "target": "#53920",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow contributor-branch repair/finalization path is available: re-run review, verify the addressed script cases, run targeted validation, and only then consider merge."
+    },
+    {
+      "target": "#75754",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears related to a replacement path, but the replacement is unhydrated and the source PR has a failing proof check, so only a non-mutating related classification is safe."
+    },
+    {
+      "target": "#88686",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The change is broad and crosses gateway/WebChat/session-history behavior, matching the job's require_human_for broad_code_delta gate."
+    },
+    {
+      "target": "#89168",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93670",
+      "reason": "The hydrated merged replacement covers this source PR, but this plan cannot emit a close_fixed_by_candidate action because closeout is disabled."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-134",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#53920",
+      "reason": "Emit a bounded repair artifact for #53920 so the executor can repair or finalize the contributor branch with attribution preserved."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "fix_needed": 1,
+    "keep_related": 2,
+    "needs_human": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88686 requires maintainer review because the hydrated PR is size XL, crosses gateway/WebChat/session-history behavior, and the job requires human review for broad code deltas."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

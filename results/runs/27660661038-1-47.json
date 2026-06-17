@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-148",
+  "mode": "plan",
+  "run_id": "27660661038-1-47",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "47",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-148.md",
+  "published_at": "2026-06-17T02:04:43.417Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment. No GitHub mutations are permitted. None of the candidate PRs has a complete merge preflight; three also have failing required checks and no complete executable fix_artifact was provided for a planned repair. Security preflight found no security-sensitive items.",
+  "actions": [
+    {
+      "target": "#54758",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Looks mergeable in shape, but merge_candidate is blocked by missing required merge preflight proof."
+    },
+    {
+      "target": "#58823",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on the model precedence contract and overlap before this can be merged or repaired."
+    },
+    {
+      "target": "#76873",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#76873",
+      "reason": "Failing checks block merge_candidate, and repair cannot be emitted as fix_needed without a complete executable fix_artifact."
+    },
+    {
+      "target": "#85249",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85249",
+      "candidate_fix": "#85249",
+      "reason": "Failing checks block merge_candidate, and repair cannot be emitted as fix_needed without a complete executable fix_artifact."
+    },
+    {
+      "target": "#93584",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93584",
+      "candidate_fix": "#93584",
+      "reason": "Failing lint blocks merge_candidate, and repair cannot be emitted as fix_needed without a complete executable fix_artifact."
+    },
+    {
+      "target": "#85051",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85249",
+      "candidate_fix": "#85249",
+      "reason": "Keep open in this plan-only shard; post-merge closeout is disabled and the candidate fix is not merge-ready."
+    },
+    {
+      "target": "#93321",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93584",
+      "candidate_fix": "#93584",
+      "reason": "Keep open until canonical candidate #93584 is repaired and merged; closure is disabled for this job."
+    },
+    {
+      "target": "#93332",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#93584",
+      "candidate_fix": "#93584",
+      "reason": "Treat as superseded by #93584 for planning, but do not close because close/comment actions are blocked in this job."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#54758: maintainer decision or complete merge preflight is needed before merge recommendation.",
+    "#58823: maintainer decision is needed on the subagent model precedence contract and overlapping unhydrated PR context.",
+    "#76873: failing checks block merge and no complete executable fix_artifact is available for branch repair.",
+    "#85249: failing checks block merge and no complete executable fix_artifact is available for branch repair.",
+    "#93584: failing lint blocks merge and no complete executable fix_artifact is available for branch repair."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

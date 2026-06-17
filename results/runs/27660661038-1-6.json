@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-107",
+  "mode": "plan",
+  "run_id": "27660661038-1-6",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-107.md",
+  "published_at": "2026-06-17T02:04:43.426Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs plus hydrated linked context. No merge is recommended because no open PR has a complete merge preflight with clean latest review-bot state, resolved comments, passing relevant checks, and known mergeability. Two small contributor PRs have plausible repair paths, but this result does not include a complete executable single-branch fix artifact, so those repair recommendations are downgraded to maintainer follow-up rather than placeholder fix actions.",
+  "actions": [
+    {
+      "target": "#75888",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#75961",
+      "reason": "The issue should remain open until the Discord slashCommandDeploy PR is either repaired and merged or replaced."
+    },
+    {
+      "target": "#75961",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code/config/docs delta plus unresolved latest ClawSweeper findings require maintainer scoping before Clownfish plans a repair or merge."
+    },
+    {
+      "target": "#91408",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature scope, waiting-on-author status, unresolved bot review, and failing checks make this a maintainer judgment item rather than an automated merge or repair candidate."
+    },
+    {
+      "target": "#76811",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining blocker is a maintainer decision on the ClawHub artifact hash source and whether the latest ClawSweeper finding is resolved; do not merge without that decision."
+    },
+    {
+      "target": "#77232",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77232",
+      "reason": "A narrow repair may be viable, but this artifact set does not provide a complete executable single-branch fix artifact. Maintainer should authorize a specific branch repair or rerun with a complete fix artifact for #77232."
+    },
+    {
+      "target": "#77325",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77325",
+      "reason": "A narrow contributor-branch repair may be viable, but this artifact set does not provide a complete executable single-branch fix artifact. Maintainer should authorize a specific branch repair or rerun with a complete fix artifact for #77325."
+    },
+    {
+      "target": "#76345",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#76345",
+      "reason": "Already closed and merged; included only as context for #77232."
+    },
+    {
+      "target": "#91507",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and independent of the open candidate finalization paths."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "needs_human": 5,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 5,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75961: broad Discord slashCommandDeploy compatibility change has unresolved latest ClawSweeper findings; maintainer should decide repair scope before Clownfish plans a replacement or branch repair.",
+    "#91408: broad Telegram/ACP direct-peer feature is waiting on author, has unresolved ClawSweeper findings and failing checks; maintainer should decide whether to continue, split, or ask the author to finish it.",
+    "#76811: focused ClawHub PR has passing checks but an unresolved artifact-hash judgment between the latest ClawSweeper review and contributor/Codex-review evidence.",
+    "#77232: docs-only branch has a plausible narrow repair path, but no complete executable fix_artifact is present in this result; maintainer should rerun with an explicit #77232 branch-repair artifact or handle manually.",
+    "#77325: small auto-reply branch has a plausible narrow repair path, but no complete executable fix_artifact is present in this result; maintainer should rerun with an explicit #77325 branch-repair artifact or handle manually."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

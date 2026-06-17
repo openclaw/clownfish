@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-129",
+  "mode": "plan",
+  "run_id": "27660661038-1-28",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "28",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-129.md",
+  "published_at": "2026-06-17T02:04:43.355Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory review. No security-sensitive refs were detected. None of the five open PRs has the complete merge preflight required for a merge recommendation; #93113 and #93176 also have failing required checks in the hydrated artifact, and #93188 has a mixed cross-surface delta that requires maintainer judgment.",
+  "actions": [
+    {
+      "target": "#67868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93113",
+      "reason": "Keep the linked issue open as related validation context for the memory-core PR; no closeout is allowed in this job."
+    },
+    {
+      "target": "#67910",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#93113",
+      "reason": "Closed historical PR; do not emit closure or merge actions."
+    },
+    {
+      "target": "#92979",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#93113",
+      "reason": "Closed historical PR; do not emit closure or merge actions."
+    },
+    {
+      "target": "#93113",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge is blocked by failing checks and missing required merge preflight. The artifact does not include failure logs sufficient to build an auditable repair artifact."
+    },
+    {
+      "target": "#93149",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be a reasonable maintainer-review candidate, but policy blocks a merge recommendation without complete merge preflight."
+    },
+    {
+      "target": "#93176",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Merge is blocked by a failing required check and missing merge preflight. The artifact does not include enough failure detail for a concrete repair artifact."
+    },
+    {
+      "target": "#93186",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is not merge-recommendable until the required merge preflight is complete."
+    },
+    {
+      "target": "#93188",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required because the PR is not a single narrow remediation path and lacks the required merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 1,
+    "keep_closed": 2,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93113: decide whether to repair the contributor branch after inspecting failing `check-additional-extension-bundled` and `check-lint` logs, or ask the author for an update.",
+    "#93149: maintainer merge decision is needed after running the required merge preflight, including Codex `/review` and mergeability refresh.",
+    "#93176: decide whether to repair the contributor branch after inspecting failing `check-prod-types` logs, or ask the author for an update.",
+    "#93186: maintainer merge decision is needed after running the required merge preflight, including Codex `/review` and mergeability refresh.",
+    "#93188: maintainer judgment is needed on whether the mixed macOS/protocol/Telegram/exec-approval delta should be split before any merge path."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-102",
+  "mode": "plan",
+  "run_id": "27660661038-1-1",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-102.md",
+  "published_at": "2026-06-17T02:04:43.307Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory candidates. No GitHub mutations are recommended without missing merge-preflight proof; two small contributor PRs need refreshed repair/merge preflight before any executable fix action can be emitted, and one broad WhatsApp feature PR needs maintainer judgment before repair or merge.",
+  "actions": [
+    {
+      "target": "#76744",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#76744",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical docs fix, but do not emit `merge_candidate` without complete merge-preflight proof."
+    },
+    {
+      "target": "#76920",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#76920",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical Telegram routing PR; require refreshed merge preflight before merge."
+    },
+    {
+      "target": "#77339",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Blocked from emitting `fix_needed` because deterministic validation requires a complete executable fix_artifact, and none is provided for this PR. Maintainer or a fresh worker should run a narrow branch repair/revalidation pass before merge can be considered."
+    },
+    {
+      "target": "#78452",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature surface plus failing checks and unresolved review-bot findings require maintainer judgment before repair, split, or merge planning."
+    },
+    {
+      "target": "#89745",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#89745",
+      "candidate_fix": null,
+      "reason": "Blocked from emitting `fix_needed` because deterministic validation requires a complete executable fix_artifact, and none is provided for this PR. Maintainer or a fresh worker should run a narrow branch repair/revalidation or final review pass before merge can be considered."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77339 requires a fresh narrow repair/revalidation or maintainer decision because the result had a planned fix action but no complete executable fix_artifact.",
+    "#78452 requires maintainer judgment because the PR is broad, has failing checks, and still has unresolved review-bot findings after author follow-up.",
+    "#89745 requires a fresh narrow repair/revalidation or maintainer decision because the result had a planned fix action but no complete executable fix_artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

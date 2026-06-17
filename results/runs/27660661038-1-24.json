@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-125",
+  "mode": "plan",
+  "run_id": "27660661038-1-24",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-125.md",
+  "published_at": "2026-06-17T02:04:43.347Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No GitHub mutations are allowed by the job. I treated the provided cluster preflight artifact as live state for this run and did not use external evidence.",
+  "actions": [
+    {
+      "target": "#85643",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad session-state/auth-provider change needs maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#79655",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#79655",
+      "reason": "Narrow contributor PR with maintainer_can_modify=true should be repaired and revalidated before any merge recommendation."
+    },
+    {
+      "target": "#93222",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93222",
+      "reason": "Concrete review-bot finding can be repaired narrowly before revalidation."
+    },
+    {
+      "target": "#92731",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92731",
+      "reason": "Focused PR should get a narrow repair/re-review pass before merge consideration."
+    },
+    {
+      "target": "#42637",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#42637",
+      "reason": "Useful contributor PR with unresolved/review-truncated bot findings needs a narrow repair and fresh review before merge."
+    },
+    {
+      "target": "#84867",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is out of scope for Clownfish backlog remediation."
+    },
+    {
+      "target": "#85235",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical linked context only; no action needed."
+    },
+    {
+      "target": "#88329",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related model fallback work with distinct semantics and proof/design gaps."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-125",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#93222",
+      "reason": "Emit an executable narrow fix artifact for the clearest repairable PR while leaving broader or under-specified repairs as item-level fix_needed."
+    },
+    {
+      "target": "#93222",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#93222",
+      "reason": "Concrete narrow repair path exists and can be applied by Clownfish scripts in a later execute/autonomous run."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "fix_needed": 4,
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 8,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85643 requires maintainer judgment because it is a broad XL session/auth-provider/model-pin change and lacks complete merge_preflight despite passing checks.",
+    "#79655, #92731, and #42637 need fresh repair/re-review passes, but this compacted artifact does not expose enough current actionable findings to produce complete executable patch artifacts for each."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-147",
+  "mode": "plan",
+  "run_id": "27660661038-1-46",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "46",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-147.md",
+  "published_at": "2026-06-17T02:04:43.414Z",
+  "canonical": "#68843",
+  "canonical_issue": null,
+  "canonical_pr": "#68843",
+  "summary": "Plan-only remediation classification for five open PR inventory candidates using the provided preflight artifact as live state. No GitHub mutations are planned directly by this worker.",
+  "actions": [
+    {
+      "target": "#68558",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68558",
+      "reason": "Useful small contributor PR, but it is not merge-ready because proof failed and review-bot findings are unresolved. Repair is narrow and branch is editable."
+    },
+    {
+      "target": "#68843",
+      "action": "merge_candidate",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68843",
+      "candidate_fix": "#68843",
+      "reason": "This is the clearest mergeable candidate in the shard: focused diff, proof passing, resolved bot feedback, clean security signal, and prior closed PR explicitly superseded by it."
+    },
+    {
+      "target": "#69022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#69022",
+      "reason": "Contributor path should remain canonical for this narrow fix, but merge is blocked by failed real-behavior proof and latest review status requiring changes."
+    },
+    {
+      "target": "#69199",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#69199",
+      "reason": "The patch is useful and narrow, but unresolved review feedback plus an uneditable branch update blocker make a replacement or fresh maintainer fix path safer than merge."
+    },
+    {
+      "target": "#81108",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81108",
+      "reason": "Broad gateway availability work with current failing required checks is outside safe automated merge or replacement planning in this shard; maintainer judgment is needed on scope and whether to continue repairing this branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "merge_candidate": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81108 broad XL gateway availability change has failing check-lint and check-prod-types and requires maintainer scope judgment before merge or repair finalization."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

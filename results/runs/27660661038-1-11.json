@@ -1,0 +1,113 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-112",
+  "mode": "plan",
+  "run_id": "27660661038-1-11",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-112.md",
+  "published_at": "2026-06-17T02:04:43.311Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory candidates plus hydrated linked context. No GitHub mutations are planned because job mode is plan and comment/close/label actions are blocked. Merge recommendations are withheld where required merge preflight proof is incomplete. Security-sensitive linked issue #79038 and security-sensitive PR #79041 are routed centrally without blocking unrelated non-security PR classification or the executable non-security repair path for #92028 and #77184.",
+  "actions": [
+    {
+      "target": "#92028",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92028",
+      "reason": "Useful contributor PR, but not merge-ready. Repair should focus on failing proof/checks and verifying the review-bot findings were actually resolved on the latest head."
+    },
+    {
+      "target": "#92063",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92063",
+      "reason": "Missing required merge proof, not unclear implementation. Maintainer review or a fresh merge preflight is the remaining decision point."
+    },
+    {
+      "target": "#77184",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#77184",
+      "reason": "Useful focused contributor PR, but it needs a narrow branch refresh/preflight before merge can be recommended."
+    },
+    {
+      "target": "#79041",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be routed to central OpenClaw security handling and not triaged through backlog cleanup automation."
+    },
+    {
+      "target": "#77710",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#77710",
+      "reason": "Likely small and useful, but stale review state and missing merge preflight leave a maintainer review decision."
+    },
+    {
+      "target": "#63956",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#63956",
+      "candidate_fix": "#92063",
+      "reason": "Keep the issue open as canonical context for #92063 until the fix lands and closure is allowed."
+    },
+    {
+      "target": "#76759",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76759",
+      "candidate_fix": "#77184",
+      "reason": "Keep open as the product/feature request context while #77184 remains unmerged."
+    },
+    {
+      "target": "#79038",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be routed to central OpenClaw security handling and not triaged through backlog cleanup automation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 2,
+    "route_security": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92063: maintainer review or fresh complete merge preflight required before merge_candidate can be emitted.",
+    "#77710: stale review state and missing merge preflight require maintainer review before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

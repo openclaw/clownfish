@@ -1,0 +1,115 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-115",
+  "mode": "plan",
+  "run_id": "27660661038-1-14",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-115.md",
+  "published_at": "2026-06-17T02:04:43.317Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result. No merge candidate has complete merge preflight, and no planned fix action has a complete executable fix artifact for this multi-PR shard. Security-sensitive refs are quarantined exactly; remaining non-security PRs are classified without mutation based on hydrated review, branch, and preflight blockers.",
+  "actions": [
+    {
+      "target": "#59235",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of ProjectClownfish mutation scope and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#59254",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#79619",
+      "reason": "Already closed historical PR; keep as evidence for the Notion docs repair family only."
+    },
+    {
+      "target": "#71452",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71452",
+      "candidate_fix": "#79593",
+      "reason": "Canonical issue for the message list limit/pagination family; keep open while #79593 remains unmerged and not merge-ready."
+    },
+    {
+      "target": "#79593",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71452",
+      "candidate_fix": "#79593",
+      "reason": "Useful contributor branch is related to the canonical issue, but no merge or fix action is safe in this result because the repair plan lacks a complete executable fix artifact and merge preflight is missing."
+    },
+    {
+      "target": "#79619",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator requires this exact PR target to route through central security handling; no ProjectClownfish mutation or fix action is planned for it."
+    },
+    {
+      "target": "#79626",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#79626",
+      "reason": "Independent PR with concrete blockers; no merge or fix action is safe in this result because the repair plan lacks a complete executable fix artifact."
+    },
+    {
+      "target": "#79635",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#79635",
+      "reason": "Maintainer judgment is required on session-state deletion semantics and broad persisted-data repair behavior before merge or automated repair."
+    },
+    {
+      "target": "#79724",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#79724",
+      "reason": "Independent PR with a current-path drift blocker; no merge or fix action is safe in this result because the repair plan lacks a complete executable fix artifact."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_independent": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79635 requires maintainer judgment on broad session-state repair semantics and persisted JSONL deletion behavior before merge or automated repair."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

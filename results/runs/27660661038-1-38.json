@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-139",
+  "mode": "plan",
+  "run_id": "27660661038-1-38",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "38",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-139.md",
+  "published_at": "2026-06-17T02:04:43.391Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five maintainer-ready PRs. No GitHub mutations are planned because the job blocks comment/close actions and no PR has complete merge preflight proof, including a clean Codex /review with findings addressed. Three PRs have concrete maintainer-safe repair paths, one PR needs product/maintainer judgment before implementation, and one uneditable contributor branch should be replaced with credited follow-up work.",
+  "actions": [
+    {
+      "target": "#18860",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but failing proof and unresolved review proof block merge."
+    },
+    {
+      "target": "#22439",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Bootstrap tier semantics are product-facing and need maintainer judgment before merge or automation-owned rewrite."
+    },
+    {
+      "target": "#53467",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful Slack parity PR, but failing proof plus unresolved bot-review blockers require repair before merge."
+    },
+    {
+      "target": "#90450",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely close to merge, but merge policy blocks without clean /review and merge_preflight evidence."
+    },
+    {
+      "target": "#93580",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful uneditable contributor PR with a concrete narrow fix path, but failing proof and missing merge preflight block merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#22439 needs maintainer/product decision on bootstrapTier semantics and compatibility before automation should merge or rewrite it.",
+    "#88757 remains broader than the #93580 cron-awareness subset and carries hydrated needs-product-decision context."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

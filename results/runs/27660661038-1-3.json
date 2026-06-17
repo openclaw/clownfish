@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-104",
+  "mode": "plan",
+  "run_id": "27660661038-1-3",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-104.md",
+  "published_at": "2026-06-17T02:04:43.359Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs plus linked canonical/context refs. PR #93025 has a security-sensitive session identity/sessionKey provider-hook surface and is routed to central security handling. The remaining non-security candidate PRs have passing relevant checks and useful contributor work, but none has the complete merge preflight required for a merge recommendation: mergeability is unknown and there is no populated proof of a clean Codex /review with addressed findings. No GitHub mutations are planned because the job is plan mode and comment/close/label actions are blocked.",
+  "actions": [
+    {
+      "target": "#65355",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#65355",
+      "candidate_fix": "#89859",
+      "reason": "Canonical issue for the #89859 remote probe timeout fix path; keep open until its candidate PR lands and validation is complete."
+    },
+    {
+      "target": "#72765",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91378",
+      "candidate_fix": "#91378",
+      "reason": "Already closed; no closure action is valid."
+    },
+    {
+      "target": "#89859",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#65355",
+      "candidate_fix": "#89859",
+      "reason": "Good candidate, but merge recommendation is blocked by missing complete merge preflight and unknown mergeability."
+    },
+    {
+      "target": "#90640",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90640",
+      "candidate_fix": "#91378",
+      "reason": "Canonical issue for the #91378 sessions compact CLI/docs fix path; keep open until the candidate PR lands and validation is complete."
+    },
+    {
+      "target": "#91378",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90640",
+      "candidate_fix": "#91378",
+      "reason": "Useful contributor PR and likely canonical fix path for #90640, but broad surface plus missing required merge preflight require maintainer decision before merge."
+    },
+    {
+      "target": "#92251",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92251",
+      "reason": "Independent useful PR, but session-state risk and missing required merge preflight block merge recommendation."
+    },
+    {
+      "target": "#93025",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": "#93025",
+      "reason": "Route exact PR #93025 to central OpenClaw security handling; do not close, merge, label, comment, or open a fix PR for this item in ProjectClownfish."
+    },
+    {
+      "target": "#93106",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93106",
+      "reason": "Low-risk docs PR, but still cannot be marked merge_candidate under the job rules without required merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 1,
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89859: maintainer review/merge preflight required before merge because mergeability is unknown and no clean Codex /review proof is populated.",
+    "#91378: maintainer review required for broad CLI/Gateway/docs/session-state change and missing complete merge preflight.",
+    "#92251: maintainer review required for session-state/provenance API surface and missing complete merge preflight.",
+    "#93106: maintainer review/merge preflight required despite low-risk docs-only shape because no clean Codex /review proof is populated."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

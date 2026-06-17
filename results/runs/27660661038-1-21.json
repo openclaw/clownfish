@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-122",
+  "mode": "plan",
+  "run_id": "27660661038-1-21",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-122.md",
+  "published_at": "2026-06-17T02:04:43.337Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory review found no mergeable PR with complete merge preflight. #92383 is the closest small passing candidate but still lacks required Codex /review and maintainer approval. #92341, #92359, #92411, and #92441 are blocked by unresolved review/check/breadth or active-author-follow-up gates; linked issue #92728 remains related but not covered by this shard.",
+  "actions": [
+    {
+      "target": "#92341",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up plus unresolved ClawSweeper findings and related open CJK semantics prevent a merge recommendation without maintainer review and required /review preflight."
+    },
+    {
+      "target": "#92359",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is plausibly useful and narrow, but the failing proof check and missing maintainer/Codex-review preflight block merge; the artifact does not include enough detail for a concrete repair artifact."
+    },
+    {
+      "target": "#92383",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is the closest merge candidate, but policy requires maintainer review and Codex /review proof before merge recommendation."
+    },
+    {
+      "target": "#92411",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta, failing checks, truncated active review history, and author re-review activity require maintainer judgment; this should not be converted into an executable fix PR from the compact artifact."
+    },
+    {
+      "target": "#92441",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility/session-state change with dirty-candidate/refactor-only labels and unresolved review-bot findings needs maintainer review before any merge or replacement plan."
+    },
+    {
+      "target": "#92728",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92341",
+      "candidate_fix": null,
+      "reason": "Related CJK memory-search follow-up should stay open and out of this PR remediation shard's closure/merge path."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92341: unresolved ClawSweeper findings plus active author follow-up and related open CJK semantics need maintainer review.",
+    "#92359: Real behavior proof failed and no Codex /review or maintainer approval is hydrated.",
+    "#92383: small passing candidate, but missing required Codex /review and maintainer approval blocks merge recommendation.",
+    "#92411: broad PR with failing checks, truncated active review history, and waiting-on-author/re-review activity.",
+    "#92441: broad compatibility/session-state cleanup change with dirty-candidate/refactor-only labels and unresolved review-bot findings."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

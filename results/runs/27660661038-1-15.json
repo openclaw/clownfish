@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-116",
+  "mode": "plan",
+  "run_id": "27660661038-1-15",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-116.md",
+  "published_at": "2026-06-17T02:04:43.320Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No merge is recommended because none has complete merge preflight proof including resolved review-bot state plus passed clean Codex /review. No executable fix action is planned because the available artifacts do not include a complete safe fix_artifact for the PR repairs; repairable-looking PRs are kept related for maintainer follow-up instead.",
+  "actions": [
+    {
+      "target": "#79811",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79811",
+      "candidate_fix": "#79811",
+      "reason": "Useful small PR with a concrete unresolved bot-review blocker; keep related because no complete executable fix_artifact is available in the provided artifacts."
+    },
+    {
+      "target": "#79852",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79852",
+      "candidate_fix": "#79852",
+      "reason": "Narrow plausible fix, but current proof and dependency-guard freshness are insufficient for merge; keep related because no complete executable fix_artifact is available in the provided artifacts."
+    },
+    {
+      "target": "#79855",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#79855",
+      "reason": "Requires maintainer product/API judgment and fresh proof before automation should repair or merge."
+    },
+    {
+      "target": "#79861",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79861",
+      "candidate_fix": "#79861",
+      "reason": "Small useful PR with stale-branch/dependency-guard freshness blocker; keep related because no complete executable fix_artifact is available in the provided artifacts."
+    },
+    {
+      "target": "#79959",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#79959",
+      "reason": "Potentially landable after clean re-review, but current artifact lacks the required clean Codex /review and maintainer/API acceptance proof."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#79855 requires maintainer product/API judgment for a new public plugin SDK hook and Discord debounce behavior before automated repair or merge.",
+    "#79959 requires maintainer/API acceptance and clean post-fix Codex /review before merge can be recommended."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,115 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-111",
+  "mode": "plan",
+  "run_id": "27660661038-1-10",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-111.md",
+  "published_at": "2026-06-17T02:04:43.309Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for fresh PR inventory shard. No GitHub mutations are planned because the job blocks comment/label/close actions, and no PR has the complete merge preflight required for merge recommendation. Security preflight found no security-sensitive items.",
+  "actions": [
+    {
+      "target": "#93330",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small and plausibly mergeable, but merge cannot be recommended without the required Codex /review and maintainer merge preflight proof."
+    },
+    {
+      "target": "#93338",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93338",
+      "reason": "Active waiting-on-author/needs-changes state blocks merge and fixed-by-candidate closeout. The issue path is concrete, but this plan lacks enough proof that review-bot findings are resolved."
+    },
+    {
+      "target": "#93340",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Compatibility-sensitive status hook behavior and failed Real behavior proof require maintainer judgment or a refreshed proof run before merge can be planned."
+    },
+    {
+      "target": "#92012",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92012",
+      "reason": "A narrow docs repair could preserve the contributor's page while removing or softening unverified/vendor-specific claims, but merge cannot be planned from the current low-signal docs state."
+    },
+    {
+      "target": "#92025",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92025",
+      "reason": "Concrete repair is available: update the missing-requirements remediation hint to preserve the checked agent/workspace context, then rerun focused skills formatter tests and relevant CLI checks."
+    },
+    {
+      "target": "#89210",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89214",
+      "candidate_fix": "#89214",
+      "reason": "Related canonical implementation path exists, but it is not merge-ready and issue closure is not allowed in this plan-only job."
+    },
+    {
+      "target": "#89214",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89214",
+      "reason": "This useful contributor branch should be repaired before any merge/closeout path: refresh proof, resolve extension boundary failures, and run the required merge preflight."
+    },
+    {
+      "target": "#89216",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93338",
+      "candidate_fix": "#93338",
+      "reason": "The issue belongs with #93338, but fixed-by-candidate closeout is blocked by unresolved PR state and closure is disallowed by job frontmatter."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 3,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "blocked": 3,
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93330: maintainer merge judgment and required Codex /review preflight before any merge recommendation.",
+    "#93338/#89216: decide whether wildcard accountId semantics are product-compatible after waiting-on-author review state is resolved.",
+    "#93340: decide whether resolved account objects are acceptable status hook input and refresh failed Real behavior proof.",
+    "#92012: decide whether a vendor-specific custom-provider docs page belongs in the provider directory after unstable claims are removed or verified."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

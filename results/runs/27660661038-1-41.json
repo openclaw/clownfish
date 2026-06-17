@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-142",
+  "mode": "plan",
+  "run_id": "27660661038-1-41",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "41",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-142.md",
+  "published_at": "2026-06-17T02:04:43.401Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. No merge action is safe because no candidate has complete merge preflight with current mergeability plus clean Codex /review proof. The two previously identified repair candidates are downgraded to maintainer review because the provided artifacts do not include a complete executable fix_artifact for either planned fix action.",
+  "actions": [
+    {
+      "target": "#44467",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no closure action is valid."
+    },
+    {
+      "target": "#51628",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-state/delivery-mirror context, but not covered by any listed PR in this inventory shard."
+    },
+    {
+      "target": "#65493",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref only; no closure action is valid."
+    },
+    {
+      "target": "#66150",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66150",
+      "reason": "Do not merge yet. A repair may be possible on the contributor branch, but this repaired result cannot safely emit planned fix_needed without a complete executable fix_artifact."
+    },
+    {
+      "target": "#66174",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66174",
+      "reason": "Concrete branch repair appears needed, but this repaired result cannot safely emit planned fix_needed without a complete executable fix_artifact covering the current sessionsDir path derivation, old-root regression, casts/catch cleanup, and validation plan."
+    },
+    {
+      "target": "#66257",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66257",
+      "reason": "Product/approval semantics need maintainer judgment before merge or automated repair."
+    },
+    {
+      "target": "#66478",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66478",
+      "reason": "A maintainer should decide whether the eager import trade-off is acceptable or require the normalizer to move behind a lighter lazy-safe boundary before final merge."
+    },
+    {
+      "target": "#66685",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#66685",
+      "reason": "Likely mergeable after fresh mergeability check and required Codex /review, but this plan cannot emit merge_candidate without that complete preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 1,
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#66150: repair path is plausible, but no complete executable fix_artifact was included for the planned fix action.",
+    "#66174: repair path is plausible, but no complete executable fix_artifact was included for the planned fix action.",
+    "#66257: maintainer decision on devices approve local fallback semantics and Gateway side effects.",
+    "#66478: maintainer decision on Feishu lazy runtime boundary trade-off before final merge.",
+    "#66685: run required final merge preflight, including current mergeability and clean Codex /review, before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

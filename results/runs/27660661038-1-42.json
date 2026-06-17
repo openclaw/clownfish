@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-143",
+  "mode": "plan",
+  "run_id": "27660661038-1-42",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "42",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-143.md",
+  "published_at": "2026-06-17T02:04:43.405Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation shard reviewed from the supplied preflight artifact. No PR has complete merge preflight proof. One narrow replacement fix path is concrete for #51868 because the useful contributor branch is dirty and not maintainer-editable; the other open candidates need maintainer judgment or missing review-detail resolution before merge or repair.",
+  "actions": [
+    {
+      "target": "#17477",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked context item; no mutation planned."
+    },
+    {
+      "target": "#41503",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked context item; no mutation planned."
+    },
+    {
+      "target": "#67431",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked context item; no mutation planned."
+    },
+    {
+      "target": "#67432",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#67432",
+      "reason": "The code change appears narrow, but merge is blocked by missing merge preflight proof, failed checks, and explicit maintainer-review requirement."
+    },
+    {
+      "target": "#51762",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#51762",
+      "reason": "Broad compatibility and session/auth-provider scope require maintainer judgment before merge or autonomous repair."
+    },
+    {
+      "target": "#51868",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#51868",
+      "reason": "Useful but uneditable dirty contributor PR; replace with a narrow credited fix PR rather than merging or closing the source PR."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-143:#51868",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#51868",
+      "reason": "Create an executable replacement fix artifact for #51868 with contributor attribution."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-143:#51868",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#51868",
+      "reason": "Open a guarded Clownfish replacement PR only after validation and Codex /review pass."
+    },
+    {
+      "target": "#92477",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92477",
+      "reason": "Merge is blocked by missing actionable review details and missing complete merge_preflight despite passing checks."
+    },
+    {
+      "target": "#45315",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#45315",
+      "reason": "Maintainer judgment is needed on whether the TODO-scoped narrow placeholder fix is acceptable or must be broadened to model/catalog override behavior before repair."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "needs_human": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#67432: maintainer approval and clean merge preflight are missing for a narrow one-line accessibility fix with failed checks.",
+    "#51762: broad default-agent feature/config/auth/session compatibility surface requires maintainer review.",
+    "#92477: compacted artifact lacks exact ClawSweeper findings even though checks pass, and the author has active re-review follow-up.",
+    "#45315: maintainer must decide whether documented model/catalog override TODOs can remain follow-up work or must be fixed before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

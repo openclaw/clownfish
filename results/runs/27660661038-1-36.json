@@ -1,0 +1,114 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-137",
+  "mode": "plan",
+  "run_id": "27660661038-1-36",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "36",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-137.md",
+  "published_at": "2026-06-17T02:04:43.386Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR candidates plus hydrated linked issues. No GitHub mutations are allowed by the job. No PR has a complete merge preflight with passed Codex /review evidence, so no merge_candidate is emitted. Security preflight found no security-sensitive job refs. Several PRs are independently useful but need maintainer/review-gate decisions or branch repair before finalization.",
+  "actions": [
+    {
+      "target": "#92294",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92294",
+      "reason": "Useful contributor PR with clear bug scope, but failing check and missing required merge preflight block merge recommendation; repair the contributor branch rather than replace it because maintainer_can_modify is true."
+    },
+    {
+      "target": "#92957",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92957",
+      "reason": "Feature/API surface expansion has passing checks but is broad enough to require maintainer product/API approval and the required Codex /review merge preflight is missing."
+    },
+    {
+      "target": "#56145",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#56145",
+      "reason": "Narrow useful bug fix, but failing proof and waiting-on-author state block merge/fixed-by-candidate closeout; since maintainer_can_modify is true, a repair path on the contributor branch is appropriate."
+    },
+    {
+      "target": "#59365",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#59365",
+      "reason": "Independently useful doctor feature, but the maintainer rebase note plus unknown mergeability and missing Codex /review preflight require maintainer/rebase gate resolution before merge."
+    },
+    {
+      "target": "#59414",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#59414",
+      "reason": "Broad doctor feature with an unresolved-or-follow-up review-bot privacy/output concern and missing required merge preflight; maintainer judgment is needed before finalization."
+    },
+    {
+      "target": "#52928",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92957",
+      "reason": "Related open issue is plausibly fixed by #92957 after validation/merge, but post-merge close is disabled and #92957 is not merge-ready under this plan."
+    },
+    {
+      "target": "#89837",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same Codex exec-adjacent area as #92294 but a different root cause and product/config contract; keep out of this PR inventory shard."
+    },
+    {
+      "target": "#92238",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92294",
+      "reason": "The issue is covered by #92294 if the PR is repaired and merged, but closure is blocked by job settings and by the candidate PR not being merge-ready."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 3,
+    "keep_related": 2,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92957: maintainer product/API decision and Codex /review merge preflight are required before merging broad agents.setDefault RPC surface.",
+    "#59365: maintainer/rebase gate and Codex /review merge preflight are required before merging doctor volatile-filesystem detection.",
+    "#59414: maintainer decision is required on the remaining Windows home-path redaction review concern and Codex /review merge preflight before merging doctor node-runtime diagnostics."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

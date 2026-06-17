@@ -1,0 +1,117 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-149",
+  "mode": "plan",
+  "run_id": "27660661038-1-48",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "48",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-149.md",
+  "published_at": "2026-06-17T02:04:43.420Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result: no merges are ready. Security-sensitive or security-adjacent refs are routed to central security handling, two contributor PRs are kept related pending a complete executable repair artifact, one broad Anthropic feature PR needs maintainer judgment, one unrelated hydrated PR is kept independent, and one historical PR remains closed.",
+  "actions": [
+    {
+      "target": "#54758",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated context only; do not expand this cluster into the unrelated UI PR."
+    },
+    {
+      "target": "#54841",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#54904",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is tied to a routed security-sensitive webhook boundary report; do not merge, comment, close, or raise a fix PR through ProjectClownfish."
+    },
+    {
+      "target": "#54908",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation is valid."
+    },
+    {
+      "target": "#64064",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature PR with failing proof and unresolved review state needs maintainer product/scope judgment before repair or merge planning."
+    },
+    {
+      "target": "#68677",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related, potentially repairable contributor PR, but this plan cannot safely emit a mutating fix action without a complete executable fix_artifact."
+    },
+    {
+      "target": "#68967",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator-classified security-sensitive PR must be quarantined to central OpenClaw security handling; do not merge, comment, close, or raise a fix PR through ProjectClownfish."
+    },
+    {
+      "target": "#69346",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related, potentially repairable contributor PR, but this plan cannot safely emit a mutating fix action without a complete executable fix_artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "route_security": 3,
+    "keep_closed": 1,
+    "needs_human": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#64064 requires maintainer scope/product judgment because it is a broad XL Anthropic feature/config/docs/scripts change with failing proof and unresolved review state.",
+    "#54841, #54904, and #68967 are routed to central security handling; ProjectClownfish should not mutate or finalize those refs.",
+    "#68677 and #69346 remain related repair candidates, but this result cannot safely emit fix_needed without a complete executable fix_artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

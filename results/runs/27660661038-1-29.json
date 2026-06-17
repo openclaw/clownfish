@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-130",
+  "mode": "plan",
+  "run_id": "27660661038-1-29",
+  "workflow_run_id": "27660661038",
+  "run_attempt": "1",
+  "matrix_index": "29",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27660661038",
+  "head_sha": "73a8033d60989c621935a517e0ccc21611bc4bb9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T01:58:22Z",
+  "workflow_updated_at": "2026-06-17T02:01:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-130.md",
+  "published_at": "2026-06-17T02:04:43.357Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification. No GitHub mutations are permitted by this job. #93198, #92873, and #93239 are focused open PRs that should stay in their own review lanes, but none has complete merge preflight because mergeability is unknown and the artifact does not prove a passed Codex /review merge gate. #93249 needs maintainer re-review because the author materially rewrote the Telegram fix after the stale bot review and the PR remains broad/message-delivery sensitive. #93262 is a small repairable contributor PR with a concrete branch-repair path before any merge recommendation.",
+  "actions": [
+    {
+      "target": "#80933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93198",
+      "reason": "Keep the issue open as the implementation tracker until #93198 lands or is replaced."
+    },
+    {
+      "target": "#83915",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92873",
+      "reason": "Keep the issue open until the linked test PR merges or is replaced."
+    },
+    {
+      "target": "#83917",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related diffs-viewer work, but not covered by the PR inventory candidate."
+    },
+    {
+      "target": "#93198",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93198",
+      "reason": "Focused candidate for #80933, but merge recommendation is blocked until live mergeability and full merge preflight are proven."
+    },
+    {
+      "target": "#92873",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92873",
+      "reason": "Focused test-coverage candidate, but merge recommendation is blocked until live mergeability and full merge preflight are proven."
+    },
+    {
+      "target": "#93239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93239",
+      "reason": "Narrow docs candidate should stay in review lane, but merge recommendation needs complete merge preflight."
+    },
+    {
+      "target": "#93249",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and stale review state make this a maintainer re-review decision, not a safe merge or automated repair recommendation."
+    },
+    {
+      "target": "#93262",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93262",
+      "reason": "Repair the contributor branch narrowly before any merge recommendation."
+    },
+    {
+      "target": "#93262",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93262",
+      "reason": "Prepare an executable repair artifact that preserves contributor credit for #93262."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 3,
+    "needs_human": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93249 requires maintainer re-review after material author updates to a broad Telegram message-delivery PR; the latest head is newer than the stale needs-changes bot review and no complete merge preflight is present."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
