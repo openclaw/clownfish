@@ -14,7 +14,7 @@ function record(runId, overrides = {}) {
   };
 }
 
-test("self-heal retries only explicit recoverable fix failures", () => {
+test("self-heal retries only explicit recoverable executor failures", () => {
   const candidates = selectRetryableFailedRuns([
     record(1),
     record(2, { result_status: "needs_human" }),
@@ -58,11 +58,24 @@ test("self-heal retries only explicit recoverable fix failures", () => {
         },
       ],
     }),
+    record(9, {
+      fix_actions: [
+        {
+          action: "execute_fix",
+          status: "blocked",
+          code: "source_pr_head_fetch_failed",
+          retry_recommended: true,
+        },
+      ],
+    }),
   ]);
 
   assert.deepEqual(
     candidates.map((candidate) => [candidate.run_id, candidate.self_heal_reason]),
-    [["5", "recoverable fix execution failed"]],
+    [
+      ["9", "retryable source PR head fetch failed"],
+      ["5", "recoverable fix execution failed"],
+    ],
   );
 });
 

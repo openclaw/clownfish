@@ -208,10 +208,17 @@ test("execute-fix-artifact makes rebase-only repair a no-generated-edit path", (
   assert.match(source, /if \(!rebased && \(scopeBlock \|\| rebaseOnly\)\)/);
   assert.match(source, /allowReviewFixes: !rebaseOnly,/);
   assert.match(source, /if \(!allowReviewFixes \|\| attempt === maxReviewAttempts\) break;/);
-  assert.match(source, /if \(rebaseOnlyRepair\) \{\s*outcome = \{\s*action: "repair_contributor_branch",\s*status: "blocked",/);
+  assert.match(
+    source,
+    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?outcome = \{\s*action: "repair_contributor_branch",\s*status: "blocked",/,
+  );
   assert.match(source, /rebase-only repair does not resolve review threads/);
   assert.match(source, /if \(!rebaseOnly\) \{\s*const comment = repairContributorBranchComment/);
   assert.match(source, /function validateRebaseOnlyRepair\(\{ job, fixArtifact \}\)/);
+  assert.match(
+    source,
+    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?\.{3}sourceHeadFetchFailureFields\(error\.message\)/,
+  );
 });
 
 test("execute-fix-artifact bounds and traces rebase-only repair execution", () => {
@@ -266,15 +273,30 @@ test("execute-fix-artifact writes a report before unknown executor failures esca
   );
 });
 
-test("execute-fix-artifact fetches contributor repair heads through the base PR ref", () => {
+test("execute-fix-artifact bounds and verifies contributor repair head fetches", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const repairFetch = source.match(
     /function executeRepairBranch\([\s\S]*?run\("git", \["checkout", branch\]/,
   )?.[0];
 
+  assert.match(source, /process\.env\.CLOWNFISH_FIX_FETCH_TIMEOUT_MS/);
+  assert.match(source, /process\.env\.CLOWNFISH_FIX_FETCH_ATTEMPTS/);
+  assert.match(source, /function boundedPositiveIntegerEnv\(value, fallback, \{ min, max \}\)/);
+  assert.match(source, /Number\.isInteger\(parsed\)/);
+  assert.match(source, /\{ min: 10 \* 1000, max: 5 \* 60 \* 1000 \}/);
+  assert.match(source, /function fetchContributorPullHead\(\{ targetDir, sourcePr, branch, expectedHeadSha \}\)/);
+  assert.match(source, /GIT_TERMINAL_PROMPT: "0"/);
+  assert.match(source, /"credential\.interactive=false"/);
+  assert.match(source, /"http\.lowSpeedLimit=1"/);
+  assert.match(source, /"http\.lowSpeedTime=30"/);
+  assert.match(source, /source_pr_head_fetch_start/);
+  assert.match(source, /source_pr_head_fetch_complete/);
+  assert.match(source, /source_pr_head_fetch_failed/);
+  assert.match(source, /function sourceHeadFetchFailureFields\(reason\)/);
+  assert.match(source, /code: "source_pr_head_fetch_failed"/);
   assert.match(
     repairFetch,
-    /\["fetch", "--no-tags", "origin", `refs\/pull\/\$\{sourcePr\.number\}\/head:\$\{branch\}`\]/,
+    /fetchContributorPullHead\(\{\s*targetDir,\s*sourcePr,\s*branch,\s*expectedHeadSha: pull\.head\.sha,\s*\}\)/,
   );
   assert.doesNotMatch(repairFetch, /https:\/\/github\.com\/\$\{pull\.head\.repo\.full_name\}\.git/);
 });

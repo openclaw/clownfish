@@ -50,6 +50,16 @@ const maxEditAttempts = Math.max(1, Number(process.env.CLOWNFISH_FIX_EDIT_ATTEMP
 const maxReviewAttempts = Math.max(1, Number(process.env.CLOWNFISH_CODEX_REVIEW_ATTEMPTS ?? 2));
 const maxRebaseAttempts = Math.max(4, Number(process.env.CLOWNFISH_REBASE_REPAIR_ATTEMPTS ?? 4));
 const maxGithubReadAttempts = Math.max(1, Number(process.env.CLOWNFISH_GITHUB_READ_ATTEMPTS ?? 4));
+const contributorFetchTimeoutMs = boundedPositiveIntegerEnv(
+  process.env.CLOWNFISH_FIX_FETCH_TIMEOUT_MS,
+  120000,
+  { min: 10 * 1000, max: 5 * 60 * 1000 },
+);
+const maxContributorFetchAttempts = boundedPositiveIntegerEnv(
+  process.env.CLOWNFISH_FIX_FETCH_ATTEMPTS,
+  2,
+  { min: 1, max: 3 },
+);
 const resolveReviewThreads = process.env.CLOWNFISH_RESOLVE_REVIEW_THREADS !== "0";
 const skipCodexWritePreflight = process.env.CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT === "1";
 const allowExpensiveValidation = process.env.CLOWNFISH_ALLOW_EXPENSIVE_VALIDATION === "1";
@@ -312,11 +322,13 @@ try {
       });
     } catch (error) {
       if (rebaseOnlyRepair) {
+        const reason = `rebase-only repair stopped: ${error.message}`;
         outcome = {
           action: "repair_contributor_branch",
           status: "blocked",
           repair_strategy: fixArtifact.repair_strategy,
-          reason: `rebase-only repair stopped: ${error.message}`,
+          reason,
+          ...sourceHeadFetchFailureFields(error.message),
         };
       } else {
         report.actions.push({
@@ -371,9 +383,15 @@ report.actions.push(outcome);
 writeReport(report, resultPath);
 
 function isBlockedFixError(error) {
-  return /fix execution deadline exceeded|timed out after \d+ms before fix execution deadline|Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|validation-fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|validation-fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed|base branch advanced after validation/i.test(
+  return /fix execution deadline exceeded|timed out after \d+ms before fix execution deadline|source PR #\d+ head fetch failed after \d+ attempt\(s\):|Codex produced no target repo changes|Codex \/review did not pass|Codex (?:fix worker|validation-fix worker|review-fix worker|rebase-fix worker|\/review) timed out|Codex (?:fix worker|validation-fix worker|review-fix worker|rebase-fix worker|\/review) failed|could not repair rebase conflicts|validation command failed|base branch advanced after validation/i.test(
     String(error?.message ?? error),
   );
+}
+
+function boundedPositiveIntegerEnv(value, fallback, { min, max }) {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < min) return fallback;
+  return Math.min(max, parsed);
 }
 
 function noteFixProgress(progress) {
@@ -423,6 +441,15 @@ function blockedFixOutcome(error, fixArtifact) {
     status: "blocked",
     repair_strategy: fixArtifact.repair_strategy,
     reason,
+    ...sourceHeadFetchFailureFields(reason),
+  };
+}
+
+function sourceHeadFetchFailureFields(reason) {
+  if (!/^source PR #\d+ head fetch failed after \d+ attempt\(s\):/i.test(String(reason ?? ""))) return {};
+  return {
+    code: "source_pr_head_fetch_failed",
+    retry_recommended: true,
   };
 }
 
@@ -446,6 +473,85 @@ function boundedCodexTimeoutMs(label) {
 
 function boundedPreflightTimeoutMs(label) {
   return Math.min(codexPreflightTimeoutMs, remainingFixExecutionMs(label, { minMs: 15 * 1000 }));
+}
+
+function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha }) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxContributorFetchAttempts; attempt += 1) {
+    const timeoutMs = Math.min(
+      contributorFetchTimeoutMs,
+      remainingFixExecutionMs(`source PR #${sourcePr.number} head fetch`, { minMs: 10 * 1000 }),
+    );
+    noteFixStage("source_pr_head_fetch_start", {
+      pull_request: sourcePr.number,
+      attempt,
+      timeout_ms: timeoutMs,
+    });
+    try {
+      // GitHub exposes fork heads through the base repo. Bound this network hop so a
+      // stalled smart-HTTP transfer cannot consume the entire executor deadline.
+      run(
+        "git",
+        [
+          "-c",
+          "credential.interactive=false",
+          "-c",
+          "http.lowSpeedLimit=1",
+          "-c",
+          "http.lowSpeedTime=30",
+          "fetch",
+          "--no-tags",
+          "origin",
+          `refs/pull/${sourcePr.number}/head:${branch}`,
+        ],
+        {
+          cwd: targetDir,
+          env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+          timeout: timeoutMs,
+        },
+      );
+      const fetchedHeadSha = run("git", ["rev-parse", branch], { cwd: targetDir }).trim();
+      if (fetchedHeadSha !== expectedHeadSha) {
+        throw new Error(
+          `source PR #${sourcePr.number} head fetch resolved ${fetchedHeadSha}, expected current head ${expectedHeadSha}`,
+        );
+      }
+      noteFixStage("source_pr_head_fetch_complete", {
+        pull_request: sourcePr.number,
+        attempt,
+        head_sha: fetchedHeadSha,
+      });
+      return;
+    } catch (error) {
+      lastError = error;
+      noteFixStage("source_pr_head_fetch_failed", {
+        pull_request: sourcePr.number,
+        attempt,
+        reason: redactValidationDebugText(String(error?.message ?? error)).slice(0, 500),
+      });
+      if (!isRetryableContributorFetchError(error) || attempt === maxContributorFetchAttempts) break;
+      const delayMs = Math.min(
+        8_000,
+        2_000 * attempt,
+        Math.max(
+          0,
+          remainingFixExecutionMs(`source PR #${sourcePr.number} head fetch retry`, { minMs: 10 * 1000 }) - 10 * 1000,
+        ),
+      );
+      if (delayMs > 0) sleepMs(delayMs);
+    }
+  }
+  throw new Error(
+    `source PR #${sourcePr.number} head fetch failed after ${maxContributorFetchAttempts} attempt(s): ${String(
+      lastError?.message ?? lastError,
+    )}`,
+  );
+}
+
+function isRetryableContributorFetchError(error) {
+  return /\b(?:timed out|HTTP\s+(?:408|429|5\d\d)|temporar(?:y|ily)|connection reset|connection refused|connection timed out|EOF|TLS handshake timeout|remote end hung up|unexpected disconnect)\b/i.test(
+    String(error?.message ?? error),
+  );
 }
 
 function shouldFallbackToReplacementAfterRepairError(error) {
@@ -522,10 +628,11 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
   noteFixStage("rebase_prepare_start", { pull_request: sourcePr.number });
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
-  // The base repo exposes every open PR head, including forks. Fetching that ref avoids
-  // slow or stalled direct fork fetches while preserving the exact reviewed PR head.
-  run("git", ["fetch", "--no-tags", "origin", `refs/pull/${sourcePr.number}/head:${branch}`], {
-    cwd: targetDir,
+  fetchContributorPullHead({
+    targetDir,
+    sourcePr,
+    branch,
+    expectedHeadSha: pull.head.sha,
   });
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
