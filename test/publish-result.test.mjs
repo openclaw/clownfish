@@ -164,6 +164,104 @@ test("publish-result leaves reports unchanged when fix-artifact.json is absent",
   assert.doesNotMatch(fs.readFileSync(reportPath, "utf8"), /## Repair Candidate/);
 });
 
+test("publish-result preserves executed apply actions across later apply attempts", (t) => {
+  const fixture = makeFixture();
+  const runId = `publish-result-apply-attempts-${process.pid}-${Date.now()}`;
+  const clusterId = `publish-result-apply-attempts-${process.pid}-${Date.now()}`;
+  const reportPath = path.join(repoRoot, "results", "openclaw", `${clusterId}.md`);
+  const runRecordPath = path.join(repoRoot, "results", "runs", `${runId}.json`);
+  const closedRecordPath = path.join(repoRoot, "jobs", "openclaw", "closed", "90876.md");
+  const previousReport = readIfExists(reportPath);
+  const previousRunRecord = readIfExists(runRecordPath);
+  const previousClosedRecord = readIfExists(closedRecordPath);
+  t.after(() => {
+    restore(reportPath, previousReport);
+    restore(runRecordPath, previousRunRecord);
+    restore(closedRecordPath, previousClosedRecord);
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  });
+
+  fs.writeFileSync(
+    path.join(fixture.runDir, "result.json"),
+    `${JSON.stringify(
+      {
+        status: "planned",
+        repo: "openclaw/openclaw",
+        cluster_id: clusterId,
+        mode: "autonomous",
+        actions: [],
+        needs_human: [],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  fs.writeFileSync(
+    path.join(fixture.runDir, "apply-report.json"),
+    `${JSON.stringify(
+      {
+        repo: "openclaw/openclaw",
+        cluster_id: clusterId,
+        actions: [
+          {
+            target: "#90876",
+            action: "close_low_signal",
+            status: "blocked",
+            reason: "already closed",
+          },
+        ],
+        apply_attempts: [
+          {
+            applied_at: "2026-06-17T00:00:00.000Z",
+            actions: [
+              {
+                target: "#90876",
+                action: "close_low_signal",
+                status: "executed",
+                reason: "closed by ProjectClownfish",
+              },
+            ],
+          },
+          {
+            applied_at: "2026-06-17T00:01:00.000Z",
+            actions: [
+              {
+                target: "#90876",
+                action: "close_low_signal",
+                status: "blocked",
+                reason: "already closed",
+              },
+            ],
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/publish-result.mjs", fixture.runDir, "--run-id", runId, "--skip-aggregate", "--no-run-url"],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const record = JSON.parse(fs.readFileSync(runRecordPath, "utf8"));
+  assert.deepEqual(record.apply_counts, { executed: 1 });
+  assert.equal(record.apply_actions.length, 1);
+  assert.equal(record.apply_actions[0].status, "executed");
+  assert.deepEqual(
+    record.apply_audit_actions.map((action) => [action.apply_attempt, action.status]),
+    [
+      [1, "executed"],
+      [2, "blocked"],
+    ],
+  );
+  assert.match(fs.readFileSync(reportPath, "utf8"), /## Apply Audit/);
+  assert.match(fs.readFileSync(reportPath, "utf8"), /\| 2 \| apply \| #90876 \| close_low_signal \| blocked \| already closed \|/);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-publish-result-"));
   const runDir = path.join(root, "run");

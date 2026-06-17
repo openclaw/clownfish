@@ -108,8 +108,32 @@ const reportPath =
   typeof reportPathArg === "string"
     ? path.resolve(reportPathArg)
     : path.join(path.dirname(resultPath), "apply-report.json");
+report.apply_attempts = [
+  ...readApplyAttempts(reportPath),
+  {
+    dry_run: report.dry_run,
+    result_path: report.result_path,
+    applied_at: report.applied_at,
+    actions: report.actions,
+  },
+];
 fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));
+
+function readApplyAttempts(reportPath) {
+  if (!fs.existsSync(reportPath)) return [];
+  const previous = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  if (Array.isArray(previous.apply_attempts)) return previous.apply_attempts;
+  if (!Array.isArray(previous.actions)) return [];
+  return [
+    {
+      dry_run: previous.dry_run ?? null,
+      result_path: previous.result_path ?? null,
+      applied_at: previous.applied_at ?? null,
+      actions: previous.actions,
+    },
+  ];
+}
 
 function findLatestResultPath() {
   const runsRoot = path.join(repoRoot(), ".projectclownfish", "runs");
