@@ -12,7 +12,7 @@ test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffe
   const codexSpawnCount = source.match(/spawnSync\(\s*\n\s*"codex"/g)?.length ?? 0;
   const codexMaxBufferCount = source.match(/maxBuffer:\s*codexStdoutMaxBufferBytes/g)?.length ?? 0;
 
-  assert.equal(codexSpawnCount, 5);
+  assert.equal(codexSpawnCount, 6);
   assert.equal(codexMaxBufferCount, codexSpawnCount);
   assert.match(source, /CLOWNFISH_CODEX_STDOUT_MAX_BUFFER_BYTES/);
   assert.match(source, /child\.error\?\.code === "ENOBUFS"/);
@@ -377,6 +377,107 @@ process.exit(9);
   assert.equal(diagnostics.timed_out, false);
   assert.match(diagnostics.stdout, /validation stdout token=\[redacted\]/);
   assert.match(diagnostics.stderr, /api_key=\[redacted\]/);
+});
+
+test("execute-fix-artifact repairs an ordinary validation exit failure within the edit budget", () => {
+  const fixture = makeFixture();
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const editMarker = path.join(fixture.root, "codex-edit-calls");
+  const validationPrompt = path.join(fixture.root, "validation-fix-prompt");
+
+  fs.writeFileSync(fixture.jobPath, jobFile("validation-repair-cluster"));
+  const result = resultFile("validation-repair-cluster");
+  result.fix_artifact.validation_commands = ["pnpm check:changed"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+const cd = args[args.indexOf("--cd") + 1];
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : "";
+if (args.includes("--output-schema")) {
+  fs.writeFileSync(output, JSON.stringify({
+    status: "passed",
+    summary: "clean",
+    findings: [],
+    findings_addressed: true,
+    evidence: ["fixture review passed"],
+  }));
+  process.exit(0);
+}
+const marker = ${JSON.stringify(editMarker)};
+const count = fs.existsSync(marker) ? Number(fs.readFileSync(marker, "utf8")) : 0;
+fs.writeFileSync(marker, String(count + 1));
+if (count === 0) {
+  fs.writeFileSync(path.join(cd, "src", "app.js"), "export const fixture = invalid;\\n");
+  fs.writeFileSync(path.join(cd, ".clownfish-edited"), "true\\n");
+} else {
+  fs.writeFileSync(${JSON.stringify(validationPrompt)}, fs.readFileSync(0, "utf8"));
+  fs.writeFileSync(path.join(cd, "src", "app.js"), "export const fixture = true;\\n");
+}
+if (output) fs.writeFileSync(output, "edited\\n");
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "pnpm"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+if (args[0] !== "check:changed") process.exit(0);
+const source = fs.readFileSync(path.join(process.cwd(), "src", "app.js"), "utf8");
+if (source.includes("invalid")) {
+  console.error("src/app.js(1,24): error TS2304: Cannot find name 'invalid'.");
+  process.exit(1);
+}
+process.exit(0);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+      "--dry-run",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_FIX_STEP_TIMEOUT_MS: "120000",
+        CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: "0",
+        CLOWNFISH_FIX_REPORT_RESERVE_MS: "0",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
+        CLOWNFISH_FIX_EDIT_ATTEMPTS: "2",
+        CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "planned");
+  assert.equal(fs.readFileSync(editMarker, "utf8"), "2");
+  const prompt = fs.readFileSync(validationPrompt, "utf8");
+  assert.match(prompt, /Failed validation command: pnpm check:changed/);
+  assert.match(prompt, /Cannot find name 'invalid'/);
 });
 
 test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics only after changed-test proof", () => {
