@@ -479,9 +479,14 @@ function boundedPreflightTimeoutMs(label) {
   return Math.min(codexPreflightTimeoutMs, remainingFixExecutionMs(label, { minMs: 15 * 1000 }));
 }
 
-function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha }) {
+function fetchContributorPullHead({ targetDir, sourcePr, pull, branch }) {
+  const expectedHeadSha = String(pull.head?.sha ?? "");
+  if (!expectedHeadSha) throw new Error(`source PR #${sourcePr.number} is missing head SHA`);
+  const strategies = contributorHeadFetchStrategies({ sourcePr, pull });
   let lastError;
+  const attemptedStrategies = [];
   for (let attempt = 1; attempt <= maxContributorFetchAttempts; attempt += 1) {
+    const strategy = strategies[(attempt - 1) % strategies.length];
     const timeoutMs = Math.min(
       contributorFetchTimeoutMs,
       remainingFixExecutionMs(`source PR #${sourcePr.number} head fetch`, { minMs: 10 * 1000 }),
@@ -489,11 +494,10 @@ function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha
     noteFixStage("source_pr_head_fetch_start", {
       pull_request: sourcePr.number,
       attempt,
+      strategy: strategy.name,
       timeout_ms: timeoutMs,
     });
     try {
-      // GitHub exposes fork heads through the base repo. Bound this network hop so a
-      // stalled smart-HTTP transfer cannot consume the entire executor deadline.
       run(
         "git",
         [
@@ -505,8 +509,8 @@ function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha
           "http.lowSpeedTime=30",
           "fetch",
           "--no-tags",
-          "origin",
-          `refs/pull/${sourcePr.number}/head:${branch}`,
+          strategy.remote,
+          `${strategy.ref}:${branch}`,
         ],
         {
           cwd: targetDir,
@@ -523,14 +527,17 @@ function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha
       noteFixStage("source_pr_head_fetch_complete", {
         pull_request: sourcePr.number,
         attempt,
+        strategy: strategy.name,
         head_sha: fetchedHeadSha,
       });
       return;
     } catch (error) {
       lastError = error;
+      attemptedStrategies.push(strategy.name);
       noteFixStage("source_pr_head_fetch_failed", {
         pull_request: sourcePr.number,
         attempt,
+        strategy: strategy.name,
         reason: redactValidationDebugText(String(error?.message ?? error)).slice(0, 500),
       });
       if (!isRetryableContributorFetchError(error) || attempt === maxContributorFetchAttempts) break;
@@ -548,8 +555,35 @@ function fetchContributorPullHead({ targetDir, sourcePr, branch, expectedHeadSha
   throw new Error(
     `source PR #${sourcePr.number} head fetch failed after ${maxContributorFetchAttempts} attempt(s): ${String(
       lastError?.message ?? lastError,
-    )}`,
+    )} (strategies: ${attemptedStrategies.join(", ")})`,
   );
+}
+
+function contributorHeadFetchStrategies({ sourcePr, pull }) {
+  const primary = {
+    name: "base_pull_ref",
+    remote: "origin",
+    ref: `refs/pull/${sourcePr.number}/head`,
+  };
+  const sourceHeadRef = `refs/heads/${pull.head.ref}`;
+  if (pull.head.repo.full_name === result.repo) {
+    return [
+      primary,
+      {
+        name: "same_repo_head_ref",
+        remote: "origin",
+        ref: sourceHeadRef,
+      },
+    ];
+  }
+  return [
+    primary,
+    {
+      name: "fork_head_ref",
+      remote: `https://github.com/${pull.head.repo.full_name}.git`,
+      ref: sourceHeadRef,
+    },
+  ];
 }
 
 function isRetryableContributorFetchError(error) {
@@ -628,6 +662,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   if (pull.maintainer_can_modify !== true && !sameRepoBranch) {
     throw new Error(`source PR #${sourcePr.number} has maintainer_can_modify=false`);
   }
+  if (!dryRun) ghAuthSetupGit(targetDir);
 
   const branch = safeBranchName(`projectclownfish/repair-${result.cluster_id}-${sourcePr.number}`);
   noteFixStage("rebase_prepare_start", { pull_request: sourcePr.number });
@@ -635,8 +670,8 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   fetchContributorPullHead({
     targetDir,
     sourcePr,
+    pull,
     branch,
-    expectedHeadSha: pull.head.sha,
   });
   run("git", ["checkout", branch], { cwd: targetDir });
   ensureMergeBaseAvailable({ targetDir, baseBranch });
@@ -666,7 +701,6 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     );
   }
   if (!sameRepoBranch && !dryRun) {
-    ghAuthSetupGit(targetDir);
     assertRepairBranchWritable({ targetDir, pull, rebased });
   }
   noteFixStage("target_toolchain_start");
