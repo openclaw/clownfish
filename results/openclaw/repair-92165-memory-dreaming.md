@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-92165-memory-dreaming"
 mode: "autonomous"
-run_id: "27661254987"
-workflow_run_id: "27661254987"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27661254987"
-head_sha: "673fe763791e7ae1c517bac298e0f869db66869d"
+run_id: "27663032709"
+workflow_run_id: "27663032709"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27663032709"
+head_sha: "a8f56952c97af7c7059f89c6bbcfe6576657bf35"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:24:25.174Z"
+published_at: "2026-06-17T03:20:24.436Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92165"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/87637"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92165"
@@ -18,7 +18,7 @@ fix_failed: 1
 fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
-apply_skipped: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27661254987](https://github.com/openclaw/clownfish/actions/runs/27661254987)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27663032709](https://github.com/openclaw/clownfish/actions/runs/27663032709)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 
 ## Summary
 
-#92165 is the canonical useful contributor PR for open issue #87637, but it is not merge-ready and merge is blocked by the job. Plan a guarded repair of the editable contributor branch to preserve dreaming status independently from embedding memory-search availability, then run focused OpenClaw validation and Codex review before any update. Closed linked/context refs remain historical evidence only.
+#92165 is the canonical repair path for #87637. The PR is useful, focused, open, and maintainer-editable, but it is not merge-ready for this worker because merge is blocked by job policy and it still needs repair/finalization against current main, fresh Codex review, and OpenClaw-native validation before any closeout. No security-sensitive refs were hydrated.
 
 ## Impact
 
@@ -48,7 +48,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 | Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
@@ -62,18 +62,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87637 | close_fixed_by_candidate | skipped | fixed_by_candidate | action status is blocked |
+| _None_ |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92165 | fix_needed | planned | canonical | Repair the editable contributor branch instead of replacing it; the PR is useful, focused, and has no security signal, but it still needs the review-identified doctor rendering fix and fresh validation. |
-| cluster:repair-92165-memory-dreaming | build_fix_artifact | planned |  | Job allows fix and raise_pr; produce an executable repair artifact for the canonical contributor PR rather than a non-actionable keep note. |
-| #87637 | close_fixed_by_candidate | blocked | fixed_by_candidate | Closeout is blocked until the canonical fix in #92165 is repaired and landed or current main is otherwise proven fixed. |
-| #87630 | keep_closed | skipped | related | Closed refs are evidence only and must not receive closure actions. |
-| #87634 | keep_closed | skipped | related | Closed related context only; no mutation is valid. |
-| #89160 | keep_closed | skipped | independent | Independent closed PR; keep as historical evidence only. |
+| #87630 | keep_closed | skipped | related | Already closed; retained only as related historical context. |
+| #87634 | keep_closed | skipped | related | Already closed; related memory-dreaming context only. |
+| #87637 | keep_related | planned | fixed_by_candidate | Covered by the canonical PR path, but closeout is blocked until the fix path is finalized. |
+| #89160 | keep_closed | skipped | independent | Already closed and independent of the memory dreaming status repair. |
+| #92165 | fix_needed | planned | canonical | Canonical PR is useful and editable but needs a narrow repair/finalization pass, Codex review, and `pnpm check:changed` before any merge or issue closeout. |
+| cluster:repair-92165-memory-dreaming | build_fix_artifact | planned |  | Build an executable repair plan for the canonical contributor PR. |
 
 ## Needs Human
 
