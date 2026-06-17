@@ -1,0 +1,57 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-77539-steered-task-redispatch",
+  "mode": "autonomous",
+  "run_id": "27671520376",
+  "workflow_run_id": "27671520376",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27671520376",
+  "head_sha": "89b9148d236dc0964b01cd91553d8a6ab44c2d53",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T06:57:51Z",
+  "workflow_updated_at": "2026-06-17T07:00:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-77539-steered-task-redispatch.md",
+  "published_at": "2026-06-17T07:01:29.559Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77539",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77539",
+  "summary": "Quarantined #77539 to central OpenClaw security handling because deterministic validation marked the hydrated PR as security-sensitive. The contributor-branch repair path depends on that same quarantined PR, so the executable fix lane is blocked pending security triage rather than emitting a fix artifact for a security-routed target.",
+  "actions": [
+    {
+      "target": "#77539",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "The exact PR ref must be quarantined to central OpenClaw security handling before any ProjectClownfish repair, comment, close, label, or merge path can proceed for that item."
+    },
+    {
+      "target": "cluster:repair-77539-steered-task-redispatch",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "Security triage must decide whether and how #77539 can continue before any contributor-branch repair artifact is executed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Security triage is required for #77539 before ProjectClownfish can repair or update the contributor PR branch."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
