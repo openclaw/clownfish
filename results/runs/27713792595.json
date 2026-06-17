@@ -1,0 +1,151 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-53920-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27713792595",
+  "workflow_run_id": "27713792595",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27713792595",
+  "head_sha": "68f5779f8808696f5c847d4b3bedc83f7d798b65",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T19:19:42Z",
+  "workflow_updated_at": "2026-06-17T19:40:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-53920-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T19:41:30.033Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/53920",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/53920",
+  "summary": "#53920 remains the canonical repair path. Current main still mutates scripts/systemd/openclaw-auth-monitor.service in place before installing it, while #53920 moves rendering into a temporary installed unit and the current PR head addresses the hydrated Greptile/Codex bot findings. No GitHub mutation, merge, close, label, push, or comment action is planned; the executable path is to repair/finalize the contributor branch with final validation and Codex review gates.",
+  "actions": [
+    {
+      "target": "#53920",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#53920",
+      "candidate_fix": null,
+      "reason": "The PR is useful, narrow, and editable. It should be finalized on the contributor branch rather than replaced or closed."
+    },
+    {
+      "target": "cluster:repair-53920-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#53920",
+      "candidate_fix": null,
+      "reason": "Create an executable repair artifact for the existing contributor PR without performing blocked GitHub mutations."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#53920",
+    "source_refs": [
+      "#53920"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Finalize contributor PR #53920 by keeping the existing one-file setup-script repair, preserving JackWuGlobal's contribution, and running the remaining review and changed-check gates on the contributor branch.",
+    "pr_title": "fix(scripts): avoid mutating tracked auth-monitor template during setup",
+    "pr_body": "Summary:\n- Keep the tracked auth-monitor systemd template unchanged during setup.\n- Render the installed user service from a temporary copy, with the current checkout's auth-monitor.sh path.\n- Preserve rerun compatibility for previously-mutated NOTIFY_* lines and quote the ExecStart path for systemd.\n\nVerification:\n- bash -n scripts/setup-auth-system.sh\n- Temp HOME smoke with a checkout path containing spaces: installed quoted ExecStart and requested NOTIFY_* values without changing the source template.\n- Temp HOME smoke with already-uncommented NOTIFY_* template lines: replaced old values successfully.\n- pnpm check:changed\n\nCredit:\n- Based on and preserving @JackWuGlobal's contribution in https://github.com/openclaw/openclaw/pull/53920.",
+    "likely_files": [
+      "scripts/setup-auth-system.sh"
+    ],
+    "validation_commands": [
+      "bash -n scripts/setup-auth-system.sh",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve JackWuGlobal as the contributor for https://github.com/openclaw/openclaw/pull/53920.",
+      "No replacement PR is planned; repair should happen on the existing editable contributor branch.",
+      "PR body or merge message should retain release-note context for the user-visible setup-script fix; do not edit CHANGELOG.md for this normal PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-53920-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/53920",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "06967980b2c44b1386185199839cad25be40e2ca",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#53920",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#53920",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
