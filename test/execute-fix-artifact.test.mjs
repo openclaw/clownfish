@@ -556,6 +556,34 @@ test("execute-fix-artifact does not repeat a tolerated changed gate for normaliz
   assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "2");
 });
 
+test("execute-fix-artifact accepts the allowed OpenClaw env prefixes for changed validation", () => {
+  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "openclaw-validation-env-prefix-cluster",
+    baselineOutput: output,
+    postOutput: output,
+    validationCommands: ["OPENCLAW_LOCAL_CHECK=1 OPENCLAW_LOCAL_CHECK_MODE=throttled pnpm check:changed"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "2");
+});
+
+test("execute-fix-artifact rejects unrecognized validation env prefixes", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "unsupported-validation-env-prefix-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    validationCommands: ["UNSAFE_VALIDATION_FLAG=1 pnpm check:changed"],
+  });
+
+  assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
+  assert.match(run.child.stderr, /unsupported validation command/);
+  assert.equal(run.report.status, "failed");
+  assert.match(run.report.actions[0].reason, /unsupported validation command/);
+});
+
 test("execute-fix-artifact rejects changed-gate failures with new diagnostics", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "new-diagnostic-cluster",

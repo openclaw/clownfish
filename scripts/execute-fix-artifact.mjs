@@ -17,6 +17,10 @@ const FIX_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"])
 const REPAIR_STRATEGIES = new Set(["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"]);
 const NON_EXECUTABLE_REPAIR_STRATEGIES = new Set(["already_fixed_on_main", "needs_human"]);
 const DEFAULT_BASE_BRANCH = "main";
+const ALLOWED_VALIDATION_ENV_PREFIXES = new Map([
+  ["OPENCLAW_LOCAL_CHECK", new Set(["0", "1"])],
+  ["OPENCLAW_LOCAL_CHECK_MODE", new Set(["throttled"])],
+]);
 
 const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
@@ -2895,11 +2899,25 @@ function uniqueStrings(values) {
 function parseAllowedValidationCommand(command) {
   const text = String(command ?? "").trim();
   if (!text) throw new Error("empty validation command");
-  const parts = splitValidationCommand(text);
+  const parts = stripAllowedValidationEnvPrefixes(splitValidationCommand(text), text);
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
   return parts;
+}
+
+function stripAllowedValidationEnvPrefixes(parts, originalText) {
+  let commandStart = 0;
+  while (commandStart < parts.length) {
+    const match = /^([A-Z_][A-Z0-9_]*)=(.*)$/.exec(parts[commandStart]);
+    if (!match) break;
+    const allowedValues = ALLOWED_VALIDATION_ENV_PREFIXES.get(match[1]);
+    if (!allowedValues?.has(match[2])) {
+      throw new Error(`unsupported validation command: ${originalText}`);
+    }
+    commandStart += 1;
+  }
+  return parts.slice(commandStart);
 }
 
 function splitValidationCommand(text) {
