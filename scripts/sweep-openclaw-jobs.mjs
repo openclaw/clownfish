@@ -131,6 +131,9 @@ function classifyJob(jobPath) {
   if (needsRequeue(latest)) {
     return { ...row, status: "requeue_candidate", reason: requeueReason(latest) };
   }
+  if (verifyTargetRefsLive && row.live_target_refs_total > 0 && row.live_target_refs_missing === 0 && row.live_target_refs_open > 0) {
+    return { ...row, status: "keep", reason: "one or more target issue/PR refs remain open in live GitHub state" };
+  }
   if (isFinalized(latest)) {
     return { ...row, status: "move_to_outbox", reason: "latest run is clean and no open clownfish PR remains" };
   }

@@ -126,6 +126,35 @@ test("sweep-openclaw-jobs preserves requeue candidates with open target refs", (
   assert.equal(dryReport.requeue_candidates[0].reason, "latest result has blocked apply actions");
 });
 
+test("sweep-openclaw-jobs preserves finalized jobs with open target refs", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "finalized-open.md"), {
+    clusterId: "finalized-open-cluster",
+    canonical: ["#94015"],
+    candidates: ["#94015"],
+    clusterRefs: ["#94015"],
+  });
+  writeRunRecord(fixture, "500", {
+    cluster_id: "finalized-open-cluster",
+    run_id: "500",
+    workflow_conclusion: "success",
+    result_status: "planned",
+    fix_actions: [],
+    apply_actions: [],
+  });
+
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(liveRefReport, `${JSON.stringify({ refs: [liveRef(94015, "OPEN")] }, null, 2)}\n`);
+
+  const dryRun = sweep(fixture, liveRefReport);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const dryReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(dryReport.totals.move_to_outbox ?? 0, 0);
+  assert.equal(dryReport.totals.keep, 1);
+  assert.equal(dryReport.keep_jobs[0].live_target_refs_open, 1);
+  assert.equal(dryReport.keep_jobs[0].reason, "one or more target issue/PR refs remain open in live GitHub state");
+});
+
 test("sweep-openclaw-jobs holds jobs with open security-sensitive live refs", () => {
   const fixture = makeFixture();
   writeJob(path.join(fixture.inbox, "blocked-security-open.md"), {
