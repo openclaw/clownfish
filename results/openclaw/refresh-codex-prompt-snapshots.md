@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "refresh-codex-prompt-snapshots"
 mode: "autonomous"
-run_id: "27663289982"
-workflow_run_id: "27663289982"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27663289982"
-head_sha: "6a9ca9e0af118cf74830d02616171bacf2c6d6bc"
-workflow_conclusion: "success"
+run_id: "27663469606"
+workflow_run_id: "27663469606"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27663469606"
+head_sha: "2d9de56649dfd9678eea825d38fe51056b833912"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-06-17T03:17:37.616Z"
-canonical: null
+published_at: "2026-06-17T03:37:35.252Z"
+canonical: "branch:clownfish/refresh-codex-prompt-snapshots"
 canonical_issue: null
 canonical_pr: null
 actions_total: 5
 fix_executed: 0
 fix_failed: 0
-fix_blocked: 1
+fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27663289982](https://github.com/openclaw/clownfish/actions/runs/27663289982)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27663469606](https://github.com/openclaw/clownfish/actions/runs/27663469606)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: branch:clownfish/refresh-codex-prompt-snapshots
 
 ## Summary
 
-Plan one standalone generated-fixture refresh PR on clownfish/refresh-codex-prompt-snapshots. #93222 and #85745 are non-security Discord timeout PRs and should not be mutated for this snapshot-only current-main CI baseline.
+Plan one standalone Clownfish fix PR on clownfish/refresh-codex-prompt-snapshots to regenerate only the six stale Codex prompt snapshot fixture outputs. No GitHub comments, labels, closes, merges, or contributor branches are touched; #93222 remains evidence only.
 
 ## Impact
 
@@ -45,7 +45,7 @@ Plan one standalone generated-fixture refresh PR on clownfish/refresh-codex-prom
 | Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
-| Fix blocked | 1 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -55,7 +55,7 @@ Plan one standalone generated-fixture refresh PR on clownfish/refresh-codex-prom
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | blocked |  | clownfish/refresh-codex-prompt-snapshots | could not verify active Clownfish PR area capacity: HTTP 504: We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists. (https://api.github.com/graphql) |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -67,11 +67,11 @@ Plan one standalone generated-fixture refresh PR on clownfish/refresh-codex-prom
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93222 | keep_related | planned | related | Keep #93222 open and untouched; it is related evidence for the baseline failure, not the canonical implementation target for this generated-fixture refresh. |
-| #85745 | keep_independent | planned | independent | The PR is a separate Discord timeout implementation path and should not be changed or closed in this snapshot refresh cluster. |
-| cluster:refresh-codex-prompt-snapshots | fix_needed | planned |  | A narrow generated-fixture refresh is needed on current main; no existing hydrated PR should be repaired or merged for this cluster. |
-| cluster:refresh-codex-prompt-snapshots | build_fix_artifact | planned |  | Build an executable new-fix artifact for the guarded executor to create or update one standalone Clownfish PR. |
-| cluster:refresh-codex-prompt-snapshots | open_fix_pr | planned |  | Raise the standalone generated-fixture refresh PR through Clownfish's guarded fix executor, not by mutating #93222 or any contributor branch. |
+| #93222 | keep_related | planned | related | Related evidence only; not a target for mutation or branch repair in this cluster. |
+| #85745 | keep_independent | planned | independent | Independent of the six-file Codex prompt snapshot refresh requested by this cluster. |
+| cluster:refresh-codex-prompt-snapshots | fix_needed | planned |  | Current main has a generated prompt snapshot fixture regression that should be fixed by regenerating only the named fixture outputs. |
+| cluster:refresh-codex-prompt-snapshots | build_fix_artifact | planned |  | Build a complete executable fix artifact for one standalone Clownfish PR. |
+| cluster:refresh-codex-prompt-snapshots | open_fix_pr | planned |  | Executor should create or update the standalone Clownfish branch and PR after applying and validating the generated fixture refresh. |
 
 ## Needs Human
 
