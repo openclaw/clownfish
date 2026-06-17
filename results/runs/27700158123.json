@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-90468-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27700158123",
+  "workflow_run_id": "27700158123",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27700158123",
+  "head_sha": "bd9d50ac7c2fa84ab3d1e7aa29f30b56a5e04c50",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T15:25:48Z",
+  "workflow_updated_at": "2026-06-17T15:33:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T15:34:53.834Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/90468",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90468",
+  "summary": "PR #90468 remains the canonical repair path. The change is narrow, maintainer_can_modify is true, and the hydrated artifact shows the concrete parser review concerns plus passing checks; Clownfish should repair/validate the contributor branch rather than replace it or merge it in this run.",
+  "actions": [
+    {
+      "target": "#90468",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90468",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch in place: the branch is editable and narrow, but review state is still CHANGES_REQUESTED and merge is blocked by job policy."
+    },
+    {
+      "target": "cluster:repair-90468-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90468",
+      "candidate_fix": null,
+      "reason": "Build an executable repair artifact for the existing contributor PR branch instead of opening a replacement PR."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90468",
+    "source_refs": [
+      "#90468"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #90468 in place by preserving the contributor's apostrophe parsing fix while validating the explicit parser rule against maintainer-requested regressions: shell-style single-quote concatenation, plural possessives before quoted spans, ordinary contractions, and standalone quoted spans.",
+    "pr_title": "fix(agents): keep apostrophes in prompt-template arguments",
+    "pr_body": "## Summary\n- Repairs #90468 on the contributor branch, preserving @yetval's apostrophe parsing fix.\n- Keeps ordinary prose apostrophes and plural possessives literal while preserving documented shell-style quoted spans and embedded single-quote concatenation.\n- Adds/keeps focused regression coverage for contractions, users' before a later quoted span, foo'bar baz' concatenation, and contraction-before-standalone-quoted-span cases.\n\n## Credit\nThis repair carries forward the fix from @yetval in https://github.com/openclaw/openclaw/pull/90468.\n\n## Verification\n- node scripts/run-vitest.mjs packages/agent-core/src/harness/prompt-templates.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "packages/agent-core/src/harness/prompt-template-arguments.ts",
+      "packages/agent-core/src/harness/prompt-templates.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs packages/agent-core/src/harness/prompt-templates.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @yetval as the author of https://github.com/openclaw/openclaw/pull/90468.",
+      "PR body should retain release-note context for the user-visible prompt-template parsing fix; do not edit CHANGELOG.md in this repair job."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags origin refs/pull/90468/head:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "source PR #90468 head fetch failed after 2 attempt(s): git -c credential.interactive=false -c http.lowSpeedLimit=1 -c http.lowSpeedTime=30 fetch --no-tags origin refs/pull/90468/head:projectclownfish/repair-repair-90468-single-replan-wave-20260617-90468 timed out after 120000ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": true,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
