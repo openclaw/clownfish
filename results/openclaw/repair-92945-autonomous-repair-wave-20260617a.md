@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-92945-autonomous-repair-wave-20260617a"
 mode: "autonomous"
-run_id: "27677687405"
-workflow_run_id: "27677687405"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27677687405"
-head_sha: "4206f12b202e5d803e74afa0f7dc3c4ff2839a04"
-workflow_conclusion: "success"
-result_status: "blocked"
-published_at: "2026-06-17T09:01:46.802Z"
+run_id: "27678021095"
+workflow_run_id: "27678021095"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27678021095"
+head_sha: "9ae0281ece02872ec2fa63a94d05e6d59b40449b"
+workflow_conclusion: "cancelled"
+result_status: "planned"
+published_at: "2026-06-17T09:16:39.208Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92945"
-canonical_issue: null
+canonical_issue: "https://github.com/openclaw/openclaw/issues/92944"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92945"
 actions_total: 3
 fix_executed: 0
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27677687405](https://github.com/openclaw/clownfish/actions/runs/27677687405)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27678021095](https://github.com/openclaw/clownfish/actions/runs/27678021095)
 
-Workflow conclusion: success
+Workflow conclusion: cancelled
 
-Worker result: blocked
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/92945
 
 ## Summary
 
-Canonical PR #92945 is the only open repair target. The hydrated artifact shows a narrow Telegram command-menu fix with maintainer_can_modify=true, no hydrated inline review comments, real behavior proof present, and source PR credit to preserve. Local checkout verification was blocked by the sandbox wrapper before I could inspect current main or patch files, so implementation is blocked here and handed off as an executable repair-contributor-branch artifact.
+I confirmed the current Telegram sync path returns on a matching process-local command hash before any remote `getMyCommands` check. Because PR #92945 is open, narrow, and maintainer-editable but lacks a clean final `/review` and has relevant CI failures in the artifact, the safe autonomous output is a planned repair of the contributor branch rather than merge or closure.
 
 ## Impact
 
@@ -62,23 +62,24 @@ Canonical PR #92945 is the only open repair target. The hydrated artifact shows 
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
+    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair contributor PR #92945 on its existing branch so Telegram command-menu sync does not skip setMyCommands solely because the local/process command hash matches when getMyCommands shows the remote command list was cleared. Keep the fix limited to remote-state verification on the cached-hash skip path and focused regression coverage.",
-  "pr_title": "fix(telegram): verify remote commands before cached hash skip",
-  "pr_body": "## Summary\n\nRepair contributor PR #92945 so the Telegram plugin verifies the remote command menu before skipping registration on a matching command hash. If Telegram returns an empty command list for any relevant scope or localized language_code variant, OpenClaw should re-run setMyCommands instead of trusting the local/process hash alone.\n\nThis carries forward the useful work from https://github.com/openclaw/openclaw/pull/92945 with credit to @zhiqiang26, and it addresses the stale remote command-list failure described in #92944.\n\n## Verification\n\n- pnpm check:changed\n- pnpm test extensions/telegram/src/bot-native-command-menu.test.ts\n- /review\n\n## Notes\n\nKeep the patch narrow: do not change Telegram command policy, command contents, scope selection, or remote API behavior beyond invalidating the cached-hash skip when remote commands are empty or unverifiable.",
+  "summary": "Repair PR #92945 on its maintainer-editable contributor branch so a matching Telegram command hash verifies remote command state before skipping sync. If Telegram's remote command list is empty for the default scope, all_group_chats scope, or any registered localized language_code variant, fall through to the existing delete-then-set registration path and refresh the process-local hash only after successful registration.",
+  "pr_title": "fix(telegram): verify remote commands before cached menu skip",
+  "pr_body": "## Summary\n- Repair #92945 on the existing contributor branch.\n- Before skipping Telegram command-menu sync on a matching local hash, verify the remote command list is still present for default, all_group_chats, and localized command variants.\n- If any checked remote command list is empty or the read fails, use the existing delete-then-set sync path.\n\n## Credit\nThis carries forward the fix from @zhiqiang26 in https://github.com/openclaw/openclaw/pull/92945 and the original report from @Nsch11 in https://github.com/openclaw/openclaw/issues/92944.\n\n## Verification\n- pnpm test extensions/telegram/src/bot-native-command-menu.test.ts\n- pnpm check:changed\n- /review\n\n## Notes\nKeep the patch scoped to stale local hash invalidation. Do not change Telegram command policy, command catalog construction, delete/set ordering, retry behavior, or remote API semantics beyond the new cached-hash remote-state verification.",
   "likely_files": [
     "extensions/telegram/src/bot-native-command-menu.ts",
     "extensions/telegram/src/bot-native-command-menu.test.ts"
   ],
   "validation_commands": [
-    "pnpm check:changed",
-    "pnpm test extensions/telegram/src/bot-native-command-menu.test.ts"
+    "pnpm test extensions/telegram/src/bot-native-command-menu.test.ts",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve source PR credit for https://github.com/openclaw/openclaw/pull/92945.",
-    "Credit @zhiqiang26 for the original implementation and proof in PR #92945.",
-    "Issue #92944 was reported by @Nsch11 and is already closed as historical context."
+    "Preserve PR #92945 author credit for @zhiqiang26: https://github.com/openclaw/openclaw/pull/92945.",
+    "PR body or final squash message should mention that Clownfish repaired the contributor branch and retained the original Telegram command-menu fix attribution.",
+    "Reporter credit context: issue #92944 was opened by @Nsch11."
   ],
   "source_job": "jobs/openclaw/inbox/repair-92945-autonomous-repair-wave-20260617a.md",
   "security_sensitive": false,
@@ -93,7 +94,7 @@ Canonical PR #92945 is the only open repair target. The hydrated artifact shows 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | skipped |  |  | worker result status blocked is not executable |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
@@ -101,13 +102,19 @@ Canonical PR #92945 is the only open repair target. The hydrated artifact shows 
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92944 | keep_closed | skipped | fixed_by_candidate | Already closed targets must not receive close actions. |
-| #92945 | fix_needed | blocked | canonical | The PR is the canonical repair branch, but this worker cannot complete the required checkout confirmation or patch in the read-only/bwrap-blocked environment. |
-| cluster:repair-92945-autonomous-repair-wave-20260617a | build_fix_artifact | planned |  | A narrow repair path exists, but the current worker could not apply or verify it locally. |
+| #92944 | keep_closed | skipped | fixed_by_candidate | Historical closed issue context only. |
+| #92945 | fix_needed | planned | canonical | Repair the useful maintainer-editable contributor PR branch, then rerun focused Telegram tests, `pnpm check:changed`, and `/review` before any later merge decision. |
+| cluster:repair-92945-autonomous-repair-wave-20260617a | build_fix_artifact | planned |  | Canonical PR is useful but not merge-ready; produce an executable repair artifact for the contributor branch. |
 
 ## Needs Human
 
