@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-canary-81312-20260617",
+  "mode": "autonomous",
+  "run_id": "27703239276",
+  "workflow_run_id": "27703239276",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27703239276",
+  "head_sha": "3d1c6e80508f4f0169e7d61190672f06031166e6",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T16:15:13Z",
+  "workflow_updated_at": "2026-06-17T16:25:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-canary-81312-20260617.md",
+  "published_at": "2026-06-17T16:26:12.625Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/81312",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77982",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/81312",
+  "summary": "Canonical PR #81312 is a maintainer-editable contributor branch that still owns the linked #77982 fix, but it is stale against current main. I locally replayed the two contributor commits onto main baa389ebed without conflicts, preserved author credit, ran focused Vitest proof, and ran Codex autoreview clean. No GitHub comments, labels, branch pushes, closes, PR creation, or merges were performed.",
+  "actions": [
+    {
+      "target": "#81312",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81312",
+      "candidate_fix": null,
+      "reason": "Repair the existing maintainer-editable contributor branch by rebasing onto current main, then push the repaired branch and run the required broad changed gate before any later merge finalization."
+    },
+    {
+      "target": "#77982",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81312",
+      "candidate_fix": "#81312",
+      "reason": "Linked issue remains covered by canonical PR #81312 but should not be closed in this rebase-only job."
+    },
+    {
+      "target": "cluster:pr-rebase-canary-81312-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81312",
+      "candidate_fix": null,
+      "reason": "Build a repair artifact for the applicator/executor to rebase and push the existing contributor branch, then run broad changed validation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81312",
+    "source_refs": [
+      "#81312",
+      "#77982"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #81312 by rebasing the maintainer-editable contributor branch yfge/openclaw:fix/issue-77982 onto current main baa389ebed1a85258b2ff7f4a61d0746280edf61, preserving the two contributor commits and credit, then push the existing branch and rerun validation plus Codex review. Do not broaden the PR, merge it, close anything, label anything, or open a replacement PR.",
+    "pr_title": "fix(plugins): preserve bundled capability manifest contracts",
+    "pr_body": "## Summary\n- rebase the existing maintainer-editable #81312 branch onto current main\n- keep manifest contracts on bundled capability plugin records\n- keep focused regression coverage for bundled capability runtime and loader records\n\n## Verification\n- pnpm check:changed\n- node scripts/run-vitest.mjs src/plugins/bundled-capability-runtime.test.ts src/plugins/loader-records.test.ts\n- pnpm build\n- .agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main\n\n## Credit\nThis repairs and carries forward @yfge's source PR https://github.com/openclaw/openclaw/pull/81312 for the bug reported in #77982 by @pangxianyu-pixel.",
+    "likely_files": [
+      "src/plugins/bundled-capability-runtime.ts",
+      "src/plugins/bundled-capability-runtime.test.ts",
+      "src/plugins/loader-records.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "node scripts/run-vitest.mjs src/plugins/bundled-capability-runtime.test.ts src/plugins/loader-records.test.ts",
+      "pnpm build",
+      ".agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main"
+    ],
+    "credit_notes": [
+      "Preserve @yfge as the PR author and commit author when rebasing/pushing the existing branch.",
+      "Keep #81312 as the source PR for contributor credit: https://github.com/openclaw/openclaw/pull/81312.",
+      "Credit issue reporter @pangxianyu-pixel for #77982 when release-note context is written."
+    ],
+    "source_job": "jobs/openclaw/inbox/pr-rebase-canary-81312-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "unsupported validation command: .agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
