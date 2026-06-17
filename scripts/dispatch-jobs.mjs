@@ -697,9 +697,7 @@ function readDispatchLedger() {
 }
 
 function currentHeadSha() {
-  const direct = gitRevision(ref || "origin/main");
-  if (direct) return direct;
-  if (!isMainRef(ref)) return "";
+  if (!isMainRef(ref)) return gitRevision(ref);
 
   try {
     execFileSync("git", ["fetch", "origin", "main", "--depth=1"], {

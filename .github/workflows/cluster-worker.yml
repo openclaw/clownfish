@@ -173,17 +173,33 @@ jobs:
               if (!/^[0-9a-f]{40,64}$/i.test(requiredAncestor)) {
                 throw new Error(`invalid repository_dispatch required_ancestor_sha: ${requiredAncestor}`);
               }
-              spawnSync("git", ["fetch", "--no-tags", "--depth=100", "origin", "main"], {
+            const isShallow = execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
+              encoding: "utf8",
+            }).trim() === "true";
+            const fetchMain = (args) => {
+              const result = spawnSync("git", args, {
                 encoding: "utf8",
                 stdio: "pipe",
               });
-              const ancestorCheck = spawnSync("git", ["merge-base", "--is-ancestor", requiredAncestor, "HEAD"], {
+              if (result.status !== 0) {
+                throw new Error(`failed to fetch origin/main: ${String(result.stderr ?? "").trim()}`);
+              }
+            };
+            fetchMain(["fetch", "--no-tags", ...(isShallow ? ["--deepen=250"] : []), "origin", "main"]);
+            let ancestorCheck = spawnSync("git", ["merge-base", "--is-ancestor", requiredAncestor, "HEAD"], {
+              encoding: "utf8",
+              stdio: "pipe",
+            });
+            if (ancestorCheck.status !== 0 && isShallow) {
+              fetchMain(["fetch", "--no-tags", "--unshallow", "origin", "main"]);
+              ancestorCheck = spawnSync("git", ["merge-base", "--is-ancestor", requiredAncestor, "HEAD"], {
                 encoding: "utf8",
                 stdio: "pipe",
               });
-              if (ancestorCheck.status !== 0) {
-                throw new Error(
-                  `stale repository_dispatch required_ancestor_sha ${requiredAncestor}; workflow checked out ${actualHead}`,
+            }
+            if (ancestorCheck.status !== 0) {
+              throw new Error(
+                `stale repository_dispatch required_ancestor_sha ${requiredAncestor}; workflow checked out ${actualHead}`,
                 );
               }
             } else if (expectedHead && expectedHead !== actualHead) {

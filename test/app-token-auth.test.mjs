@@ -149,6 +149,7 @@ test("dispatch supports repository-worker canary dispatch", () => {
   const fixture = makeFixture();
   writeFailingGh(fixture.bin, "gh");
   const fakeGhx = writeFakeGh(fixture.bin, "ghx");
+  writeShallowCheckoutGit(fixture.bin);
   const env = {
     ...process.env,
     PATH: `${fixture.bin}${path.delimiter}${process.env.PATH}`,
@@ -238,12 +239,64 @@ test("repository-worker dispatch fetches main when a shallow checkout lacks orig
   assert.match(result.stdout, /dispatched 1\/1/);
 });
 
+test("repository-worker dispatch refreshes an existing stale origin/main ref", () => {
+  const fixture = makeFixture();
+  writeFailingGh(fixture.bin, "gh");
+  const fakeGhx = writeFakeGh(fixture.bin, "ghx");
+  writeStaleMainGit(fixture.bin);
+  const env = {
+    ...process.env,
+    PATH: `${fixture.bin}${path.delimiter}${process.env.PATH}`,
+    EXPECT_REPOSITORY_WORKER_FIELDS: "1",
+    EXPECT_REQUIRED_ANCESTOR: "a".repeat(40),
+  };
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/dispatch-jobs.mjs",
+      "jobs/openclaw/inbox/cluster-example.md",
+      "--repo",
+      "openclaw/clownfish",
+      "--mode",
+      "autonomous",
+      "--dispatch-event",
+      "repository-worker",
+      "--ref",
+      "main",
+      "--gh-bin",
+      fakeGhx,
+      "--allow-app-token-auth",
+      "--skip-publish-backlog-check",
+      "--max-live-workers",
+      "1",
+      "--hydrate-comments",
+      "1",
+      "--max-linked-refs",
+      "20",
+      "--max-comments-per-item",
+      "30",
+      "--max-review-comments-per-pr",
+      "50",
+      "--dry-run",
+      "1",
+      "--no-dispatch-ledger",
+    ],
+    { cwd: repoRoot, encoding: "utf8", env },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stdout, /dispatched 1\/1/);
+});
+
 test("cluster-worker repository dispatch guard accepts descendants", () => {
   const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
 
   assert.match(workflow, /required_ancestor_sha/);
   assert.match(workflow, /parsedPayload && typeof parsedPayload === "object" \? parsedPayload : {}/);
   assert.match(workflow, /spawnSync\("git", \["merge-base", "--is-ancestor", requiredAncestor, "HEAD"\]/);
+  assert.match(workflow, /--deepen=250/);
+  assert.match(workflow, /--unshallow/);
   assert.match(workflow, /repository_dispatch worker requires required_ancestor_sha or legacy head_sha/);
 });
 
@@ -340,6 +393,10 @@ if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
       console.error("missing required_ancestor_sha", JSON.stringify(payload));
       process.exit(1);
     }
+    if (process.env.EXPECT_REQUIRED_ANCESTOR && client.required_ancestor_sha !== process.env.EXPECT_REQUIRED_ANCESTOR) {
+      console.error("wrong required_ancestor_sha", client.required_ancestor_sha, "wanted", process.env.EXPECT_REQUIRED_ANCESTOR);
+      process.exit(1);
+    }
   }
   console.log("accepted repository dispatch");
   process.exit(0);
@@ -379,6 +436,29 @@ if (args[0] === "rev-parse" && args[1] === "origin/main") process.exit(1);
 if (args[0] === "fetch" && args[1] === "origin" && args[2] === "main") process.exit(0);
 if (args[0] === "rev-parse" && args[1] === "FETCH_HEAD") {
   console.log("${"a".repeat(40)}");
+  process.exit(0);
+}
+console.error("unexpected fake git call", args.join(" "));
+process.exit(1);
+`,
+  );
+  fs.chmodSync(filePath, 0o755);
+  return filePath;
+}
+
+function writeStaleMainGit(binDir) {
+  const filePath = path.join(binDir, "git");
+  fs.writeFileSync(
+    filePath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+if (args[0] === "fetch" && args[1] === "origin" && args[2] === "main") process.exit(0);
+if (args[0] === "rev-parse" && args[1] === "FETCH_HEAD") {
+  console.log("${"a".repeat(40)}");
+  process.exit(0);
+}
+if (args[0] === "rev-parse" && args[1] === "origin/main") {
+  console.log("${"b".repeat(40)}");
   process.exit(0);
 }
 console.error("unexpected fake git call", args.join(" "));
