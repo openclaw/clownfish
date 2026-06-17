@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-42637-skills-truncation",
+  "mode": "autonomous",
+  "run_id": "27680648010",
+  "workflow_run_id": "27680648010",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27680648010",
+  "head_sha": "5db641f66484928ed6dcd5f0bb78f24fab1e5408",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T09:53:17Z",
+  "workflow_updated_at": "2026-06-17T10:04:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
+  "published_at": "2026-06-17T10:05:16.428Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/42637",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42637",
+  "summary": "#42637 is the canonical repair path for the omitted-skill discoverability bug, but it is not merge-ready: the PR is open, dirty against main, labeled waiting on author, and has actionable Codex/ClawSweeper review findings around prompt budgeting, exact lookup keys, and safe formatting of omitted skill names. A narrow executable repair artifact should update the contributor repair path, preserve credit, and keep #88426 open as related overlapping prompt-budget work rather than closing or merging anything.",
+  "actions": [
+    {
+      "target": "#42637",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and editable, but stale/dirty and review-blocked; emit an executable repair plan instead of merge or close."
+    },
+    {
+      "target": "#88426",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "Related overlapping prompt-budget work, not a duplicate or replacement for the omitted-skill-name repair."
+    },
+    {
+      "target": "cluster:repair-42637-skills-truncation",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "Executor should repair the existing contributor branch or update the configured Clownfish repair branch with a narrow implementation and fresh validation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#42637",
+    "source_refs": [
+      "#42637",
+      "#88426"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #42637 so skills omitted by prompt truncation remain discoverable by name without exceeding `maxSkillsPromptChars` or adding unsafe prompt text. Keep the change focused on the existing skills prompt truncation path and regression tests.",
+    "pr_title": "fix(skills): list omitted skill names within truncation budget",
+    "pr_body": "## Summary\n\nRepair the skills prompt truncation notice so omitted skills remain discoverable when the catalog is capped. This carries forward the fix from #42637 with attribution to @imwyvern / the source branch, while keeping the implementation bounded to prompt rendering and focused regression coverage.\n\nThe repair should:\n- include exact omitted skill lookup keys in the truncation note when budget allows;\n- keep the final rendered prompt within `skills.limits.maxSkillsPromptChars`;\n- avoid raw control-character or ambiguous delimiter injection in omitted-name guidance;\n- preserve current compact-mode behavior by retrying compact rendering before dropping skills where applicable.\n\nRelated prompt-budget work in #88426 should stay separate.\n\n## Verification\n\n- `pnpm test src/skills/loading/compact-format.test.ts`\n- `pnpm check:changed`\n\n## Credit\n\nBased on the useful contributor work in https://github.com/openclaw/openclaw/pull/42637. Thanks @imwyvern; source commits are credited to sakaenyeniceri5.",
+    "likely_files": [
+      "src/skills/loading/workspace.ts",
+      "src/skills/loading/compact-format.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/skills/loading/compact-format.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve credit for #42637 author @imwyvern and source commits authored by sakaenyeniceri5 in the repair PR body.",
+      "Mention that the repair carries forward the omitted-skill-name discoverability approach from https://github.com/openclaw/openclaw/pull/42637.",
+      "Do not close #42637 before a fix PR exists or the contributor branch is updated and validated."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/skills/loading/compact-format.test.ts: core test [check:changed] src/skills/loading/workspace.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.j...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/skills/loading/compact-format.test.ts: core test [check:changed] src/skills/loading/workspace.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.j...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
