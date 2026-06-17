@@ -1,0 +1,97 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-146",
+  "mode": "plan",
+  "run_id": "27664645121-1-6",
+  "workflow_run_id": "27664645121",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664645121",
+  "head_sha": "bc4ecd81f029cc0674bdc98892bf2296bb03c0e1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:54:29Z",
+  "workflow_updated_at": "2026-06-17T03:57:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-146.md",
+  "published_at": "2026-06-17T03:59:48.035Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment. No PR has complete merge preflight proof. #82955 has a bounded maintainer-safe contributor-branch repair path; #54716, #62682, #93402, and #93686 need maintainer judgment or fresher review details before merge or repair finalization.",
+  "actions": [
+    {
+      "target": "#82955",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#82955",
+      "reason": "Repair the contributor branch, re-run focused installer validation plus pnpm check:changed, run Codex /review, and only then reconsider merge."
+    },
+    {
+      "target": "#54716",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#54716",
+      "reason": "Maintainer should decide whether to request author follow-up, refresh the proof, or schedule a narrower repair job once review-bot findings are hydrated."
+    },
+    {
+      "target": "#62682",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#62682",
+      "reason": "The broad code delta and auth-provider risk match the job's require_human_for broad_code_delta gate; maintainer review is required before repair or merge."
+    },
+    {
+      "target": "#93402",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93402",
+      "reason": "Active review-thread context and a failing check block merge preflight; maintainer should resolve whether the review comments are blocking or informational."
+    },
+    {
+      "target": "#93686",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93686",
+      "reason": "Author-follow-up status and failing lint/type checks block merge; maintainer should decide whether Clownfish may take over the branch repair."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-146",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#82955",
+      "reason": "Build a repair-contributor-branch artifact for #82955; do not open a replacement PR unless branch repair proves impossible."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "needs_human": 4,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#54716: failing behavior proof plus unresolved Codex review-bot comments without actionable hydrated details.",
+    "#62682: broad size-L auth-provider/runtime change requires maintainer judgment.",
+    "#93402: active review-thread context is present but not hydrated enough to prove resolution.",
+    "#93686: status waiting on author plus failing lint/type checks requires maintainer decision before Clownfish takes over."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-147",
+  "mode": "plan",
+  "run_id": "27664645121-1-7",
+  "workflow_run_id": "27664645121",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664645121",
+  "head_sha": "bc4ecd81f029cc0674bdc98892bf2296bb03c0e1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:54:29Z",
+  "workflow_updated_at": "2026-06-17T03:57:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-147.md",
+  "published_at": "2026-06-17T03:59:48.038Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No GitHub mutations are allowed by mode or job frontmatter; merge recommendations are blocked where complete merge preflight is missing or checks/review-bot proof is incomplete.",
+  "actions": [
+    {
+      "target": "#68558",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#68558",
+      "reason": "Useful, narrow PR but not merge-ready; maintainer-can-modify is true, so a repair pass should refresh proof, resolve bot findings, and rerun review/validation before any merge recommendation."
+    },
+    {
+      "target": "#68843",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#68843",
+      "reason": "This may be mergeable after maintainer review, but the required merge preflight is incomplete in the artifact; human/maintainer confirmation is needed rather than emitting merge_candidate."
+    },
+    {
+      "target": "#69022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#69022",
+      "reason": "Useful narrow PR but not merge-ready; maintainer-can-modify is true, so repair should refresh proof and run required review/validation."
+    },
+    {
+      "target": "#69199",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#69199",
+      "reason": "The PR looks promising, but merge preflight is incomplete and the branch is not maintainer-editable; maintainer judgment is needed before merge or replacement."
+    },
+    {
+      "target": "#81108",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#81108",
+      "reason": "Broad PR with failing checks and explicit broad-code-delta human gate; do not emit merge or automated fix artifact from this cluster."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#68843: maintainer decision needed because merge preflight is otherwise promising but lacks resolved bot-review/Codex `/review` proof and current mergeability proof.",
+    "#69199: maintainer decision needed because merge preflight is otherwise promising but lacks resolved bot-review/Codex `/review` proof and the branch is not maintainer-editable.",
+    "#81108: broad XL gateway delta with failing `check-lint` and `check-prod-types`; job frontmatter requires human review for broad code delta."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

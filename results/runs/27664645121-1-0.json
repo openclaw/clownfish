@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-140",
+  "mode": "plan",
+  "run_id": "27664645121-1-0",
+  "workflow_run_id": "27664645121",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664645121",
+  "head_sha": "bc4ecd81f029cc0674bdc98892bf2296bb03c0e1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:54:29Z",
+  "workflow_updated_at": "2026-06-17T03:57:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-140.md",
+  "published_at": "2026-06-17T03:59:48.024Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification over five open PRs. No merge_candidate is safe because the artifact does not provide complete merge preflight proof with resolved review-bot findings, current mergeability, and clean Codex /review. Three small focused PRs can stay independent for standard maintainer merge-preflight; two need human review because the job frontmatter requires human handling for broad code delta or active author follow-up.",
+  "actions": [
+    {
+      "target": "#61775",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused contributor PR. Do not merge from this plan because mergeability and complete merge preflight are missing; queue standard maintainer finalization or refreshed merge-preflight."
+    },
+    {
+      "target": "#64782",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad session-state/gateway change needs maintainer judgment before any merge or repair path. No close or merge action is planned."
+    },
+    {
+      "target": "#91988",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused bug-fix PR. Keep it in its own finalization lane; no merge_candidate without refreshed merge preflight."
+    },
+    {
+      "target": "#91977",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused iOS PR. It looks like a standard maintainer finalization candidate after refreshed merge preflight, not a cluster duplicate or replacement fix."
+    },
+    {
+      "target": "#43493",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and failed proof require maintainer judgment. Do not create a replacement fix artifact for this broad feature/config workflow from this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#64782 requires maintainer review because the hydrated PR is size: XL with broad gateway/session-state changes and unresolved merge-preflight proof.",
+    "#43493 requires maintainer review because it is labeled waiting on author and its Real behavior proof check is failing."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

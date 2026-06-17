@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-149",
+  "mode": "plan",
+  "run_id": "27664645121-1-9",
+  "workflow_run_id": "27664645121",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664645121",
+  "head_sha": "bc4ecd81f029cc0674bdc98892bf2296bb03c0e1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:54:29Z",
+  "workflow_updated_at": "2026-06-17T03:57:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-149.md",
+  "published_at": "2026-06-17T03:59:48.043Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation result for five open PR inventory items. No PR has complete merge preflight. Two security-shaped webhook/session-routing PRs are quarantined to central security handling, one narrow contributor PR has a concrete repair path, and the remaining broad or proof-failing feature/diagnostic PRs need maintainer judgment before repair or merge planning.",
+  "actions": [
+    {
+      "target": "#54904",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Webhook routing plus information-leak/abuse framing is security-sensitive enough for central OpenClaw security handling, scoped only to this PR."
+    },
+    {
+      "target": "#68677",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#68677",
+      "reason": "Useful narrow contributor branch should be repaired against current main, then revalidated before any merge recommendation."
+    },
+    {
+      "target": "#64064",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The change is broad feature work with failed proof and product/API-surface decisions; a narrow autonomous repair artifact would not be maintainer-safe from the hydrated evidence."
+    },
+    {
+      "target": "#68967",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Session context leakage across chat threads is a sensitive-data/session-boundary concern for central OpenClaw security handling, scoped only to this PR."
+    },
+    {
+      "target": "#69346",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The code may be narrow, but the required user-visible proof is failing; maintainer input is needed on whether to repair proof, ask author follow-up, or split a targeted follow-up job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "fix_needed": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#64064: broad Anthropic advisor-tool feature with failed proof and product/API-surface decisions.",
+    "#69346: embedded-runner diagnostic PR has failing Telegram/real-behavior proof; maintainer should decide repair vs author follow-up."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

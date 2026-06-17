@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-145",
+  "mode": "plan",
+  "run_id": "27664645121-1-5",
+  "workflow_run_id": "27664645121",
+  "run_attempt": "1",
+  "matrix_index": "5",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27664645121",
+  "head_sha": "bc4ecd81f029cc0674bdc98892bf2296bb03c0e1",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:54:29Z",
+  "workflow_updated_at": "2026-06-17T03:57:47Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-145.md",
+  "published_at": "2026-06-17T03:59:48.033Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result: #85505 is quarantined to central security handling. The remaining four open PRs are independent maintainer-ready candidates, but none has complete merge preflight proof for a merge recommendation in this run.",
+  "actions": [
+    {
+      "target": "#93814",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR looks like a small viable merge candidate, but merge policy requires current mergeability and Codex /review proof before recommending merge."
+    },
+    {
+      "target": "#67077",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup status, unresolved review proof, and auth-provider risk require maintainer review before merge or repair planning."
+    },
+    {
+      "target": "#58373",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad agent/auth-provider delta, failing checks, waiting-on-author label, and missing review-bot resolution make this a maintainer decision rather than a merge recommendation."
+    },
+    {
+      "target": "#85505",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive ref is out of ProjectClownfish mutation scope and should be handled by central OpenClaw security triage."
+    },
+    {
+      "target": "#59920",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears focused and likely mergeable after normal final checks, but current Codex /review and mergeability proof are missing, so merge cannot be recommended from this plan."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93814 needs maintainer or executor preflight to confirm current mergeability and run/record clean Codex /review before merge.",
+    "#67077 needs maintainer review because it is still marked waiting on author with auth-provider availability risk and unresolved review proof.",
+    "#58373 needs maintainer review because it is large, waiting on author, has failing checks, and lacks resolved review-bot proof.",
+    "#59920 needs maintainer or executor preflight to confirm current mergeability and clean Codex /review before merge."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
