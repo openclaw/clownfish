@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-46-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666807903",
+  "workflow_run_id": "27666807903",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666807903",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:19:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-46-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:20:22.526Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/87449",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/87322",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/87449",
+  "summary": "Selected #87449 as the current canonical repair path for #87322. Merge is not recommended yet because the latest ClawSweeper/Codex review on #87449 failed from infrastructure timeout, so the safe autonomous path is to repair/review the contributor branch before any merge or issue closeout. #71569 stays open as related because its remaining final-notification UX/product decision is not fully covered by #87449. Security-sensitive linked PR #75256 is routed only for central security handling.",
+  "actions": [
+    {
+      "target": "#75256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The preflight security boundary lists #75256 as security-sensitive; route the exact ref to central OpenClaw security handling without blocking the non-security #87322/#87449 path."
+    },
+    {
+      "target": "#71569",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87449",
+      "candidate_fix": null,
+      "reason": "#71569 belongs to the same Mattermost streaming family but is not a true duplicate of #87322/#87449 because it retains a distinct final-notification UX decision."
+    },
+    {
+      "target": "#87322",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#87449",
+      "candidate_fix": "#87449",
+      "reason": "The issue is high-confidence covered by #87449, but fix-first closeout blocks closing until the canonical PR is merged or replaced."
+    },
+    {
+      "target": "#87449",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87449",
+      "candidate_fix": "#87449",
+      "reason": "#87449 is the canonical contributor branch, but merge is blocked until the executor runs Codex /review, addresses any findings, validates with the OpenClaw gate, and records merge preflight."
+    },
+    {
+      "target": "cluster:gitcrawl-46-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#87449",
+      "candidate_fix": "#87449",
+      "reason": "A fix artifact is needed so the executor can rebase/review/validate #87449 before merge consideration."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1,
+    "close_fixed_by_candidate": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [
+    "#71569 still needs a maintainer/product decision and live Mattermost notification proof for whether final answers should notify by edit, silent preview plus final post, or another UX behavior; this is related but not resolved by #87449."
+  ],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/87449",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "55dcfbfa449bd70bf4945e59e74105b48f69f0eb",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#87322",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#87449",
+      "candidate_fix": "#87449",
+      "title": null,
+      "idempotency_key": "gitcrawl-46-autonomous-terminal-gap:#87322:close_fixed_by_candidate:#87449:2026-06-15T04:05:47Z",
+      "source_status": "blocked",
+      "source_reason": "The issue is high-confidence covered by #87449, but fix-first closeout blocks closing until the canonical PR is merged or replaced.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    },
+    {
+      "target": "#87449",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(mattermost): preserve text-block boundaries in draft preview (#87322)",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: check-prod-types: FAILURE, check-lint: FAILURE, check-dependencies: FAILURE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
