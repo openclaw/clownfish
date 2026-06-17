@@ -140,6 +140,68 @@ test("queue-status counts published markdown reports as results", () => {
   assert.equal(payload.rows.find((row) => row.cluster_id === "a-plan").latest_result.source, "result_markdown");
 });
 
+test("queue-status selects verified live sweep requeue jobs with published results", () => {
+  const fixture = makeFixture();
+  const waveFile = path.join(fixture.root, "sweep-requeue-wave.txt");
+  const sweepReport = path.join(fixture.root, "sweep-report.json");
+  const requeuePath = path.join(fixture.inbox, "requeue.md");
+  const missingPath = path.join(fixture.inbox, "missing.md");
+  writeJob(requeuePath, {
+    clusterId: "requeue",
+    mode: "autonomous",
+    refs: ["#1"],
+  });
+  writeJob(missingPath, {
+    clusterId: "missing",
+    mode: "autonomous",
+    refs: ["#2"],
+  });
+  writeResultReport(path.join(fixture.resultReports, "requeue.md"), {
+    clusterId: "requeue",
+    runId: "12345",
+    actionsTotal: 1,
+  });
+  fs.writeFileSync(
+    sweepReport,
+    `${JSON.stringify({
+      requeue_candidates: [
+        { job: path.relative(repoRoot, requeuePath), live_target_refs_open: 1 },
+        { job: path.relative(repoRoot, missingPath), live_target_refs_open: 1 },
+      ],
+    })}\n`,
+  );
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/queue-status.mjs",
+      "--inbox",
+      fixture.inbox,
+      "--runs-dir",
+      fixture.runs,
+      "--result-reports-dir",
+      fixture.resultReports,
+      "--dispatch-ledger",
+      fixture.ledger,
+      "--sweep-report",
+      sweepReport,
+      "--sweep-requeue-limit",
+      "5",
+      "--write-sweep-requeue",
+      waveFile,
+      "--skip-secret-check",
+      "--json",
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.totals.live_sweep_requeue_candidates, 1);
+  assert.equal(payload.selected_counts.sweep_requeue, 1);
+  assert.deepEqual(fs.readFileSync(waveFile, "utf8").trim().split(/\r?\n/).map((item) => path.basename(item)), ["requeue.md"]);
+});
+
 test("prune-inbox preserves example jobs even when writing", () => {
   const fixture = makeFixture();
   const examplePath = path.join(fixture.inbox, "autonomous-example.md");

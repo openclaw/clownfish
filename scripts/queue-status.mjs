@@ -27,18 +27,25 @@ const skipSecretCheck = Boolean(args["skip-secret-check"] ?? args.skip_secret_ch
 const allowAppTokenAuth = Boolean(
   args["allow-app-token-auth"] ?? args.allow_app_token_auth ?? process.env.CLOWNFISH_ALLOW_APP_TOKEN_AUTH === "1",
 );
+const sweepReportPath = args["sweep-report"] ?? args.sweep_report;
 const planLimit = numberArg("plan-limit", 0);
 const executeLimit = numberArg("execute-limit", 0);
 const autonomousLimit = numberArg("autonomous-limit", 0);
 const closeLimit = numberArg("close-limit", 0);
+const sweepRequeueLimit = numberArg("sweep-requeue-limit", 0);
 const planRefLimit = numberArg("plan-ref-limit", 0);
 const executeRefLimit = numberArg("execute-ref-limit", 0);
 const autonomousRefLimit = numberArg("autonomous-ref-limit", 0);
 const closeRefLimit = numberArg("close-ref-limit", 0);
+const sweepRequeueRefLimit = numberArg("sweep-requeue-ref-limit", 0);
 const attemptFilter = String(args["attempt-filter"] ?? args.attempt_filter ?? "all");
 const validAttemptFilters = new Set(["all", "unattempted", "attempted", "accepted", "failed"]);
 if (!validAttemptFilters.has(attemptFilter)) {
   console.error(`--attempt-filter must be one of ${[...validAttemptFilters].join(", ")}`);
+  process.exit(2);
+}
+if (sweepRequeueLimit > 0 && !sweepReportPath) {
+  console.error("--sweep-requeue-limit requires --sweep-report");
   process.exit(2);
 }
 
@@ -46,10 +53,12 @@ const jobs = readInboxJobs();
 const resultsByCluster = readRunResults();
 const attemptsByJob = readDispatchAttemptsByJob();
 const rows = jobs.map(classifyJob);
+const rowsByPath = new Map(rows.map((row) => [row.path, row]));
 const missingPlan = rows.filter((row) => row.mode === "plan" && !row.has_result);
 const missingExecute = rows.filter((row) => row.mode === "execute" && !row.has_result);
 const missingAutonomous = rows.filter((row) => row.mode === "autonomous" && !row.has_result);
 const closeCanaries = rows.filter((row) => row.close_canary && !row.has_result);
+const liveSweepRequeue = selectLiveSweepRequeueCandidates(sweepReportPath, rowsByPath);
 const attemptedMissing = rows.filter((row) => !row.has_result && row.latest_dispatch_attempt);
 const unattemptedMissing = rows.filter((row) => !row.has_result && !row.latest_dispatch_attempt);
 const secrets = skipSecretCheck ? null : readSecretNames(dispatchRepo);
@@ -64,18 +73,24 @@ const selectedRows = {
     refLimit: autonomousRefLimit,
   }),
   close_canaries: takeByLimits(filterByAttempt(closeCanaries), { itemLimit: closeLimit, refLimit: closeRefLimit }),
+  sweep_requeue: takeByLimits(liveSweepRequeue, {
+    itemLimit: sweepRequeueLimit,
+    refLimit: sweepRequeueRefLimit,
+  }),
 };
 const selected = {
   plan: selectedRows.plan.map((row) => row.path),
   execute: selectedRows.execute.map((row) => row.path),
   autonomous: selectedRows.autonomous.map((row) => row.path),
   close_canaries: selectedRows.close_canaries.map((row) => row.path),
+  sweep_requeue: selectedRows.sweep_requeue.map((row) => row.path),
 };
 
 writeJobsFile(args["write-missing-plan"] ?? args.write_missing_plan, selected.plan);
 writeJobsFile(args["write-missing-execute"] ?? args.write_missing_execute, selected.execute);
 writeJobsFile(args["write-missing-autonomous"] ?? args.write_missing_autonomous, selected.autonomous);
 writeJobsFile(args["write-close-canaries"] ?? args.write_close_canaries, selected.close_canaries);
+writeJobsFile(args["write-sweep-requeue"] ?? args.write_sweep_requeue, selected.sweep_requeue);
 
 const payload = {
   generated_at: new Date().toISOString(),
@@ -83,6 +98,7 @@ const payload = {
   runs_dir: path.relative(repoRoot(), runsDir),
   result_reports_dir: path.relative(repoRoot(), resultReportsDir),
   dispatch_ledger: path.relative(repoRoot(), dispatchLedgerPath),
+  sweep_report: sweepReportPath ? path.resolve(String(sweepReportPath)) : null,
   dispatch_repo: dispatchRepo,
   attempt_filter: attemptFilter,
   auth,
@@ -94,6 +110,7 @@ const payload = {
     missing_execute: missingExecute.length,
     missing_autonomous: missingAutonomous.length,
     close_canaries_ready: closeCanaries.length,
+    live_sweep_requeue_candidates: liveSweepRequeue.length,
     attempted_missing_results: attemptedMissing.length,
     unattempted_missing_results: unattemptedMissing.length,
   },
@@ -108,6 +125,7 @@ const payload = {
     missing_execute: sumBy(missingExecute, (row) => row.ref_count),
     missing_autonomous: sumBy(missingAutonomous, (row) => row.ref_count),
     close_canaries_ready: sumBy(closeCanaries, (row) => row.ref_count),
+    live_sweep_requeue_candidates: sumBy(liveSweepRequeue, (row) => row.ref_count),
   },
   by_mode: countBy(rows, (row) => row.mode),
   by_mode_result: countBy(rows, (row) => `${row.mode}:${row.has_result ? "has_result" : "missing_result"}`),
@@ -135,6 +153,8 @@ if (jsonOutput) {
       `autonomous_refs=${payload.ref_totals.missing_autonomous}`,
       `close_canaries=${payload.totals.close_canaries_ready}`,
       `close_canary_refs=${payload.ref_totals.close_canaries_ready}`,
+      `sweep_requeue=${payload.totals.live_sweep_requeue_candidates}`,
+      `sweep_requeue_refs=${payload.ref_totals.live_sweep_requeue_candidates}`,
       `attempted_missing=${payload.totals.attempted_missing_results}`,
       `unattempted_missing=${payload.totals.unattempted_missing_results}`,
       `attempt_filter=${payload.attempt_filter}`,
@@ -260,6 +280,25 @@ function classifyJob(job) {
     latest_result: result,
     latest_dispatch_attempt: latestDispatchAttempt,
   };
+}
+
+function selectLiveSweepRequeueCandidates(reportPath, rowsByPath) {
+  if (!reportPath) return [];
+  let report;
+  try {
+    report = JSON.parse(fs.readFileSync(path.resolve(String(reportPath)), "utf8"));
+  } catch (error) {
+    console.error(`failed to read --sweep-report: ${error.message}`);
+    process.exit(2);
+  }
+  if (!Array.isArray(report.requeue_candidates)) {
+    console.error("--sweep-report must contain a requeue_candidates array");
+    process.exit(2);
+  }
+  return report.requeue_candidates
+    .filter((candidate) => Number(candidate.live_target_refs_open ?? 0) > 0)
+    .map((candidate) => rowsByPath.get(String(candidate.job)))
+    .filter((row) => row?.has_result);
 }
 
 function isExampleJobName(name) {

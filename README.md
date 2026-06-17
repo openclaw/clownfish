@@ -351,6 +351,17 @@ npm run queue-status -- \
   --write-missing-plan /tmp/clownfish-plan-wave.txt \
   --allow-app-token-auth
 
+# Refresh only verified-open jobs that the live sweep marked requeueable.
+# This is an explicit plan-only lane for stale historical results; it does not
+# auto-dispatch or convert the selected jobs into write-mode work.
+npm run sweep-openclaw-jobs -- --live --verify-target-refs-live --report /tmp/clownfish-sweep.json
+npm run queue-status -- \
+  --sweep-report /tmp/clownfish-sweep.json \
+  --sweep-requeue-limit 30 \
+  --write-sweep-requeue /tmp/clownfish-sweep-requeue.txt \
+  --allow-app-token-auth
+npm run dispatch -- --jobs-file /tmp/clownfish-sweep-requeue.txt --mode plan
+
 # High-volume plan inventory waves should keep hydration lean. This hydrates
 # only the listed PR refs and skips issue/review comments for first-pass
 # classification; follow-up execute/autonomous jobs can rehydrate deeper.
