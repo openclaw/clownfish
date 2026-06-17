@@ -141,7 +141,7 @@ test("review-results ignores security-boundary no-signal prose in mutating actio
           target_kind: "pull_request",
           target_updated_at: "2026-06-15T14:15:01Z",
           comment: "Rebase review is required before finalization.",
-          evidence: ["Security boundary preflight reports no security-sensitive items."],
+          evidence: ["No security-sensitive hydrated item is present."],
           reason: "The contributor branch needs a fresh review before finalization.",
         },
       ],

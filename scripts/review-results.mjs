@@ -415,7 +415,7 @@ function nonSecurityAssertionStrippedText(value) {
       "non-security classification",
     )
     .replace(
-      /\b(?:no|without|absent)\s+(?:deterministic\s+|live\s+|preflight\s+)?security[-_\s]?sensitive\s+(?:signal|signals|refs?|items?|target|targets)\b/gi,
+      /\b(?:no|without|absent)\s+(?:(?:deterministic|live|preflight|hydrated)\s+)?security[-_\s]?sensitive\s+(?:(?:hydrated|live|preflight|linked|related)\s+)?(?:signal|signals|refs?|items?|target|targets)\b/gi,
       "non-security classification",
     )
     .replace(
