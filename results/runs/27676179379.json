@@ -1,0 +1,263 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-93897-live-pr-inventory-20260617t081753-004-20260617a",
+  "mode": "autonomous",
+  "run_id": "27676179379",
+  "workflow_run_id": "27676179379",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27676179379",
+  "head_sha": "7f212de8d3558885303684e141ee194d21c5a447",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:30:42Z",
+  "workflow_updated_at": "2026-06-17T08:37:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-93897-live-pr-inventory-20260617t081753-004-20260617a.md",
+  "published_at": "2026-06-17T08:38:15.423Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93897",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93891",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93897",
+  "summary": "Plan repair of open canonical PR #93897 on the contributor branch. The hydrated artifact shows #93897 is the canonical narrow fix for #93891, but it is not merge-ready: real-behavior proof failed and review comments identify missing accurate migration messages, true-conflict warnings, and tests. No GitHub mutations are allowed by this job. Local checkout inspection was attempted but blocked by the sandbox before any command could run: `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`.",
+  "actions": [
+    {
+      "target": "#93897",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Canonical contributor PR is useful and narrow, but not merge-ready. Repair the branch instead of replacing it because maintainer_can_modify=true and the delta is small."
+    },
+    {
+      "target": "cluster:repair-93897-live-pr-inventory-20260617t081753-004-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Executable repair artifact is needed so the applicator can update the existing contributor PR branch, address review blockers, and rerun proof."
+    },
+    {
+      "target": "#93891",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93897",
+      "candidate_fix": "#93897",
+      "reason": "Already-closed refs must not receive close actions."
+    },
+    {
+      "target": "#93894",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different root cause and surface."
+    },
+    {
+      "target": "#93886",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different root cause and implementation surface."
+    },
+    {
+      "target": "#93900",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Docs-only runtime-boundary work is outside this repair cluster."
+    },
+    {
+      "target": "#93884",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different workstream."
+    },
+    {
+      "target": "#93901",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different channel/plugin bug."
+    },
+    {
+      "target": "#93910",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different product/config surface."
+    },
+    {
+      "target": "#93817",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Different product/config surface."
+    },
+    {
+      "target": "#87441",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Memory threshold config surface is unrelated to #93897."
+    },
+    {
+      "target": "#86015",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Already closed and unrelated to the canonical repair."
+    },
+    {
+      "target": "#90420",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Related migration area, different user-visible failure and files."
+    },
+    {
+      "target": "#91099",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Related OpenAI/Codex area, different root cause."
+    },
+    {
+      "target": "#91352",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93897",
+      "candidate_fix": null,
+      "reason": "Related OpenAI/Codex migration family, but not duplicate of #93897."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 2,
+    "keep_independent": 8,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 13,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "Local checkout verification could not be completed because every sandboxed command failed before execution with `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`; the executor should re-run source inspection and tests before pushing any branch repair."
+  ],
+  "repair_candidate": {
+    "target": "#93897",
+    "source_refs": [
+      "#93897",
+      "#93891",
+      "#86015",
+      "#93894",
+      "#93900",
+      "#93901",
+      "#93910",
+      "#87441",
+      "#90420",
+      "#91099",
+      "#91352",
+      "#93817",
+      "#93884",
+      "#93886"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #93897 so the legacy `plugins.entries.openai-codex` to `plugins.entries.openai` doctor migration preserves fields in dual-key configs, reports merge versus rewrite accurately, warns on true conflicts, and includes regression plus real-behavior proof before merge reconsideration.",
+    "pr_title": "fix(doctor): preserve legacy openai-codex plugin entry fields",
+    "pr_body": "## Summary\n- Repairs #93897 on the contributor branch so dual `plugins.entries.openai` and `plugins.entries.openai-codex` configs merge without silent data loss.\n- Reports accurate doctor change messages for rewrite versus merge paths.\n- Warns on true key conflicts instead of silently dropping legacy values.\n- Adds regression coverage for the dual-key migration case.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/93897 by @lsr911. Issue and review context: https://github.com/openclaw/openclaw/issues/93891 by @Nas01010101.\n\n## Verification\n- `pnpm check:changed`\n- `pnpm test src/commands/doctor/shared/legacy-config-migrations.runtime.providers.test.ts`\n- Real behavior proof workflow for #93897 after repair",
+    "likely_files": [
+      "src/commands/doctor/shared/legacy-config-migrations.runtime.providers.ts",
+      "src/commands/doctor/shared/legacy-config-migrations.runtime.providers.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test src/commands/doctor/shared/legacy-config-migrations.runtime.providers.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @lsr911 as the contributor who introduced the focused deep-merge fix in https://github.com/openclaw/openclaw/pull/93897.",
+      "Preserve issue and review attribution for @Nas01010101 from https://github.com/openclaw/openclaw/issues/93891 and the review comments on #93897.",
+      "Do not replace the PR unless branch repair becomes unsafe; maintainer_can_modify=true in the hydrated artifact."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-93897-live-pr-inventory-20260617t081753-004-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "Local checkout verification could not be completed because every sandboxed command failed before execution with `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`; the executor should re-run source inspection and tests before pushing any branch repair."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/commands/doctor/shared/legacy-config-migrations.runtime.providers.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core-test.tsbuildinfo [check:changed] lint core changed file [check:changed] summary...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/commands/doctor/shared/legacy-config-migrations.runtime.providers.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core-test.tsbuildinfo [check:changed] lint core changed file [check:changed] summary...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
