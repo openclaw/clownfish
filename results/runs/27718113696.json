@@ -1,0 +1,227 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27718113696",
+  "workflow_run_id": "27718113696",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27718113696",
+  "head_sha": "d4eeaf0cb358d33c811f5269e4679bc189aa0b22",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T20:36:09Z",
+  "workflow_updated_at": "2026-06-17T20:42:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+  "published_at": "2026-06-17T20:43:49.148Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94022",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93935",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94022",
+  "summary": "#94022 remains the canonical repair lane for #93935. Current main is at 20534c57b7e88c965a08e12e00ae7eb6683ac3b3 and still has the #93810 startup-only future-repair bypass, while read RPCs, manual run preflight, finalize paths, empty-due timer maintenance, and reservation release still call maintenance recompute without preserving startup catch-up deferrals. Emit a repair-contributor-branch artifact for #94022; do not comment, close, label, merge, or open a replacement PR in this run.",
+  "actions": [
+    {
+      "target": "#94022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "Repair the editable contributor branch so startup catch-up deferral ids survive all maintenance recompute callers before any future merge recommendation."
+    },
+    {
+      "target": "cluster:repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "Provide an executable narrow repair plan for the existing contributor PR branch."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "Keep the issue open as the canonical report until #94022 or an equivalent fix lands."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Historical partial fix, already closed."
+    },
+    {
+      "target": "#81731",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Related cron maintenance subproblem, not a duplicate of #93935/#94022."
+    },
+    {
+      "target": "#81691",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Related cron stale-future repair issue with a distinct root cause."
+    },
+    {
+      "target": "#93835",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Different subsystem and root cause."
+    },
+    {
+      "target": "#94017",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Independent open PR in another subsystem."
+    },
+    {
+      "target": "#78272",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#90315",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Closed unrelated provider/catalog issue."
+    },
+    {
+      "target": "#91248",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Closed unrelated provider/catalog PR."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "keep_related": 2,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94022",
+    "source_refs": [
+      "#94022",
+      "#93810",
+      "#93935",
+      "#78272",
+      "#81731",
+      "#91248",
+      "#94017",
+      "#81691",
+      "#90315",
+      "#93835"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94022 on the existing editable contributor branch so startup catch-up deferral ids are stored in cron service state and reused by every maintenance recompute caller that can run before the staggered catch-up fires. Current main only disables future repair for the immediate startup maintenance pass from #93810, leaving read RPCs, finalize paths, empty-due timer maintenance, manual run preflight, and reservation release able to advance deferred catch-up runs to the next natural cron slot.",
+    "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
+    "pr_body": "## Summary\nFixes #93935.\n\nRepair #94022 by keeping startup catch-up deferral ids in cron service state so read RPCs, finalize paths, empty-due timer maintenance, manual run preflight, and reservation release do not advance deferred catch-up runs to the next natural schedule before the staggered catch-up fires.\n\nThis is based on source PR #94022 by @Jah-xy, with #93810 by @yetval as prior related cron deferral work.\n\n## Verification\n- node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts\n- pnpm check:changed\n- scripts/pr review-validate-artifacts 94022\n- /review clean before any merge recommendation",
+    "likely_files": [
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/state.ts",
+      "src/cron/service/timer.ts",
+      "src/cron/service.startup-overflow-clobber.test.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/service/jobs.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+      "pnpm check:changed",
+      "scripts/pr review-validate-artifacts 94022"
+    ],
+    "credit_notes": [
+      "Repair the existing #94022 contributor branch; preserve @Jah-xy as the source PR author in the PR body and final commit/merge notes.",
+      "Keep #93810 by @yetval as historical context for the startup-only fix that exposed the remaining recompute-callers gap.",
+      "No CHANGELOG.md edit for this normal PR; include user-visible release-note context in the PR body and squash message."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/cron/service.jobs.test.ts: core test [check:changed] src/cron/service.startup-overflow-clobber.test.ts: core test [check:changed] src/cron/service/jobs.ts: core production [check:changed] src/cron/service/ops.ts: core production [check:changed] src/cron/service/state.ts: core production [check:changed] src/cron/service/timer.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typec...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/cron/service.jobs.test.ts: core test [check:changed] src/cron/service.startup-overflow-clobber.test.ts: core test [check:changed] src/cron/service/jobs.ts: core production [check:changed] src/cron/service/ops.ts: core production [check:changed] src/cron/service/state.ts: core production [check:changed] src/cron/service/timer.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typec...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
