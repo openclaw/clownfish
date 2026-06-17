@@ -166,6 +166,9 @@ function writeJob(batch, index) {
   const now = new Date();
   const stamp = now.toISOString().replace(/[-:.]/g, "").slice(0, 15);
   const bucket = batch.every((item) => item.bucket === batch[0].bucket) ? batch[0].bucket : "mixed";
+  const inventoryScope = skipExisting
+    ? "open pull requests not already represented in Clownfish jobs or results"
+    : "open pull requests, including previously represented PRs being refreshed against live GitHub state";
   const clusterId = `live-pr-inventory-${stamp}-${String(index).padStart(3, "0")}`;
   const filePath = path.join(outDir, `${clusterId}.md`);
   const refs = batch.map((candidate) => candidate.ref);
@@ -198,13 +201,13 @@ function writeJob(batch, index) {
     ...yamlList(refs),
     "security_policy: central_security_only",
     "security_sensitive: false",
-    `canonical_hint: ${quoteYaml("This is a live PR inventory shard over currently untracked open PRs, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.")}`,
+    `canonical_hint: ${quoteYaml("This is a live PR inventory shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.")}`,
     `notes: ${quoteYaml(`Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; only safe close/comment/label actions are allowed.`)}`,
     "---",
     "",
     `# Live PR Inventory ${index}`,
     "",
-    "This is a high-volume live inventory shard over open pull requests not already represented in Clownfish jobs or results.",
+    `This is a high-volume live inventory shard over ${inventoryScope}.`,
     "",
     "## Goal",
     "",
