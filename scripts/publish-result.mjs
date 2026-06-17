@@ -19,6 +19,8 @@ const MERGE_APPLICATOR_ACTIONS = new Set(["merge_candidate", "merge_canonical"])
 const APPLICATOR_ACTIONS = new Set([...CLOSE_APPLICATOR_ACTIONS, ...MERGE_APPLICATOR_ACTIONS]);
 const POST_FLIGHT_APPLY_ACTIONS = new Set(["finalize_fix_pr", "post_merge_closeout"]);
 const PROBLEM_ACTION_STATUSES = new Set(["blocked", "failed"]);
+const REPAIR_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"]);
+const TERMINAL_REPAIR_STATUSES = new Set(["executed", "opened", "pushed", "merged", "closed", "already_closed"]);
 const PR_INFO_CACHE = new Map();
 const ISSUE_INFO_CACHE = new Map();
 const archivedClusters = readArchivedClusters();
@@ -51,6 +53,7 @@ function publishResult(resultPath) {
   const postFlightReport = readSiblingJson(runDir, "post-flight-report.json") ?? { actions: [] };
   const fixReport = readSiblingJson(runDir, "fix-execution-report.json") ?? { actions: [] };
   const clusterPlan = readSiblingJson(runDir, "cluster-plan.json");
+  const fixArtifact = readSiblingJson(runDir, "fix-artifact.json");
   const identity = inferResultRunIdentity(resultPath);
   const runId = String(args["run-id"] ?? identity?.run_id ?? "");
   const workflowRunId = String(args["workflow-run-id"] ?? identity?.workflow_run_id ?? runId);
@@ -72,6 +75,12 @@ function publishResult(resultPath) {
     ...(postFlightReport.actions ?? []).filter(isPostFlightApplyAction).map(postFlightToApplyAction),
   ].filter(isApplicatorAction));
   const fixActions = (fixReport.actions ?? []).map(sanitizeFixAction);
+  const repairCandidate = sanitizeRepairCandidate({
+    result,
+    fixArtifact,
+    clusterPlan,
+    fixActions,
+  });
   const report = {
     repo,
     cluster_id: clusterId,
@@ -87,7 +96,7 @@ function publishResult(resultPath) {
     workflow_created_at: metadata?.createdAt ?? metadata?.created_at ?? previousRecord?.workflow_created_at ?? null,
     workflow_updated_at: metadata?.updatedAt ?? metadata?.updated_at ?? previousRecord?.workflow_updated_at ?? null,
     result_status: result.status ?? null,
-    source_job: clusterPlan?.source_job ?? null,
+    source_job: clusterPlan?.source_job ?? fixArtifact?.source_job ?? null,
     published_at: new Date().toISOString(),
     canonical: result.canonical ?? null,
     canonical_issue: result.canonical_issue ?? null,
@@ -99,6 +108,7 @@ function publishResult(resultPath) {
     fix_counts: countBy(fixActions, (action) => String(action.status ?? "unknown")),
     apply_counts: countBy(applyActions, (action) => String(action.status ?? "unknown")),
     needs_human: Array.isArray(result.needs_human) ? result.needs_human : [],
+    repair_candidate: repairCandidate,
     fix_actions: fixActions,
     apply_actions: applyActions.map(sanitizeApplyAction),
   };
@@ -148,6 +158,15 @@ function renderClusterReport(report) {
     report.needs_human.length > 0
       ? report.needs_human.map((item) => `- ${item}`).join("\n")
       : "- none";
+  const repairCandidate = report.repair_candidate
+    ? `## Repair Candidate
+
+\`\`\`json
+${JSON.stringify(report.repair_candidate, null, 2)}
+\`\`\`
+
+`
+    : "";
   return `---
 repo: ${quote(report.repo)}
 cluster_id: ${quote(report.cluster_id)}
@@ -201,7 +220,7 @@ ${report.summary || "_No summary emitted._"}
 | Apply skipped | ${report.apply_counts.skipped ?? 0} |
 | Needs human | ${report.needs_human.length} |
 
-## Fix Execution Actions
+${repairCandidate}## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
@@ -556,6 +575,128 @@ function readRunMetadata(filePath) {
   const data = readJson(filePath);
   const rows = Array.isArray(data) ? data : [data];
   return new Map(rows.map((row) => [String(row.databaseId ?? row.run_id ?? row.id), row]));
+}
+
+function sanitizeRepairCandidate({ result, fixArtifact, clusterPlan, fixActions }) {
+  const artifact = result?.fix_artifact;
+  if (!isObject(artifact) || !isObject(fixArtifact)) return null;
+
+  const artifactSourceRefs = sanitizeRefs([artifact.source_prs, artifact.linked_refs]);
+  const canonicalRefs = sanitizeRefs([result.canonical_pr, result.canonical, result.canonical_issue]);
+  const plannerRefs = sanitizeRefs([
+    (fixArtifact.canonical_candidates ?? []).map((item) => item?.ref),
+    (fixArtifact.item_matrix ?? []).map((item) => item?.ref),
+  ]);
+  const sourceRefs = uniqueStrings([...artifactSourceRefs, ...canonicalRefs, ...plannerRefs], 20);
+  const target = artifactSourceRefs[0] ?? canonicalRefs[0] ?? plannerRefs[0] ?? null;
+  const plannedActions = uniqueStrings(
+    (Array.isArray(result.actions) ? result.actions : [])
+      .filter((action) => action?.status === "planned" && REPAIR_ACTIONS.has(String(action?.action ?? "")))
+      .map((action) => String(action.action)),
+    8,
+  );
+  const securityRoutedRefs = sanitizeRefs(
+    (Array.isArray(result.actions) ? result.actions : [])
+      .filter(
+        (action) =>
+          action?.action === "route_security" ||
+          action?.classification === "security_sensitive" ||
+          action?.security_sensitive === true,
+      )
+      .map((action) => action?.target),
+  );
+  const targetItem = (fixArtifact.item_matrix ?? []).find((item) => normalizeGithubRef(item?.ref) === target);
+  const targetAction = (Array.isArray(result.actions) ? result.actions : []).find(
+    (action) => normalizeGithubRef(action?.target) === target,
+  );
+  const securitySensitive =
+    typeof targetItem?.security_sensitive === "boolean"
+      ? targetItem.security_sensitive
+      : targetAction
+        ? targetAction.action === "route_security" ||
+          targetAction.classification === "security_sensitive" ||
+          targetAction.security_sensitive === true
+        : null;
+  const reportedStatus = sanitizeText(artifact.repair_status, 80);
+  const terminalStatus = (fixActions ?? []).find((action) =>
+    TERMINAL_REPAIR_STATUSES.has(String(action.status ?? "").toLowerCase()),
+  )?.status;
+  const repairStatus = sanitizeText(terminalStatus ?? reportedStatus, 80) || null;
+
+  return {
+    target,
+    source_refs: sourceRefs,
+    repair_strategy: sanitizeText(artifact.repair_strategy, 120) || null,
+    planned_actions: plannedActions,
+    summary: sanitizeText(artifact.summary, 2_000),
+    pr_title: sanitizeText(artifact.pr_title, 300),
+    pr_body: sanitizeText(artifact.pr_body, 6_000),
+    likely_files: sanitizeStringList(artifact.likely_files, 24, 400),
+    validation_commands: sanitizeStringList(artifact.validation_commands, 16, 800),
+    credit_notes: sanitizeStringList(artifact.credit_notes, 16, 1_000),
+    source_job: sanitizeText(clusterPlan?.source_job ?? fixArtifact.source_job, 500) || null,
+    security_sensitive: securitySensitive,
+    security_routed_refs: securityRoutedRefs,
+    needs_human: sanitizeNeedsHuman(result.needs_human),
+    repair_status: repairStatus,
+    terminal: repairStatus ? TERMINAL_REPAIR_STATUSES.has(repairStatus.toLowerCase()) : null,
+  };
+}
+
+function sanitizeRefs(values) {
+  const flattened = Array.isArray(values) ? values.flat(Infinity) : [values];
+  return uniqueStrings(flattened.map(normalizeGithubRef).filter(Boolean), 20);
+}
+
+function normalizeGithubRef(value) {
+  const match = String(value ?? "").match(/github\.com\/[^/\s]+\/[^/\s]+\/(?:issues|pull)\/(\d+)\b|^#?(\d+)$/);
+  return match ? `#${match[1] ?? match[2]}` : "";
+}
+
+function sanitizeStringList(value, limit, maxLength) {
+  return uniqueStrings(
+    (Array.isArray(value) ? value : [])
+      .filter((item) => typeof item === "string")
+      .map((item) => sanitizeText(item, maxLength))
+      .filter(Boolean),
+    limit,
+  );
+}
+
+function sanitizeNeedsHuman(value) {
+  return uniqueStrings(
+    (Array.isArray(value) ? value : [])
+      .map((item) => {
+        if (typeof item === "string") return item;
+        if (!isObject(item)) return "";
+        return item.reason ?? item.summary ?? item.title ?? item.ref ?? "";
+      })
+      .map((item) => sanitizeText(item, 1_000))
+      .filter(Boolean),
+    16,
+  );
+}
+
+function sanitizeText(value, maxLength) {
+  if (typeof value !== "string") return "";
+  return truncate(
+    value
+      .replace(/\u0000/g, "")
+      .replace(
+        /(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|(?:api[_ -]?key|token|secret|password)\s*[:=]\s*[^\s"'`]+)/gi,
+        "[REDACTED]",
+      )
+      .trim(),
+    maxLength,
+  );
+}
+
+function uniqueStrings(values, limit) {
+  return [...new Set(values)].slice(0, limit);
+}
+
+function isObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 function summarizeActions(actions) {
