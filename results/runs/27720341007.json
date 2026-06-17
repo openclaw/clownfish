@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94016-live-pr-inventory-20260617t082059-003-20260617a",
+  "mode": "autonomous",
+  "run_id": "27720341007",
+  "workflow_run_id": "27720341007",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27720341007",
+  "head_sha": "6a4cc95a14f86e1e7e8795122f51784afd41cacc",
+  "workflow_conclusion": "cancelled",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T21:16:47Z",
+  "workflow_updated_at": "2026-06-17T21:21:42Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94016-live-pr-inventory-20260617t082059-003-20260617a.md",
+  "published_at": "2026-06-17T21:23:22.007Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94016",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/94008",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94016",
+  "summary": "Hydrated preflight shows #94016 is open, editable, non-security, and scoped to src/gateway/server-channels.ts. Current main still has the stale pending-task recovery path that records recoveryStartRequested and then returns while store.tasks.has(id). The fetched #94016 patch adds stale-task cleanup, but it leaves the unconditional return immediately after that branch, so the later monitor pass still cannot continue into channel start. Plan: repair the contributor branch narrowly, add focused regression coverage, run focused gateway test proof plus pnpm check:changed and /review. No comments, labels, closes, merges, pushes, or force-pushes are planned.",
+  "actions": [
+    {
+      "target": "#94016",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94016",
+      "candidate_fix": null,
+      "reason": "Repair the editable contributor branch; the current PR is useful but not landable because its cleanup branch does not continue into channel startup."
+    },
+    {
+      "target": "#94008",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94016",
+      "candidate_fix": "#94016",
+      "reason": "#94008 is the bug being addressed by the repaired #94016 path, but no close action is allowed or safe before the fix lands."
+    },
+    {
+      "target": "cluster:repair-94016-live-pr-inventory-20260617t082059-003-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94016",
+      "candidate_fix": null,
+      "reason": "The job allows fix and raise_pr, #94016 is editable, and the defect is a narrow branch-repair task."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94016",
+    "source_refs": [
+      "#94016",
+      "#94008"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94016 on the contributor branch by making the stale pending-task recovery branch fall through into the normal channel startup path after the second recovery request clears the stale task. Add a focused gateway regression test proving the first recovery request defers while the stale stop is still pending and the later request starts the channel.",
+    "pr_title": "fix(gateway): resume channel after pending task recovery",
+    "pr_body": "## Summary\nRepair #94016's channel recovery fix so a later health-monitor start pass can continue into the normal channel startup path after clearing stale pending task state. The first pass still marks recovery pending while the old stop task is unresolved; a subsequent pass that finds recoveryStartRequested should delete the stale task/abort entries, reset recovery bookkeeping, and fall through to start the account.\n\nThis carries forward and credits @sheyanmin's source PR #94016 for #94008.\n\n## Verification\n- node scripts/run-vitest.mjs src/gateway/server-channels.test.ts\n- pnpm check:changed\n- /review before any merge recommendation\n\n## Notes\nNo channel retry policy, timeout default, manual-stop behavior, or startup semantics should change outside the stale pending-task recovery path.",
+    "likely_files": [
+      "src/gateway/server-channels.ts",
+      "src/gateway/server-channels.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/gateway/server-channels.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @sheyanmin via https://github.com/openclaw/openclaw/pull/94016.",
+      "Preserve issue attribution for @thomasthelen-kibeauftragter via https://github.com/openclaw/openclaw/issues/94008.",
+      "PR body should state that the repair carries forward #94016's intended fix and credits the original contributor."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94016-live-pr-inventory-20260617t082059-003-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
