@@ -206,6 +206,9 @@ function findExistingJobRefs(roots) {
       files.add(file);
       try {
         const job = parseJob(file);
+        if (job.frontmatter.mode === "plan") continue;
+        const allowedActions = new Set(job.frontmatter.allowed_actions ?? []);
+        if (!allowedActions.has("fix") && !allowedActions.has("raise_pr")) continue;
         for (const ref of [...(job.frontmatter.canonical ?? []), ...(job.frontmatter.candidates ?? []), ...(job.frontmatter.cluster_refs ?? [])]) {
           const normalized = normalizeRef(ref);
           if (normalized) refs.add(normalized);

@@ -43,6 +43,16 @@ test("promote-repair-candidates selects only the newest viable repair, dedupes j
     publishedAt: "2026-06-16T00:00:00.000Z",
     target: "#105",
   });
+  writeReport(fixture.results, "plan-only-existing.md", {
+    clusterId: "plan-only-existing",
+    publishedAt: "2026-06-16T00:00:00.000Z",
+    target: "#106",
+  });
+  writeReport(fixture.results, "classification-only-existing.md", {
+    clusterId: "classification-only-existing",
+    publishedAt: "2026-06-16T00:00:00.000Z",
+    target: "#107",
+  });
   fs.writeFileSync(
     path.join(fixture.existing, "already-queued.md"),
     `---
@@ -56,12 +66,38 @@ candidates:
 ---
 `,
   );
+  fs.writeFileSync(
+    path.join(fixture.existing, "plan-only.md"),
+    `---
+repo: openclaw/openclaw
+cluster_id: plan-only-106
+mode: plan
+allowed_actions:
+  - fix
+candidates:
+  - "#106"
+---
+`,
+  );
+  fs.writeFileSync(
+    path.join(fixture.existing, "classification-only.md"),
+    `---
+repo: openclaw/openclaw
+cluster_id: classification-only-107
+mode: autonomous
+allowed_actions:
+  - close
+candidates:
+  - "#107"
+---
+`,
+  );
 
   const dryRun = runPromoter(fixture);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
   const dryPayload = JSON.parse(dryRun.stdout);
   assert.equal(dryPayload.status, "dry_run");
-  assert.deepEqual(dryPayload.generated.map((item) => item.target), ["#101"]);
+  assert.deepEqual(dryPayload.generated.map((item) => item.target), ["#106", "#107", "#101"]);
   assert.equal(fs.readdirSync(fixture.out).length, 0);
   assert.deepEqual(
     new Map(dryPayload.skipped.map((item) => [item.target, item.reason])),
@@ -77,7 +113,7 @@ candidates:
   assert.equal(write.status, 0, write.stderr || write.stdout);
   const payload = JSON.parse(write.stdout);
   assert.equal(payload.status, "written");
-  assert.deepEqual(payload.generated.map((item) => item.target), ["#101"]);
+  assert.deepEqual(payload.generated.map((item) => item.target), ["#106", "#107", "#101"]);
 
   const job = fs.readFileSync(path.join(fixture.out, "repair-101-eligible-new-test.md"), "utf8");
   assert.match(job, /mode: autonomous/);
