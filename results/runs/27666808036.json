@@ -1,0 +1,67 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-247-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666808036",
+  "workflow_run_id": "27666808036",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666808036",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:00:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-247-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:01:31.003Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90941",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90941",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90942",
+  "summary": "Classified the symlinked-bin doctor failure as the canonical lane with #90941 and its already-hydrated linked PR #90942. No close or merge is planned because #90942 is an existing-overlap context PR and no merge preflight/Codex review is available in this worker result. #90951 is related but not a duplicate; it needs a maintainer product decision about npm package contents and doctor sandbox-image repair UX.",
+  "actions": [
+    {
+      "target": "#90941",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90941",
+      "candidate_fix": "#90942",
+      "reason": "Canonical issue remains open; the linked fix candidate is not merged and is excluded from this cluster's actionable refs by overlap policy."
+    },
+    {
+      "target": "#90942",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90941",
+      "candidate_fix": "#90942",
+      "reason": "Context-only existing-overlap PR; preserve it as evidence for the canonical path without mutating it in this cluster."
+    },
+    {
+      "target": "#90951",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90941",
+      "candidate_fix": null,
+      "reason": "Related follow-up with a different root cause and a product/release packaging decision; not a duplicate of #90941 and not safe for an autonomous narrow fix artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decision needed for #90951: choose whether npm-package installs should ship sandbox setup scripts, offer a different package-safe doctor repair path, or keep sandbox image auto-build source-checkout only."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

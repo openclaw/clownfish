@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-247-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623442089"
-workflow_run_id: "27623442089"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623442089"
-head_sha: "c581a46e2e3e5a962635976dc02b3902304668dd"
+run_id: "27666808036"
+workflow_run_id: "27666808036"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808036"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-16T14:15:48.716Z"
+result_status: "planned"
+published_at: "2026-06-17T05:01:31.003Z"
 canonical: "https://github.com/openclaw/openclaw/issues/90941"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/90941"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/90942"
@@ -26,17 +26,17 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623442089](https://github.com/openclaw/clownfish/actions/runs/27623442089)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808036](https://github.com/openclaw/clownfish/actions/runs/27666808036)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/issues/90941
 
 ## Summary
 
-Canonical family is #90941 with linked implementation PR #90942. #90951 is related but not a duplicate: current main still has the package-install setup-script gap, and the artifact shows that resolving it requires a maintainer product/release decision rather than dedupe closeout or a narrow autonomous fix.
+Classified the symlinked-bin doctor failure as the canonical lane with #90941 and its already-hydrated linked PR #90942. No close or merge is planned because #90942 is an existing-overlap context PR and no merge preflight/Codex review is available in this worker result. #90951 is related but not a duplicate; it needs a maintainer product decision about npm package contents and doctor sandbox-image repair UX.
 
 ## Impact
 
@@ -67,10 +67,10 @@ Canonical family is #90941 with linked implementation PR #90942. #90951 is relat
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90941 | keep_canonical | planned | canonical | #90941 remains the best live canonical issue for the symlinked launcher lookup bug; closeout is blocked until the canonical fix path lands. |
-| #90942 | keep_canonical | skipped | canonical | Existing-overlap PR is evidence for the canonical path, but this worker should not merge, repair, close, or comment on it from this cluster. |
-| #90951 | needs_human | planned | needs_human | Maintainer direction is required before automation chooses whether to ship setup scripts, add a different package-safe repair path, or document package installs as not supporting sandbox image auto-build. |
+| #90941 | keep_canonical | planned | canonical | Canonical issue remains open; the linked fix candidate is not merged and is excluded from this cluster's actionable refs by overlap policy. |
+| #90942 | keep_related | skipped | related | Context-only existing-overlap PR; preserve it as evidence for the canonical path without mutating it in this cluster. |
+| #90951 | needs_human | planned | needs_human | Related follow-up with a different root cause and a product/release packaging decision; not a duplicate of #90941 and not safe for an autonomous narrow fix artifact. |
 
 ## Needs Human
 
-- #90951 needs a maintainer product/release decision: whether package installs should ship sandbox setup scripts, provide an alternate doctor repair path, or explicitly leave npm-package sandbox image auto-build unsupported.
+- Decision needed for #90951: choose whether npm-package installs should ship sandbox setup scripts, offer a different package-safe doctor repair path, or keep sandbox image auto-build source-checkout only.

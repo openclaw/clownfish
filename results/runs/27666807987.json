@@ -1,0 +1,68 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-117-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666807987",
+  "workflow_run_id": "27666807987",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666807987",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:00:34Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-117-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:01:31.000Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/66360",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/66360",
+  "canonical_pr": null,
+  "summary": "Classified #66360 as the live canonical issue for this cluster. Current main still has no raw active transcript JSONL size cap under session.maintenance, but the requested fix changes retention/product semantics and the hydrated issue is already marked no-new-fix-pr/needs-product-decision, so no executable autonomous fix artifact is safe without maintainer direction.",
+  "actions": [
+    {
+      "target": "#66360",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#66360",
+      "candidate_fix": null,
+      "reason": "Best live canonical issue for the non-security transcript growth report, but closure/merge is not applicable and autonomous fix selection is product-gated."
+    },
+    {
+      "target": "#18572",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context refs are evidence only and must not receive close actions."
+    },
+    {
+      "target": "cluster:gitcrawl-117-autonomous-terminal-gap",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#66360",
+      "candidate_fix": null,
+      "reason": "Maintainer needs to choose the supported product direction for oversized active transcript JSONL files: raw cap/rotation, compaction-only, disk-budget semantics change, or documentation-only clarification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for #66360: should OpenClaw add a disabled-by-default raw active transcript JSONL cap under session.maintenance, rely on agents.defaults.compaction.maxActiveTranscriptBytes plus truncateAfterCompaction, change disk-budget cleanup semantics for protected active conversations, or document raw active transcripts as intentionally uncapped?"
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

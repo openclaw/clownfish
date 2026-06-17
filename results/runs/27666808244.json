@@ -1,0 +1,68 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-397-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666808244",
+  "workflow_run_id": "27666808244",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666808244",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:52Z",
+  "workflow_updated_at": "2026-06-17T05:00:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-397-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:01:31.004Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/91352",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/91352",
+  "canonical_pr": null,
+  "summary": "#91352 is the only open actionable cluster item, but deterministic validation classified it as security-sensitive because the hydrated report and comments involve OpenAI OAuth refresh-token/credential failure paths. The safe repair is to quarantine #91352 with an exact-ref route_security action and block only the dependent fix lane; #2 remains closed historical context.",
+  "actions": [
+    {
+      "target": "#91352",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact security-sensitive issue for central OpenClaw security handling; do not comment, close, label, merge, or open a fix PR for this item in ProjectClownfish."
+    },
+    {
+      "target": "cluster:gitcrawl-397-autonomous-terminal-gap",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Blocked pending central security triage of #91352; no executable ProjectClownfish fix artifact is safe to emit for this cluster until that decision is resolved."
+    },
+    {
+      "target": "#2",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed linked context, not an actionable cluster target."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 1,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must decide whether #91352 can return to normal ProjectClownfish fix handling; the cluster fix lane depends on that quarantined OAuth/token-refresh issue."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

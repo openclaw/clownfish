@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-373-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27624326045"
-workflow_run_id: "27624326045"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27624326045"
-head_sha: "a90b8867b904aeba2371ad75aadc92b0f024c550"
+run_id: "27666808073"
+workflow_run_id: "27666808073"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808073"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-16T14:28:55.512Z"
+published_at: "2026-06-17T05:01:31.004Z"
 canonical: "https://github.com/openclaw/openclaw/issues/42099"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/42099"
 canonical_pr: null
-actions_total: 4
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27624326045](https://github.com/openclaw/clownfish/actions/runs/27624326045)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808073](https://github.com/openclaw/clownfish/actions/runs/27666808073)
 
 Workflow conclusion: success
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/42099
 
 ## Summary
 
-Canonical issue #42099 remains open. Hydrated evidence says current main already suppresses the original same-physical cross-origin duplicate warning, while the remaining distinct-root config-selected warning behavior is a maintainer/product diagnostic-policy decision tied to open context PR #72409. No close, merge, or new fix PR is planned in this cluster.
+No GitHub mutations are planned. #42099 remains the live canonical issue, but closeout is blocked because the remaining distinct-root/config-selected warning policy is unresolved in the hydrated replacement PR #72409, which is outside this cluster's actionable refs and is not merge-ready.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,11 +67,10 @@ Canonical issue #42099 remains open. Hydrated evidence says current main already
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42099 | keep_canonical | planned | canonical | Keep #42099 as the canonical issue while maintainers decide the remaining diagnostic-policy question; do not close because the canonical fix path is unresolved and the job requires fix-before-close. |
-| #42192 | keep_closed | skipped | superseded | Closed historical source PR; keep as evidence and preserve credit through #72409. |
-| #72409 | keep_related | skipped | related | Context PR #72409 is the related replacement path but is excluded from this cluster's mutations and is not merge-ready. |
-| cluster:gitcrawl-373-autonomous-terminal-gap | needs_human | planned | needs_human | A complete executable fix artifact is not safe without a maintainer decision on the diagnostic contract; opening another automated fix PR would conflict with the no-new-fix-pr label and the existing #72409 overlap path. |
+| #42099 | keep_canonical | planned | canonical | Canonical choice is clear, but the remaining product/diagnostic policy decision prevents closeout or a new autonomous fix path. |
+| #72409 | keep_related | skipped | related | #72409 is related context and the current owner of the remaining policy discussion, but it is outside this cluster's actionable refs and fails merge gates. |
+| #42192 | keep_closed | skipped | superseded | Already closed and superseded by hydrated replacement context #72409; no action is valid for this closed PR. |
 
 ## Needs Human
 
-- Maintainer/product decision needed: decide whether distinct-root config-selected duplicate plugin ID warnings should remain shipped diagnostics or be suppressed. Current hydrated evidence says the original same-physical cross-origin false positive is already suppressed on main, but #72409 changes additional diagnostic contracts and is blocked.
+- Maintainer/product decision remains for #42099/#72409: whether the distinct-root config-selected duplicate-warning policy should change. #72409 cannot be merged or used for fixed-by closeout while its Real behavior proof and checks-fast-bundled checks fail and the ClawSweeper review is unresolved.

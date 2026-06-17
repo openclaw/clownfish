@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-79-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27626555775"
-workflow_run_id: "27626555775"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27626555775"
-head_sha: "e845eff41ff23b52167a61451cc7ee106391d32c"
+run_id: "27666808017"
+workflow_run_id: "27666808017"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808017"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T15:02:44.617Z"
+published_at: "2026-06-17T05:01:31.002Z"
 canonical: "https://github.com/openclaw/openclaw/issues/69242"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/69242"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/87681"
-actions_total: 6
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27626555775](https://github.com/openclaw/clownfish/actions/runs/27626555775)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808017](https://github.com/openclaw/clownfish/actions/runs/27666808017)
 
 Workflow conclusion: success
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/69242
 
 ## Summary
 
-Classified the live hydrated cluster as two related non-security exec termination diagnostics lanes, not a duplicate-close cluster. #69242 remains the canonical open Linux SIGKILL/OOM-score issue, with hydrated PR #87681 as the existing repair path. #72240 is related but has unique macOS/diagnostics scope, with hydrated PR #89104 as the narrower metadata path. No close, merge, label, comment, or fix-PR mutation is planned because the candidate PRs are existing-overlap context and merge gates lack a fresh Codex /review plus known mergeability.
+Classified the two open actionable candidates from the job. #69242 remains the canonical Linux broad-search SIGKILL diagnostic issue. #72240 is related, not a duplicate, because it is a macOS/broader termination-metadata diagnostic report with unique platform details. No close, merge, label, or fix-PR mutation is planned in this pass: the relevant fix PRs are existing-overlap context refs and are not merged, while require_fix_before_close blocks issue closeout.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 6 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,12 +67,8 @@ Classified the live hydrated cluster as two related non-security exec terminatio
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69242 | keep_canonical | planned | canonical | Canonical issue remains live and actionable; keep open until an explicit merged canonical fix lands. |
-| #72240 | keep_related | planned | related | Related diagnostics lane should stay open; closure would be premature before the relevant diagnostics fix path lands. |
-| #66399 | keep_closed | skipped | superseded | Already closed context item; no mutation target. |
-| #71710 | keep_closed | skipped | related | Already closed context item; no mutation target. |
-| #87681 | keep_related | skipped | fixed_by_candidate | Useful candidate fix for the canonical lane, but not actionable in this existing-overlap context without merge preflight. |
-| #89104 | keep_related | skipped | related | Useful related diagnostics PR, but context-only and not merge-ready under this worker's merge gates. |
+| #69242 | keep_canonical | planned | canonical | #69242 is still the best live canonical issue for the Linux broad find/grep SIGKILL diagnostic gap; keep it open until a hydrated fix PR lands or a future merge-preflight run can safely finalize #87681. |
+| #72240 | keep_related | planned | related | #72240 should stay open as related follow-up coverage rather than being closed as a duplicate of #69242. require_fix_before_close also blocks any fixed-by-candidate closeout until the relevant diagnostics fix is actually merged. |
 
 ## Needs Human
 
