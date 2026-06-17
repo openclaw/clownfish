@@ -12,6 +12,7 @@ const CLOSE_ACTIONS = new Set([
   "close_superseded",
   "close_low_signal",
 ]);
+const PROTECTED_AUTHOR_ASSOCIATIONS = new Set(["MEMBER", "OWNER", "COLLABORATOR"]);
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
@@ -183,6 +184,7 @@ ${numbers
         body
         state
         updatedAt
+        authorAssociation
         labels(first: 30) { nodes { name } }
       }
       ... on PullRequest {
@@ -193,6 +195,7 @@ ${numbers
         updatedAt
         mergedAt
         isDraft
+        authorAssociation
         labels(first: 30) { nodes { name } }
       }
     }`,
@@ -211,6 +214,7 @@ function normalizeLiveNode(node) {
     state: String(node.state ?? ""),
     updatedAt: node.updatedAt ?? null,
     mergedAt: node.mergedAt ?? null,
+    authorAssociation: node.authorAssociation ?? null,
     labels: (node.labels?.nodes ?? []).map((label) => String(label.name ?? "")).filter(Boolean),
   };
 }
@@ -219,10 +223,32 @@ function dropReasonFor(item, target, canonical) {
   if (!target) return "target not found";
   if (!canonical) return "canonical not found";
   if (target.state !== "OPEN") return `target is ${target.state}`;
+  const protectionReason = targetProtectionDropReason(target);
+  if (protectionReason) return protectionReason;
   if (!canCloseAgainstCanonical(item, canonical)) return canonicalDropReason(item, canonical);
   const securityReason = securityDropReason(item, target, canonical);
   if (securityReason) return securityReason;
   return "";
+}
+
+function targetProtectionDropReason(target) {
+  if (PROTECTED_AUTHOR_ASSOCIATIONS.has(target.authorAssociation)) {
+    return `target author association is ${target.authorAssociation}`;
+  }
+  const holdLabel = target.labels.find(isHumanHoldLabel);
+  return holdLabel ? `target has human-hold label ${holdLabel}` : "";
+}
+
+function isHumanHoldLabel(label) {
+  const normalized = String(label ?? "").toLowerCase();
+  return (
+    normalized === "triage: needs-real-behavior-proof" ||
+    normalized === "clawsweeper:needs-maintainer-review" ||
+    normalized === "clawsweeper:needs-product-decision" ||
+    normalized === "clawsweeper:needs-live-repro" ||
+    /^status: .*needs proof$/.test(normalized) ||
+    /^status: .*waiting on author$/.test(normalized)
+  );
 }
 
 function canCloseAgainstCanonical(item, canonical) {

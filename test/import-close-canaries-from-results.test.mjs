@@ -283,6 +283,57 @@ test("import-close-canaries quarantines security-shaped canonical refs", () => {
   assert.equal(fs.existsSync(path.join(fixture.inbox, "pr-close-canary-92164-test.md")), false);
 });
 
+test("import-close-canaries skips maintainer targets and human-hold targets", () => {
+  const fixture = makeFixture();
+  fs.writeFileSync(
+    path.join(fixture.results, "127.json"),
+    JSON.stringify({
+      actions: [{ target: "#91770", action: "close_superseded", status: "planned", canonical: "#92892" }],
+    }),
+  );
+  fs.writeFileSync(
+    path.join(fixture.results, "128.json"),
+    JSON.stringify({
+      actions: [{ target: "#92526", action: "close_superseded", status: "planned", canonical: "#92892" }],
+    }),
+  );
+  writeFakeGhx(fixture.bin);
+
+  const run = spawnSync(
+    process.execPath,
+    [
+      "scripts/import-close-canaries-from-results.mjs",
+      "--results-dir",
+      fixture.results,
+      "--out",
+      fixture.inbox,
+      "--existing-dir",
+      fixture.existing,
+      "--suffix",
+      "test",
+      "--limit",
+      "2",
+      "--json",
+    ],
+    {
+      cwd: repoRoot,
+      env: { ...process.env, PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}` },
+      encoding: "utf8",
+    },
+  );
+
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  const payload = JSON.parse(run.stdout);
+  assert.deepEqual(payload.candidates, []);
+  assert.deepEqual(
+    new Map(payload.dropped.map((candidate) => [candidate.target, candidate.reason])),
+    new Map([
+      ["#91770", "target author association is MEMBER"],
+      ["#92526", "target has human-hold label status: needs proof"],
+    ]),
+  );
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-close-canary-"));
   const results = path.join(root, "results");
@@ -394,6 +445,42 @@ console.log(JSON.stringify({
         body: "",
         state: "OPEN",
         updatedAt: "2026-06-15T17:20:00Z",
+        labels: { nodes: [] }
+      },
+      n91770: {
+        __typename: "PullRequest",
+        number: 91770,
+        title: "maintainer-owned duplicate",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T17:20:00Z",
+        mergedAt: null,
+        authorAssociation: "MEMBER",
+        isDraft: false,
+        labels: { nodes: [] }
+      },
+      n92526: {
+        __typename: "PullRequest",
+        number: 92526,
+        title: "proof-blocked duplicate",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T17:20:00Z",
+        mergedAt: null,
+        authorAssociation: "CONTRIBUTOR",
+        isDraft: false,
+        labels: { nodes: [{ name: "status: needs proof" }] }
+      },
+      n92892: {
+        __typename: "PullRequest",
+        number: 92892,
+        title: "canonical implementation",
+        body: "",
+        state: "OPEN",
+        updatedAt: "2026-06-15T17:20:00Z",
+        mergedAt: null,
+        authorAssociation: "CONTRIBUTOR",
+        isDraft: false,
         labels: { nodes: [] }
       }
     }
