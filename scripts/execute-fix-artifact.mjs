@@ -2850,7 +2850,7 @@ function isPotentialFailureLine(line) {
 }
 
 function isKnownChangedGateFailureSummary(line) {
-  return /^(?:[>\u2713\u2714]|\s)*(?:\[(?:ELIFECYCLE|ERR_PNPM_[^\]]*)\]|ELIFECYCLE|ERR_PNPM_|command failed with exit code|found \d+ errors?|failed with exit code|\d+(?:\.\d+)?(?:ms|s)\s+failed(?::\d+)?\b)/i.test(
+  return /^(?:[>\u2713\u2714]|\s)*(?:\[(?:ELIFECYCLE|ERR_PNPM_[^\]]*)\]|ELIFECYCLE|ERR_PNPM_|command failed with exit code|found \d+ errors?|failed with exit code|\d+(?:\.\d+)?(?:ms|s)\s+failed(?::\d+)?\b|\u2716\s+\d+\s+problems?\s+\(\d+\s+errors?(?:,\s*\d+\s+warnings?)?\))/i.test(
     line,
   );
 }

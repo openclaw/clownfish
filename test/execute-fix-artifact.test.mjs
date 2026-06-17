@@ -468,6 +468,8 @@ const source = fs.readFileSync(path.join(process.cwd(), "src", "app.js"), "utf8"
 if (source.includes("invalid")) {
   console.error("\\u001b[4m" + path.join(process.cwd(), "src", "app.js") + "\\u001b[0m");
   console.error("  \\u001b[2m1:24\\u001b[0m  \\u001b[31merror\\u001b[0m  Expected { after 'if' condition.  \\u001b[2meslint(curly)\\u001b[0m");
+  console.error("\\u001b[31m✖ 1 problem (1 error, 0 warnings)\\u001b[0m");
+  console.error("[ELIFECYCLE] Command failed with exit code 1.");
   process.exit(1);
 }
 process.exit(0);
