@@ -195,6 +195,13 @@ for (const file of files) {
     for (const error of errors) console.error(`- ${error}`);
     continue;
   }
+  if (repositoryBatchDispatch && job.frontmatter.mode !== "plan") {
+    failed = true;
+    console.error(
+      `repository-batch only accepts job files with mode: plan; ${file} declares mode: ${job.frontmatter.mode}`,
+    );
+    continue;
+  }
 
   const relative = job.relativePath;
   if (!fs.existsSync(path.join(repoRoot(), relative))) {
