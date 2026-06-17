@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-42637-skills-truncation",
+  "mode": "autonomous",
+  "run_id": "27681863520",
+  "workflow_run_id": "27681863520",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681863520",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:15:37Z",
+  "workflow_updated_at": "2026-06-17T10:56:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
+  "published_at": "2026-06-17T10:57:29.032Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/42637",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/42637",
+  "summary": "Canonical PR #42637 is a useful, editable contributor PR for the omitted-skill truncation defect, but it is not merge-ready and merge is blocked by the job. Plan repair of the existing contributor branch with a narrow fix artifact; keep #88426 open as related overlapping compact-prompt work, not part of this cluster's fix.",
+  "actions": [
+    {
+      "target": "#42637",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "Open canonical PR is useful and editable, but review-bot findings and stale merge-readiness gates require repair before any merge or closeout action."
+    },
+    {
+      "target": "#88426",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "Related same-surface compact-prompt work, but not the same omitted-skill-name truncation fix and not merge-ready."
+    },
+    {
+      "target": "cluster:repair-42637-skills-truncation",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#42637",
+      "candidate_fix": null,
+      "reason": "A complete narrow repair path exists for the canonical PR, and the job allows fix/raise_pr but blocks merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#42637",
+    "source_refs": [
+      "#42637",
+      "#88426"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #42637 in place so truncated skills prompts list recoverable omitted skill lookup names without exceeding maxSkillsPromptChars or introducing prompt-format ambiguity. Keep the scope to omitted-skill discoverability, not compact-description preservation from #88426.",
+    "pr_title": "fix(skills): list omitted skill names when prompt is truncated",
+    "pr_body": "## Summary\n- Repair #42637 so a truncated skills prompt includes compact, exact lookup keys for omitted skills.\n- Keep the final rendered prompt within `skills.limits.maxSkillsPromptChars`, including the truncation note and recovery guidance.\n- Address Codex/ClawSweeper review findings for escaping, control-character normalization, quoted names, tail visibility, tight budgets, and remote-note compact retry without taking on #88426's compact-description behavior.\n\nCredit: carries forward @imwyvern's source PR https://github.com/openclaw/openclaw/pull/42637.\n\n## Verification\n- `pnpm test src/skills/loading/compact-format.test.ts`\n- `pnpm check:changed`\n- Fresh Codex `/review` before any merge recommendation.",
+    "likely_files": [
+      "src/skills/loading/workspace.ts",
+      "src/skills/loading/compact-format.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/skills/loading/compact-format.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @imwyvern and PR https://github.com/openclaw/openclaw/pull/42637 in the repaired PR body.",
+      "Keep existing contributor commit attribution where the executor can safely update the contributor branch.",
+      "Do not add CHANGELOG.md for this normal PR; capture release-note context in the PR body instead."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "git fetch --no-tags origin refs/pull/42637/head:projectclownfish/repair-repair-42637-skills-truncation-42637 timed out after 2298093ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "git fetch --no-tags origin refs/pull/42637/head:projectclownfish/repair-repair-42637-skills-truncation-42637 timed out after 2298093ms before fix execution deadline",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

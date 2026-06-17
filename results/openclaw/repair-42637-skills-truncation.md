@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-42637-skills-truncation"
 mode: "autonomous"
-run_id: "27680648010"
-workflow_run_id: "27680648010"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27680648010"
-head_sha: "5db641f66484928ed6dcd5f0bb78f24fab1e5408"
+run_id: "27681863520"
+workflow_run_id: "27681863520"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27681863520"
+head_sha: "b02edcd805e70226ce34c23c03658fc1763cd67b"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T10:05:16.428Z"
+published_at: "2026-06-17T10:57:29.032Z"
 canonical: "https://github.com/openclaw/openclaw/pull/42637"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/42637"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27680648010](https://github.com/openclaw/clownfish/actions/runs/27680648010)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27681863520](https://github.com/openclaw/clownfish/actions/runs/27681863520)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/42637
 
 ## Summary
 
-#42637 is the canonical repair path for the omitted-skill discoverability bug, but it is not merge-ready: the PR is open, dirty against main, labeled waiting on author, and has actionable Codex/ClawSweeper review findings around prompt budgeting, exact lookup keys, and safe formatting of omitted skill names. A narrow executable repair artifact should update the contributor repair path, preserve credit, and keep #88426 open as related overlapping prompt-budget work rather than closing or merging anything.
+Canonical PR #42637 is a useful, editable contributor PR for the omitted-skill truncation defect, but it is not merge-ready and merge is blocked by the job. Plan repair of the existing contributor branch with a narrow fix artifact; keep #88426 open as related overlapping compact-prompt work, not part of this cluster's fix.
 
 ## Impact
 
@@ -65,9 +65,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/42637
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #42637 so skills omitted by prompt truncation remain discoverable by name without exceeding `maxSkillsPromptChars` or adding unsafe prompt text. Keep the change focused on the existing skills prompt truncation path and regression tests.",
-  "pr_title": "fix(skills): list omitted skill names within truncation budget",
-  "pr_body": "## Summary\n\nRepair the skills prompt truncation notice so omitted skills remain discoverable when the catalog is capped. This carries forward the fix from #42637 with attribution to @imwyvern / the source branch, while keeping the implementation bounded to prompt rendering and focused regression coverage.\n\nThe repair should:\n- include exact omitted skill lookup keys in the truncation note when budget allows;\n- keep the final rendered prompt within `skills.limits.maxSkillsPromptChars`;\n- avoid raw control-character or ambiguous delimiter injection in omitted-name guidance;\n- preserve current compact-mode behavior by retrying compact rendering before dropping skills where applicable.\n\nRelated prompt-budget work in #88426 should stay separate.\n\n## Verification\n\n- `pnpm test src/skills/loading/compact-format.test.ts`\n- `pnpm check:changed`\n\n## Credit\n\nBased on the useful contributor work in https://github.com/openclaw/openclaw/pull/42637. Thanks @imwyvern; source commits are credited to sakaenyeniceri5.",
+  "summary": "Repair PR #42637 in place so truncated skills prompts list recoverable omitted skill lookup names without exceeding maxSkillsPromptChars or introducing prompt-format ambiguity. Keep the scope to omitted-skill discoverability, not compact-description preservation from #88426.",
+  "pr_title": "fix(skills): list omitted skill names when prompt is truncated",
+  "pr_body": "## Summary\n- Repair #42637 so a truncated skills prompt includes compact, exact lookup keys for omitted skills.\n- Keep the final rendered prompt within `skills.limits.maxSkillsPromptChars`, including the truncation note and recovery guidance.\n- Address Codex/ClawSweeper review findings for escaping, control-character normalization, quoted names, tail visibility, tight budgets, and remote-note compact retry without taking on #88426's compact-description behavior.\n\nCredit: carries forward @imwyvern's source PR https://github.com/openclaw/openclaw/pull/42637.\n\n## Verification\n- `pnpm test src/skills/loading/compact-format.test.ts`\n- `pnpm check:changed`\n- Fresh Codex `/review` before any merge recommendation.",
   "likely_files": [
     "src/skills/loading/workspace.ts",
     "src/skills/loading/compact-format.test.ts"
@@ -77,9 +77,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/42637
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve credit for #42637 author @imwyvern and source commits authored by sakaenyeniceri5 in the repair PR body.",
-    "Mention that the repair carries forward the omitted-skill-name discoverability approach from https://github.com/openclaw/openclaw/pull/42637.",
-    "Do not close #42637 before a fix PR exists or the contributor branch is updated and validated."
+    "Preserve contributor credit for @imwyvern and PR https://github.com/openclaw/openclaw/pull/42637 in the repaired PR body.",
+    "Keep existing contributor commit attribution where the executor can safely update the contributor branch.",
+    "Do not add CHANGELOG.md for this normal PR; capture release-note context in the PR body instead."
   ],
   "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
   "security_sensitive": false,
@@ -94,8 +94,8 @@ Canonical: https://github.com/openclaw/openclaw/pull/42637
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/skills/loading/compact-format.test.ts: core test [check:changed] src/skills/loading/workspace.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.j... |
-| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/skills/loading/compact-format.test.ts: core test [check:changed] src/skills/loading/workspace.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.core.test.j... |
+| repair_contributor_branch | failed |  |  | git fetch --no-tags origin refs/pull/42637/head:projectclownfish/repair-repair-42637-skills-truncation-42637 timed out after 2298093ms before fix execution deadline |
+| execute_fix | blocked |  |  | git fetch --no-tags origin refs/pull/42637/head:projectclownfish/repair-repair-42637-skills-truncation-42637 timed out after 2298093ms before fix execution deadline |
 
 ## Apply Actions
 
@@ -113,9 +113,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/42637
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42637 | fix_needed | planned | canonical | Canonical PR is useful and editable, but stale/dirty and review-blocked; emit an executable repair plan instead of merge or close. |
-| #88426 | keep_related | planned | related | Related overlapping prompt-budget work, not a duplicate or replacement for the omitted-skill-name repair. |
-| cluster:repair-42637-skills-truncation | build_fix_artifact | planned |  | Executor should repair the existing contributor branch or update the configured Clownfish repair branch with a narrow implementation and fresh validation. |
+| #42637 | fix_needed | planned | canonical | Open canonical PR is useful and editable, but review-bot findings and stale merge-readiness gates require repair before any merge or closeout action. |
+| #88426 | keep_related | planned | related | Related same-surface compact-prompt work, but not the same omitted-skill-name truncation fix and not merge-ready. |
+| cluster:repair-42637-skills-truncation | build_fix_artifact | planned |  | A complete narrow repair path exists for the canonical PR, and the job allows fix/raise_pr but blocks merge. |
 
 ## Needs Human
 
