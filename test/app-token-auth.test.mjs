@@ -247,6 +247,17 @@ test("cluster-worker repository dispatch guard accepts descendants", () => {
   assert.match(workflow, /repository_dispatch worker requires required_ancestor_sha or legacy head_sha/);
 });
 
+test("cluster-worker respects per-job label permissions before tagging targets", () => {
+  const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
+
+  assert.match(workflow, /const allowLabels = allowedActions\.has\("label"\) && !blockedActions\.has\("label"\);/);
+  assert.match(workflow, /allow_labels=\$\{allowLabels \? "1" : "0"\}/);
+  assert.match(
+    workflow,
+    /needs\.prepare\.outputs\.allow_labels == '1'/,
+  );
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-app-auth-"));
   const inbox = path.join(root, "inbox");

@@ -86,6 +86,7 @@ jobs:
       max_linked_refs: ${{ steps.plan.outputs.max_linked_refs }}
       max_comments_per_item: ${{ steps.plan.outputs.max_comments_per_item }}
       max_review_comments_per_pr: ${{ steps.plan.outputs.max_review_comments_per_pr }}
+      allow_labels: ${{ steps.plan.outputs.allow_labels }}
     steps:
       - uses: actions/checkout@v5
 
@@ -195,6 +196,9 @@ jobs:
           const job = parseJob(jobPath);
           const errors = validateJob(job);
           if (errors.length > 0) throw new Error(`invalid job ${jobPath}: ${errors.join("; ")}`);
+          const allowedActions = new Set(job.frontmatter.allowed_actions ?? []);
+          const blockedActions = new Set(job.frontmatter.blocked_actions ?? []);
+          const allowLabels = allowedActions.has("label") && !blockedActions.has("label");
 
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `job=${job.relativePath}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `mode=${mode}\n`);
@@ -206,6 +210,7 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `max_linked_refs=${maxLinkedRefs}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `max_comments_per_item=${maxCommentsPerItem}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `max_review_comments_per_pr=${maxReviewCommentsPerPr}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `allow_labels=${allowLabels ? "1" : "0"}\n`);
           NODE
 
   cluster:
@@ -543,7 +548,7 @@ jobs:
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Tag Clownfish targets
-        if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' && needs.prepare.outputs.allow_labels == '1' }}
         run: npm run tag-clownfish -- .projectclownfish/runs --apply --live --open-branches false --report .projectclownfish/runs/clownfish-label-report.json
 
       - name: Upload final worker artifacts
