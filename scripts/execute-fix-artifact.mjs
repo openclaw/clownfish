@@ -1136,6 +1136,7 @@ function editValidatePrepareMerge({
         previousNoDiff: attempt > 1,
         previousSummary,
         repositoryContext,
+        changedGateBaseline,
       });
       const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
       const timeoutMs = boundedCodexTimeoutMs("Codex fix worker");
@@ -1276,7 +1277,17 @@ function buildFixPrompt({
   previousNoDiff,
   previousSummary,
   repositoryContext,
+  changedGateBaseline,
 }) {
+  const baselineDiagnostics =
+    changedGateBaseline?.status === "failed" && changedGateBaseline.report?.eligible
+      ? changedGateBaseline.diagnostics.items
+          .map(
+            (diagnostic) =>
+              `${normalizeDiagnosticFile(diagnostic.file)}(${diagnostic.line},${diagnostic.column}): ${diagnostic.code} ${diagnostic.message}`,
+          )
+          .join("\n")
+      : "";
   return [
     "You are editing the target repository for ProjectClownfish.",
     "",
@@ -1310,6 +1321,16 @@ function buildFixPrompt({
     "```text",
     repositoryContext,
     "```",
+    baselineDiagnostics
+      ? [
+          "",
+          "Existing changed-gate baseline diagnostics:",
+          "These failures already exist on the contributor branch. Do not weaken validation; repair them when they are in the affected surface.",
+          "```text",
+          baselineDiagnostics,
+          "```",
+        ].join("\n")
+      : "",
     "",
     "Fix artifact:",
     "```json",

@@ -544,6 +544,20 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
   assert.equal(baselineDebug.exit_code, 1);
 });
 
+test("execute-fix-artifact gives eligible baseline diagnostics to the initial repair worker", () => {
+  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "baseline-diagnostic-prompt-cluster",
+    baselineOutput: output,
+    postOutput: output,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  const prompt = fs.readFileSync(run.initialPrompt, "utf8");
+  assert.match(prompt, /Existing changed-gate baseline diagnostics:/);
+  assert.match(prompt, /src\/web-search\/runtime\.ts\(374,10\): TS6133/);
+});
+
 test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics for source-only repairs", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "baseline-source-only-cluster",
@@ -790,6 +804,7 @@ function runBaselineChangedGateFixture({
   const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
   const targetedTestMarker = path.join(fixture.root, "targeted-test-command");
   const changedGateMarker = path.join(fixture.root, "check-changed-calls");
+  const initialPrompt = path.join(fixture.root, "initial-codex-prompt");
 
   fs.writeFileSync(fixture.jobPath, jobFile(clusterId));
   const result = resultFile(clusterId);
@@ -812,6 +827,9 @@ if (args.includes("--output-schema")) {
     evidence: ["fixture review passed"],
   }));
   process.exit(0);
+}
+if (!fs.existsSync(${JSON.stringify(initialPrompt)})) {
+  fs.writeFileSync(${JSON.stringify(initialPrompt)}, fs.readFileSync(0, "utf8"));
 }
 fs.writeFileSync(path.join(cd, ${JSON.stringify(editedFile)}), "export const fixture = true;\\n");
 fs.writeFileSync(path.join(cd, ".clownfish-edited"), "true\\n");
@@ -885,6 +903,7 @@ process.exit(0);
     report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
     targetedTestMarker,
     changedGateMarker,
+    initialPrompt,
   };
 }
 
