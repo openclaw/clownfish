@@ -2302,12 +2302,16 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
     ),
   );
   if (!resolvedCommands.includes("pnpm check:changed")) return null;
+  const paths = changedGateBaselinePaths(fixArtifact, targetDir);
+  if (paths.length === 0) return null;
 
-  noteFixStage("validation_baseline_start", { command: "pnpm check:changed" });
-  const outcome = runValidationCommand(["pnpm", "check:changed"], {
+  const command = ["pnpm", "check:changed", "--", ...paths];
+  const rendered = command.join(" ");
+  noteFixStage("validation_baseline_start", { command: rendered, paths });
+  const outcome = runValidationCommand(command, {
     cwd: targetDir,
     env: targetValidationEnv(),
-    rendered: "pnpm check:changed",
+    rendered,
     phase: "baseline",
     allowFailure: true,
   });
@@ -2317,8 +2321,9 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
       status: "passed",
       diagnostics: [],
       report: {
-        command: "pnpm check:changed",
+        command: rendered,
         status: "passed",
+        paths,
         diagnostic_count: 0,
       },
     };
@@ -2338,14 +2343,23 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
     status: "failed",
     diagnostics,
     report: {
-      command: "pnpm check:changed",
+      command: rendered,
       status: "failed",
+      paths,
       eligible,
       diagnostic_count: diagnostics.items.length,
       unparsed_failure_count: diagnostics.unparsed_failure_lines.length,
       has_test_failure: diagnostics.has_test_failure,
     },
   };
+}
+
+function changedGateBaselinePaths(fixArtifact, targetDir) {
+  return uniqueStrings(
+    (fixArtifact.likely_files ?? [])
+      .map((value) => String(value ?? "").trim())
+      .filter((file) => file && !file.includes("*") && fs.existsSync(path.join(targetDir, file))),
+  );
 }
 
 function validationFallbackCommands({ parts, error, cwd, baseBranch, changedGateBaseline }) {

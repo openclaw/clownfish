@@ -372,7 +372,7 @@ process.exit(9);
   const diagnostics = JSON.parse(
     fs.readFileSync(path.join(fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
   );
-  assert.equal(diagnostics.command, "pnpm check:changed");
+  assert.equal(diagnostics.command, "pnpm check:changed -- src/app.js");
   assert.equal(diagnostics.exit_code, 9);
   assert.equal(diagnostics.timed_out, false);
   assert.match(diagnostics.stdout, /validation stdout token=\[redacted\]/);
@@ -389,8 +389,9 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
   assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
   assert.equal(run.report.status, "planned");
   assert.deepEqual(run.report.changed_gate_baseline, {
-    command: "pnpm check:changed",
+    command: "pnpm check:changed -- src/app.js",
     status: "failed",
+    paths: ["src/app.js"],
     eligible: true,
     diagnostic_count: 1,
     unparsed_failure_count: 0,
@@ -402,6 +403,7 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
     fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
   );
   assert.equal(baselineDebug.phase, "baseline");
+  assert.deepEqual(baselineDebug.argv, ["pnpm", "check:changed", "--", "src/app.js"]);
   assert.equal(baselineDebug.exit_code, 1);
 });
 
