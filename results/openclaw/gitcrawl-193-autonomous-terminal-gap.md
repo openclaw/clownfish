@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-193-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623110505"
-workflow_run_id: "27623110505"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623110505"
-head_sha: "c581a46e2e3e5a962635976dc02b3902304668dd"
+run_id: "27666808202"
+workflow_run_id: "27666808202"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666808202"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-16T14:12:14.102Z"
+published_at: "2026-06-17T05:03:16.388Z"
 canonical: "https://github.com/openclaw/openclaw/issues/90980"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/90980"
 canonical_pr: null
-actions_total: 3
+actions_total: 5
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 1
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623110505](https://github.com/openclaw/clownfish/actions/runs/27623110505)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666808202](https://github.com/openclaw/clownfish/actions/runs/27666808202)
 
 Workflow conclusion: success
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/90980
 
 ## Summary
 
-Classified #90980 as the surviving canonical issue for the non-security Docker exec hang/startup-blocking bug. Current main at 6b3e23aba73607c810f119cc0d183e8411ee188b has AbortSignal plumbing in execDockerRaw but no default deadline for sandbox Docker init/start/setup calls, so a wedged Docker CLI can still leave the promise pending. No close or merge action is planned; the safe path is a narrow new fix artifact because #91015 is excluded overlap context and is not a hydrated actionable PR in this job.
+Classified #90980 as the canonical live issue for the remaining actionable cluster scope. Current main at 0baaa63def44a6117c0a34c1d347c300fbb2776e has the Docker ENOENT path handled, but sandbox Docker initialization still calls docker image/create/start/exec without a command deadline, so a narrow fix PR is warranted. No close, merge, or security-route actions are planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 5 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 1 |
@@ -55,7 +55,7 @@ Classified #90980 as the surviving canonical issue for the non-security Docker e
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| open_fix_pr | blocked |  | clownfish/gitcrawl-193-autonomous-terminal-gap | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/sandbox/docker.execDockerRaw.timeout.test.ts: core test [check:changed] src/agents/sandbox/docker.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] typecheck core tests $ node scripts/run-tsgo.mjs -p test/tsconfig/tsconfig.... |
+| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/sandbox/docker.execDockerRaw.timeout.test.ts: core test [check:changed] src/agents/sandbox/docker.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 267ms ok conflict markers 239ms ok changelog attributions 256ms ok ... |
 
 ## Apply Actions
 
@@ -67,9 +67,11 @@ Classified #90980 as the surviving canonical issue for the non-security Docker e
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90980 | keep_canonical | planned | canonical | #90980 is the only hydrated open actionable ref left after excluded overlap refs, and current main still lacks a bounded Docker exec deadline for sandbox init/start calls. |
-| cluster:gitcrawl-193-autonomous-terminal-gap | fix_needed | planned |  | A narrow non-security fix is still needed on current main, but it must be produced as a cluster fix artifact rather than closing or merging anything in this pass. |
-| cluster:gitcrawl-193-autonomous-terminal-gap | build_fix_artifact | planned |  | Build an executable narrow fix plan so the deterministic fix executor can open a guarded PR after editing, validation, and Codex /review. |
+| #5135 | keep_closed | skipped | related | Already closed linked context; no mutation is valid. |
+| #7586 | keep_closed | skipped | related | Already closed linked context; no mutation is valid. |
+| #73846 | keep_closed | skipped | related | Already closed linked context; no mutation is valid. |
+| #90980 | fix_needed | planned | canonical | The remaining open report describes a real unbounded Docker command path on current main; no hydrated viable PR is available in this job, so a narrow fix PR is needed. |
+| cluster:gitcrawl-193-autonomous-terminal-gap | build_fix_artifact | planned |  | Build an executable narrow fix artifact for the canonical issue. |
 
 ## Needs Human
 

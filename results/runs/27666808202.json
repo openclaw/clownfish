@@ -1,0 +1,103 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-193-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666808202",
+  "workflow_run_id": "27666808202",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666808202",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:02:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-193-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:03:16.388Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/90980",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90980",
+  "canonical_pr": null,
+  "summary": "Classified #90980 as the canonical live issue for the remaining actionable cluster scope. Current main at 0baaa63def44a6117c0a34c1d347c300fbb2776e has the Docker ENOENT path handled, but sandbox Docker initialization still calls docker image/create/start/exec without a command deadline, so a narrow fix PR is warranted. No close, merge, or security-route actions are planned.",
+  "actions": [
+    {
+      "target": "#5135",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; no mutation is valid."
+    },
+    {
+      "target": "#7586",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; no mutation is valid."
+    },
+    {
+      "target": "#73846",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Already closed linked context; no mutation is valid."
+    },
+    {
+      "target": "#90980",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "The remaining open report describes a real unbounded Docker command path on current main; no hydrated viable PR is available in this job, so a narrow fix PR is needed."
+    },
+    {
+      "target": "cluster:gitcrawl-193-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90980",
+      "candidate_fix": null,
+      "reason": "Build an executable narrow fix artifact for the canonical issue."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/agents/sandbox/docker.execDockerRaw.timeout.test.ts: core test [check:changed] src/agents/sandbox/docker.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 267ms ok conflict markers 239ms ok changelog attributions 256ms ok ...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}
