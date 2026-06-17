@@ -1,0 +1,208 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T082059-002",
+  "mode": "plan",
+  "run_id": "27675721651",
+  "workflow_run_id": "27675721651",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675721651",
+  "head_sha": "772bf72cb91bccf2a6cb67b13221117cbe6d6d64",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:22:10Z",
+  "workflow_updated_at": "2026-06-17T08:24:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-002.md",
+  "published_at": "2026-06-17T08:26:22.302Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. No GitHub mutations are planned. All seed PRs are open and non-security-sensitive in the hydrated preflight artifact, but none has complete merge preflight with clean checks, resolved review-bot state, and passed Codex /review proof.",
+  "actions": [
+    {
+      "target": "#94000",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93928",
+      "candidate_fix": "#94000",
+      "reason": "Small, useful contributor PR for the linked Feishu pagination bug, but failed checks and missing review proof block merge. Repair/re-review the contributor branch before any merge recommendation."
+    },
+    {
+      "target": "#94002",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#85225",
+      "candidate_fix": "#94002",
+      "reason": "This is a plausible narrower replacement or repair path for the missing-file heartbeat behavior, but it overlaps #85225 and lacks final merge preflight. A maintainer-safe repair should choose one canonical heartbeat PR before merge."
+    },
+    {
+      "target": "#94004",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad maintainer-owned refactor on a non-main base with pending checks. The job explicitly requires human judgment for broad code deltas, so this should stay on maintainer review rather than Clownfish repair or merge."
+    },
+    {
+      "target": "#94005",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93932",
+      "candidate_fix": "#94005",
+      "reason": "Tiny focused gateway PR with a plausible fix path, but real-behavior proof/review completion is inconsistent or missing. Repair should supply proof and complete review before merge."
+    },
+    {
+      "target": "#94015",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79521",
+      "candidate_fix": "#94015",
+      "reason": "Small focused contributor PR for the linked voice-call latency bug, but failed type checks and missing final review preflight block merge. Repair the branch and rerun validation before merge."
+    },
+    {
+      "target": "#14051",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#14051",
+      "candidate_fix": null,
+      "reason": "Keep open as a related broader product/config tracker; it is not fixed by the narrow missing-file heartbeat PRs."
+    },
+    {
+      "target": "#79521",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79521",
+      "candidate_fix": "#94015",
+      "reason": "The issue is related to #94015, but post-merge closeout is disabled and the candidate fix is not merge-ready."
+    },
+    {
+      "target": "#83143",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83143",
+      "candidate_fix": "#94002",
+      "reason": "Related to #94002 and #85225, but should remain open until the selected heartbeat PR lands and maintainers decide the product behavior."
+    },
+    {
+      "target": "#85225",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85225",
+      "candidate_fix": "#85225",
+      "reason": "Keep as related canonical-family context for the heartbeat work; choose or repair one heartbeat PR before merge instead of closing or merging either path in this plan."
+    },
+    {
+      "target": "#93928",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93928",
+      "candidate_fix": "#94000",
+      "reason": "Related to #94000, but keep open until a validated fix lands; post-merge closeout is disabled."
+    },
+    {
+      "target": "#93932",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93932",
+      "candidate_fix": "#94005",
+      "reason": "Historical linked context only; no mutation should be emitted for an already closed issue."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T082059-002",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Emit a cluster-scoped repair artifact so an executor can repair contributor branches or raise a replacement PR only where branch repair cannot safely converge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 4,
+    "needs_human": 1,
+    "keep_related": 5,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94004 broad maintainer-owned SQLite/memory/proxy refactor on non-main base with pending checks and 55-file delta requires maintainer judgment before merge or repair.",
+    "Heartbeat canonical choice between #85225 and #94002 needs maintainer review after repair because both overlap the same missing-file behavior and historical bot comments flagged product/config concerns."
+  ],
+  "repair_candidate": {
+    "target": "#94000",
+    "source_refs": [
+      "#94000",
+      "#94002",
+      "#85225",
+      "#94005",
+      "#94015",
+      "#93928",
+      "#83143",
+      "#14051",
+      "#93932",
+      "#79521",
+      "#94004"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair narrow contributor PRs before merge consideration; do not touch the broad maintainer-owned SQLite refactor. No closure or comment mutations are allowed in this job.",
+    "pr_title": "Repair narrow PR inventory shard 20260617-002",
+    "pr_body": "Clownfish repair plan for live-pr-inventory-20260617T082059-002.\n\nTargets:\n- Repair Feishu drive pagination from #94000 for #93928 if failed extension boundary/check issues are branch-related and Codex /review passes.\n- Resolve heartbeat canonical choice between #94002 and #85225, preserving contributor credit, then validate the selected narrow missing-file idle heartbeat path.\n- Repair #94005 only after real behavior proof is passing and ClawSweeper review completes.\n- Repair #94015 by fixing the failing type check and rerunning targeted voice-call validation.\n\nOut of scope:\n- #94004 broad maintainer SQLite/memory/proxy refactor; requires maintainer review.\n- Closing issues or PRs; blocked by job frontmatter.\n\nValidation:\n- pnpm check:changed\n- targeted Vitest commands for touched surfaces\n- Codex /review before merge recommendation\n\nCredit:\nSource PR authors are credited in commits/PR body where their patches are repaired or replaced.",
+    "likely_files": [
+      "extensions/feishu/src/drive.ts",
+      "extensions/feishu/src/drive-schema.ts",
+      "src/infra/heartbeat-runner.ts",
+      "src/infra/heartbeat-runner.returns-default-unset.test.ts",
+      "src/gateway/server-tailscale.ts",
+      "extensions/voice-call/src/response-generator.ts",
+      "extensions/voice-call/src/response-generator.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "OPENCLAW_VITEST_MAX_WORKERS=1 node scripts/run-vitest.mjs src/infra/heartbeat-runner.returns-default-unset.test.ts",
+      "OPENCLAW_VITEST_MAX_WORKERS=1 node scripts/run-vitest.mjs extensions/voice-call/src/response-generator.test.ts",
+      "run the Feishu drive pagination targeted tests or add a focused mock/API regression if absent",
+      "run the gateway Tailscale targeted test or add a focused regression for reset-before-serve behavior",
+      "Codex /review on any PR before merge recommendation"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @ajwan8998 on #94000 if repaired or replaced.",
+      "Preserve source PR credit for @monish-rgb on #94002 if selected, repaired, or replaced.",
+      "Preserve source PR credit for @ANONYMOUSZED-beep on #85225 if that heartbeat path is selected or used as source.",
+      "Preserve source PR credit for @sunlit-deng on #94005 if repaired or replaced.",
+      "Preserve source PR credit for @xialonglee on #94015 if repaired or replaced."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T082059-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#94004 broad maintainer-owned SQLite/memory/proxy refactor on non-main base with pending checks and 55-file delta requires maintainer judgment before merge or repair.",
+      "Heartbeat canonical choice between #85225 and #94002 needs maintainer review after repair because both overlap the same missing-file behavior and historical bot comments flagged product/config concerns."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}
