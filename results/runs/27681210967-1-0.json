@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-026",
+  "mode": "plan",
+  "run_id": "27681210967-1-0",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-026.md",
+  "published_at": "2026-06-17T10:09:27.826Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open maintainer-ready PRs. None have a complete merge preflight proving Codex /review, review-bot findings, and hydrated comments; #84584 and #84589 also have failing checks. #84636 is too large for automated finalization without review despite passing focused checks. #84708 and #84728 look closest to merge-ready by checks, but still lack required merge preflight proof.",
+  "actions": [
+    {
+      "target": "#84584",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful focused PR, but failing checks plus missing required review/comment/Codex preflight make merge or automated repair unsafe from this artifact alone."
+    },
+    {
+      "target": "#84589",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small and likely repairable, but failing checks and missing required merge preflight proof prevent a merge recommendation; failure logs are not included, so a concrete fix artifact would be guesswork."
+    },
+    {
+      "target": "#84636",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be valuable but is too broad for automated finalization without complete review evidence and maintainer acceptance of the new memory SDK surface."
+    },
+    {
+      "target": "#84708",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks close to merge-ready on checks and scope, but merge policy requires resolved comments, resolved bot comments, and a clean Codex /review before recommending merge."
+    },
+    {
+      "target": "#84728",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks close to merge-ready on checks and scope, but merge policy requires resolved comments, resolved bot comments, and a clean Codex /review before recommending merge."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84584: decide whether to repair contributor branch after inspecting failing check logs and running required review/comment preflight.",
+    "#84589: decide whether to repair contributor branch after inspecting failing check logs and running required review/comment preflight.",
+    "#84636: maintainer judgment needed for broad memory SDK addition and complete review preflight.",
+    "#84708: run/record required merge preflight, including hydrated comments/review-bot comments and Codex /review.",
+    "#84728: run/record required merge preflight, including hydrated comments/review-bot comments and Codex /review."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,155 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-037",
+  "mode": "plan",
+  "run_id": "27681210967-1-11",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-037.md",
+  "published_at": "2026-06-17T10:09:27.834Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification using the hydrated cluster preflight artifact as live state. No GitHub mutations are allowed by this job; every open PR lacks complete merge preflight proof because comments/review-bot comments were not hydrated and Codex /review evidence is absent.",
+  "actions": [
+    {
+      "target": "#86670",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86670",
+      "reason": "The PR may be useful but is too broad and lacks complete merge preflight. Because fix and raise_pr are allowed, the safe path is a bounded repair/finalization artifact preserving contributor credit rather than merge recommendation."
+    },
+    {
+      "target": "#86674",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86674",
+      "reason": "Focused UI feature PR with failing checks and missing merge preflight. It should be repaired on the contributor branch or replaced with a narrow credited fix path after validating current main and resolving the failing checks."
+    },
+    {
+      "target": "#86676",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86676",
+      "reason": "This is a plausible repairable contributor PR, but a failing check and missing merge preflight block merge. The next safe action is to repair/refresh the branch, validate narrowly, and rerun review gates."
+    },
+    {
+      "target": "#86776",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86776",
+      "reason": "The PR is a strong repair candidate and appears narrow, but merge cannot be recommended without hydrated comments/bot review state, mergeability, and Codex /review proof."
+    },
+    {
+      "target": "#86893",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86893",
+      "reason": "The PR looks like the clearest near-merge candidate, but the artifact lacks required merge proof. It should be repaired/finalized through a contributor-branch path with review-bot hydration and Codex /review before any merge action."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-037",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A cluster-scoped repair artifact is needed because merge recommendations are blocked by missing mandatory preflight proof while fix/raise_pr is allowed."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 5,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#86670",
+    "source_refs": [
+      "#86670",
+      "#86674",
+      "#86676",
+      "#86776",
+      "#86893"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalization plan for five independent maintainer-ready PRs. None should be merged from this plan because the artifact lacks hydrated review/comment state, mergeability, and Codex /review proof. Prioritize narrow contributor-branch repairs in this order: #86893, #86776, #86676, #86674, then broad #86670.",
+    "pr_title": "Finalize ready maintainer PR shard 37",
+    "pr_body": "## Summary\n\nThis repair path covers five independent open PRs from live-pr-inventory-20260617T015524-037. Start by repairing contributor branches where maintainers can modify them, preserving source PR attribution. Do not merge until review comments and review-bot comments are hydrated, mergeability is known, Codex /review passes cleanly, and focused validation passes.\n\n## Source PRs and Credit\n\n- #86670 by @DinaAlSb: Eden AI provider plugin\n- #86674 by @mvanhorn: cron description Summary in Control UI\n- #86676 by @mvanhorn: configurable diagnostics.laneWaitWarnMs\n- #86776 by @kierandotai: inline provider policy defaults\n- #86893 by @dredozubov: isolated cron cold runner setup timeout\n\n## Validation\n\n- pnpm check:changed\n- node scripts/run-vitest.mjs src/cron/service/timer.regression.test.ts\n- node scripts/run-vitest.mjs src/agents/pi-embedded-runner/model.inline-provider.test.ts src/agents/pi-embedded-runner/model.test.ts\n- node scripts/run-vitest.mjs src/process/command-queue.test.ts\n- node scripts/run-vitest.mjs ui/src/ui/views/cron.test.ts\n- Codex /review with all findings addressed before merge\n\n## Notes\n\n#86670 is broad and includes dependencies/lockfile changes, so split or repair narrowly before considering merge. #86674 and #86676 have failing checks in the hydrated artifact. #86776 and #86893 appear closest to merge readiness, but still lack required review/comment hydration, mergeability, and Codex /review proof.",
+    "likely_files": [
+      "extensions/edenai/api.ts",
+      "extensions/edenai/index.ts",
+      "extensions/edenai/onboard.ts",
+      "extensions/edenai/provider-catalog.ts",
+      "extensions/edenai/openclaw.plugin.json",
+      "docs/providers/edenai.md",
+      ".env.example",
+      ".github/labeler.yml",
+      "docs/docs.json",
+      "pnpm-lock.yaml",
+      "ui/src/ui/views/cron.ts",
+      "ui/src/ui/views/cron.test.ts",
+      "docs/gateway/diagnostics.md",
+      "src/config/schema.labels.ts",
+      "src/config/zod-schema.ts",
+      "src/process/command-queue.ts",
+      "src/process/command-queue.types.ts",
+      "src/process/command-queue.test.ts",
+      "src/agents/pi-embedded-runner/model.inline-provider.ts",
+      "src/agents/pi-embedded-runner/model.inline-provider.test.ts",
+      "src/agents/pi-embedded-runner/model.test.ts",
+      "src/cron/service/timer.ts",
+      "src/cron/service/timer.regression.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "node scripts/run-vitest.mjs src/cron/service/timer.regression.test.ts",
+      "node scripts/run-vitest.mjs src/agents/pi-embedded-runner/model.inline-provider.test.ts src/agents/pi-embedded-runner/model.test.ts",
+      "node scripts/run-vitest.mjs src/process/command-queue.test.ts",
+      "node scripts/run-vitest.mjs ui/src/ui/views/cron.test.ts",
+      "run Codex /review on any repaired merge candidate and address every finding"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for DinaAlSb from https://github.com/openclaw/openclaw/pull/86670 if the Eden AI provider work is replaced or split.",
+      "Preserve source PR credit for mvanhorn from https://github.com/openclaw/openclaw/pull/86674 if the cron Summary UI work is replaced.",
+      "Preserve source PR credit for mvanhorn from https://github.com/openclaw/openclaw/pull/86676 if the laneWaitWarnMs work is replaced.",
+      "Preserve source PR credit for kierandotai from https://github.com/openclaw/openclaw/pull/86776 if the inline provider default fix is replaced.",
+      "Preserve source PR credit for dredozubov from https://github.com/openclaw/openclaw/pull/86893 if the isolated cron setup timeout fix is replaced."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-037.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-041",
+  "mode": "plan",
+  "run_id": "27681210967-1-15",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-041.md",
+  "published_at": "2026-06-17T10:09:27.845Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No merge is recommended because the artifact lacks complete merge preflight proof, including Codex /review evidence and hydrated comment/review-comment resolution. Four PRs require maintainer judgment or a refreshed executable repair plan; #87969 is routed to central security handling because the hydrated body discusses SecretRef and exec handling.",
+  "actions": [
+    {
+      "target": "#87872",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility-sensitive code delta plus waiting-on-author status and missing comment/review preflight require maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#88886",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small docs PR may be mergeable after maintainer review, but low-signal-docs label and missing Codex /review preflight block an automated merge recommendation."
+    },
+    {
+      "target": "#87891",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Contributor branch may need repair and refreshed proof, but the artifact does not safely support a planned fix_needed action without a complete executable fix_artifact."
+    },
+    {
+      "target": "#87923",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow useful PR, but dirty merge state and failed proof require a refreshed executable repair plan before finalization; the current artifact cannot safely emit planned fix_needed without a complete fix_artifact."
+    },
+    {
+      "target": "#87969",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR contains security-shaped SecretRef and exec-handling content, so route the exact PR ref to central OpenClaw security handling."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87872 requires maintainer judgment because it is broad, compatibility-sensitive, marked waiting on author, and has unhydrated comments.",
+    "#88886 requires maintainer judgment because it is labeled low-signal-docs/stale and lacks complete merge preflight despite passing docs/proof checks.",
+    "#87891 requires a refreshed executable repair plan because Real behavior proof failed and no complete fix_artifact is available for a safe planned fix action.",
+    "#87923 requires a refreshed executable repair plan because the branch is dirty, Real behavior proof failed, and no complete fix_artifact is available for a safe planned fix action."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

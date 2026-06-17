@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-045",
+  "mode": "plan",
+  "run_id": "27681210967-1-19",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "19",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-045.md",
+  "published_at": "2026-06-17T10:09:27.856Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No merge_candidate is safe from the provided preflight because all five PRs lack complete merge preflight proof, especially Codex /review evidence and hydrated comment/review-comment resolution. #80147 is validator-classified security-sensitive and must be routed centrally; the separate non-security replacement fix artifact remains complete for the ordinary browser timeout repair path with contributor credit preserved.",
+  "actions": [
+    {
+      "target": "#75857",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not recommend merge without complete live merge preflight; no duplicate or replacement relationship is established in this inventory shard."
+    },
+    {
+      "target": "#80147",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR ref to central OpenClaw security handling; do not merge, close, label, comment on, or open a PR for the security-sensitive item."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-045",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#80147",
+      "reason": "Build a narrow credited replacement artifact for the ordinary browser timeout repair path while routing the exact security-sensitive PR ref separately."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-045",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#80147",
+      "reason": "Open a replacement fix PR only after applying the fix artifact and preserving source PR credit; the applicator must continue to respect central routing for the exact security-sensitive source PR ref."
+    },
+    {
+      "target": "#81260",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be viable, but current review/comment state and Codex /review proof are missing; do not merge or replace from this artifact alone."
+    },
+    {
+      "target": "#81397",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Session-state repair is higher risk and the artifact lacks current comment/review and Codex /review proof required for merge."
+    },
+    {
+      "target": "#81696",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is focused and likely reviewable, but merge cannot be recommended without complete merge preflight proof."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "route_security": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75857: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation.",
+    "#81260: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation.",
+    "#81397: needs maintainer review with full comments and Codex /review because it changes session-state repair behavior.",
+    "#81696: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation."
+  ],
+  "repair_candidate": {
+    "target": "#80147",
+    "source_refs": [
+      "#80147",
+      "#58968",
+      "#75857",
+      "#81260",
+      "#81397",
+      "#81696"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Replace useful but dirty source PR #80147 with a narrow Clownfish PR that bounds remote CDP Playwright tab enumeration with the existing timeout budget and evicts stuck cached/in-flight connections on timeout, preserving @HemantSudarshan credit.",
+    "pr_title": "fix(browser): time out remote tab enumeration",
+    "pr_body": "## Summary\n- Bounds remote CDP Playwright tab enumeration with the existing timeout budget.\n- Evicts the scoped cached/in-flight Playwright connection when enumeration times out so later requests can reconnect cleanly.\n- Preserves regression coverage from source PR #80147.\n\n## Credit\nThis replacement is based on https://github.com/openclaw/openclaw/pull/80147 by @HemantSudarshan. Clownfish is carrying the fix forward with source PR attribution because the original branch is dirty/unmergeable against current main and this job blocks force-push repair.\n\n## Validation\n- pnpm -s vitest run extensions/browser/src/browser/pw-session.connections.test.ts extensions/browser/src/browser/server-context.remote-profile-tab-ops.playwright.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "CHANGELOG.md",
+      "extensions/browser/src/browser/pw-session.connections.test.ts",
+      "extensions/browser/src/browser/pw-session.ts",
+      "extensions/browser/src/browser/server-context.remote-profile-tab-ops.playwright.test.ts",
+      "extensions/browser/src/browser/server-context.tab-ops.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/browser/src/browser/pw-session.connections.test.ts extensions/browser/src/browser/server-context.remote-profile-tab-ops.playwright.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @HemantSudarshan as the source PR author.",
+      "Replacement PR body should say it is based on source PR https://github.com/openclaw/openclaw/pull/80147 and preserves attribution for the original contribution."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-045.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#80147"
+    ],
+    "needs_human": [
+      "#75857: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation.",
+      "#81260: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation.",
+      "#81397: needs maintainer review with full comments and Codex /review because it changes session-state repair behavior.",
+      "#81696: needs current review/comment hydration, mergeability resolution, and Codex /review before any merge recommendation."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

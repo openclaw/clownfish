@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-047",
+  "mode": "plan",
+  "run_id": "27681210967-1-21",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-047.md",
+  "published_at": "2026-06-17T10:09:27.864Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No PR has the complete merge preflight required for merge_candidate. Three small or medium contributor PRs have maintainer-safe repair/preflight paths with a concrete repair artifact; two waiting-on-author or broad-scope PRs require human follow-up before Clownfish should repair or merge them.",
+  "actions": [
+    {
+      "target": "#71863",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#71863",
+      "reason": "Repair/preflight the contributor branch rather than merge now: refresh mergeability against current main, inspect/resolve the Greptile comment if actionable, run Codex /review, then validate with corepack pnpm exec vitest run extensions/signal/src/daemon.test.ts extensions/signal/src/monitor.tool-result.autostart.test.ts and pnpm check:changed."
+    },
+    {
+      "target": "#72055",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human follow-up is required because the PR is explicitly waiting on author and its proof check failed. This should not be merged or repaired by Clownfish until the author/maintainer resolves the proof failure and confirms the plugin-config scope."
+    },
+    {
+      "target": "#72984",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Human follow-up is required because the PR is broad, marked waiting on author, and touches model/default resolution across auth/provider/message-delivery risk areas. Passing checks alone are not enough for a merge recommendation."
+    },
+    {
+      "target": "#73079",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#73079",
+      "reason": "Repair/preflight the contributor branch rather than merge now: inspect the failed Real behavior proof, verify the MiniMax request-shape test, run the narrow minimax test and pnpm check:changed, then run Codex /review before any merge recommendation."
+    },
+    {
+      "target": "#86901",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#86901",
+      "reason": "Repair/preflight the contributor branch rather than merge now: refresh against current main, resolve the failed lint/agent-channel checks if still current, run targeted Feishu validation plus pnpm check:changed, and run Codex /review before merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72055 requires maintainer/author follow-up because it is marked waiting on author and Real behavior proof failed.",
+    "#72984 requires maintainer/author follow-up because it is marked waiting on author, size L, and spans broad model/default resolution surfaces."
+  ],
+  "repair_candidate": {
+    "target": "#71863",
+    "source_refs": [
+      "#71863",
+      "#73079",
+      "#86901",
+      "#72055",
+      "#72984"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair and preflight three focused contributor PR branches in this inventory shard before any merge recommendation: #71863 Signal daemon shutdown/restart, #73079 MiniMax TTS hex output, and #86901 Feishu markdown-table fallback. Do not mutate GitHub in plan mode; executor must re-fetch each PR, repair only the listed contributor branch, preserve original authorship, resolve review/check blockers, run Codex /review, and validate narrowly plus pnpm check:changed.",
+    "pr_title": "Repair maintainer-ready contributor PRs from inventory shard 47",
+    "pr_body": "Repair/preflight plan for live-pr-inventory-20260617T015524-047.\n\nSource PRs and credit:\n- #71863 by ZHOUKAILIAN: https://github.com/openclaw/openclaw/pull/71863\n- #73079 by efe-arv: https://github.com/openclaw/openclaw/pull/73079\n- #86901 by name5566: https://github.com/openclaw/openclaw/pull/86901\n\nExecutor instructions:\n- Re-fetch live state for each PR before any branch update or merge recommendation.\n- Repair contributor branches directly where maintainer_can_modify remains true.\n- Keep each repair scoped to its existing files and preserve contributor attribution.\n- Resolve review-bot or CI blockers before recommending merge.\n- Run Codex /review after repair and address every finding.\n\nValidation:\n- corepack pnpm exec vitest run extensions/signal/src/daemon.test.ts extensions/signal/src/monitor.tool-result.autostart.test.ts\n- corepack pnpm exec vitest run extensions/minimax/speech-provider.test.ts\n- corepack pnpm exec vitest run extensions/feishu/src\n- pnpm check:changed",
+    "likely_files": [
+      "extensions/signal/src/daemon.ts",
+      "extensions/signal/src/daemon.test.ts",
+      "extensions/signal/src/monitor.ts",
+      "extensions/signal/src/monitor.tool-result.autostart.test.ts",
+      "extensions/signal/src/monitor.tool-result.test-harness.ts",
+      "extensions/minimax/tts.ts",
+      "extensions/minimax/speech-provider.test.ts",
+      "extensions/feishu/src/outbound.ts",
+      "extensions/feishu/src/reply-dispatcher.ts"
+    ],
+    "validation_commands": [
+      "corepack pnpm exec vitest run extensions/signal/src/daemon.test.ts extensions/signal/src/monitor.tool-result.autostart.test.ts",
+      "corepack pnpm exec vitest run extensions/minimax/speech-provider.test.ts",
+      "corepack pnpm exec vitest run extensions/feishu/src",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit and commit attribution for #71863 by ZHOUKAILIAN: https://github.com/openclaw/openclaw/pull/71863.",
+      "Preserve source PR credit and commit attribution for #73079 by efe-arv: https://github.com/openclaw/openclaw/pull/73079.",
+      "Preserve source PR credit and commit attribution for #86901 by name5566: https://github.com/openclaw/openclaw/pull/86901."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-047.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#72055 requires maintainer/author follow-up because it is marked waiting on author and Real behavior proof failed.",
+      "#72984 requires maintainer/author follow-up because it is marked waiting on author, size L, and spans broad model/default resolution surfaces."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

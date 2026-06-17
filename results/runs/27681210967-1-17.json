@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-043",
+  "mode": "plan",
+  "run_id": "27681210967-1-17",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-043.md",
+  "published_at": "2026-06-17T10:09:27.850Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment for five independent open PRs. No security-sensitive signals were detected. No merge action is safe because the artifact lacks complete merge preflight, including Codex /review proof. #88503 needs maintainer judgment due to active-author state, broad UI/message-delivery scope, and failing checks. The remaining PRs are kept independent because no complete executable fix artifact is safe from the provided artifacts.",
+  "actions": [
+    {
+      "target": "#88503",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up plus broad UI/message-delivery delta and failing checks require maintainer judgment before repair or merge planning."
+    },
+    {
+      "target": "#88098",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with a focused possible repair path, but plan-mode repair is not safely executable without a complete fix_artifact; merge is blocked by failed behavior proof and missing merge preflight."
+    },
+    {
+      "target": "#88150",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused PR, but plan-mode repair is not safely executable without a complete fix_artifact; failing checks and missing merge preflight block any merge recommendation."
+    },
+    {
+      "target": "#88203",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with passing listed checks, but merge cannot be recommended without hydrated review state and Codex /review preflight."
+    },
+    {
+      "target": "#88206",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with passing listed checks, but merge cannot be recommended without mergeability confirmation, hydrated review state, and Codex /review preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88503 requires maintainer judgment because it is labeled waiting on author, stale, size L, has message-delivery risk, and has failing checks."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

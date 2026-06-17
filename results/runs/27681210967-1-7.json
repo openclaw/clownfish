@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-033",
+  "mode": "plan",
+  "run_id": "27681210967-1-7",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-033.md",
+  "published_at": "2026-06-17T10:09:27.884Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment. #90876 is already closed and should not receive mutation. #90882, #90924, #90933, and #90942 are independent open PRs with passing checks in the artifact, but none has complete merge preflight proof for a merge recommendation in this run.",
+  "actions": [
+    {
+      "target": "#90876",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no ProjectClownfish mutation is valid for this target."
+    },
+    {
+      "target": "#90882",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with plausible focused scope, but merge cannot be recommended without complete merge preflight proof."
+    },
+    {
+      "target": "#90924",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with passing checks, but merge recommendation is blocked by missing merge preflight proof and unknown mergeability."
+    },
+    {
+      "target": "#90933",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta is explicitly human-gated by the job, and the run lacks complete merge preflight proof."
+    },
+    {
+      "target": "#90942",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with narrow scope and passing checks, but merge cannot be recommended without complete merge preflight proof."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90933 requires maintainer judgment because the artifact shows a broad cross-surface code delta with compatibility and message-delivery merge-risk labels, and the job requires human review for broad_code_delta."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

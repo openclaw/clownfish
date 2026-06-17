@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-030",
+  "mode": "plan",
+  "run_id": "27681210967-1-4",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-030.md",
+  "published_at": "2026-06-17T10:09:27.877Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are recommended. Security-sensitive PRs #85003, #85039, and #85112 are routed to central OpenClaw security handling; the remaining PRs require maintainer/author follow-up because merge preflight is incomplete.",
+  "actions": [
+    {
+      "target": "#84977",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and missing merge preflight require maintainer handling before finalization."
+    },
+    {
+      "target": "#85003",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Credential and SecretRef contract changes are security-sensitive and must be routed to central OpenClaw security handling rather than ProjectClownfish backlog cleanup."
+    },
+    {
+      "target": "#85039",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator-required security quarantine for this exact PR ref blocks ProjectClownfish finalization."
+    },
+    {
+      "target": "#85055",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The broad memory-wiki scope, waiting-on-author status, and unresolved review-bot preflight make this a maintainer decision rather than an automated merge or repair."
+    },
+    {
+      "target": "#85112",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Validator-required security quarantine for this exact PR ref blocks the planned contributor-branch repair."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84977: labeled waiting on author; mergeable state unknown and no clean Codex /review preflight.",
+    "#85055: XL memory-wiki delta with waiting-on-author status and unresolved Codex review-bot preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

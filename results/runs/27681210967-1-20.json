@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-046",
+  "mode": "plan",
+  "run_id": "27681210967-1-20",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "20",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-046.md",
+  "published_at": "2026-06-17T10:09:27.861Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five unrelated open PRs. No merge_candidate is safe because none has complete merge preflight with known mergeability, hydrated discussion/review-bot proof, and Codex /review evidence. Several items also have explicit waiting-on-author labels, failing checks, compatibility/session-risk labels, or broad deltas, so maintainer follow-up or narrower repair jobs are required per item.",
+  "actions": [
+    {
+      "target": "#81731",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful small contributor PR, but merge is blocked by missing complete preflight, unknown mergeability, and failing hydrated CI entries. A separate repair/revalidation pass can likely handle it, but this shard cannot recommend merge."
+    },
+    {
+      "target": "#81787",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small and plausibly mergeable, but the waiting-on-author label plus missing discussion/review preflight make this a maintainer decision before merge."
+    },
+    {
+      "target": "#81818",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The implementation is focused and tests pass, but compatibility risk, waiting-on-author status, unknown mergeability, and missing review/comment preflight require maintainer review before merge."
+    },
+    {
+      "target": "#80627",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not merge with failing proof/checks and missing review preflight. This is a candidate for a narrow repair/revalidation job, but this shard contains unrelated PRs and should not create a combined fix artifact."
+    },
+    {
+      "target": "#81382",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad session-state/message-delivery change with active waiting-on-author status and failing dependency guard checks. This needs maintainer review or a dedicated repair job, not merge recommendation from this shard."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81731: missing complete merge preflight, unknown mergeability, and failing hydrated CI entries despite focused scope.",
+    "#81787: status waiting on author plus missing hydrated discussion/review and Codex /review proof.",
+    "#81818: compatibility-risk and waiting-on-author labels plus missing complete merge preflight.",
+    "#80627: failing proof/check/test-type checks and missing complete merge preflight; possible separate repair target.",
+    "#81382: broad L-sized session-state/message-delivery change, waiting-on-author label, failing dependency guard checks, and missing complete merge preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

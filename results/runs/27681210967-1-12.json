@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-038",
+  "mode": "plan",
+  "run_id": "27681210967-1-12",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-038.md",
+  "published_at": "2026-06-17T10:09:27.837Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PRs. No merge action is recommended because the artifact does not include complete merge preflight proof, especially Codex /review. #86913 has concrete failing CI and should be repaired on the contributor branch. #88908 is broad/high-risk enough to require maintainer judgment before any merge path.",
+  "actions": [
+    {
+      "target": "#86900",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR; keep in its own finalization lane until full merge preflight is available."
+    },
+    {
+      "target": "#86913",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#86913",
+      "reason": "Repair the contributor branch narrowly before reconsidering merge."
+    },
+    {
+      "target": "#87061",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small PR; keep separate until full merge preflight is available."
+    },
+    {
+      "target": "#88908",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad availability-affecting gateway change requires maintainer judgment before merge or repair."
+    },
+    {
+      "target": "#87121",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small PR; keep separate until full merge preflight is available."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-038",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#86913",
+      "reason": "Executable repair plan for the one PR with failing required checks."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "fix_needed": 1,
+    "needs_human": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88908 needs maintainer judgment because it is a large gateway/CLI availability change and lacks complete merge preflight proof."
+  ],
+  "repair_candidate": {
+    "target": "#86913",
+    "source_refs": [
+      "#86913",
+      "#86900",
+      "#87061",
+      "#87121",
+      "#88908"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #86913 on the contributor branch so the restart pending state PR can be reconsidered for merge after CI and Codex /review pass.",
+    "pr_title": "fix(gateway): repair restart pending state finalization",
+    "pr_body": "Repair path for #86913. This keeps the existing contributor branch as the source of truth, preserves attribution for @Dizesales/dizevolv425, and focuses only on getting the restart pending state changes through failing CI and Codex review.\n\nValidation:\n- pnpm -s vitest run extensions/admin-http-rpc/src/handler.test.ts src/gateway/server-methods/restart.test.ts src/infra/infra-runtime.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "docs/plugins/admin-http-rpc.md",
+      "extensions/admin-http-rpc/src/handler.test.ts",
+      "extensions/admin-http-rpc/src/methods.ts",
+      "src/gateway/methods/core-descriptors.ts",
+      "src/gateway/server-methods.ts",
+      "src/gateway/server-methods/restart.test.ts",
+      "src/gateway/server-methods/restart.ts",
+      "src/infra/infra-runtime.test.ts",
+      "src/infra/restart.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/admin-http-rpc/src/handler.test.ts src/gateway/server-methods/restart.test.ts src/infra/infra-runtime.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve credit for @Dizesales as PR author and dizevolv425 as commit author.",
+      "Use #86913 as the source PR in any repair notes or follow-up PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-038.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#88908 needs maintainer judgment because it is a large gateway/CLI availability change and lacks complete merge preflight proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

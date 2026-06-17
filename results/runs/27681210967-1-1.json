@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-027",
+  "mode": "plan",
+  "run_id": "27681210967-1-1",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-027.md",
+  "published_at": "2026-06-17T10:09:27.829Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. One PR is routed to central security handling because it appears to involve plaintext provider API key storage. One broad PR needs maintainer judgment. The remaining three PRs are independent, scoped candidates but lack complete merge preflight, so no merge action is recommended.",
+  "actions": [
+    {
+      "target": "#84738",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR appears to involve plaintext provider key storage, so it is out of scope for Clownfish backlog automation."
+    },
+    {
+      "target": "#73704",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cross-surface delta and incomplete review-bot/Codex merge preflight require maintainer judgment before repair or merge planning."
+    },
+    {
+      "target": "#80823",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent scoped PR, not a duplicate of another item in the shard. It should remain open until a complete merge preflight is available."
+    },
+    {
+      "target": "#84772",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent scoped PR, not a duplicate of another item in the shard. It should remain open until a complete merge preflight is available."
+    },
+    {
+      "target": "#90836",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent scoped PR, not a duplicate of another item in the shard. It should remain open until a complete merge preflight is available."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73704: maintainer judgment required for broad cross-surface delta and incomplete review-bot/Codex merge preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

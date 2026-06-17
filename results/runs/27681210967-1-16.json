@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-042",
+  "mode": "plan",
+  "run_id": "27681210967-1-16",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "16",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-042.md",
+  "published_at": "2026-06-17T10:09:27.847Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five independent open PRs. No merge action is safe from the hydrated artifact because complete merge preflight is missing for every PR, including Codex /review proof and live mergeability. Four PRs have specific human/preflight blockers; #88052 is a small independent repair candidate but still lacks merge preflight proof.",
+  "actions": [
+    {
+      "target": "#87986",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing proof blocks merge. A maintainer or refreshed repair preflight should decide whether the failed Real behavior proof is expected for a docs-only Linux codexbar skill metadata change or requires contributor-branch repair."
+    },
+    {
+      "target": "#88048",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and compatibility-risk labels require maintainer judgment before finalization; merge cannot be recommended without complete merge preflight."
+    },
+    {
+      "target": "#88052",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent small fix PR and should not be closed or merged by this shard. It may be a merge candidate only after refreshed live mergeability, review/comment hydration, Codex /review, and validation preflight are complete."
+    },
+    {
+      "target": "#88061",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad multi-area docs accuracy changes and low-signal-docs labeling require maintainer review before merge or repair planning; this job did not opt into low-signal closeout."
+    },
+    {
+      "target": "#88085",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The failing boundary check and missing merge preflight block merge. The artifact does not include enough failure detail to emit a concrete repair artifact."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "blocked": 4,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87986: decide whether failed Real behavior proof requires contributor-branch repair or can be rerun/waived for docs-only metadata.",
+    "#88048: active waiting-on-author plus compatibility-risk review decision before finalization.",
+    "#88061: broad multi-area docs accuracy PR with low-signal-docs label needs maintainer review; low-signal closeout is disabled by this job.",
+    "#88085: inspect failed check-additional-boundaries-bcd and determine repair before merge consideration."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

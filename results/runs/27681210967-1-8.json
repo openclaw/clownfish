@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-034",
+  "mode": "plan",
+  "run_id": "27681210967-1-8",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "8",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-034.md",
+  "published_at": "2026-06-17T10:09:27.886Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory review. No GitHub mutations are permitted by this job. None of the PRs has the complete merge preflight required for a merge recommendation; #85616 is routed to central security handling per validator classification, and two waiting-on-author PRs need maintainer/author follow-up.",
+  "actions": [
+    {
+      "target": "#85466",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-ready PR, but not mergeable through Clownfish without complete merge preflight."
+    },
+    {
+      "target": "#85616",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR must be quarantined to central OpenClaw security handling; no ProjectClownfish mutation is planned."
+    },
+    {
+      "target": "#85710",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with a small useful diff, but failing checks block merge until the PR-specific failure is repaired or rerun with evidence."
+    },
+    {
+      "target": "#85748",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author PR with failing/cancelled checks requires maintainer or author follow-up before Clownfish can recommend merge or repair."
+    },
+    {
+      "target": "#85770",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author PR with a failing check requires maintainer or author follow-up before Clownfish can recommend merge or repair."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85748: waiting-on-author state plus failing/cancelled checks blocks any Clownfish merge or repair recommendation without maintainer/author follow-up.",
+    "#85770: waiting-on-author state plus a failing check blocks any Clownfish merge or repair recommendation without maintainer/author follow-up."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

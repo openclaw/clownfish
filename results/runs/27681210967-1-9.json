@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-035",
+  "mode": "plan",
+  "run_id": "27681210967-1-9",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-035.md",
+  "published_at": "2026-06-17T10:09:27.889Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory shard over five unrelated open PRs. No security-sensitive refs were detected. None has the complete merge preflight required for merge recommendation: mergeable state is unknown, Codex /review proof is absent, and hydrated PR comments are unavailable despite comment counts. Each PR is classified independently and left non-mutating.",
+  "actions": [
+    {
+      "target": "#85793",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR, not a duplicate or shared canonical. Merge is blocked by failing Real behavior proof and missing merge preflight; no closure or fix PR action is safe from this plan-only artifact."
+    },
+    {
+      "target": "#85828",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider feature PR with active author-waiting label and compatibility/auth-provider risk. Merge and fixed-by-candidate closeout are blocked by missing complete preflight; no replacement fix is justified from the artifact."
+    },
+    {
+      "target": "#85866",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad auth/session feature surface requires maintainer judgment and complete review preflight before merge or repair. It is not a duplicate and should not be closed or replaced automatically from this shard."
+    },
+    {
+      "target": "#85899",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small docs/descriptors PR and plausible merge candidate after full preflight, but this plan cannot recommend merge without hydrated comments and Codex /review proof."
+    },
+    {
+      "target": "#86062",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent UI/gateway feature PR and plausible merge candidate after full preflight, but this plan cannot recommend merge without hydrated comments and Codex /review proof."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85866 requires maintainer review because it is a broad WhatsApp auth/session feature with size L and auth-provider/session-state merge-risk labels."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

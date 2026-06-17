@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-028",
+  "mode": "plan",
+  "run_id": "27681210967-1-2",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-028.md",
+  "published_at": "2026-06-17T10:09:27.859Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five independent open PRs. No merge action is safe because the artifact lacks Codex /review preflight and several PRs have active waiting-on-author, broad-delta, failed-check, dirty-branch, or unhydrated-comment blockers. One narrow PR has a concrete maintainer-modifiable repair path.",
+  "actions": [
+    {
+      "target": "#81333",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad uneditable contributor PR with active author follow-up requires maintainer judgment before merge or replacement."
+    },
+    {
+      "target": "#81341",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#81341",
+      "reason": "Useful narrow contributor PR, but failing proof/type/check jobs block merge; repair the existing branch before any merge preflight."
+    },
+    {
+      "target": "#81714",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large UI/i18n contributor PR with waiting-on-author state and incomplete discussion preflight requires maintainer judgment."
+    },
+    {
+      "target": "#82165",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dirty feature/config PR with compatibility risk and active waiting-on-author discussion needs maintainer decision before repair or merge."
+    },
+    {
+      "target": "#82354",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Message-delivery PR has failed behavior proof plus waiting-on-author discussion, so merge or repair needs maintainer judgment after comment/proof review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#81333: broad uneditable i18n PR with waiting-on-author status.",
+    "#81714: large i18n PR with waiting-on-author status and unhydrated discussion.",
+    "#82165: dirty compatibility-affecting feature/config PR with waiting-on-author status.",
+    "#82354: failed behavior proof and waiting-on-author discussion for message-delivery change."
+  ],
+  "repair_candidate": {
+    "target": "#81341",
+    "source_refs": [
+      "#81341",
+      "#81333",
+      "#81714",
+      "#82165",
+      "#82354"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #81341 by keeping the existing narrow ACP bound-thread follow-up fix, investigating the failing proof/type/check jobs, updating the branch only as needed, and rerunning targeted validation before merge preflight.",
+    "pr_title": "Repair #81341 ACP bound thread follow-up delivery",
+    "pr_body": "Repair plan for #81341: keep the contributor's focused dispatch suppression fix, inspect the failing Real behavior proof/check/check-test-types jobs, make the smallest branch update needed, rerun pnpm -s vitest run src/auto-reply/reply/dispatch-from-config.test.ts and pnpm check:changed, then run Codex /review before merge consideration. Source PR credit: https://github.com/openclaw/openclaw/pull/81341 by qiyueqiu/qiqi.",
+    "likely_files": [
+      "src/auto-reply/reply/dispatch-from-config.ts",
+      "src/auto-reply/reply/dispatch-from-config.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/auto-reply/reply/dispatch-from-config.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for qiyueqiu/qiqi on #81341.",
+      "Any repair commit or final merge note should credit the contributor's ACP bound-thread follow-up delivery fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-028.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#81333: broad uneditable i18n PR with waiting-on-author status.",
+      "#81714: large i18n PR with waiting-on-author status and unhydrated discussion.",
+      "#82165: dirty compatibility-affecting feature/config PR with waiting-on-author status.",
+      "#82354: failed behavior proof and waiting-on-author discussion for message-delivery change."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

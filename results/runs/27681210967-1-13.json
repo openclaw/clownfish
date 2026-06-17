@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-039",
+  "mode": "plan",
+  "run_id": "27681210967-1-13",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "13",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-039.md",
+  "published_at": "2026-06-17T10:09:27.840Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No security-sensitive refs were detected. No merge recommendation is safe because no item has complete merge preflight proving resolved comments, resolved review-bot findings, and a clean Codex /review. The two small failing PRs are useful contributor work but cannot be emitted as fix actions without a complete executable fix artifact, so they are kept as related non-mutating classifications. Broad PRs require maintainer judgment before automation proceeds.",
+  "actions": [
+    {
+      "target": "#79568",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone PR with no cluster dedupe relationship; merge is blocked by missing merge preflight proof."
+    },
+    {
+      "target": "#87205",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR, but failing check and missing merge preflight block merge; absent a complete executable fix artifact, no fix action is safe to plan."
+    },
+    {
+      "target": "#87231",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused contributor PR, but failing checks and missing merge preflight block merge; absent a complete executable fix artifact, no fix action is safe to plan."
+    },
+    {
+      "target": "#87343",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta plus waiting-on-author state and unresolved bot-review/comment proof require maintainer judgment."
+    },
+    {
+      "target": "#89154",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "XL cross-surface feature PR requires maintainer review before merge or repair automation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87343: broad size:L PR with waiting-on-author status, unhydrated 25-comment discussion, and unresolved Codex review-bot proof.",
+    "#89154: size:XL cross-surface hook feature PR; broad_code_delta is explicitly listed in require_human_for and merge preflight is incomplete."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

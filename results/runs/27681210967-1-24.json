@@ -1,0 +1,139 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-050",
+  "mode": "plan",
+  "run_id": "27681210967-1-24",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-050.md",
+  "published_at": "2026-06-17T10:09:27.871Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for five open PRs. No GitHub mutations are allowed by this job. No merge_candidate is safe because the preflight artifact lacks Codex /review proof and mergeability is unknown for all PRs; several PRs also have waiting-on-author or broad-diff blockers.",
+  "actions": [
+    {
+      "target": "#78381",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad mixed-surface code delta needs maintainer judgment before merge or repair planning."
+    },
+    {
+      "target": "#81471",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81471",
+      "reason": "Small contributor PR appears repairable and should be finalized through guarded branch repair, Codex /review, and pnpm validation before merge."
+    },
+    {
+      "target": "#81471",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81471",
+      "reason": "Create an executable repair artifact for #81471 rather than recommending merge without complete merge preflight."
+    },
+    {
+      "target": "#83670",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed before treating this replacement PR as canonical because the referenced predecessor is unhydrated and the PR is marked waiting on author."
+    },
+    {
+      "target": "#84115",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not merge or close in this plan; keep as independent low-signal docs work blocked by proof failure and job permissions."
+    },
+    {
+      "target": "#71537",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The live state changed materially and the PR is marked waiting on author with unhydrated discussion, so maintainer review is required before merge or repair."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "blocked": 3,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78381 requires maintainer judgment for broad mixed-surface delta before repair or merge.",
+    "#83670 requires maintainer judgment because it claims to replace unhydrated #53762 and is marked waiting on author.",
+    "#71537 requires maintainer judgment because live state changed after inventory and the PR is marked waiting on author with unhydrated discussion."
+  ],
+  "repair_candidate": {
+    "target": "#81471",
+    "source_refs": [
+      "#81471",
+      "#47264",
+      "#71537",
+      "#78381",
+      "#83670",
+      "#84115"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #81471 in place, preserving edenfunf's authorship, then run narrow validation and Codex /review before any merge recommendation. The intended fix is limited to LINE multi-account resolution: load channels.line.accounts.default for the default account and default-enable named accounts unless explicitly disabled, with focused tests for both behaviors.",
+    "pr_title": "fix(line): load accounts.default and default-enable named accounts",
+    "pr_body": "Repairs and finalizes contributor PR #81471 by @edenfunf.\n\nScope:\n- Keep LINE account resolution limited to extensions/line/src/accounts.ts.\n- Preserve tests in extensions/line/src/accounts.test.ts covering accounts.default lookup and default-enabled named accounts.\n- Preserve the #47264 linkage from the source PR.\n\nValidation:\n- pnpm -s vitest run extensions/line/src/accounts.test.ts\n- pnpm check:changed\n- Codex /review must pass cleanly before merge.\n\nCredit: source PR #81471 by @edenfunf.",
+    "likely_files": [
+      "extensions/line/src/accounts.ts",
+      "extensions/line/src/accounts.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/line/src/accounts.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @edenfunf and PR #81471.",
+      "The PR body says this fixes #47264; keep that linkage in any final merge or replacement PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-050.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#78381 requires maintainer judgment for broad mixed-surface delta before repair or merge.",
+      "#83670 requires maintainer judgment because it claims to replace unhydrated #53762 and is marked waiting on author.",
+      "#71537 requires maintainer judgment because live state changed after inventory and the PR is marked waiting on author with unhydrated discussion."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

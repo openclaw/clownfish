@@ -1,0 +1,130 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-036",
+  "mode": "plan",
+  "run_id": "27681210967-1-10",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-036.md",
+  "published_at": "2026-06-17T10:09:27.832Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment of five open PR inventory candidates. No merge actions are recommended because the artifact does not include complete merge preflight proof, including hydrated comments/review-bot findings and a clean Codex /review. Two PRs have concrete repair/review blockers; the others need maintainer finalization judgment rather than automated mutation.",
+  "actions": [
+    {
+      "target": "#86085",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#86085",
+      "reason": "The PR appears narrow and maintainer-modifiable, but it needs repair or revalidation before finalization because the behavior-proof gate is failing and merge preflight is incomplete."
+    },
+    {
+      "target": "#86088",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#86088",
+      "reason": "This looks close to mergeable, but the artifact lacks mandatory merge preflight proof. A maintainer or executor should hydrate comments/review-bot findings and run Codex /review before deciding merge."
+    },
+    {
+      "target": "#86224",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#86224",
+      "reason": "This is not safe to repair or merge automatically from the compact artifact because it is waiting on author, has failed relevant checks, and touches runtime/auth/session-sensitive behavior."
+    },
+    {
+      "target": "#86233",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#86233",
+      "reason": "Despite passing checks, the change is broad enough and compatibility-sensitive enough that the job's broad-code-delta guard requires maintainer judgment or full merge preflight before merge."
+    },
+    {
+      "target": "#86608",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#86608",
+      "reason": "This is likely the lowest-risk candidate, but merge still needs complete live preflight and Codex /review proof before a merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86088: likely mergeable after live comment/review-bot hydration and Codex /review, but merge preflight proof is missing.",
+    "#86224: waiting on author, failed checks, and broad runtime/auth/session-sensitive diff require maintainer judgment.",
+    "#86233: broad compatibility-sensitive Codex app-server retention change requires full review context and maintainer finalization.",
+    "#86608: small docs/scripts PR has passing checks but still lacks hydrated discussion/review-bot context and Codex /review proof."
+  ],
+  "repair_candidate": {
+    "target": "#86085",
+    "source_refs": [
+      "#86085",
+      "#52357",
+      "#86088",
+      "#86224",
+      "#86233",
+      "#86608"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/revalidate #86085 rather than merge as-is. The narrow contributor branch updates zh-TW terminology assets, but the live preflight Real behavior proof gate is failing and mandatory merge preflight proof is absent.",
+    "pr_title": "i18n(zh-TW): align Control UI locale with Taiwan terminology",
+    "pr_body": "Repair plan for #86085: keep the contributor's focused zh-TW terminology changes, re-run the locale validation/proof path, address any failing Real behavior proof requirements, and preserve @p3nchan credit in the final PR body. This should not expand beyond the three i18n files already touched unless validation identifies a directly related generated baseline.",
+    "likely_files": [
+      "ui/src/i18n/.i18n/glossary.zh-TW.json",
+      "ui/src/i18n/.i18n/zh-TW.tm.jsonl",
+      "ui/src/i18n/locales/zh-TW.ts"
+    ],
+    "validation_commands": [
+      "Run the repository i18n locale validation covering zh-TW key parity and translation-shape checks.",
+      "Rerun the Real behavior proof workflow for #86085.",
+      "Run Codex /review before any merge recommendation."
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @p3nchan as the source PR author if the branch is repaired or replaced.",
+      "Reference https://github.com/openclaw/openclaw/pull/86085 in any replacement PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-036.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#86088: likely mergeable after live comment/review-bot hydration and Codex /review, but merge preflight proof is missing.",
+      "#86224: waiting on author, failed checks, and broad runtime/auth/session-sensitive diff require maintainer judgment.",
+      "#86233: broad compatibility-sensitive Codex app-server retention change requires full review context and maintainer finalization.",
+      "#86608: small docs/scripts PR has passing checks but still lacks hydrated discussion/review-bot context and Codex /review proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

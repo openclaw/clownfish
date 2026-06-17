@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-040",
+  "mode": "plan",
+  "run_id": "27681210967-1-14",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-040.md",
+  "published_at": "2026-06-17T10:09:27.843Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard reviewed from the provided preflight artifact. Four PRs are independent remediation candidates, not a single canonical family. PR #87800 is routed to central security handling because its auth-provider/API-key/credentials/secrets-provider scope crosses the security-sensitive boundary for ProjectClownfish automation. No merge is recommended because the artifact does not include complete merge preflight proof, especially Codex /review results and hydrated human/review-bot comment resolution evidence. No fix artifact is emitted because none of the independent non-security PRs has a concrete narrow replacement path proven safer than the contributor branch from the available artifact.",
+  "actions": [
+    {
+      "target": "#90970",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent low-signal docs/i18n PR with failed behavior-proof gate and incomplete merge preflight; keep open for maintainer review rather than close or merge in this shard."
+    },
+    {
+      "target": "#84540",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible focused contributor PR, but it is independent from the other inventory items and lacks the complete merge preflight required for merge_candidate."
+    },
+    {
+      "target": "#86279",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent candidate with clean mergeability but incomplete diff/comment/Codex-review proof; keep open for a refreshed merge preflight rather than merge in this plan."
+    },
+    {
+      "target": "#87800",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR #87800 crosses ProjectClownfish's security-sensitive boundary because it changes auth-provider, credential/API-key, and secrets-provider behavior. Route to central OpenClaw security handling without mutating the PR."
+    },
+    {
+      "target": "#87861",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent contributor PR, but merge_candidate is blocked until Copilot findings/comment threads and Codex /review are fully resolved in preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

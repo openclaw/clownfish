@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-049",
+  "mode": "plan",
+  "run_id": "27681210967-1-23",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-049.md",
+  "published_at": "2026-06-17T10:09:27.868Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No merge recommendation is safe because the artifact does not include Codex /review preflight, mergeability is unknown, and several PRs are broad or marked waiting on author. No fix artifact is emitted because none of the PRs has a narrow maintainer-safe replacement path proven by the compacted preflight artifact.",
+  "actions": [
+    {
+      "target": "#75054",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing behavior proof and missing merge preflight leave a maintainer decision on whether this docs-only PR is acceptable despite the failed proof gate."
+    },
+    {
+      "target": "#75165",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta and waiting-on-author status are explicit human-review gates in the job frontmatter."
+    },
+    {
+      "target": "#75351",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The waiting-on-author label and automation-sensitive generated locale changes require maintainer or author follow-up before merge planning."
+    },
+    {
+      "target": "#75371",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The session-state and compatibility-sensitive gateway change lacks the complete merge preflight required for merge_candidate, and its scope is too broad for a replacement fix artifact from this artifact alone."
+    },
+    {
+      "target": "#75662",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dirty-candidate breadth, compatibility/session-state risk, and missing merge preflight require maintainer review before merge or repair planning."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "blocked": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#75054 needs maintainer decision because the docs-only PR has a failed Real behavior proof gate and low-signal-docs/needs-real-behavior-proof labels.",
+    "#75165 needs maintainer decision because it is an XL feature/library addition marked waiting on author.",
+    "#75351 needs maintainer or author follow-up because it is marked waiting on author and touches generated/automation-sensitive locale surfaces.",
+    "#75371 needs maintainer review because the gateway/session-state change is large enough and lacks Codex /review, hydrated comments, and mergeability proof.",
+    "#75662 needs maintainer review because it is a dirty-candidate broad lifecycle/session-state change without complete review preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

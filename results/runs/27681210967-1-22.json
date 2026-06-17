@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-048",
+  "mode": "plan",
+  "run_id": "27681210967-1-22",
+  "workflow_run_id": "27681210967",
+  "run_attempt": "1",
+  "matrix_index": "22",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27681210967",
+  "head_sha": "7bc0cee75acd181324af59b1859afe2bdf6dbccc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:03:31Z",
+  "workflow_updated_at": "2026-06-17T10:05:45Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-048.md",
+  "published_at": "2026-06-17T10:09:27.866Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are permitted by the job; merge recommendations are blocked where complete merge preflight proof is missing or checks are failing.",
+  "actions": [
+    {
+      "target": "#73162",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#73162",
+      "reason": "Narrow contributor PR is plausibly repairable, but failing Real behavior proof and missing merge preflight block merge recommendation."
+    },
+    {
+      "target": "#73199",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Automation-surface PR has multiple failing checks and insufficient failure detail in the plan artifact; maintainer judgment or a narrower rehydrated repair job is needed before deciding repair versus replacement."
+    },
+    {
+      "target": "#73338",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This may be a strong PR, but failing checks plus unresolved/missing bot-review detail make finalization a maintainer or rehydrated repair decision."
+    },
+    {
+      "target": "#74735",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Feature/config semantics and session-state compatibility risk require maintainer judgment or complete merge preflight before merge; no narrow replacement fix artifact is safe from this artifact alone."
+    },
+    {
+      "target": "#74940",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small PR appears close, but missing merge preflight proof prevents merge recommendation in plan mode."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#73199: determine whether the automation smoke gate should be repaired, split, or replaced after investigating failing checks.",
+    "#73338: review failing checks and unresolved Codex bot suggestions before deciding merge or repair.",
+    "#74735: decide product/compatibility acceptability for session-scoped bootstrap extra files and complete merge preflight if accepted.",
+    "#74940: complete merge preflight, especially current Codex /review and mergeability, before merge."
+  ],
+  "repair_candidate": {
+    "target": "#73162",
+    "source_refs": [
+      "#73162",
+      "#72808",
+      "#73199",
+      "#73338",
+      "#74735",
+      "#74940"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #73162 on the contributor branch if live rehydration confirms the Slack reconnect policy change is still needed and the Real behavior proof failure is recoverable. Other PRs in this inventory need maintainer/review-preflight decisions before executable repair or merge planning.",
+    "pr_title": "fix(slack): keep socket reconnects alive indefinitely",
+    "pr_body": "Repair path for #73162. Preserve contributor credit for @suboss87 and source PR https://github.com/openclaw/openclaw/pull/73162. Validate the Slack reconnect policy on current main, rerun the Real behavior proof, run pnpm check:changed, and request a fresh Codex /review before any merge recommendation.",
+    "likely_files": [
+      "extensions/slack/src/monitor/reconnect-policy.ts",
+      "CHANGELOG.md"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test -- extensions/slack/src/monitor",
+      "rerun Real behavior proof for #73162",
+      "run Codex /review on the repaired head"
+    ],
+    "credit_notes": [
+      "Credit source PR https://github.com/openclaw/openclaw/pull/73162 and contributor @suboss87 in any repair or replacement PR.",
+      "Preserve the existing changelog attribution for the Slack socket reconnect fix if the user-facing change lands."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-048.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#73199: determine whether the automation smoke gate should be repaired, split, or replaced after investigating failing checks.",
+      "#73338: review failing checks and unresolved Codex bot suggestions before deciding merge or repair.",
+      "#74735: decide product/compatibility acceptability for session-scoped bootstrap extra files and complete merge preflight if accepted.",
+      "#74940: complete merge preflight, especially current Codex /review and mergeability, before merge."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
