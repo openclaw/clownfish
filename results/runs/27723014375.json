@@ -1,0 +1,176 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94000-live-pr-inventory-20260617t082059-002-20260617a",
+  "mode": "autonomous",
+  "run_id": "27723014375",
+  "workflow_run_id": "27723014375",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27723014375",
+  "head_sha": "4258d8296a5c3d7156626ce687a361b4ef295309",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T22:10:55Z",
+  "workflow_updated_at": "2026-06-17T22:28:15Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94000-live-pr-inventory-20260617t082059-002-20260617a.md",
+  "published_at": "2026-06-17T22:29:01.801Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94000",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93928",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94000",
+  "summary": "PR #94000 remains the repairable canonical contributor branch for the Feishu drive pagination bug in #93928. Current main still lists only one drive page and `info` searches only that first page; the live PR head still matches the hydrated SHA and contains the narrow drive pagination diff plus the exact syntax/type/lint repair target. No GitHub mutations were performed.",
+  "actions": [
+    {
+      "target": "#94000",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94000",
+      "candidate_fix": null,
+      "reason": "Repair the editable contributor branch rather than replacing it: the branch is narrow, maintainer_can_modify is true, and the remaining failure matches the targeted Feishu drive typing/lint scope."
+    },
+    {
+      "target": "#93928",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93928",
+      "candidate_fix": "#94000",
+      "reason": "Keep the issue open as the canonical tracker until #94000 is repaired, validated, and merged by a later merge-enabled run."
+    },
+    {
+      "target": "#37626",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed context item; no closure action is valid."
+    },
+    {
+      "target": "cluster:repair-94000-live-pr-inventory-20260617t082059-002-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94000",
+      "candidate_fix": null,
+      "reason": "Produce an executable repair plan for Clownfish to update #94000 without broadening the Feishu drive surface."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94000",
+    "source_refs": [
+      "#94000",
+      "#93928",
+      "#37626"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #94000 on its editable branch by fixing the Feishu drive pagination implementation in `extensions/feishu/src/drive.ts`, keeping the API surface narrow and preserving @ajwan8998 credit. The branch should correct the invalid property-assignment syntax, use the SDK-supported `page_size` / `page_token` / `next_page_token` / `has_more` contract, keep `info` scoped by optional folder token when supplied, and add focused regression coverage for cursor list paging plus multi-page info lookup.",
+    "pr_title": "fix(feishu): repair drive pagination typing",
+    "pr_body": "## Summary\n\nRepair #94000 on the existing editable contributor branch. Keep the Feishu drive pagination fix narrow to `feishu_drive` `list` and `info`, fix the current TypeScript/lint failures in `extensions/feishu/src/drive.ts`, and add focused regression tests for cursor-based list paging and multi-page info lookup.\n\nCredit: carries forward @ajwan8998's source PR #94000 and @yetval's issue report #93928.\n\n## Repair Notes\n\n- Current `main` at 591313e80a5e419e8a4d824cd8e8a6ae6689fb79 still calls `drive.file.list` once for both `list` and `info`.\n- The Lark SDK contract supports `page_size`, `page_token`, `folder_token`, `has_more`, and `next_page_token` for `drive.file.list`.\n- Fix the invalid property-assignment syntax in the PR branch and keep schema edits only if the branch still needs them for the user-facing pagination inputs.\n\n## Verification\n\n- `pnpm test extensions/feishu/src/drive.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before any later merge-enabled run",
+    "likely_files": [
+      "extensions/feishu/src/drive.ts",
+      "extensions/feishu/src/drive.test.ts",
+      "extensions/feishu/src/drive-schema.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/feishu/src/drive.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @ajwan8998 from https://github.com/openclaw/openclaw/pull/94000.",
+      "Preserve issue attribution for @yetval from https://github.com/openclaw/openclaw/issues/93928.",
+      "If a replacement PR becomes necessary despite maintainer_can_modify=true, name #94000 as the source PR and carry @ajwan8998 attribution in the PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94000-live-pr-inventory-20260617t082059-002-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/94000",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "6600c86715148faa2319d9658676f505f92f64a7",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#94000",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#94000",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
