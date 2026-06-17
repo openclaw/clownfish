@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-100",
+  "mode": "plan",
+  "run_id": "27682041978-1-24",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-100.md",
+  "published_at": "2026-06-17T10:23:47.092Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. No merge actions are recommended because the artifact does not include complete merge preflight proof, especially Codex /review results and resolved review-bot/comment evidence. Two PRs are blocked on active author or maintainer follow-up; the remaining ready PRs need maintainer merge-preflight review rather than dedupe closure or replacement.",
+  "actions": [
+    {
+      "target": "#92399",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer merge-preflight decision before any merge recommendation; no closure, replacement, or dedupe action is supported by the hydrated evidence."
+    },
+    {
+      "target": "#92819",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer merge-preflight decision before any merge recommendation; the diff is large and touches auth/provider/session-state selection behavior."
+    },
+    {
+      "target": "#92939",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and unresolved review feedback block merge or automated repair recommendation in this plan-only shard."
+    },
+    {
+      "target": "#93002",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer merge-preflight decision before any merge recommendation; no replacement or closure action is supported by the hydrated evidence."
+    },
+    {
+      "target": "#93038",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer judgment due broad automation workflow scope and explicit maintainer approval request; no merge recommendation is safe without that decision and full merge_preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92399: complete maintainer merge preflight is missing for a size L session-state/message-delivery PR, including Codex /review and mergeability proof.",
+    "#92819: complete maintainer merge preflight is missing for a size L auth-provider/session-state PR, including Codex /review and mergeability proof.",
+    "#92939: status is waiting on author and hydrated review feedback says the implementation contradicts its stated scope, misses an ACP path, and lacks tests.",
+    "#93002: complete maintainer merge preflight is missing for a Telegram-visible fix PR, including Codex /review and mergeability proof.",
+    "#93038: broad XL automation/workflow PR requires maintainer approval or waiver for live workflow boundary before merge can be considered."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

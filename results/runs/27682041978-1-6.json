@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-082",
+  "mode": "plan",
+  "run_id": "27682041978-1-6",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-082.md",
+  "published_at": "2026-06-17T10:23:47.104Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open PRs. #72092 is routed to central security handling per deterministic validation. No merge_candidate is safe for the remaining non-security PRs because the artifact does not contain complete merge preflight proof, and several PRs have dirty or unknown mergeability, failing checks, active waiting-on-author state, unresolved review scope, or broad compatibility impact. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#72092",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route exact PR #72092 to central OpenClaw security handling; do not merge, close, comment on, or repair it through this ProjectClownfish plan."
+    },
+    {
+      "target": "#72314",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The remaining attachment-only dedupe boundary and failing dependency check block merge; the artifact does not include enough proof to emit a concrete repair artifact without maintainer scope confirmation."
+    },
+    {
+      "target": "#72557",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a compatibility-facing feature/API addition with broad surface area and linked product scope; dirty merge state and missing full review preflight make it a maintainer decision, not an automatic merge or repair candidate."
+    },
+    {
+      "target": "#86577",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and failing checks block merge; the Discord message-delivery surface is too risky to repair or replace without refreshed author/maintainer direction."
+    },
+    {
+      "target": "#89226",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR appears independently plausible, but it cannot be recommended for merge in this plan-only result without refreshed mergeability plus complete Codex /review and merge_preflight proof."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 3,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72314: attachment-only idless retry scope and failing check-dependencies need maintainer or refreshed repair decision.",
+    "#72557: broad plugin API compatibility feature is dirty and depends on unhydrated linked product scope.",
+    "#86577: waiting-on-author Discord message-delivery PR has failing lint/bundled-extension checks and unknown mergeability."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

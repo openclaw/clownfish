@@ -1,0 +1,137 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-083",
+  "mode": "plan",
+  "run_id": "27682041978-1-7",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-083.md",
+  "published_at": "2026-06-17T10:23:47.107Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": "#90367",
+  "summary": "Plan-only PR inventory classification. No merge recommendation is safe because no candidate has complete merge preflight with Codex /review evidence. Two narrow contributor PRs have repair/preflight paths, #90689 is routed to central security handling per deterministic validation, and two broad PRs need maintainer judgment before automation should proceed.",
+  "actions": [
+    {
+      "target": "#90367",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90367",
+      "reason": "Useful narrow contributor PR, but failing checks and missing merge preflight require repair before finalization."
+    },
+    {
+      "target": "#90367",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90367",
+      "reason": "Build an executable repair plan for the narrowest failing PR in this shard."
+    },
+    {
+      "target": "#90610",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature/UI/i18n change needs maintainer judgment and full review preflight before merge or repair automation."
+    },
+    {
+      "target": "#90689",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive classification from deterministic validation requires quarantining #90689 with route_security rather than planning ProjectClownfish fix work."
+    },
+    {
+      "target": "#91274",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Even with clean checks, this is a broad memory/session-state compatibility change requiring maintainer product and migration judgment."
+    },
+    {
+      "target": "#91457",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#91457",
+      "reason": "Useful scoped fix, but it needs refreshed mergeability, full changed-path validation, and Codex /review before merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "build_fix_artifact": 1,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90610: broad Codex activity/UI/i18n feature change requires maintainer judgment before merge or automated repair.",
+    "#91274: broad memory qmd collection naming migration with compatibility and session-state risk requires maintainer judgment."
+  ],
+  "repair_candidate": {
+    "target": "#90367",
+    "source_refs": [
+      "#90367",
+      "#90610",
+      "#90689",
+      "#91274",
+      "#91457"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the contributor branch for #90367 so the narrow Sessions Label column readability fix can pass proof and CI before any merge consideration.",
+    "pr_title": "fix(ui): keep Sessions label column readable",
+    "pr_body": "Repairs the contributor branch for #90367 so the Sessions table Label column remains readable while preserving toruvieI's source PR credit.\n\nSource PR: https://github.com/openclaw/openclaw/pull/90367\nCluster: live-pr-inventory-20260617T015524-083\n\nValidation plan:\n- pnpm check:changed\n- pnpm -s vitest run ui/src/ui/views/sessions.test.ts --runInBand\n- Codex /review before merge consideration",
+    "likely_files": [
+      "ui/src/styles/components.css",
+      "ui/src/ui/views/sessions.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm -s vitest run ui/src/ui/views/sessions.test.ts --runInBand"
+    ],
+    "credit_notes": [
+      "Credit toruvieI as the source PR author for https://github.com/openclaw/openclaw/pull/90367.",
+      "Preserve source PR attribution in any repair commit or replacement PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-083.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#90689"
+    ],
+    "needs_human": [
+      "#90610: broad Codex activity/UI/i18n feature change requires maintainer judgment before merge or automated repair.",
+      "#91274: broad memory qmd collection naming migration with compatibility and session-state risk requires maintainer judgment."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

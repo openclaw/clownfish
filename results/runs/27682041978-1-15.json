@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-091",
+  "mode": "plan",
+  "run_id": "27682041978-1-15",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-091.md",
+  "published_at": "2026-06-17T10:23:47.066Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification completed for five open PRs. No merge actions are recommended because the artifact does not contain complete merge preflight proof for any PR: mergeability is unknown, comments/review-bot comments were not hydrated, and Codex /review proof is absent. Three PRs need specific human review; two are narrow independent PRs that can proceed through a fresh full merge preflight outside this shard.",
+  "actions": [
+    {
+      "target": "#91663",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful contributor PR; do not merge from this shard without a fresh full merge preflight."
+    },
+    {
+      "target": "#91797",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The waiting-on-author label is an active follow-up signal, so maintainer review is required before finalization."
+    },
+    {
+      "target": "#91810",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Large message-delivery UI delta with unhydrated discussion requires maintainer review before merge or repair."
+    },
+    {
+      "target": "#91889",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Public plugin SDK compatibility/name decision is an explicit maintainer judgment call, and the PR is marked waiting on author."
+    },
+    {
+      "target": "#91907",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent narrow contributor PR; do not merge from this shard without a fresh full merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91797: PR is labeled waiting on author; hydrate the author/maintainer thread and decide whether the one-line session-state fix is ready.",
+    "#91810: size L message-delivery UI change has 15 unhydrated comments and no Codex /review proof; maintainer review needed before merge/repair.",
+    "#91889: PR explicitly asks a public plugin SDK field-name/API decision and is labeled waiting on author."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

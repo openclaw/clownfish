@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-099",
+  "mode": "plan",
+  "run_id": "27682041978-1-23",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-099.md",
+  "published_at": "2026-06-17T10:23:47.089Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory assessment. No PR has a complete merge preflight because mergeability is unknown and Codex /review proof is absent; broad or risky PRs require maintainer judgment, and the low-signal docs PR is kept non-mutating because closeout is disabled and behavior proof failed.",
+  "actions": [
+    {
+      "target": "#89767",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused and plausibly useful, but finalization needs maintainer or executor-side merge preflight: refresh mergeability, run Codex /review, and confirm review-bot status before any merge recommendation."
+    },
+    {
+      "target": "#89864",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small, focused, and likely mergeable after standard final preflight, but the required merge proof is incomplete in this plan artifact."
+    },
+    {
+      "target": "#89882",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR may be valuable, but the code delta is broad enough that maintainer judgment and a complete merge preflight are required before finalization."
+    },
+    {
+      "target": "#89966",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Classified as low-signal independent docs churn; merge is blocked by failed proof and closeout is disabled in this job, so no mutating action is planned."
+    },
+    {
+      "target": "#92340",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is broad channel feature work with session-state and message-delivery risk. It needs maintainer judgment plus complete merge preflight before any merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89767 requires final merge preflight: refresh mergeability, run Codex /review, and verify bot review status before merge.",
+    "#89864 appears focused but still lacks required mergeability and Codex /review proof.",
+    "#89882 requires maintainer judgment because the plugin recovery delta is broad despite passing checks.",
+    "#92340 requires maintainer judgment because the Feishu VC invite feature is broad and touches session/message routing behavior."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

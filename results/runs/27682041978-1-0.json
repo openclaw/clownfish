@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-076",
+  "mode": "plan",
+  "run_id": "27682041978-1-0",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-076.md",
+  "published_at": "2026-06-17T10:23:47.045Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result for five open PRs. No merge_candidate is safe because the artifact lacks complete merge preflight proof, including a clean current Codex /review. #90672 has a concrete contributor-branch repair path because it is dirty against main; the other PRs need maintainer review or refreshed preflight before finalization.",
+  "actions": [
+    {
+      "target": "#70046",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Could become mergeable after refreshed mergeability and Codex /review, but this plan cannot recommend merge without the required preflight proof."
+    },
+    {
+      "target": "#88906",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad provider/auth compatibility change with waiting-on-author status and unresolved review-preflight proof requires maintainer judgment before repair or merge."
+    },
+    {
+      "target": "#89367",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR looks narrow, but merge cannot be recommended without refreshed mergeability and current Codex /review proof."
+    },
+    {
+      "target": "#89428",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing checks plus unavailable bot-review details block merge; the artifact is insufficient to define a narrow repair without maintainer or refreshed review data."
+    },
+    {
+      "target": "#90672",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90672",
+      "reason": "Repair the contributor branch by rebasing narrowly onto current main, then rerun validation and Codex /review before any merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#70046: refreshed mergeability and current clean Codex /review are required before merge can be recommended.",
+    "#88906: broad provider/auth compatibility change is waiting on author and has unresolved bot-review/preflight proof.",
+    "#89367: refreshed mergeability and current clean Codex /review are required before merge can be recommended.",
+    "#89428: failing checks and missing hydrated bot-review details require maintainer or refreshed preflight before repair/merge."
+  ],
+  "repair_candidate": {
+    "target": "#90672",
+    "source_refs": [
+      "#90672",
+      "#70046",
+      "#88906",
+      "#89367",
+      "#89428"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #90672 in place by rebasing the contributor branch onto current main and resolving the dirty merge state without expanding scope beyond the Telegram /status blocked-group-ingress diagnostic.",
+    "pr_title": "fix(telegram): report blocked group ingress in status",
+    "pr_body": "Repair path for #90672. Rebase the contributor branch onto current main, resolve the dirty merge state narrowly, rerun the Telegram/status validation listed in this artifact, and run Codex /review before any merge recommendation. Preserve @FilipHarald's contribution credit from https://github.com/openclaw/openclaw/pull/90672.",
+    "likely_files": [
+      "extensions/telegram/src/bot-native-commands.ts",
+      "extensions/telegram/src/bot-native-commands.group-auth.test.ts",
+      "extensions/telegram/src/bot-native-commands.test-helpers.ts",
+      "src/auto-reply/reply/commands-status.ts",
+      "src/auto-reply/reply/commands-status.test.ts",
+      "src/status/status-message.ts",
+      "src/status/status-text.ts",
+      "src/status/status-text.types.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/telegram/src/bot-native-commands.group-auth.test.ts src/auto-reply/reply/commands-status.test.ts",
+      "pnpm check:changed",
+      "Codex /review on the repaired head, with all findings addressed before merge"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @FilipHarald and keep #90672 as the contributor-owned repair target when possible.",
+      "If the branch cannot be repaired safely and a replacement PR is needed, credit @FilipHarald and reference https://github.com/openclaw/openclaw/pull/90672 as the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-076.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#70046: refreshed mergeability and current clean Codex /review are required before merge can be recommended.",
+      "#88906: broad provider/auth compatibility change is waiting on author and has unresolved bot-review/preflight proof.",
+      "#89367: refreshed mergeability and current clean Codex /review are required before merge can be recommended.",
+      "#89428: failing checks and missing hydrated bot-review details require maintainer or refreshed preflight before repair/merge."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

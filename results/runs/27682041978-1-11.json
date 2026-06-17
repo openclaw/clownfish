@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-087",
+  "mode": "plan",
+  "run_id": "27682041978-1-11",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-087.md",
+  "published_at": "2026-06-17T10:23:47.054Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five independent open pull requests. No GitHub mutations are planned. Four non-security PRs have narrow maintainer-safe repair paths: re-fetch full live PR state, hydrate reviews and bot comments, refresh/rebase if needed, run Codex /review, run the targeted validation listed below, then reconsider merge. PR #77736 is routed to central security handling because the validator requires route_security for that exact PR.",
+  "actions": [
+    {
+      "target": "#74320",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#74320",
+      "reason": "Independent narrow PR appears repairable, but merge cannot be recommended without complete merge preflight."
+    },
+    {
+      "target": "#74444",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#74444",
+      "reason": "Potentially useful PR, but compatibility-scoped change plus waiting-on-author label and unresolved bot-review hydration make merge unsafe in this plan."
+    },
+    {
+      "target": "#75157",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#75157",
+      "reason": "Independent focused PR appears repairable, but waiting-on-author state and missing merge preflight block merge recommendation."
+    },
+    {
+      "target": "#77736",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR is quarantined for central OpenClaw security handling; no merge, close, comment, label, or fix action should be emitted for this item by ProjectClownfish."
+    },
+    {
+      "target": "#80947",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#80947",
+      "reason": "Independent focused PR appears repairable, but merge cannot be recommended without complete merge preflight."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#74320",
+    "source_refs": [
+      "#74320",
+      "#74444",
+      "#75157",
+      "#80947",
+      "#53550",
+      "#64488",
+      "#67988",
+      "#74419",
+      "#80935",
+      "#77736"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair the four non-security contributor PRs in place before any merge decision. The concrete repair is preflight completion, not replacement: re-fetch full live PR state, hydrate issue comments, PR review comments, and bot reviews, refresh mergeability against current main, rebase or narrowly fix conflicts if needed, run Codex /review, address any findings, and run targeted validation for each non-security PR. PR #77736 is excluded from this fix artifact because it is routed separately to central security handling.",
+    "pr_title": "chore(clownfish): complete remediation preflight for inventory shard 87",
+    "pr_body": "Plan-only repair artifact for Clownfish inventory shard live-pr-inventory-20260617T015524-087. This should not open a replacement PR by default. Repair each non-security contributor branch in place where maintainer_can_modify remains true, preserve original authorship, hydrate reviews and bot comments, run Codex /review, run targeted validation, and only then emit merge_candidate for PRs with complete merge_preflight. PR #77736 is excluded because it is routed separately to central OpenClaw security handling.",
+    "likely_files": [
+      "#74320: src/auto-reply/heartbeat.ts, src/auto-reply/heartbeat.test.ts",
+      "#74444: extensions/openai/*embedding*, extensions/memory-core/src/memory/manager-provider-state.ts, packages/memory-host-sdk/src/host/embeddings.types.ts, src/agents/memory-search.ts, src/config/*, src/plugins/*, docs/providers/openai.md, docs/reference/memory-config.md",
+      "#75157: ui/src/ui/views/agents-utils.ts, ui/src/ui/views/agents.test.ts, CHANGELOG.md",
+      "#80947: src/commands/doctor-memory-search.ts, src/commands/doctor-memory-search.test.ts, docs/concepts/memory-qmd.md, docs/concepts/memory-search.md, docs/reference/memory-config.md"
+    ],
+    "validation_commands": [
+      "#74320: pnpm test src/auto-reply/heartbeat.test.ts",
+      "#74444: pnpm test extensions/openai/embedding-provider.test.ts extensions/openai/memory-embedding-adapter.test.ts src/agents/memory-search.test.ts src/config/schema.help.quality.test.ts && pnpm run check-docs",
+      "#75157: pnpm test ui/src/ui/views/agents.test.ts",
+      "#80947: pnpm test src/commands/doctor-memory-search.test.ts && pnpm run check-docs",
+      "For any non-security PR considered for merge after repair: run /review, address findings, then run pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR authorship and attribution for BSG2000 on #74320.",
+      "Preserve source PR authorship and attribution for seoseo-ai on #74444.",
+      "Preserve source PR authorship and attribution for liaoandi on #75157.",
+      "Preserve source PR authorship and attribution for anyech on #80947."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-087.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#77736"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

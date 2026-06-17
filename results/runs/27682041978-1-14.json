@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-090",
+  "mode": "plan",
+  "run_id": "27682041978-1-14",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-090.md",
+  "published_at": "2026-06-17T10:23:47.063Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PRs. No GitHub mutations are recommended directly. #90206 and #91660 are small useful PRs but cannot be marked merge candidates without Codex /review and full merge preflight. #90284 is routed to central security handling per deterministic validator repair, while the separate cluster-level narrow setup-wizard fix artifact remains executable because the artifact is complete and the fix path is bounded to non-security setup-wizard text handling. #91474 and #91644 need maintainer/author resolution before finalization.",
+  "actions": [
+    {
+      "target": "#90206",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful independent PR; keep available for maintainer finalization after required merge preflight."
+    },
+    {
+      "target": "#90284",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine #90284 to central OpenClaw security handling; no close, label, merge, or comment mutation is planned for this PR."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-090",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90284",
+      "reason": "Keep the narrow cluster-level replacement fix artifact while routing the exact #90284 PR separately."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260617T015524-090",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90284",
+      "reason": "Raise a guarded cluster-level replacement PR from the complete fix artifact rather than trying to land or mutate the quarantined source PR."
+    },
+    {
+      "target": "#91474",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/author decision needed on stacked base #90975 and failed behavior proof before this PR can be merged or repaired."
+    },
+    {
+      "target": "#91644",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad feature/API addition needs maintainer product/API review and author follow-up before finalization."
+    },
+    {
+      "target": "#91660",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful independent PR; keep available for normal maintainer finalization after re-fetch, mergeability resolution, and review preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "route_security": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91474: stacked on unhydrated #90975, waiting on author, and Real behavior proof is failing.",
+    "#91644: large new gateway/API feature is waiting on author and requires maintainer product/API judgment."
+  ],
+  "repair_candidate": {
+    "target": "#90284",
+    "source_refs": [
+      "#90284",
+      "#67366",
+      "#66882",
+      "#67137",
+      "#67374",
+      "#90206",
+      "#91474",
+      "#91644",
+      "#91660"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Replace #90284 with a narrow setup-wizard text-input guard that handles non-string or undefined interactive prompter results only at the channel setup wizard boundary, without changing global clack prompter coercion semantics.",
+    "pr_title": "fix(channels): guard setup wizard text input trimming",
+    "pr_body": "## Summary\n- Replaces #90284 with a narrower setup-wizard-only fix.\n- Guard channel setup wizard text-input trimming when an interactive prompter returns a non-string or undefined value at runtime.\n- Keep global clack prompter required-input behavior unchanged.\n\n## Credit\nThis carries forward the useful investigation and source PR context from https://github.com/openclaw/openclaw/pull/90284, including the setup-wizard reports/investigation credited there: #66882 (@nikilster), #67137 (@tobemorelucky), and #67374.\n\n## Validation\n- `pnpm -s vitest run src/channels/plugins/setup-wizard-helpers.test.ts src/channels/plugins/setup-wizard.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "src/channels/plugins/setup-wizard.ts",
+      "src/channels/plugins/setup-wizard-helpers.ts",
+      "src/channels/plugins/setup-wizard-helpers.test.ts",
+      "src/channels/plugins/setup-wizard.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/channels/plugins/setup-wizard-helpers.test.ts src/channels/plugins/setup-wizard.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/90284 by clawsweeper[bot].",
+      "Carry forward the setup-wizard investigation credit from #66882 (@nikilster), #67137 (@tobemorelucky), and #67374 as noted in the source PR body.",
+      "Replacement PR body should state that Clownfish preserved attribution to the source PR and linked investigations."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-090.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#90284"
+    ],
+    "needs_human": [
+      "#91474: stacked on unhydrated #90975, waiting on author, and Real behavior proof is failing.",
+      "#91644: large new gateway/API feature is waiting on author and requires maintainer product/API judgment."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

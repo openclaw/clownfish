@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-094",
+  "mode": "plan",
+  "run_id": "27682041978-1-18",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "18",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-094.md",
+  "published_at": "2026-06-17T10:23:47.076Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PR inventory items. No merge recommendation is emitted because none has complete merge preflight proof with Codex /review. One PR is routed to central security due token-exposure subject matter; three PRs need targeted maintainer judgment or author/review follow-up; one test-only PR is kept independent for normal maintainer review.",
+  "actions": [
+    {
+      "target": "#92574",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent, focused test PR with passing checks, but this plan cannot recommend merge without the required merge preflight and Codex /review proof."
+    },
+    {
+      "target": "#92584",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR appears to involve token/secret exposure handling, so it is out of scope for ProjectClownfish backlog cleanup even though the artifact-level security flag was false."
+    },
+    {
+      "target": "#92647",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup status blocks automated finalization; maintainer judgment is needed to decide whether the author response is still required before repair or merge review."
+    },
+    {
+      "target": "#92649",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The provider/auth compatibility surface and 20-file feature delta are broad enough to require maintainer judgment before any merge or replacement-fix path."
+    },
+    {
+      "target": "#92654",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Failing checks plus unresolved bot-review context and a moderate UI feature delta block merge and prevent a concrete repair artifact from being safely planned from the compacted evidence."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "route_security": 1,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92584 must be handled by central OpenClaw security because it appears to involve token/secret exposure behavior.",
+    "#92647 needs maintainer judgment on the waiting-on-author state before finalization.",
+    "#92649 needs maintainer judgment because the provider/auth compatibility delta is broad for automated finalization.",
+    "#92654 needs maintainer judgment or refreshed hydration because failing checks and unresolved bot-review context block merge or repair planning."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

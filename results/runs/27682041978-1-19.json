@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-095",
+  "mode": "plan",
+  "run_id": "27682041978-1-19",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "19",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-095.md",
+  "published_at": "2026-06-17T10:23:47.078Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No merge recommendation is safe because the artifact lacks complete merge preflight proof, especially Codex /review and hydrated human/bot comment resolution. Two PRs also have failing Real behavior proof checks and waiting-on-author labels, and one has conflicts plus broad XL memory changes.",
+  "actions": [
+    {
+      "target": "#92863",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Likely close to mergeable, but merge_candidate is blocked by missing required merge preflight proof: current mergeability, hydrated comment/bot comment resolution, and passed Codex /review."
+    },
+    {
+      "target": "#91685",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This appears to be the strongest merge candidate in the shard, but merge_candidate is blocked by missing required comment hydration and Codex /review proof."
+    },
+    {
+      "target": "#73594",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Not mergeable from this plan. Human follow-up is needed because the PR is explicitly waiting on author and has a failing Real behavior proof check."
+    },
+    {
+      "target": "#75179",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Blocked by broad XL code delta, conflicts, waiting-on-author state, and failing Real behavior proof. No narrow maintainer-safe repair path is concrete from the hydrated artifact."
+    },
+    {
+      "target": "#77848",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially repairable or mergeable after author/preflight resolution, but this plan cannot recommend merge without current mergeability, hydrated comments/bot comments, and passed Codex /review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92863: decide whether to run full merge preflight and Codex /review for a likely docs-only merge candidate.",
+    "#91685: decide whether to run full merge preflight and Codex /review for the clean cron fix candidate.",
+    "#73594: author/proof follow-up is required because Real behavior proof is failing and the PR is labeled waiting on author.",
+    "#75179: maintainer judgment is required for the broad dirty XL memory change with failing proof and waiting-on-author state.",
+    "#77848: decide whether to run full merge preflight after resolving waiting-on-author status and unknown mergeability."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

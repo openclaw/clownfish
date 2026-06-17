@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-085",
+  "mode": "plan",
+  "run_id": "27682041978-1-9",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-085.md",
+  "published_at": "2026-06-17T10:23:47.113Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification. No GitHub mutations are planned. #92185 is routed to central security handling per deterministic validator classification. The remaining four items are open PR candidates. None have complete merge preflight proof because mergeability is unknown and Codex /review proof is absent; #92165 is additionally blocked by waiting-on-author status, and #92223 is broad enough to require maintainer judgment before finalization.",
+  "actions": [
+    {
+      "target": "#91481",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91481",
+      "reason": "A maintainer-safe path is to repair/finalize the contributor branch by re-fetching live state, resolving any current mergeability gap, hydrating comments and bot reviews, running Codex /review, and rerunning targeted approval-routing tests before any merge recommendation."
+    },
+    {
+      "target": "#92165",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92165",
+      "reason": "Active author-followup status is an explicit human gate in the job. Merge/fix planning should wait for maintainer confirmation that the author-wait state is resolved or that Clownfish should take over finalization."
+    },
+    {
+      "target": "#92185",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "#92185 is quarantined to central OpenClaw security handling per validator classification; ProjectClownfish should not perform backlog cleanup or repair mutations on this PR."
+    },
+    {
+      "target": "#92223",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92223",
+      "reason": "The PR may be useful, but its broad config/gateway/media/UI scope needs maintainer judgment before Clownfish should repair, split, replace, or recommend merge."
+    },
+    {
+      "target": "#91597",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91597",
+      "reason": "A maintainer-safe path is to repair the contributor branch by addressing the check-test-types failure, hydrating review/bot comments, running Codex /review, and rerunning the plugin shape contract validation before any merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92165: active waiting-on-author status requires maintainer confirmation before Clownfish finalization.",
+    "#92223: broad multi-surface PR requires maintainer judgment on whether to repair as-is, split, or replace."
+  ],
+  "repair_candidate": {
+    "target": "#91481",
+    "source_refs": [
+      "#91481",
+      "#91597",
+      "#92165",
+      "#92185",
+      "#92223"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "No replacement fix PR artifact is executable for the whole cluster. The inventory contains independent open contributor PRs, with #92185 routed to central security handling. Recommended next executable work is branch finalization/repair for #91481 and #91597 after live preflight; #92165 and #92223 require maintainer decisions first.",
+    "pr_title": "No cluster-level replacement PR recommended",
+    "pr_body": "This cluster is an inventory shard of independent open PRs. Clownfish should not open one combined replacement PR. Route #92185 to central security handling. Finalize #91481 and #91597 independently after live preflight, review hydration, Codex /review, and targeted validation. Keep #92165 and #92223 for maintainer decisions before any takeover or split.",
+    "likely_files": [
+      "src/gateway/exec-approval-ios-push.ts",
+      "src/gateway/server-methods/approval-shared.ts",
+      "src/gateway/server-methods/exec-approval.ts",
+      "src/gateway/server-methods/plugin-approval.ts",
+      "src/infra/exec-approval-forwarder.ts",
+      "src/plugins/inspect-shape.ts",
+      "src/plugins/contracts/shape.contract.test.ts"
+    ],
+    "validation_commands": [
+      "Refetch live PR state for each non-security candidate before any applicator mutation.",
+      "Hydrate issue comments, PR review comments, and review-bot comments for each non-security merge/fix candidate.",
+      "Run Codex /review on any non-security PR before merge recommendation.",
+      "For #91481: run targeted approval routing and exec approval forwarder tests covering src/gateway/server-methods/approval-shared.test.ts, src/gateway/server-methods/plugin-approval.test.ts, src/gateway/server-methods/server-methods.test.ts, and src/infra/exec-approval-forwarder.test.ts.",
+      "For #91597: repair and rerun check-test-types plus plugin shape contract tests covering src/plugins/contracts/shape.contract.test.ts."
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for mushuiyu886 on #91481 if repairing or landing that branch.",
+      "Do not repair, land, close, or otherwise mutate #92185 through ProjectClownfish; it is routed to central security handling.",
+      "Preserve contributor credit for xydt-tanshanshan on #91597 if repairing or landing that branch.",
+      "Do not replace #92165 without maintainer confirmation because it is waiting on author.",
+      "Do not replace or split #92223 without maintainer confirmation because the diff is broad and cross-surface."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-085.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#92185"
+    ],
+    "needs_human": [
+      "#92165: active waiting-on-author status requires maintainer confirmation before Clownfish finalization.",
+      "#92223: broad multi-surface PR requires maintainer judgment on whether to repair as-is, split, or replace."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

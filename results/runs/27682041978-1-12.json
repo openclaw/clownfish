@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-088",
+  "mode": "plan",
+  "run_id": "27682041978-1-12",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-088.md",
+  "published_at": "2026-06-17T10:23:47.057Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification over five open PRs. No merge_candidate is safe because the artifact does not include Codex /review proof or hydrated human/review-bot comment resolution. Four PRs are independent non-closure candidates; #89618 needs maintainer attention because it is waiting on author with a failing dependency guard and broad provider/auth-provider scope.",
+  "actions": [
+    {
+      "target": "#84792",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; do not close or merge from this plan because required merge preflight proof is missing."
+    },
+    {
+      "target": "#86607",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; do not close or merge from this plan because required merge preflight proof is missing."
+    },
+    {
+      "target": "#89334",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "low_signal",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Low-signal docs PR should be kept for maintainer review in this plan; closeout is disabled and merge proof is incomplete."
+    },
+    {
+      "target": "#89567",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; treat as non-security hardening under the provided security boundary, but do not merge from this plan because required merge preflight proof is missing."
+    },
+    {
+      "target": "#89618",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision required: active author follow-up, failing dependency guard, dependencies changed, and broad provider/auth-provider scope block merge or autonomous repair planning."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89618 requires maintainer review because it is waiting on author, has dependency-guard FAILURE, changes dependencies/provider/auth-provider surfaces, and has broad 19-file feature scope.",
+    "No PR in this shard has complete merge preflight proof for merge_candidate: the artifact lacks Codex /review evidence and hydrated human/review-bot comment resolution."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

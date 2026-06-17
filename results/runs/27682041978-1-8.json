@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-084",
+  "mode": "plan",
+  "run_id": "27682041978-1-8",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "8",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-084.md",
+  "published_at": "2026-06-17T10:23:47.110Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only repair for five open PRs. Validator marked #75100 and #90694 as security-sensitive, so those exact PR refs are routed to central security handling without any cluster-scoped security action. The two prior fix_needed actions were downgraded to non-mutating keep_independent classifications because no complete executable fix_artifact was present. #91728 remains needs_human because it has passing checks and clean mergeability but lacks mandatory Codex /review and complete merge preflight proof.",
+  "actions": [
+    {
+      "target": "#88887",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#88887",
+      "reason": "Non-mutating independent classification only; repair or refreshed validation is needed before this contributor PR can be considered for merge."
+    },
+    {
+      "target": "#91728",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#91728",
+      "reason": "This looks like a plausible merge candidate, but policy requires complete merge preflight before emitting merge_candidate."
+    },
+    {
+      "target": "#90453",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90453",
+      "reason": "Non-mutating independent classification only; failing checks and missing merge preflight block merge, and no executable fix artifact is available in this result."
+    },
+    {
+      "target": "#75100",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive validator classification is authoritative for this repair, so the exact PR ref is routed to central OpenClaw security handling without any GitHub mutation."
+    },
+    {
+      "target": "#90694",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive validator classification is authoritative for this repair, so the exact PR ref is routed to central OpenClaw security handling without any GitHub mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91728: clean-looking PR but missing mandatory Codex /review and complete merge preflight proof before merge_candidate can be emitted."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

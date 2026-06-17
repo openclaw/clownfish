@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-092",
+  "mode": "plan",
+  "run_id": "27682041978-1-16",
+  "workflow_run_id": "27682041978",
+  "run_attempt": "1",
+  "matrix_index": "16",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27682041978",
+  "head_sha": "b02edcd805e70226ce34c23c03658fc1763cd67b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T10:19:04Z",
+  "workflow_updated_at": "2026-06-17T10:21:22Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-092.md",
+  "published_at": "2026-06-17T10:23:47.069Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result: all five PRs are open, non-security-sensitive pull requests. No merge action is recommended because the artifact does not include complete merge preflight proof, including Codex /review. Two PRs carry waiting-on-author labels and require maintainer follow-up before finalization.",
+  "actions": [
+    {
+      "target": "#91921",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused PR, but merge must wait for complete merge preflight rather than be recommended from this shard."
+    },
+    {
+      "target": "#80497",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active waiting-on-author status is a maintainer follow-up blocker; do not merge, close, or replace in this plan."
+    },
+    {
+      "target": "#82718",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active waiting-on-author status plus failing checks requires maintainer or author follow-up before any finalization path."
+    },
+    {
+      "target": "#89396",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; keep open for normal repair/preflight because failing check evidence and missing /review block merge recommendation."
+    },
+    {
+      "target": "#89577",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent small PR with passing checks, but merge cannot be recommended until the required Codex /review and full merge preflight are present."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80497 has an active waiting-on-author label and lacks hydrated comment context needed to decide whether the author blocker is resolved.",
+    "#82718 has an active waiting-on-author label plus failing checks in the hydrated artifact."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
