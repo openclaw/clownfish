@@ -43,11 +43,112 @@ test("throttled dispatch waits for a transient publisher backlog", () => {
   assert.match(result.stdout, /dispatched 1\/1 jobs\/openclaw\/inbox\/cluster-example\.md/);
 });
 
+test("publish backlog accepts a complete cluster batch", () => {
+  const result = runPublishBacklog({
+    workflow: "cluster-batch.yml",
+    runs: [completedRun(200)],
+    runAttemptsByRunId: { 200: 3 },
+    artifactsByRunId: {
+      200: [
+        "projectclownfish-200-3-0",
+        "projectclownfish-200-3-1",
+        "projectclownfish-200-3-2",
+      ],
+    },
+    publishedRunIds: ["200-3-0", "200-3-1", "200-3-2"],
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(JSON.parse(result.stdout).missing_count, 0);
+});
+
+test("publish backlog keeps a partial cluster batch missing", () => {
+  const result = runPublishBacklog({
+    workflow: "cluster-batch.yml",
+    runs: [completedRun(200, 3)],
+    artifactsByRunId: {
+      200: [
+        "projectclownfish-200-3-0",
+        "projectclownfish-200-3-1",
+        "projectclownfish-200-3-2",
+      ],
+    },
+    publishedRunIds: ["200-3-0", "200-3-2"],
+  });
+
+  assert.notEqual(result.status, 0);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.missing_count, 1);
+  assert.deepEqual(summary.missing_run_ids, ["200"]);
+});
+
+test("publish backlog keeps exact IDs for single cluster workers", () => {
+  const result = runPublishBacklog({
+    workflow: "cluster-worker.yml",
+    runs: [completedRun(300, 1)],
+    publishedRunIds: ["300-1-0"],
+  });
+
+  assert.notEqual(result.status, 0);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.missing_count, 1);
+  assert.deepEqual(summary.missing_run_ids, ["300"]);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-dispatch-publish-backlog-"));
   return {
     gh: path.join(root, "fake-ghx.mjs"),
     state: path.join(root, "state"),
+  };
+}
+
+function runPublishBacklog({ workflow, runs, artifactsByRunId = {}, runAttemptsByRunId = {}, publishedRunIds }) {
+  const fixture = makeFixture();
+  writeFakeGhx(fixture);
+  writeFakeGit(fixture);
+
+  return spawnSync(
+    process.execPath,
+    [
+      "scripts/publish-backlog.mjs",
+      "--repo",
+      "openclaw/clownfish",
+      "--workflow",
+      workflow,
+      "--lookback",
+      "10",
+      "--conclusion",
+      "success",
+      "--threshold",
+      "0",
+      "--fetch",
+      "false",
+      "--gh-bin",
+      fixture.gh,
+      "--json",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}`,
+        FAKE_GHX_RUNS: JSON.stringify(runs),
+        FAKE_GHX_ARTIFACTS: JSON.stringify(artifactsByRunId),
+        FAKE_GHX_RUN_ATTEMPTS: JSON.stringify(runAttemptsByRunId),
+        FAKE_GIT_PUBLISHED_RUN_IDS: JSON.stringify(publishedRunIds),
+      },
+    },
+  );
+}
+
+function completedRun(databaseId, runAttempt = undefined) {
+  return {
+    databaseId,
+    ...(runAttempt === undefined ? {} : { runAttempt }),
+    status: "completed",
+    conclusion: "success",
   };
 }
 
@@ -63,6 +164,10 @@ if (args[0] === "--version") {
   process.exit(0);
 }
 if (args[0] === "run" && args[1] === "list") {
+  if (process.env.FAKE_GHX_RUNS) {
+    console.log(process.env.FAKE_GHX_RUNS);
+    process.exit(0);
+  }
   const state = process.env.FAKE_GHX_STATE;
   const count = fs.existsSync(state) ? Number(fs.readFileSync(state, "utf8")) : 0;
   fs.writeFileSync(state, String(count + 1));
@@ -74,11 +179,41 @@ if (args[0] === "run" && args[1] === "list") {
   process.exit(0);
 }
 if (args[0] === "api") {
+  if (process.env.FAKE_GHX_ARTIFACTS) {
+    const endpoint = args.find((arg) => arg.includes("/actions/runs/"));
+    const runId = endpoint?.match(/\\/actions\\/runs\\/(\\d+)/)?.[1];
+    if (!endpoint?.includes("/artifacts")) {
+      console.log(JSON.stringify({ run_attempt: JSON.parse(process.env.FAKE_GHX_RUN_ATTEMPTS ?? "{}")[runId] ?? 1 }));
+      process.exit(0);
+    }
+    const artifacts = JSON.parse(process.env.FAKE_GHX_ARTIFACTS)[runId] ?? [];
+    console.log(JSON.stringify([{ artifacts: artifacts.map((name) => ({ name, expired: false })) }]));
+    process.exit(0);
+  }
   console.log("[]");
   process.exit(0);
 }
 if (args[0] === "workflow" && args[1] === "run") process.exit(0);
 console.error("unexpected fake ghx args: " + args.join(" "));
+process.exit(1);
+`,
+    { mode: 0o755 },
+  );
+}
+
+function writeFakeGit(fixture) {
+  fixture.bin = path.join(path.dirname(fixture.gh), "bin");
+  fs.mkdirSync(fixture.bin, { recursive: true });
+  fs.writeFileSync(
+    path.join(fixture.bin, "git"),
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+if (args[0] === "ls-tree") {
+  const runIds = JSON.parse(process.env.FAKE_GIT_PUBLISHED_RUN_IDS ?? "[]");
+  process.stdout.write(runIds.map((runId) => \`results/runs/\${runId}.json\`).join("\\n"));
+  process.exit(0);
+}
+process.stderr.write("unexpected git invocation: " + args.join(" ") + "\\n");
 process.exit(1);
 `,
     { mode: 0o755 },

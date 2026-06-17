@@ -19,6 +19,9 @@ const requestedRunId = args["run-id"] ? String(args["run-id"]) : "";
 const requestedRunAttempt = args["run-attempt"] ? String(args["run-attempt"]) : "1";
 const dryRun = Boolean(args["dry-run"]);
 const allowPartial = Boolean(args["allow-partial"]) || process.env.CLOWNFISH_BACKFILL_ALLOW_PARTIAL === "1";
+const batchChildRunIds = new Map();
+const runAttempts = new Map();
+const artifactNamesByRunId = new Map();
 
 if (since !== null && Number.isNaN(since)) throw new Error("--since must be an ISO-compatible timestamp");
 if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutral", "skipped", "any"].includes(conclusion)) {
@@ -112,7 +115,7 @@ function selectCandidates(runs, requested) {
   if (requested) byId.set(String(requested.databaseId), requested);
   for (const run of runs) {
     const id = String(run.databaseId);
-    if (!id || publishedRunIds.has(id)) continue;
+    if (!id || isPublishedRun(run, publishedRunIds)) continue;
     if (since !== null && Date.parse(run.createdAt ?? "") < since) continue;
     if (run.status !== "completed") continue;
     if (conclusion !== "any" && run.conclusion !== conclusion) continue;
@@ -162,7 +165,7 @@ function sortRuns(runs) {
 
 function downloadRunArtifacts(run) {
   const runId = String(run.databaseId);
-  const runAttempt = String(run.runAttempt ?? "1");
+  const runAttempt = selectedRunAttempt(run);
   const artifactName = `projectclownfish-${runId}-${runAttempt}`;
   const destination = path.join(outDir, artifactName);
   fs.rmSync(destination, { recursive: true, force: true });
@@ -231,13 +234,15 @@ function containsResultArtifact(directory) {
 }
 
 function listRunArtifactNames(runId) {
+  const cached = artifactNamesByRunId.get(runId);
+  if (cached) return cached;
   const pages = ghJson([
     "api",
     `repos/${repo}/actions/runs/${runId}/artifacts?per_page=100`,
     "--paginate",
     "--slurp",
   ]);
-  return [
+  const names = [
     ...new Set(
       (Array.isArray(pages) ? pages : [])
         .flatMap((page) => (Array.isArray(page?.artifacts) ? page.artifacts : []))
@@ -246,6 +251,8 @@ function listRunArtifactNames(runId) {
         .filter(Boolean),
     ),
   ];
+  artifactNamesByRunId.set(runId, names);
+  return names;
 }
 
 function removeWorkerArtifacts(directory) {
@@ -255,6 +262,53 @@ function removeWorkerArtifacts(directory) {
       fs.rmSync(candidate, { recursive: true, force: true });
     }
   }
+}
+
+function isPublishedRun(run, publishedRunIds) {
+  if (workflow !== "cluster-batch.yml") return publishedRunIds.has(String(run.databaseId));
+
+  const expected = expectedBatchChildRunIds(run);
+  return expected.length > 0 && expected.every((runId) => publishedRunIds.has(runId));
+}
+
+function expectedBatchChildRunIds(run) {
+  const runId = String(run.databaseId);
+  const runAttempt = selectedRunAttempt(run);
+  const cacheKey = `${runId}-${runAttempt}`;
+  const cached = batchChildRunIds.get(cacheKey);
+  if (cached) return cached;
+
+  const prefix = `projectclownfish-${runId}-${runAttempt}-`;
+  const expected = [
+    ...new Set(
+      listRunArtifactNames(runId)
+        .filter((name) => name.startsWith(prefix))
+        .map((name) => name.slice(prefix.length))
+        .filter((matrixIndex) => /^\d+$/.test(matrixIndex))
+        .map((matrixIndex) => `${runId}-${runAttempt}-${matrixIndex}`),
+    ),
+  ];
+  batchChildRunIds.set(cacheKey, expected);
+  return expected;
+}
+
+function selectedRunAttempt(run) {
+  if (workflow !== "cluster-batch.yml") return String(run.runAttempt ?? run.run_attempt ?? run.attempt ?? "1");
+
+  const listed = run.runAttempt ?? run.run_attempt ?? run.attempt;
+  if (/^\d+$/.test(String(listed ?? ""))) return String(listed);
+
+  const runId = String(run.databaseId);
+  const cached = runAttempts.get(runId);
+  if (cached) return cached;
+
+  const details = ghJson(["api", `repos/${repo}/actions/runs/${runId}`]);
+  const runAttempt = String(details?.run_attempt ?? details?.runAttempt ?? "");
+  if (!/^\d+$/.test(runAttempt)) {
+    throw new Error(`could not determine run attempt for cluster-batch wrapper ${runId}`);
+  }
+  runAttempts.set(runId, runAttempt);
+  return runAttempt;
 }
 
 function readPublishedRunIds() {
@@ -271,7 +325,7 @@ function readPublishedRunIds() {
 function summarizeRun(run) {
   return {
     databaseId: String(run.databaseId),
-    runAttempt: String(run.runAttempt ?? "1"),
+    runAttempt: workflow === "cluster-batch.yml" ? selectedRunAttempt(run) : String(run.runAttempt ?? "1"),
     status: run.status ?? null,
     conclusion: run.conclusion ?? null,
     createdAt: run.createdAt ?? null,

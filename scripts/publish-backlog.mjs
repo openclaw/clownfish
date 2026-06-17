@@ -15,6 +15,8 @@ const fetch = args.fetch !== false && args.fetch !== "false";
 const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
 const ghRetries = numberArg("gh-retries", Number(process.env.CLOWNFISH_GH_RETRIES ?? 4));
 const ghRetryBaseMs = numberArg("gh-retry-base-ms", Number(process.env.CLOWNFISH_GH_RETRY_BASE_MS ?? 1500));
+const batchChildRunIds = new Map();
+const runAttempts = new Map();
 
 if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutral", "skipped", "any"].includes(conclusion)) {
   throw new Error("--conclusion must be a GitHub Actions conclusion or any");
@@ -28,7 +30,7 @@ const publishedRunIds = readPublishedRunIds();
 const runs = listWorkflowRuns();
 const completed = runs.filter((run) => run.status === "completed");
 const selected = completed.filter((run) => conclusion === "any" || run.conclusion === conclusion);
-const missing = selected.filter((run) => !publishedRunIds.has(String(run.databaseId)));
+const missing = selected.filter((run) => !isPublishedRun(run, publishedRunIds));
 const summary = {
   repo,
   workflow,
@@ -103,6 +105,69 @@ function readPublishedRunIds() {
       .filter((name) => name.endsWith(".json"))
       .map((name) => path.basename(name, ".json")),
   );
+}
+
+function isPublishedRun(run, publishedRunIds) {
+  if (workflow !== "cluster-batch.yml") return publishedRunIds.has(String(run.databaseId));
+
+  const expected = expectedBatchChildRunIds(run);
+  return expected.length > 0 && expected.every((runId) => publishedRunIds.has(runId));
+}
+
+function expectedBatchChildRunIds(run) {
+  const runId = String(run.databaseId);
+  const runAttempt = selectedRunAttempt(run);
+  const cacheKey = `${runId}-${runAttempt}`;
+  const cached = batchChildRunIds.get(cacheKey);
+  if (cached) return cached;
+
+  const prefix = `projectclownfish-${runId}-${runAttempt}-`;
+  const expected = [
+    ...new Set(
+      listRunArtifactNames(runId)
+        .filter((name) => name.startsWith(prefix))
+        .map((name) => name.slice(prefix.length))
+        .filter((matrixIndex) => /^\d+$/.test(matrixIndex))
+        .map((matrixIndex) => `${runId}-${runAttempt}-${matrixIndex}`),
+    ),
+  ];
+  batchChildRunIds.set(cacheKey, expected);
+  return expected;
+}
+
+function selectedRunAttempt(run) {
+  const listed = run.runAttempt ?? run.run_attempt ?? run.attempt;
+  if (/^\d+$/.test(String(listed ?? ""))) return String(listed);
+
+  const runId = String(run.databaseId);
+  const cached = runAttempts.get(runId);
+  if (cached) return cached;
+
+  const details = ghJson(["api", `repos/${repo}/actions/runs/${runId}`]);
+  const runAttempt = String(details?.run_attempt ?? details?.runAttempt ?? "");
+  if (!/^\d+$/.test(runAttempt)) {
+    throw new Error(`could not determine run attempt for cluster-batch wrapper ${runId}`);
+  }
+  runAttempts.set(runId, runAttempt);
+  return runAttempt;
+}
+
+function listRunArtifactNames(runId) {
+  const pages = ghJson([
+    "api",
+    `repos/${repo}/actions/runs/${runId}/artifacts?per_page=100`,
+    "--paginate",
+    "--slurp",
+  ]);
+  return [
+    ...new Set(
+      (Array.isArray(pages) ? pages : [])
+        .flatMap((page) => (Array.isArray(page?.artifacts) ? page.artifacts : []))
+        .filter((artifact) => artifact && !artifact.expired)
+        .map((artifact) => String(artifact.name ?? ""))
+        .filter(Boolean),
+    ),
+  ];
 }
 
 function ghJson(ghArgs) {
