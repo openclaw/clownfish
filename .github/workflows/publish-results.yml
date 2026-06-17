@@ -24,7 +24,7 @@ on:
       conclusion:
         description: GitHub Actions conclusion to include, or any
         required: false
-        default: "any"
+        default: "success"
       order:
         description: newest or oldest missing runs first
         required: false
@@ -73,7 +73,7 @@ jobs:
           RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt || github.event.inputs.run_attempt || '1' }}
           BACKFILL_LIMIT: ${{ github.event.inputs.limit || vars.CLOWNFISH_PUBLISH_BACKFILL_LIMIT || '250' }}
           BACKFILL_LOOKBACK: ${{ github.event.inputs.lookback || vars.CLOWNFISH_PUBLISH_BACKFILL_LOOKBACK || '1200' }}
-          BACKFILL_CONCLUSION: ${{ github.event.inputs.conclusion || 'any' }}
+          BACKFILL_CONCLUSION: ${{ github.event.inputs.conclusion || 'success' }}
           BACKFILL_ORDER: ${{ github.event.inputs.order || 'newest' }}
           BACKFILL_WORKFLOW: ${{ github.event.workflow_run.name == 'cluster batch' && 'cluster-batch.yml' || 'cluster-worker.yml' }}
         run: |
@@ -109,6 +109,11 @@ jobs:
             npm run filter-reviewed-artifacts -- artifacts \
               --review-report artifacts/review-results.json \
               --runs-json artifacts/runs.json
+            if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/runs.json","utf8")); process.exit(rows.length === 0 ? 0 : 1)'; then
+              echo "has_results=false" >> "$GITHUB_OUTPUT"
+              echo "No review-passing cluster results to publish"
+              exit 0
+            fi
             set +e
             node scripts/review-results.mjs artifacts > artifacts/review-results.filtered.json
             review_status=$?

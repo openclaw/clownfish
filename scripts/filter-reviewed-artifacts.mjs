@@ -40,7 +40,7 @@ if (!Array.isArray(rows)) throw new Error(`runs json must be an array: ${runsJso
 const remainingRunIds = remainingResultRunIds(artifactDir);
 const filteredRows = rows.filter((row) => {
   const runId = String(row.run_id ?? row.databaseId ?? row.id ?? "");
-  return !failedRunIds.has(runId) || remainingRunIds.has(runId);
+  return remainingRunIds.has(runId);
 });
 fs.writeFileSync(runsJsonPath, `${JSON.stringify(filteredRows, null, 2)}\n`, "utf8");
 fs.writeFileSync(
