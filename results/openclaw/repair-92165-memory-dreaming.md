@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-92165-memory-dreaming"
 mode: "autonomous"
-run_id: "27663032709"
-workflow_run_id: "27663032709"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27663032709"
-head_sha: "a8f56952c97af7c7059f89c6bbcfe6576657bf35"
+run_id: "27663603280"
+workflow_run_id: "27663603280"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27663603280"
+head_sha: "fdc46af466d4400143efe540f7008cdd72c936d6"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T03:20:24.436Z"
+published_at: "2026-06-17T03:31:06.534Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92165"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/87637"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92165"
 actions_total: 6
 fix_executed: 0
-fix_failed: 1
-fix_blocked: 1
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27663032709](https://github.com/openclaw/clownfish/actions/runs/27663032709)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27663603280](https://github.com/openclaw/clownfish/actions/runs/27663603280)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 
 ## Summary
 
-#92165 is the canonical repair path for #87637. The PR is useful, focused, open, and maintainer-editable, but it is not merge-ready for this worker because merge is blocked by job policy and it still needs repair/finalization against current main, fresh Codex review, and OpenClaw-native validation before any closeout. No security-sensitive refs were hydrated.
+Canonical path is open PR #92165 repairing issue #87637. The remaining executable work is a narrow contributor-branch repair: preserve the literal storageMode type in src/commands/doctor-memory-search.test.ts fixtures, then run the targeted doctor memory-search test and pnpm check:changed. No close, comment, label, or merge action is planned.
 
 ## Impact
 
@@ -44,10 +44,10 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 | --- | ---: |
 | Worker actions | 6 |
 | Fix executed | 0 |
-| Fix failed | 1 |
-| Fix blocked | 1 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -55,25 +55,24 @@ Canonical: https://github.com/openclaw/openclaw/pull/92165
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/commands/doctor-gateway-health.test.ts: core test [check:changed] src/commands/doctor-gateway-health.ts: core production [check:changed] src/commands/doctor-memory-search.test.ts: core test [check:changed] src/commands/doctor-memory-search.ts: core production [check:changed] src/gateway/server-methods/doctor.test.ts: core test [check:changed] src/gateway/server-methods/doctor.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-dire... |
-| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] src/commands/doctor-gateway-health.test.ts: core test [check:changed] src/commands/doctor-gateway-health.ts: core production [check:changed] src/commands/doctor-memory-search.test.ts: core test [check:changed] src/commands/doctor-memory-search.ts: core production [check:changed] src/gateway/server-methods/doctor.test.ts: core test [check:changed] src/gateway/server-methods/doctor.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-dire... |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/92165 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #92165 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #87630 | keep_closed | skipped | related | Already closed; retained only as related historical context. |
-| #87634 | keep_closed | skipped | related | Already closed; related memory-dreaming context only. |
-| #87637 | keep_related | planned | fixed_by_candidate | Covered by the canonical PR path, but closeout is blocked until the fix path is finalized. |
-| #89160 | keep_closed | skipped | independent | Already closed and independent of the memory dreaming status repair. |
-| #92165 | fix_needed | planned | canonical | Canonical PR is useful and editable but needs a narrow repair/finalization pass, Codex review, and `pnpm check:changed` before any merge or issue closeout. |
-| cluster:repair-92165-memory-dreaming | build_fix_artifact | planned |  | Build an executable repair plan for the canonical contributor PR. |
+| #92165 | fix_needed | planned | canonical | Repair the safely editable contributor PR branch instead of opening a replacement PR; do not merge because allow_merge=false and require_human_for includes merge. |
+| cluster:repair-92165-memory-dreaming | build_fix_artifact | planned |  | Emit an executable repair artifact for the deterministic fix executor to update PR #92165's contributor branch. |
+| #87637 | keep_related | planned | fixed_by_candidate | Keep the issue open while #92165 is repaired and validated; closeout is blocked until a fix lands. |
+| #87630 | keep_closed | skipped | related | Already closed related context; no mutation planned. |
+| #87634 | keep_closed | skipped | independent | Already closed independent context; no mutation planned. |
+| #89160 | keep_closed | skipped | independent | Already merged independent context; no mutation planned. |
 
 ## Needs Human
 
