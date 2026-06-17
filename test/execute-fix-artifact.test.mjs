@@ -494,6 +494,25 @@ test("execute-fix-artifact does not mask stalled changed-gate failures", () => {
   assert.equal(fs.existsSync(run.targetedTestMarker), false);
 });
 
+test("execute-fix-artifact does not tolerate signaled changed-gate failures", () => {
+  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "signaled-changed-gate-cluster",
+    baselineOutput: output,
+    postOutput: output,
+    postSignal: "SIGKILL",
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+  const signals = fs
+    .readdirSync(path.join(run.fixture.runDir, "fix-executor-debug"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => JSON.parse(fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", file), "utf8")).signal);
+  assert.equal(signals.includes("SIGKILL"), true);
+});
+
 test("execute-fix-artifact keeps changed-gate failures strict when strict validation is enabled", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "strict-baseline-cluster",
@@ -519,6 +538,7 @@ function runBaselineChangedGateFixture({
   strict = false,
   editedFile = "src/app.test.js",
   validationCommands = ["pnpm check:changed"],
+  postSignal = null,
 }) {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
@@ -567,6 +587,9 @@ if (args[0] === "check:changed") {
     ? ${JSON.stringify(postOutput)}
     : ${JSON.stringify(baselineOutput)};
   console.error(output);
+  if (fs.existsSync(path.join(process.cwd(), ".clownfish-edited")) && ${JSON.stringify(postSignal)}) {
+    process.kill(process.pid, ${JSON.stringify(postSignal)});
+  }
   process.exit(1);
 }
 if (args[0] === "test:serial") {

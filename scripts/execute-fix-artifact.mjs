@@ -2195,6 +2195,12 @@ function runValidationCommand(parts, { cwd, env, rendered, fallback = false, pha
       kind: "process_error",
       diagnostic_output: diagnosticOutput,
     };
+  } else if (child.signal) {
+    failure = new Error(`${rendered} terminated by ${child.signal}`);
+    failure.validation_result = {
+      kind: "signal",
+      diagnostic_output: diagnosticOutput,
+    };
   } else if (child.status !== 0) {
     const detail = child.stderr || child.stdout || `${rendered} exited ${child.status}`;
     failure = new Error(redactValidationDebugText(String(detail).trim()));
