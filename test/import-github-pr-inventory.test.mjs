@@ -25,7 +25,45 @@ test("autonomous live PR inventory defaults to stale candidates and terminal res
   assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106"]);
 });
 
+test("remediation inventory is plan-only and enables finalization recommendations", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+
+  const remediation = runImport(
+    fixture,
+    "--write",
+    "--mode",
+    "plan",
+    "--strategy",
+    "remediation",
+    "--bucket",
+    "ready_for_maintainer",
+  );
+  assert.equal(remediation.status, 0, remediation.stderr || remediation.stdout);
+  const payload = JSON.parse(remediation.stdout);
+
+  assert.equal(payload.options.strategy, "remediation");
+  assert.equal(payload.options.bucket, "ready_for_maintainer");
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#106"]);
+
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+  assert.match(job, /mode: plan/);
+  assert.match(job, /  - "merge"/);
+  assert.match(job, /  - "fix"/);
+  assert.match(job, /blocked_actions:\n  - "comment"/);
+  assert.match(job, /allow_fix_pr: true/);
+  assert.match(job, /allow_merge: true/);
+  assert.match(job, /allow_post_merge_close: false/);
+  assert.match(job, /plan-only remediation assessment/);
+
+  const rejected = runImport(fixture, "--strategy", "remediation");
+  assert.notEqual(rejected.status, 0);
+  assert.match(rejected.stderr, /requires --mode plan/);
+});
+
 function runImport(fixture, ...extraArgs) {
+  const write = extraArgs.includes("--write");
+  const args = extraArgs.filter((arg) => arg !== "--write");
   return spawnSync(
     process.execPath,
     [
@@ -46,9 +84,9 @@ function runImport(fixture, ...extraArgs) {
       fixture.out,
       "--gh-bin",
       fixture.gh,
-      "--dry-run",
+      ...(write ? [] : ["--dry-run"]),
       "--json",
-      ...extraArgs,
+      ...args,
     ],
     { cwd: repoRoot, encoding: "utf8" },
   );
@@ -114,6 +152,18 @@ function writeFakeGh(filePath) {
       author: { login: "contributor-107" },
       authorAssociation: "CONTRIBUTOR",
       labels: { nodes: [{ name: "security" }] },
+      assignees: { nodes: [] },
+    },
+    {
+      number: 106,
+      title: "ready candidate refreshed",
+      url: "https://github.com/openclaw/openclaw/pull/106",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-08T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-106" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: { nodes: [{ name: "proof: sufficient" }] },
       assignees: { nodes: [] },
     },
   );
