@@ -1,0 +1,214 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27715971548",
+  "workflow_run_id": "27715971548",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27715971548",
+  "head_sha": "e08503e31207d88f379c8c7f50ae7735b60d727b",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T19:58:22Z",
+  "workflow_updated_at": "2026-06-17T20:01:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+  "published_at": "2026-06-17T20:02:29.356Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94022",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93935",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94022",
+  "summary": "Current main still has the #93935 bug: startup overflow deferral ids are only carried into start()'s immediate maintenance pass, while read RPCs, timer empty-due maintenance, finalization, and reservation release still run maintenance recompute without the deferral exemption. #94022 is the canonical repairable contributor PR, but it is not merge-ready because it needs branch repair, fresh focused tests, changed-check proof, and Codex review before any merge recommendation. No GitHub mutations are planned by this worker.",
+  "actions": [
+    {
+      "target": "#94022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch instead of merging as-is; the branch is narrow and editable but needs the promoted deferral-state fix and fresh preflight."
+    },
+    {
+      "target": "cluster:repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "Fix PR creation/branch repair is allowed; merge, close, label, comment, and force-push are blocked."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93935",
+      "candidate_fix": "#94022",
+      "reason": "Keep the canonical issue open until the repaired #94022 path lands and validation is complete."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Closed context only; no closure action is valid."
+    },
+    {
+      "target": "#94017",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate think/Ollama issue family; not part of the cron repair cluster."
+    },
+    {
+      "target": "#93835",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#94017",
+      "reason": "Separate provider/think bug family; leave it out of this cron branch repair."
+    },
+    {
+      "target": "#81731",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related cron stale-future repair work, but not a duplicate or replacement for #94022."
+    },
+    {
+      "target": "#81691",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#81731",
+      "reason": "Keep as a related but separate cron subcluster."
+    },
+    {
+      "target": "#78272",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#91248",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context only."
+    },
+    {
+      "target": "#90315",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91248",
+      "reason": "Already-closed unrelated issue; no action."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "keep_independent": 2,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94022",
+    "source_refs": [
+      "#94022",
+      "#93810",
+      "#93935",
+      "#78272",
+      "#81731",
+      "#91248",
+      "#94017",
+      "#81691",
+      "#90315",
+      "#93835"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94022 on the contributor branch so startup catch-up deferral ids survive beyond start() and are respected by every maintenance recompute caller until the deferred catch-up fires or is cleared.",
+    "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
+    "pr_body": "## Summary\nFixes #93935 by repairing #94022 on the contributor branch. Startup overflow catch-up deferral ids should live in cron service state so read RPC maintenance, finalize paths, empty-due timer maintenance, manual preflight, and reservation release do not advance deferred catch-up runs to the next natural cron schedule before the staggered catch-up fires.\n\n## Credit\nBased on source PR #94022 by @Jah-xy. Keeps #93810 by @yetval as prior related startup-only deferral work and regression context.\n\n## Verification\n- node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts\n- pnpm check:changed\n- scripts/pr review-validate-artifacts 94022\n- scripts/pr prepare-run 94022\n- Codex /review clean before any merge recommendation\n\n## Notes\nCurrent main aa3ed8f7acdbeb1ce7f87be3fe5f75e2d24fc2bb only protects start()'s immediate maintenance pass; the repair should keep the fix narrow and avoid changing unrelated cron future-slot repair behavior.",
+    "likely_files": [
+      "src/cron/service/state.ts",
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/timer.ts",
+      "src/cron/service.startup-overflow-clobber.test.ts",
+      "src/cron/service.restart-catchup.test.ts",
+      "src/cron/service/ops.test.ts",
+      "src/cron/service/ops.regression.test.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/service/timer.test.ts",
+      "src/cron/service.jobs.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+      "pnpm check:changed",
+      "scripts/pr review-validate-artifacts 94022",
+      "scripts/pr prepare-run 94022"
+    ],
+    "credit_notes": [
+      "Credit @Jah-xy as the source PR author for https://github.com/openclaw/openclaw/pull/94022.",
+      "Preserve https://github.com/openclaw/openclaw/pull/93810 by @yetval as prior related cron deferral work and regression context.",
+      "Do not edit CHANGELOG.md for this normal PR; keep release-note context and contributor attribution in the repaired PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94022-live-pr-inventory-20260617t082059-005-repair-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "unsupported validation command: scripts/pr prepare-run 94022",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
