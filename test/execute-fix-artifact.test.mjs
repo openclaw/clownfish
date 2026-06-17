@@ -168,6 +168,24 @@ test("execute-fix-artifact retries transient GitHub reads before branch repair",
   assert.match(source, /HTTP\\s\+\(\?:408\|429\|5\\d\\d\)/);
 });
 
+test("execute-fix-artifact records stale replacement branches as audited no-ops", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /function executeReplacementBranch\([\s\S]*?const existingPrUrl = findOpenPullRequestForBranch\(branch, targetDir\);/);
+  assert.match(source, /if \(!existingPrUrl && !branchHasBaseDiff\(\{ targetDir, baseBranch \}\)\)/);
+  assert.match(source, /status: "skipped",\s*code: "no_diff_from_base"/);
+  assert.match(source, /existingPrUrl \|\|\s*run\(\s*"gh",\s*\["pr", "create"/);
+});
+
+test("execute-fix-artifact writes a report before unknown executor failures escape", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /report\.status = "failed";[\s\S]*?report\.actions\.push\([\s\S]*?status: "failed",[\s\S]*?writeReport\(report, resultPath\);\s*throw error;/,
+  );
+});
+
 test("execute-fix-artifact fetches contributor repair heads through the base PR ref", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const repairFetch = source.match(
