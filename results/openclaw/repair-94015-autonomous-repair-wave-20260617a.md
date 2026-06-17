@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-94015-autonomous-repair-wave-20260617a"
 mode: "autonomous"
-run_id: "27682643827"
-workflow_run_id: "27682643827"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27682643827"
-head_sha: "325e4f7668eca868a58e712a276dd80219bbc097"
+run_id: "27699772802"
+workflow_run_id: "27699772802"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27699772802"
+head_sha: "df797f33c27a77afacc17f16311f97f1bc2de7e2"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-17T10:34:26.000Z"
-canonical: "#94015"
-canonical_issue: "#79521"
-canonical_pr: "#94015"
-actions_total: 3
+result_status: "blocked"
+published_at: "2026-06-17T15:23:00.908Z"
+canonical: "https://github.com/openclaw/openclaw/pull/94015"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/79521"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/94015"
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,23 +26,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27682643827](https://github.com/openclaw/clownfish/actions/runs/27682643827)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27699772802](https://github.com/openclaw/clownfish/actions/runs/27699772802)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: blocked
 
-Canonical: #94015
+Canonical: https://github.com/openclaw/openclaw/pull/94015
 
 ## Summary
 
-Plan a guarded repair of contributor PR #94015. The hydrated preflight shows a narrow non-security voice-call fix with maintainer_can_modify=true, but merge/close/comment are blocked by job policy and merge is additionally blocked by failing checks and missing /review proof. Emit a repair_contributor_branch fix artifact preserving xialonglee credit and requiring latest-main verification before repair.
+Hydrated preflight shows #94015 is the narrow, editable canonical contributor PR for the voice-call stale post-compaction payload issue linked to #79521, but this worker could not complete the required direct checkout verification because the local command runner failed before executing any read command. No GitHub mutations are allowed or planned.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -61,26 +61,21 @@ Plan a guarded repair of contributor PR #94015. The hydrated preflight shows a n
     "#79521"
   ],
   "repair_strategy": "repair_contributor_branch",
-  "planned_actions": [
-    "fix_needed",
-    "build_fix_artifact"
-  ],
-  "summary": "Repair contributor PR #94015 so voice-call TTS consumes the embedded agent's pre-compaction block reply payloads instead of relying only on possibly stale post-compaction result.payloads. Keep the change limited to response generation and the focused regression test.",
-  "pr_title": "fix(voice-call): use early embedded replies for TTS",
-  "pr_body": "## Summary\n- Repair source PR #94015 from @xialonglee for the #79521 voice-call stale post-compaction payload bug.\n- Keep voice-call TTS on the early embedded-agent block reply path when available, falling back to result.payloads only when needed.\n- Add or preserve a focused regression proving the spoken response can be extracted before delayed compaction finishes.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/94015 by @xialonglee. This Clownfish repair preserves that attribution.\n\n## Validation\n- pnpm check:changed\n- pnpm -s vitest run extensions/voice-call/src/response-generator.test.ts\n- /review",
+  "planned_actions": [],
+  "summary": "Repair #94015 on the contributor branch after a working executor rechecks current main and confirms the stale post-compaction payload path. Preserve the existing contributor PR and credit because the branch is maintainer-editable and the diff is narrow.",
+  "pr_title": "fix(voice-call): use pre-compaction replies for TTS",
+  "pr_body": "## Summary\n- Repair the existing #94015 contributor branch if direct source inspection confirms voice-call TTS is reading stale or empty post-compaction payloads.\n- Keep the fix scoped to preferring pre-compaction `onBlockReply`/block reply payloads for voice-call TTS without changing TTS policy, compaction policy, or voice-call configuration.\n- Credit @xialonglee and source PR #94015 for the original implementation path.\n\n## Verification\n- pnpm check:changed\n- pnpm test extensions/voice-call/src/response-generator.test.ts\n- /review\n\nRefs: fixes #79521; source PR #94015.",
   "likely_files": [
     "extensions/voice-call/src/response-generator.ts",
     "extensions/voice-call/src/response-generator.test.ts"
   ],
   "validation_commands": [
     "pnpm check:changed",
-    "pnpm -s vitest run extensions/voice-call/src/response-generator.test.ts",
-    "/review"
+    "pnpm test extensions/voice-call/src/response-generator.test.ts"
   ],
   "credit_notes": [
-    "Preserve source PR credit for https://github.com/openclaw/openclaw/pull/94015 by xialonglee.",
-    "Replacement or repair PR body should include attribution to xialonglee and reference source PR #94015.",
-    "If a changelog entry is added, include source PR attribution."
+    "Preserve source PR credit for @xialonglee via https://github.com/openclaw/openclaw/pull/94015.",
+    "Keep #94015 as the repair target when direct checkout verification confirms the defect is narrow and current."
   ],
   "source_job": "jobs/openclaw/inbox/repair-94015-autonomous-repair-wave-20260617a.md",
   "security_sensitive": false,
@@ -95,7 +90,7 @@ Plan a guarded repair of contributor PR #94015. The hydrated preflight shows a n
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| execute_fix | skipped |  |  | worker result status blocked is not executable |
 
 ## Apply Actions
 
@@ -113,9 +108,10 @@ Plan a guarded repair of contributor PR #94015. The hydrated preflight shows a n
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #79521 | keep_related | planned | related | Issue #79521 is the linked source bug for #94015, but fixed-by-candidate closeout is not allowed before a validated fix lands. |
-| #94015 | fix_needed | planned | canonical | The useful contributor branch should be repaired and validated rather than merged or closed in this worker result. |
-| cluster:repair-94015-autonomous-repair-wave-20260617a | build_fix_artifact | planned |  | Emit an executable repair artifact for Clownfish scripts to fetch latest main/PR head, prove the stale-payload path, repair the contributor branch, run validation, and preserve attribution. |
+| #94015 | keep_canonical | planned | canonical | Canonical PR is useful and narrow, but not merge-ready in this worker result. |
+| #79521 | keep_related | planned | fixed_by_candidate | Issue is covered by the candidate PR path but cannot be closed before a merged fix. |
+| cluster:repair-94015-autonomous-repair-wave-20260617a | fix_needed | blocked |  | Implementation is blocked on fresh direct checkout/source verification. |
+| cluster:repair-94015-autonomous-repair-wave-20260617a | build_fix_artifact | blocked |  | Blocked artifact records the intended repair lane without pretending local proof was completed. |
 
 ## Needs Human
 

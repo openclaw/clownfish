@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94015-autonomous-repair-wave-20260617a",
+  "mode": "autonomous",
+  "run_id": "27699772802",
+  "workflow_run_id": "27699772802",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27699772802",
+  "head_sha": "df797f33c27a77afacc17f16311f97f1bc2de7e2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T15:19:46Z",
+  "workflow_updated_at": "2026-06-17T15:21:48Z",
+  "result_status": "blocked",
+  "source_job": "jobs/openclaw/inbox/repair-94015-autonomous-repair-wave-20260617a.md",
+  "published_at": "2026-06-17T15:23:00.908Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94015",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79521",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94015",
+  "summary": "Hydrated preflight shows #94015 is the narrow, editable canonical contributor PR for the voice-call stale post-compaction payload issue linked to #79521, but this worker could not complete the required direct checkout verification because the local command runner failed before executing any read command. No GitHub mutations are allowed or planned.",
+  "actions": [
+    {
+      "target": "#94015",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94015",
+      "candidate_fix": null,
+      "reason": "Canonical PR is useful and narrow, but not merge-ready in this worker result."
+    },
+    {
+      "target": "#79521",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94015",
+      "candidate_fix": "#94015",
+      "reason": "Issue is covered by the candidate PR path but cannot be closed before a merged fix."
+    },
+    {
+      "target": "cluster:repair-94015-autonomous-repair-wave-20260617a",
+      "action": "fix_needed",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#94015",
+      "candidate_fix": "#94015",
+      "reason": "Implementation is blocked on fresh direct checkout/source verification."
+    },
+    {
+      "target": "cluster:repair-94015-autonomous-repair-wave-20260617a",
+      "action": "build_fix_artifact",
+      "status": "blocked",
+      "classification": null,
+      "canonical": "#94015",
+      "candidate_fix": "#94015",
+      "reason": "Blocked artifact records the intended repair lane without pretending local proof was completed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 2
+  },
+  "fix_counts": {
+    "skipped": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94015",
+    "source_refs": [
+      "#94015",
+      "#79521"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [],
+    "summary": "Repair #94015 on the contributor branch after a working executor rechecks current main and confirms the stale post-compaction payload path. Preserve the existing contributor PR and credit because the branch is maintainer-editable and the diff is narrow.",
+    "pr_title": "fix(voice-call): use pre-compaction replies for TTS",
+    "pr_body": "## Summary\n- Repair the existing #94015 contributor branch if direct source inspection confirms voice-call TTS is reading stale or empty post-compaction payloads.\n- Keep the fix scoped to preferring pre-compaction `onBlockReply`/block reply payloads for voice-call TTS without changing TTS policy, compaction policy, or voice-call configuration.\n- Credit @xialonglee and source PR #94015 for the original implementation path.\n\n## Verification\n- pnpm check:changed\n- pnpm test extensions/voice-call/src/response-generator.test.ts\n- /review\n\nRefs: fixes #79521; source PR #94015.",
+    "likely_files": [
+      "extensions/voice-call/src/response-generator.ts",
+      "extensions/voice-call/src/response-generator.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test extensions/voice-call/src/response-generator.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @xialonglee via https://github.com/openclaw/openclaw/pull/94015.",
+      "Keep #94015 as the repair target when direct checkout verification confirms the defect is narrow and current."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94015-autonomous-repair-wave-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "skipped",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "worker result status blocked is not executable",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
