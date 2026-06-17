@@ -17,10 +17,11 @@ const mode = String(args.mode ?? "autonomous");
 const existingResultsActionPolicy = String(
   args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? (mode === "autonomous" ? "terminal" : "all"),
 );
+const strategy = String(args.strategy ?? "triage");
 const limit = limitArg("limit", 100);
 const batchSize = numberArg("batch-size", 5);
 const sort = String(args.sort ?? "stale");
-const bucketFilter = String(args.bucket ?? (mode === "autonomous" ? "stale_unassigned" : "all"));
+const bucketFilter = String(args.bucket ?? defaultBucketFor({ mode, strategy }));
 const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
@@ -30,18 +31,21 @@ const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_
 
 if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) die("--repo must be owner/repo");
 if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomous");
+if (!["triage", "remediation"].includes(strategy)) die("--strategy must be triage or remediation");
+if (strategy === "remediation" && mode !== "plan") die("--strategy remediation requires --mode plan");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-results-action-policy must be all or terminal");
 
 const existingRefs = skipExisting ? existingMentionedRefs([existingDir]) : new Set();
 if (skipExisting) mergeRefs(existingRefs, existingPublishedResultRefs(existingResultsDir, repo, existingResultsActionPolicy));
-const candidates = fetchOpenPullRequests()
+const candidates = dedupeCandidates(
+  fetchOpenPullRequests()
   .map(classifyCandidate)
   .filter((candidate) => !includeRefs || includeRefs.has(candidate.ref))
   .filter((candidate) => !skipExisting || !existingRefs.has(candidate.ref))
   .filter((candidate) => includeSecurity || candidate.bucket !== "security_route_candidate")
-  .filter((candidate) => bucketFilter === "all" || candidate.bucket === bucketFilter)
-  .sort(compareCandidates);
+  .filter((candidate) => bucketFilter === "all" || candidate.bucket === bucketFilter),
+).sort(compareCandidates);
 const limitedCandidates = limit === "all" ? candidates : candidates.slice(0, limit);
 
 const batches = [];
@@ -58,6 +62,7 @@ const payload = sanitizeJsonValue({
   options: {
     repo,
     mode,
+    strategy,
     dry_run: dryRun,
     limit,
     batch_size: batchSize,
@@ -148,6 +153,17 @@ function classifyCandidate(raw) {
   };
 }
 
+function dedupeCandidates(candidates) {
+  const byRef = new Map();
+  for (const candidate of candidates) {
+    const existing = byRef.get(candidate.ref);
+    if (!existing || String(candidate.updated_at).localeCompare(String(existing.updated_at)) > 0) {
+      byRef.set(candidate.ref, candidate);
+    }
+  }
+  return [...byRef.values()];
+}
+
 function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
   if (hasExactSecuritySignal({ title, labels })) return "security_route_candidate";
   if (isMaintainerAssociated(authorAssociation) || assignees.length > 0) return "maintainer_owned";
@@ -172,28 +188,32 @@ function writeJob(batch, index) {
   const clusterId = `live-pr-inventory-${stamp}-${String(index).padStart(3, "0")}`;
   const filePath = path.join(outDir, `${clusterId}.md`);
   const refs = batch.map((candidate) => candidate.ref);
+  const remediation = strategy === "remediation";
+  const allowedActions = remediation ? ["merge", "fix", "raise_pr"] : ["comment", "label", "close"];
+  const blockedActions = remediation
+    ? ["comment", "label", "close", "force_push", "bypass_checks"]
+    : ["force_push", "bypass_checks", "merge", "fix", "raise_pr"];
+  const requireHumanFor = remediation
+    ? ["security_sensitive", "unclear_canonical", "broad_code_delta", "active_author_followup"]
+    : [
+        "security_sensitive",
+        "maintainer_signal",
+        "active_author_followup",
+        "green_checks",
+        "focused_bug_fix",
+        "technical_correctness_judgment",
+      ];
   const markdown = [
     "---",
     `repo: ${repo}`,
     `cluster_id: ${clusterId}`,
     `mode: ${mode}`,
     "allowed_actions:",
-    "  - comment",
-    "  - label",
-    "  - close",
+    ...yamlList(allowedActions),
     "blocked_actions:",
-    "  - force_push",
-    "  - bypass_checks",
-    "  - merge",
-    "  - fix",
-    "  - raise_pr",
+    ...yamlList(blockedActions),
     "require_human_for:",
-    "  - security_sensitive",
-    "  - maintainer_signal",
-    "  - active_author_followup",
-    "  - green_checks",
-    "  - focused_bug_fix",
-    "  - technical_correctness_judgment",
+    ...yamlList(requireHumanFor),
     "canonical: []",
     "candidates:",
     ...yamlList(refs),
@@ -201,17 +221,34 @@ function writeJob(batch, index) {
     ...yamlList(refs),
     "security_policy: central_security_only",
     "security_sensitive: false",
-    `canonical_hint: ${quoteYaml("This is a live PR inventory shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.")}`,
-    `notes: ${quoteYaml(`Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; only safe close/comment/label actions are allowed.`)}`,
+    `allow_instant_close: ${remediation ? "false" : "true"}`,
+    `allow_fix_pr: ${remediation ? "true" : "false"}`,
+    `allow_merge: ${remediation ? "true" : "false"}`,
+    `allow_post_merge_close: false`,
+    `require_fix_before_close: false`,
+    `canonical_hint: ${quoteYaml(
+      remediation
+        ? "This is a fresh PR remediation inventory shard. Classify each PR independently and only recommend merge or repair after complete live preflight."
+        : "This is a live PR inventory shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.",
+    )}`,
+    `notes: ${quoteYaml(
+      remediation
+        ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; plan-only remediation assessment. No GitHub mutation is permitted from this job.`
+        : `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; only safe close/comment/label actions are allowed.`,
+    )}`,
     "---",
     "",
-    `# Live PR Inventory ${index}`,
+    `# ${remediation ? "PR Remediation Inventory" : "Live PR Inventory"} ${index}`,
     "",
-    `This is a high-volume live inventory shard over ${inventoryScope}.`,
+    remediation
+      ? "This is a high-volume plan-only remediation shard over fresh maintainer-ready pull requests."
+      : `This is a high-volume live inventory shard over ${inventoryScope}.`,
     "",
     "## Goal",
     "",
-    "Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies. Do not merge, fix, or raise PRs.",
+    remediation
+      ? "Hydrate live GitHub state for each listed PR and produce a current finalization path. Emit `merge_candidate` only with a complete merge preflight. Emit bounded `fix_needed` plus `build_fix_artifact` and `open_fix_pr` when a maintainer-safe repair path is concrete. Use `needs_human` for unclear scope, active author follow-up, broad work, or missing proof. Route security-sensitive PRs centrally. Do not perform mutations: this job is plan-only."
+      : "Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies. Do not merge, fix, or raise PRs.",
     "",
     "## Inventory",
     "",
@@ -227,6 +264,11 @@ function writeJob(batch, index) {
     candidates: refs,
     dry_run: dryRun,
   };
+}
+
+function defaultBucketFor({ mode, strategy }) {
+  if (strategy === "remediation") return "ready_for_maintainer";
+  return mode === "autonomous" ? "stale_unassigned" : "all";
 }
 
 function candidateBlock(candidate) {
