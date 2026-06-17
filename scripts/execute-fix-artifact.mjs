@@ -2762,16 +2762,21 @@ function changedGateDiagnostics(output) {
   const items = [];
   const unparsedFailureLines = [];
   let hasTestFailure = false;
+  let eslintFile = null;
   for (const rawLine of String(output ?? "").split(/\r?\n/)) {
-    const line = rawLine.trim();
+    const line = stripAnsi(rawLine).trim();
     if (!line) continue;
-    const diagnostic = parseChangedGateDiagnostic(line);
-    if (diagnostic) {
-      items.push(diagnostic);
+    if (/^(?:\/|\.{1,2}\/|[A-Za-z]:[\\/]|[^/\s]+\/)\S*\.[cm]?[jt]sx?$/i.test(line)) {
+      eslintFile = line;
       continue;
     }
     if (isTestFailureLine(line)) {
       hasTestFailure = true;
+      continue;
+    }
+    const diagnostic = parseChangedGateDiagnostic(line, eslintFile);
+    if (diagnostic) {
+      items.push(diagnostic);
       continue;
     }
     if (isPotentialFailureLine(line) && !isKnownChangedGateFailureSummary(line)) {
@@ -2785,7 +2790,7 @@ function changedGateDiagnostics(output) {
   };
 }
 
-function parseChangedGateDiagnostic(line) {
+function parseChangedGateDiagnostic(line, eslintFile = null) {
   const typescript = line.match(
     /^(.+?\.[cm]?[jt]sx?)\((\d+),(\d+)\):\s*(?:error|warning)\s+([A-Z]+\d+):\s*(.+)$/i,
   );
@@ -2799,14 +2804,41 @@ function parseChangedGateDiagnostic(line) {
     };
   }
   const colon = line.match(/^(.+?\.[cm]?[jt]sx?):(\d+):(\d+):\s*(?:error|warning)\s*(.*)$/i);
-  if (!colon) return null;
-  return {
-    file: colon[1],
-    line: Number(colon[2]),
-    column: Number(colon[3]),
-    code: "",
-    message: colon[4].trim(),
-  };
+  if (colon) {
+    return {
+      file: colon[1],
+      line: Number(colon[2]),
+      column: Number(colon[3]),
+      code: "",
+      message: colon[4].trim(),
+    };
+  }
+  const eslintWithRule =
+    eslintFile && line.match(/^(\d+):(\d+)\s+(?:error|warning)\s+(.+?)\s{2,}([a-z][\w-]*\([^)]*\))$/i);
+  if (eslintWithRule) {
+    return {
+      file: eslintFile,
+      line: Number(eslintWithRule[1]),
+      column: Number(eslintWithRule[2]),
+      code: eslintWithRule[4],
+      message: eslintWithRule[3].trim(),
+    };
+  }
+  const eslintWithoutRule = eslintFile && line.match(/^(\d+):(\d+)\s+(?:error|warning)\s+(.+)$/i);
+  if (eslintWithoutRule) {
+    return {
+      file: eslintFile,
+      line: Number(eslintWithoutRule[1]),
+      column: Number(eslintWithoutRule[2]),
+      code: "eslint",
+      message: eslintWithoutRule[3].trim(),
+    };
+  }
+  return null;
+}
+
+function stripAnsi(value) {
+  return String(value ?? "").replace(/\u001B\[[0-?]*[ -/]*[@-~]/g, "");
 }
 
 function isTestFailureLine(line) {

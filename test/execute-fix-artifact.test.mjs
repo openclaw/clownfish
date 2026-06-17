@@ -466,7 +466,8 @@ const args = process.argv.slice(2);
 if (args[0] !== "check:changed") process.exit(0);
 const source = fs.readFileSync(path.join(process.cwd(), "src", "app.js"), "utf8");
 if (source.includes("invalid")) {
-  console.error("src/app.js(1,24): error TS2304: Cannot find name 'invalid'.");
+  console.error("\\u001b[4m" + path.join(process.cwd(), "src", "app.js") + "\\u001b[0m");
+  console.error("  \\u001b[2m1:24\\u001b[0m  \\u001b[31merror\\u001b[0m  Expected { after 'if' condition.  \\u001b[2meslint(curly)\\u001b[0m");
   process.exit(1);
 }
 process.exit(0);
@@ -513,7 +514,7 @@ process.exit(0);
   assert.equal(fs.readFileSync(editMarker, "utf8"), "2");
   const prompt = fs.readFileSync(validationPrompt, "utf8");
   assert.match(prompt, /Failed validation command: pnpm check:changed/);
-  assert.match(prompt, /Cannot find name 'invalid'/);
+  assert.match(prompt, /Expected \{ after 'if' condition/);
 });
 
 test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics only after changed-test proof", () => {
