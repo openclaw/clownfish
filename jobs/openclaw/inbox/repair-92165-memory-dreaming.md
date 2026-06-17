@@ -49,6 +49,15 @@ literal type with the narrowest TypeScript-safe construction, then run the
 targeted test and `pnpm check:changed`. Do not relax production types or skip
 the changed gate.
 
+The replay fixed that fixture typing but exposed the remaining #87637 behavior
+gap: when memory search is configured but `resolveActiveMemoryBackendConfig()`
+returns no active backend, the doctor path reports only `No active memory
+plugin` and returns without the dreaming status. Preserve the existing
+no-active-plugin diagnostic, but also render the available dreaming status in
+that configured-no-backend case. Add a focused regression test for this exact
+path; do not broaden the change into memory-provider discovery or unrelated
+doctor output.
+
 ## Related Refs
 
 - #92165
