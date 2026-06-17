@@ -1,0 +1,186 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-016",
+  "mode": "plan",
+  "run_id": "27675582783",
+  "workflow_run_id": "27675582783",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675582783",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:29Z",
+  "workflow_updated_at": "2026-06-17T08:21:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-016.md",
+  "published_at": "2026-06-17T08:23:02.094Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation classification for five open PR inventory candidates plus hydrated linked/security context. No GitHub mutations are permitted by the job; merge recommendations are blocked where merge preflight is incomplete, checks are failing, review is incomplete, or security routing applies. Security-sensitive refs #93989, #93985, and #93854 are routed exactly and do not poison unrelated non-security classifications.",
+  "actions": [
+    {
+      "target": "#93989",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Dependency graph and shrinkwrap/package changes are security-review surfaces; route this exact PR to central OpenClaw security handling instead of ProjectClownfish remediation."
+    },
+    {
+      "target": "#93985",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is directly tied to a hydrated security-sensitive issue, so this exact item should be routed to central OpenClaw security handling instead of backlog remediation."
+    },
+    {
+      "target": "#93962",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92361",
+      "candidate_fix": "#93962",
+      "reason": "The patch appears to be the right lane for #92361, but failing checks and missing completed review block merge; repair/re-review is needed before finalization."
+    },
+    {
+      "target": "#93960",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93921",
+      "candidate_fix": "#93960",
+      "reason": "The fix lane is plausible, but merge proof is incomplete and the added evidence script should be reviewed or folded into normal tests before finalization."
+    },
+    {
+      "target": "#93907",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#83635",
+      "candidate_fix": "#93907",
+      "reason": "The root-cause relationship to #83635 is disputed by active author follow-up, so closing or merging would require maintainer judgment."
+    },
+    {
+      "target": "#93854",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#92361",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92361",
+      "candidate_fix": "#93962",
+      "reason": "The issue remains the canonical problem statement for #93962; no closure is allowed or appropriate in this plan-only shard."
+    },
+    {
+      "target": "#83427",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#83635",
+      "candidate_fix": "#83635",
+      "reason": "Historical context only; already-closed refs must not receive closure actions."
+    },
+    {
+      "target": "#83635",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#83635",
+      "candidate_fix": "#83635",
+      "reason": "Historical canonical context only; no mutation is valid for an already closed merged PR."
+    },
+    {
+      "target": "#93921",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#93921",
+      "candidate_fix": "#93960",
+      "reason": "Historical linked issue context only; already-closed refs must not receive closure actions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "fix_needed": 2,
+    "needs_human": 1,
+    "keep_related": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93907 requires maintainer judgment because the author disputes the superseded-by-#83635 classification with a concrete different-root-cause claim."
+  ],
+  "repair_candidate": {
+    "target": "#93962",
+    "source_refs": [
+      "#93962",
+      "#93960",
+      "#93907",
+      "#92361",
+      "#93921",
+      "#83427",
+      "#83635",
+      "#93854",
+      "#93985",
+      "#93989"
+    ],
+    "repair_strategy": "needs_human",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Two non-security PRs need repair or completed review before finalization: #93962 for availability descriptor diagnostics and #93960 for Telegram UTF-16-safe chunking. #93907 requires maintainer judgment only if maintainers accept the author’s distinct flush-race root cause. #93985/#93854 and #93989 are security-routed exact refs. No GitHub mutation is permitted in this plan-only job.",
+    "pr_title": "Repair open remediation inventory shard 16 candidates after review gates",
+    "pr_body": "This artifact is a plan-only repair map, not a ready PR body. It identifies two non-security candidate lanes that need completed review or narrow repair before merge: #93962 and #93960. #93907 remains a maintainer decision because the author disputes the superseded classification and claims a distinct flush-race root cause. It also marks #93985/#93854 and #93989 for central security routing.",
+    "likely_files": [
+      "src/plugins/tool-descriptor-cache.ts",
+      "src/plugins/tool-descriptor-cache.test.ts",
+      "extensions/telegram/src/format.ts",
+      "extensions/telegram/src/send.ts",
+      "src/agents/command/attempt-execution.ts",
+      "src/agents/command/attempt-execution.cli.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test -- src/plugins/tool-descriptor-cache.test.ts",
+      "pnpm test -- extensions/telegram/src/format.test.ts extensions/telegram/src/send.test.ts",
+      "pnpm test -- src/agents/command/attempt-execution.cli.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve zhiqiang26 credit for #93962 if replacing or repairing the descriptor diagnostics fix.",
+      "Preserve xydttsw credit for #93960 if replacing or repairing the Telegram surrogate-pair fix.",
+      "Preserve mpz4life credit for #93907 if maintainers accept the flush-race lane and repair or replace the PR.",
+      "Route #93985/#93854 and #93989 through central security handling before any public remediation action."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-016.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#93989",
+      "#93985",
+      "#93854"
+    ],
+    "needs_human": [
+      "#93907 requires maintainer judgment because the author disputes the superseded-by-#83635 classification with a concrete different-root-cause claim."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}

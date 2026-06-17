@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-009",
+  "mode": "plan",
+  "run_id": "27675567024",
+  "workflow_run_id": "27675567024",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675567024",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:11Z",
+  "workflow_updated_at": "2026-06-17T08:21:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-009.md",
+  "published_at": "2026-06-17T08:23:02.072Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PRs. No merge candidates are recommended because none has a complete merge preflight with a clean Codex /review. Two PRs need scoped human decisions: #93922 has no hydrated code delta despite claiming a fix, and #93939 is blocked on failed real-behavior proof. #93846 is routed to central security handling because deterministic validation marked that exact PR as security-sensitive.",
+  "actions": [
+    {
+      "target": "#93943",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78714",
+      "candidate_fix": "#93943",
+      "reason": "Promising linked fix, but merge is blocked by missing Codex /review proof and unreviewed unrelated churn on an uneditable contributor branch."
+    },
+    {
+      "target": "#93922",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#92519",
+      "candidate_fix": null,
+      "reason": "The PR body and hydrated diff conflict. Maintainer judgment is needed on whether to request the actual patch from the author, split a fix job for #92519, or close later under a policy that allows it."
+    },
+    {
+      "target": "#93939",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93936",
+      "candidate_fix": "#93939",
+      "reason": "The scope is small, but the job explicitly requires human handling for missing proof; the proof gate failed, so merge or fixed-by-candidate closeout is blocked."
+    },
+    {
+      "target": "#93950",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93947",
+      "candidate_fix": "#93950",
+      "reason": "Focused likely fix, but not merge-ready in this plan because required Codex /review and merge-preflight evidence are missing."
+    },
+    {
+      "target": "#93846",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive items are out of ProjectClownfish remediation scope and must be routed centrally as exact issue/PR refs."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "needs_human": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93922: PR claims a session recovery fix for #92519 but the hydrated diff has zero changed files and only retry-test commits.",
+    "#93939: Tailscale serve reset PR has failed Real behavior proof and a triage: needs-real-behavior-proof label, so proof must be resolved before merge consideration."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,126 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-003",
+  "mode": "plan",
+  "run_id": "27675554250",
+  "workflow_run_id": "27675554250",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675554250",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:18:57Z",
+  "workflow_updated_at": "2026-06-17T08:20:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-003.md",
+  "published_at": "2026-06-17T08:23:02.062Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment over five open PR candidates plus hydrated first-hop refs. No GitHub mutations are recommended because comments/close are blocked by the job, no PR has complete merge preflight, and the prior planned fix_needed actions lacked a complete executable fix_artifact, so those repair recommendations are downgraded to non-mutating blocked needs_human decisions for the affected PRs.",
+  "actions": [
+    {
+      "target": "#86888",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93873",
+      "reason": "The issue is covered by candidate PR #93873, but this plan cannot close it and the PR still needs finalization gates."
+    },
+    {
+      "target": "#93854",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked issue is out of scope for Clownfish backlog cleanup and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#93873",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93873",
+      "candidate_fix": "#93873",
+      "reason": "#93873 remains the likely WhatsApp repair path, but a planned fix action is invalid without a complete executable fix_artifact; maintainer or worker replanning is needed to either produce that artifact or finish the contributor branch preflight."
+    },
+    {
+      "target": "#93875",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93888",
+      "reason": "The issue is plausibly covered by #93888, but the candidate is not ready for fixed-by-candidate closeout or merge."
+    },
+    {
+      "target": "#93876",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93876",
+      "candidate_fix": "#93876",
+      "reason": "#93876 appears to be the stronger sandbox repair path versus #93893, but the planned fix action is invalid without a complete executable fix_artifact and the security-linked context requires careful replanning before any executable repair path."
+    },
+    {
+      "target": "#93884",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93902",
+      "reason": "The issue is linked to a candidate docs PR, but closeout is blocked and the PR needs maintainer/review finalization."
+    },
+    {
+      "target": "#93888",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93888",
+      "candidate_fix": "#93888",
+      "reason": "#93888 may be the Discord repair path, but the planned fix action is invalid without a complete executable fix_artifact; the failed proof and runner check require a new repair artifact or maintainer decision before any executable action."
+    },
+    {
+      "target": "#93893",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#93876",
+      "candidate_fix": "#93876",
+      "reason": "Do not close or mutate because close is blocked and checks are pending; treat #93893 as an overlapping alternate currently superseded by the more complete #93876 path."
+    },
+    {
+      "target": "#93902",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93902",
+      "reason": "Maintainer judgment is needed on whether this boundary documentation is desired as written and whether the failed proof check is acceptable for a docs-only policy PR."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "route_security": 1,
+    "needs_human": 4
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93854 must route to central OpenClaw security handling.",
+    "#93873 needs a complete executable fix_artifact or finished contributor-branch preflight before any fix/merge action.",
+    "#93876 needs a complete executable fix_artifact or finished contributor-branch preflight before any fix/merge action.",
+    "#93888 needs a complete executable fix_artifact or finished contributor-branch preflight before any fix/merge action.",
+    "#93902 needs maintainer judgment on gateway runtime-boundary documentation intent and failed proof gating."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

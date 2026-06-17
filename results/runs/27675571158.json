@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-011",
+  "mode": "plan",
+  "run_id": "27675571158",
+  "workflow_run_id": "27675571158",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675571158",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:16Z",
+  "workflow_updated_at": "2026-06-17T08:21:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-011.md",
+  "published_at": "2026-06-17T08:23:02.075Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed from the cluster preflight artifact. No GitHub mutations are planned. No PR has complete merge preflight because Codex /review proof is missing or failed, and two PRs need human review for missing proof or broad failing docs changes.",
+  "actions": [
+    {
+      "target": "#52130",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked issue is out of scope for Clownfish backlog maintenance."
+    },
+    {
+      "target": "#69442",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93980",
+      "reason": "Related issue has an open candidate PR, but no closeout or merge path is safe in this plan."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#93810",
+      "candidate_fix": null,
+      "reason": "Historical merged cron fix; no action is available or needed."
+    },
+    {
+      "target": "#93866",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93866",
+      "reason": "Useful independent candidate, but merge is blocked by missing required Codex /review preflight."
+    },
+    {
+      "target": "#93875",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93961",
+      "reason": "Related issue should remain open until candidate PR validation is complete."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93959",
+      "reason": "Related issue has a plausible candidate PR, but closeout is not allowed and merge preflight is incomplete."
+    },
+    {
+      "target": "#93959",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93935",
+      "candidate_fix": "#93959",
+      "reason": "Candidate appears narrow and useful, but merge is not recommended without the required review preflight."
+    },
+    {
+      "target": "#93961",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93875",
+      "candidate_fix": "#93961",
+      "reason": "Missing review proof is a specific merge-readiness blocker for this PR."
+    },
+    {
+      "target": "#93978",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93978",
+      "reason": "Narrow non-security config leg can remain on normal review path, but merge is not safe from this plan."
+    },
+    {
+      "target": "#93980",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#69442",
+      "candidate_fix": "#93980",
+      "reason": "Broad generated docs delta with failing proof/checks requires maintainer decision or a narrower follow-up job."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 5,
+    "keep_closed": 1,
+    "keep_independent": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93961: ClawSweeper/Codex review failed before merge readiness could be assessed.",
+    "#93980: broad generated docs change has failing proof/checks and should not be repaired or merged automatically."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -1,0 +1,182 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-019",
+  "mode": "plan",
+  "run_id": "27675589119",
+  "workflow_run_id": "27675589119",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675589119",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:37Z",
+  "workflow_updated_at": "2026-06-17T08:21:30Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-019.md",
+  "published_at": "2026-06-17T08:23:02.104Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification completed from the provided preflight artifact. No GitHub mutations are allowed by this job. No PR has complete merge preflight; #93853 and #93396 are routed to central security handling, #93996 has a concrete repair path, and the remaining candidate PRs need maintainer or author follow-up before finalization.",
+  "actions": [
+    {
+      "target": "#76722",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93996",
+      "reason": null
+    },
+    {
+      "target": "#93396",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue requires central OpenClaw security handling."
+    },
+    {
+      "target": "#93505",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related candidate in the provider/baseURL family, but not mergeable from this shard."
+    },
+    {
+      "target": "#93533",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but blocked from merge or superseded closeout by failed proof and missing review."
+    },
+    {
+      "target": "#93851",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94003",
+      "reason": null
+    },
+    {
+      "target": "#93853",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive PR requires central OpenClaw security handling."
+    },
+    {
+      "target": "#93889",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer review is the remaining decision; merge_preflight is incomplete."
+    },
+    {
+      "target": "#93975",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up is required before Clownfish repair or merge planning."
+    },
+    {
+      "target": "#93996",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76722",
+      "candidate_fix": "#93996",
+      "reason": "Repair the contributor branch and rerun review/checks before merge can be considered."
+    },
+    {
+      "target": "#94003",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93851",
+      "candidate_fix": "#94003",
+      "reason": "Broad unrelated code delta plus failed proof requires maintainer judgment before repair, replacement, or merge planning."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "route_security": 2,
+    "needs_human": 3,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93889 needs maintainer review before any merge recommendation because it changes native release preparation gates and lacks complete merge_preflight.",
+    "#93975 needs author/maintainer follow-up because ClawSweeper requested changes and the PR is labeled waiting on author.",
+    "#94003 needs maintainer judgment because the branch mixes the secrets fix with unrelated macOS VoiceWakeRuntime changes and failed real behavior proof."
+  ],
+  "repair_candidate": {
+    "target": "#93996",
+    "source_refs": [
+      "#93996",
+      "#76722",
+      "#93505",
+      "#93533",
+      "#93853",
+      "#93889",
+      "#93975",
+      "#94003",
+      "#93396",
+      "#93851"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #93996 before any merge recommendation: preserve the WhatsApp listGroupsLive fix for #76722, resolve the failing extension bundled/type/lint checks, rerun ClawSweeper/Codex review to completion, and validate the focused WhatsApp directory behavior.",
+    "pr_title": "fix(whatsapp): repair live group directory listing",
+    "pr_body": "Fixes #76722. Builds on source PR #93996 by @xialonglee and preserves attribution. This repair keeps the WhatsApp listGroupsLive behavior, resolves the failing extension bundled/type/lint checks, and reruns focused validation before merge consideration.",
+    "likely_files": [
+      "extensions/whatsapp/src/channel.ts",
+      "extensions/whatsapp/src/directory-config.ts",
+      "extensions/whatsapp/src/directory-config.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/whatsapp/src/directory-config.test.ts",
+      "pnpm check:changed",
+      "pnpm lint"
+    ],
+    "credit_notes": [
+      "Credit xialonglee as the source PR author for #93996.",
+      "Credit oscarhyc for the original issue report in #76722."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-019.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#93396",
+      "#93853"
+    ],
+    "needs_human": [
+      "#93889 needs maintainer review before any merge recommendation because it changes native release preparation gates and lacks complete merge_preflight.",
+      "#93975 needs author/maintainer follow-up because ClawSweeper requested changes and the PR is labeled waiting on author.",
+      "#94003 needs maintainer judgment because the branch mixes the secrets fix with unrelated macOS VoiceWakeRuntime changes and failed real behavior proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}

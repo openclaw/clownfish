@@ -1,0 +1,145 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-017",
+  "mode": "plan",
+  "run_id": "27675584804",
+  "workflow_run_id": "27675584804",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675584804",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:32Z",
+  "workflow_updated_at": "2026-06-17T08:21:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-017.md",
+  "published_at": "2026-06-17T08:23:02.097Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR candidates. PR #93990 is routed to central security handling because its hydrated PR body cites CVE/security-shaped Windows spawn behavior, so ProjectClownfish should not triage it further. The other open PRs are non-security items, but none has the complete merge preflight required for a merge recommendation, primarily because Codex /review proof is absent and several mergeability states are unknown or unstable. Linked issues are kept related because post-merge closure is disabled and their candidate PRs are not yet merge-ready.",
+  "actions": [
+    {
+      "target": "#93465",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93990",
+      "reason": "Keep the issue related to candidate PR #93990, while #93990 itself is routed to central security handling before any ProjectClownfish merge or fix decision."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context for the cron family; no mutation is applicable."
+    },
+    {
+      "target": "#93816",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93848",
+      "reason": "Keep related to #93848; the candidate PR is plausible but not merge-ready."
+    },
+    {
+      "target": "#93848",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Missing required merge preflight and completed review proof; maintainer or follow-up automation should finish review before merge."
+    },
+    {
+      "target": "#93905",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93991",
+      "reason": "Keep related rather than fixed-by-candidate because the issue evidence and PR claim are not fully reconciled."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93993",
+      "reason": "Keep related to #93993 until that PR has complete merge preflight."
+    },
+    {
+      "target": "#93947",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93994",
+      "reason": "Keep related to #93994 until the PR is reviewed and merge-ready."
+    },
+    {
+      "target": "#93990",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact PR to central OpenClaw security handling because the validator identified #93990 as security-sensitive."
+    },
+    {
+      "target": "#93991",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer/review follow-up because the linked issue scope is unresolved and the PR lacks required merge preflight."
+    },
+    {
+      "target": "#93993",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Plausible narrow follow-up fix, but merge is blocked by missing required review and merge preflight."
+    },
+    {
+      "target": "#93994",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow and likely repairable, but not eligible for merge recommendation without required review preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "keep_closed": 1,
+    "needs_human": 4,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1,
+    "blocked": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93848: complete ClawSweeper/Codex review and merge preflight before merge; current artifact only has a review-started placeholder.",
+    "#93991: reconcile linked issue #93905 scope and complete review/validation before merge.",
+    "#93993: complete Codex /review and mergeability preflight before merge; no review proof is present.",
+    "#93994: complete Codex /review and mergeability preflight before merge; no review proof is present."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

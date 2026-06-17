@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-020",
+  "mode": "plan",
+  "run_id": "27675591126",
+  "workflow_run_id": "27675591126",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675591126",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:39Z",
+  "workflow_updated_at": "2026-06-17T08:21:24Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-020.md",
+  "published_at": "2026-06-17T08:23:02.108Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory candidates. No GitHub mutations are allowed by mode or job blocked_actions. No merge_candidate is emitted because none of the listed PRs has complete merge preflight including passed Codex /review and resolved review-bot findings. #94011 has a narrow repair path because a required check failed; #94010 and #94001 are kept independent pending normal review/merge preflight; #93946 and #94012 need specific human decisions.",
+  "actions": [
+    {
+      "target": "#94011",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93931",
+      "candidate_fix": "#94011",
+      "reason": "Narrow contributor-branch repair is appropriate before merge consideration because the PR is focused and recoverable, but the failing check blocks merge."
+    },
+    {
+      "target": "#93946",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93835",
+      "candidate_fix": "#93946",
+      "reason": "Canonical PR selection for the #93835 Ollama /think family is unclear from the hydrated state, and job frontmatter requires human review for unclear_canonical."
+    },
+    {
+      "target": "#94012",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94012",
+      "reason": "Broad draft maintainer-owned feature work is outside safe inventory auto-finalization; job frontmatter requires human review for broad_code_delta."
+    },
+    {
+      "target": "#94010",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93947",
+      "candidate_fix": "#94010",
+      "reason": "This is a separate narrow CLI fix, not a duplicate/superseded item in this mixed inventory shard. Keep on normal review path; do not merge without merge preflight."
+    },
+    {
+      "target": "#94001",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#93953",
+      "candidate_fix": "#94001",
+      "reason": "This is a separate narrow CLI fix, not a duplicate/superseded item in this mixed inventory shard. Keep on normal review path; do not merge without merge preflight."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "needs_human": 2,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93946: choose the canonical PR for the #93835 Ollama /think remediation family after comparing #93844, #93864, #93882, and #93946 proof/check status.",
+    "#94012: maintainer review required because this is a draft XL feature PR touching 46 files and provider/runtime routing surfaces."
+  ],
+  "repair_candidate": {
+    "target": "#94011",
+    "source_refs": [
+      "#94011",
+      "#93931",
+      "#93844",
+      "#93864",
+      "#93872",
+      "#93882",
+      "#93946",
+      "#94001",
+      "#94010",
+      "#94012",
+      "#93835",
+      "#93947",
+      "#93953"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #94011 in-place on the contributor branch if the failing checks-node-core-fast result is reproducible. The intended fix remains narrow: classify the generic \"LLM request failed\" downstream/provider failure as a transient server_error only where cron retry/model fallback classification expects retryable provider failures.",
+    "pr_title": "fix(cron): treat generic LLM request failures as retryable",
+    "pr_body": "## Summary\n- repairs #94011 so generic downstream `LLM request failed` errors engage cron retry/model fallback as `server_error`\n- keeps the change limited to embedded-agent error classification\n\n## Validation\n- pnpm check:changed\n- pnpm test src/agents/embedded-agent-helpers/errors.test.ts\n\nCredits: source PR #94011 by @ajwan8998.",
+    "likely_files": [
+      "src/agents/embedded-agent-helpers/errors.ts",
+      "src/agents/embedded-agent-helpers/errors.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test src/agents/embedded-agent-helpers/errors.test.ts"
+    ],
+    "credit_notes": [
+      "Credit #94011 and @ajwan8998 as the source PR/author if this repair lands or is replaced."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-020.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#93946: choose the canonical PR for the #93835 Ollama /think remediation family after comparing #93844, #93864, #93882, and #93946 proof/check status.",
+      "#94012: maintainer review required because this is a draft XL feature PR touching 46 files and provider/runtime routing surfaces."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}

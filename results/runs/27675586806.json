@@ -1,0 +1,160 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-018",
+  "mode": "plan",
+  "run_id": "27675586806",
+  "workflow_run_id": "27675586806",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675586806",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:34Z",
+  "workflow_updated_at": "2026-06-17T08:21:39Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-018.md",
+  "published_at": "2026-06-17T08:23:02.100Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory assessment. No merge candidate is safe to recommend because every open PR lacks complete merge preflight proof, and the auto-reply shard has unclear canonical/design choice across competing fixes.",
+  "actions": [
+    {
+      "target": "#938",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed context item; closure actions are invalid."
+    },
+    {
+      "target": "#74385",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93999",
+      "reason": "Related to #93999, but post-merge closure is disabled and #93999 is not merge-preflight complete."
+    },
+    {
+      "target": "#91914",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Canonical issue-family context for the auto-reply fixes; keep open pending maintainer canonical decision."
+    },
+    {
+      "target": "#93831",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related auto-reply context; not safe to close while competing PRs remain unresolved."
+    },
+    {
+      "target": "#93845",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unclear canonical/design choice in the auto-reply family plus incomplete merge preflight."
+    },
+    {
+      "target": "#93858",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93977",
+      "reason": "Related context for #93977; keep open pending proof repair and canonical design decision."
+    },
+    {
+      "target": "#93932",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#93936",
+      "candidate_fix": "#93997",
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#93936",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93997",
+      "reason": "Related to #93997, but issue closure is blocked and #93997 is not merge-preflight complete."
+    },
+    {
+      "target": "#93977",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Auto-reply canonical/design choice is unclear and this candidate has a failing proof check."
+    },
+    {
+      "target": "#93983",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Potentially useful but overlapping with #93845 and possibly insufficient relative to #93977; maintainer canonical choice is required."
+    },
+    {
+      "target": "#93987",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs/product intent and low-signal-docs label need maintainer review; no merge preflight is complete."
+    },
+    {
+      "target": "#93997",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#93936",
+      "reason": "Looks like the strongest Tailscale candidate, but merge policy requires completed Codex /review and merge_preflight before merge recommendation."
+    },
+    {
+      "target": "#93999",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#74385",
+      "reason": "Likely relevant to #74385, but merge preflight is incomplete and mergeability is unknown."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_related": 5,
+    "needs_human": 6
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Auto-reply canonical/design decision across #93845, #93977, and #93983: active-generation guard versus lazy fence, with #93858 arguing the guard-only path may not solve ordering.",
+    "#93987 docs/product-intent review: low-signal-docs label and new 213-line document need maintainer judgment; closeout is disabled.",
+    "#93997 and #93999 look focused but still lack required Codex /review merge preflight; #93999 also has unknown mergeability."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": []
+}

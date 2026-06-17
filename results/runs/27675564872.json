@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T081753-008",
+  "mode": "plan",
+  "run_id": "27675564872",
+  "workflow_run_id": "27675564872",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27675564872",
+  "head_sha": "2bd77e501a1642e55a149e01a79efd2e78732981",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T08:19:09Z",
+  "workflow_updated_at": "2026-06-17T08:21:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-008.md",
+  "published_at": "2026-06-17T08:23:02.069Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification completed for the five listed open PR candidates. No GitHub mutations are recommended. No PR has complete merge preflight because none has a recorded clean Codex /review in the hydrated artifact; #93923 has a concrete contributor-branch repair path, while #93930 and #93949 require human follow-up because their blockers are unresolved author/proof decisions.",
+  "actions": [
+    {
+      "target": "#93930",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up and unresolved review-bot findings block merge or automated repair planning without maintainer judgment."
+    },
+    {
+      "target": "#93934",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93934",
+      "reason": "Useful small PR, but it should remain an independent review item until the stale proof/review state is reconciled and merge preflight is complete."
+    },
+    {
+      "target": "#93923",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79252",
+      "candidate_fix": "#93923",
+      "reason": "Repair the contributor branch rather than merge now: the PR is focused and modifiable, but it needs the failing shard resolved and a clean Codex /review preflight."
+    },
+    {
+      "target": "#93948",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#79099",
+      "candidate_fix": "#93948",
+      "reason": "This is a plausible candidate fix for #79099, but merge is blocked until review/preflight evidence is hydrated and clean."
+    },
+    {
+      "target": "#93949",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93918",
+      "candidate_fix": "#93949",
+      "reason": "Missing real behavior proof and failing CI require author or maintainer follow-up before automated repair or merge can be safely planned."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93930: active author follow-up plus unresolved ClawSweeper needs-changes finding.",
+    "#93949: real behavior proof and CI failures block merge/repair decision without follow-up."
+  ],
+  "repair_candidate": {
+    "target": "#93923",
+    "source_refs": [
+      "#93923",
+      "#79252",
+      "#79267",
+      "#77318",
+      "#85239",
+      "#93930",
+      "#93934",
+      "#93948",
+      "#93949",
+      "#39648",
+      "#79099",
+      "#93918"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #93923 so it can serve as the focused fix path for open issue #79252, which reports that globalCircuitBreakerThreshold is per-tool-type rather than session-global.",
+    "pr_title": "fix: make global tool loop breaker session-wide",
+    "pr_body": "Repair path for Clownfish cluster live-pr-inventory-20260617T081753-008.\n\nThis carries forward contributor work from #93923 by @harjothkhara to fix #79252. The repair should keep the branch narrow, resolve the failing checks-node-agentic-commands-doctor-device shard, add or adjust changelog coverage if the behavior is user-facing, run the targeted loop-detection tests plus pnpm check:changed, and request a fresh Codex /review before merge consideration.\n\nCredit: source PR #93923 by @harjothkhara.",
+    "likely_files": [
+      "docs/tools/loop-detection.md",
+      "src/agents/agent-tools.before-tool-call.e2e.test.ts",
+      "src/agents/agent-tools.before-tool-call.ts",
+      "src/agents/tool-loop-detection.test.ts",
+      "src/agents/tool-loop-detection.ts"
+    ],
+    "validation_commands": [
+      "pnpm vitest run src/agents/tool-loop-detection.test.ts src/agents/agent-tools.before-tool-call.e2e.test.ts --reporter=dot",
+      "pnpm check:changed",
+      "Codex /review on the repaired PR branch"
+    ],
+    "credit_notes": [
+      "Credit harjothkhara for source PR #93923 and preserve attribution in the repaired branch/PR body.",
+      "Historical related implementation #79267 by TurboTheTurtle is closed and should remain evidence only unless maintainers choose to reuse details."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T081753-008.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#93930: active author follow-up plus unresolved ClawSweeper needs-changes finding.",
+      "#93949: real behavior proof and CI failures block merge/repair decision without follow-up."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": []
+}
