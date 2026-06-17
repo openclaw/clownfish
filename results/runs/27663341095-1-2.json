@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-110",
+  "mode": "plan",
+  "run_id": "27663341095-1-2",
+  "workflow_run_id": "27663341095",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27663341095",
+  "head_sha": "6a9ca9e0af118cf74830d02616171bacf2c6d6bc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:15:18Z",
+  "workflow_updated_at": "2026-06-17T03:17:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-110.md",
+  "published_at": "2026-06-17T03:19:45.383Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No merge is recommended because the required merge preflight is incomplete or failing for each affected PR. No GitHub mutation is planned because the job blocks comment, label, close, force-push, and bypass-check actions.",
+  "actions": [
+    {
+      "target": "#78852",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful independent PR, but missing required merge preflight for a merge recommendation."
+    },
+    {
+      "target": "#78884",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#78884",
+      "reason": "Small useful contributor PR likely needs a narrow repair or check refresh before it can be reconsidered for merge."
+    },
+    {
+      "target": "#78964",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author-followup label, broad message-delivery scope, failing checks, and unresolved bot-review proof require maintainer judgment before repair or merge planning."
+    },
+    {
+      "target": "#92072",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92072",
+      "reason": "Focused useful PR, but failing proof and node checks block merge; repair should target the gateway capability test/fix path if the failure reproduces."
+    },
+    {
+      "target": "#92243",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad provider/config/docs dependency change with failing security/dependency and node checks needs maintainer scoping before repair or merge."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "fix_needed": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#78964: waiting-on-author, broad Feishu message-delivery scope, failing checks, and unresolved Codex bot review proof.",
+    "#92243: broad new provider feature with dependencies-changed, auth-provider compatibility risk, and failing dependency/security/node checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

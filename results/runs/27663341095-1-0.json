@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-002",
+  "mode": "plan",
+  "run_id": "27663341095-1-0",
+  "workflow_run_id": "27663341095",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27663341095",
+  "head_sha": "6a9ca9e0af118cf74830d02616171bacf2c6d6bc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:15:18Z",
+  "workflow_updated_at": "2026-06-17T03:17:26Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-002.md",
+  "published_at": "2026-06-17T03:19:45.379Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only assessment over five open PRs. #88442 and #88709 are routed to central security handling as exact security-sensitive PR refs. No merge is recommended because none has complete merge preflight with Codex /review evidence. #88550 has a narrow repair path on the contributor branch; #88551 and #88726 need maintainer judgment or refreshed proof before finalization.",
+  "actions": [
+    {
+      "target": "#88442",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR ref is security-sensitive and must be quarantined to central OpenClaw security handling instead of ProjectClownfish triage."
+    },
+    {
+      "target": "#88550",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88550",
+      "reason": "The PR is useful and narrow but not merge-ready. Repair the contributor branch, re-run focused validation, hydrate/address Codex bot feedback, then re-evaluate merge preflight."
+    },
+    {
+      "target": "#88551",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks potentially mergeable after required review, but auth-provider behavior changes require maintainer judgment and complete merge preflight before a merge recommendation."
+    },
+    {
+      "target": "#88709",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact PR ref is security-sensitive and must be quarantined to central OpenClaw security handling instead of ProjectClownfish triage."
+    },
+    {
+      "target": "#88726",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a broad feature/docs/config/test change with failing checks and waiting-on-author status. It is not suitable for an executable fix artifact without maintainer scoping."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "fix_needed": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88551 requires maintainer judgment and complete merge preflight for auth-provider behavior changes despite passing checks.",
+    "#88726 requires maintainer scoping because the PR is broad, waiting on author, and has failing checks."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "low-signal-pr-sweep-20260615T1534-01"
 mode: "plan"
-run_id: "27599346719"
-workflow_run_id: "27599346719"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27599346719"
-head_sha: "a079d8533a0d403fdf77dc375e4532e17f0bacea"
+run_id: "27560323972-1-0"
+workflow_run_id: "27560323972"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27560323972"
+head_sha: "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-16T06:46:59.544Z"
+result_status: "planned"
+published_at: "2026-06-17T03:19:45.255Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -19,24 +19,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 4
+needs_human_count: 1
 ---
 
 # low-signal-pr-sweep-20260615T1534-01
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27599346719](https://github.com/openclaw/clownfish/actions/runs/27599346719)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27560323972](https://github.com/openclaw/clownfish/actions/runs/27560323972)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: unknown
 
 ## Summary
 
-No listed PR is boringly clear for low-signal closure under the opt-in policy. All four listed candidates are focused implementation PRs or have active/proof/review signals that require maintainer judgment instead of backlog-cleanup closeout.
+Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly clear low-signal closures under the policy; three are focused, green PRs with proof, and one is a focused but proof-failing PR that should not be auto-closed on red checks alone.
 
 ## Impact
 
@@ -49,7 +49,7 @@ No listed PR is boringly clear for low-signal closure under the opt-in policy. A
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 4 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -67,14 +67,11 @@ No listed PR is boringly clear for low-signal closure under the opt-in policy. A
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93025 | needs_human | blocked | needs_human | Focused provider fix with proof and passing checks; maintainer review is required. |
-| #93222 | needs_human | blocked | needs_human | Focused config/runtime fix with green checks but an unresolved actionable review-bot finding; maintainer judgment is required. |
-| #92946 | needs_human | blocked | needs_human | Active focused Telegram delivery fix with proof and green checks; maintainer review is required. |
-| #55766 | needs_human | blocked | needs_human | Useful focused ACP fix with failed proof and an ambiguous stale-close/canonical-path signal; maintainer judgment is required. |
+| #93025 | keep_independent | planned | independent | Focused green PR with supplied proof; not eligible for low-signal closure. |
+| #93222 | keep_independent | planned | independent | Focused green PR with supplied proof; not eligible for low-signal closure. |
+| #92946 | keep_independent | planned | independent | Focused channel-delivery fix with proof and green checks; dirty merge state blocks merge work, not low-signal classification. |
+| #55766 | needs_human | planned | needs_human | Focused PR with failed proof and unhydrated bot-review details; not boringly clear low-signal, and closure would require technical correctness judgment. |
 
 ## Needs Human
 
-- #93025: focused provider identity fix with proof-sufficient/green signals needs maintainer review, not low-signal closure.
-- #93222: focused Discord config/runtime fix has green signals but an unresolved Codex review finding about the monitor client path.
-- #92946: focused Telegram delivery fix has active author follow-up, proof success, and message-delivery risk labels.
-- #55766: focused ACP image-block fix has failed proof and prior stale-close language, but the PR contains useful scoped code and the canonical close path is not hydrated.
+- #55766 needs maintainer judgment: it is a plausible focused ACP behavior fix, but Real behavior proof failed, manual verification is unchecked, and bot-review details were not hydrated.

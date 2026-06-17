@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260617T015524-146",
+  "mode": "plan",
+  "run_id": "27663341095-1-4",
+  "workflow_run_id": "27663341095",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27663341095",
+  "head_sha": "6a9ca9e0af118cf74830d02616171bacf2c6d6bc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T03:15:18Z",
+  "workflow_updated_at": "2026-06-17T03:17:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260617T015524-146.md",
+  "published_at": "2026-06-17T03:19:45.388Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five independent open PRs. No merge is recommended because the artifact does not contain complete merge preflight proof for any PR; several PRs also have failing checks, unresolved review-bot/history signals, waiting-on-author state, or broad code delta.",
+  "actions": [
+    {
+      "target": "#82955",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent install-script PR with useful scoped work, but not merge-ready under merge policy."
+    },
+    {
+      "target": "#93686",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Waiting-on-author state plus failing validation requires maintainer/author follow-up before repair or merge planning."
+    },
+    {
+      "target": "#93402",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent scoped gateway diagnostics PR, but merge is blocked by incomplete review/comment proof and a failing listed check."
+    },
+    {
+      "target": "#62682",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta and auth-provider/runtime scope are explicit require_human conditions for this job unless a complete merge preflight is available."
+    },
+    {
+      "target": "#54716",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent session-state PR with useful scoped work, but merge is blocked by failing proof/checks and unresolved review-bot proof."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93686: waiting-on-author state plus failing check-lint/check-prod-types needs author or maintainer decision before repair/merge.",
+    "#62682: broad 17-file, 933-addition agents/auth-provider/runtime change requires maintainer judgment without complete merge preflight."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}

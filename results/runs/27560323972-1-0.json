@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "low-signal-pr-sweep-20260615T1534-01",
+  "mode": "plan",
+  "run_id": "27560323972-1-0",
+  "workflow_run_id": "27560323972",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27560323972",
+  "head_sha": "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-15T16:20:33Z",
+  "workflow_updated_at": "2026-06-15T16:27:26Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/low-signal-pr-sweep-20260615T1534-01.md",
+  "published_at": "2026-06-17T03:19:45.255Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly clear low-signal closures under the policy; three are focused, green PRs with proof, and one is a focused but proof-failing PR that should not be auto-closed on red checks alone.",
+  "actions": [
+    {
+      "target": "#93025",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green PR with supplied proof; not eligible for low-signal closure."
+    },
+    {
+      "target": "#93222",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused green PR with supplied proof; not eligible for low-signal closure."
+    },
+    {
+      "target": "#92946",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused channel-delivery fix with proof and green checks; dirty merge state blocks merge work, not low-signal classification."
+    },
+    {
+      "target": "#55766",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused PR with failed proof and unhydrated bot-review details; not boringly clear low-signal, and closure would require technical correctness judgment."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#55766 needs maintainer judgment: it is a plausible focused ACP behavior fix, but Real behavior proof failed, manual verification is unchecked, and bot-review details were not hydrated."
+  ],
+  "fix_actions": [],
+  "apply_actions": []
+}
