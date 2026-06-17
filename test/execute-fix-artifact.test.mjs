@@ -161,6 +161,8 @@ test("execute-fix-artifact retries transient GitHub reads before branch repair",
 
   assert.match(source, /const maxGithubReadAttempts = .*CLOWNFISH_GITHUB_READ_ATTEMPTS/);
   assert.match(source, /function fetchPullRequest\(number\)[\s\S]*runGithubReadWithRetry/);
+  assert.match(source, /function listOpenClownfishPrAreas\(\{ targetDir \}\)[\s\S]*?runGithubReadWithRetry/);
+  assert.match(source, /function fetchPullRequestFilePaths\(\{ targetDir, number \}\)[\s\S]*?runGithubReadWithRetry/);
   assert.match(source, /function runGithubReadWithRetry\(commandArgs, options = \{\}\)/);
   assert.match(source, /function isRetryableGithubReadError\(error\)/);
   assert.match(source, /HTTP\\s\+\(\?:408\|429\|5\\d\\d\)/);

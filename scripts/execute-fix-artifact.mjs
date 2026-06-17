@@ -1774,8 +1774,7 @@ function validateActivePrAreaCapacity({ fixArtifact, targetDir, branch }) {
 
 function listOpenClownfishPrAreas({ targetDir }) {
   const pulls = JSON.parse(
-    run(
-      "gh",
+    runGithubReadWithRetry(
       ["pr", "list", "--repo", result.repo, "--state", "open", "--limit", "500", "--json", "number,title,url,headRefName,labels"],
       { cwd: targetDir, env: ghEnv() },
     ),
@@ -1800,7 +1799,7 @@ function listOpenClownfishPrAreas({ targetDir }) {
 
 function fetchPullRequestFilePaths({ targetDir, number }) {
   const view = JSON.parse(
-    run("gh", ["pr", "view", String(number), "--repo", result.repo, "--json", "files"], {
+    runGithubReadWithRetry(["pr", "view", String(number), "--repo", result.repo, "--json", "files"], {
       cwd: targetDir,
       env: ghEnv(),
     }),
