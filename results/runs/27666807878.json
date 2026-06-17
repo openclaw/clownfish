@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-352-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666807878",
+  "workflow_run_id": "27666807878",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666807878",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:08:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-352-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:09:10.079Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/45469",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/45469",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77961",
+  "summary": "Keep #45469 as the live canonical issue and repair the linked contributor PR #77961 rather than merge it now. Current main still has an unbounded reconnect scheduler in packages/gateway-client, while #77961 is useful but not merge-ready because it targets the legacy src/gateway surface, has failing proof/check gates, and lacks the required merge preflight.",
+  "actions": [
+    {
+      "target": "#45466",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref; no mutation planned."
+    },
+    {
+      "target": "#45468",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref; no mutation planned."
+    },
+    {
+      "target": "#45469",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "Canonical issue stays open while the repairable linked PR is brought to merge readiness."
+    },
+    {
+      "target": "#77961",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "Repair the contributor branch before any merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "cluster:gitcrawl-352-autonomous-terminal-gap",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#45469",
+      "candidate_fix": "#77961",
+      "reason": "Executor should repair the existing contributor branch, validate it, run Codex /review, and only then consider merge."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] packages/gateway-client/src/client.ts: core production [check:changed] packages/gateway-client/src/client.watchdog.test.ts: core test [check:changed] src/gateway/client.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 271ms o...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] packages/gateway-client/src/client.ts: core production [check:changed] packages/gateway-client/src/client.watchdog.test.ts: core test [check:changed] src/gateway/client.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 271ms o...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": []
+}

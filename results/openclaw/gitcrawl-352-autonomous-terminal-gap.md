@@ -2,60 +2,61 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-352-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27624181687"
-workflow_run_id: "27624181687"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27624181687"
-head_sha: "448224a5fbe97e588452ff54d356f827b93c9e5e"
+run_id: "27666807878"
+workflow_run_id: "27666807878"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666807878"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-16T14:25:25.046Z"
+result_status: "planned"
+published_at: "2026-06-17T05:09:10.079Z"
 canonical: "https://github.com/openclaw/openclaw/issues/45469"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/45469"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/77961"
-actions_total: 3
+actions_total: 5
 fix_executed: 0
-fix_failed: 0
-fix_blocked: 0
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-352-autonomous-terminal-gap
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27624181687](https://github.com/openclaw/clownfish/actions/runs/27624181687)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666807878](https://github.com/openclaw/clownfish/actions/runs/27666807878)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/issues/45469
 
 ## Summary
 
-#45469 remains the live canonical issue. Current main at 8c7690b256856bb17af7846f432d5ef6d9037755 still schedules reconnects without a max-attempt ceiling in the package GatewayClient. The linked PR #77961 is hydrated as context and is a plausible fix path, but it is not merge-ready: proof/product-policy gates remain unresolved and the job marked #77961 as existing-overlap context rather than an actionable cluster ref. No close, merge, or new fix PR is safe from this cluster.
+Keep #45469 as the live canonical issue and repair the linked contributor PR #77961 rather than merge it now. Current main still has an unbounded reconnect scheduler in packages/gateway-client, while #77961 is useful but not merge-ready because it targets the legacy src/gateway surface, has failing proof/check gates, and lacks the required merge preflight.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 5 |
 | Fix executed | 0 |
-| Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | failed |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] packages/gateway-client/src/client.ts: core production [check:changed] packages/gateway-client/src/client.watchdog.test.ts: core test [check:changed] src/gateway/client.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 271ms o... |
+| execute_fix | blocked |  |  | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] packages/gateway-client/src/client.ts: core production [check:changed] packages/gateway-client/src/client.watchdog.test.ts: core test [check:changed] src/gateway/client.ts: core production [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] package patch guard $ node scripts/check-package-patches.mjs [check:changed] test temp creation report (warning-only) No new bare test temp-directory creation patterns found. [check:changed] typecheck core $ node scripts/run-tsgo.mjs -p tsconfig.core.json --incremental --tsBuildInfoFile .artifacts/tsgo-cache/core.tsbuildinfo [check:changed] summary 271ms o... |
 
 ## Apply Actions
 
@@ -67,10 +68,12 @@ Canonical: https://github.com/openclaw/openclaw/issues/45469
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45469 | keep_canonical | planned | canonical | #45469 is still open, still reproduces at source level on current main, and should remain the canonical issue while the linked PR/proof path is resolved. |
-| #77961 | keep_related | planned | related | #77961 is related as the linked implementation candidate for #45469, but this cluster should not merge or repair it directly because it is an existing-overlap context ref and has unresolved proof/product-policy blockers. |
-| cluster:gitcrawl-352-autonomous-terminal-gap | needs_human | blocked | needs_human | Maintainer input is needed on the exact remaining decision: whether to accept the opt-in reconnect-limit API/caller policy in #77961 and what real behavior proof or override is required before that PR can proceed. |
+| #45466 | keep_closed | skipped |  | Closed context ref; no mutation planned. |
+| #45468 | keep_closed | skipped |  | Closed context ref; no mutation planned. |
+| #45469 | keep_canonical | planned | canonical | Canonical issue stays open while the repairable linked PR is brought to merge readiness. |
+| #77961 | fix_needed | planned | canonical | Repair the contributor branch before any merge or fixed-by-candidate closeout. |
+| cluster:gitcrawl-352-autonomous-terminal-gap | build_fix_artifact | planned |  | Executor should repair the existing contributor branch, validate it, run Codex /review, and only then consider merge. |
 
 ## Needs Human
 
-- #45469/#77961 product and proof decision: current main is still unbounded, but the linked fix candidate #77961 is existing-overlap context for this cluster and remains blocked on Real behavior proof plus Gateway retry API/caller-default policy.
+- none
