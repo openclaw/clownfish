@@ -743,6 +743,97 @@ test("review-results rejects fix artifacts when source job disallows fix PRs", (
   assert.match(result.stdout, /allow_fix_pr is not true/);
 });
 
+test("review-results verifies fix artifacts with a permission snapshot after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The archived plan proves this job permits a narrow fix PR."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+        },
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results rejects incomplete permission snapshots after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The permission snapshot is incomplete."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+        },
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /fix actions require source job permissions/);
+});
+
 function makeResultDir(overrides, options = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-review-"));
   const result = {
