@@ -1,0 +1,111 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94000-live-pr-inventory-20260617t082059-002-20260617a",
+  "mode": "autonomous",
+  "run_id": "27721523006",
+  "workflow_run_id": "27721523006",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27721523006",
+  "head_sha": "a3c7ad79a041dae9accf636bab73739a88862292",
+  "workflow_conclusion": "cancelled",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T21:40:10Z",
+  "workflow_updated_at": "2026-06-17T21:51:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94000-live-pr-inventory-20260617t082059-002-20260617a.md",
+  "published_at": "2026-06-17T21:51:49.236Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94000",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93928",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94000",
+  "summary": "PR #94000 is the repairable canonical contributor branch for Feishu drive pagination. Current main still has the single-page drive list/info behavior, and the live PR branch still shows the narrow TypeScript/lint failure in extensions/feishu/src/drive.ts, so the safe path is to repair #94000 rather than replace it.",
+  "actions": [
+    {
+      "target": "#94000",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94000",
+      "candidate_fix": null,
+      "reason": "Repair the editable contributor branch in place, preserving @ajwan8998 credit and keeping the patch scoped to Feishu drive pagination."
+    },
+    {
+      "target": "#93928",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93928",
+      "candidate_fix": "#94000",
+      "reason": "Keep the issue as the canonical bug tracker until the repair branch is fixed and validated."
+    },
+    {
+      "target": "#37626",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and outside the drive repair target."
+    },
+    {
+      "target": "cluster:repair-94000-live-pr-inventory-20260617t082059-002-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94000",
+      "candidate_fix": null,
+      "reason": "Create an executable repair plan for the existing contributor PR branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94000",
+    "source_refs": [
+      "#94000",
+      "#93928",
+      "#37626"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94000 in place by fixing the Feishu drive pagination implementation in extensions/feishu/src/drive.ts and adding focused regression coverage for list cursor paging and multi-page info lookup.",
+    "pr_title": "fix(feishu): repair drive pagination typing",
+    "pr_body": "## Summary\n\nRepair #94000 on the existing editable contributor branch. The Feishu drive `list` action should pass bounded `page_size` / `page_token` cursor inputs and return the next cursor, while `info` should walk `has_more` / `next_page_token` pages until the requested file is found.\n\nThis keeps the fix scoped to `extensions/feishu/src/drive.ts` plus focused `drive.test.ts` coverage and preserves credit for @ajwan8998's source PR and @yetval's issue report.\n\n## Repair Notes\n\n- Fix the invalid property assignment/bracing in the current PR branch.\n- Keep the existing schema surface unless a fresh compile proves `drive-schema.ts` is the minimal failing surface.\n- Add regression tests for cursor-based `list` and page-2 `info` lookup.\n\n## Verification\n\n- `pnpm test extensions/feishu/src/drive.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before any merge recommendation.",
+    "likely_files": [
+      "extensions/feishu/src/drive.ts",
+      "extensions/feishu/src/drive.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/feishu/src/drive.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @ajwan8998 from https://github.com/openclaw/openclaw/pull/94000.",
+      "Preserve issue attribution for @yetval from https://github.com/openclaw/openclaw/issues/93928.",
+      "Keep the PR body release-note context focused on Feishu drive list/info pagination and mention that the repair is on the contributor branch."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94000-live-pr-inventory-20260617t082059-002-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
