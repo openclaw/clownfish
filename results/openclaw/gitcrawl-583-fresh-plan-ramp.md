@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-583-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-61"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-5"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.018Z"
+published_at: "2026-06-17T04:34:46.896Z"
 canonical: "#91224"
 canonical_issue: "#91224"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #91224
 
 ## Summary
 
-Plan-only classification: #91224 is the only hydrated open candidate, matches the canonical hint, and remains the best live canonical for the reported inter-session confirmation ack leakage. No duplicate, closure, merge, or fix action is planned because no other actionable candidate was hydrated and fix/merge/raise_pr actions are blocked by the job.
+Plan mode classification only. The hydrated preflight artifact contains one actionable open, non-security issue, #91224, and no hydrated actionable PR candidates. Keep #91224 as the live canonical issue for this root cause; excluded overlap ref #91234 remains context only and is not used as a candidate_fix because it was not hydrated as a primary item.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-only classification: #91224 is the only hydrated open candidate, matches th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91224 | keep_canonical | planned | canonical | Only one actionable open item is hydrated; it is the representative and canonical candidate for this cluster. |
+| #91224 | keep_canonical | planned | canonical | #91224 is the only hydrated actionable member, remains open, is non-security, and is the best live canonical thread for the reported root cause. |
 
 ## Needs Human
 

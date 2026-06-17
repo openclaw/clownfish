@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-574-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-60"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-4"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.018Z"
+published_at: "2026-06-17T04:34:46.895Z"
 canonical: "#51903"
 canonical_issue: "#51903"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #51903
 
 ## Summary
 
-Classified the single hydrated open candidate #51903 as the live canonical issue. No duplicate, closure, merge, or fix-PR action is planned because the job is read-only plan mode, #51926 is excluded existing-overlap context only, and fix/raise_pr/merge actions are blocked by job frontmatter.
+Read-only plan keeps #51903 as the live canonical issue for the nodes-tool describe/schema mismatch cluster. No duplicate, superseding PR, merge candidate, security quarantine, or executable fix path is available in this job because the only hydrated actionable ref is the open canonical issue and fix/raise_pr/merge actions are blocked by frontmatter.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Classified the single hydrated open candidate #51903 as the live canonical issue
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #51903 | keep_canonical | planned | canonical | #51903 remains the best live canonical for this cluster because it is the only hydrated open actionable item and contains the source reproduction/root-cause detail for the nodes describe failure. |
+| #51903 | keep_canonical | planned | canonical | #51903 is the only hydrated open actionable item and remains the best live canonical thread for this root cause. |
 
 ## Needs Human
 

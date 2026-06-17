@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-556-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-57"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-1"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.016Z"
+published_at: "2026-06-17T04:34:46.890Z"
 canonical: "#53439"
 canonical_issue: "#53439"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #53439
 
 ## Summary
 
-Read-only plan: #53439 is the only hydrated open candidate, is non-security-sensitive, and remains the live canonical issue for the Synology Chat HEAD probe and webhook ACK response behavior. No duplicate, closure, merge, or fix action is available in this plan-mode job.
+Plan mode classification only. Hydrated live state contains one actionable open candidate, #53439, and it remains the best canonical issue for the Synology Chat webhook HEAD/200-response bug. Existing-overlap ref #53441 was excluded from actionable refs and was not hydrated as a primary item, so no mutation or classification action is emitted for it.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan: #53439 is the only hydrated open candidate, is non-security-sens
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #53439 | keep_canonical | planned | canonical | Only hydrated actionable item is the open representative issue, so it should be kept as canonical. |
+| #53439 | keep_canonical | planned | canonical | Keep #53439 open as the canonical issue because it is the only hydrated actionable open item and contains the clearest source reproduction for the Synology Chat webhook behavior. |
 
 ## Needs Human
 

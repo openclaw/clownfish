@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-565-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-58"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-2"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.017Z"
+published_at: "2026-06-17T04:34:46.894Z"
 canonical: "#91475"
 canonical_issue: "#91475"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #91475
 
 ## Summary
 
-Plan-mode classification complete. #91475 is the only hydrated open candidate, is non-security-sensitive, and remains the live canonical issue for the ultracode claude-cli feature request. No close, merge, fix, or PR action is planned.
+The only hydrated actionable item is open issue #91475. It remains the live canonical for the ultracode claude-cli feature request. No close, merge, or fix action is allowed or appropriate in this plan-mode job; excluded overlap ref #91476 is context only and was not hydrated as an actionable candidate.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-mode classification complete. #91475 is the only hydrated open candidate, i
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91475 | keep_canonical | planned | canonical | The issue is the best surviving hydrated item for this cluster and should remain open as the canonical product/feature discussion path. |
+| #91475 | keep_canonical | planned | canonical | #91475 is the only hydrated open candidate and is the clearest surviving canonical thread for this cluster. |
 
 ## Needs Human
 

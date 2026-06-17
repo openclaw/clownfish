@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-609-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-67"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-10"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.021Z"
+published_at: "2026-06-17T04:34:46.890Z"
 canonical: "#90869"
 canonical_issue: "#90869"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #90869
 
 ## Summary
 
-Read-only plan for one hydrated open candidate. #90869 remains the best live canonical issue for the wiki_search non-recursive wiki page indexing report. No closure, merge, or fix PR action is allowed or needed in this plan; excluded overlap ref #90870 is context only and not actionable in this cluster.
+Plan-only classification: #90869 remains the live canonical issue for the wiki_search non-recursive wiki page indexing bug. No candidate close, merge, label, or fix action is planned because the only actionable hydrated item is the canonical issue and fix/raise_pr/merge actions are blocked by job frontmatter.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan for one hydrated open candidate. #90869 remains the best live can
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90869 | keep_canonical | planned | canonical | Only one open hydrated candidate is in scope, it is non-security, and it carries the canonical hint with a concrete unreplaced bug report. Keep it as the canonical tracking issue. |
+| #90869 | keep_canonical | planned | canonical | #90869 is the only hydrated open candidate and remains the best live canonical for this cluster. |
 
 ## Needs Human
 

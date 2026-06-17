@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-641-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-76"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-18"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.025Z"
+published_at: "2026-06-17T04:34:46.894Z"
 canonical: "#69582"
 canonical_issue: "#69582"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #69582
 
 ## Summary
 
-Planning from the provided hydrated preflight artifact only. The sole actionable item, #69582, is open, non-security-sensitive, and remains the canonical issue for this cluster; no duplicate, closure, merge, or fix action is available under the job permissions.
+Hydrated preflight state shows #69582 is open, non-security-sensitive, and remains the only actionable candidate in this cluster. Keep #69582 as the live canonical issue; #81157 is excluded existing-overlap context and was not hydrated as an actionable candidate.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Planning from the provided hydrated preflight artifact only. The sole actionable
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69582 | keep_canonical | planned | canonical | #69582 is the best live canonical within the hydrated cluster scope. |
+| #69582 | keep_canonical | planned | canonical | #69582 is the only hydrated open candidate and is still the best surviving canonical thread for this root cause. |
 
 ## Needs Human
 

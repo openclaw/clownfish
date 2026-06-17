@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-620-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-70"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-13"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.023Z"
+published_at: "2026-06-17T04:34:46.891Z"
 canonical: "#59616"
 canonical_issue: "#59616"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #59616
 
 ## Summary
 
-Plan-only classification: #59616 is open, non-security-sensitive, and remains the live canonical issue for config hot-reload missing $include-referenced files. Excluded overlap #90653 was not hydrated as an actionable item, so no close, merge, or fixed-by-candidate action is planned.
+Plan-mode classification only. The single hydrated open candidate #59616 remains the live canonical issue for config hot-reload not watching $include-referenced files. No closure, merge, or fix PR action is planned because the job is read-only plan mode and fix/merge/raise_pr are blocked.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-only classification: #59616 is open, non-security-sensitive, and remains th
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #59616 | keep_canonical | planned | canonical | #59616 remains the best live canonical because it is open, hydrated, non-security-sensitive, and contains the source reproduction/root-cause description for the cluster. |
+| #59616 | keep_canonical | planned | canonical | #59616 is the only hydrated open candidate and best surviving canonical for this root cause. No duplicate or replacement action is available within the hydrated actionable refs. |
 
 ## Needs Human
 

@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-554-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-56"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-0"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.016Z"
+published_at: "2026-06-17T04:34:46.889Z"
 canonical: "#54157"
 canonical_issue: "#54157"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #54157
 
 ## Summary
 
-Read-only plan: #54157 remains the best live canonical issue for the Doubao/BytePlus context caching price gap. No duplicate, closure, merge, security, or fix-PR action is available in this scoped cluster; excluded overlap #55913 was not hydrated as an actionable item.
+Plan-only classification complete. #54157 is open, hydrated, non-security-sensitive, and remains the canonical issue for the Doubao/BytePlus cacheRead/cacheWrite pricing gap. No closure, merge, or fix PR action is planned because the only actionable candidate is the canonical issue and the overlapping PR #55913 was explicitly excluded from actionable refs.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan: #54157 remains the best live canonical issue for the Doubao/Byte
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #54157 | keep_canonical | planned | canonical | The hydrated live state shows the representative issue is still open and directly describes the root cause for this cluster. There are no other hydrated open candidates to close, merge, or supersede in plan mode. |
+| #54157 | keep_canonical | planned | canonical | #54157 is the only hydrated actionable candidate and remains the best live canonical for this cluster. |
 
 ## Needs Human
 

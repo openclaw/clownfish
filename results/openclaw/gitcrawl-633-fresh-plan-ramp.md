@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-633-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-73"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-15"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.024Z"
+published_at: "2026-06-17T04:34:46.892Z"
 canonical: "#72111"
 canonical_issue: "#72111"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #72111
 
 ## Summary
 
-Read-only plan: #72111 remains the live canonical issue for the MCP streamable-http spawned-server timeout cluster. No duplicate, superseded, merge, close, security-route, or fix-PR action is available from the hydrated refs in this job.
+Read-only plan keeps #72111 as the live canonical issue. The only hydrated open candidate is #72111, it is open, non-security-sensitive, and carries the canonical hint; excluded overlap #72515 is context only and not an actionable target in this job.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan: #72111 remains the live canonical issue for the MCP streamable-h
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72111 | keep_canonical | planned | canonical | #72111 is the only hydrated open candidate and remains the best live canonical for this cluster; there are no hydrated duplicate or replacement candidates to close against. |
+| #72111 | keep_canonical | planned | canonical | No duplicate, replacement PR, merge candidate, or actionable close target is hydrated in this plan-mode cluster, so #72111 should remain the canonical issue. |
 
 ## Needs Human
 

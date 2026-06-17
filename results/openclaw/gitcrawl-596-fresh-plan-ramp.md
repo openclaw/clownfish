@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-596-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-65"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-9"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.020Z"
+published_at: "2026-06-17T04:34:46.897Z"
 canonical: "#71452"
 canonical_issue: "#71452"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #71452
 
 ## Summary
 
-The preflight artifact hydrates one actionable open candidate, #71452, and marks it non-security-sensitive. It remains the best live canonical issue for the pagination/25-item message listing limitation. No close, merge, or fix action is planned in this read-only job.
+Plan-mode classification only. #71452 is open, hydrated, non-security-sensitive, and remains the live canonical issue for the pagination/25-item message-list limit request. No duplicate, closure, merge, or fix action is planned; #79593 is excluded overlap context and was not an actionable hydrated candidate in this job.
 
 ## Impact
 
@@ -67,7 +67,7 @@ The preflight artifact hydrates one actionable open candidate, #71452, and marks
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #71452 | keep_canonical | planned | canonical | Keep #71452 open as the canonical tracking issue. The cluster contains no other hydrated open actionable item to close, supersede, merge, or route. |
+| #71452 | keep_canonical | planned | canonical | #71452 is the only hydrated open candidate and remains the best canonical thread for this cluster. The job does not allow merge, fix, raise_pr, or instant close actions, and there are no actionable duplicates to close. |
 
 ## Needs Human
 

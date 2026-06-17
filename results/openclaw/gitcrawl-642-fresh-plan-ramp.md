@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-642-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-77"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-19"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.026Z"
+published_at: "2026-06-17T04:34:46.894Z"
 canonical: "#69605"
 canonical_issue: "#69605"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #69605
 
 ## Summary
 
-Plan-mode classification only. Hydrated live state shows #69605 is open, non-security-sensitive, and remains the only actionable open candidate and best canonical issue for the reported Control UI code-block copy behavior. No close, merge, label, comment, fix, or PR action is planned; excluded overlap #73633 is context only and was not hydrated as an actionable candidate.
+Plan-only classification: #69605 is open, hydrated, non-security-sensitive, and remains the canonical issue for the Control UI code-block copy behavior bug. No closure, merge, or fix action is planned.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-mode classification only. Hydrated live state shows #69605 is open, non-sec
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69605 | keep_canonical | planned | canonical | #69605 is open, hydrated, non-security-sensitive, and remains the best live canonical issue for this single actionable candidate cluster. |
+| #69605 | keep_canonical | planned | canonical | The only hydrated actionable item is the live open representative issue, and its body contains the root report for this cluster. The excluded overlap PR is context only and is not a hydrated candidate_fix for this run. |
 
 ## Needs Human
 

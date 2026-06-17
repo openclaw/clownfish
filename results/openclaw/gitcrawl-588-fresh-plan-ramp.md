@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-588-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-63"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-7"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.019Z"
+published_at: "2026-06-17T04:34:46.897Z"
 canonical: "#91122"
 canonical_issue: "#91122"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #91122
 
 ## Summary
 
-Read-only plan: #91122 is the only hydrated open actionable item and remains the canonical issue for the backward-compat shim report. No duplicate, closure, merge, security, or fix action is available under this job.
+Plan mode classification complete. Hydrated live state contains one actionable open issue, #91122, and it remains the best canonical item for the reported backward-compatibility shim regression. No close, merge, label, or fix actions are planned.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan: #91122 is the only hydrated open actionable item and remains the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91122 | keep_canonical | planned | canonical | Keep #91122 as the surviving canonical issue because it is the only hydrated open candidate and contains the substantive root-cause report for this cluster. |
+| #91122 | keep_canonical | planned | canonical | #91122 is the only hydrated open candidate and remains the canonical issue for the cluster; no other actionable item is available for duplicate, superseded, merge, or fixed-by-candidate classification. |
 
 ## Needs Human
 

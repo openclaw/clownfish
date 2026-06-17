@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-639-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-74"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-16"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.025Z"
+published_at: "2026-06-17T04:34:46.893Z"
 canonical: "#69408"
 canonical_issue: "#69408"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #69408
 
 ## Summary
 
-Read-only plan classification complete. The only hydrated open candidate, #69408, remains the live canonical issue for this cluster. No closure, merge, or fix PR action is allowed or needed in this plan; excluded overlap ref #90257 was not hydrated as an actionable item.
+Plan-mode classification only. The single hydrated open candidate #69408 is still open, non-security-sensitive, and remains the canonical issue for this cluster. No close, merge, label, or fix action is planned because the job blocks merge, fix, and raise_pr, and there are no hydrated duplicate candidates to close.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan classification complete. The only hydrated open candidate, #69408
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69408 | keep_canonical | planned | canonical | #69408 is the only hydrated open actionable item and best surviving issue for the reported loop-detection log-level behavior; there is no hydrated duplicate, superseding PR, or candidate fix eligible for plan actions. |
+| #69408 | keep_canonical | planned | canonical | #69408 is the only hydrated actionable item and remains the best live canonical for the reported loop-detection log-level issue. |
 
 ## Needs Human
 

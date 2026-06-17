@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-584-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-62"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-6"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.019Z"
+published_at: "2026-06-17T04:34:46.896Z"
 canonical: "#91223"
 canonical_issue: "#91223"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #91223
 
 ## Summary
 
-Plan-mode classification only. #91223 is the only hydrated open candidate in the actionable cluster and should become the live canonical for the remaining non-overlap scope; excluded #91214 remains context owned by another job and is not used as an actionable canonical.
+Classified the only hydrated open candidate, #91223, as the live canonical for the remaining actionable cluster scope. The excluded representative #91214 is context only and was not hydrated as an actionable item, so no duplicate or closure action is planned.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-mode classification only. #91223 is the only hydrated open candidate in the
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91223 | keep_canonical | planned | canonical | The representative #91214 is excluded from actionable scope, and #91223 is the only hydrated open item left in this cluster. Keep #91223 as the live canonical; do not close or mutate anything in plan mode. |
+| #91223 | keep_canonical | planned | canonical | #91223 is the only hydrated open candidate in this cluster scope and should become the live canonical for the remaining actionable item; no closure, merge, or fix action is available or needed in this read-only plan. |
 
 ## Needs Human
 

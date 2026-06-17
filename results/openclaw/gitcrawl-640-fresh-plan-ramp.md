@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-640-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-75"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-17"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.025Z"
+published_at: "2026-06-17T04:34:46.893Z"
 canonical: "#69192"
 canonical_issue: "#69192"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #69192
 
 ## Summary
 
-Read-only plan keeps #69192 as the live canonical issue. The hydrated preflight artifact shows #69192 is open, non-security-sensitive, and is the only actionable candidate; excluded overlap ref #86607 is context only and is not hydrated for action.
+Read-only plan classification completed. The only hydrated open candidate, #69192, is the live canonical issue for this cluster; no duplicate, superseded, merge, close, security-route, or fix-PR action is available within the job scope.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Read-only plan keeps #69192 as the live canonical issue. The hydrated preflight 
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #69192 | keep_canonical | planned | canonical | #69192 remains the only hydrated open candidate and best live canonical for this cluster; no close, merge, label, or fix action is allowed or needed in plan mode. |
+| #69192 | keep_canonical | planned | canonical | #69192 is the only hydrated open candidate and remains the best live canonical for the reported hook gateway journaling gap. |
 
 ## Needs Human
 

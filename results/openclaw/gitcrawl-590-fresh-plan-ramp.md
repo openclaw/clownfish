@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-590-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-64"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-8"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.020Z"
+published_at: "2026-06-17T04:34:46.897Z"
 canonical: "#90953"
 canonical_issue: "#90953"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #90953
 
 ## Summary
 
-Plan-only classification: #90953 is the sole hydrated open candidate, remains open, is non-security-sensitive, and should remain the live canonical issue for the localized WSL version parsing installation failure. No close, merge, label, or fix action is planned because the job is read-only plan mode and fix/raise_pr/merge are blocked.
+Read-only plan classification complete. #90953 is open, hydrated, non-security-sensitive, and remains the canonical issue for the localized WSL version parsing install failure. No duplicate, close, merge, or fix action is planned because the only actionable candidate is the canonical issue and fix/raise_pr/merge are blocked by job frontmatter.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-only classification: #90953 is the sole hydrated open candidate, remains op
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90953 | keep_canonical | planned | canonical | The artifact provides live state for the only actionable open ref, and it remains the best canonical thread for this cluster. |
+| #90953 | keep_canonical | planned | canonical | #90953 is the only hydrated open candidate and remains the best live canonical for this root cause; no other actionable open item exists in this cluster. |
 
 ## Needs Human
 

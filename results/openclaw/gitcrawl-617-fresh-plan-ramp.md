@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-617-fresh-plan-ramp"
 mode: "plan"
-run_id: "27659257780-1-69"
-workflow_run_id: "27659257780"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27659257780"
-head_sha: "d478a8869dca49e522a4036503c0f850a3b41509"
+run_id: "27665800031-1-12"
+workflow_run_id: "27665800031"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27665800031"
+head_sha: "29bb6eee5ab4c10645c23bdc8e3bb62bc8aa82b5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T02:07:02.022Z"
+published_at: "2026-06-17T04:34:46.891Z"
 canonical: "#60816"
 canonical_issue: "#60816"
 canonical_pr: null
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27659257780](https://github.com/openclaw/clownfish/actions/runs/27659257780)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27665800031](https://github.com/openclaw/clownfish/actions/runs/27665800031)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #60816
 
 ## Summary
 
-Plan-only classification completed for the single hydrated open candidate. #60816 remains the live canonical issue for the edit-tool noop semantics report. No close, merge, label, comment, fix, or security routing action is planned.
+Plan-mode classification keeps #60816 as the live canonical issue. The only actionable hydrated candidate is open, current in the preflight artifact, non-security-sensitive, and describes the cluster root cause. Existing-overlap PR #77638 is linked context only and was not hydrated as an actionable item, so no close, merge, or fixed-by-candidate action is planned.
 
 ## Impact
 
@@ -67,7 +67,7 @@ Plan-only classification completed for the single hydrated open candidate. #6081
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #60816 | keep_canonical | planned | canonical | #60816 is the only hydrated open candidate and remains the best live canonical for this cluster. |
+| #60816 | keep_canonical | planned | canonical | #60816 is the only hydrated open candidate and remains the canonical issue for the edit-tool noop semantics root cause. |
 
 ## Needs Human
 
