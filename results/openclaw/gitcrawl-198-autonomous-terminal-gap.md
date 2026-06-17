@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-198-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27623110804"
-workflow_run_id: "27623110804"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27623110804"
-head_sha: "c581a46e2e3e5a962635976dc02b3902304668dd"
+run_id: "27666807968"
+workflow_run_id: "27666807968"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666807968"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-16T14:15:48.714Z"
+result_status: "needs_human"
+published_at: "2026-06-17T05:04:11.264Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92287"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/92267"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92287"
@@ -26,17 +26,17 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27623110804](https://github.com/openclaw/clownfish/actions/runs/27623110804)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666807968](https://github.com/openclaw/clownfish/actions/runs/27666807968)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: https://github.com/openclaw/openclaw/pull/92287
 
 ## Summary
 
-#92287 is the hydrated canonical fix candidate for #92267, but this worker should not merge or close yet. The PR is open, narrow, and editable, but merge gates are not satisfied because mergeability is unknown, the native Telegram proof check is failing, and there is no clean Codex /review merge preflight. #92267 is covered by #92287, but require_fix_before_close blocks closeout until the canonical fix lands.
+Hydrated state shows #92267 is a real source-level bug and #92287 is the best canonical fix path, but no merge or fixed-by-candidate closeout is safe in this run because the PR has a failing native Telegram proof check, unknown mergeability, and no clean Codex /review merge preflight.
 
 ## Impact
 
@@ -67,9 +67,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/92287
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92287 | keep_canonical | planned | canonical | Canonical fix candidate is clear, but merge gates and overlap ownership block merge from this cluster. |
-| #92267 | close_fixed_by_candidate | blocked | fixed_by_candidate | Covered by #92287, but closeout must wait for the canonical fix to merge. |
+| #92287 | keep_canonical | planned | canonical | #92287 is the canonical fix path, but failing proof check and missing merge preflight block merge automation. |
+| #92267 | close_fixed_by_candidate | blocked | fixed_by_candidate | The issue is covered by hydrated PR #92287, but fixed-by-candidate closeout must wait until the canonical fix merges or is otherwise proven present on current main. |
 
 ## Needs Human
 
-- #92287 merge/finalization remains blocked outside this cluster by a failing "Run agentic native Telegram proof" check, unknown mergeability, and missing Codex /review merge preflight.
+- Maintainer action is needed only for the blocked merge/closeout gate: #92287 has a failing `Run agentic native Telegram proof` check, mergeable_state is unknown, and there is no clean Codex /review merge preflight in the hydrated artifact.

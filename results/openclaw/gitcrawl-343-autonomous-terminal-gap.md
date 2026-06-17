@@ -2,17 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-343-autonomous-terminal-gap"
 mode: "autonomous"
-run_id: "27624136275"
-workflow_run_id: "27624136275"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27624136275"
-head_sha: "448224a5fbe97e588452ff54d356f827b93c9e5e"
+run_id: "27666807836"
+workflow_run_id: "27666807836"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27666807836"
+head_sha: "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-06-16T14:25:25.045Z"
+published_at: "2026-06-17T05:04:11.262Z"
 canonical: "https://github.com/openclaw/openclaw/issues/77981"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/77981"
 canonical_pr: null
-actions_total: 2
+actions_total: 3
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27624136275](https://github.com/openclaw/clownfish/actions/runs/27624136275)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27666807836](https://github.com/openclaw/clownfish/actions/runs/27666807836)
 
 Workflow conclusion: success
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/issues/77981
 
 ## Summary
 
-Kept #77981 open as the canonical product/feature request. The linked implementation PR #75165 is live and useful context, but it is an existing-overlap ref owned by another job and remains blocked by product/ownership review plus broad library-only feature scope, so this cluster should not close, merge, or open a replacement fix PR autonomously.
+Hydrated state shows #77981 is the live tracking issue in this cluster, with #75165 as a same-author implementation PR that is already an existing-overlap context ref. No close, merge, or fix-PR action is safe from this worker: the feature remains a product/ownership decision, #75165 is broad library groundwork with unresolved ClawSweeper review blockers, and current main still has only the existing maxPingPongTurns/REPLY_SKIP A2A behavior.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 3 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,9 +67,10 @@ Kept #77981 open as the canonical product/feature request. The linked implementa
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77981 | keep_canonical | planned | canonical | The issue is the best live canonical for the remaining product decision. It is not a duplicate or fixed-by-candidate closeout because #75165 is open and not merge-ready. |
-| #75165 | keep_related | skipped | related | #75165 is relevant implementation context for #77981 but is not an actionable mutation target for this cluster, and its remaining blockers are product/ownership and merge-preflight decisions. |
+| #77981 | keep_canonical | planned | canonical | Keep the feature tracking issue open; it is not a duplicate closeout candidate and the canonical implementation path has not landed. |
+| #75165 | keep_related | skipped | related | Context-only linked implementation PR; do not mutate or merge it from this cluster, and do not replace it with a new fix PR because the remaining work is a product/ownership decision rather than a narrow repair. |
+| cluster:gitcrawl-343-autonomous-terminal-gap | needs_human | planned | needs_human | Maintainer/product decision needed: accept #75165 as library-only groundwork, require a production A2A contract before landing, or split the feature into narrower owner-reviewed follow-up work. |
 
 ## Needs Human
 
-- Maintainer/product owner needs to decide whether #75165's library-only termination/GSAR groundwork is acceptable for OpenClaw, or whether #77981 should remain deferred until an owner-approved production A2A termination and trusted-evidence GSAR contract exists.
+- Decide the product/ownership path for the termination algebra and GSAR grounding feature: whether #75165 should land as library-only groundwork, be revised to include an owner-approved production A2A contract, or be split into narrower follow-up work.

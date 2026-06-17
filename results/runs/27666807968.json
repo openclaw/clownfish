@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-198-autonomous-terminal-gap",
+  "mode": "autonomous",
+  "run_id": "27666807968",
+  "workflow_run_id": "27666807968",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27666807968",
+  "head_sha": "1cfa357bb6e2e0dc9f37fd20ef7f7b69b41271f5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T04:57:51Z",
+  "workflow_updated_at": "2026-06-17T05:02:44Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-198-autonomous-terminal-gap.md",
+  "published_at": "2026-06-17T05:04:11.264Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92287",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/92267",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92287",
+  "summary": "Hydrated state shows #92267 is a real source-level bug and #92287 is the best canonical fix path, but no merge or fixed-by-candidate closeout is safe in this run because the PR has a failing native Telegram proof check, unknown mergeability, and no clean Codex /review merge preflight.",
+  "actions": [
+    {
+      "target": "#92287",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92287",
+      "candidate_fix": null,
+      "reason": "#92287 is the canonical fix path, but failing proof check and missing merge preflight block merge automation."
+    },
+    {
+      "target": "#92267",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92287",
+      "candidate_fix": "#92287",
+      "reason": "The issue is covered by hydrated PR #92287, but fixed-by-candidate closeout must wait until the canonical fix merges or is otherwise proven present on current main."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_fixed_by_candidate": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "Maintainer action is needed only for the blocked merge/closeout gate: #92287 has a failing `Run agentic native Telegram proof` check, mergeable_state is unknown, and there is no clean Codex /review merge preflight in the hydrated artifact."
+  ],
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#92267",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92287",
+      "candidate_fix": "#92287",
+      "title": null,
+      "idempotency_key": "gitcrawl-198-autonomous-terminal-gap:#92267:close_fixed_by_candidate:#92287:2026-06-17T050058Z",
+      "source_status": "blocked",
+      "source_reason": "The issue is covered by hydrated PR #92287, but fixed-by-candidate closeout must wait until the canonical fix merges or is otherwise proven present on current main.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null
+    }
+  ]
+}
