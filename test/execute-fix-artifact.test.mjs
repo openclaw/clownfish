@@ -290,7 +290,14 @@ test("execute-fix-artifact bounds and verifies contributor repair head fetches",
   assert.match(source, /name: "same_repo_head_ref"/);
   assert.match(source, /name: "fork_head_ref"/);
   assert.match(source, /remote: `https:\/\/github\.com\/\$\{pull\.head\.repo\.full_name\}\.git`/);
+  assert.match(source, /source_remote: true/);
   assert.match(source, /strategies\[\(attempt - 1\) % strategies\.length\]/);
+  assert.match(source, /function ensureContributorFetchRemote\(\{ targetDir, sourcePr, strategy \}\)/);
+  assert.match(source, /"remote", "add", remote, strategy\.remote/);
+  assert.match(source, /`remote\.\$\{remote\}\.promisor`, "true"/);
+  assert.match(source, /`remote\.\$\{remote\}\.partialclonefilter`, "blob:none"/);
+  assert.match(source, /"--filter=blob:none"/);
+  assert.match(source, /\["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"\]/);
   assert.match(source, /GIT_TERMINAL_PROMPT: "0"/);
   assert.match(source, /"credential\.interactive=false"/);
   assert.match(source, /"http\.lowSpeedLimit=1"/);

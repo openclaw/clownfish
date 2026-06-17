@@ -498,6 +498,7 @@ function fetchContributorPullHead({ targetDir, sourcePr, pull, branch }) {
       timeout_ms: timeoutMs,
     });
     try {
+      const remote = ensureContributorFetchRemote({ targetDir, sourcePr, strategy });
       run(
         "git",
         [
@@ -509,7 +510,8 @@ function fetchContributorPullHead({ targetDir, sourcePr, pull, branch }) {
           "http.lowSpeedTime=30",
           "fetch",
           "--no-tags",
-          strategy.remote,
+          "--filter=blob:none",
+          remote,
           `${strategy.ref}:${branch}`,
         ],
         {
@@ -582,8 +584,28 @@ function contributorHeadFetchStrategies({ sourcePr, pull }) {
       name: "fork_head_ref",
       remote: `https://github.com/${pull.head.repo.full_name}.git`,
       ref: sourceHeadRef,
+      source_remote: true,
     },
   ];
+}
+
+function ensureContributorFetchRemote({ targetDir, sourcePr, strategy }) {
+  if (!strategy.source_remote) return strategy.remote;
+
+  const remote = `projectclownfish-source-${sourcePr.number}`;
+  const existing = spawnSync("git", ["remote", "get-url", remote], {
+    cwd: targetDir,
+    env: process.env,
+    encoding: "utf8",
+  });
+  if (existing.status === 0) {
+    run("git", ["remote", "set-url", remote, strategy.remote], { cwd: targetDir });
+  } else {
+    run("git", ["remote", "add", remote, strategy.remote], { cwd: targetDir });
+  }
+  run("git", ["config", `remote.${remote}.promisor`, "true"], { cwd: targetDir });
+  run("git", ["config", `remote.${remote}.partialclonefilter`, "blob:none"], { cwd: targetDir });
+  return remote;
 }
 
 function isRetryableContributorFetchError(error) {
@@ -2330,10 +2352,16 @@ function ensureTargetCheckout(repo, targetDir) {
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(path.dirname(targetDir), { recursive: true });
     try {
-      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1"], { cwd: repoRoot(), env: readGhEnv() });
+      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], {
+        cwd: repoRoot(),
+        env: readGhEnv(),
+      });
     } catch (error) {
       if (readGhEnv().GH_TOKEN === ghEnv().GH_TOKEN) throw error;
-      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1"], { cwd: repoRoot(), env: ghEnv() });
+      run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], {
+        cwd: repoRoot(),
+        env: ghEnv(),
+      });
     }
     return;
   }
