@@ -743,6 +743,135 @@ test("review-results rejects fix artifacts when source job disallows fix PRs", (
   assert.match(result.stdout, /allow_fix_pr is not true/);
 });
 
+test("review-results verifies fix artifacts with a permission snapshot after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The archived plan proves this job permits a narrow fix PR."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+          maintainer_calibration: [],
+        },
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results rejects incomplete permission snapshots after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The permission snapshot is incomplete."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          maintainer_calibration: [],
+        },
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /fix actions require source job permissions/);
+});
+
+test("review-results enforces calibrated canonical finalization after source job removal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      canonical_pr: "#1",
+    },
+    {
+      job: calibratedFixEnabledJob(),
+      plan: {
+        source_job_permissions: {
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+          maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
+        },
+        items: [
+          {
+            ref: "#1",
+            kind: "pull_request",
+            state: "open",
+            updated_at: "2026-06-18T00:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#1 calibrated canonical PR requires either a planned merge action with merge_preflight or a planned fix action/);
+});
+
 function makeResultDir(overrides, options = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-review-"));
   const result = {
@@ -825,5 +954,29 @@ allow_fix_pr: true
 ---
 
 # Fix-enabled job
+`;
+}
+
+function calibratedFixEnabledJob() {
+  return `---
+repo: openclaw/openclaw
+cluster_id: cluster-test
+mode: autonomous
+allowed_actions:
+  - comment
+  - label
+  - close
+  - fix
+  - raise_pr
+blocked_actions:
+  - force_push
+maintainer_calibration:
+  - "Require a planned fix or merge for an open canonical PR."
+candidates:
+  - "#1"
+allow_fix_pr: true
+---
+
+# Calibrated fix-enabled job
 `;
 }

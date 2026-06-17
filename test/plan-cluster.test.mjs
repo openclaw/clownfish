@@ -74,6 +74,8 @@ cluster_id: test-pr-hydration
 mode: plan
 allowed_actions:
   - comment
+maintainer_calibration:
+  - "Require a planned fix or merge for an open canonical PR."
 candidates:
   - "#2"
 canonical:
@@ -97,6 +99,13 @@ canonical:
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const plan = JSON.parse(fs.readFileSync(path.join(runDir, "cluster-plan.json"), "utf8"));
   const candidate = plan.items.find((item) => item.ref === "#2");
+  assert.deepEqual(plan.source_job_permissions, {
+    allowed_actions: ["comment"],
+    blocked_actions: [],
+    allow_fix_pr: false,
+    allow_merge: false,
+    maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
+  });
   assert.equal(candidate.kind, "pull_request");
   assert.match(candidate.hydration_error, /pull request #2: unexpected end of JSON input/);
   assert.match(candidate.pull_request.hydration_error, /pull request #2: unexpected end of JSON input/);

@@ -84,6 +84,7 @@ function reviewResult(resultPath) {
   const result = JSON.parse(fs.readFileSync(resultPath, "utf8"));
   const plan = readSiblingJson(runDir, "cluster-plan.json");
   const sourceJob = readSourceJob(plan);
+  const sourceJobPolicy = sourceJob?.frontmatter ?? readSourceJobPolicySnapshot(plan);
   const failures = [];
   const warnings = [];
   const itemByRef = buildItemMap(plan, result.repo);
@@ -256,7 +257,7 @@ function reviewResult(resultPath) {
   }
 
   if (fixActions.length > 0) {
-    validateFixActionPermissions(sourceJob, fixActions, failures);
+    validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
   }
   const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
@@ -264,7 +265,7 @@ function reviewResult(resultPath) {
     validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
   }
   validateCalibratedPrFinalization({
-    job: sourceJob,
+    sourceJobPolicy,
     result,
     itemByRef,
     fixActions,
@@ -307,8 +308,8 @@ function reviewResult(resultPath) {
   };
 }
 
-function validateCalibratedPrFinalization({ job, result, itemByRef, fixActions, mergeActions, failures }) {
-  if (!Array.isArray(job?.frontmatter?.maintainer_calibration) || job.frontmatter.maintainer_calibration.length === 0) {
+function validateCalibratedPrFinalization({ sourceJobPolicy, result, itemByRef, fixActions, mergeActions, failures }) {
+  if (!Array.isArray(sourceJobPolicy?.maintainer_calibration) || sourceJobPolicy.maintainer_calibration.length === 0) {
     return;
   }
   const canonicalPrRef = normalizeRef(result.canonical_pr ?? result.canonical);
@@ -464,21 +465,21 @@ function allowsSelfCanonicalCurrentMainCloseout(action) {
   return /\b(current main|already fixed|already covered|fixed-by-current-main|main already)\b/i.test(text);
 }
 
-function validateFixActionPermissions(job, fixActions, failures) {
+function validateFixActionPermissions(permissions, fixActions, failures) {
   if (fixActions.length === 0) return;
-  if (!job) {
+  if (!permissions) {
     failures.push("fix actions require source job permissions");
     return;
   }
 
-  const allowedActions = new Set(job.frontmatter.allowed_actions ?? []);
-  const blockedActions = new Set(job.frontmatter.blocked_actions ?? []);
+  const allowedActions = new Set(permissions.allowed_actions);
+  const blockedActions = new Set(permissions.blocked_actions);
   const blockers = [];
   if (!allowedActions.has("fix")) blockers.push("allowed_actions lacks fix");
   if (!allowedActions.has("raise_pr")) blockers.push("allowed_actions lacks raise_pr");
   if (blockedActions.has("fix")) blockers.push("blocked_actions includes fix");
   if (blockedActions.has("raise_pr")) blockers.push("blocked_actions includes raise_pr");
-  if (job.frontmatter.allow_fix_pr !== true) blockers.push("allow_fix_pr is not true");
+  if (permissions.allow_fix_pr !== true) blockers.push("allow_fix_pr is not true");
   if (blockers.length === 0) return;
 
   const actionList = fixActions
@@ -630,6 +631,24 @@ function readSourceJob(plan) {
   } catch {
     return null;
   }
+}
+
+function readSourceJobPolicySnapshot(plan) {
+  const permissions = plan?.source_job_permissions;
+  if (!permissions || typeof permissions !== "object" || Array.isArray(permissions)) return null;
+  if (
+    !Array.isArray(permissions.allowed_actions) ||
+    !permissions.allowed_actions.every((action) => typeof action === "string") ||
+    !Array.isArray(permissions.blocked_actions) ||
+    !permissions.blocked_actions.every((action) => typeof action === "string") ||
+    typeof permissions.allow_fix_pr !== "boolean" ||
+    typeof permissions.allow_merge !== "boolean" ||
+    !Array.isArray(permissions.maintainer_calibration) ||
+    !permissions.maintainer_calibration.every((entry) => typeof entry === "string")
+  ) {
+    return null;
+  }
+  return permissions;
 }
 
 function buildItemMap(plan, repo) {
