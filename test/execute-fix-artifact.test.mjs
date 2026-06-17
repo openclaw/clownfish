@@ -379,6 +379,220 @@ process.exit(9);
   assert.match(diagnostics.stderr, /api_key=\[redacted\]/);
 });
 
+test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics only after changed-test proof", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "baseline-diagnostic-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.deepEqual(run.report.changed_gate_baseline, {
+    command: "pnpm check:changed",
+    status: "failed",
+    eligible: true,
+    diagnostic_count: 1,
+    unparsed_failure_count: 0,
+    has_test_failure: false,
+  });
+  assert.equal(fs.readFileSync(run.targetedTestMarker, "utf8").trim(), "test:serial src/app.test.js");
+
+  const baselineDebug = JSON.parse(
+    fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
+  );
+  assert.equal(baselineDebug.phase, "baseline");
+  assert.equal(baselineDebug.exit_code, 1);
+});
+
+test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics for source-only repairs", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "baseline-source-only-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    editedFile: "src/app.js",
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+});
+
+test("execute-fix-artifact rejects changed-gate failures with new diagnostics", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "new-diagnostic-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: [
+      "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+      "src/app.test.js(2,1): error TS2322: Type 'string' is not assignable to type 'number'.",
+    ].join("\n"),
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.match(run.report.actions[0].reason, /validation command failed/);
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+});
+
+test("execute-fix-artifact rejects unchanged baseline diagnostics that touch changed files", () => {
+  const output = "src/app.test.js(2,1): error TS2322: Type 'string' is not assignable to type 'number'.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "changed-file-diagnostic-cluster",
+    baselineOutput: output,
+    postOutput: output,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.equal(run.report.changed_gate_baseline.eligible, true);
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+});
+
+test("execute-fix-artifact does not tolerate baseline test failures", () => {
+  const output = [
+    "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    "FAIL src/app.test.js",
+  ].join("\n");
+  const run = runBaselineChangedGateFixture({
+    clusterId: "baseline-test-failure-cluster",
+    baselineOutput: output,
+    postOutput: output,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.equal(run.report.changed_gate_baseline.eligible, false);
+  assert.equal(run.report.changed_gate_baseline.has_test_failure, true);
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+});
+
+test("execute-fix-artifact does not mask stalled changed-gate failures", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "stalled-changed-gate-cluster",
+    baselineOutput: "stalled Vitest process",
+    postOutput: "stalled Vitest process",
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.equal(run.report.changed_gate_baseline.eligible, false);
+  assert.equal(fs.existsSync(run.targetedTestMarker), false);
+});
+
+test("execute-fix-artifact keeps changed-gate failures strict when strict validation is enabled", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "strict-baseline-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    strict: true,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.equal(run.report.changed_gate_baseline, undefined);
+  const phases = fs
+    .readdirSync(path.join(run.fixture.runDir, "fix-executor-debug"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => JSON.parse(fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", file), "utf8")).phase);
+  assert.equal(phases.includes("baseline"), false);
+});
+
+function runBaselineChangedGateFixture({ clusterId, baselineOutput, postOutput, strict = false, editedFile = "src/app.test.js" }) {
+  const fixture = makeFixture();
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const targetedTestMarker = path.join(fixture.root, "targeted-test-command");
+
+  fs.writeFileSync(fixture.jobPath, jobFile(clusterId));
+  const result = resultFile(clusterId);
+  result.fix_artifact.validation_commands = ["pnpm check:changed"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+const cd = args[args.indexOf("--cd") + 1];
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : "";
+if (args.includes("--output-schema")) {
+  fs.writeFileSync(output, JSON.stringify({
+    status: "passed",
+    summary: "clean",
+    findings: [],
+    findings_addressed: true,
+    evidence: ["fixture review passed"],
+  }));
+  process.exit(0);
+}
+fs.writeFileSync(path.join(cd, ${JSON.stringify(editedFile)}), "export const fixture = true;\\n");
+fs.writeFileSync(path.join(cd, ".clownfish-edited"), "true\\n");
+if (output) fs.writeFileSync(output, "edited\\n");
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "pnpm"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+if (args[0] === "check:changed") {
+  const output = fs.existsSync(path.join(process.cwd(), ".clownfish-edited"))
+    ? ${JSON.stringify(postOutput)}
+    : ${JSON.stringify(baselineOutput)};
+  console.error(output);
+  process.exit(1);
+}
+if (args[0] === "test:serial") {
+  fs.writeFileSync(${JSON.stringify(targetedTestMarker)}, args.join(" "));
+  process.exit(0);
+}
+process.exit(0);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+      "--dry-run",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_FIX_STEP_TIMEOUT_MS: "120000",
+        CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: "0",
+        CLOWNFISH_FIX_REPORT_RESERVE_MS: "0",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
+        CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+        ...(strict ? { CLOWNFISH_TARGET_VALIDATION_MODE: "strict" } : {}),
+      },
+    },
+  );
+
+  return {
+    fixture,
+    child,
+    report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
+    targetedTestMarker,
+  };
+}
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-exec-"));
   const binDir = path.join(root, "bin");

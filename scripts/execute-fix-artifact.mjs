@@ -948,6 +948,10 @@ function editValidatePrepareMerge({
   refreshBaseBeforeReview = false,
   pushCheckpoint = null,
 }) {
+  const changedGateBaseline = captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch });
+  if (changedGateBaseline) {
+    report.changed_gate_baseline = changedGateBaseline.report;
+  }
   let producedChanges = allowExistingChanges;
   let previousSummary = "";
   const checkpointCommits = [];
@@ -1029,6 +1033,7 @@ function editValidatePrepareMerge({
     allowReviewFixes,
     refreshBaseBeforeReview,
     branch,
+    changedGateBaseline,
     onReviewFix: (attempt, reviewFix) => {
       const checkpoint = commitCheckpointIfNeeded({
         targetDir,
@@ -1396,13 +1401,14 @@ function validateAndReviewLoop({
   allowReviewFixes = true,
   refreshBaseBeforeReview = false,
   branch = null,
+  changedGateBaseline = null,
   onReviewFix = null,
 }) {
   let lastReview = null;
   let validationCommands = [];
   for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
     noteFixStage("validation_start", { mode, attempt });
-    validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch);
+    validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch, changedGateBaseline);
     runDiffCheck({ targetDir, baseBranch });
     noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length });
     if (refreshBaseBeforeReview && branch && refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
@@ -2098,7 +2104,7 @@ function setupGitIdentity(cwd) {
   run("git", ["config", "user.email", process.env.CLOWNFISH_GIT_USER_EMAIL ?? "projectclownfish@users.noreply.github.com"], { cwd });
 }
 
-function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
+function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH, changedGateBaseline = null) {
   ensureMergeBaseAvailable({ targetDir: cwd, baseBranch });
   const validationEnv = targetValidationEnv();
   const executed = [];
@@ -2113,7 +2119,7 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
         executed.push(rendered);
         noteFixStage("validation_command_complete", { command: rendered });
       } catch (error) {
-        const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch });
+        const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch, changedGateBaseline });
         if (fallbackCommands.length > 0) {
           for (const fallbackParts of fallbackCommands) {
             const fallbackRendered = fallbackParts.join(" ");
@@ -2137,7 +2143,7 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
   return executed;
 }
 
-function runValidationCommand(parts, { cwd, env, rendered, fallback = false }) {
+function runValidationCommand(parts, { cwd, env, rendered, fallback = false, phase = "validation", allowFailure = false }) {
   const timeoutMs = remainingFixExecutionMs(rendered, { minMs: 10 * 1000 });
   const startedAt = new Date().toISOString();
   const startedAtMs = Date.now();
@@ -2159,6 +2165,7 @@ function runValidationCommand(parts, { cwd, env, rendered, fallback = false }) {
     command: rendered,
     argv: parts,
     fallback,
+    phase,
     started_at: startedAt,
     duration_ms: Date.now() - startedAtMs,
     timeout_ms: timeoutMs,
@@ -2173,14 +2180,32 @@ function runValidationCommand(parts, { cwd, env, rendered, fallback = false }) {
     stderr_original_chars: stderr.originalChars,
     stderr_truncated: stderr.truncated,
   });
+  const diagnosticOutput = redactValidationDebugText(`${child.stderr ?? ""}\n${child.stdout ?? ""}`);
+  let failure = null;
   if (child.error?.code === "ETIMEDOUT") {
-    throw new Error(`${rendered} timed out after ${timeoutMs}ms before fix execution deadline`);
-  }
-  if (child.error) throw child.error;
-  if (child.status !== 0) {
+    failure = new Error(`${rendered} timed out after ${timeoutMs}ms before fix execution deadline`);
+    failure.validation_result = {
+      kind: "timeout",
+      diagnostic_output: diagnosticOutput,
+    };
+  } else if (child.error) {
+    failure = child.error;
+    failure.validation_result = {
+      kind: "process_error",
+      diagnostic_output: diagnosticOutput,
+    };
+  } else if (child.status !== 0) {
     const detail = child.stderr || child.stdout || `${rendered} exited ${child.status}`;
-    throw new Error(String(detail).trim());
+    failure = new Error(redactValidationDebugText(String(detail).trim()));
+    failure.validation_result = {
+      kind: "exit_failure",
+      diagnostic_output: diagnosticOutput,
+    };
   }
+  if (failure && !allowFailure) {
+    throw failure;
+  }
+  return { ok: !failure, failure };
 }
 
 function writeValidationDebugRecord(record) {
@@ -2269,23 +2294,179 @@ function packageScriptRequirement(parts) {
   return { name: script, command: ["pnpm", script].join(" ") };
 }
 
-function validationFallbackCommands({ parts, error, cwd, baseBranch }) {
+function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAULT_BASE_BRANCH }) {
+  if (strictTargetValidation) return null;
+  const resolvedCommands = uniqueStrings(
+    (fixArtifact.validation_commands ?? []).flatMap((command) =>
+      resolveAllowedValidationCommands(command, targetDir, baseBranch).map((parts) => parts.join(" ")),
+    ),
+  );
+  if (!resolvedCommands.includes("pnpm check:changed")) return null;
+
+  noteFixStage("validation_baseline_start", { command: "pnpm check:changed" });
+  const outcome = runValidationCommand(["pnpm", "check:changed"], {
+    cwd: targetDir,
+    env: targetValidationEnv(),
+    rendered: "pnpm check:changed",
+    phase: "baseline",
+    allowFailure: true,
+  });
+  if (outcome.ok) {
+    noteFixStage("validation_baseline_complete", { status: "passed" });
+    return {
+      status: "passed",
+      diagnostics: [],
+      report: {
+        command: "pnpm check:changed",
+        status: "passed",
+        diagnostic_count: 0,
+      },
+    };
+  }
+
+  const failure = outcome.failure?.validation_result;
+  if (failure?.kind !== "exit_failure") throw outcome.failure;
+  const diagnostics = changedGateDiagnostics(failure.diagnostic_output);
+  const eligible =
+    diagnostics.items.length > 0 && !diagnostics.has_test_failure && diagnostics.unparsed_failure_lines.length === 0;
+  noteFixStage("validation_baseline_complete", {
+    status: "failed",
+    eligible,
+    diagnostic_count: diagnostics.items.length,
+  });
+  return {
+    status: "failed",
+    diagnostics,
+    report: {
+      command: "pnpm check:changed",
+      status: "failed",
+      eligible,
+      diagnostic_count: diagnostics.items.length,
+      unparsed_failure_count: diagnostics.unparsed_failure_lines.length,
+      has_test_failure: diagnostics.has_test_failure,
+    },
+  };
+}
+
+function validationFallbackCommands({ parts, error, cwd, baseBranch, changedGateBaseline }) {
   if (strictTargetValidation) return [];
   if (parts[0] !== "pnpm" || parts[1] !== "check:changed" || parts.length !== 2) return [];
   if (/no merge base/i.test(String(error?.message ?? ""))) {
     ensureMergeBaseAvailable({ targetDir: cwd, baseBranch });
     return [parts];
   }
-  if (!isChangedGateStall(error)) return [];
   const changedTests = changedTestFiles(cwd, baseBranch);
-  return [
-    ["git", "diff", "--check", `origin/${baseBranch}...HEAD`],
-    ...(changedTests.length > 0 ? [["pnpm", "test:serial", ...changedTests]] : []),
-  ];
+  if (canTolerateUnchangedChangedGateFailure({ error, cwd, baseBranch, changedGateBaseline })) {
+    return [
+      ["git", "diff", "--check", `origin/${baseBranch}...HEAD`],
+      ...(changedTests.length > 0 ? [["pnpm", "test:serial", ...changedTests]] : []),
+    ];
+  }
+  return [];
 }
 
-function isChangedGateStall(error) {
-  return /no output for \d+ms|terminating stalled Vitest|stalled Vitest process/i.test(String(error?.message ?? ""));
+function canTolerateUnchangedChangedGateFailure({ error, cwd, baseBranch, changedGateBaseline }) {
+  if (!changedGateBaseline?.report?.eligible) return false;
+  const failure = error?.validation_result;
+  if (failure?.kind !== "exit_failure") return false;
+
+  const currentDiagnostics = changedGateDiagnostics(failure.diagnostic_output);
+  if (
+    currentDiagnostics.items.length === 0 ||
+    currentDiagnostics.has_test_failure ||
+    currentDiagnostics.unparsed_failure_lines.length > 0 ||
+    !sameDiagnosticSet(changedGateBaseline.diagnostics.items, currentDiagnostics.items)
+  ) {
+    return false;
+  }
+
+  const changedFiles = new Set(gitChangedFiles(cwd, baseBranch).map(normalizeDiagnosticFile));
+  return !currentDiagnostics.items.some((diagnostic) => changedFiles.has(normalizeDiagnosticFile(diagnostic.file)));
+}
+
+function changedGateDiagnostics(output) {
+  const items = [];
+  const unparsedFailureLines = [];
+  let hasTestFailure = false;
+  for (const rawLine of String(output ?? "").split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const diagnostic = parseChangedGateDiagnostic(line);
+    if (diagnostic) {
+      items.push(diagnostic);
+      continue;
+    }
+    if (isTestFailureLine(line)) {
+      hasTestFailure = true;
+      continue;
+    }
+    if (isPotentialFailureLine(line) && !isKnownChangedGateFailureSummary(line)) {
+      unparsedFailureLines.push(line);
+    }
+  }
+  return {
+    items,
+    has_test_failure: hasTestFailure,
+    unparsed_failure_lines: uniqueStrings(unparsedFailureLines),
+  };
+}
+
+function parseChangedGateDiagnostic(line) {
+  const typescript = line.match(
+    /^(.+?\.[cm]?[jt]sx?)\((\d+),(\d+)\):\s*(?:error|warning)\s+([A-Z]+\d+):\s*(.+)$/i,
+  );
+  if (typescript) {
+    return {
+      file: typescript[1],
+      line: Number(typescript[2]),
+      column: Number(typescript[3]),
+      code: typescript[4].toUpperCase(),
+      message: typescript[5].trim(),
+    };
+  }
+  const colon = line.match(/^(.+?\.[cm]?[jt]sx?):(\d+):(\d+):\s*(?:error|warning)\s*(.*)$/i);
+  if (!colon) return null;
+  return {
+    file: colon[1],
+    line: Number(colon[2]),
+    column: Number(colon[3]),
+    code: "",
+    message: colon[4].trim(),
+  };
+}
+
+function isTestFailureLine(line) {
+  return /\b(?:assertionerror|test files?|tests?\s+\d+|vitest|jest|mocha|tap|test failed)\b|^(?:fail|x|\u2715|\u00d7)\b/im.test(line);
+}
+
+function isPotentialFailureLine(line) {
+  return /\b(?:error|fail(?:ed|ure)?|exception|assertion)\b/i.test(line);
+}
+
+function isKnownChangedGateFailureSummary(line) {
+  return /^(?:[>\u2713\u2714]|\s)*(?:ELIFECYCLE|ERR_PNPM_|command failed with exit code|found \d+ errors?|failed with exit code)/i.test(
+    line,
+  );
+}
+
+function sameDiagnosticSet(left, right) {
+  const leftSignatures = left.map(changedGateDiagnosticSignature).sort();
+  const rightSignatures = right.map(changedGateDiagnosticSignature).sort();
+  return leftSignatures.length === rightSignatures.length && leftSignatures.every((value, index) => value === rightSignatures[index]);
+}
+
+function changedGateDiagnosticSignature(diagnostic) {
+  return [
+    normalizeDiagnosticFile(diagnostic.file),
+    diagnostic.line,
+    diagnostic.column,
+    diagnostic.code,
+    diagnostic.message,
+  ].join("\u0000");
+}
+
+function normalizeDiagnosticFile(file) {
+  return String(file ?? "").replace(/\\/g, "/").replace(/^\.\//, "");
 }
 
 function targetValidationEnv() {
