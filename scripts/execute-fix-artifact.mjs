@@ -2134,6 +2134,7 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
             executed.push(fallbackRendered);
             noteFixStage("validation_command_complete", { command: fallbackRendered, fallback: true });
           }
+          if (!executed.includes(rendered)) executed.push(rendered);
           continue;
         }
         throw new Error(`validation command failed (${parts.join(" ")}): ${compactText(error.message, 1200)}`);

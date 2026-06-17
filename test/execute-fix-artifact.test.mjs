@@ -420,6 +420,19 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
   assert.equal(fs.existsSync(run.targetedTestMarker), false);
 });
 
+test("execute-fix-artifact does not repeat a tolerated changed gate for normalized validation commands", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "deduplicated-changed-gate-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    validationCommands: ["pnpm test:serial src/app.test.js", "pnpm check:changed"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "2");
+});
+
 test("execute-fix-artifact rejects changed-gate failures with new diagnostics", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "new-diagnostic-cluster",
@@ -499,15 +512,23 @@ test("execute-fix-artifact keeps changed-gate failures strict when strict valida
   assert.equal(phases.includes("baseline"), false);
 });
 
-function runBaselineChangedGateFixture({ clusterId, baselineOutput, postOutput, strict = false, editedFile = "src/app.test.js" }) {
+function runBaselineChangedGateFixture({
+  clusterId,
+  baselineOutput,
+  postOutput,
+  strict = false,
+  editedFile = "src/app.test.js",
+  validationCommands = ["pnpm check:changed"],
+}) {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
   const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
   const targetedTestMarker = path.join(fixture.root, "targeted-test-command");
+  const changedGateMarker = path.join(fixture.root, "check-changed-calls");
 
   fs.writeFileSync(fixture.jobPath, jobFile(clusterId));
   const result = resultFile(clusterId);
-  result.fix_artifact.validation_commands = ["pnpm check:changed"];
+  result.fix_artifact.validation_commands = validationCommands;
   fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
   writeExecutable(
     path.join(fixture.binDir, "codex"),
@@ -539,6 +560,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const args = process.argv.slice(2);
 if (args[0] === "check:changed") {
+  const marker = ${JSON.stringify(changedGateMarker)};
+  const count = fs.existsSync(marker) ? Number(fs.readFileSync(marker, "utf8")) : 0;
+  fs.writeFileSync(marker, String(count + 1));
   const output = fs.existsSync(path.join(process.cwd(), ".clownfish-edited"))
     ? ${JSON.stringify(postOutput)}
     : ${JSON.stringify(baselineOutput)};
@@ -592,6 +616,7 @@ process.exit(0);
     child,
     report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
     targetedTestMarker,
+    changedGateMarker,
   };
 }
 
