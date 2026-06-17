@@ -1,0 +1,286 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-93897-live-pr-inventory-20260617t081753-004-20260617a",
+  "mode": "autonomous",
+  "run_id": "27709504231",
+  "workflow_run_id": "27709504231",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27709504231",
+  "head_sha": "fef40cd52e1390849c35ee16ac1d2f5cea81e246",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T18:03:51Z",
+  "workflow_updated_at": "2026-06-17T18:24:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-93897-live-pr-inventory-20260617t081753-004-20260617a.md",
+  "published_at": "2026-06-17T18:25:40.658Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93897",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93891",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93897",
+  "summary": "Current main at d371112c still has the lossy legacy openai-codex plugin-entry rewrite: src/commands/doctor/shared/legacy-config-migrations.runtime.providers.ts deletes plugins.entries.openai-codex after only copying it when plugins.entries.openai is absent. PR #93897 is the canonical repair lane and is maintainer-editable, but it is not merge-ready because review comments ask for accurate merge messages, conflict warnings, tests, and real behavior proof is failing. Plan repair on the contributor branch and keep unrelated inventory items open/non-mutating.",
+  "actions": [
+    {
+      "target": "#93897",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93897",
+      "candidate_fix": "#93897",
+      "reason": "Repair the useful contributor branch rather than replacing it; the branch is narrow and maintainer-editable, but unresolved review findings and failing proof block merge."
+    },
+    {
+      "target": "cluster:repair-93897-live-pr-inventory-20260617t081753-004-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93897",
+      "candidate_fix": "#93897",
+      "reason": "Produce an executable narrow repair artifact for the existing canonical PR branch."
+    },
+    {
+      "target": "#93891",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93897",
+      "candidate_fix": "#93897",
+      "reason": "Already closed source issue for the canonical repair lane."
+    },
+    {
+      "target": "#93894",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and owner surface from #93897."
+    },
+    {
+      "target": "#93900",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs boundary work is unrelated to the openai-codex plugin-entry migration bug."
+    },
+    {
+      "target": "#93901",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Telegram channel fix."
+    },
+    {
+      "target": "#93910",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate diagnostics config product surface."
+    },
+    {
+      "target": "#93817",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent memory-threshold issue."
+    },
+    {
+      "target": "#93884",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs issue."
+    },
+    {
+      "target": "#93886",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent plugin loader/package boundary issue."
+    },
+    {
+      "target": "#86015",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context item."
+    },
+    {
+      "target": "#87441",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent memory-threshold product decision item."
+    },
+    {
+      "target": "#90420",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related migration family, separate root cause."
+    },
+    {
+      "target": "#91099",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related migration/auth area, separate root cause."
+    },
+    {
+      "target": "#91352",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related migration family, separate implementation lane."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 2,
+    "keep_independent": 8,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 13,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93897",
+    "source_refs": [
+      "#93897",
+      "#93891",
+      "#86015",
+      "#93894",
+      "#93900",
+      "#93901",
+      "#93910",
+      "#87441",
+      "#90420",
+      "#91099",
+      "#91352",
+      "#93817",
+      "#93884",
+      "#93886"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #93897 on the maintainer-editable contributor branch so legacy plugins.entries.openai-codex is merged into plugins.entries.openai without silent data loss, reports merge vs rewrite accurately, and warns when true key conflicts require manual action.",
+    "pr_title": "fix(doctor): preserve legacy openai-codex plugin entry fields",
+    "pr_body": "## Summary\n- Repair the legacy `plugins.entries.openai-codex` migration so dual `openai` and `openai-codex` entries preserve non-conflicting legacy fields.\n- Report the dual-key path as a merge into `plugins.entries.openai`, while keeping the legacy-only path as a rewrite.\n- Surface true key conflicts as warning/change messages requiring manual review instead of silently dropping legacy values.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/93897 by @lsr911.\nReporter and review context: https://github.com/openclaw/openclaw/issues/93891 by @Nas01010101.\n\n## Verification\n- `node scripts/run-vitest.mjs src/commands/doctor/shared/legacy-config-migrate.test.ts`\n- `pnpm check:changed`\n- Real behavior proof for #93897 after the branch repair.",
+    "likely_files": [
+      "src/commands/doctor/shared/legacy-config-migrations.runtime.providers.ts",
+      "src/commands/doctor/shared/legacy-config-migrate.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/commands/doctor/shared/legacy-config-migrate.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @lsr911 as the author of source PR https://github.com/openclaw/openclaw/pull/93897.",
+      "Preserve reporter/review credit for @Nas01010101 from https://github.com/openclaw/openclaw/issues/93891 and the review comments on #93897.",
+      "PR body or final proof comment should state that Clownfish repaired the existing contributor branch rather than replacing it."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-93897-live-pr-inventory-20260617t081753-004-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93897",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "602474c7ebe218848d610511a298aacdde5b252d",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#93897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
