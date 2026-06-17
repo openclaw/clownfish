@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-90468-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27710804119",
+  "workflow_run_id": "27710804119",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27710804119",
+  "head_sha": "80f2057262e82e8e3a0d7a11c1b20c4711f99c85",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-17T18:26:47Z",
+  "workflow_updated_at": "2026-06-17T18:50:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+  "published_at": "2026-06-17T18:51:37.355Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/90468",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90468",
+  "summary": "PR #90468 is the canonical repair target. It is open, maintainer-editable, narrow, non-security, and still needs a repair pass for the prompt-template argument parser before any merge path can be considered.",
+  "actions": [
+    {
+      "target": "#90468",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90468",
+      "candidate_fix": "#90468",
+      "reason": "The PR targets a real current-main parser bug and is the best canonical path because the branch is maintainer-editable and narrow, but it still requires a repair pass plus fresh branch verification before merge."
+    },
+    {
+      "target": "cluster:repair-90468-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90468",
+      "candidate_fix": "#90468",
+      "reason": "A complete executable repair artifact is safe: the affected surface is narrow, the unresolved review concern is concrete, and contributor credit can be preserved by updating the existing maintainer-editable PR branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90468",
+    "source_refs": [
+      "#90468"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #90468 on the contributor branch by keeping prose apostrophes literal while preserving documented shell-style single and double quote parsing, including valid single-quote concatenation.",
+    "pr_title": "fix(agents): keep apostrophes in prompt-template arguments",
+    "pr_body": "## Summary\n- repair the prompt-template argument parser from #90468 so ordinary apostrophes and possessives stay literal\n- preserve shell-style single/double quoted spans and valid single-quote concatenation such as `foo'bar baz' next`\n- add focused parser regressions for contractions, plural possessives, standalone quoted spans, and concatenation\n\n## Credit\nThis repairs and carries forward @yetval's source PR: https://github.com/openclaw/openclaw/pull/90468.\n\n## Verification\n- `pnpm test packages/agent-core/src/harness/prompt-templates.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "packages/agent-core/src/harness/prompt-template-arguments.ts",
+      "packages/agent-core/src/harness/prompt-templates.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test packages/agent-core/src/harness/prompt-templates.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @yetval as the original PR author.",
+      "Keep https://github.com/openclaw/openclaw/pull/90468 as the source PR and carry the apostrophe parsing fix forward on that branch.",
+      "Release-note context should credit the user-facing parser fix without editing CHANGELOG.md directly."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/90468",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "eee751c6b3514f56a8bc18b98d92bc29acf9bbf9",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#90468",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#90468",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}

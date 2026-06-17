@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-90468-single-replan-wave-20260617"
 mode: "autonomous"
-run_id: "27705773277"
-workflow_run_id: "27705773277"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27705773277"
-head_sha: "a35c8907ec29188d7b2eb3a504f94102b6ac8592"
+run_id: "27710804119"
+workflow_run_id: "27710804119"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27710804119"
+head_sha: "80f2057262e82e8e3a0d7a11c1b20c4711f99c85"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T17:03:20.586Z"
+published_at: "2026-06-17T18:51:37.355Z"
 canonical: "https://github.com/openclaw/openclaw/pull/90468"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/90468"
@@ -17,16 +17,16 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # repair-90468-single-replan-wave-20260617
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27705773277](https://github.com/openclaw/clownfish/actions/runs/27705773277)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27710804119](https://github.com/openclaw/clownfish/actions/runs/27710804119)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/90468
 
 ## Summary
 
-Validator repair: #90468 is routed as the exact security-sensitive PR target. Because the only executable fix artifact would repair that same quarantined contributor PR branch, the cluster-level fix lane is downgraded to needs_human rather than emitting a placeholder or unsafe fix action.
+PR #90468 is the canonical repair target. It is open, maintainer-editable, narrow, non-security, and still needs a repair pass for the prompt-template argument parser before any merge path can be considered.
 
 ## Impact
 
@@ -47,35 +47,73 @@ Validator repair: #90468 is routed as the exact security-sensitive PR target. Be
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
+
+## Repair Candidate
+
+```json
+{
+  "target": "#90468",
+  "source_refs": [
+    "#90468"
+  ],
+  "repair_strategy": "repair_contributor_branch",
+  "planned_actions": [
+    "fix_needed",
+    "build_fix_artifact"
+  ],
+  "summary": "Repair #90468 on the contributor branch by keeping prose apostrophes literal while preserving documented shell-style single and double quote parsing, including valid single-quote concatenation.",
+  "pr_title": "fix(agents): keep apostrophes in prompt-template arguments",
+  "pr_body": "## Summary\n- repair the prompt-template argument parser from #90468 so ordinary apostrophes and possessives stay literal\n- preserve shell-style single/double quoted spans and valid single-quote concatenation such as `foo'bar baz' next`\n- add focused parser regressions for contractions, plural possessives, standalone quoted spans, and concatenation\n\n## Credit\nThis repairs and carries forward @yetval's source PR: https://github.com/openclaw/openclaw/pull/90468.\n\n## Verification\n- `pnpm test packages/agent-core/src/harness/prompt-templates.test.ts`\n- `pnpm check:changed`",
+  "likely_files": [
+    "packages/agent-core/src/harness/prompt-template-arguments.ts",
+    "packages/agent-core/src/harness/prompt-templates.test.ts"
+  ],
+  "validation_commands": [
+    "pnpm test packages/agent-core/src/harness/prompt-templates.test.ts",
+    "pnpm check:changed"
+  ],
+  "credit_notes": [
+    "Preserve contributor credit for @yetval as the original PR author.",
+    "Keep https://github.com/openclaw/openclaw/pull/90468 as the source PR and carry the apostrophe parsing fix forward on that branch.",
+    "Release-note context should credit the user-facing parser fix without editing CHANGELOG.md directly."
+  ],
+  "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
+  "security_sensitive": false,
+  "security_routed_refs": [],
+  "needs_human": [],
+  "repair_status": "pushed",
+  "terminal": true
+}
+```
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/90468 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #90468 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #90468 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90468 | route_security | planned | security_sensitive | Quarantine the exact PR ref required by the validator and central security policy without mutating GitHub. |
-| cluster:repair-90468-single-replan-wave-20260617 | needs_human | blocked | needs_human | Human security triage must decide whether #90468 can return to ordinary contributor-branch repair before Clownfish emits an executable fix artifact. |
+| #90468 | fix_needed | planned | canonical | The PR targets a real current-main parser bug and is the best canonical path because the branch is maintainer-editable and narrow, but it still requires a repair pass plus fresh branch verification before merge. |
+| cluster:repair-90468-single-replan-wave-20260617 | build_fix_artifact | planned |  | A complete executable repair artifact is safe: the affected surface is narrow, the unresolved review concern is concrete, and contributor credit can be preserved by updating the existing maintainer-editable PR branch. |
 
 ## Needs Human
 
-- Security triage decision needed for #90468 before any repair of its contributor branch or replacement fix path is safe.
+- none
