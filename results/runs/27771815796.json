@@ -1,0 +1,171 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-93869-qr-ci",
+  "mode": "autonomous",
+  "run_id": "27771815796",
+  "workflow_run_id": "27771815796",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27771815796",
+  "head_sha": "ffed78d5fa978e7d25e55906508f693c6819092e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T15:50:37Z",
+  "workflow_updated_at": "2026-06-18T16:23:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-93869-qr-ci.md",
+  "published_at": "2026-06-18T16:24:59.513Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93869",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93869",
+  "summary": "Prepared a narrow local repair for canonical PR #93869 on `clownfish/repair-51868-qr-rendering`. The patch keeps block-art copy encoding in `ui/src/ui/markdown.ts`, decodes only marked block-art payloads in `ui/src/ui/views/chat.ts`, removes the separate copy-payload helper, and adds normal plus truncated QR copy coverage. No GitHub comment, label, close, merge, push, or replacement PR was performed.",
+  "actions": [
+    {
+      "target": "#93869",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93869",
+      "candidate_fix": null,
+      "reason": "#93869 is the writable canonical replacement path for the QR/block-art rendering and copy-whitespace fix; the branch needs this local repair before any later push/finalization."
+    },
+    {
+      "target": "cluster:repair-93869-qr-ci",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93869",
+      "candidate_fix": "#93869",
+      "reason": "Executable branch repair artifact is ready for the applicator to commit and push to the existing #93869 branch."
+    },
+    {
+      "target": "#51868",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93869",
+      "candidate_fix": "#93869",
+      "reason": "Source PR is historical proof and attribution context; #93869 remains the canonical repair path."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93869",
+    "source_refs": [
+      "#93869",
+      "#51868"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing #93869 branch so QR/block-art copy payloads preserve leading quiet-zone spaces after DOM parsing, including truncated block art, without adding a separate serialized-state helper surface.",
+    "pr_title": "UI: render half-block QR output in web chat",
+    "pr_body": "## Summary\n- Repairs the existing #93869 branch so block-art `data-code` payloads use a deterministic marked representation that survives DOM parsing.\n- Keeps encoding local to `ui/src/ui/markdown.ts` and decodes only marked block-art payloads in `ui/src/ui/views/chat.ts`, while existing raw copy payloads remain supported.\n- Adds coverage for normal and truncated QR/block-art copy behavior so leading quiet-zone spaces survive both rendered DOM payload handling and the delegated clipboard handler.\n\n## Credit\nCarries forward the original fix idea, reproduction, and proof from @emg110 in https://github.com/openclaw/openclaw/pull/51868.\n\n## Validation\n- `node scripts/run-vitest.mjs ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts -- --reporter=verbose`\n- `git diff --check`\n- `pnpm check:changed`\n- `.agents/skills/autoreview/scripts/autoreview --mode local`",
+    "likely_files": [
+      "ui/src/ui/markdown.ts",
+      "ui/src/ui/views/chat.ts",
+      "ui/src/ui/markdown.test.ts",
+      "ui/src/ui/views/chat.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts -- --reporter=verbose",
+      "git diff --check",
+      "pnpm check:changed",
+      ".agents/skills/autoreview/scripts/autoreview --mode local"
+    ],
+    "credit_notes": [
+      "Carry forward @emg110's original fix idea, reproduction, and proof from https://github.com/openclaw/openclaw/pull/51868.",
+      "Do not edit, close, label, or otherwise alter #51868 in this repair lane.",
+      "Existing #93869 PR body already credits @emg110; preserve that attribution when pushing the repair commit."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-93869-qr-ci.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93869",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "d265b68fac1f57879dd9b7a96c5b58912b776888",
+      "checkpoint_commits": [
+        "85332b401e7edecc1fae20db1e7422b3ad51e970",
+        "d265b68fac1f57879dd9b7a96c5b58912b776888"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93869",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#93869",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
