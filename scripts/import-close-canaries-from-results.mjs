@@ -275,10 +275,19 @@ function securityDropReason(item, target, canonical) {
   const signals = [];
   if (isSecuritySensitive(target)) signals.push("target");
   if (isSecuritySensitive(canonical)) signals.push("canonical");
-  if (hasSecuritySensitiveText(item.classification, item.reason, item.comment, item.evidence)) {
+  if (hasSecuritySensitiveText(...actionSecurityContext(item))) {
     signals.push("planned close context");
   }
   return signals.length > 0 ? `security signal in ${signals.join(", ")}` : "";
+}
+
+function actionSecurityContext(item) {
+  return [item.classification, item.reason, item.comment, ...(item.evidence ?? [])].map((value) =>
+    String(value ?? "").replace(
+      /\bsecurity[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)\b/gi,
+      "non-security classification",
+    ),
+  );
 }
 
 function writeJob(item) {
@@ -350,7 +359,7 @@ function writeJob(item) {
     `- canonical/candidate: ${item.canonical} ${item.canonicalLive.title}`,
     `- canonical/candidate live state at generation: ${item.canonicalLive.state}`,
     `- canonical/candidate mergedAt at generation: ${item.canonicalLive.mergedAt ?? "unknown"}`,
-    `- source result: ${item.resultFile}`,
+    `- source result: ProjectClownfish workflow run ${item.runId}`,
     "",
     "## Instructions",
     "",

@@ -112,6 +112,61 @@ test("import-close-canaries writes open canonical duplicate closeouts", () => {
   assert.match(job, /Do not use `candidate_fix` for open canonical refs/);
 });
 
+test("import-close-canaries ignores explicit non-security action evidence", () => {
+  const fixture = makeFixture();
+  fs.writeFileSync(
+    path.join(fixture.results, "129.json"),
+    `${JSON.stringify(
+      {
+        cluster_id: "source-cluster-non-security",
+        actions: [
+          {
+            target: "#92164",
+            action: "close_duplicate",
+            status: "planned",
+            canonical: "#92341",
+            classification: "duplicate",
+            reason: "The target duplicates the open canonical issue.",
+            evidence: ["Hydrated artifact marks security_sensitive=false."],
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  writeFakeGhx(fixture.bin);
+
+  const run = spawnSync(
+    process.execPath,
+    [
+      "scripts/import-close-canaries-from-results.mjs",
+      "--results-dir",
+      fixture.results,
+      "--out",
+      fixture.inbox,
+      "--existing-dir",
+      fixture.existing,
+      "--suffix",
+      "non-security",
+      "--limit",
+      "1",
+      "--json",
+    ],
+    {
+      cwd: repoRoot,
+      env: { ...process.env, PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}` },
+      encoding: "utf8",
+    },
+  );
+
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  assert.deepEqual(JSON.parse(run.stdout).candidates.map((candidate) => candidate.target), ["#92164"]);
+  const job = fs.readFileSync(path.join(fixture.inbox, "pr-close-canary-92164-non-security.md"), "utf8");
+  assert.match(job, /source result: ProjectClownfish workflow run 129/);
+  assert.doesNotMatch(job, /clownfish-close-canary-/);
+});
+
 test("import-close-canaries prioritizes newly published results before stale lexical run ids", () => {
   const fixture = makeFixture();
   for (let index = 1; index <= 5; index += 1) {
