@@ -1,0 +1,186 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-69954-autonomous-repair-wave-20260617a",
+  "mode": "autonomous",
+  "run_id": "27744912799",
+  "workflow_run_id": "27744912799",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27744912799",
+  "head_sha": "5e4579520d2c0f67afd482b6e40b12f7d4a3caa3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T07:51:13Z",
+  "workflow_updated_at": "2026-06-18T08:05:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-69954-autonomous-repair-wave-20260617a.md",
+  "published_at": "2026-06-18T08:06:46.816Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69954",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/50248",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69954",
+  "summary": "Built an executable repair plan for PR #69954. Current main still has the stale sessionFile cleanup bug, PR #69954 is the useful canonical contributor PR, but it is dirty against current main and has an unresolved mutation-accounting bot finding, so the next step is repair_contributor_branch rather than merge or closeout.",
+  "actions": [
+    {
+      "target": "#50248",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#50248",
+      "candidate_fix": "#69954",
+      "reason": "Keep the canonical issue open until #69954 or an equivalent fix lands."
+    },
+    {
+      "target": "#69954",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69954",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch by porting the narrow fallback/metadata-repair behavior to the current cleanup-service owner path and adding repair accounting."
+    },
+    {
+      "target": "#63897",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#50248",
+      "candidate_fix": "#69954",
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#92542",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50248",
+      "candidate_fix": null,
+      "reason": "Keep separate from this narrow #69954 repair wave."
+    },
+    {
+      "target": "cluster:repair-69954-autonomous-repair-wave-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69954",
+      "candidate_fix": null,
+      "reason": "Provide the executor with a narrow repair artifact for the existing contributor PR branch."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#69954",
+    "source_refs": [
+      "#69954",
+      "#50248",
+      "#63897",
+      "#92542"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #69954 by porting its canonical transcript fallback into the current session cleanup service. Current main can still prune a valid live session entry when entry.sessionFile points at a stale missing path while <sessionId>.jsonl exists. The repair should keep the entry, update stale generated sessionFile metadata to the canonical transcript path on apply, and report repair-only runs as mutations in summaries/JSON.",
+    "pr_title": "fix: preserve canonical session transcripts during cleanup",
+    "pr_body": "## Summary\n- Repairs #69954 by porting the contributor's canonical transcript fallback to the current `src/config/sessions/cleanup-service.ts` path.\n- Keeps `sessions cleanup --fix-missing` from pruning a row when the persisted `sessionFile` is stale but the canonical `<sessionId>.jsonl` transcript exists.\n- Repairs stale generated `sessionFile` metadata on apply and reports repair-only cleanup runs as mutations so JSON/dry-run output is accurate.\n\n## Credit\nThis carries forward the narrow fix from https://github.com/openclaw/openclaw/pull/69954 by @Blahdude / Oliver Camp.\n\n## Verification\n- `pnpm test src/config/sessions/store.pruning.integration.test.ts`\n- `pnpm check:changed`\n- Codex `/review` after repair",
+    "likely_files": [
+      "src/config/sessions/cleanup-service.ts",
+      "src/config/sessions/store.pruning.integration.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/config/sessions/store.pruning.integration.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for https://github.com/openclaw/openclaw/pull/69954 by @Blahdude / Oliver Camp.",
+      "PR body should state that the repair ports the contributor's narrow canonical transcript fallback to the current cleanup-service implementation and addresses the review-bot mutation-accounting gap.",
+      "Release-note context belongs in the PR body or squash message, not CHANGELOG.md."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-69954-autonomous-repair-wave-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/69954",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "0926e77971b0a59c972666a20cdcdc6b6a9a53c6",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#69954",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#69954",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
