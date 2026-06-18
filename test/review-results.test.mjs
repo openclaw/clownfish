@@ -837,6 +837,64 @@ test("review-results ignores an explicit non-security boundary assertion in fix 
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results trusts a preflight non-security-sensitive assertion for a security-shaped fix", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:91286:non-security-sensitive",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: [
+            "#91286 still needs the QR rendering repair.",
+            "Preflight marks #91286 open, canonical, and non-security-sensitive.",
+          ],
+          reason: "Repair the contributor branch and preserve attribution.",
+        },
+      ],
+      fix_artifact: {
+        summary: "Repair QR rendering without changing security boundaries.",
+        affected_surfaces: ["web-ui", "qr"],
+        likely_files: ["ui/src/ui/components/qr-code.tsx", "ui/src/ui/components/qr-code.test.tsx"],
+        linked_refs: ["#91286"],
+        validation_commands: ["pnpm check:changed"],
+        changelog_required: true,
+        credit_notes: ["Preserve contributor attribution for the source PR."],
+        pr_title: "fix(web-ui): repair QR rendering",
+        pr_body: "## Summary\n- repair QR rendering\n\n## Test plan\n- pnpm check:changed",
+        repair_strategy: "repair_contributor_branch",
+        allow_no_pr: false,
+      },
+    },
+    {
+      job: fixEnabledJob(),
+      plan: {
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(security): tighten SecretRef auth boundary",
+            labels: ["merge-risk: security-boundary"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
 test("review-results allows unavailable non-mutating plan classifications", () => {
   const dir = makeResultDir(
     {
