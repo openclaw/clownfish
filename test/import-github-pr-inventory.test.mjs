@@ -55,6 +55,10 @@ test("remediation inventory is plan-only and enables finalization recommendation
   assert.match(job, /allow_merge: true/);
   assert.match(job, /allow_post_merge_close: false/);
   assert.match(job, /plan-only remediation assessment/);
+  assert.match(job, /complete merge preflight is required only for a merge recommendation; a repair requires a complete executable fix artifact/);
+  assert.match(job, /Missing merge preflight alone is not a `needs_human` reason/);
+  assert.match(job, /concrete repair with a complete executable `fix_artifact`/);
+  assert.match(job, /classify the PR `keep_related` or `keep_independent`/);
 
   const rejected = runImport(fixture, "--strategy", "remediation");
   assert.notEqual(rejected.status, 0);

@@ -228,7 +228,7 @@ function writeJob(batch, index) {
     `require_fix_before_close: false`,
     `canonical_hint: ${quoteYaml(
       remediation
-        ? "This is a fresh PR remediation inventory shard. Classify each PR independently and only recommend merge or repair after complete live preflight."
+        ? "This is a fresh PR remediation inventory shard. Classify each PR independently. A complete merge preflight is required only for a merge recommendation; a repair requires a complete executable fix artifact."
         : "This is a live PR inventory shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.",
     )}`,
     `notes: ${quoteYaml(
@@ -247,7 +247,7 @@ function writeJob(batch, index) {
     "## Goal",
     "",
     remediation
-      ? "Hydrate live GitHub state for each listed PR and produce a current finalization path. Emit `merge_candidate` only with a complete merge preflight. Emit bounded `fix_needed` plus `build_fix_artifact` and `open_fix_pr` when a maintainer-safe repair path is concrete. Use `needs_human` for unclear scope, active author follow-up, broad work, or missing proof. Route security-sensitive PRs centrally. Do not perform mutations: this job is plan-only."
+      ? "Hydrate live GitHub state for each listed PR and produce a current finalization path. Emit `merge_candidate` only with a complete merge preflight. Missing merge preflight alone is not a `needs_human` reason: it blocks only `merge_candidate`. Emit bounded `fix_needed` plus `build_fix_artifact` and `open_fix_pr` only for a concrete repair with a complete executable `fix_artifact`; otherwise classify the PR `keep_related` or `keep_independent`. Use `needs_human` only for unclear scope, active author follow-up, broad work, or another specific maintainer decision. Route security-sensitive PRs centrally. Do not perform mutations: this job is plan-only."
       : "Hydrate live GitHub state for each listed PR and emit one conservative action per PR. Prefer `keep_related`, `keep_independent`, `needs_human`, or `route_security`. Emit close-style actions only when fresh live evidence makes the PR boringly superseded, duplicate, abandoned, or low-signal under existing policies. Do not merge, fix, or raise PRs.",
     "",
     "## Inventory",
