@@ -18,6 +18,14 @@ test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffe
   assert.match(source, /child\.error\?\.code === "ENOBUFS"/);
 });
 
+test("execute-fix-artifact reserves broad validation and review for the executor", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /this is an edit turn, not a handoff or final validation turn/);
+  assert.match(source, /do not run `pnpm check:changed`, `\.agents\/skills\/autoreview`, or broad lint\/build\/test\/review commands/);
+  assert.match(source, /validation_commands in the repository context are executor-managed requirements/);
+});
+
 test("execute-fix-artifact bounds auxiliary GitHub and git subprocesses by the fix deadline", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const workflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
