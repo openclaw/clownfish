@@ -109,13 +109,15 @@ try {
     url: run.url,
   }));
   if (openExecuteWindow && ["execute", "autonomous"].includes(mode)) {
-    const startedRuns = waitForRunsStarted(observedRuns.map((run) => run.databaseId));
-    summary.gate_capture_runs = startedRuns.map((run) => ({
+    const gateCaptureRuns = waitForRunsAtGateCapture(observedRuns.map((run) => run.databaseId));
+    summary.gate_capture_runs = gateCaptureRuns.map(({ run, workerJob }) => ({
       run_id: String(run.databaseId),
       status: run.status,
       conclusion: run.conclusion ?? null,
       created_at: run.createdAt,
       url: run.url,
+      worker_job_status: workerJob.status,
+      worker_job_started_at: workerJob.startedAt,
     }));
   }
   console.log(JSON.stringify(summary, null, 2));
@@ -233,21 +235,46 @@ function waitForObservedRuns({ expectedCount, headSha, since }) {
   return latest.slice(-expectedCount);
 }
 
-function waitForRunsStarted(runIds) {
+function waitForRunsAtGateCapture(runIds) {
   const timeoutMs = Number(process.env.CLOWNFISH_REQUEUE_GATE_CAPTURE_TIMEOUT_MS ?? DEFAULT_GATE_CAPTURE_TIMEOUT_MS);
   const deadline = Date.now() + (Number.isInteger(timeoutMs) && timeoutMs > 0 ? timeoutMs : DEFAULT_GATE_CAPTURE_TIMEOUT_MS);
   const wanted = new Set(runIds.map((runId) => Number(runId)));
   let latest = [];
   while (Date.now() < deadline) {
-    latest = listClusterRuns().filter((run) => wanted.has(Number(run.databaseId)));
-    if (latest.length === wanted.size && latest.every((run) => run.status !== "queued")) {
+    latest = [...wanted].map((runId) => {
+      const run = readClusterRun(runId);
+      const workerJob = (run.jobs ?? []).find((job) => job.name === "Plan and review cluster");
+      return { run, workerJob };
+    });
+    if (
+      latest.length === wanted.size &&
+      latest.every(
+        ({ workerJob }) =>
+          workerJob &&
+          workerJob.status !== "queued" &&
+          workerJob.startedAt &&
+          workerJob.startedAt !== "0001-01-01T00:00:00Z",
+      )
+    ) {
       return latest;
     }
     sleepMs(5_000);
   }
   throw new Error(
-    `timed out waiting for dispatched run(s) to start before restoring execute window: ${[...wanted].join(", ")}`,
+    `timed out waiting for dispatched run(s) to reach Plan and review cluster before restoring execute window: ${[...wanted].join(", ")}`,
   );
+}
+
+function readClusterRun(runId) {
+  return ghJson([
+    "run",
+    "view",
+    String(runId),
+    "--repo",
+    repo,
+    "--json",
+    "databaseId,status,conclusion,createdAt,updatedAt,url,jobs",
+  ]);
 }
 
 function assertGateOpenIfNeeded(mode) {
