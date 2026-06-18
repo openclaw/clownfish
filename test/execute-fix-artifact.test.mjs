@@ -646,6 +646,19 @@ test("execute-fix-artifact accepts the bounded OpenClaw branch autoreview comman
   assert.equal(run.report.status, "planned");
 });
 
+test("execute-fix-artifact accepts the bounded OpenClaw local autoreview command", () => {
+  const output = "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.";
+  const run = runBaselineChangedGateFixture({
+    clusterId: "openclaw-local-autoreview-validation-cluster",
+    baselineOutput: output,
+    postOutput: output,
+    validationCommands: [".agents/skills/autoreview/scripts/autoreview --mode local"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+});
+
 test("execute-fix-artifact accepts a bounded shell syntax validation", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "shell-syntax-validation-cluster",

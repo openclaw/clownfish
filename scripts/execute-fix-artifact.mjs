@@ -3033,6 +3033,14 @@ function parseAllowedValidationCommand(command) {
 }
 
 function isAllowedAutoreviewValidation(parts) {
+  if (
+    parts.length === 3 &&
+    parts[0] === ".agents/skills/autoreview/scripts/autoreview" &&
+    parts[1] === "--mode" &&
+    parts[2] === "local"
+  ) {
+    return true;
+  }
   return (
     parts.length === 5 &&
     parts[0] === ".agents/skills/autoreview/scripts/autoreview" &&
