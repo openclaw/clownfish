@@ -593,7 +593,7 @@ function ensureContributorFetchRemote({ targetDir, sourcePr, strategy }) {
   if (!strategy.source_remote) return strategy.remote;
 
   const remote = `projectclownfish-source-${sourcePr.number}`;
-  const existing = spawnSync("git", ["remote", "get-url", remote], {
+  const existing = runStatus("git", ["remote", "get-url", remote], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -1058,7 +1058,7 @@ function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir, 
     env: ghEnv(),
   });
 
-  const closed = spawnSync("gh", ["pr", "close", String(parsed.number), "--repo", result.repo], {
+  const closed = runStatus("gh", ["pr", "close", String(parsed.number), "--repo", result.repo], {
     cwd: targetDir,
     env: ghEnv(),
     encoding: "utf8",
@@ -1850,7 +1850,7 @@ function runCodexReviewFix({ fixArtifact, targetDir, mode, review, attempt }) {
   const processError = codexProcessErrorMessage(child, "Codex review-fix worker", timeoutMs);
   if (processError) throw new Error(processError);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex review-fix worker failed");
-  const producedChanges = spawnSync("git", ["diff", "--quiet", reviewFixBase, "--"], {
+  const producedChanges = runStatus("git", ["diff", "--quiet", reviewFixBase, "--"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -1965,7 +1965,7 @@ function runCodexValidationFix({ fixArtifact, targetDir, mode, validationError, 
   const processError = codexProcessErrorMessage(child, "Codex validation-fix worker", timeoutMs);
   if (processError) throw new Error(processError);
   if (child.status !== 0) throw new Error(child.stderr || child.stdout || "Codex validation-fix worker failed");
-  const producedChanges = spawnSync("git", ["diff", "--quiet", validationFixBase, "--"], {
+  const producedChanges = runStatus("git", ["diff", "--quiet", validationFixBase, "--"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3294,7 +3294,7 @@ function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fix
         initialError: error.message,
       });
     } catch (repairError) {
-      spawnSync("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env, encoding: "utf8" });
+      abortRebase(targetDir);
       throw new Error(
         `branch ${branch} could not rebase onto ${baseRef}: ${compactText(repairError.message, 1200)}`,
       );
@@ -3311,7 +3311,7 @@ function refreshValidatedBranchBase({ targetDir, branch, baseBranch }) {
     run("git", ["rebase", baseRef], { cwd: targetDir });
     return true;
   } catch (error) {
-    spawnSync("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env, encoding: "utf8" });
+    abortRebase(targetDir);
     throw new Error(
       `base branch advanced after validation and ${branch} needs a fresh rebase pass: ${compactText(error.message, 1200)}`,
     );
@@ -3369,7 +3369,7 @@ function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArti
     }
 
     run("git", ["add", "--all"], { cwd: targetDir });
-    const continued = spawnSync("git", ["rebase", "--continue"], {
+    const continued = runStatus("git", ["rebase", "--continue"], {
       cwd: targetDir,
       env: { ...process.env, GIT_EDITOR: "true", EDITOR: "true" },
       encoding: "utf8",
@@ -3418,7 +3418,7 @@ function buildRebaseConflictPrompt({ targetDir, branch, baseRef, fixArtifact, at
 }
 
 function safeGitStatus(targetDir) {
-  const child = spawnSync("git", ["status", "--short"], {
+  const child = runStatus("git", ["status", "--short"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3427,7 +3427,7 @@ function safeGitStatus(targetDir) {
 }
 
 function isAncestor({ targetDir, ancestor, descendant }) {
-  const child = spawnSync("git", ["merge-base", "--is-ancestor", ancestor, descendant], {
+  const child = runStatus("git", ["merge-base", "--is-ancestor", ancestor, descendant], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3440,7 +3440,7 @@ function remoteBranchExists({ targetDir, branch }) {
 }
 
 function remoteBranchSha({ targetDir, branch }) {
-  const child = spawnSync("git", ["ls-remote", "--heads", "origin", branch], {
+  const child = runStatus("git", ["ls-remote", "--heads", "origin", branch], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3452,7 +3452,7 @@ function remoteBranchSha({ targetDir, branch }) {
 
 function branchHasBaseDiff({ targetDir, baseBranch }) {
   const range = `origin/${baseBranch}...HEAD`;
-  const first = spawnSync("git", ["diff", "--name-only", range], {
+  const first = runStatus("git", ["diff", "--name-only", range], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3462,7 +3462,7 @@ function branchHasBaseDiff({ targetDir, baseBranch }) {
   if (!/no merge base/i.test(detail)) throw new Error(detail.trim());
 
   fetchDeeperHistory({ targetDir, baseBranch });
-  const retry = spawnSync("git", ["diff", "--name-only", range], {
+  const retry = runStatus("git", ["diff", "--name-only", range], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3476,7 +3476,7 @@ function branchHasBaseDiff({ targetDir, baseBranch }) {
 function ensureMergeBaseAvailable({ targetDir, baseBranch }) {
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
   const baseRef = `origin/${baseBranch}`;
-  const first = spawnSync("git", ["merge-base", baseRef, "HEAD"], {
+  const first = runStatus("git", ["merge-base", baseRef, "HEAD"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3484,7 +3484,7 @@ function ensureMergeBaseAvailable({ targetDir, baseBranch }) {
   if (first.status === 0 && first.stdout.trim()) return first.stdout.trim();
 
   fetchDeeperHistory({ targetDir, baseBranch });
-  const retry = spawnSync("git", ["merge-base", baseRef, "HEAD"], {
+  const retry = runStatus("git", ["merge-base", baseRef, "HEAD"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3496,7 +3496,7 @@ function ensureMergeBaseAvailable({ targetDir, baseBranch }) {
 }
 
 function fetchDeeperHistory({ targetDir, baseBranch }) {
-  const shallow = spawnSync("git", ["rev-parse", "--is-shallow-repository"], {
+  const shallow = runStatus("git", ["rev-parse", "--is-shallow-repository"], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3530,7 +3530,7 @@ function pushRecoverableBranch({ targetDir, branch }) {
     const args = remoteSha
       ? ["push", `--force-with-lease=${targetRef}:${remoteSha}`, "origin", `HEAD:${targetRef}`]
       : ["push", "origin", `HEAD:${targetRef}`];
-    const pushed = spawnSync("git", args, {
+    const pushed = runStatus("git", args, {
       cwd: targetDir,
       env: process.env,
       encoding: "utf8",
@@ -3552,7 +3552,7 @@ function pushRecoverableBranch({ targetDir, branch }) {
       try {
         run("git", ["rebase", remoteRef], { cwd: targetDir });
       } catch (error) {
-        spawnSync("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env, encoding: "utf8" });
+        abortRebase(targetDir);
         throw new Error(`recoverable branch ${branch} diverged during push: ${compactText(error.message, 1200)}`);
       }
     }
@@ -3561,7 +3561,7 @@ function pushRecoverableBranch({ targetDir, branch }) {
 }
 
 function fetchRemoteRecoverableBranch({ targetDir, branch, required = true }) {
-  const child = spawnSync("git", ["fetch", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`], {
+  const child = runStatus("git", ["fetch", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`], {
     cwd: targetDir,
     env: process.env,
     encoding: "utf8",
@@ -3833,7 +3833,15 @@ function sleepMs(ms) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
-function run(command, commandArgs, options = {}) {
+function abortRebase(targetDir) {
+  try {
+    runStatus("git", ["rebase", "--abort"], { cwd: targetDir, env: process.env });
+  } catch {
+    // Preserve the original rebase failure when cleanup cannot complete.
+  }
+}
+
+function runStatus(command, commandArgs, options = {}) {
   const timeoutMs =
     typeof options.timeout === "number"
       ? options.timeout
@@ -3842,8 +3850,9 @@ function run(command, commandArgs, options = {}) {
     cwd: options.cwd,
     env: options.env ?? process.env,
     input: options.input,
-    encoding: "utf8",
+    encoding: options.encoding ?? "utf8",
     timeout: timeoutMs,
+    maxBuffer: options.maxBuffer,
   });
   if (child.error?.code === "ETIMEDOUT") {
     throw new Error(`${command} ${commandArgs.join(" ")} timed out after ${timeoutMs}ms before fix execution deadline`);
@@ -3851,6 +3860,11 @@ function run(command, commandArgs, options = {}) {
   if (child.error) {
     throw child.error;
   }
+  return child;
+}
+
+function run(command, commandArgs, options = {}) {
+  const child = runStatus(command, commandArgs, options);
   if (child.status !== 0) {
     const detail = child.stderr || child.stdout || `${command} exited ${child.status}`;
     throw new Error(detail.trim());

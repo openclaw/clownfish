@@ -18,6 +18,21 @@ test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffe
   assert.match(source, /child\.error\?\.code === "ENOBUFS"/);
 });
 
+test("execute-fix-artifact bounds auxiliary GitHub and git subprocesses by the fix deadline", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+  const workflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
+
+  assert.match(source, /function runStatus\([\s\S]*?remainingFixExecutionMs/);
+  assert.match(source, /function remoteBranchSha\([\s\S]*?runStatus\("git", \["ls-remote"/);
+  assert.match(source, /function pushRecoverableBranch\([\s\S]*?const pushed = runStatus\("git", args/);
+  assert.match(source, /function fetchRemoteRecoverableBranch\([\s\S]*?runStatus\("git", \["fetch", "origin"/);
+  assert.match(source, /function closeSupersededSourcePr\([\s\S]*?const closed = runStatus\("gh", \["pr", "close"/);
+  assert.match(
+    workflow,
+    /- name: Execute credited fix artifact[\s\S]*?timeout-minutes: 25[\s\S]*?run: npm run execute-fix/,
+  );
+});
+
 test("execute-fix-artifact skips blocked worker results before invoking Codex or mutating", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
