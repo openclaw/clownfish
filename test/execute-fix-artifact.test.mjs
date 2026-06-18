@@ -210,12 +210,17 @@ test("execute-fix-artifact routes rebased fork repairs to replacement before exp
   assert.match(source, /fork branch requiring rebase/);
 });
 
-test("execute-fix-artifact runs ordinary contributor repairs after a successful rebase", () => {
+test("execute-fix-artifact resumes contributor checkpoint branches without a duplicate edit", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(
     source,
-    /mode: "repair",\s*baseBranch,\s*\/\/ Only explicit rebase-only jobs[\s\S]*?allowExistingChanges: rebaseOnly && rebased,/,
+    /const resumedRepairCheckpoint = hasClownfishRepairCheckpoint\(\{\s*targetDir,\s*baseBranch,\s*clusterId: result\.cluster_id,\s*\}\);/,
+  );
+  assert.match(source, /allowExistingChanges: \(rebaseOnly && rebased\) \|\| resumedRepairCheckpoint,/);
+  assert.match(
+    source,
+    /function hasClownfishRepairCheckpoint\(\{ targetDir, baseBranch, clusterId \}\) \{[\s\S]*?git", \["log", "--format=%s", `origin\/\$\{baseBranch\}\.\.HEAD`\]/,
   );
 });
 

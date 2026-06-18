@@ -706,6 +706,11 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     ensureCodexWritePreflight,
   });
   noteFixStage("rebase_complete", { pull_request: sourcePr.number, rebased });
+  const resumedRepairCheckpoint = hasClownfishRepairCheckpoint({
+    targetDir,
+    baseBranch,
+    clusterId: result.cluster_id,
+  });
   let expectedRemoteHeadSha = String(pull.head?.sha ?? "");
   const pushedCheckpointCommits = [];
   const branchProgress = {
@@ -714,6 +719,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     target: sourcePr.url,
     head_repo: pull.head.repo.full_name,
     head_ref: pull.head.ref,
+    resumed_checkpoint: resumedRepairCheckpoint,
   };
   const pushRepairCheckpoint = () => {
     const pushArgs = repairBranchPushArgs({ pull, rebased, expectedHeadSha: expectedRemoteHeadSha });
@@ -763,9 +769,9 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     branch,
     mode: "repair",
     baseBranch,
-    // Only explicit rebase-only jobs may stop after a successful rebase. Ordinary
-    // contributor repairs still need Codex to address the artifact's concrete defect.
-    allowExistingChanges: rebaseOnly && rebased,
+    // Fresh contributor repairs need an edit. A prior Clownfish checkpoint has
+    // already been edited, so a requeue should validate and review it instead.
+    allowExistingChanges: (rebaseOnly && rebased) || resumedRepairCheckpoint,
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: rebaseOnly,
     pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
@@ -3544,6 +3550,14 @@ function branchHasBaseDiff({ targetDir, baseBranch }) {
   const retryDetail = `${retry.stderr ?? ""}\n${retry.stdout ?? ""}`;
   if (/no merge base/i.test(retryDetail)) return true;
   throw new Error(retryDetail.trim());
+}
+
+function hasClownfishRepairCheckpoint({ targetDir, baseBranch, clusterId }) {
+  const subjects = run("git", ["log", "--format=%s", `origin/${baseBranch}..HEAD`], { cwd: targetDir });
+  return subjects
+    .split("\n")
+    .map((subject) => subject.trim())
+    .some((subject) => subject.startsWith("fix(clownfish):") && subject.includes(clusterId));
 }
 
 function ensureMergeBaseAvailable({ targetDir, baseBranch }) {
