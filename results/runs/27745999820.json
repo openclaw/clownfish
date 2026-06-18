@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-48942-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27745999820",
+  "workflow_run_id": "27745999820",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27745999820",
+  "head_sha": "e182f75656497e4b5d6d045040c445f71ff99857",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T08:12:04Z",
+  "workflow_updated_at": "2026-06-18T08:14:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-48942-single-replan-wave-20260617.md",
+  "published_at": "2026-06-18T08:15:04.275Z",
+  "canonical": "#48942",
+  "canonical_issue": null,
+  "canonical_pr": "#48942",
+  "summary": "Plan only: keep PR #48942 as the canonical contributor repair path, emit a narrow branch-repair fix artifact for the remaining Codex review finding, and keep linked refs non-mutating because close/comment/merge are blocked for this job.",
+  "actions": [
+    {
+      "target": "#48942",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#48942",
+      "candidate_fix": "#48942",
+      "reason": "The canonical PR is useful and repairable, but it still needs a narrow branch repair for the current Codex review finding before it can be considered merge-ready."
+    },
+    {
+      "target": "cluster:repair-48942-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#48942",
+      "candidate_fix": "#48942",
+      "reason": "Emit an executable, cluster-scoped repair artifact so the deterministic executor can patch the contributor branch without GitHub mutations from the worker."
+    },
+    {
+      "target": "#39722",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48942",
+      "candidate_fix": "#48942",
+      "reason": "Same gateway session-title family, but the metadata stripping/displayName issue has distinct remaining work and should not be closed or repaired inside this isolated #48942 branch-repair job."
+    },
+    {
+      "target": "#39790",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#39722",
+      "candidate_fix": null,
+      "reason": "Already closed context ref; no mutation is valid or needed."
+    },
+    {
+      "target": "#81781",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#48942",
+      "candidate_fix": null,
+      "reason": "Related title-derivation area, but broader product scope and not a duplicate or repair target for this isolated PR job."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#48942",
+    "source_refs": [
+      "#48942",
+      "#39722",
+      "#39790",
+      "#81781"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #48942 in place by hardening deriveSessionTitle candidate handling so malformed or non-string stored title fields cannot crash title derivation, while preserving the intended precedence: displayName, subject, explicit entry.label, firstUserMessage, origin.label, then sessionId fallback.",
+    "pr_title": "fix(gateway): harden derived session title fields",
+    "pr_body": "## Summary\nRepair source PR #48942 by adding narrow guards around stored session title candidates before trimming or returning them. Preserve the existing title precedence and the compatibility re-export from session-utils.\n\n## Scope\n- Source PR: https://github.com/openclaw/openclaw/pull/48942\n- Canonical cluster PR: #48942\n- Keep the patch limited to gateway session-title derivation and focused tests.\n- Do not include Android, dependency, or broad session-list product work.\n\n## Validation\n- pnpm -s vitest run src/gateway/session-title.test.ts src/gateway/session-utils.test.ts\n- pnpm check:changed\n- git diff --check\n\n## Credit\nThis repair carries forward JFWaskin's original PR and branch history; Clownfish changes should be a narrow follow-up on that contribution.",
+    "likely_files": [
+      "src/gateway/session-title.ts",
+      "src/gateway/session-title.test.ts",
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/gateway/session-title.test.ts src/gateway/session-utils.test.ts",
+      "pnpm check:changed",
+      "git diff --check"
+    ],
+    "credit_notes": [
+      "Preserve JFWaskin's authorship and contribution trail on source PR #48942.",
+      "Use a normal repair commit on the existing contributor branch; do not force-push.",
+      "Keep attribution in the PR body/history if the executor must open a replacement PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-48942-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

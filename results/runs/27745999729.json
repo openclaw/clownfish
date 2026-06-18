@@ -1,0 +1,135 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-54904-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27745999729",
+  "workflow_run_id": "27745999729",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27745999729",
+  "head_sha": "e182f75656497e4b5d6d045040c445f71ff99857",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T08:12:04Z",
+  "workflow_updated_at": "2026-06-18T08:13:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-54904-single-replan-wave-20260617.md",
+  "published_at": "2026-06-18T08:15:04.273Z",
+  "canonical": "#54904",
+  "canonical_issue": null,
+  "canonical_pr": "#54904",
+  "summary": "Planned a narrow repair of open contributor PR #54904 only. No GitHub mutations are planned directly by the worker. Adjacent open PRs are independent, the security-sensitive linked issue is quarantined, and the already-closed overlapping PR remains historical evidence only.",
+  "actions": [
+    {
+      "target": "#54904",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54904",
+      "candidate_fix": "#54904",
+      "reason": "Repair the contributor branch rather than replacing or merging it because the branch is focused, editable by maintainers, and still has a review blocker to resolve."
+    },
+    {
+      "target": "cluster:repair-54904-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54904",
+      "candidate_fix": "#54904",
+      "reason": "Emit an executable fix artifact for the guarded Clownfish executor to repair #54904 without direct GitHub mutation from the worker."
+    },
+    {
+      "target": "#54841",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue handling is out of scope for Clownfish backlog repair; quarantine only this exact item and continue the non-security PR repair path."
+    },
+    {
+      "target": "#54908",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#54904",
+      "candidate_fix": "#54904",
+      "reason": "Already closed overlapping Feishu-path PR; keep as historical context and do not mutate."
+    },
+    {
+      "target": "#54593",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different subsystem and root cause from the Feishu webhookPath repair."
+    },
+    {
+      "target": "#54758",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different subsystem and root cause from the Feishu webhookPath repair."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "route_security": 1,
+    "keep_closed": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#54904",
+    "source_refs": [
+      "#54904",
+      "#54908",
+      "#54593",
+      "#54758",
+      "#54841"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #54904 in place on the editable contributor branch. Keep the Feishu webhookPath enforcement implementation focused on the monitor transport path guard and tests, resolve the current ClawSweeper/Codex review blocker, and preserve ruanrrn's source contribution. Do not comment, label, close, merge, force-push, or bypass checks from the worker.",
+    "pr_title": "fix(feishu): enforce configured webhookPath",
+    "pr_body": "Clownfish repair for contributor PR #54904.\n\nSummary:\n- Preserve the focused Feishu webhookPath enforcement from ruanrrn's PR.\n- Resolve current review blockers around request-target/path matching without broadening scope.\n- Keep changes limited to the Feishu monitor transport implementation and regression tests.\n\nValidation:\n- node scripts/run-vitest.mjs extensions/feishu/src/monitor.transport.test.ts\n- node scripts/run-oxlint.mjs extensions/feishu/src/monitor.transport.ts extensions/feishu/src/monitor.transport.test.ts\n- pnpm check:changed\n\nCredit:\n- Source PR: https://github.com/openclaw/openclaw/pull/54904\n- Original contributor: ruanrrn\n- Clownfish is only repairing the branch and preserving attribution.",
+    "likely_files": [
+      "extensions/feishu/src/monitor.transport.ts",
+      "extensions/feishu/src/monitor.transport.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs extensions/feishu/src/monitor.transport.test.ts",
+      "node scripts/run-oxlint.mjs extensions/feishu/src/monitor.transport.ts extensions/feishu/src/monitor.transport.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve credit for ruanrrn as the original author of PR #54904.",
+      "If the executor must open a replacement PR instead of repairing the branch, include source PR https://github.com/openclaw/openclaw/pull/54904 and explicit attribution to ruanrrn in the PR body and changelog note.",
+      "Closed PR #54908 by a77ming is related historical context only; do not treat it as the owned repair branch."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-54904-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#54841"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
