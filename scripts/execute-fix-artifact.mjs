@@ -706,6 +706,32 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     ensureCodexWritePreflight,
   });
   noteFixStage("rebase_complete", { pull_request: sourcePr.number, rebased });
+  let expectedRemoteHeadSha = String(pull.head?.sha ?? "");
+  const pushedCheckpointCommits = [];
+  const branchProgress = {
+    action: "repair_contributor_branch",
+    repair_strategy: fixArtifact.repair_strategy,
+    target: sourcePr.url,
+    head_repo: pull.head.repo.full_name,
+    head_ref: pull.head.ref,
+  };
+  const pushRepairCheckpoint = () => {
+    const pushArgs = repairBranchPushArgs({ pull, rebased, expectedHeadSha: expectedRemoteHeadSha });
+    noteFixStage("branch_push_start", { pull_request: sourcePr.number, rebased });
+    run("git", pushArgs, { cwd: targetDir });
+    noteFixStage("branch_push_complete", { pull_request: sourcePr.number, rebased });
+    const commit = currentHead(targetDir);
+    expectedRemoteHeadSha = commit;
+    pushedCheckpointCommits.push(commit);
+    noteFixProgress({
+      ...branchProgress,
+      rebased,
+      commit,
+      checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
+      recoverable_branch_pushed: true,
+    });
+    return commit;
+  };
   if (!rebased && (scopeBlock || rebaseOnly)) {
     const reason = scopeBlock?.reason ?? "rebase-only repair found the source branch already based on current main; no source edits were attempted";
     return {
@@ -725,6 +751,8 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
   if (!sameRepoBranch && !dryRun) {
     assertRepairBranchWritable({ targetDir, pull, rebased });
   }
+  // A rebase is already a durable repair. Push it before slow toolchain and review work.
+  if (!dryRun && rebased) pushRepairCheckpoint();
   noteFixStage("target_toolchain_start");
   prepareTargetToolchain(targetDir);
   noteFixStage("target_toolchain_complete");
@@ -740,6 +768,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     allowExistingChanges: rebaseOnly && rebased,
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: rebaseOnly,
+    pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     rebased = true;
@@ -753,6 +782,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
         allowExistingChanges: true,
         allowReviewFixes: false,
         refreshBaseBeforeReview: true,
+        pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
       });
       if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
         throw new Error("base branch advanced again during rebase-only validation; requeue before pushing");
@@ -784,20 +814,13 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     };
   }
 
-  ghAuthSetupGit(targetDir);
-  const pushArgs = repairBranchPushArgs({ pull, rebased });
-  noteFixStage("branch_push_start", { pull_request: sourcePr.number, rebased });
-  run("git", pushArgs, { cwd: targetDir });
-  noteFixStage("branch_push_complete", { pull_request: sourcePr.number, rebased });
+  if (currentHead(targetDir) !== expectedRemoteHeadSha) pushRepairCheckpoint();
   noteFixProgress({
-    action: "repair_contributor_branch",
-    repair_strategy: fixArtifact.repair_strategy,
-    target: sourcePr.url,
-    head_repo: pull.head.repo.full_name,
-    head_ref: pull.head.ref,
+    ...branchProgress,
     rebased,
     commit: prep.commit,
     recoverable_branch_pushed: true,
+    checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
     merge_preflight: prep.merge_preflight,
     rebase_proof: rebaseProof,
   });
@@ -827,16 +850,17 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     head_ref: pull.head.ref,
     rebased,
     commit: prep.commit,
+    checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
     merge_preflight: prep.merge_preflight,
     review_threads: threadResolution,
     rebase_proof: rebaseProof,
   };
 }
 
-function repairBranchPushArgs({ pull, rebased }) {
+function repairBranchPushArgs({ pull, rebased, expectedHeadSha = pull.head?.sha }) {
   const remote = `https://github.com/${pull.head.repo.full_name}.git`;
   if (!rebased) return ["push", remote, `HEAD:${pull.head.ref}`];
-  const headSha = String(pull.head?.sha ?? "");
+  const headSha = String(expectedHeadSha ?? "");
   if (!/^[0-9a-f]{40}$/i.test(headSha)) {
     throw new Error(`cannot force-with-lease repair branch ${pull.head.ref}: source head sha is missing`);
   }
