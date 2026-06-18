@@ -1,0 +1,179 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-81825-fresh-plan-20260618b",
+  "mode": "execute",
+  "run_id": "27788964995",
+  "workflow_run_id": "27788964995",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27788964995",
+  "head_sha": "c1079a640cc2830eaf6c48a4dd5192d883c4fb63",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T20:59:40Z",
+  "workflow_updated_at": "2026-06-18T21:11:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-81825-fresh-plan-20260618b.md",
+  "published_at": "2026-06-18T21:12:46.526Z",
+  "canonical": "#81825",
+  "canonical_issue": "#52540",
+  "canonical_pr": "#81825",
+  "summary": "PR #81825 remains the canonical contributor repair path for issue #52540. Current main still has the blanket tmux-only 1Password guidance, and the hydrated PR state shows two narrow Copilot documentation findings that are repairable inside the existing 1Password skill/reference surface while preserving @koshaji's credit.",
+  "actions": [
+    {
+      "target": "#81825",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81825",
+      "candidate_fix": null,
+      "reason": "Concrete narrow documentation repair exists and merge is disabled for this job."
+    },
+    {
+      "target": "cluster:repair-81825-fresh-plan-20260618b",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81825",
+      "candidate_fix": null,
+      "reason": "Executor-ready artifact is needed to repair the contributor branch before any close or merge path."
+    },
+    {
+      "target": "cluster:repair-81825-fresh-plan-20260618b",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81825",
+      "candidate_fix": "#81825",
+      "reason": "Clownfish applicator should carry the repair forward through the existing contributor PR path."
+    },
+    {
+      "target": "#52540",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81825",
+      "candidate_fix": "#81825",
+      "reason": "Issue is covered by the candidate repair path but no closure is allowed in this run."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81825",
+    "source_refs": [
+      "#81825",
+      "#52540"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair PR #81825 in place by addressing the two narrow Copilot documentation findings: make the standalone tmux signin example shell-safe for documented macOS/Linux shell support, and remove or replace the inaccurate tmux skill socket-convention reference with local socket guidance. Keep the existing auth-mode split: service account and desktop-app integration run op directly; standalone interactive signin may use tmux only for that flow.",
+    "pr_title": "fix(skills/1password): repair auth-mode guidance",
+    "pr_body": "## Summary\n- Repair the existing #81825 contributor branch rather than replacing it.\n- Keep direct op execution for service-account and desktop-app integration modes.\n- Keep tmux only for standalone interactive signin, but make that example safe for the documented shell support by forcing or documenting a POSIX shell for the eval-style op signin command.\n- Replace the inaccurate pointer to the tmux skill socket conventions with inline 1Password-specific socket/session guidance.\n\n## Credit\nSource PR: #81825 by @koshaji. This repair preserves that attribution and keeps #52540 linked as the reported bug.\n\n## Verification\n- pnpm docs:list\n- pnpm check:docs\n- pnpm check:changed",
+    "likely_files": [
+      "skills/1password/SKILL.md",
+      "skills/1password/references/get-started.md"
+    ],
+    "validation_commands": [
+      "pnpm docs:list",
+      "pnpm check:docs",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @koshaji as the source PR author for #81825.",
+      "Mention that the repair builds on https://github.com/openclaw/openclaw/pull/81825 and fixes https://github.com/openclaw/openclaw/issues/52540.",
+      "No CHANGELOG.md edit; carry release-note context in the PR body or final squash message if this user-facing skill guidance lands."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-81825-fresh-plan-20260618b.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/81825",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "b9266c92139ad002fb3457a0f533a31131d393b3",
+      "checkpoint_commits": [
+        "8a50a7efc637807d48667948cdce80fd5f1ae3ed",
+        "7aab4f2f7c293aa9e4d6f21b74a801eb1433aa23",
+        "b9266c92139ad002fb3457a0f533a31131d393b3"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#81825",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#81825",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}

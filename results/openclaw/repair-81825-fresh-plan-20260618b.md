@@ -1,14 +1,14 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "repair-81825-fresh-plan-20260618b"
-mode: "plan"
-run_id: "27788593122"
-workflow_run_id: "27788593122"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27788593122"
-head_sha: "7f41b2e7f526831f314ee6eca2a9d0ce587bfca7"
+mode: "execute"
+run_id: "27788964995"
+workflow_run_id: "27788964995"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27788964995"
+head_sha: "c1079a640cc2830eaf6c48a4dd5192d883c4fb63"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T20:56:21.517Z"
+published_at: "2026-06-18T21:12:46.526Z"
 canonical: "#81825"
 canonical_issue: "#52540"
 canonical_pr: "#81825"
@@ -17,7 +17,7 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27788593122](https://github.com/openclaw/clownfish/actions/runs/27788593122)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27788964995](https://github.com/openclaw/clownfish/actions/runs/27788964995)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #81825
 
 ## Summary
 
-Plan-mode repair result for open PR #81825. The hydrated artifact shows a narrow, non-security documentation repair is available on koshaji's maintainer-modifiable contributor PR, with two concrete Copilot review findings still to address before the 1Password skill guidance can be finalized.
+PR #81825 remains the canonical contributor repair path for issue #52540. Current main still has the blanket tmux-only 1Password guidance, and the hydrated PR state shows two narrow Copilot documentation findings that are repairable inside the existing 1Password skill/reference surface while preserving @koshaji's credit.
 
 ## Impact
 
@@ -47,7 +47,7 @@ Plan-mode repair result for open PR #81825. The hydrated artifact shows a narrow
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -66,28 +66,29 @@ Plan-mode repair result for open PR #81825. The hydrated artifact shows a narrow
     "build_fix_artifact",
     "open_fix_pr"
   ],
-  "summary": "Repair koshaji's PR #81825 in place by keeping the 1Password desktop-app authentication guidance scoped to the existing skill docs while addressing the two unresolved Copilot review findings: make the standalone tmux signin example work for the documented shell expectations, and remove or replace the inaccurate tmux-skill socket-conventions reference.",
-  "pr_title": "fix(skills/1password): repair desktop app auth guidance",
-  "pr_body": "## Summary\nRepair the existing contributor PR #81825 for the 1Password bundled skill guidance by addressing the remaining review feedback without expanding beyond `skills/1password/SKILL.md` and `skills/1password/references/get-started.md`.\n\n## Repair scope\n- Keep direct `op` execution for service-account and desktop-app integration modes.\n- Keep tmux only for standalone interactive signin, but make the example shell-safe for the documented macOS/Linux shell expectations or explicitly force/document the shell used in the tmux pane.\n- Replace the inaccurate reference to the tmux skill's socket conventions with local guidance or a correct reference.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/81825 by koshaji.\nSource issue: https://github.com/openclaw/openclaw/issues/52540 by tylerbittner.\nClownfish should preserve attribution to koshaji for the contributor branch repair.\n\n## Validation\n- `pnpm check-docs`\n- `pnpm check:changed`",
+  "summary": "Repair PR #81825 in place by addressing the two narrow Copilot documentation findings: make the standalone tmux signin example shell-safe for documented macOS/Linux shell support, and remove or replace the inaccurate tmux skill socket-convention reference with local socket guidance. Keep the existing auth-mode split: service account and desktop-app integration run op directly; standalone interactive signin may use tmux only for that flow.",
+  "pr_title": "fix(skills/1password): repair auth-mode guidance",
+  "pr_body": "## Summary\n- Repair the existing #81825 contributor branch rather than replacing it.\n- Keep direct op execution for service-account and desktop-app integration modes.\n- Keep tmux only for standalone interactive signin, but make that example safe for the documented shell support by forcing or documenting a POSIX shell for the eval-style op signin command.\n- Replace the inaccurate pointer to the tmux skill socket conventions with inline 1Password-specific socket/session guidance.\n\n## Credit\nSource PR: #81825 by @koshaji. This repair preserves that attribution and keeps #52540 linked as the reported bug.\n\n## Verification\n- pnpm docs:list\n- pnpm check:docs\n- pnpm check:changed",
   "likely_files": [
     "skills/1password/SKILL.md",
     "skills/1password/references/get-started.md"
   ],
   "validation_commands": [
-    "pnpm check-docs",
+    "pnpm docs:list",
+    "pnpm check:docs",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve koshaji as the source PR contributor for https://github.com/openclaw/openclaw/pull/81825.",
-    "Preserve issue credit for tylerbittner's source report in https://github.com/openclaw/openclaw/issues/52540.",
-    "No contributor CHANGELOG entry is planned because koshaji already dropped it per repo policy in the hydrated PR history."
+    "Preserve @koshaji as the source PR author for #81825.",
+    "Mention that the repair builds on https://github.com/openclaw/openclaw/pull/81825 and fixes https://github.com/openclaw/openclaw/issues/52540.",
+    "No CHANGELOG.md edit; carry release-note context in the PR body or final squash message if this user-facing skill guidance lands."
   ],
   "source_job": "jobs/openclaw/inbox/repair-81825-fresh-plan-20260618b.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -95,28 +96,28 @@ Plan-mode repair result for open PR #81825. The hydrated artifact shows a narrow
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/81825 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #81825 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #81825 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #81825 | fix_needed | planned | canonical | The current blocker is narrow documentation repair, not maintainer judgment. Merge is disabled, so the safe plan is to repair the contributor branch and preserve koshaji's credit. |
-| repair-81825-fresh-plan-20260618b | build_fix_artifact | planned |  | Build a contributor-branch repair artifact for the two unresolved review comments and repo-native documentation validation. |
-| repair-81825-fresh-plan-20260618b | open_fix_pr | planned |  | Prepare the allowed fix PR/branch repair path while preserving source PR attribution. |
-| #52540 | keep_related | planned | fixed_by_candidate | Keep the issue open and related to the canonical repair candidate until a fix lands and a later closeout run is allowed. |
+| #81825 | fix_needed | planned | canonical | Concrete narrow documentation repair exists and merge is disabled for this job. |
+| cluster:repair-81825-fresh-plan-20260618b | build_fix_artifact | planned |  | Executor-ready artifact is needed to repair the contributor branch before any close or merge path. |
+| cluster:repair-81825-fresh-plan-20260618b | open_fix_pr | planned |  | Clownfish applicator should carry the repair forward through the existing contributor PR path. |
+| #52540 | keep_related | planned | fixed_by_candidate | Issue is covered by the candidate repair path but no closure is allowed in this run. |
 
 ## Needs Human
 
