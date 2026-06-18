@@ -1,7 +1,7 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "repair-53920-fresh-plan-20260618"
-mode: plan
+mode: execute
 allowed_actions:
   - fix
   - raise_pr
@@ -35,13 +35,14 @@ source: fresh_replan_after_executor_calibration
 repair_strategy: "repair_contributor_branch"
 ---
 
-# Fresh Repair Plan #53920
+# Fresh Repair Execute #53920
 
-Re-hydrate open contributor PR #53920 from live GitHub state. It changes one
-auth-monitor setup script and has an outstanding `checks-node-core-tooling`
-failure. Determine whether that failure is attributable and narrowly repairable
-on the contributor branch. Preserve contributor credit and keep the scope to
-the current script change and concrete review findings.
+Execute the fresh approved repair path for contributor PR #53920. It changes
+one auth-monitor setup script and has an outstanding `checks-node-core-tooling`
+failure. Re-hydrate live state before editing, then repair that failure only if
+it remains attributable and narrowly repairable on the contributor branch.
+Preserve contributor credit and keep the scope to the current script change and
+concrete review findings.
 
 ## Guardrails
 
