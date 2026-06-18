@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-59695-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27744912832",
+  "workflow_run_id": "27744912832",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27744912832",
+  "head_sha": "5e4579520d2c0f67afd482b6e40b12f7d4a3caa3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T07:51:13Z",
+  "workflow_updated_at": "2026-06-18T08:11:51Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-59695-single-replan-wave-20260617.md",
+  "published_at": "2026-06-18T08:12:50.220Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/59695",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59695",
+  "summary": "PR #59695 remains the canonical repair path for replacing the remaining SHA-1 configuration/media test fingerprints with SHA-256. It is open, narrow, maintainer-editable, and should be repaired on the contributor branch; merge/close/comment actions are blocked by job policy.",
+  "actions": [
+    {
+      "target": "#59695",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59695",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch instead of replacing it: the PR is useful, focused, and maintainer-editable, but it still needs fresh branch repair/validation before any future merge decision."
+    },
+    {
+      "target": "cluster:repair-59695-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#59695",
+      "candidate_fix": null,
+      "reason": "Build an executable contributor-branch repair artifact so the executor can rebase/update #59695, preserve YonganZhang's credit, run focused proof plus pnpm check:changed, and leave merge decisions to a later allowed lane."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#59695",
+    "source_refs": [
+      "#59695"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #59695 on the existing contributor branch by keeping the SHA-256 fingerprinting change, preserving the no-persisted-migration runtime comment, and validating the runtime fingerprint test plus media test surface against current main.",
+    "pr_title": "Replace SHA-1 with SHA-256 for config fingerprinting",
+    "pr_body": "## Summary\n- Keep @YonganZhang's SHA-1 to SHA-256 cleanup for session MCP config fingerprints and media-understanding test fixture cache hashes.\n- Keep the runtime comment documenting that session MCP fingerprints only invalidate in-memory runtime catalogs, so the 40 to 64 character hash change causes at most one cache miss and does not need a persisted migration.\n- Keep focused coverage that config fingerprints are 64-character hex strings and differ when the MCP config changes.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/59695 by @YonganZhang. This repair preserves the contributor branch path and attribution.\n\n## Verification\n- node scripts/run-vitest.mjs src/agents/agent-bundle-mcp-runtime.test.ts -t \"recreates the session runtime when MCP config changes\"\n- node scripts/run-vitest.mjs src/media-understanding/apply.test.ts\n- pnpm check:changed\n\n## Notes\nCurrent main 70489061cab62786b794ac593f85933b3ade2063 still has SHA-1 at the two target call sites. Before any future merge lane, rerun Codex /review and address any findings plus the previously failing checks-node-core-runtime-infra-network-platform shard if it still reproduces on the repaired branch.",
+    "likely_files": [
+      "src/agents/agent-bundle-mcp-runtime.ts",
+      "src/agents/agent-bundle-mcp-runtime.test.ts",
+      "src/media-understanding/apply.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/agents/agent-bundle-mcp-runtime.test.ts -t \"recreates the session runtime when MCP config changes\"",
+      "node scripts/run-vitest.mjs src/media-understanding/apply.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve YonganZhang's contribution from https://github.com/openclaw/openclaw/pull/59695 in the repaired branch history and PR body.",
+      "Keep source PR credit visible: source PR #59695 by @YonganZhang; Clownfish repair should not replace this with an uncredited new PR.",
+      "If release-note context is later added, credit @YonganZhang for the original SHA-256 fingerprinting cleanup."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-59695-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/59695",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "11b737eeaa4e9d3b1efa8115711b4fc61bdebe40",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#59695",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#59695",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
