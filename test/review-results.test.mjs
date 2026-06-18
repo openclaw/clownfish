@@ -144,7 +144,7 @@ test("review-results trusts explicit false preflight classifications", () => {
             "Deterministic validation separately reported: #90672 security-sensitive target must use route_security.",
           ],
           reason:
-            "Validator and hydrated preflight disagree on the security routing boundary; route_security is not safe to emit.",
+            "Human review is required to reconcile the validator's security-sensitive classification with the authoritative hydrated preflight item before any routing or mutating action.",
         },
       ],
     },
@@ -160,6 +160,48 @@ test("review-results trusts explicit false preflight classifications", () => {
             updated_at: "2026-06-15T14:15:01Z",
             security_sensitive: false,
             body_excerpt: "The preflight reviewed a privacy leak but classified this target as non-security.",
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results trusts plan summaries with no hydrated security-sensitive items", () => {
+  const dir = makeResultDir(
+    {
+      summary:
+        "Plan-only inventory shard. No hydrated item has security_sensitive=true; merge, fix, and raise_pr are blocked.",
+      actions: [
+        {
+          target: "#90672",
+          action: "keep_independent",
+          status: "planned",
+          idempotency_key: "cluster-test:keep-independent:90672:no-hydrated-security-items",
+          classification: "independent",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z",
+          evidence: ["No hydrated duplicate or supersession evidence is available."],
+          reason: "Independent PR.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#90672",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(secrets): avoid false positives in credential redaction",
+            labels: ["proof: sufficient"],
+            updated_at: "2026-06-15T14:15:01Z",
+            security_sensitive: false,
           },
         ],
       },

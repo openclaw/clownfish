@@ -186,6 +186,7 @@ function reviewResult(resultPath) {
     if (
       !clusterScopedAction &&
       name === "needs_human" &&
+      !hasExplicitNonSecurityPreflightForItem(action, item, result) &&
       /security-sensitive|security boundary|central .*security|security triage/i.test(String(action.reason ?? ""))
     ) {
       failures.push(`${target} security routing must use route_security instead of needs_human`);
@@ -350,7 +351,7 @@ function isUnavailableSecurityRouteAction(action, item) {
 
 function isSecuritySensitiveActionContext(action, item, result) {
   if (item?.security_sensitive === true) return true;
-  if (item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action, result)) return false;
+  if (hasExplicitNonSecurityPreflightForItem(action, item, result)) return false;
   if (NON_MUTATING_KEEP_ACTIONS.has(String(action.action ?? ""))) {
     return hasSecuritySensitiveText(securityTextFromItem(item), action.classification);
   }
@@ -363,6 +364,10 @@ function isSecuritySensitiveActionContext(action, item, result) {
   );
 }
 
+function hasExplicitNonSecurityPreflightForItem(action, item, result) {
+  return item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action, result);
+}
+
 function hasExplicitNonSecurityPreflightAssertion(action, result) {
   const text = [result?.summary, action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
   return (
@@ -370,6 +375,9 @@ function hasExplicitNonSecurityPreflightAssertion(action, result) {
       text,
     ) ||
     /\bno\s+security[-_\s]?sensitive\s+(?:refs?|items?|targets?|signals?|status)\s+(?:were|was|are|is)?\s*(?:detected|present|found)\b/i.test(
+      text,
+    ) ||
+    /\bno\s+hydrated\s+(?:preflight\s+)?(?:items?|refs?|targets?)\s+(?:(?:has|have|had|were|was|are|is)\s+)?(?:explicitly\s+)?(?:marked\s+)?security[-_\s]?sensitive(?:\s*(?:[=:]\s*|\s+)(?:true|1|yes))?\b/i.test(
       text,
     ) ||
     /\bno\b[^.\n]{0,160}\b(?:security[-_\s]?route|route_security)\s+action\s+(?:is|was)\s+(?:justified|required|needed|allowed)\b/i.test(
