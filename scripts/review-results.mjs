@@ -368,7 +368,11 @@ function isSkippedClosedContextAction(action, item) {
 
 function nonSecurityAssertionStrippedText(value) {
   return String(value ?? "")
-    .replace(/\bsecurity-sensitive-guard(?:-detect)?\b/gi, "routine CI guard")
+    .replace(
+      /\bsecurity[-_\s]?boundary\s*:\s*preflight\s+security[-_\s]?sensitive\s*=\s*(?:false|0|no)(?:\s+and\s+security[-_\s]?sensitive[-_\s]?guard(?:[-_\s]?detect)?\s+passed)?(?:\s*;\s*no\s+route_security\s+action\s+needed)?\.?/gi,
+      "non-security classification",
+    )
+    .replace(/\bsecurity[-_\s]?sensitive[-_\s]?guard(?:[-_\s]?detect)?\b/gi, "routine CI guard")
     .replace(/\bsecurity[-_\s]?sensitive\s*[=:]\s*(?:false|0|no)\b/gi, "non-security classification")
     .replace(/\bsecuritySensitive\s*[=:]\s*(?:false|0|no)\b/g, "non-security classification")
     .replace(
