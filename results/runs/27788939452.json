@@ -1,0 +1,221 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-81190-fresh-plan-20260618b",
+  "mode": "execute",
+  "run_id": "27788939452",
+  "workflow_run_id": "27788939452",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27788939452",
+  "head_sha": "c1079a640cc2830eaf6c48a4dd5192d883c4fb63",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T20:59:10Z",
+  "workflow_updated_at": "2026-06-18T21:09:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-81190-fresh-plan-20260618b.md",
+  "published_at": "2026-06-18T21:10:18.366Z",
+  "canonical": "#81190",
+  "canonical_issue": null,
+  "canonical_pr": "#81190",
+  "summary": "PR #81190 remains the canonical narrow fix path, but it needs contributor-branch repair before a fix PR can be opened: the hydrated PR is open and maintainer-editable, while current main has moved the runner surface from the job's stale pi-embedded path to src/agents/embedded-agent-runner and still compacts before generic tool-result truncation on the reported overflow path.",
+  "actions": [
+    {
+      "target": "#81190",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81190",
+      "candidate_fix": null,
+      "reason": "Concrete narrow blocker: contributor branch must be rebased/ported from stale pi-embedded-runner paths to the current embedded-agent-runner files while preserving @LLagoon3 credit."
+    },
+    {
+      "target": "cluster:repair-81190-fresh-plan-20260618b",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81190",
+      "candidate_fix": "#81190",
+      "reason": "Executor-ready repair artifact is needed because merge is disabled and the open contributor PR is useful but stale against current main."
+    },
+    {
+      "target": "cluster:repair-81190-fresh-plan-20260618b",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81190",
+      "candidate_fix": "#81190",
+      "reason": "After repairing the contributor branch or preparing an equivalent credited branch, the executor should open/update the fix PR path for maintainer review."
+    },
+    {
+      "target": "#81182",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#81190",
+      "candidate_fix": "#81190",
+      "reason": "Keep open as related/fixed-by-candidate context until the repaired #81190 path lands."
+    },
+    {
+      "target": "#45503",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81190",
+      "candidate_fix": null,
+      "reason": "Same context/tool-result family, different product scope."
+    },
+    {
+      "target": "#53008",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81190",
+      "candidate_fix": null,
+      "reason": "Related compaction/session-state area, but not the same root cause."
+    },
+    {
+      "target": "#78562",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81190",
+      "candidate_fix": null,
+      "reason": "#81190 may help the ordering subcase, but it is not the complete canonical fix for the broader repeated-overflow family."
+    },
+    {
+      "target": "#64962",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#81190",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation allowed."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "keep_related": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81190",
+    "source_refs": [
+      "#81190",
+      "#81182",
+      "#45503",
+      "#53008",
+      "#64962",
+      "#78562"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair the useful contributor PR #81190 by porting its narrow truncation-before-overflow-compaction behavior onto current main's embedded-agent-runner surface. The repair should try deterministic tool-result truncation before explicit overflow compaction when a prompt/assistant context overflow is driven by oversized or aggregate tool results, then retry promptly if truncation helped; if truncation does not help, preserve the existing compaction fallback and persisted-turn continuation guard.",
+    "pr_title": "fix(agents): repair overflow truncation-first recovery",
+    "pr_body": "## Summary\n- Repairs the narrow overflow recovery change from source PR #81190 by @LLagoon3 for current main's `src/agents/embedded-agent-runner` files.\n- Tries deterministic tool-result truncation before explicit overflow compaction when oversized tool results are the likely pressure source.\n- Preserves the existing compaction fallback when truncation does not help and keeps the persisted-turn continuation guard so already-persisted inbound turns are not replayed.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/81190\nThanks @LLagoon3 for the original fix and regression coverage; this repair keeps that attribution attached to the implementation.\n\n## Verification\n- `node scripts/run-vitest.mjs src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts`\n- `pnpm check:changed`\n\n## Notes\nNo config knobs, timeout policy changes, docs surface, or broad compaction redesign are intended.",
+    "likely_files": [
+      "src/agents/embedded-agent-runner/run.ts",
+      "src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @LLagoon3 as the source contributor for PR #81190.",
+      "Preserve source PR attribution: https://github.com/openclaw/openclaw/pull/81190.",
+      "Carry forward the contributor's persisted-turn retry guard from commit 7ec0b4b52877c18276a46098d605b7e25b1d376f.",
+      "No CHANGELOG.md edit for this normal repair PR; include release-note context and contributor credit in the PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-81190-fresh-plan-20260618b.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/81190",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "5b6bbd1a05a54973603acb0972ffec2a35a687a6",
+      "checkpoint_commits": [
+        "483084ecdc6416ee55c827c7f480aaf8a1d71309",
+        "513fccae2ae4ff979b1a69a0da3c3320ca98c1af",
+        "5b6bbd1a05a54973603acb0972ffec2a35a687a6"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#81190",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#81190",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}

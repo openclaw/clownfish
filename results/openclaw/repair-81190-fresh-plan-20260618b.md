@@ -1,23 +1,23 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "repair-81190-fresh-plan-20260618b"
-mode: "plan"
-run_id: "27788591304"
-workflow_run_id: "27788591304"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27788591304"
-head_sha: "7f41b2e7f526831f314ee6eca2a9d0ce587bfca7"
+mode: "execute"
+run_id: "27788939452"
+workflow_run_id: "27788939452"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27788939452"
+head_sha: "c1079a640cc2830eaf6c48a4dd5192d883c4fb63"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T20:55:32.403Z"
+published_at: "2026-06-18T21:10:18.366Z"
 canonical: "#81190"
-canonical_issue: "#81182"
+canonical_issue: null
 canonical_pr: "#81190"
 actions_total: 8
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27788591304](https://github.com/openclaw/clownfish/actions/runs/27788591304)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27788939452](https://github.com/openclaw/clownfish/actions/runs/27788939452)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #81190
 
 ## Summary
 
-Plan mode only. The current hydrated state keeps #81190 as the canonical open contributor PR and recommends a narrow contributor-branch repair/refresh path for its two-file overflow-compaction change, preserving LLagoon3 credit. No comments, labels, closes, merges, force-pushes, or bypasses are planned.
+PR #81190 remains the canonical narrow fix path, but it needs contributor-branch repair before a fix PR can be opened: the hydrated PR is open and maintainer-editable, while current main has moved the runner surface from the job's stale pi-embedded path to src/agents/embedded-agent-runner and still compacts before generic tool-result truncation on the reported overflow path.
 
 ## Impact
 
@@ -47,7 +47,7 @@ Plan mode only. The current hydrated state keeps #81190 as the canonical open co
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -59,10 +59,10 @@ Plan mode only. The current hydrated state keeps #81190 as the canonical open co
   "source_refs": [
     "#81190",
     "#81182",
-    "#78562",
     "#45503",
     "#53008",
-    "#64962"
+    "#64962",
+    "#78562"
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
@@ -70,28 +70,29 @@ Plan mode only. The current hydrated state keeps #81190 as the canonical open co
     "build_fix_artifact",
     "open_fix_pr"
   ],
-  "summary": "Repair the open contributor PR #81190 by refreshing/rebasing LLagoon3's narrow overflow recovery patch onto current main if needed, preserving the existing behavior change: try deterministic tool-result truncation before explicit overflow compaction when tool-result pressure is present, while preserving compaction fallback and persisted-turn retry handling.",
-  "pr_title": "fix(agents): repair tool-result truncation before overflow compaction",
-  "pr_body": "## Summary\n- Repair/refresh LLagoon3's #81190 overflow recovery patch against current main.\n- Keep the scope to `src/agents/pi-embedded-runner/run.ts` and `src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts`.\n- Preserve the intended behavior: when tool-result pressure is detected during overflow recovery, try deterministic tool-result truncation before explicit overflow compaction, retry after useful truncation, and keep the existing compaction fallback when truncation does not help.\n\n## Source Credit\n- Source PR: https://github.com/openclaw/openclaw/pull/81190\n- Contributor: LLagoon3\n- Clownfish repair must preserve attribution for the original implementation and proof.\n\n## Validation\n- `pnpm -s vitest run src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts`\n- `pnpm check:changed`\n\n## Guardrails\n- Do not expand beyond the overflow-compaction runner and focused regression test.\n- Do not redesign tool-result truncation, compaction policy, timeouts, config, or broader session-state behavior.\n- Do not include lifecycle commands, inline probes, or Codex `/review` in executor validation commands for this plan.",
+  "summary": "Repair the useful contributor PR #81190 by porting its narrow truncation-before-overflow-compaction behavior onto current main's embedded-agent-runner surface. The repair should try deterministic tool-result truncation before explicit overflow compaction when a prompt/assistant context overflow is driven by oversized or aggregate tool results, then retry promptly if truncation helped; if truncation does not help, preserve the existing compaction fallback and persisted-turn continuation guard.",
+  "pr_title": "fix(agents): repair overflow truncation-first recovery",
+  "pr_body": "## Summary\n- Repairs the narrow overflow recovery change from source PR #81190 by @LLagoon3 for current main's `src/agents/embedded-agent-runner` files.\n- Tries deterministic tool-result truncation before explicit overflow compaction when oversized tool results are the likely pressure source.\n- Preserves the existing compaction fallback when truncation does not help and keeps the persisted-turn continuation guard so already-persisted inbound turns are not replayed.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/81190\nThanks @LLagoon3 for the original fix and regression coverage; this repair keeps that attribution attached to the implementation.\n\n## Verification\n- `node scripts/run-vitest.mjs src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts`\n- `pnpm check:changed`\n\n## Notes\nNo config knobs, timeout policy changes, docs surface, or broad compaction redesign are intended.",
   "likely_files": [
-    "src/agents/pi-embedded-runner/run.ts",
-    "src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts"
+    "src/agents/embedded-agent-runner/run.ts",
+    "src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts"
   ],
   "validation_commands": [
-    "pnpm -s vitest run src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts",
+    "node scripts/run-vitest.mjs src/agents/embedded-agent-runner/run.overflow-compaction.loop.test.ts",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve LLagoon3 as the source contributor for PR #81190.",
-    "Source PR: https://github.com/openclaw/openclaw/pull/81190",
-    "If the executor opens or updates a Clownfish-authored repair PR, include attribution to LLagoon3 and describe #81190 as the source PR in the PR body and changelog note."
+    "Credit @LLagoon3 as the source contributor for PR #81190.",
+    "Preserve source PR attribution: https://github.com/openclaw/openclaw/pull/81190.",
+    "Carry forward the contributor's persisted-turn retry guard from commit 7ec0b4b52877c18276a46098d605b7e25b1d376f.",
+    "No CHANGELOG.md edit for this normal repair PR; include release-note context and contributor credit in the PR body."
   ],
   "source_job": "jobs/openclaw/inbox/repair-81190-fresh-plan-20260618b.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -99,32 +100,32 @@ Plan mode only. The current hydrated state keeps #81190 as the canonical open co
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/81190 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #81190 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #81190 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45503 | keep_related | planned | related | Related session/tool-result context work, but broader product scope than the two-file overflow-compaction repair. |
-| #53008 | keep_related | planned | related | Related compaction/session-state area, but different root cause and not fixed by #81190. |
-| #64962 | keep_closed | skipped | related | Already closed; retained only as related historical context. |
-| #78562 | keep_related | planned | related | Related broader repeated-overflow family; #81190 is a partial candidate for the ordering slice only. |
-| #81182 | keep_related | planned | fixed_by_candidate | Issue #81182 should remain open until the #81190 repair/fix path lands and post-merge closeout is explicitly allowed. |
-| #81190 | fix_needed | planned | canonical | The canonical contributor PR is useful and narrow, but needs an executor-ready branch refresh/repair pass before it can be safely carried forward. |
-| cluster:repair-81190-fresh-plan-20260618b | build_fix_artifact | planned |  | Build a guarded fix artifact for the deterministic executor to refresh/repair the contributor branch only within the allowed scope. |
-| #81190 | open_fix_pr | planned | canonical | Plan a guarded contributor-branch repair/update path for #81190; no GitHub mutation is performed by the worker. |
+| #81190 | fix_needed | planned | canonical | Concrete narrow blocker: contributor branch must be rebased/ported from stale pi-embedded-runner paths to the current embedded-agent-runner files while preserving @LLagoon3 credit. |
+| cluster:repair-81190-fresh-plan-20260618b | build_fix_artifact | planned | canonical | Executor-ready repair artifact is needed because merge is disabled and the open contributor PR is useful but stale against current main. |
+| cluster:repair-81190-fresh-plan-20260618b | open_fix_pr | planned | canonical | After repairing the contributor branch or preparing an equivalent credited branch, the executor should open/update the fix PR path for maintainer review. |
+| #81182 | keep_related | planned | fixed_by_candidate | Keep open as related/fixed-by-candidate context until the repaired #81190 path lands. |
+| #45503 | keep_related | planned | related | Same context/tool-result family, different product scope. |
+| #53008 | keep_related | planned | related | Related compaction/session-state area, but not the same root cause. |
+| #78562 | keep_related | planned | related | #81190 may help the ordering subcase, but it is not the complete canonical fix for the broader repeated-overflow family. |
+| #64962 | keep_closed | skipped | related | Already closed; no mutation allowed. |
 
 ## Needs Human
 
