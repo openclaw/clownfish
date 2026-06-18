@@ -613,6 +613,9 @@ function validateFixArtifact(fixArtifact, failures) {
     if (isDisallowedPullRequestLifecycleValidationCommand(command)) {
       failures.push(`fix_artifact.validation_commands must not invoke PR lifecycle command: ${command}`);
     }
+    if (isExecutorManagedValidationCommand(command)) {
+      failures.push(`fix_artifact.validation_commands must not include executor-managed validation: ${command}`);
+    }
   }
   if (typeof fixArtifact.changelog_required !== "boolean") {
     failures.push("fix_artifact.changelog_required must be boolean");
@@ -641,6 +644,10 @@ function validateFixArtifact(fixArtifact, failures) {
 function isDisallowedPullRequestLifecycleValidationCommand(command) {
   const text = String(command ?? "").trim();
   return text.startsWith("scripts/pr ") && !/^scripts\/pr review-validate-artifacts [1-9][0-9]*$/.test(text);
+}
+
+function isExecutorManagedValidationCommand(command) {
+  return /^codex\s+\/review\b/i.test(String(command ?? "").trim());
 }
 
 function readSiblingJson(runDir, filename) {

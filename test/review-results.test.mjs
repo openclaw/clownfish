@@ -1168,6 +1168,44 @@ test("review-results rejects PR lifecycle commands in fix artifact validation", 
   assert.match(result.stdout, /fix_artifact\.validation_commands must not invoke PR lifecycle command: scripts\/pr prepare-run 94022/);
 });
 
+test("review-results rejects executor-managed Codex review pseudo-commands in fix artifact validation", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "projectclownfish:cluster-test:build-fix-artifact:v1",
+          evidence: ["The repair has a focused validation plan."],
+        },
+      ],
+      fix_artifact: {
+        summary: "build a narrow credited fix",
+        affected_surfaces: ["control ui"],
+        likely_files: ["ui/src/ui/chat/build-chat-items.ts"],
+        linked_refs: ["#1"],
+        validation_commands: ["pnpm check:changed", "Codex /review on #88180 after repair"],
+        changelog_required: false,
+        credit_notes: ["credit source PR"],
+        pr_title: "fix: narrow issue",
+        pr_body: "## Summary\n- fix the issue",
+        repair_strategy: "new_fix_pr",
+      },
+    },
+    { job: fixEnabledJob() },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(
+    result.stdout,
+    /fix_artifact\.validation_commands must not include executor-managed validation: Codex \/review on #88180 after repair/,
+  );
+});
+
 test("review-results verifies fix artifacts with a permission snapshot after source job removal", () => {
   const dir = makeResultDir(
     {

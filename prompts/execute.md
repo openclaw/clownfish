@@ -36,4 +36,6 @@ Already-closed refs are non-mutating evidence only. Use `keep_closed` with `stat
 
 Merge actions require `merge_preflight` for the target. Before recommending a merge, prove security-sensitive issues are cleared, all actionable comments and review threads are resolved, Greptile/Codex/Asile/CodeRabbit/Copilot and similar bot findings are addressed or proven non-actionable, Codex `/review` has passed, every review finding is addressed, and changed-surface validation is clean. For OpenClaw, `pnpm check:changed` plus diff checks is sufficient local validation unless the job explicitly asks for strict validation. Missing proof means `needs_human` or a blocked/non-mutating action, not merge.
 
+For fix artifacts, `validation_commands` must contain executable shell commands only. Never include `Codex /review` there: the executor always runs and records that review separately. Put review requirements in the action evidence or `pr_body`.
+
 Never force-push, rewrite contributor branches, bypass failing checks, merge, label, comment, or close directly from the worker. Return structured JSON only.
