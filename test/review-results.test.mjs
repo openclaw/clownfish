@@ -935,7 +935,7 @@ test("review-results allows unavailable non-mutating plan classifications", () =
   assert.match(result.stdout, /target_updated_at ignored because preflight item was unavailable/);
 });
 
-test("review-results rejects non-security routes for security-shaped targets", () => {
+test("review-results honors non-security preflight for security-shaped targets", () => {
   const dir = makeResultDir(
     {
       actions: [
@@ -971,8 +971,8 @@ test("review-results rejects non-security routes for security-shaped targets", (
 
   const result = review(dir);
 
-  assert.notEqual(result.status, 0);
-  assert.match(result.stdout, /security-sensitive target must use route_security/);
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
 });
 
 test("review-results rejects route_security when preflight marks the target non-security", () => {

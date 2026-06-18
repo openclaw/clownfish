@@ -364,26 +364,8 @@ function isSecuritySensitiveActionContext(action, item, result) {
   );
 }
 
-function hasExplicitNonSecurityPreflightForItem(action, item, result) {
-  return item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action, result);
-}
-
-function hasExplicitNonSecurityPreflightAssertion(action, result) {
-  const text = [result?.summary, action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
-  return (
-    /\b(?:preflight|item[-_\s]?matrix|hydrated\s+preflight)[^.\n]{0,160}\b(?:security[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)|non[-_\s]?security[-_\s]?sensitive)\b/i.test(
-      text,
-    ) ||
-    /\bno\s+security[-_\s]?sensitive\s+(?:hydrated\s+)?(?:refs?|items?|targets?|signals?|status)\b(?:\s+(?:were|was|are|is)?\s*(?:detected|present|found))?/i.test(
-      text,
-    ) ||
-    /\bno\s+hydrated\s+(?:preflight\s+)?(?:items?|refs?|targets?)\s+(?:(?:has|have|had|were|was|are|is)\s+)?(?:explicitly\s+)?(?:marked\s+)?security[-_\s]?sensitive(?:\s*(?:[=:]\s*|\s+)(?:true|1|yes))?\b/i.test(
-      text,
-    ) ||
-    /\bno\b[^.\n]{0,160}\b(?:security[-_\s]?route|route_security)\s+action\s+(?:is|was)\s+(?:justified|required|needed|allowed)\b/i.test(
-      text,
-    )
-  );
+function hasExplicitNonSecurityPreflightForItem(_action, item, _result) {
+  return item?.security_sensitive === false;
 }
 
 function isSkippedClosedContextAction(action, item) {
