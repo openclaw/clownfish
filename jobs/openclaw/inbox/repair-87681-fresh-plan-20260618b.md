@@ -1,7 +1,7 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "repair-87681-fresh-plan-20260618b"
-mode: plan
+mode: execute
 allowed_actions:
   - fix
   - raise_pr
@@ -31,7 +31,7 @@ require_fix_before_close: true
 security_policy: central_security_only
 security_sensitive: false
 target_branch: "clownfish/repair-87681-fresh-plan-20260618b"
-source: refreshed_repair_candidate_batch
+source: repair_canary_promotion
 repair_strategy: "repair_contributor_branch"
 ---
 
