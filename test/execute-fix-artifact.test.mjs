@@ -672,6 +672,19 @@ test("execute-fix-artifact accepts bounded OpenClaw PR review artifact validatio
   assert.equal(run.report.status, "planned");
 });
 
+test("execute-fix-artifact accepts bounded corepack oxfmt validation", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "corepack-oxfmt-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    strict: true,
+    validationCommands: ["corepack pnpm exec oxfmt --check --threads=1 src/app.js package.json"],
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+});
+
 test("execute-fix-artifact rejects non-bounded OpenClaw PR validation commands", () => {
   for (const validationCommand of ["scripts/pr review-validate-artifacts 0", "scripts/pr prepare-run 94022"]) {
     const run = runBaselineChangedGateFixture({
@@ -706,6 +719,19 @@ test("execute-fix-artifact rejects shell syntax validation paths outside the che
     baselineOutput: "",
     postOutput: "",
     validationCommands: ["bash -n ../setup-auth-system.sh"],
+  });
+
+  assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
+  assert.match(run.child.stderr, /unsupported validation command/);
+  assert.equal(run.report.status, "failed");
+});
+
+test("execute-fix-artifact rejects corepack oxfmt paths outside the checkout", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "corepack-oxfmt-path-validation-cluster",
+    baselineOutput: "",
+    postOutput: "",
+    validationCommands: ["corepack pnpm exec oxfmt --check src/app.js ../src/app.js"],
   });
 
   assert.equal(run.child.status, 1, run.child.stderr || run.child.stdout);
@@ -1028,6 +1054,16 @@ process.exit(2);
     path.join(binDir, "pnpm"),
     `#!/usr/bin/env node
 process.exit(0);
+`,
+  );
+  writeExecutable(
+    path.join(binDir, "corepack"),
+    `#!/usr/bin/env node
+const { spawnSync } = require("node:child_process");
+const [command, ...args] = process.argv.slice(2);
+if (command !== "pnpm") process.exit(2);
+const child = spawnSync("pnpm", args, { stdio: "inherit" });
+process.exit(child.status ?? 1);
 `,
   );
 }

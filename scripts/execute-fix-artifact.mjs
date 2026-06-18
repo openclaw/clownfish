@@ -3025,6 +3025,7 @@ function parseAllowedValidationCommand(command) {
   if (isAllowedAutoreviewValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedShellSyntaxValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedPullRequestArtifactReviewValidation(parts)) return parts;
+  if (rawParts.length === parts.length && isAllowedCorepackOxfmtValidation(parts)) return parts;
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
   }
@@ -3052,6 +3053,32 @@ function isAllowedPullRequestArtifactReviewValidation(parts) {
     parts[0] === "scripts/pr" &&
     parts[1] === "review-validate-artifacts" &&
     /^[1-9][0-9]*$/.test(parts[2])
+  );
+}
+
+function isAllowedCorepackOxfmtValidation(parts) {
+  if (
+    parts[0] !== "corepack" ||
+    parts[1] !== "pnpm" ||
+    parts[2] !== "exec" ||
+    parts[3] !== "oxfmt" ||
+    parts[4] !== "--check"
+  ) {
+    return false;
+  }
+  let index = 5;
+  if (parts[index] === "--threads=1") index += 1;
+  const paths = parts.slice(index);
+  return paths.length > 0 && paths.every(isSafeRelativeValidationPath);
+}
+
+function isSafeRelativeValidationPath(value) {
+  const filePath = String(value ?? "");
+  return (
+    /^[A-Za-z0-9._/@+-]+$/.test(filePath) &&
+    !path.isAbsolute(filePath) &&
+    !filePath.includes("\\") &&
+    !filePath.split("/").some((segment) => !segment || segment === "." || segment === "..")
   );
 }
 
