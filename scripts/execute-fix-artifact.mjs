@@ -328,11 +328,10 @@ try {
       if (rebaseOnlyRepair) {
         const reason = `rebase-only repair stopped: ${error.message}`;
         outcome = {
+          ...blockedFixOutcome(error, fixArtifact),
           action: "repair_contributor_branch",
-          status: "blocked",
           repair_strategy: fixArtifact.repair_strategy,
           reason,
-          ...sourceHeadFetchFailureFields(error.message),
         };
       } else {
         report.actions.push({
@@ -1666,28 +1665,36 @@ function validateAndReviewLoop({
 }) {
   let lastReview = null;
   let validationCommands = [];
-  for (let attempt = 1; attempt <= maxReviewAttempts; attempt += 1) {
-    noteFixStage("validation_start", { mode, attempt });
+  let reviewAttempts = 0;
+  let baseRefreshes = 0;
+  while (reviewAttempts < maxReviewAttempts) {
+    const attempt = reviewAttempts + 1;
+    noteFixStage("validation_start", { mode, attempt, base_refreshes: baseRefreshes });
     validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch, changedGateBaseline);
     runDiffCheck({ targetDir, baseBranch });
-    noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length });
+    noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length, base_refreshes: baseRefreshes });
     if (refreshBaseBeforeReview && branch && refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
-      noteFixStage("base_refresh_before_review", { mode, attempt });
+      baseRefreshes += 1;
+      noteFixStage("base_refresh_before_review", { mode, attempt, base_refreshes: baseRefreshes });
+      if (baseRefreshes > 1) {
+        throw new Error("base branch advanced again during rebase-only validation; requeue before review");
+      }
       continue;
     }
+    reviewAttempts += 1;
     noteFixStage("codex_review_start", { mode, attempt });
     lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch, validationCommands });
     noteFixStage("codex_review_complete", { mode, attempt, status: lastReview.status ?? "unknown" });
     lastReview.validation_commands_run = validationCommands;
     if (isCleanCodexReview(lastReview)) return lastReview;
-    if (!allowReviewFixes || attempt === maxReviewAttempts) break;
+    if (!allowReviewFixes || reviewAttempts === maxReviewAttempts) break;
     const reviewFix = runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
     onReviewFix?.(attempt, reviewFix);
   }
   const summary =
     lastReview?.summary ??
     (Array.isArray(lastReview?.findings) ? lastReview.findings.map((finding) => finding.summary ?? finding).join("; ") : "unknown");
-  throw new Error(`Codex /review did not pass after ${maxReviewAttempts} attempt(s): ${summary}`);
+  throw new Error(`Codex /review did not pass after ${reviewAttempts} attempt(s): ${summary}`);
 }
 
 function runDiffCheck({ targetDir, baseBranch }) {

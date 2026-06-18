@@ -338,18 +338,26 @@ test("execute-fix-artifact makes rebase-only repair a no-generated-edit path", (
 
   assert.match(source, /if \(!rebased && \(scopeBlock \|\| rebaseOnly\)\)/);
   assert.match(source, /allowReviewFixes: !rebaseOnly,/);
-  assert.match(source, /if \(!allowReviewFixes \|\| attempt === maxReviewAttempts\) break;/);
+  assert.match(source, /if \(!allowReviewFixes \|\| reviewAttempts === maxReviewAttempts\) break;/);
   assert.match(
     source,
-    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?outcome = \{\s*action: "repair_contributor_branch",\s*status: "blocked",/,
+    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?outcome = \{\s*\.{3}blockedFixOutcome\(error, fixArtifact\),\s*action: "repair_contributor_branch",/,
   );
   assert.match(source, /rebase-only repair does not resolve review threads/);
   assert.match(source, /if \(!rebaseOnly\) \{\s*const comment = repairContributorBranchComment/);
   assert.match(source, /function validateRebaseOnlyRepair\(\{ job, fixArtifact \}\)/);
-  assert.match(
-    source,
-    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?\.{3}sourceHeadFetchFailureFields\(error\.message\)/,
-  );
+  assert.match(source, /recovery_note: "recoverable branch was pushed before fix execution blocked; requeue can resume it"/);
+});
+
+test("execute-fix-artifact preserves review budget across one rebase-only base refresh", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /let reviewAttempts = 0;/);
+  assert.match(source, /let baseRefreshes = 0;/);
+  assert.match(source, /baseRefreshes \+= 1;/);
+  assert.match(source, /if \(baseRefreshes > 1\) \{\s*throw new Error\("base branch advanced again during rebase-only validation; requeue before review"\)/);
+  assert.match(source, /reviewAttempts \+= 1;\s*noteFixStage\("codex_review_start"/);
+  assert.match(source, /Codex \/review did not pass after \$\{reviewAttempts\} attempt\(s\):/);
 });
 
 test("execute-fix-artifact bounds and traces rebase-only repair execution", () => {
