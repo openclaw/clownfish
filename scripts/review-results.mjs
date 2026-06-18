@@ -350,6 +350,7 @@ function isUnavailableSecurityRouteAction(action, item) {
 
 function isSecuritySensitiveActionContext(action, item) {
   if (item?.security_sensitive === true) return true;
+  if (item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action)) return false;
   if (NON_MUTATING_KEEP_ACTIONS.has(String(action.action ?? ""))) {
     return hasSecuritySensitiveText(securityTextFromItem(item), action.classification);
   }
@@ -359,6 +360,13 @@ function isSecuritySensitiveActionContext(action, item) {
     nonSecurityAssertionStrippedText(action.reason),
     nonSecurityAssertionStrippedText(action.comment),
     (action.evidence ?? []).map(nonSecurityAssertionStrippedText),
+  );
+}
+
+function hasExplicitNonSecurityPreflightAssertion(action) {
+  const text = [action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
+  return /\b(?:preflight|item[-_\s]?matrix|hydrated\s+preflight)[^.\n]{0,160}\bsecurity[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)\b/i.test(
+    text,
   );
 }
 
