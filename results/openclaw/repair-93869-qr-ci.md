@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-93869-qr-ci"
 mode: "autonomous"
-run_id: "27761807474"
-workflow_run_id: "27761807474"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27761807474"
-head_sha: "d105852c3b384fe904dbb04b7e4361275f47a16d"
+run_id: "27765147599"
+workflow_run_id: "27765147599"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27765147599"
+head_sha: "38d52e774cbac925aa77b57c6ebd75da235e7a49"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T13:42:04.614Z"
+published_at: "2026-06-18T14:27:13.600Z"
 canonical: "https://github.com/openclaw/openclaw/pull/93869"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/93869"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27761807474](https://github.com/openclaw/clownfish/actions/runs/27761807474)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27765147599](https://github.com/openclaw/clownfish/actions/runs/27765147599)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 
 ## Summary
 
-Prepared a local repair on existing branch clownfish/repair-51868-qr-rendering at #93869 head 3ba505d9ec8a40fcec6c0d6e3769879f0eec108d. The patch marks only QR/block-art copy payloads with data-code-format, percent-encodes those payloads so leading quiet-zone spaces survive DOM parsing, decodes only marked payloads in the chat copy handler, leaves normal/raw data-code payloads unchanged, and updates focused coverage. No GitHub mutation, push, PR creation, comment, label, close, or merge was performed.
+#93869 is the canonical writable repair PR for the QR half-block rendering/copy fix. It is open but not merge-ready: hydrated CI shows `check-lint` and `check-prod-types` failing on head `3ba505d9ec8a40fcec6c0d6e3769879f0eec108d`, and the job identifies the concrete branch regression around block-art `data-code` whitespace and the missing `isMarkdownBlockArtText` mock export. #51868 remains the credited source PR and should not be altered in this job.
 
 ## Impact
 
@@ -65,26 +65,24 @@ Prepared a local repair on existing branch clownfish/repair-51868-qr-rendering a
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #93869 by making QR/block-art copy payload encoding explicit and non-colliding: markdown rendering percent-encodes only block-art data-code values, adds a data-code-format marker, and the delegated chat copy handler decodes only marked block-art payloads while preserving raw legacy payloads.",
+  "summary": "Repair #93869 by encoding only block-art `data-code` payloads in `ui/src/ui/markdown.ts`, decoding those marked payloads before `copyToClipboard` in `ui/src/ui/views/chat.ts`, and updating focused UI tests so leading QR quiet-zone spaces survive rendered DOM parsing and clipboard copy for normal and truncated block art.",
   "pr_title": "UI: render half-block QR output in web chat",
-  "pr_body": "## Summary\n- Repairs the existing #93869 branch so QR/block-art copy payloads keep leading quiet-zone spaces after DOM parsing.\n- Encodes only marked block-art `data-code` payloads and decodes only those marked payloads in the delegated chat copy handler.\n- Keeps normal code-block and existing raw `data-code` payloads copyable without accidental decoding.\n\n## Credit\nCarries forward the fix idea and reproduction from @emg110 in https://github.com/openclaw/openclaw/pull/51868. Thanks @emg110 for the original report, implementation direction, and proof.\n\n## Validation\n- `node scripts/run-vitest.mjs ui/src/ui/markdown.test.ts ui/src/ui/views/chat.test.ts ui/src/ui/chat/grouped-render.test.ts` passed: 2 shards, 262 tests.\n- `git diff --check` passed.\n- `.agents/skills/autoreview/scripts/autoreview --mode local` passed clean after addressing the raw-payload collision finding.\n- Pre-push executor should still run `corepack pnpm check:changed`.",
+  "pr_body": "## Summary\n- Repair the existing #93869 branch so QR/block-art copy payloads preserve leading quiet-zone spaces after DOM parsing.\n- Encode only block-art `data-code` values with a deterministic marker in `ui/src/ui/markdown.ts`; leave normal code-copy payloads raw.\n- Decode marked block-art payloads only at copy time in `ui/src/ui/views/chat.ts`, while keeping existing raw `data-code` payloads working.\n- Update the markdown mock in `grouped-render.test.ts` to export `isMarkdownBlockArtText` and add focused coverage for normal and truncated block-art copy behavior.\n\n## Credit\nThis continues to carry forward the fix idea and reproduction from @emg110 in https://github.com/openclaw/openclaw/pull/51868. Thanks @emg110 for the original report, implementation direction, and proof.\n\n## Validation\n- `pnpm test:serial ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before push/closeout\n\n## Notes\nKnown `prompt:snapshots:check` drift and ClawHub temporary-directory cleanup failures are unrelated current-main failures and should not be edited in this repair.",
   "likely_files": [
-    "ui/src/ui/chat/code-block-copy-payload.ts",
     "ui/src/ui/markdown.ts",
-    "ui/src/ui/views/chat.ts",
     "ui/src/ui/markdown.test.ts",
+    "ui/src/ui/chat/grouped-render.test.ts",
+    "ui/src/ui/views/chat.ts",
     "ui/src/ui/views/chat.test.ts"
   ],
   "validation_commands": [
-    "node scripts/run-vitest.mjs ui/src/ui/markdown.test.ts ui/src/ui/views/chat.test.ts ui/src/ui/chat/grouped-render.test.ts",
-    "git diff --check",
-    ".agents/skills/autoreview/scripts/autoreview --mode local",
-    "corepack pnpm check:changed"
+    "pnpm test:serial ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve credit from @emg110 and source PR https://github.com/openclaw/openclaw/pull/51868 in #93869.",
-    "Do not open a second replacement PR and do not alter #51868.",
-    "#93869 already carries the contributor-credit note in its PR body; keep that attribution visible when pushing the branch repair."
+    "Preserve credit to @emg110 for the original report, implementation direction, and proof in https://github.com/openclaw/openclaw/pull/51868.",
+    "Keep the repair on existing PR https://github.com/openclaw/openclaw/pull/93869 so the replacement branch history and attribution remain together.",
+    "Do not edit `CHANGELOG.md`; carry release-note and attribution context in the PR body or squash message."
   ],
   "source_job": "jobs/openclaw/inbox/repair-93869-qr-ci.md",
   "security_sensitive": false,
@@ -99,8 +97,8 @@ Prepared a local repair on existing branch clownfish/repair-51868-qr-rendering a
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | Codex fix worker timed out after 900000ms |
-| execute_fix | blocked |  |  | Codex fix worker timed out after 900000ms |
+| repair_contributor_branch | failed |  |  | Codex /review did not pass after 1 attempt(s): Merge is blocked by a copy-payload regression introduced in the current diff. Security-sensitive changes are limited to sanitized markdown attributes/copy handling and I did not find a concrete security issue. I did not rerun validation per instruction; `git diff --check origin/main...HEAD` is clean, and the artifact reports `pnpm check:changed` passed. Live PR/comment verification was unavailable because `gh` has no `GH_TOKEN`, so human/bot comment status is judged from the supplied artifact plus local diff. |
+| execute_fix | blocked |  |  | Codex /review did not pass after 1 attempt(s): Merge is blocked by a copy-payload regression introduced in the current diff. Security-sensitive changes are limited to sanitized markdown attributes/copy handling and I did not find a concrete security issue. I did not rerun validation per instruction; `git diff --check origin/main...HEAD` is clean, and the artifact reports `pnpm check:changed` passed. Live PR/comment verification was unavailable because `gh` has no `GH_TOKEN`, so human/bot comment status is judged from the supplied artifact plus local diff. |
 
 ## Apply Actions
 
@@ -118,9 +116,9 @@ Prepared a local repair on existing branch clownfish/repair-51868-qr-rendering a
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93869 | fix_needed | planned | canonical | Repair the existing credited replacement PR branch; do not open a second PR or alter #51868. |
-| #51868 | keep_related | planned | superseded | Keep #51868 open as source/credit context while #93869 carries the writable fix path. |
-| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | Allowed fix/raise_pr job, but existing PR #93869 is the canonical repair branch and should be updated rather than replaced. |
+| #93869 | fix_needed | planned | canonical | Repair the existing canonical PR branch only; do not open a second replacement, merge, close, comment, or label. |
+| #51868 | keep_related | planned | superseded | #51868 remains useful attribution and proof context while #93869 owns the writable fix path. |
+| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | Executor should update the existing #93869 branch with the narrow CI repair and rerun focused UI validation plus Codex review. |
 
 ## Needs Human
 
