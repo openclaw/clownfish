@@ -219,6 +219,17 @@ test("execute-fix-artifact runs ordinary contributor repairs after a successful 
   );
 });
 
+test("execute-fix-artifact checkpoints contributor repairs before slow validation", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+  const repairSource = source.slice(source.indexOf("function executeRepairBranch"), source.indexOf("function repairBranchPushArgs"));
+
+  assert.match(repairSource, /let expectedRemoteHeadSha = String\(pull\.head\?\.sha \?\? ""\);/);
+  assert.match(repairSource, /if \(!dryRun && rebased\) pushRepairCheckpoint\(\);/);
+  assert.match(repairSource, /pushCheckpoint: dryRun \? null : pushRepairCheckpoint/);
+  assert.match(repairSource, /if \(currentHead\(targetDir\) !== expectedRemoteHeadSha\) pushRepairCheckpoint\(\);/);
+  assert.match(source, /function repairBranchPushArgs\(\{ pull, rebased, expectedHeadSha = pull\.head\?\.sha \}\)/);
+});
+
 test("execute-fix-artifact defers a broad scope block only for explicit rebase-only repairs", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
