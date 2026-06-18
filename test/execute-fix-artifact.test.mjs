@@ -33,6 +33,19 @@ test("execute-fix-artifact bounds auxiliary GitHub and git subprocesses by the f
   );
 });
 
+test("execute-fix-artifact clears a partial clone before retrying with the write token", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /function ensureTargetCheckout\([\s\S]*?catch \(error\) \{[\s\S]*?removeIncompleteTargetCheckout\(targetDir\);[\s\S]*?run\("gh", \["repo", "clone", repo, targetDir/,
+  );
+  assert.match(
+    source,
+    /function removeIncompleteTargetCheckout\(targetDir\) \{[\s\S]*?fs\.rmSync\(targetDir, \{ recursive: true, force: true, maxRetries: 3, retryDelay: 100 \}\);/,
+  );
+});
+
 test("execute-fix-artifact skips blocked worker results before invoking Codex or mutating", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");

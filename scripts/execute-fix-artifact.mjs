@@ -2379,6 +2379,7 @@ function ensureTargetCheckout(repo, targetDir) {
       });
     } catch (error) {
       if (readGhEnv().GH_TOKEN === ghEnv().GH_TOKEN) throw error;
+      removeIncompleteTargetCheckout(targetDir);
       run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], {
         cwd: repoRoot(),
         env: ghEnv(),
@@ -2391,6 +2392,11 @@ function ensureTargetCheckout(repo, targetDir) {
   }
   const status = run("git", ["status", "--porcelain"], { cwd: targetDir }).trim();
   if (status) throw new Error(`target checkout has uncommitted changes: ${targetDir}`);
+}
+
+function removeIncompleteTargetCheckout(targetDir) {
+  if (!fs.existsSync(targetDir)) return;
+  fs.rmSync(targetDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
 }
 
 function prepareTargetToolchain(cwd) {
