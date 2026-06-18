@@ -1,0 +1,171 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-008",
+  "mode": "execute",
+  "run_id": "27781583816",
+  "workflow_run_id": "27781583816",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27781583816",
+  "head_sha": "55f0c708aef16d5b73931d7fda7ce9f731d23e2d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T18:42:15Z",
+  "workflow_updated_at": "2026-06-18T19:11:27Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-008.md",
+  "published_at": "2026-06-18T19:12:23.332Z",
+  "canonical": "#88180",
+  "canonical_issue": null,
+  "canonical_pr": "#88180",
+  "summary": "Classified #88180 as the surviving canonical repair path for the IDENTITY.md prompt guidance fix. #65777 is a closed, explicitly security-sensitive linked context PR and is routed only to central security handling. Merge, close, comment, and label actions are blocked by the job; the safe next step is a repair artifact for #88180 focused on preserving the two-file contributor patch and fixing the failed Real behavior proof gate without broadening scope.",
+  "actions": [
+    {
+      "target": "#65777",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact linked ref is explicitly security-sensitive in the hydrated item matrix, so it is out of Clownfish remediation scope."
+    },
+    {
+      "target": "#88180",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88180",
+      "candidate_fix": null,
+      "reason": "The PR is the best surviving narrow fix path, but it needs proof-gate repair and final maintainer wording review before any merge recommendation."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-008",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#88180",
+      "candidate_fix": null,
+      "reason": "A complete repair artifact can move the canonical contributor PR toward maintainer-ready status without mutating GitHub from the worker."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88180",
+    "source_refs": [
+      "#88180",
+      "#65777"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #88180 in place as the canonical contributor PR: keep the two-file IDENTITY.md prompt guidance patch, refresh only what is needed for the failed Real behavior proof gate, and rerun focused prompt validation. Do not broaden the branch back toward the closed #65777 approval SDK/channel work.",
+    "pr_title": "fix(prompt): preserve IDENTITY defaults in system prompt",
+    "pr_body": "## Summary\n- Preserve explicit IDENTITY.md expression defaults in the agent system prompt when IDENTITY.md is loaded in Project Context.\n- Keep the repair scoped to src/agents/system-prompt.ts and src/agents/system-prompt.test.ts.\n- Preserve attribution for @yozu from #88180 and the original source PR #65777.\n\n## Real behavior proof\n- Behavior addressed: IDENTITY.md naming, vibe, and preferred emoji guidance remains visible in normal chat system prompt construction when IDENTITY.md is present.\n- Real environment tested: Local OpenClaw checkout on the repaired PR head.\n- Exact steps or command run after this patch: node scripts/run-vitest.mjs src/agents/system-prompt.test.ts, plus a local prompt construction probe that calls buildAgentSystemPrompt with contextFiles containing ./IDENTITY.md.\n- Evidence after fix: Paste the terminal output from the prompt construction probe showing the IDENTITY.md guidance line in the Project Context section, plus the targeted test output.\n- Observed result after fix: The generated prompt includes IDENTITY.md-specific guidance before the IDENTITY.md file body, and the focused system-prompt regression test passes.\n- What was not tested: Full release validation and broad end-to-end model behavior.\n- Proof limitations or environment constraints: This is a deterministic prompt-renderer change; no provider or channel runtime is required for the focused proof.\n\n## Verification\n- node scripts/run-vitest.mjs src/agents/system-prompt.test.ts\n- git diff --check\n\nRefs: #88180, source PR #65777.",
+    "likely_files": [
+      "src/agents/system-prompt.ts",
+      "src/agents/system-prompt.test.ts",
+      ".github/pull_request_template.md",
+      "scripts/github/real-behavior-proof-policy.mjs"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/agents/system-prompt.test.ts",
+      "git diff --check"
+    ],
+    "credit_notes": [
+      "Preserve credit for @yozu as the author of #88180 and the earlier source PR #65777.",
+      "If a replacement PR is opened instead of repairing #88180, name #88180 and #65777 as source PRs and carry @yozu attribution in the PR body.",
+      "No CHANGELOG.md edit for this normal PR; keep release-note context in the PR body or squash message."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-008.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#65777"
+    ],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/88180",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "1e4373210d522aec44626b0e301827e9e4c48e0a",
+      "checkpoint_commits": [
+        "5e9043effa1263364cb81fb9ffc97995949ba9d7",
+        "0643a9bdf52ccf4f77ccda5d7ba73c9fed165cb4",
+        "1e4373210d522aec44626b0e301827e9e4c48e0a"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#88180",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#88180",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
