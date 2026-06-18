@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-93869-qr-ci"
 mode: "autonomous"
-run_id: "27765147599"
-workflow_run_id: "27765147599"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27765147599"
-head_sha: "38d52e774cbac925aa77b57c6ebd75da235e7a49"
+run_id: "27766580564"
+workflow_run_id: "27766580564"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27766580564"
+head_sha: "683035536724c9cd15f9f5fa432ac4355d75f5db"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T14:27:13.600Z"
+published_at: "2026-06-18T15:06:05.998Z"
 canonical: "https://github.com/openclaw/openclaw/pull/93869"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/93869"
@@ -19,14 +19,14 @@ fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # repair-93869-qr-ci
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27765147599](https://github.com/openclaw/clownfish/actions/runs/27765147599)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27766580564](https://github.com/openclaw/clownfish/actions/runs/27766580564)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 
 ## Summary
 
-#93869 is the canonical writable repair PR for the QR half-block rendering/copy fix. It is open but not merge-ready: hydrated CI shows `check-lint` and `check-prod-types` failing on head `3ba505d9ec8a40fcec6c0d6e3769879f0eec108d`, and the job identifies the concrete branch regression around block-art `data-code` whitespace and the missing `isMarkdownBlockArtText` mock export. #51868 remains the credited source PR and should not be altered in this job.
+Prepared a scoped local repair for canonical PR #93869 on `clownfish/repair-51868-qr-rendering`. The patch marks only block-art copy payloads with `data-code-encoding="block-art-json"`, decodes only those marked payloads in the chat copy handler, keeps normal and legacy raw `data-code` payloads raw, and adds focused DOM/copy coverage for normal and truncated QR art. No GitHub comments, labels, closes, merges, pushes, or new PRs were performed. The #93869 item action was downgraded to non-mutating `needs_human` because deterministic validation reported it as security-sensitive even though the hydrated preflight artifact explicitly marks #93869 `security_sensitive: false`, so `route_security` is not permitted by the repair rules.
 
 ## Impact
 
@@ -49,7 +49,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Repair Candidate
 
@@ -62,32 +62,34 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
-    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #93869 by encoding only block-art `data-code` payloads in `ui/src/ui/markdown.ts`, decoding those marked payloads before `copyToClipboard` in `ui/src/ui/views/chat.ts`, and updating focused UI tests so leading QR quiet-zone spaces survive rendered DOM parsing and clipboard copy for normal and truncated block art.",
+  "summary": "Repair PR #93869 in place so QR/block-art copy payloads preserve leading quiet-zone spaces without broadening normal code-block copy serialization. Block-art code buttons get an explicit `data-code-encoding=\"block-art-json\"` marker and encoded payload; normal code buttons keep raw `data-code`; the chat copy handler decodes only marked payloads and preserves unmarked legacy raw payloads.",
   "pr_title": "UI: render half-block QR output in web chat",
-  "pr_body": "## Summary\n- Repair the existing #93869 branch so QR/block-art copy payloads preserve leading quiet-zone spaces after DOM parsing.\n- Encode only block-art `data-code` values with a deterministic marker in `ui/src/ui/markdown.ts`; leave normal code-copy payloads raw.\n- Decode marked block-art payloads only at copy time in `ui/src/ui/views/chat.ts`, while keeping existing raw `data-code` payloads working.\n- Update the markdown mock in `grouped-render.test.ts` to export `isMarkdownBlockArtText` and add focused coverage for normal and truncated block-art copy behavior.\n\n## Credit\nThis continues to carry forward the fix idea and reproduction from @emg110 in https://github.com/openclaw/openclaw/pull/51868. Thanks @emg110 for the original report, implementation direction, and proof.\n\n## Validation\n- `pnpm test:serial ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before push/closeout\n\n## Notes\nKnown `prompt:snapshots:check` drift and ClawHub temporary-directory cleanup failures are unrelated current-main failures and should not be edited in this repair.",
+  "pr_body": "## Summary\n- Repairs the existing #93869 branch so block-art copy payloads preserve leading QR quiet-zone spaces after DOM parsing.\n- Encodes only block-art `data-code` payloads and marks them with `data-code-encoding=\"block-art-json\"`; normal code-block copy payloads remain raw.\n- Decodes only marked block-art payloads in the chat copy handler while keeping existing unmarked raw payloads copyable.\n- Adds focused coverage for normal code, normal QR block-art copy, truncated QR block-art copy, and raw payload collision behavior.\n\n## Credit\nThis continues to carry forward the fix idea and reproduction from @emg110 in https://github.com/openclaw/openclaw/pull/51868. Thanks @emg110 for the original report, implementation direction, and proof.\n\n## Verification\n- `node scripts/run-vitest.mjs ui/src/ui/markdown.test.ts ui/src/ui/views/chat.test.ts ui/src/ui/chat/grouped-render.test.ts` passed: 2 shards, 264 tests.\n- `git diff --check` passed.\n- `corepack pnpm exec oxfmt --check --threads=1 ui/src/ui/markdown.ts ui/src/ui/markdown.test.ts ui/src/ui/views/chat.ts ui/src/ui/views/chat.test.ts` passed.\n- `.agents/skills/autoreview/scripts/autoreview --mode local` passed with no accepted/actionable findings after addressing the raw/encoded payload ambiguity.\n- `corepack pnpm check:changed` was attempted after restoring the shallow merge base; it failed on out-of-diff `src/mcp/channel-shared.ts(131,6)` unused type `ClaudePermissionRequest`, unrelated to this repair.",
   "likely_files": [
     "ui/src/ui/markdown.ts",
-    "ui/src/ui/markdown.test.ts",
-    "ui/src/ui/chat/grouped-render.test.ts",
     "ui/src/ui/views/chat.ts",
+    "ui/src/ui/markdown.test.ts",
     "ui/src/ui/views/chat.test.ts"
   ],
   "validation_commands": [
-    "pnpm test:serial ui/src/ui/markdown.test.ts ui/src/ui/chat/grouped-render.test.ts ui/src/ui/views/chat.test.ts",
+    "pnpm test ui/src/ui/markdown.test.ts ui/src/ui/views/chat.test.ts ui/src/ui/chat/grouped-render.test.ts",
+    "pnpm exec oxfmt --check --threads=1 ui/src/ui/markdown.ts ui/src/ui/markdown.test.ts ui/src/ui/views/chat.ts ui/src/ui/views/chat.test.ts",
+    "git diff --check",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve credit to @emg110 for the original report, implementation direction, and proof in https://github.com/openclaw/openclaw/pull/51868.",
-    "Keep the repair on existing PR https://github.com/openclaw/openclaw/pull/93869 so the replacement branch history and attribution remain together.",
-    "Do not edit `CHANGELOG.md`; carry release-note and attribution context in the PR body or squash message."
+    "Preserve #93869 as the current Clownfish replacement PR and keep the source credit trail visible.",
+    "Credit @emg110 and https://github.com/openclaw/openclaw/pull/51868 for the original QR half-block rendering report, implementation direction, and proof.",
+    "Do not comment on, close, label, or otherwise alter #51868 in this repair job."
   ],
   "source_job": "jobs/openclaw/inbox/repair-93869-qr-ci.md",
   "security_sensitive": false,
   "security_routed_refs": [],
-  "needs_human": [],
+  "needs_human": [
+    "Resolve validator conflict for #93869: deterministic validation reported a security-sensitive target, but the hydrated preflight artifact explicitly marks #93869 `security_sensitive: false`, which forbids `route_security` under the repair rules."
+  ],
   "repair_status": null,
   "terminal": null
 }
@@ -97,8 +99,8 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | Codex /review did not pass after 1 attempt(s): Merge is blocked by a copy-payload regression introduced in the current diff. Security-sensitive changes are limited to sanitized markdown attributes/copy handling and I did not find a concrete security issue. I did not rerun validation per instruction; `git diff --check origin/main...HEAD` is clean, and the artifact reports `pnpm check:changed` passed. Live PR/comment verification was unavailable because `gh` has no `GH_TOKEN`, so human/bot comment status is judged from the supplied artifact plus local diff. |
-| execute_fix | blocked |  |  | Codex /review did not pass after 1 attempt(s): Merge is blocked by a copy-payload regression introduced in the current diff. Security-sensitive changes are limited to sanitized markdown attributes/copy handling and I did not find a concrete security issue. I did not rerun validation per instruction; `git diff --check origin/main...HEAD` is clean, and the artifact reports `pnpm check:changed` passed. Live PR/comment verification was unavailable because `gh` has no `GH_TOKEN`, so human/bot comment status is judged from the supplied artifact plus local diff. |
+| repair_contributor_branch | failed |  |  | fix execution deadline exceeded before git diff --name-only origin/main...HEAD; 89914ms remains, 90000ms reserved for report upload |
+| execute_fix | blocked |  |  | fix execution deadline exceeded before git diff --name-only origin/main...HEAD; 89914ms remains, 90000ms reserved for report upload |
 
 ## Apply Actions
 
@@ -116,10 +118,10 @@ Canonical: https://github.com/openclaw/openclaw/pull/93869
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93869 | fix_needed | planned | canonical | Repair the existing canonical PR branch only; do not open a second replacement, merge, close, comment, or label. |
-| #51868 | keep_related | planned | superseded | #51868 remains useful attribution and proof context while #93869 owns the writable fix path. |
-| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | Executor should update the existing #93869 branch with the narrow CI repair and rerun focused UI validation plus Codex review. |
+| #93869 | needs_human | blocked | needs_human | Conflicting validator/security inputs require maintainer or planner reconciliation before any PR-targeted mutation for #93869; `route_security` is disallowed by the hydrated preflight artifact. |
+| #51868 | keep_related | planned | superseded | Source PR is related/superseded evidence and credit context only; no closure or mutation is allowed in this job. |
+| cluster:repair-93869-qr-ci | build_fix_artifact | planned |  | A complete executable repair exists for the canonical PR branch; GitHub mutation is reserved for the applicator after the exact #93869 validator conflict is cleared. |
 
 ## Needs Human
 
-- none
+- Resolve validator conflict for #93869: deterministic validation reported a security-sensitive target, but the hydrated preflight artifact explicitly marks #93869 `security_sensitive: false`, which forbids `route_security` under the repair rules.
