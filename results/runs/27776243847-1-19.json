@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-020",
+  "mode": "plan",
+  "run_id": "27776243847-1-19",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "19",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-020.md",
+  "published_at": "2026-06-18T17:11:49.901Z",
+  "canonical": "#80455",
+  "canonical_issue": null,
+  "canonical_pr": "#80455",
+  "summary": "Plan-only classification for PR #80455. The PR is a small non-security contributor fix, but merge cannot be recommended from the provided preflight because checks failed to hydrate due an installation GraphQL rate limit, mergeability is unknown, comments were not hydrated, and no Codex /review preflight is present.",
+  "actions": [
+    {
+      "target": "#80455",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80455",
+      "candidate_fix": "#80455",
+      "reason": "Keep the contributor PR as the canonical repair target and perform a bounded maintainer-safe repair/finalization pass before merge: refresh live PR state, hydrate comments/review-bot comments/checks, rebase or repair the contributor branch if needed, run review and targeted validation, then emit merge only if all gates pass."
+    },
+    {
+      "target": "#80455",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80455",
+      "candidate_fix": "#80455",
+      "reason": "A complete executable repair artifact is appropriate because allow_fix_pr=true, maintainer_can_modify=true, the diff is narrow, and merge is blocked only by missing/unknown preflight proof rather than product ambiguity."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#80455",
+    "source_refs": [
+      "#80455",
+      "#80435"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair/finalize contributor PR #80455 so `openclaw doctor` only prints the `openclaw doctor --fix` trailer when the config flow actually reports pending changes. Do not replace the contributor branch unless live revalidation shows it cannot be safely repaired.",
+    "pr_title": "fix(doctor): suppress --fix trailer when no pending config changes remain",
+    "pr_body": "Clownfish repair/finalization plan for #80455.\n\nSummary:\n- Preserve the contributor fix from #80455 by threading the doctor config `pendingChanges` signal into the write-config health result.\n- Gate the `openclaw doctor --fix` trailer so it only appears when pending config repairs remain.\n- Keep the patch limited to doctor config flow plumbing, doctor health contribution output, focused tests, and changelog.\n\nCredit:\n- Source PR: https://github.com/openclaw/openclaw/pull/80455\n- Contributor: KeWang0622 / kewang-pika\n\nValidation before merge:\n- Refresh live PR state, comments, review-bot comments, checks, and mergeability.\n- Rebase or narrowly repair the contributor branch if required.\n- Run focused doctor health tests plus `npm run validate`.\n- Run Codex /review and address all findings before emitting a merge action.",
+    "likely_files": [
+      "CHANGELOG.md",
+      "src/commands/doctor-config-flow.ts",
+      "src/flows/doctor-health-contributions.ts",
+      "src/flows/doctor-health-contributions.test.ts"
+    ],
+    "validation_commands": [
+      "npm run validate",
+      "run the focused doctor health contribution test target available in the repo after checkout",
+      "Codex /review before any merge recommendation"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/80455",
+      "Credit contributor KeWang0622 / kewang-pika in any replacement PR body and changelog attribution if the user-facing fix is carried forward."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-020.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

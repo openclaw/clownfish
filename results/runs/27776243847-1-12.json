@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-013",
+  "mode": "plan",
+  "run_id": "27776243847-1-12",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-013.md",
+  "published_at": "2026-06-18T17:11:49.897Z",
+  "canonical": "#90998",
+  "canonical_issue": null,
+  "canonical_pr": "#90998",
+  "summary": "Plan-only assessment: #90998 is an open, focused contributor PR with no security-sensitive signal, but it is not merge-ready from the hydrated artifact because mergeability is unknown, checks were not fetched due a GitHub API rate-limit error, comments/review-bot comments were not hydrated, and no Codex /review preflight is present. Recommend repairing/validating the contributor branch rather than merging or escalating to maintainer judgment.",
+  "actions": [
+    {
+      "target": "#90998",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90998",
+      "candidate_fix": "#90998",
+      "reason": "The PR appears useful and narrow, but merge is blocked by missing proof required by merge policy. Because maintainer_can_modify=true and the repair surface is narrow, the actionable path is to repair/refresh the contributor branch, hydrate comments and review-bot findings, run Codex /review, and validate before any merge recommendation."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-013",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90998",
+      "candidate_fix": "#90998",
+      "reason": "Create an executable repair artifact for the existing contributor branch so the executor can refresh, inspect, validate, and review it without replacing contributor work."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90998",
+    "source_refs": [
+      "#90998",
+      "#88476",
+      "#88601"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and validate contributor PR #90998, which adds SMS text slash-command authorization and command metadata handling. The executor should keep the existing contributor branch as the source path, hydrate missing comments/review-bot findings, refresh against current main if needed, run targeted tests and Codex /review, then only recommend merge if all merge preflight gates pass.",
+    "pr_title": "fix(sms): authorize text slash commands",
+    "pr_body": "Clownfish repair path for source PR #90998 by @clawSean.\n\nSummary:\n- Preserve the contributor's SMS slash-command authorization fix.\n- Refresh or minimally repair the contributor branch only if validation, review, or current-main compatibility requires it.\n- Carry forward attribution to @clawSean and source PR https://github.com/openclaw/openclaw/pull/90998.\n\nValidation:\n- pnpm -s vitest run extensions/sms/src/inbound.test.ts\n- pnpm check:changed\n- Codex /review clean before merge consideration.",
+    "likely_files": [
+      "extensions/sms/src/inbound.ts",
+      "extensions/sms/src/inbound.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/sms/src/inbound.test.ts",
+      "pnpm check:changed",
+      "/review"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for clawSean as author of source PR #90998.",
+      "Reference source PR https://github.com/openclaw/openclaw/pull/90998 in any repair commit, replacement PR body, and user-facing changelog entry if one is required."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-013.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

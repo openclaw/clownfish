@@ -1,0 +1,81 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-011",
+  "mode": "plan",
+  "run_id": "27776243847-1-10",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-011.md",
+  "published_at": "2026-06-18T17:11:49.896Z",
+  "canonical": "#88905",
+  "canonical_issue": null,
+  "canonical_pr": "#88905",
+  "summary": "Plan-only classification for the single hydrated PR. No mutations are recommended because merge proof is incomplete and checks could not be hydrated.",
+  "actions": [
+    {
+      "target": "#88905",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88905",
+      "candidate_fix": "#88905",
+      "reason": "The PR looks like a useful focused contributor change and maintainer_can_modify is true, but merge cannot be recommended without current checks, mergeability, review-bot comment hydration, and Codex /review proof. Because fix and raise_pr are allowed, the next safe path is to repair/validate the contributor branch rather than merge now."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88905",
+    "source_refs": [
+      "#88905"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair and validate contributor PR #88905 for merge readiness by refreshing live preflight, addressing any check/review blockers, running required review and targeted validation, then returning a merge-ready result if clean.",
+    "pr_title": "feat(dreaming): expose shadow-trial scoring in reports",
+    "pr_body": "Repairs and validates contributor PR #88905 so the Dreaming shadow-trial report can expose report-only scoring metadata while preserving the existing no-policy-decision/no-durable-write behavior.\n\nSource PR: https://github.com/openclaw/openclaw/pull/88905\nCredit: carries forward @iFiras-Max1's original implementation and tests.\n\nValidation plan:\n- git diff --check\n- ./node_modules/.bin/oxfmt --check --threads=1 extensions/memory-core/src/dreaming-shadow-trial.ts extensions/memory-core/src/dreaming-shadow-trial.test.ts docs/concepts/dreaming.md\n- node scripts/check-docs-mdx.mjs docs/concepts/dreaming.md\n- ./node_modules/.bin/vitest run extensions/memory-core/src/dreaming-shadow-trial.test.ts\n- npm run check:changed\n\nBefore merge, refresh live checks/mergeability, hydrate review-bot comments, run Codex /review, and address any findings.",
+    "likely_files": [
+      "extensions/memory-core/src/dreaming-shadow-trial.ts",
+      "extensions/memory-core/src/dreaming-shadow-trial.test.ts",
+      "docs/concepts/dreaming.md"
+    ],
+    "validation_commands": [
+      "git diff --check",
+      "./node_modules/.bin/oxfmt --check --threads=1 extensions/memory-core/src/dreaming-shadow-trial.ts extensions/memory-core/src/dreaming-shadow-trial.test.ts docs/concepts/dreaming.md",
+      "node scripts/check-docs-mdx.mjs docs/concepts/dreaming.md",
+      "./node_modules/.bin/vitest run extensions/memory-core/src/dreaming-shadow-trial.test.ts",
+      "npm run check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/88905",
+      "Contributor credit: @iFiras-Max1 authored the original focused implementation and should be credited in any replacement or repaired PR.",
+      "If a replacement PR is needed, its body should state that it carries forward attribution for @iFiras-Max1 and reference the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-011.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

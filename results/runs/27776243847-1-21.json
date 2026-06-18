@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-022",
+  "mode": "plan",
+  "run_id": "27776243847-1-21",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+  "published_at": "2026-06-18T17:11:49.902Z",
+  "canonical": "#80929",
+  "canonical_issue": null,
+  "canonical_pr": "#80929",
+  "summary": "Plan-only assessment: #80929 is the sole hydrated open PR candidate and is a small, non-security contributor fix with tests, but it is not merge-ready because checks were not hydrated successfully, mergeability is unknown, comments/review-bot comments were not hydrated, and no Codex /review preflight is available. Recommend repairing/finalizing the contributor branch with preserved credit rather than merging from this artifact.",
+  "actions": [
+    {
+      "target": "#80929",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80929",
+      "candidate_fix": "#80929",
+      "reason": "Useful contributor PR appears narrow and repairable, but merge cannot be recommended without live checks, comment/review-bot hydration, mergeability, validation, and Codex /review proof."
+    },
+    {
+      "target": "#80929",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80929",
+      "candidate_fix": "#80929",
+      "reason": "Create an executable repair/finalization artifact for the existing contributor branch so the executor can hydrate missing review state, run validation, address findings if any, and preserve author credit."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#80929",
+    "source_refs": [
+      "#80929",
+      "#66489"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalize contributor PR #80929 by validating the narrow outbound delivery error-classification change against current main, hydrating comments/review-bot feedback, running Codex /review, and preserving honor2030 credit. Do not open a replacement PR unless the contributor branch becomes unrecoverable during executor repair.",
+    "pr_title": "fix(outbound): classify deterministic delivery errors",
+    "pr_body": "Clownfish finalization for source PR #80929 by @honor2030.\n\nThis keeps the contributor's narrow fix path: classify deterministic outbound delivery failures for disallowed local media paths and overlong messages as permanent errors, with regression coverage in the delivery queue policy tests.\n\nValidation required before merge:\n- pnpm -s vitest run src/infra/outbound/delivery-queue.policy.test.ts\n- pnpm check:changed\n- Codex /review clean with findings addressed\n- Hydrate and resolve any human or review-bot comments\n\nCredit: source PR #80929 by @honor2030; preserve attribution in the merge or any replacement path.",
+    "likely_files": [
+      "src/infra/outbound/delivery-queue-recovery.ts",
+      "src/infra/outbound/delivery-queue.policy.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/infra/outbound/delivery-queue.policy.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/80929 by honor2030.",
+      "Preserve contributor credit in any repair commit, replacement PR body, and final merge path.",
+      "Linked issue from PR body: #66489 is evidence only in this artifact because it was recorded as a linked ref but not hydrated as a primary item."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

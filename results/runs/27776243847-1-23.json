@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-024",
+  "mode": "plan",
+  "run_id": "27776243847-1-23",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-024.md",
+  "published_at": "2026-06-18T17:11:49.903Z",
+  "canonical": "#81157",
+  "canonical_issue": null,
+  "canonical_pr": "#81157",
+  "summary": "PR #81157 is the only hydrated open candidate and is a small, non-security contributor fix for process tool action validation. It is not merge-ready from the supplied preflight because checks are unavailable, mergeability is unknown, comments/review-bot comments were not hydrated despite four comments existing, and no Codex /review or validation evidence is present. Plan a contributor-branch repair/finalization pass that preserves adone0's credit before any merge recommendation.",
+  "actions": [
+    {
+      "target": "#81157",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Keep #81157 as the canonical fix candidate, but do not recommend merge until the contributor branch is refreshed if needed, comments and bot findings are hydrated and addressed, checks and mergeability are known, Codex /review passes, and targeted validation succeeds."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81157",
+    "source_refs": [
+      "#81157",
+      "#69582"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair and finalize contributor PR #81157 rather than replacing it. Hydrate the missing PR comments/review-bot state, refresh the editable contributor branch against current main if needed, run the narrow agent process-tool validation tests plus changed-file checks, run Codex /review, address any actionable findings, and only then emit a merge recommendation with full merge_preflight.",
+    "pr_title": "fix(agents): reject invalid process.action at the tool invocation boundary",
+    "pr_body": "Finalize contributor PR #81157 by preserving adone0's implementation and credit, hydrating outstanding comments/review-bot feedback, refreshing the branch if needed, validating src/agents/bash-tools.process.ts and src/agents/bash-tools.test.ts, running Codex /review, and merging only after all merge-preflight gates pass. Linked report: #69582. Source PR: https://github.com/openclaw/openclaw/pull/81157.",
+    "likely_files": [
+      "src/agents/bash-tools.process.ts",
+      "src/agents/bash-tools.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/bash-tools.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for adone0 as the author of PR #81157.",
+      "If a replacement PR becomes necessary despite maintainer_can_modify=true, the replacement body must credit adone0 and link https://github.com/openclaw/openclaw/pull/81157 as the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-024.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

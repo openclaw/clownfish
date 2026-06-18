@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-018",
+  "mode": "plan",
+  "run_id": "27776243847-1-17",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-018.md",
+  "published_at": "2026-06-18T17:11:49.900Z",
+  "canonical": "#89997",
+  "canonical_issue": null,
+  "canonical_pr": "#89997",
+  "summary": "Plan-only assessment: #89997 is a narrow, useful contributor PR and the canonical path for this shard, but it is not merge-ready because mergeability is unknown, checks were not hydrated due a GraphQL rate-limit error, review comments were not hydrated, and no Codex /review preflight is present. Recommend repairing/finalizing the contributor branch rather than replacing it.",
+  "actions": [
+    {
+      "target": "#89997",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Keep #89997 as the canonical contributor PR, but require a repair/finalization pass before merge: re-fetch live state, hydrate checks and review comments, rebase or refresh if needed, run Codex /review, run targeted validation, and preserve contributor credit."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-018",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Emit an executable repair artifact for Clownfish to finalize the contributor branch through guarded validation and review rather than opening an unrelated replacement PR first."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#89997",
+    "source_refs": [
+      "#89997"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalize contributor PR #89997 by refreshing live state, hydrating checks and review comments, rebasing or otherwise updating the maintainer-editable branch if needed, running Codex /review, and validating the narrow CLI startup-policy change before any merge recommendation.",
+    "pr_title": "fix(cli): suppress mcp serve startup stdout",
+    "pr_body": "Repairs and finalizes contributor PR #89997 by @kenners22. The change treats `openclaw mcp serve` as stdio protocol mode for startup policy purposes so stdout remains JSON-RPC-only at startup. Validation should include `git diff --check`, `pnpm -s vitest run src/cli/command-startup-policy.test.ts`, `pnpm check:changed`, and a clean Codex `/review`.",
+    "likely_files": [
+      "CHANGELOG.md",
+      "src/cli/command-startup-policy.test.ts",
+      "src/cli/command-startup-policy.ts"
+    ],
+    "validation_commands": [
+      "git diff --check",
+      "pnpm -s vitest run src/cli/command-startup-policy.test.ts",
+      "pnpm check:changed",
+      "/review"
+    ],
+    "credit_notes": [
+      "Preserve kenners22 as the source PR author and credit PR #89997 in any repair or replacement path.",
+      "If Clownfish must open a follow-up PR after repair fails, include source PR https://github.com/openclaw/openclaw/pull/89997 and attribution to @kenners22 in the PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-018.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

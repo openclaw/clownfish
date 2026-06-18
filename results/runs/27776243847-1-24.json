@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-025",
+  "mode": "plan",
+  "run_id": "27776243847-1-24",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-025.md",
+  "published_at": "2026-06-18T17:11:49.904Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": "#81190",
+  "summary": "Plan-only assessment for one open PR. #81190 is a useful non-security contributor fix candidate, but merge cannot be recommended from this artifact because mergeability is unknown, checks are unavailable due GitHub API rate limiting, comments/review-bot comments were not hydrated, and no Codex /review proof is present. Recommend repairing/finalizing the contributor branch rather than replacing it.",
+  "actions": [
+    {
+      "target": "#81190",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81190",
+      "candidate_fix": "#81190",
+      "reason": "Repair/finalization is allowed by job permissions, but merge is blocked until live checks, mergeability, comments/review-bot findings, Codex /review, and targeted validation are complete."
+    },
+    {
+      "target": "#81190",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81190",
+      "candidate_fix": "#81190",
+      "reason": "A bounded executable repair plan is available and safer than replacement because the contributor branch is editable and the diff is small."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81190",
+    "source_refs": [
+      "#81190"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Finalize contributor PR #81190 by repairing the existing branch if needed, then rerun complete merge preflight. The PR attempts to retry deterministic tool-result truncation before overflow compaction when oversized tool results cause context pressure, preserving the persisted turn after truncation retry.",
+    "pr_title": "fix(agents): truncate tool results before overflow compaction",
+    "pr_body": "Finalizes contributor PR #81190 by @LLagoon3.\n\nSummary:\n- Retry deterministic tool-result truncation before overflow compaction when oversized tool results are the likely context-pressure source.\n- Preserve the persisted turn after truncation retry.\n- Keep the change limited to pi embedded runner overflow handling and focused tests.\n\nValidation required before merge:\n- Re-fetch live PR state and confirm mergeability against current main.\n- Hydrate comments, review comments, review-bot comments, and checks.\n- Address any actionable reviewer or bot findings.\n- Run Codex /review and address findings.\n- Run targeted overflow compaction tests plus repo changed-file validation.",
+    "likely_files": [
+      "src/agents/pi-embedded-runner/run.ts",
+      "src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts"
+    ],
+    "validation_commands": [
+      "git fetch origin main",
+      "git fetch https://github.com/LLagoon3/openclaw.git fix/overflow-tool-result-truncation-first",
+      "git checkout -B clownfish/repair-81190 FETCH_HEAD",
+      "git rebase origin/main",
+      "npm run validate",
+      "pnpm check:changed",
+      "npm test -- src/agents/pi-embedded-runner/run.overflow-compaction.loop.test.ts",
+      "/review"
+    ],
+    "credit_notes": [
+      "Preserve LLagoon3 as source PR author for #81190.",
+      "If a replacement PR becomes necessary, include: Source PR: https://github.com/openclaw/openclaw/pull/81190 by @LLagoon3."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-025.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

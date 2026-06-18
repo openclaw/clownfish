@@ -1,0 +1,91 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-003",
+  "mode": "plan",
+  "run_id": "27776243847-1-2",
+  "workflow_run_id": "27776243847",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27776243847",
+  "head_sha": "c3b94296fb1110122ca0d5fa355516bcd90cdf3c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T17:07:13Z",
+  "workflow_updated_at": "2026-06-18T17:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-003.md",
+  "published_at": "2026-06-18T17:11:49.901Z",
+  "canonical": "#87681",
+  "canonical_issue": null,
+  "canonical_pr": "#87681",
+  "summary": "PR #87681 is the only hydrated open candidate and is a focused, useful contributor PR for the Linux exec SIGKILL/OOM-score diagnostic path. It is not merge-ready because checks were unavailable from the preflight artifact, mergeability is unknown, comments/review comments were not hydrated, and no Codex /review preflight is present. Plan a maintainer-safe repair/finalization pass on the contributor branch with preserved author credit.",
+  "actions": [
+    {
+      "target": "#87681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87681",
+      "candidate_fix": "#87681",
+      "reason": "Useful contributor PR should be finalized by repairing/refreshed validation rather than merged without proof or replaced without first trying the editable branch."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-003",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#87681",
+      "candidate_fix": "#87681",
+      "reason": "A complete executable repair artifact is available for the editable contributor branch; merge remains blocked until preflight proof is collected."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#87681",
+    "source_refs": [
+      "#87681",
+      "#69242",
+      "#70404"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalize contributor PR #87681, which adds Linux exec diagnostics for bare SIGKILL when the OOM-score wrapper is active. Keep the implementation focused on the existing four touched files, refresh against current main if needed, hydrate and address human/bot review comments, run Codex /review, and validate before any merge recommendation.",
+    "pr_title": "fix(exec): surface Linux OOM-score SIGKILL hint",
+    "pr_body": "Clownfish repair/finalization path for #87681.\n\nSource PR: https://github.com/openclaw/openclaw/pull/87681\nCanonical issue: https://github.com/openclaw/openclaw/issues/69242\nCredit: Thanks @sweetcornna for the original implementation and tests.\n\nPlan:\n- Refresh the contributor branch against current main if needed.\n- Keep the fix scoped to exec runtime SIGKILL diagnostics and Linux OOM-score helper behavior.\n- Hydrate and address human, Codex, Greptile, Asile, CodeRabbit, Copilot, and similar review-bot comments.\n- Run Codex /review and address all findings.\n- Validate with targeted vitest files and pnpm check:changed before merge consideration.",
+    "likely_files": [
+      "src/agents/bash-tools.exec-runtime.ts",
+      "src/agents/bash-tools.exec-runtime.test.ts",
+      "src/process/linux-oom-score.ts",
+      "src/process/linux-oom-score.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/bash-tools.exec-runtime.test.ts src/process/linux-oom-score.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor author credit for @sweetcornna from source PR https://github.com/openclaw/openclaw/pull/87681.",
+      "If the executor must create a replacement PR instead of repairing the contributor branch, the replacement PR body must credit @sweetcornna and link the source PR as the origin of the fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-003.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

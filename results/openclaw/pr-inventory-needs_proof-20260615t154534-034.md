@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "pr-inventory-needs_proof-20260615T154534-034"
 mode: "plan"
-run_id: "27560323972"
+run_id: "27560323972-1-37"
+workflow_run_id: "27560323972"
 run_url: "https://github.com/openclaw/clownfish/actions/runs/27560323972"
 head_sha: "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T16:28:28.968Z"
+published_at: "2026-06-18T17:11:47.886Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -61,6 +62,12 @@ Plan-mode PR inventory classification only. The preflight artifact is the live G
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
