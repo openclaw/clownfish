@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-53920-fresh-plan-20260618"
 mode: "execute"
-run_id: "27785381579"
-workflow_run_id: "27785381579"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27785381579"
-head_sha: "8d83e975ccdbb0a3d84443d48fd697499e6b421c"
+run_id: "27789889154"
+workflow_run_id: "27789889154"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27789889154"
+head_sha: "ab7afde0833194eb3ff932afa9861ac3f41a0580"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T20:02:11.960Z"
+published_at: "2026-06-18T21:27:54.416Z"
 canonical: "#53920"
 canonical_issue: null
 canonical_pr: "#53920"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27785381579](https://github.com/openclaw/clownfish/actions/runs/27785381579)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27789889154](https://github.com/openclaw/clownfish/actions/runs/27789889154)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #53920
 
 ## Summary
 
-PR #53920 is still open and remains the canonical repair lane. Live GitHub API shows the head at 06967980b2c44b1386185199839cad25be40e2ca, maintainer_can_modify=true, one changed file, and mergeable_state=unstable. The only failing check is checks-node-core-tooling, with annotations in src/scripts/test-projects.test.ts; the PR diff changes only scripts/setup-auth-system.sh, so the failure is a stale-branch/tooling-lane mismatch, not an auth-monitor script defect. Emit a repair artifact to refresh the contributor branch without expanding the script scope, then rerun the focused tooling test and pnpm check:changed.
+PR #53920 remains the canonical repair lane. The only failing hydrated check is `checks-node-core-tooling`; its public job annotation points at `src/scripts/test-projects.test.ts:857` expected routing output, not the touched auth-monitor setup script. Current `main` still mutates `scripts/systemd/openclaw-auth-monitor.service` in place, so the PR is not already fixed on main. A narrow contributor-branch repair remains appropriate, focused on refreshing the branch against current main/tooling expectations and rerunning the focused routing test plus `pnpm check:changed`.
 
 ## Impact
 
@@ -64,9 +64,9 @@ PR #53920 is still open and remains the canonical repair lane. Live GitHub API s
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Refresh PR #53920 on the contributor branch so the stale checks-node-core-tooling failure from src/scripts/test-projects.test.ts is re-evaluated against current main. Do not broaden the auth-monitor script change; only resolve rebase/update conflicts if they touch the existing PR surface.",
+  "summary": "Repair contributor PR #53920 by refreshing the branch against current `main` so `checks-node-core-tooling` picks up current tooling-test routing expectations, while preserving the existing one-file auth-monitor setup script fix and contributor credit.",
   "pr_title": "fix(scripts): avoid mutating tracked auth-monitor template during setup",
-  "pr_body": "## Summary\n- refresh the existing #53920 repair lane against current main\n- keep the auth-monitor setup-script fix scoped to scripts/setup-auth-system.sh\n- preserve JackWuGlobal attribution for the original contribution\n\n## Repair reason\nThe remaining red check is checks-node-core-tooling, but its current annotation is in src/scripts/test-projects.test.ts rather than the changed setup script. The PR diff is still one file: scripts/setup-auth-system.sh. This should be repaired as a branch freshness/tooling-lane update, not by expanding the auth-monitor patch.\n\n## Validation\n- node scripts/run-vitest.mjs src/scripts/test-projects.test.ts\n- pnpm check:changed\n\nSource PR: https://github.com/openclaw/openclaw/pull/53920\nCredit: Thanks @JackWuGlobal; this repair keeps attribution anchored to the source PR.",
+  "pr_body": "## Summary\n- preserve @JackWuGlobal's #53920 auth-monitor setup fix\n- refresh the branch against current `main` so `checks-node-core-tooling` uses current tooling-test routing expectations\n- keep the runtime change scoped to `scripts/setup-auth-system.sh`\n\n## Verification\n- `node scripts/run-vitest.mjs src/scripts/test-projects.test.ts`\n- `pnpm check:changed`\n\nSource PR: https://github.com/openclaw/openclaw/pull/53920\nCredit: @JackWuGlobal remains the credited contributor for the original fix.",
   "likely_files": [
     "scripts/setup-auth-system.sh"
   ],
@@ -75,9 +75,8 @@ PR #53920 is still open and remains the canonical repair lane. Live GitHub API s
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve source PR credit for JackWuGlobal.",
-    "Source PR: https://github.com/openclaw/openclaw/pull/53920.",
-    "Existing Clownfish repair commit already states credit stays anchored to #53920; keep that attribution in any replacement or refreshed PR body."
+    "Source PR: https://github.com/openclaw/openclaw/pull/53920",
+    "Credit stays with @JackWuGlobal for the auth-monitor setup fix; Clownfish should only repair branch freshness/tooling fallout."
   ],
   "source_job": "jobs/openclaw/inbox/repair-53920-fresh-plan-20260618.md",
   "security_sensitive": false,
@@ -110,8 +109,8 @@ PR #53920 is still open and remains the canonical repair lane. Live GitHub API s
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #53920 | fix_needed | planned | canonical | The remaining red check is attributable to branch freshness/tooling expectations, not to the changed auth-monitor setup script. Repair should refresh the contributor branch and validate, not rewrite unrelated tooling code. |
-| cluster:repair-53920-fresh-plan-20260618 | build_fix_artifact | planned |  | Build an executable repair plan for the existing contributor PR lane while preserving JackWuGlobal credit. |
+| #53920 | fix_needed | planned | canonical | The failing check is narrowly repairable by refreshing the contributor branch/tooling-test baseline against current main, without expanding the auth-monitor script scope. |
+| cluster:repair-53920-fresh-plan-20260618 | build_fix_artifact | planned |  | Create an executable repair artifact for the deterministic applicator rather than mutating GitHub directly. |
 
 ## Needs Human
 
