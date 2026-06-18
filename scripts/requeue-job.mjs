@@ -58,9 +58,14 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-const mode = requestedMode ?? resolved.mode ?? job.frontmatter.mode;
+const mode = requestedMode ?? job.frontmatter.mode;
 if (!["plan", "execute", "autonomous"].includes(mode)) {
   throw new Error(`unsupported mode: ${mode}`);
+}
+if (mode !== job.frontmatter.mode) {
+  throw new Error(
+    `refusing requeue mode override: job frontmatter mode is ${job.frontmatter.mode}; promote the job before dispatching ${mode}`,
+  );
 }
 
 const summary = {

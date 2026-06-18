@@ -114,3 +114,19 @@ if (args[0] === "variable" && args[1] === "list") {
   assert.equal(finalState.dispatchPayload.client_payload.ref, "main");
   assert.equal(finalState.dispatchPayload.client_payload.required_ancestor_sha, headSha);
 });
+
+test("requeue rejects a write-mode override until the job itself is promoted", () => {
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/requeue-job.mjs",
+      "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-002.md",
+      "--mode",
+      "execute",
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /refusing requeue mode override/);
+});
