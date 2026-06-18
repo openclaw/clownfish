@@ -1,0 +1,168 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-92892-fresh-plan-20260618",
+  "mode": "execute",
+  "run_id": "27790041353",
+  "workflow_run_id": "27790041353",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27790041353",
+  "head_sha": "d9c8e9c961a651cf08339b5b32a080b0bd23799b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T21:20:30Z",
+  "workflow_updated_at": "2026-06-18T21:32:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-92892-fresh-plan-20260618.md",
+  "published_at": "2026-06-18T21:33:20.384Z",
+  "canonical": "#92892",
+  "canonical_issue": "#91739",
+  "canonical_pr": "#92892",
+  "summary": "Current main still lacks the google-gemini-cli Gemini image-capability fallback, while open contributor PR #92892 is the narrow two-file canonical repair candidate for linked issue #91739. A repair artifact is justified for the existing maintainer-editable contributor branch because the PR is useful and credited, but its current live state has a failing Real behavior proof check and merge is disallowed for this job.",
+  "actions": [
+    {
+      "target": "#92892",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92892",
+      "candidate_fix": null,
+      "reason": "Repair the useful contributor branch rather than replacing it; the patch is narrow, credited, and maintainer-editable, but current proof is not clean."
+    },
+    {
+      "target": "#91739",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "The issue is covered by the canonical repair candidate but cannot be closed in this execute job."
+    },
+    {
+      "target": "cluster:repair-92892-fresh-plan-20260618",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "A complete, narrow repair plan exists and should preserve the contributor's branch and attribution."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92892",
+    "source_refs": [
+      "#92892",
+      "#91739"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #92892 by keeping the existing two-file gateway/model-capability fix: add a google-gemini-cli Gemini pro/flash image-capability fallback in resolveGatewayModelSupportsImages and focused regression coverage for stale text-only metadata plus a non-chat negative case. Preserve YonganZhang's authorship/credit and refresh validation so the failing Real behavior proof is no longer the blocker.",
+    "pr_title": "fix(gateway): allow Gemini CLI image-capable models",
+    "pr_body": "Summary:\n- Repair contributor PR #92892 in place, preserving @YonganZhang's source PR credit.\n- Treat google-gemini-cli Gemini pro/flash chat models as image-capable when stale catalog metadata only lists text.\n- Keep non-chat Gemini models such as embeddings fail-closed and cover both paths in focused resolver tests.\n\nRefs:\n- Fixes #91739\n- Source PR: https://github.com/openclaw/openclaw/pull/92892\n- Clownfish cluster: repair-92892-fresh-plan-20260618\n\nVerification:\n- node scripts/run-vitest.mjs src/gateway/session-utils.test.ts -t resolveGatewayModelSupportsImages\n- pnpm format:check src/gateway/session-utils.ts src/gateway/session-utils.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/gateway/session-utils.test.ts -t resolveGatewayModelSupportsImages",
+      "pnpm format:check src/gateway/session-utils.ts src/gateway/session-utils.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @YonganZhang from https://github.com/openclaw/openclaw/pull/92892.",
+      "Issue reporter @ruben2000de provided the concrete Gateway/Gemini CLI reproduction in #91739.",
+      "User-facing release-note context should live in the PR body or squash message if this ships; do not edit CHANGELOG.md for this normal fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-92892-fresh-plan-20260618.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/92892",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "f6d78881778df812c420d467ea80462920b28f71",
+      "checkpoint_commits": [
+        "f79768a2dcc329b05046c8d3be2e78e567ae787a",
+        "060177d035434cf7b3141e9cf37edf22a935f166",
+        "f6d78881778df812c420d467ea80462920b28f71"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92892",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#92892",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
