@@ -1,0 +1,179 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-022",
+  "mode": "execute",
+  "run_id": "27783984365",
+  "workflow_run_id": "27783984365",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783984365",
+  "head_sha": "f2da34a347a7889a72876a85cf476519f3fb7278",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:25:55Z",
+  "workflow_updated_at": "2026-06-18T19:39:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+  "published_at": "2026-06-18T19:40:01.221Z",
+  "canonical": "#80929",
+  "canonical_issue": "#75131",
+  "canonical_pr": "#80929",
+  "summary": "Classified #80929 as the bounded canonical repair path for the two-file outbound delivery permanent-error classification scope. No GitHub mutation is recommended because comments, labels, closes, merges, replacement PRs, rebases, force-pushes, and bypasses are blocked; the safe next action is a contributor-branch repair artifact using normal push only.",
+  "actions": [
+    {
+      "target": "#80929",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80929",
+      "candidate_fix": null,
+      "reason": "Needs bounded contributor-branch repair/update before it can be considered landable; merge is explicitly disallowed in this job."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-022",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#80929",
+      "candidate_fix": "#80929",
+      "reason": "Emit an executable repair artifact instead of mutating GitHub directly in execute mode."
+    },
+    {
+      "target": "#75131",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80929",
+      "candidate_fix": null,
+      "reason": "#75131 should remain open as a broader related issue while #80929 repairs only the deterministic permanent-error classifier subset."
+    },
+    {
+      "target": "#66489",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#80929",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation valid."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#80929",
+    "source_refs": [
+      "#80929",
+      "#66489",
+      "#75131"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing contributor PR #80929 on its contributor branch, preserving the two-file deterministic outbound delivery-error classification scope. The intended patch is to keep the permanent-error classifier additions for disallowed local media paths and Telegram overlong-message failures, plus focused policy-test coverage, without changing broader delivery semantics or opening a replacement PR.",
+    "pr_title": "fix(outbound): classify deterministic delivery errors",
+    "pr_body": "Summary\n- Repair existing contributor PR #80929 without expanding its scope.\n- Preserve the two-file outbound delivery permanent-error classifier and policy-test changes for local media allowlist failures and Telegram overlong-message failures.\n- Keep #75131 open for the broader delivery queue idempotency and message-splitting work.\n\nVerification\n- pnpm test src/infra/outbound/delivery-queue.policy.test.ts -- --reporter=verbose\n- pnpm check:changed\n\nCredit\n- Source PR and attribution: #80929 by @honor2030.\n- Related issue context: #66489 and #75131.",
+    "likely_files": [
+      "src/infra/outbound/delivery-queue-recovery.ts",
+      "src/infra/outbound/delivery-queue.policy.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/infra/outbound/delivery-queue.policy.test.ts -- --reporter=verbose",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @honor2030 as the author of source PR #80929.",
+      "Keep #66489 reporter context attached through the existing Closes #66489 linkage in #80929.",
+      "Do not open a replacement PR in this job; repair the contributor branch by normal push only or stop."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/80929",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "3c43e65aa95f31cf8294474b3c080ff67ccf21ec",
+      "checkpoint_commits": [
+        "a95fe3426897117da0f8550b12998dbe0a833539",
+        "8ce3b2f845c33a1e3d48874bc54fa5e98d05e140",
+        "3c43e65aa95f31cf8294474b3c080ff67ccf21ec"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#80929",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#80929",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
