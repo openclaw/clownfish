@@ -1,0 +1,96 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-015",
+  "mode": "plan",
+  "run_id": "27783026412",
+  "workflow_run_id": "27783026412",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783026412",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:08Z",
+  "workflow_updated_at": "2026-06-18T19:09:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-015.md",
+  "published_at": "2026-06-18T19:11:32.982Z",
+  "canonical": "#89816",
+  "canonical_issue": "#89791",
+  "canonical_pr": "#89816",
+  "summary": "Plan-only classification for one hydrated PR inventory shard. PR #89816 is a focused docs-only mitigation for issue #89791, but merge recommendation is blocked because the hydrated preflight lacks required Codex /review merge proof and the latest ClawSweeper review explicitly leaves maintainer acceptance of operator-facing launchd risk before merge.",
+  "actions": [
+    {
+      "target": "#89816",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89816",
+      "candidate_fix": "#89816",
+      "reason": "Merge proof is incomplete and maintainer acceptance is still required for the documented launchd workaround risk, but the PR is narrow, credited contributor work and can be repaired/finalized without broad code changes."
+    },
+    {
+      "target": "#89791",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89816",
+      "candidate_fix": "#89816",
+      "reason": "#89791 is the related canonical tracking issue for remaining runtime and install/doctor work; it should stay open and should not be closed by this docs-only PR plan."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer acceptance is required before merging #89816 because the docs publish a manual launchd workaround that can disable the node LaunchAgent on hosts relying on remote node features, even though the PR added an explicit skip warning.",
+    "A complete merge recommendation for #89816 still needs Codex /review merge-preflight proof and addressed findings; the hydrated artifact does not include that proof."
+  ],
+  "repair_candidate": {
+    "target": "#89816",
+    "source_refs": [
+      "#89816",
+      "#89791"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/finalize contributor PR #89816 in place if maintainers accept the documented operator-facing launchd risk. The branch is narrow, maintainer-editable, docs-only, and already credits the source issue; the remaining work is merge-preflight completion rather than a replacement implementation.",
+    "pr_title": "docs(gateway): add launchd supervisor loop troubleshooting",
+    "pr_body": "Finalize contributor PR #89816 by Pick-cat after maintainer acceptance of the launchd runbook risk and a clean Codex /review. This remains docs-only mitigation for #89791 and must not auto-close #89791; runtime wrapper generation and doctor/install hardening stay tracked there.",
+    "likely_files": [
+      "docs/gateway/troubleshooting.md",
+      "docs/platforms/mac/bundled-gateway.md"
+    ],
+    "validation_commands": [
+      "pnpm docs:check-links",
+      "pnpm docs:check-mdx docs README.md",
+      "git diff --check origin/main...HEAD",
+      "/review"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/89816 by Pick-cat.",
+      "Preserve Pick-cat attribution if maintainers repair or finalize the branch.",
+      "Related issue: https://github.com/openclaw/openclaw/issues/89791 remains open for runtime wrapper and doctor/install hardening follow-up."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-015.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "Maintainer acceptance is required before merging #89816 because the docs publish a manual launchd workaround that can disable the node LaunchAgent on hosts relying on remote node features, even though the PR added an explicit skip warning.",
+      "A complete merge recommendation for #89816 still needs Codex /review merge-preflight proof and addressed findings; the hydrated artifact does not include that proof."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

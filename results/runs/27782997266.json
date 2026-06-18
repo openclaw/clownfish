@@ -1,0 +1,118 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-001",
+  "mode": "execute",
+  "run_id": "27782997266",
+  "workflow_run_id": "27782997266",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27782997266",
+  "head_sha": "6de0b4a1c66c52cd49c6d6c56b7471bfbaf34594",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:07:34Z",
+  "workflow_updated_at": "2026-06-18T19:09:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-001.md",
+  "published_at": "2026-06-18T19:11:32.972Z",
+  "canonical": "#90819",
+  "canonical_issue": "#90814",
+  "canonical_pr": "#90819",
+  "summary": "No GitHub mutation is planned. The only inventory PR, #90819, is already closed after maintainer verification that current main contains the request-scoped plugin workspace-dir pin and matching runtime workspace-state tests. The linked open issue #86790 is related plugin metadata diagnostics work, but it is a different root cause and already points to a separate unhydrated PR path (#86796), so it should remain out of this one-PR remediation shard.",
+  "actions": [
+    {
+      "target": "#90819",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90819",
+      "reason": "Already closed by maintainer after current-main verification; no repair branch or replacement PR is needed for this shard."
+    },
+    {
+      "target": "#90814",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90819",
+      "candidate_fix": "#90819",
+      "reason": "Historical linked issue is already closed and covered by the same current-main fix path."
+    },
+    {
+      "target": "#76562",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#90819",
+      "candidate_fix": "#90819",
+      "reason": "Closed historical context only; it supports the root-cause lineage but is broader than this one-PR remediation shard."
+    },
+    {
+      "target": "#86790",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90819",
+      "candidate_fix": null,
+      "reason": "Related plugin metadata hot-path issue, but not a duplicate of the sessions.list workspace pin PR. The separate #86796 path is evidence only because it is not hydrated here."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-001",
+      "action": "build_fix_artifact",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90819",
+      "candidate_fix": "#90819",
+      "reason": "No executable repair remains inside this shard because current main already contains the narrow fix and the source PR was closed with attribution."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90819",
+    "source_refs": [
+      "#90819",
+      "#90814",
+      "#76562",
+      "#86790"
+    ],
+    "repair_strategy": "already_fixed_on_main",
+    "planned_actions": [],
+    "summary": "No replacement fix PR should be opened for #90819. Current main already contains the request-scoped plugin workspace-dir pin proposed by the contributor PR, and #90819 has been closed with source attribution preserved.",
+    "pr_title": "No PR opened: sessions.list workspace-dir pin already fixed on main",
+    "pr_body": "No replacement PR should be opened for this cluster. Current main at ae655345c436c8fbc93cee093090382341287825 already contains the request-scoped plugin workspace-dir pin from source PR https://github.com/openclaw/openclaw/pull/90819, including the listSessionsFromStoreAsync withPinnedActivePluginRegistryWorkspaceDir wrapping and runtime workspace-state regression coverage. Credit and attribution remain with @k-l-lambda and the source PR; if this regression reappears, use #90819, #90814, and the existing tests as the audit trail.",
+    "likely_files": [
+      "src/gateway/session-utils.ts",
+      "src/plugins/runtime-workspace-state.ts",
+      "src/plugins/runtime-workspace-state.test.ts"
+    ],
+    "validation_commands": [
+      "No local validation run by this worker; hydrated maintainer comment records current-main verification at ae655345c436c8fbc93cee093090382341287825.",
+      "Use the existing targeted runtime workspace-state tests if this path regresses again."
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/90819",
+      "Contributor: @k-l-lambda",
+      "Maintainer close comment states the report and source PR remain part of the attribution trail for the sessions.list concurrency fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

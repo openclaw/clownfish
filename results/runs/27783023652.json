@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-014",
+  "mode": "plan",
+  "run_id": "27783023652",
+  "workflow_run_id": "27783023652",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783023652",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:04Z",
+  "workflow_updated_at": "2026-06-18T19:09:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-014.md",
+  "published_at": "2026-06-18T19:11:32.981Z",
+  "canonical": "#90885",
+  "canonical_issue": "#90340",
+  "canonical_pr": "#90885",
+  "summary": "PR #90885 is a focused, useful contributor fix for linked issue #90340, but it is not merge-ready from the hydrated preflight: the latest ClawSweeper review remains a needs-changes verdict and the required Codex /review merge preflight is absent. Plan a repair of the contributor branch, preserving Pick-cat credit, before any merge recommendation.",
+  "actions": [
+    {
+      "target": "#90885",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90885",
+      "candidate_fix": "#90885",
+      "reason": "Repair the useful contributor branch before merge; do not emit merge_candidate without resolved bot review and Codex /review proof."
+    },
+    {
+      "target": "#90340",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90885",
+      "candidate_fix": "#90885",
+      "reason": "Keep the source issue open as related tracking context until the repaired canonical fix lands."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-014",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90885",
+      "candidate_fix": "#90885",
+      "reason": "Create an executable repair plan for the contributor branch rather than opening an unrelated replacement first."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90885",
+    "source_refs": [
+      "#90885",
+      "#90340"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90885 so compaction model overrides reuse the shared model alias resolution behavior without drift, preserve literal configured model id precedence, and pass the required review and validation gates before merge.",
+    "pr_title": "fix(agent): resolve compaction model alias to canonical model ref",
+    "pr_body": "Repair contributor PR #90885 for #90340. Keep the patch narrow to embedded compaction target resolution, preserve literal configured model id precedence before alias lookup, reuse or align with the shared model-selection alias resolver to avoid drift, and retain fallback behavior for unmatched bare values. Credit: source PR https://github.com/openclaw/openclaw/pull/90885 by @Pick-cat; original reproduction in #90340 by @toruvieI. Validation: pnpm -s vitest run src/agents/embedded-agent-runner/compaction-runtime-context.test.ts; pnpm check:changed. Merge gate: Codex /review must pass cleanly with findings addressed before merge.",
+    "likely_files": [
+      "src/agents/embedded-agent-runner/compaction-runtime-context.ts",
+      "src/agents/embedded-agent-runner/compaction-runtime-context.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/embedded-agent-runner/compaction-runtime-context.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for Pick-cat as the author of source PR #90885.",
+      "Any repaired branch or follow-up PR body should include: Source PR: https://github.com/openclaw/openclaw/pull/90885 by @Pick-cat.",
+      "Credit linked reporter @toruvieI for the original reproduction in #90340 where appropriate."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-014.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

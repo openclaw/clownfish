@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-022",
+  "mode": "plan",
+  "run_id": "27783044439",
+  "workflow_run_id": "27783044439",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783044439",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:28Z",
+  "workflow_updated_at": "2026-06-18T19:10:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+  "published_at": "2026-06-18T19:11:32.995Z",
+  "canonical": "#75131",
+  "canonical_issue": "#75131",
+  "canonical_pr": "#80929",
+  "summary": "PR #80929 is a useful, narrow contributor fix, but it is not merge-ready from the hydrated preflight: mergeability is unknown, a maintainer requested updating against current main for Dependency Guard, and there is no clean Codex /review merge preflight. Plan repair of the contributor branch with credit preserved, keep the broader canonical issue #75131 open, and treat closed issue #66489 as historical context only.",
+  "actions": [
+    {
+      "target": "#66489",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#75131",
+      "candidate_fix": "#80929",
+      "reason": "Already closed; keep as related historical evidence for the PR repair path."
+    },
+    {
+      "target": "#75131",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75131",
+      "candidate_fix": "#80929",
+      "reason": "Keep #75131 open as the broader canonical issue; #80929 is only a partial implementation candidate."
+    },
+    {
+      "target": "#80929",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#75131",
+      "candidate_fix": "#80929",
+      "reason": "Repair the contributor branch narrowly, preserve @honor2030 credit, rerun targeted validation and Codex /review, then re-plan merge readiness."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-022",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#75131",
+      "candidate_fix": "#80929",
+      "reason": "Create an executable repair artifact for the applicator/repair loop; do not merge until preflight is complete."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#80929",
+    "source_refs": [
+      "#80929",
+      "#75131",
+      "#66489"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #80929 against current main, keeping the patch scoped to deterministic outbound delivery permanent-error classification and its policy tests. After repair, rerun targeted validation and Codex /review before any merge recommendation.",
+    "pr_title": "fix(outbound): classify deterministic delivery errors",
+    "pr_body": "## Summary\nRepair contributor PR #80929 against current main without broadening the patch. Keep the implementation focused on deterministic outbound delivery failures for disallowed local media paths and overlong Telegram messages, with regression coverage in the existing delivery queue policy tests.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/80929 by @honor2030. Preserve attribution in the repaired branch/PR body and changelog entry. Related reports: #66489 and #75131.\n\n## Validation\n- pnpm -s vitest run src/infra/outbound/delivery-queue.policy.test.ts\n- pnpm check:changed\n- Codex /review must pass cleanly before merge preflight is emitted.\n\n## Notes\n#75131 remains the broader canonical issue for idempotent retry behavior and Telegram long-text handling; this repair should not claim to close that full scope.",
+    "likely_files": [
+      "src/infra/outbound/delivery-queue-recovery.ts",
+      "src/infra/outbound/delivery-queue.policy.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/infra/outbound/delivery-queue.policy.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @honor2030 and https://github.com/openclaw/openclaw/pull/80929.",
+      "Issue context came from #66489 by @rtmuller and the broader canonical issue #75131 by @solosage1."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-022.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

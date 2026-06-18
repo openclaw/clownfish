@@ -1,0 +1,151 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-012",
+  "mode": "plan",
+  "run_id": "27783018817",
+  "workflow_run_id": "27783018817",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783018817",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:07:59Z",
+  "workflow_updated_at": "2026-06-18T19:09:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-012.md",
+  "published_at": "2026-06-18T19:11:32.979Z",
+  "canonical": "#87327",
+  "canonical_issue": "#87327",
+  "canonical_pr": "#88681",
+  "summary": "Plan-only classification: #87327 remains the canonical runtime-plugins stall tracker, and #88681 is a useful contributor PR for Ask #1 but is not merge-ready because the artifact lacks complete merge preflight proof. Recommend repairing/finalizing the contributor branch with preserved credit, not opening a replacement PR yet.",
+  "actions": [
+    {
+      "target": "#1",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and unrelated to this runtime-plugin diagnostics cluster."
+    },
+    {
+      "target": "#2",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and outside this cluster's root cause."
+    },
+    {
+      "target": "#5",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and outside this cluster's root cause."
+    },
+    {
+      "target": "#86239",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#87327",
+      "candidate_fix": null,
+      "reason": "Related historical context only; already closed."
+    },
+    {
+      "target": "#87327",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87327",
+      "candidate_fix": "#88681",
+      "reason": "Canonical open issue for the runtime-plugins stall family; #88681 covers only the narrow diagnostic ask."
+    },
+    {
+      "target": "#88681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87327",
+      "candidate_fix": "#88681",
+      "reason": "Useful contributor PR, but missing mandatory merge preflight. Repair/finalize the contributor branch with validation and /review before any merge recommendation."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-012",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#87327",
+      "candidate_fix": "#88681",
+      "reason": "Emit an executable repair artifact for finalizing the existing contributor PR branch."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88681",
+    "source_refs": [
+      "#88681",
+      "#87327",
+      "#1",
+      "#5",
+      "#2",
+      "#86239"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Finalize contributor PR #88681 by repairing/refeshing its branch if needed, running the required merge-preflight validation and Codex /review, addressing any findings, and preserving @alexzhu0's authorship. Do not close #87327 from this PR because it covers only Ask #1.",
+    "pr_title": "Finalize runtime plugin startup stall diagnostics from #88681",
+    "pr_body": "Finalize source PR #88681 by @alexzhu0 for #87327 Ask #1. The repair path should refresh the contributor branch if needed, run focused runtime-plugin/cron diagnostics tests, run pnpm check:changed, run Codex /review, address any findings, and preserve source PR attribution. This must not close #87327 because the PR intentionally covers only named in-flight plugin diagnostics; remaining asks stay on the canonical issue.",
+    "likely_files": [
+      "src/agents/embedded-agent-runner/run.ts",
+      "src/agents/embedded-agent-runner/run/params.ts",
+      "src/agents/runtime-plugins.test.ts",
+      "src/agents/runtime-plugins.ts",
+      "src/cron/isolated-agent/run.runtime-plugins.test.ts",
+      "src/cron/isolated-agent/run.ts",
+      "src/cron/service/execution-errors.test.ts",
+      "src/cron/service/execution-errors.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/types.ts",
+      "src/plugins/loader.test.ts",
+      "src/plugins/loader.ts",
+      "src/plugins/runtime/load-diagnostics.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/runtime-plugins.test.ts src/cron/isolated-agent/run.runtime-plugins.test.ts src/cron/service/execution-errors.test.ts src/cron/service/timer.regression.test.ts src/plugins/loader.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @alexzhu0 from source PR https://github.com/openclaw/openclaw/pull/88681.",
+      "Keep the source PR as the canonical implementation path if the branch can be repaired; do not replace it unless repair becomes unsafe or impossible."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-012.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

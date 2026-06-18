@@ -1,0 +1,58 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-023",
+  "mode": "plan",
+  "run_id": "27783046858",
+  "workflow_run_id": "27783046858",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783046858",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:31Z",
+  "workflow_updated_at": "2026-06-18T19:09:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-023.md",
+  "published_at": "2026-06-18T19:11:32.996Z",
+  "canonical": "#80985",
+  "canonical_issue": null,
+  "canonical_pr": "#80985",
+  "summary": "Plan-only assessment: #80985 is a useful focused contributor PR with passing checks, but it changes cron delivery compatibility by rejecting announce-to-webchat across CLI and runtime paths. The hydrated ClawSweeper/Codex review explicitly calls for maintainer acceptance before merge, and the artifact does not contain a clean merge preflight with passed /review. Linked issue #80984 is related cron diagnostics work with a different root cause and should stay open.",
+  "actions": [
+    {
+      "target": "#80985",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#80985",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required to accept the compatibility behavior change and to complete a clean merge preflight before any merge action."
+    },
+    {
+      "target": "#80984",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80985",
+      "candidate_fix": null,
+      "reason": "#80984 is related cron diagnostics work with distinct remaining scope, so it should not be closed or treated as fixed by #80985."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80985 requires maintainer acceptance of the compatibility change from accepted-but-broken announce-to-webchat cron configs to fail-fast rejection, plus a clean merge preflight before merge."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

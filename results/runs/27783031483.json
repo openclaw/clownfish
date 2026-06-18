@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-017",
+  "mode": "plan",
+  "run_id": "27783031483",
+  "workflow_run_id": "27783031483",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783031483",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:13Z",
+  "workflow_updated_at": "2026-06-18T19:09:31Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-017.md",
+  "published_at": "2026-06-18T19:11:32.987Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for the live PR inventory shard. #90202 is a useful but broad memory-wiki feature PR and is not merge-ready without maintainer review and a complete merge preflight. Security-sensitive linked refs are routed only at their exact items.",
+  "actions": [
+    {
+      "target": "#63829",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog remediation and should route to central OpenClaw security handling."
+    },
+    {
+      "target": "#67584",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive PR remains read-only historical context and should not be handled by Clownfish remediation automation."
+    },
+    {
+      "target": "#69700",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89409",
+      "candidate_fix": "#89409",
+      "reason": "#69700 is related to the memory-wiki source import/docs area, but its remaining docs ambiguity is owned by #89409 rather than #90202."
+    },
+    {
+      "target": "#89409",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89409",
+      "reason": "This PR is related but not a merge candidate in this cluster because its review loop is still active and unresolved."
+    },
+    {
+      "target": "#90202",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90202",
+      "reason": "The PR looks substantive and potentially useful, but the code delta is broad, independent review proof is missing, and the check set contains failures; maintainer judgment is required before merge or repair planning."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90202 requires maintainer review for broad feature scope, relevance of failing checks, and whether managed local source imports should land as-is or be split.",
+    "#89409 has active author follow-up and a failed/timed-out ClawSweeper re-review, but it is outside the primary #90202 finalization path for this shard."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

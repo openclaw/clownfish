@@ -1,0 +1,66 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-020",
+  "mode": "execute",
+  "run_id": "27783039271",
+  "workflow_run_id": "27783039271",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783039271",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:22Z",
+  "workflow_updated_at": "2026-06-18T19:09:35Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-020.md",
+  "published_at": "2026-06-18T19:11:32.993Z",
+  "canonical": "#80455",
+  "canonical_issue": "#80435",
+  "canonical_pr": "#80455",
+  "summary": "Hydrated execute canary reviewed from the provided preflight artifact. #80455 is the active repaired contributor PR for the #80435 doctor trailer bug, but merge and close actions are blocked by job policy and current PR checks are still pending, so the safe result is non-mutating classification only.",
+  "actions": [
+    {
+      "target": "#80435",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80435",
+      "candidate_fix": "#80455",
+      "reason": "Open canonical issue should remain open until the active fix PR lands; close/comment actions are blocked by job frontmatter."
+    },
+    {
+      "target": "#80448",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80435",
+      "candidate_fix": "#80455",
+      "reason": "Already closed historical PR; keep as evidence only."
+    },
+    {
+      "target": "#80455",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80455",
+      "candidate_fix": null,
+      "reason": "The contributor branch has already been repaired and credited. Merge is disallowed by job frontmatter and current checks are pending, so no merge/fix/open-pr action is safe or needed in this worker result."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

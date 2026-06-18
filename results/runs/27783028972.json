@@ -1,0 +1,67 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-016",
+  "mode": "plan",
+  "run_id": "27783028972",
+  "workflow_run_id": "27783028972",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783028972",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:10Z",
+  "workflow_updated_at": "2026-06-18T19:09:50Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-016.md",
+  "published_at": "2026-06-18T19:11:32.984Z",
+  "canonical": "#90154",
+  "canonical_issue": "#72418",
+  "canonical_pr": "#90154",
+  "summary": "Plan-only classification for PR #90154: linked security-sensitive refs #72418 and #72419 are routed to central security handling; #90154 is a non-security open PR candidate but merge is blocked pending maintainer/security acceptance and complete merge preflight proof.",
+  "actions": [
+    {
+      "target": "#72418",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated live state explicitly marks this open issue security-sensitive; it is outside ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#72419",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Hydrated live state explicitly marks this historical PR security-sensitive; route it centrally and do not mutate it."
+    },
+    {
+      "target": "#90154",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#90154",
+      "candidate_fix": "#90154",
+      "reason": "The PR looks like the current useful contributor fix candidate, but this auth-provider compatibility decision needs explicit maintainer/security acceptance and a complete merge preflight before merge can be recommended."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90154 needs explicit gateway/security maintainer acceptance for the shared token/password backend self-pairing compatibility decision, plus complete merge preflight proof including mergeability, Codex /review, and resolved review evidence."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

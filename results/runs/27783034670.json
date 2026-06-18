@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-018",
+  "mode": "execute",
+  "run_id": "27783034670",
+  "workflow_run_id": "27783034670",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27783034670",
+  "head_sha": "c7a34b2b07dd76312784c4b0610039e1c0e1b7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T19:08:17Z",
+  "workflow_updated_at": "2026-06-18T19:09:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-018.md",
+  "published_at": "2026-06-18T19:11:32.990Z",
+  "canonical": "#89997",
+  "canonical_issue": null,
+  "canonical_pr": "#89997",
+  "summary": "PR #89997 is the hydrated open canonical lane for MCP serve startup stdout cleanliness. Merge and closure are blocked by job policy; the safe execute-mode path is to repair the contributor branch if the failing CI checks are actionable, while preserving kenners22 credit.",
+  "actions": [
+    {
+      "target": "#68587",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Closed historical issue is related evidence only."
+    },
+    {
+      "target": "#68800",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Closed unmerged prior attempt is superseded by the open canonical PR."
+    },
+    {
+      "target": "#84439",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Already-merged related context, not an active remediation target."
+    },
+    {
+      "target": "#89997",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Canonical PR remains the right lane, but execute-mode repair is needed before any future merge consideration."
+    },
+    {
+      "target": "#93118",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Already-merged broad related context, not part of this repair shard."
+    },
+    {
+      "target": "#89997",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89997",
+      "candidate_fix": "#89997",
+      "reason": "Create an executable repair artifact for the deterministic fix executor; do not merge or close."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#89997",
+    "source_refs": [
+      "#89997",
+      "#68587",
+      "#68800",
+      "#84439",
+      "#93118"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing #89997 contributor PR branch if the two failing checks are actionable while keeping the patch narrow: mcp serve should be treated as stdout-clean stdio protocol startup so doctor/config diagnostics do not write startup text to stdout before JSON-RPC.",
+    "pr_title": "fix(cli): suppress mcp serve startup stdout",
+    "pr_body": "Repair source PR: https://github.com/openclaw/openclaw/pull/89997\n\nSummary:\n- Keep `openclaw mcp serve` on the stdout-clean startup policy path so startup diagnostics/config warnings do not pollute JSON-RPC stdout.\n- Keep the regression coverage focused on the startup policy behavior.\n- Preserve credit for @kenners22 as the source contributor; #68800 remains credited historical context for an earlier server-layer attempt.\n\nValidation:\n- git diff --check\n- node scripts/run-vitest.mjs src/cli/command-startup-policy.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/cli/command-startup-policy.ts",
+      "src/cli/command-startup-policy.test.ts"
+    ],
+    "validation_commands": [
+      "git diff --check",
+      "node scripts/run-vitest.mjs src/cli/command-startup-policy.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for kenners22 as author of source PR #89997.",
+      "Public maintainer comment already records Clownfish repair and says contributor credit stays on the PR history.",
+      "Prior source PR #68800 by jasonmakr is superseded historical context for the same MCP stdout cleanliness area, but #89997 is the maintained lane."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-018.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
