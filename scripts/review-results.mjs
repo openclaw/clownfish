@@ -374,7 +374,7 @@ function hasExplicitNonSecurityPreflightAssertion(action, result) {
     /\b(?:preflight|item[-_\s]?matrix|hydrated\s+preflight)[^.\n]{0,160}\bsecurity[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)\b/i.test(
       text,
     ) ||
-    /\bno\s+security[-_\s]?sensitive\s+(?:refs?|items?|targets?|signals?|status)\s+(?:were|was|are|is)?\s*(?:detected|present|found)\b/i.test(
+    /\bno\s+security[-_\s]?sensitive\s+(?:hydrated\s+)?(?:refs?|items?|targets?|signals?|status)\b(?:\s+(?:were|was|are|is)?\s*(?:detected|present|found))?/i.test(
       text,
     ) ||
     /\bno\s+hydrated\s+(?:preflight\s+)?(?:items?|refs?|targets?)\s+(?:(?:has|have|had|were|was|are|is)\s+)?(?:explicitly\s+)?(?:marked\s+)?security[-_\s]?sensitive(?:\s*(?:[=:]\s*|\s+)(?:true|1|yes))?\b/i.test(

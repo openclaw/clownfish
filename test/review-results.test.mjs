@@ -172,11 +172,11 @@ test("review-results trusts explicit false preflight classifications", () => {
   assert.match(result.stdout, /"status": "passed"/);
 });
 
-test("review-results trusts plan summaries with no hydrated security-sensitive items", () => {
+test("review-results trusts plan summaries with no security-sensitive hydrated refs", () => {
   const dir = makeResultDir(
     {
       summary:
-        "Plan-only inventory shard. No hydrated item has security_sensitive=true; merge, fix, and raise_pr are blocked.",
+        "Plan-only inventory shard. The preflight artifact reports no security-sensitive hydrated refs; merge, fix, and raise_pr are blocked.",
       actions: [
         {
           target: "#90672",
@@ -198,7 +198,7 @@ test("review-results trusts plan summaries with no hydrated security-sensitive i
             ref: "#90672",
             kind: "pull_request",
             state: "open",
-            title: "fix(secrets): avoid false positives in credential redaction",
+            title: "fix(security): avoid false positives in credential redaction",
             labels: ["proof: sufficient"],
             updated_at: "2026-06-15T14:15:01Z",
             security_sensitive: false,
