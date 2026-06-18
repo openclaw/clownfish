@@ -130,6 +130,7 @@ test("review-results ignores false security_sensitive field echoes", () => {
 test("review-results trusts explicit false preflight classifications", () => {
   const dir = makeResultDir(
     {
+      summary: "Hydrated preflight marks every target in this inventory shard security_sensitive=false.",
       actions: [
         {
           target: "#90672",
@@ -140,7 +141,6 @@ test("review-results trusts explicit false preflight classifications", () => {
           target_kind: "pull_request",
           target_updated_at: "2026-06-15T14:15:01Z",
           evidence: [
-            "Preflight marks security_sensitive=false for this item.",
             "Deterministic validation separately reported: #90672 security-sensitive target must use route_security.",
           ],
           reason:
@@ -160,6 +160,49 @@ test("review-results trusts explicit false preflight classifications", () => {
             updated_at: "2026-06-15T14:15:01Z",
             security_sensitive: false,
             body_excerpt: "The preflight reviewed a privacy leak but classified this target as non-security.",
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results honors plan-level no-security routing assertions", () => {
+  const dir = makeResultDir(
+    {
+      summary:
+        "This inventory shard has no shared canonical; no close, merge, fix, or security-route action is justified from preflight evidence.",
+      actions: [
+        {
+          target: "#90672",
+          action: "keep_independent",
+          status: "planned",
+          idempotency_key: "cluster-test:keep-independent:90672:no-security-route",
+          classification: "independent",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z",
+          evidence: ["No duplicate or superseded target is hydrated for this inventory shard."],
+          reason: "Independent PR; keep open.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#90672",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(secrets): prevent half-migrated credentials",
+            labels: ["proof: sufficient"],
+            updated_at: "2026-06-15T14:15:01Z",
+            security_sensitive: false,
+            body_excerpt: "Credential migration now commits stores before the config file.",
           },
         ],
       },

@@ -165,7 +165,7 @@ function reviewResult(resultPath) {
     if (
       !clusterScopedAction &&
       !isSkippedClosedContextAction(action, item) &&
-      isSecuritySensitiveActionContext(action, item) &&
+      isSecuritySensitiveActionContext(action, item, result) &&
       name !== "route_security"
     ) {
       failures.push(`${target} security-sensitive target must use route_security`);
@@ -348,9 +348,9 @@ function isUnavailableSecurityRouteAction(action, item) {
   return /\b(rate limit|HTTP 403|unavailable|could not hydrate|missing live|hydration failed)\b/i.test(text);
 }
 
-function isSecuritySensitiveActionContext(action, item) {
+function isSecuritySensitiveActionContext(action, item, result) {
   if (item?.security_sensitive === true) return true;
-  if (item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action)) return false;
+  if (item?.security_sensitive === false && hasExplicitNonSecurityPreflightAssertion(action, result)) return false;
   if (NON_MUTATING_KEEP_ACTIONS.has(String(action.action ?? ""))) {
     return hasSecuritySensitiveText(securityTextFromItem(item), action.classification);
   }
@@ -363,10 +363,18 @@ function isSecuritySensitiveActionContext(action, item) {
   );
 }
 
-function hasExplicitNonSecurityPreflightAssertion(action) {
-  const text = [action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
-  return /\b(?:preflight|item[-_\s]?matrix|hydrated\s+preflight)[^.\n]{0,160}\bsecurity[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)\b/i.test(
-    text,
+function hasExplicitNonSecurityPreflightAssertion(action, result) {
+  const text = [result?.summary, action.reason, action.comment, ...(action.evidence ?? [])].join("\n");
+  return (
+    /\b(?:preflight|item[-_\s]?matrix|hydrated\s+preflight)[^.\n]{0,160}\bsecurity[-_\s]?sensitive\s*(?:[=:]\s*|\s+)(?:false|0|no)\b/i.test(
+      text,
+    ) ||
+    /\bno\s+security[-_\s]?sensitive\s+(?:refs?|items?|targets?|signals?|status)\s+(?:were|was|are|is)?\s*(?:detected|present|found)\b/i.test(
+      text,
+    ) ||
+    /\bno\b[^.\n]{0,160}\b(?:security[-_\s]?route|route_security)\s+action\s+(?:is|was)\s+(?:justified|required|needed|allowed)\b/i.test(
+      text,
+    )
   );
 }
 
