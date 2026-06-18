@@ -2,19 +2,19 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-42637-skills-truncation"
 mode: "autonomous"
-run_id: "27745999850"
-workflow_run_id: "27745999850"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27745999850"
-head_sha: "e182f75656497e4b5d6d045040c445f71ff99857"
-workflow_conclusion: "success"
+run_id: "27748392914"
+workflow_run_id: "27748392914"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27748392914"
+head_sha: "fc76066bff3d7b96e985ea2d21353ecc20962274"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-06-18T08:14:01.953Z"
-canonical: "#42637"
+published_at: "2026-06-18T09:06:05.188Z"
+canonical: "https://github.com/openclaw/openclaw/pull/42637"
 canonical_issue: null
-canonical_pr: "#42637"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/42637"
 actions_total: 2
 fix_executed: 0
-fix_failed: 0
+fix_failed: 1
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27745999850](https://github.com/openclaw/clownfish/actions/runs/27745999850)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27748392914](https://github.com/openclaw/clownfish/actions/runs/27748392914)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
-Canonical: #42637
+Canonical: https://github.com/openclaw/openclaw/pull/42637
 
 ## Summary
 
-#42637 is the canonical useful contributor PR for the skills truncation fix, but it is not merge-ready because the latest hydrated state shows a failing check-test-types lane and unresolved latest ClawSweeper/Codex review blockers. Merge is blocked by the job, so Clownfish should repair the contributor branch or open/update the configured repair branch while preserving credit.
+#42637 is the canonical repair path for the skills truncation defect, but it is not merge-ready and merge is blocked by job policy. Plan a narrow repair of the existing editable contributor PR branch, preserving contributor credit, addressing the current bot findings, and validating with focused skills tests plus pnpm check:changed.
 
 ## Impact
 
@@ -44,7 +44,7 @@ Canonical: #42637
 | --- | ---: |
 | Worker actions | 2 |
 | Fix executed | 0 |
-| Fix failed | 0 |
+| Fix failed | 1 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
@@ -64,22 +64,22 @@ Canonical: #42637
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #42637 by making the contributor PR landable for the omitted-skill-name truncation defect. Keep the change narrow: ensure omitted skill lookup keys are visible when truncation occurs, keep the emitted skills prompt within maxSkillsPromptChars, prioritize at least one exact lookup key under tight budgets, and fix the latest check-test-types failure without changing unrelated skills behavior.",
+  "summary": "Repair the editable contributor PR #42637 so truncated skills prompts include usable omitted skill lookup keys without exceeding maxSkillsPromptChars or dropping skills unnecessarily when compact mode would fit.",
   "pr_title": "fix(skills): list omitted skill names when prompt is truncated",
-  "pr_body": "## Summary\n- repairs #42637 so truncated skills prompts expose exact omitted skill lookup keys without exceeding the configured prompt budget\n- keeps the fix scoped to skills prompt truncation and the compact-format regression coverage\n- preserves contributor credit for @imwyvern and source PR https://github.com/openclaw/openclaw/pull/42637\n\n## Validation\n- pnpm test src/skills/loading/compact-format.test.ts\n- pnpm exec tsc -p tsconfig.core.json --noEmit\n- pnpm check:changed --base origin/main\n\nClownfish repair branch for cluster repair-42637-skills-truncation.",
+  "pr_body": "## Summary\n- Repair #42637 so truncated skills prompts include exact omitted skill lookup keys the agent can pass to `openclaw skills info <name>`.\n- Keep the full rendered skills prompt within `maxSkillsPromptChars`, including remote notes, compact notices, truncation guidance, and omitted-name lines.\n- Keep prompt-visible omitted names parseable and sanitized, and prefer compact rendering before dropping skills when compact mode fits.\n\n## Credit\nThis repair carries forward #42637 from @imwyvern, with source commits from @sakaenyeniceri5, and preserves that contributor intent and attribution.\n\n## Review Items To Address\n- Fix the `check-test-types` failure around the new `SkillStatusEntry` fixture.\n- Under tight note budgets, prioritize showing at least one exact omitted lookup key over longer guidance text.\n- Prove special characters, separators/commas, and control characters do not break prompt structure or the advertised `skills info` lookup path.\n- Prove remote eligibility notes do not force avoidable truncation when the complete compact catalog fits.\n\n## Verification\n- `pnpm test src/skills/loading/compact-format.test.ts src/cli/skills-cli.test.ts`\n- `pnpm check:changed`\n\nReal behavior proof should show before/after prompt output for a truncated catalog and confirm an omitted listed key resolves through `formatSkillInfo()` / `openclaw skills info <name>`.",
   "likely_files": [
     "src/skills/loading/workspace.ts",
-    "src/skills/loading/compact-format.test.ts"
+    "src/skills/loading/compact-format.test.ts",
+    "src/cli/skills-cli.test.ts"
   ],
   "validation_commands": [
-    "pnpm test src/skills/loading/compact-format.test.ts",
-    "pnpm exec tsc -p tsconfig.core.json --noEmit",
-    "pnpm check:changed --base origin/main"
+    "pnpm test src/skills/loading/compact-format.test.ts src/cli/skills-cli.test.ts",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Credit @imwyvern as the contributor PR author/source PR in the repair PR body.",
-    "Preserve source PR attribution for https://github.com/openclaw/openclaw/pull/42637.",
-    "Carry forward the original fix intent: list omitted skill names/lookup keys when prompt truncation drops installed skills."
+    "Preserve credit for #42637 author @imwyvern in the repaired PR body/update comment.",
+    "Preserve source commit attribution for @sakaenyeniceri5 where the repaired commits are reused or co-authored.",
+    "OpenClaw normal PRs should carry release-note context in the PR body rather than editing CHANGELOG.md."
   ],
   "source_job": "jobs/openclaw/inbox/repair-42637-skills-truncation.md",
   "security_sensitive": false,
@@ -94,7 +94,8 @@ Canonical: #42637
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| execute_fix | failed |  |  | fatal: destination path '/tmp/projectclownfish-fix-Z5MKdL/openclaw-openclaw' already exists and is not an empty directory.
+failed to run git: exit status 128 |
 
 ## Apply Actions
 
@@ -112,8 +113,8 @@ Canonical: #42637
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #42637 | fix_needed | planned | canonical | Canonical contributor PR is useful and in scope, but it needs a narrow repair before any merge or closeout path is safe. |
-| repair-42637-skills-truncation | build_fix_artifact | planned |  | An executable fix artifact is needed because the canonical PR is not merge-ready and the job explicitly asks Clownfish to create or update one implementation PR from the repair branch. |
+| #42637 | fix_needed | planned | canonical | Useful canonical contributor PR exists and is editable, but it needs rebase/repair and focused validation before any update or later merge consideration. |
+| cluster:repair-42637-skills-truncation | build_fix_artifact | planned |  | Job allows fix and raise_pr, but merge is blocked. A complete executable repair artifact is safe and narrow. |
 
 ## Needs Human
 
