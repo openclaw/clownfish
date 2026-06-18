@@ -1,0 +1,182 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-003",
+  "mode": "execute",
+  "run_id": "27782117246",
+  "workflow_run_id": "27782117246",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27782117246",
+  "head_sha": "6de0b4a1c66c52cd49c6d6c56b7471bfbaf34594",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T18:51:52Z",
+  "workflow_updated_at": "2026-06-18T19:06:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-003.md",
+  "published_at": "2026-06-18T19:07:39.958Z",
+  "canonical": "#69242",
+  "canonical_issue": "#69242",
+  "canonical_pr": "#87681",
+  "summary": "#87681 is the canonical contributor PR for #69242, but it is dirty against current main and the job forbids merge/close/comment/label. Emit a rebase-only repair artifact that preserves @sweetcornna's four-file exec/OOM diagnostic scope and refreshes validation on main.",
+  "actions": [
+    {
+      "target": "#69242",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69242",
+      "candidate_fix": "#87681",
+      "reason": "Keep the issue open while #87681 is repaired and validated."
+    },
+    {
+      "target": "#87681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69242",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch on current main and rerun validation; do not merge in this job."
+    },
+    {
+      "target": "#70404",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#69242",
+      "candidate_fix": null,
+      "reason": "Closed context only."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-003",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69242",
+      "candidate_fix": "#87681",
+      "reason": "Executable repair artifact is safe and narrow; no GitHub mutation is allowed from this worker."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#87681",
+    "source_refs": [
+      "#87681",
+      "#69242",
+      "#70404"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #87681 by rebasing/refitting @sweetcornna's focused exec/OOM diagnostic patch onto current main. Preserve the existing behavior: when Linux exec children are likely wrapped with raised oom_score_adj and a bare SIGKILL is reported, expand the user-facing failure reason with the cgroup/OOM-score hint; normalize numeric signal 9; derive the gate from the spawn-time child env rather than ambient process.env; keep non-Linux, opt-out, timeout, shell-failure, and non-SIGKILL paths unchanged.",
+    "pr_title": "fix(exec): explain Linux SIGKILL OOM-score hints",
+    "pr_body": "## Summary\n- Repair #87681 on current main while preserving @sweetcornna's focused four-file exec/OOM diagnostic scope.\n- Expand bare Linux SIGKILL exec failure text only when the child OOM-score raise path is active, including numeric signal 9 normalization.\n- Keep the gate tied to the spawn-time child env so per-child OPENCLAW_CHILD_OOM_SCORE_ADJ=0 opt-outs do not get the hint.\n\n## Credit\nSource PR: #87681 by @sweetcornna. Canonical report: #69242 by @schksw-ctrl. Related OOM-score context: #70404 by @novahe.\n\n## Verification\n- node scripts/run-vitest.mjs src/agents/bash-tools.exec-runtime.test.ts src/process/linux-oom-score.test.ts\n- git diff --check\n- node scripts/crabbox-wrapper.mjs run -- env OPENCLAW_CHECK_CHANGED_REMOTE_CHILD=1 OPENCLAW_CHANGED_LANES_RAW_SYNC=1 corepack pnpm check:changed\n\nClownfish repair artifact: live-pr-inventory-20260618T170451-003.",
+    "likely_files": [
+      "src/agents/bash-tools.exec-runtime.ts",
+      "src/agents/bash-tools.exec-runtime.test.ts",
+      "src/process/linux-oom-score.ts",
+      "src/process/linux-oom-score.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/agents/bash-tools.exec-runtime.test.ts src/process/linux-oom-score.test.ts",
+      "git diff --check",
+      "node scripts/crabbox-wrapper.mjs run -- env OPENCLAW_CHECK_CHANGED_REMOTE_CHILD=1 OPENCLAW_CHANGED_LANES_RAW_SYNC=1 corepack pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/87681 by @sweetcornna.",
+      "Canonical report: https://github.com/openclaw/openclaw/issues/69242 by @schksw-ctrl.",
+      "Related underlying OOM-score behavior context: https://github.com/openclaw/openclaw/issues/70404 by @novahe.",
+      "Carry @sweetcornna attribution in the repair PR body and squash/release-note context."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-003.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/87681",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "1024eb5e4b853a1335a2c71f95aa1148740bbd42",
+      "checkpoint_commits": [
+        "77a778d4e4bf3774a269048fb4bbcd1166d4ab32",
+        "1024eb5e4b853a1335a2c71f95aa1148740bbd42"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#87681",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#87681",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
