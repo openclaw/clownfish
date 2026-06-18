@@ -1,0 +1,207 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-59920-single-replan-wave-20260617",
+  "mode": "autonomous",
+  "run_id": "27744912936",
+  "workflow_run_id": "27744912936",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27744912936",
+  "head_sha": "5e4579520d2c0f67afd482b6e40b12f7d4a3caa3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T07:51:13Z",
+  "workflow_updated_at": "2026-06-18T08:06:16Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-59920-single-replan-wave-20260617.md",
+  "published_at": "2026-06-18T08:07:33.987Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/59920",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/59920",
+  "summary": "Plan #59920 as the canonical repairable contributor PR. Current main at 70489061cab62786b794ac593f85933b3ade2063 still lacks terminal-field preference in the generic CLI JSONL parser, and the hydrated PR state shows #59920 is open, clean, maintainer-editable, narrow, and already has passing checks, but it still needs a final branch repair/review proof path before any future merge. No GitHub mutations are planned here because comments, close, labels, merge, force-push, and bypasses are blocked.",
+  "actions": [
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route the exact security-sensitive issue to central OpenClaw security handling; do not mutate it in this Clownfish repair lane."
+    },
+    {
+      "target": "#59918",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59920",
+      "candidate_fix": null,
+      "reason": "Historical closed issue; retain as evidence and credit context for #59920."
+    },
+    {
+      "target": "#59920",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59920",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch in place so #59920 remains canonical and mySebbe's attribution is preserved."
+    },
+    {
+      "target": "#61463",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#59920",
+      "candidate_fix": null,
+      "reason": "Related phase-leak hardening evidence, not a live target for this repair cluster."
+    },
+    {
+      "target": "#61481",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#59920",
+      "candidate_fix": null,
+      "reason": "Closed broader sibling, not a viable canonical path for this narrow repair."
+    },
+    {
+      "target": "#66081",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59920",
+      "candidate_fix": null,
+      "reason": "Closed superseded/obsolete Codex CLI artifact PR; retain only as background evidence."
+    },
+    {
+      "target": "cluster:repair-59920-single-replan-wave-20260617",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#59920",
+      "candidate_fix": "#59920",
+      "reason": "Executable branch-repair artifact for the canonical contributor PR."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#59920",
+    "source_refs": [
+      "#59920",
+      "#59918",
+      "#25592",
+      "#61463",
+      "#61481",
+      "#66081"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #59920 in place so the CLI JSONL parser and streaming parser prefer explicit terminal reply semantics without regressing commentary-only structured output into raw JSONL fallback.",
+    "pr_title": "[codex] prefer terminal reply fields in CLI JSONL parser",
+    "pr_body": "## Summary\n- Repair #59920 in place so `parseCliJsonl()` and `createCliJsonlStreamingParser().getOutput()` prefer `task_complete.last_agent_message`, then `phase:\"final_answer\"`, then non-commentary generic message text.\n- Preserve structured empty output for commentary-only successful JSONL so `parseCliOutput()` does not fall back to raw JSONL blobs.\n- Keep the patch limited to `src/agents/cli-output.ts` and parser regression coverage in `src/agents/cli-output.test.ts`.\n\n## Credit\nThis continues @mySebbe's original parser fix from https://github.com/openclaw/openclaw/pull/59920 and the report in https://github.com/openclaw/openclaw/issues/59918.\n\n## Verification\n- `pnpm test src/agents/cli-output.test.ts`\n- `pnpm check:changed`\n- Fresh Codex `/review` / autoreview before any merge recommendation.",
+    "likely_files": [
+      "src/agents/cli-output.ts",
+      "src/agents/cli-output.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/cli-output.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @mySebbe as the original contributor/reporter via the existing #59920 branch and commits.",
+      "Keep existing Clownfish/openclaw-clownfish repair commit context; do not replace the PR unless branch update becomes unsafe.",
+      "Mention source issue #59918 and PR #59920 in release-note context because the behavior affects user-visible channel replies."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-59920-single-replan-wave-20260617.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#25592"
+    ],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/59920",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "acd481225a72f8de2ae548488fdc6d9b505b0a33",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#59920",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#59920",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
