@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "low-signal-pr-sweep-20260615T1534-01"
 mode: "plan"
-run_id: "27560323972-1-0"
-workflow_run_id: "27560323972"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27560323972"
-head_sha: "61d2d7a61eeb9d8fe22ed20cc15f46b2ff4a4bb2"
+run_id: "27559995968-1-0"
+workflow_run_id: "27559995968"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27559995968"
+head_sha: "dce8233306a90d6d52f9fcaa41728838a8e657e7"
 workflow_conclusion: "success"
-result_status: "planned"
-published_at: "2026-06-18T16:45:39.595Z"
+result_status: "needs_human"
+published_at: "2026-06-18T16:59:36.092Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
@@ -19,24 +19,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 3
 ---
 
 # low-signal-pr-sweep-20260615T1534-01
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27560323972](https://github.com/openclaw/clownfish/actions/runs/27560323972)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27559995968](https://github.com/openclaw/clownfish/actions/runs/27559995968)
 
 Workflow conclusion: success
 
-Worker result: planned
+Worker result: needs_human
 
 Canonical: unknown
 
 ## Summary
 
-Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly clear low-signal closures under the policy; three are focused, green PRs with proof, and one is a focused but proof-failing PR that should not be auto-closed on red checks alone.
+Reviewed the four hydrated open PRs under the low-signal cleanup policy. None are boringly clear low-signal close candidates; three are focused, green PRs that require maintainer review, and one is a focused PR with proof/check gaps rather than a cleanup close.
 
 ## Impact
 
@@ -49,7 +49,7 @@ Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly c
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 3 |
 
 ## Fix Execution Actions
 
@@ -73,11 +73,13 @@ Reviewed the four hydrated open PRs in the low-signal sweep. None are boringly c
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93025 | keep_independent | planned | independent | Focused green PR with supplied proof; not eligible for low-signal closure. |
-| #93222 | keep_independent | planned | independent | Focused green PR with supplied proof; not eligible for low-signal closure. |
-| #92946 | keep_independent | planned | independent | Focused channel-delivery fix with proof and green checks; dirty merge state blocks merge work, not low-signal classification. |
-| #55766 | needs_human | planned | needs_human | Focused PR with failed proof and unhydrated bot-review details; not boringly clear low-signal, and closure would require technical correctness judgment. |
+| #93025 | needs_human | planned | needs_human | Focused green PR; job requires human review for focused_bug_fix, green_checks, and technical_correctness_judgment. |
+| #93222 | needs_human | planned | needs_human | Focused green PR; job requires human review for focused_bug_fix, green_checks, and technical_correctness_judgment. |
+| #92946 | needs_human | planned | needs_human | Focused green PR with delivery compatibility risk; job requires human review for focused_bug_fix, green_checks, and technical_correctness_judgment. |
+| #55766 | keep_independent | planned | independent | Not eligible for low-signal closure; failing proof/check gaps block closure but do not make the PR a boringly clear cleanup close. |
 
 ## Needs Human
 
-- #55766 needs maintainer judgment: it is a plausible focused ACP behavior fix, but Real behavior proof failed, manual verification is unchecked, and bot-review details were not hydrated.
+- #93025 requires maintainer review because it is a focused green provider API/runtime change.
+- #93222 requires maintainer review because it is a focused green Discord config/runtime change.
+- #92946 requires maintainer review because it is a focused green Telegram message-delivery compatibility change with explicit merge-risk labels.
