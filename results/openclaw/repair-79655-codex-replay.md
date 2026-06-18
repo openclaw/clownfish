@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-79655-codex-replay"
 mode: "autonomous"
-run_id: "27682630944"
-workflow_run_id: "27682630944"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27682630944"
-head_sha: "325e4f7668eca868a58e712a276dd80219bbc097"
+run_id: "27745999776"
+workflow_run_id: "27745999776"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27745999776"
+head_sha: "e182f75656497e4b5d6d045040c445f71ff99857"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T10:34:25.982Z"
+published_at: "2026-06-18T08:14:01.951Z"
 canonical: "#79655"
 canonical_issue: null
 canonical_pr: "#79655"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27682630944](https://github.com/openclaw/clownfish/actions/runs/27682630944)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27745999776](https://github.com/openclaw/clownfish/actions/runs/27745999776)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #79655
 
 ## Summary
 
-Plan repair for open canonical PR #79655 only. No merge or close actions are planned because merge is blocked by the job, the canonical PR is open with unresolved CI/review blockers, and fix-before-close is required.
+Plan repair for open canonical PR #79655. Do not merge or close; build a narrow Clownfish repair PR/branch that preserves the contributor's replay-pruning intent and credit while addressing the current review and CI blockers.
 
 ## Impact
 
@@ -66,23 +66,23 @@ Plan repair for open canonical PR #79655 only. No merge or close actions are pla
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair open canonical PR #79655 by preserving the contributor's completed Codex Responses tool replay pruning intent while addressing the concrete ClawSweeper/CI blockers. Keep scope limited to completed native Codex Responses replay pruning and active tail preservation.",
-  "pr_title": "fix(openai-codex): repair completed Responses replay pruning",
-  "pr_body": "## Summary\n- repair #79655's completed native Codex Responses tool replay pruning change\n- preserve active tail tool continuation behavior while pruning already-consumed replay items\n- keep the fix scoped to the OpenAI transport replay surface and focused regression coverage\n\n## Credit\nThis repair carries forward the implementation intent and contributor credit from source PR #79655 by @fanfanliu964-web.\n\n## Validation\n- pnpm test src/agents/openai-transport-stream.responses-tool-replay.test.ts src/agents/openai-transport-stream.test.ts\n- pnpm check:changed\n- git diff --check\n- Codex /review before final applicator update\n\nRefs #79655.",
+  "summary": "Repair PR #79655 with the narrowest patch for completed native Codex Responses tool replay pruning. Keep active tail function_call_output continuation behavior intact, prune only completed historical replay state, and address the current ClawSweeper/CI blockers before opening or updating the Clownfish repair PR.",
+  "pr_title": "fix(openai-codex): prune completed Responses tool replay",
+  "pr_body": "## Summary\n- Repairs source PR #79655 by preserving its completed native Codex Responses tool replay pruning behavior while addressing current review and CI blockers.\n- Keeps active tail function-call output continuation behavior intact.\n- Limits changes to the OpenAI transport replay surface, focused tests, and any required transcript-hygiene wording.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/79655\nThanks @fanfanliu964-web for the original fix and proof. This Clownfish repair carries that contribution forward with attribution.\n\n## Validation\n- pnpm -s vitest run src/agents/openai-transport-stream.responses-tool-replay.test.ts src/agents/openai-transport-stream.test.ts extensions/openai/transport-policy.test.ts\n- pnpm check:changed\n- git diff --check\n\n## Guardrails\n- Do not merge from this worker result.\n- Do not close #79655 until a fix PR is opened, landed, or explicitly proven unnecessary by the deterministic applicator/post-flight flow.",
   "likely_files": [
     "src/agents/openai-transport-stream.ts",
     "src/agents/openai-transport-stream.responses-tool-replay.test.ts",
     "docs/reference/transcript-hygiene.md"
   ],
   "validation_commands": [
-    "pnpm test src/agents/openai-transport-stream.responses-tool-replay.test.ts src/agents/openai-transport-stream.test.ts",
+    "pnpm -s vitest run src/agents/openai-transport-stream.responses-tool-replay.test.ts src/agents/openai-transport-stream.test.ts extensions/openai/transport-policy.test.ts",
     "pnpm check:changed",
-    "git diff --check",
-    "/review"
+    "git diff --check"
   ],
   "credit_notes": [
-    "Preserve source PR credit for @fanfanliu964-web from https://github.com/openclaw/openclaw/pull/79655.",
-    "Mention that the repair is based on source PR #79655 and keeps the contributor's replay-pruning approach where possible."
+    "Preserve contributor credit for #79655 by naming @fanfanliu964-web as the source PR author in the repair PR body.",
+    "Mention source PR https://github.com/openclaw/openclaw/pull/79655 in the repair PR body.",
+    "If a changelog entry is touched or added, include attribution for the source PR/contributor."
   ],
   "source_job": "jobs/openclaw/inbox/repair-79655-codex-replay.md",
   "security_sensitive": false,
@@ -115,10 +115,10 @@ Plan repair for open canonical PR #79655 only. No merge or close actions are pla
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #60264 | keep_closed | skipped | superseded | Already closed merged context ref; no mutation needed. |
-| #76832 | keep_closed | skipped | related | Already closed merged related PR; no mutation needed. |
-| #79655 | fix_needed | planned | canonical | Canonical PR is useful and maintainer-modifiable, but not merge-ready; Clownfish should repair it with focused validation and preserved contributor credit. |
-| repair-79655-codex-replay | build_fix_artifact | planned | canonical | Executable repair artifact is needed so the applicator can update or open the single configured repair PR without merging or closing refs. |
+| #60264 | keep_closed | skipped | fixed_by_candidate | Already closed historical context only. |
+| #76832 | keep_closed | skipped | fixed_by_candidate | Already closed related predecessor; no mutation planned. |
+| #79655 | fix_needed | planned | canonical | Canonical PR has useful contributor work and proof, but current review/CI blockers require a narrow repair before any merge or closeout path. |
+| repair-79655-codex-replay | build_fix_artifact | planned |  | Create or update the cluster-scoped repair branch/PR instead of merging or closing. |
 
 ## Needs Human
 

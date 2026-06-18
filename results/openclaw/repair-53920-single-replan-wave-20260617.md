@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-53920-single-replan-wave-20260617"
 mode: "autonomous"
-run_id: "27713792595"
-workflow_run_id: "27713792595"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27713792595"
-head_sha: "68f5779f8808696f5c847d4b3bedc83f7d798b65"
+run_id: "27745999997"
+workflow_run_id: "27745999997"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27745999997"
+head_sha: "e182f75656497e4b5d6d045040c445f71ff99857"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T19:41:30.033Z"
-canonical: "https://github.com/openclaw/openclaw/pull/53920"
+published_at: "2026-06-18T08:14:01.957Z"
+canonical: "#53920"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/53920"
+canonical_pr: "#53920"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27713792595](https://github.com/openclaw/clownfish/actions/runs/27713792595)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27745999997](https://github.com/openclaw/clownfish/actions/runs/27745999997)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/53920
+Canonical: #53920
 
 ## Summary
 
-#53920 remains the canonical repair path. Current main still mutates scripts/systemd/openclaw-auth-monitor.service in place before installing it, while #53920 moves rendering into a temporary installed unit and the current PR head addresses the hydrated Greptile/Codex bot findings. No GitHub mutation, merge, close, label, push, or comment action is planned; the executable path is to repair/finalize the contributor branch with final validation and Codex review gates.
+Plan-only result for isolated repair of open contributor PR #53920. The hydrated artifact shows #53920 remains the canonical narrow PR for the auth-monitor setup-script fix, has maintainer_can_modify enabled, is non-security-sensitive, and already includes follow-up responses addressing the actionable Greptile/Codex review-bot findings. Merge, close, comment, label, and force-push are blocked by the job; the safe next action is a repair-contributor-branch fix artifact that preserves JackWuGlobal credit and reruns the focused validation/Codex review gates.
 
 ## Impact
 
@@ -47,7 +47,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/53920
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -61,30 +61,30 @@ Canonical: https://github.com/openclaw/openclaw/pull/53920
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
-    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Finalize contributor PR #53920 by keeping the existing one-file setup-script repair, preserving JackWuGlobal's contribution, and running the remaining review and changed-check gates on the contributor branch.",
+  "summary": "Repair contributor PR #53920 in place, keeping JackWuGlobal's PR as the canonical path. The narrow fix should remain limited to rendering the auth-monitor systemd unit from a temporary materialized copy, validating expected template substitutions, preserving rerun compatibility for previously mutated NOTIFY lines, and avoiding tracked template mutation during setup.",
   "pr_title": "fix(scripts): avoid mutating tracked auth-monitor template during setup",
-  "pr_body": "Summary:\n- Keep the tracked auth-monitor systemd template unchanged during setup.\n- Render the installed user service from a temporary copy, with the current checkout's auth-monitor.sh path.\n- Preserve rerun compatibility for previously-mutated NOTIFY_* lines and quote the ExecStart path for systemd.\n\nVerification:\n- bash -n scripts/setup-auth-system.sh\n- Temp HOME smoke with a checkout path containing spaces: installed quoted ExecStart and requested NOTIFY_* values without changing the source template.\n- Temp HOME smoke with already-uncommented NOTIFY_* template lines: replaced old values successfully.\n- pnpm check:changed\n\nCredit:\n- Based on and preserving @JackWuGlobal's contribution in https://github.com/openclaw/openclaw/pull/53920.",
+  "pr_body": "Repair plan for Clownfish applicator:\n\n- Keep PR #53920 as the canonical contributor PR and repair it in place if needed.\n- Preserve JackWuGlobal credit and source PR attribution: https://github.com/openclaw/openclaw/pull/53920.\n- Stay limited to scripts/setup-auth-system.sh unless validation proves a narrow adjacent setup-script change is required.\n- Re-run bash -n scripts/setup-auth-system.sh and pnpm check:changed.\n- Run Codex /review on the repaired head before any later merge recommendation.\n- Do not comment, label, close, merge, force-push, or bypass checks from this worker result.",
   "likely_files": [
     "scripts/setup-auth-system.sh"
   ],
   "validation_commands": [
     "bash -n scripts/setup-auth-system.sh",
-    "pnpm check:changed"
+    "pnpm check:changed",
+    "Codex /review on the repaired PR head before any later merge recommendation"
   ],
   "credit_notes": [
-    "Preserve JackWuGlobal as the contributor for https://github.com/openclaw/openclaw/pull/53920.",
-    "No replacement PR is planned; repair should happen on the existing editable contributor branch.",
-    "PR body or merge message should retain release-note context for the user-visible setup-script fix; do not edit CHANGELOG.md for this normal PR."
+    "Preserve JackWuGlobal as the source contributor for PR #53920.",
+    "Keep the original source PR URL in any repair PR/body or applicator note: https://github.com/openclaw/openclaw/pull/53920.",
+    "Do not replace this branch unless repair_contributor_branch becomes unsafe or impossible; maintainer_can_modify is true in the hydrated artifact."
   ],
   "source_job": "jobs/openclaw/inbox/repair-53920-single-replan-wave-20260617.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": "pushed",
-  "terminal": true
+  "repair_status": null,
+  "terminal": null
 }
 ```
 
@@ -92,26 +92,26 @@ Canonical: https://github.com/openclaw/openclaw/pull/53920
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/53920 |  |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #53920 | merge_canonical | blocked | fix_pr | job does not allow merge |
+| _None_ |  |  |  |  |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-|  | post_flight | #53920 | merge_canonical | blocked | job does not allow merge |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #53920 | fix_needed | planned | canonical | The PR is useful, narrow, and editable. It should be finalized on the contributor branch rather than replaced or closed. |
-| cluster:repair-53920-single-replan-wave-20260617 | build_fix_artifact | planned |  | Create an executable repair artifact for the existing contributor PR without performing blocked GitHub mutations. |
+| #53920 | keep_canonical | planned | canonical | Canonical choice is clear and no duplicate/closure action is allowed or needed for this single-item repair cluster. |
+| #53920 | build_fix_artifact | planned | fixed_by_candidate | A cluster-scoped repair artifact is needed because the job asks for finalization repair but merge/comment/close/force-push are blocked in this worker result. |
 
 ## Needs Human
 

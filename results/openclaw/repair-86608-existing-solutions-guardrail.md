@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-86608-existing-solutions-guardrail"
 mode: "autonomous"
-run_id: "27705471481"
-workflow_run_id: "27705471481"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27705471481"
-head_sha: "11055a7e49bd4d7a4f5c6d331788c99e8595d963"
+run_id: "27745999604"
+workflow_run_id: "27745999604"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27745999604"
+head_sha: "e182f75656497e4b5d6d045040c445f71ff99857"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T16:55:15.256Z"
+published_at: "2026-06-18T08:14:01.947Z"
 canonical: "#86608"
 canonical_issue: null
 canonical_pr: "#86608"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27705471481](https://github.com/openclaw/clownfish/actions/runs/27705471481)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27745999604](https://github.com/openclaw/clownfish/actions/runs/27745999604)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #86608
 
 ## Summary
 
-Canonical PR #86608 is open, hydrated, non-security-sensitive, scoped to the five existing-solutions guardrail surfaces, and already repaired on the contributor branch with current checks passing. No close, comment, label, merge, or force-push action is allowed by this job.
+Canonical PR #86608 is open, non-security, narrowly scoped to the existing-solutions preflight guardrail, maintainer-modifiable, and already repaired on its contributor branch with all hydrated checks passing. No close, comment, label, merge, or replacement PR action is permitted or needed in this run.
 
 ## Impact
 
@@ -50,6 +50,45 @@ Canonical PR #86608 is open, hydrated, non-security-sensitive, scoped to the fiv
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
+
+## Repair Candidate
+
+```json
+{
+  "target": "#86608",
+  "source_refs": [
+    "#86608"
+  ],
+  "repair_strategy": "repair_contributor_branch",
+  "planned_actions": [],
+  "summary": "No replacement fix PR is needed. The contributor PR #86608 already carries the narrow existing-solutions preflight guardrail repair on its maintainer-modifiable branch, with contributor credit preserved and hydrated checks passing.",
+  "pr_title": "docs: add existing-solutions preflight guardrail",
+  "pr_body": "No new Clownfish replacement PR should be opened from this result. Source PR: https://github.com/openclaw/openclaw/pull/86608. The contributor branch already contains the scoped existing-solutions guardrail repair across the five expected files, and hydrated checks are passing.",
+  "likely_files": [
+    "AGENTS.md",
+    "docs/reference/AGENTS.default.md",
+    "docs/reference/templates/AGENTS.md",
+    "docs/reference/templates/AGENTS.dev.md",
+    "scripts/k8s/manifests/configmap.yaml"
+  ],
+  "validation_commands": [
+    "pnpm check:changed",
+    "pnpm format:check -- AGENTS.md docs/reference/AGENTS.default.md docs/reference/templates/AGENTS.md docs/reference/templates/AGENTS.dev.md scripts/k8s/manifests/configmap.yaml",
+    "node scripts/check-docs-mdx.mjs docs/reference/AGENTS.default.md docs/reference/templates/AGENTS.md docs/reference/templates/AGENTS.dev.md",
+    "git diff --check"
+  ],
+  "credit_notes": [
+    "Preserve cablackmon as the contributor on source PR https://github.com/openclaw/openclaw/pull/86608.",
+    "The hydrated maintainer comment already states contributor credit stays with this PR's history and changelog context."
+  ],
+  "source_job": "jobs/openclaw/inbox/repair-86608-existing-solutions-guardrail.md",
+  "security_sensitive": false,
+  "security_routed_refs": [],
+  "needs_human": [],
+  "repair_status": null,
+  "terminal": null
+}
+```
 
 ## Fix Execution Actions
 
@@ -73,7 +112,7 @@ Canonical PR #86608 is open, hydrated, non-security-sensitive, scoped to the fiv
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #86608 | keep_canonical | planned | canonical | The repair path is already represented on the useful contributor PR with passing checks and preserved credit; merge is explicitly disallowed for this job. |
+| #86608 | keep_canonical | planned | canonical | Keep #86608 as the canonical contributor PR because it is already the repaired, validated main lane and no permitted additional mutation is required. |
 
 ## Needs Human
 

@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-92165-memory-dreaming"
 mode: "autonomous"
-run_id: "27705773327"
-workflow_run_id: "27705773327"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27705773327"
-head_sha: "a35c8907ec29188d7b2eb3a504f94102b6ac8592"
+run_id: "27745999926"
+workflow_run_id: "27745999926"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27745999926"
+head_sha: "e182f75656497e4b5d6d045040c445f71ff99857"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T17:14:08.157Z"
-canonical: "https://github.com/openclaw/openclaw/pull/92165"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/87637"
-canonical_pr: "https://github.com/openclaw/openclaw/pull/92165"
+published_at: "2026-06-18T08:14:01.956Z"
+canonical: "#92165"
+canonical_issue: "#87637"
+canonical_pr: "#92165"
 actions_total: 6
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 1
+apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27705773327](https://github.com/openclaw/clownfish/actions/runs/27705773327)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27745999926](https://github.com/openclaw/clownfish/actions/runs/27745999926)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/92165
+Canonical: #92165
 
 ## Summary
 
-Canonical path is open PR #92165, which is safely repairable in place because maintainers can modify the contributor branch. Current main still has the #87637 gap: the doctor memory-search path emits the no-active-plugin diagnostic and returns before rendering available dreaming status when no active backend config resolves. No GitHub mutation, close, label, comment, merge, or PR creation is planned directly by this worker.
+Plan one guarded repair of canonical PR #92165 for issue #87637. No close, label, comment, or merge actions are planned because the job blocks those mutations and requires the fix to land before closeout.
 
 ## Impact
 
@@ -47,7 +47,7 @@ Canonical path is open PR #92165, which is safely repairable in place because ma
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 1 |
+| Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -68,9 +68,9 @@ Canonical path is open PR #92165, which is safely repairable in place because ma
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #92165 in place so `openclaw doctor` keeps the existing `No active memory plugin` diagnostic when memory search is configured but no active backend resolves, and also renders the available memory-core dreaming status from the gateway probe in that same path. Add a focused regression for the configured-no-backend case and preserve the prior literal `storageMode` fixture typing fix.",
-  "pr_title": "fix(memory): show dreaming status without search",
-  "pr_body": "## Summary\n- Repair the no-active-backend doctor path so it keeps the existing `No active memory plugin` diagnostic and also renders available memory-core dreaming status.\n- Add a focused regression for configured memory search with no active backend and gateway dreaming payload available.\n- Preserve the prior literal `storageMode` fixture typing fix without relaxing production types.\n\n## Linked context\nCloses #87637\nSource PR: #92165 by @bennewell35\n\n## Verification\n- `node scripts/run-vitest.mjs src/commands/doctor-memory-search.test.ts`\n- `pnpm check:changed`\n\n## Credit\nThis repairs the existing contributor branch in place so @bennewell35 keeps authorship and PR credit.",
+  "summary": "Repair #92165 in place so openclaw doctor preserves the existing no-active-plugin diagnostic and also renders available memory-core dreaming status when memory search is configured but no active backend resolves. Keep the previous fixture literal typing fix intact and avoid broad memory-provider discovery or unrelated doctor output changes.",
+  "pr_title": "fix(memory): show dreaming status without active search backend",
+  "pr_body": "## Summary\n- Preserve the existing `No active memory plugin` doctor diagnostic when memory search is configured but no active backend resolves.\n- Also render the available memory-core dreaming status in that configured-no-backend path.\n- Keep the repair scoped to #87637 and source PR #92165 without changing memory-provider discovery, memory-search enablement, or unrelated doctor output.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/92165 by @bennewell35.\nIssue context: #87637 by @olveww-dot.\nClownfish is repairing the existing contributor path so attribution stays with the original PR.\n\n## Validation\n- `node scripts/run-vitest.mjs src/commands/doctor-memory-search.test.ts`\n- `pnpm check:changed`\n- Codex `/review` before final update.",
   "likely_files": [
     "src/commands/doctor-memory-search.ts",
     "src/commands/doctor-memory-search.test.ts"
@@ -80,15 +80,16 @@ Canonical path is open PR #92165, which is safely repairable in place because ma
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair existing contributor PR https://github.com/openclaw/openclaw/pull/92165 in place; preserve @bennewell35 authorship and source PR credit.",
-    "PR body should keep the release-note context for the user-visible doctor output fix; do not edit CHANGELOG.md for this normal PR."
+    "Preserve contributor credit for @bennewell35 on source PR https://github.com/openclaw/openclaw/pull/92165.",
+    "Keep #92165 as the canonical PR so the original contributor branch and history carry the attribution.",
+    "Credit issue reporter @olveww-dot for #87637 reproduction context if the target repo changelog expects issue attribution."
   ],
   "source_job": "jobs/openclaw/inbox/repair-92165-memory-dreaming.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": "pushed",
-  "terminal": true
+  "repair_status": null,
+  "terminal": null
 }
 ```
 
@@ -96,30 +97,30 @@ Canonical path is open PR #92165, which is safely repairable in place because ma
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/92165 |  |  |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92165 | merge_canonical | blocked | fix_pr | job does not allow merge |
+| _None_ |  |  |  |  |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-|  | post_flight | #92165 | merge_canonical | blocked | job does not allow merge |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92165 | fix_needed | planned | canonical | Repair the existing contributor PR branch in place with the narrow #87637 regression rather than replacing the PR or opening a second fix path. |
-| cluster:repair-92165-memory-dreaming | build_fix_artifact | planned |  | The job allows fix and raise_pr, and the remaining repair is narrow and executable on the existing canonical PR branch. |
-| #87637 | keep_canonical | planned | canonical | Keep the issue open as the canonical issue until the repaired #92165 path lands or is otherwise proven fixed. |
-| #87630 | keep_closed | skipped | related | Closed context ref; no mutation allowed or needed. |
-| #87634 | keep_closed | skipped | related | Closed context ref; no mutation allowed or needed. |
-| #89160 | keep_closed | skipped | independent | Closed independent context ref; no mutation allowed or needed. |
+| #87630 | keep_closed | skipped | related | Already closed historical context; no closure action is valid. |
+| #87634 | keep_closed | skipped | related | Already closed historical context; no closure action is valid. |
+| #87637 | keep_related | planned | fixed_by_candidate | Keep the issue open while #92165 is repaired and validated; no unmerged-fix closeout is allowed. |
+| #89160 | keep_closed | skipped | independent | Closed and independent from this memory dreaming doctor repair cluster. |
+| #92165 | fix_needed | planned | canonical | Repair the contributor branch in place with the narrow doctor-memory-search regression and validation gates. |
+| repair-92165-memory-dreaming | build_fix_artifact | planned |  | Provide an executable repair artifact for the guarded Clownfish fix executor. |
 
 ## Needs Human
 
