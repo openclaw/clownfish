@@ -1,0 +1,110 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-81157-fresh-plan-20260618",
+  "mode": "plan",
+  "run_id": "27787043409",
+  "workflow_run_id": "27787043409",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27787043409",
+  "head_sha": "141334809a87f1c21ee3b9df8fe16ef16f291828",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T20:22:59Z",
+  "workflow_updated_at": "2026-06-18T20:25:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-81157-fresh-plan-20260618.md",
+  "published_at": "2026-06-18T20:26:02.349Z",
+  "canonical": "#81157",
+  "canonical_issue": "#69582",
+  "canonical_pr": "#81157",
+  "summary": "Plan recommends repairing contributor PR #81157 on its contributor branch. The hydrated state shows a narrow two-file process.action guard with maintainer_can_modify=true, no security-sensitive refs, and the live blocker is stale branch/check state: the PR needs updating against current main so Dependency Guard and the malformed process.action proof can pass. Issue #69582 stays open because the broader edit-tool contamination report is out of this repair scope.",
+  "actions": [
+    {
+      "target": "#81157",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Repair the useful contributor branch narrowly by rebasing/updating onto current main, preserving adone0's authorship and rerunning the process.action proof plus changed-file validation."
+    },
+    {
+      "target": "#69582",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Keep the parent issue open as related context; #81157 can repair the process.action subset but does not resolve the broader issue scope."
+    },
+    {
+      "target": "cluster:repair-81157-fresh-plan-20260618",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Build an executor-ready repair artifact for #81157 using repair_strategy=repair_contributor_branch."
+    },
+    {
+      "target": "cluster:repair-81157-fresh-plan-20260618",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Plan a guarded repair PR path on the configured Clownfish target branch after executor validation passes."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81157",
+    "source_refs": [
+      "#81157",
+      "#69582"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair contributor PR #81157 by updating adone0's narrow process.action validation patch against current main, keeping the implementation confined to the process tool boundary guard and its focused tests. The executor should preserve the source PR credit, rerun the malformed process.action proof path, and validate with the focused process-tool test plus pnpm check:changed.",
+    "pr_title": "fix(agents): repair process.action boundary validation",
+    "pr_body": "## Summary\n- Repairs contributor PR #81157 by updating the narrow process.action runtime guard against current main.\n- Keeps the patch scoped to src/agents/bash-tools.process.ts and src/agents/bash-tools.test.ts.\n- Preserves attribution for @adone0 as the source PR author.\n\n## Cluster\n- Cluster: repair-81157-fresh-plan-20260618\n- Canonical PR: https://github.com/openclaw/openclaw/pull/81157\n- Parent issue: https://github.com/openclaw/openclaw/issues/69582\n- Source PR credit: https://github.com/openclaw/openclaw/pull/81157 by @adone0\n\n## Validation\n- pnpm -s vitest run src/agents/bash-tools.test.ts -t \"process tool action validation\"\n- pnpm check:changed\n\n## Notes\n- The broader edit-tool contamination portion of #69582 remains out of scope for this repair.\n- Do not close #69582 from this run; this repair only covers the process.action boundary guard.",
+    "likely_files": [
+      "src/agents/bash-tools.process.ts",
+      "src/agents/bash-tools.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/bash-tools.test.ts -t \"process tool action validation\"",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve adone0's contributor credit from https://github.com/openclaw/openclaw/pull/81157.",
+      "Mention source PR #81157 and author adone0 in the repair PR body.",
+      "If this user-facing process-tool behavior fix is changelogged, attribute the original report/fix path through #69582 and #81157."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-81157-fresh-plan-20260618.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

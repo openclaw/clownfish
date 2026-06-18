@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-90227-fresh-plan-20260618",
+  "mode": "plan",
+  "run_id": "27787045998",
+  "workflow_run_id": "27787045998",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27787045998",
+  "head_sha": "141334809a87f1c21ee3b9df8fe16ef16f291828",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T20:23:02Z",
+  "workflow_updated_at": "2026-06-18T20:24:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-90227-fresh-plan-20260618.md",
+  "published_at": "2026-06-18T20:26:02.352Z",
+  "canonical": "#90227",
+  "canonical_issue": null,
+  "canonical_pr": "#90227",
+  "summary": "PR #90227 remains the canonical open contributor PR. The hydrated artifact shows a narrow one-file test-only Windows compatibility repair with maintainer_can_modify=true, no security-sensitive signal, and actionable Copilot review findings still scoped to extensions/zalouser/src/zalo-js.credentials.test.ts. Plan a contributor-branch repair plus fix PR path; do not close, comment, label, merge, force-push, or bypass checks.",
+  "actions": [
+    {
+      "target": "#90227",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "90227",
+      "candidate_fix": "90227",
+      "reason": "Actionable review-bot blockers remain and are narrow enough for an executor repair inside the existing Zalo credential test surface."
+    },
+    {
+      "target": "#90227",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "90227",
+      "candidate_fix": "90227",
+      "reason": "Allowed actions include fix and raise_pr, allow_fix_pr is true, and the required outcome asks for a complete repair artifact when findings remain actionable."
+    },
+    {
+      "target": "#90227",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "90227",
+      "candidate_fix": "90227",
+      "reason": "Plan an auditable fix PR path so Clownfish can repair the useful contributor work while preserving credit."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90227",
+    "source_refs": [
+      "#90227"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair PR #90227 by addressing the remaining Copilot findings in the Zalo credential test: make symlink skipping purely capability-based, harden the symlink probe setup and cleanup against filesystem failures, and clarify or split the private-permissions assertions so Windows coverage is explicit without weakening the POSIX permission proof.",
+    "pr_title": "test: repair Zalo credential Windows compatibility tests",
+    "pr_body": "Clownfish repair for https://github.com/openclaw/openclaw/pull/90227.\n\nThis keeps @aniruddhaadak80's Windows compatibility work as the source PR and preserves attribution while addressing the remaining review blockers:\n\n- make the symlink credential test skip from actual symlink capability on every platform;\n- guard symlink probe setup and cleanup failures so the probe returns false instead of failing the test file;\n- clarify or split the private-permissions assertions so POSIX permissions remain asserted and Windows behavior is explicit.\n\nValidation:\n\n- pnpm -s vitest run extensions/zalouser/src/zalo-js.credentials.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "extensions/zalouser/src/zalo-js.credentials.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/zalouser/src/zalo-js.credentials.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source credit for @aniruddhaadak80 as the author of PR #90227.",
+      "Reference source PR https://github.com/openclaw/openclaw/pull/90227 in the repair PR body.",
+      "This is test-only Windows compatibility work; no user-facing changelog entry is required unless maintainers treat extension test compatibility as release-note material."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-90227-fresh-plan-20260618.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
