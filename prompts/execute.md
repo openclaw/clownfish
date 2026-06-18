@@ -17,6 +17,7 @@ For each target action, include:
 - `canonical`, `duplicate_of`, or `candidate_fix` when the close depends on another issue/PR; use an issue/PR ref like `#123`, never a date, year, bare unrelated number, or prose-only link
 - Use `canonical`, `duplicate_of`, and `candidate_fix` only for refs present in the hydrated preflight item matrix. If a candidate PR is only mentioned in comments or prior automation notes, keep it in evidence/fix artifact context and leave `candidate_fix` null.
 - If the covering PR is already merged or closed, emit `close_fixed_by_candidate` with `candidate_fix`. Do not emit `close_superseded` with that closed PR in `canonical`; `close_superseded` is only for a surviving open canonical path.
+- For an explicitly audited current-main closeout, `close_fixed_by_candidate` may leave `canonical` and `candidate_fix` null only when the job permits an unmerged-fix close. Include `classification: "fixed_by_candidate"`, a contributor-credit comment, current-main evidence, and wording such as `current main already` or `already fixed`.
 - `comment`: the exact close comment you recommend, preserving contributor credit and linking the canonical or candidate fix
 - `idempotency_key`: stable key such as `projectclownfish:<cluster_id>:<target>:<action>:<canonical-or-fix>`
 - `evidence`: short concrete evidence strings
@@ -26,6 +27,7 @@ The applicator only auto-closes:
 - true duplicates with a clear `canonical`/`duplicate_of`;
 - superseded items with a clear surviving open canonical candidate;
 - items clearly covered by a candidate fix with `candidate_fix`.
+- explicitly audited PRs already covered by current main when the job opts into an unmerged-fix close.
 - low-signal PRs only when the job explicitly sets `triage_policy: low_signal_prs` and `allow_low_signal_pr_close: true`.
 
 Everything else should be `planned` as non-mutating or escalated as `needs_human`. Do not use `executed`; Projectclownfish records execution only after the applicator safely replays a planned mutation.

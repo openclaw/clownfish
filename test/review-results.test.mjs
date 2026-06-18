@@ -1055,6 +1055,47 @@ test("review-results rejects unavailable close-style plan actions", () => {
   assert.match(result.stdout, /target_updated_at does not match preflight/);
 });
 
+test("review-results allows explicit current-main fixed-by close without a candidate ref", () => {
+  const dir = makeResultDir(
+    {
+      mode: "execute",
+      actions: [
+        {
+          target: "#1",
+          action: "close_fixed_by_candidate",
+          status: "planned",
+          idempotency_key: "cluster-test:#1:close_fixed_by_candidate:current-main",
+          classification: "fixed_by_candidate",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-18T00:00:00Z",
+          comment:
+            "Thanks @contributor. Current main already contains the fix; this source PR remains credited for the report.",
+          evidence: ["Current main already covers the exact requested behavior and focused regression test."],
+        },
+      ],
+    },
+    {
+      job: currentMainCloseJob(),
+      plan: {
+        items: [
+          {
+            ref: "#1",
+            kind: "pull_request",
+            state: "open",
+            updated_at: "2026-06-18T00:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
 test("review-results rejects fix artifacts when source job disallows fix PRs", () => {
   const dir = makeResultDir(
     {
@@ -1316,6 +1357,28 @@ allow_fix_pr: false
 ---
 
 # Close-only job
+`;
+}
+
+function currentMainCloseJob() {
+  return `---
+repo: openclaw/openclaw
+cluster_id: cluster-test
+mode: execute
+allowed_actions:
+  - comment
+  - close
+blocked_actions:
+  - fix
+  - raise_pr
+candidates:
+  - "#1"
+allow_instant_close: true
+allow_unmerged_fix_close: true
+allow_fix_pr: false
+---
+
+# Current-main close-only job
 `;
 }
 
