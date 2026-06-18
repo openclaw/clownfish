@@ -1,14 +1,14 @@
 ---
 repo: "openclaw/openclaw"
 cluster_id: "repair-94022-fresh-plan-20260618"
-mode: "plan"
-run_id: "27789870356"
-workflow_run_id: "27789870356"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27789870356"
-head_sha: "ab7afde0833194eb3ff932afa9861ac3f41a0580"
+mode: "execute"
+run_id: "27790009229"
+workflow_run_id: "27790009229"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27790009229"
+head_sha: "25ac9d1189c643a6d523a1400a355ceb01355ca8"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-18T21:19:57.354Z"
+published_at: "2026-06-18T21:36:28.368Z"
 canonical: "#94022"
 canonical_issue: "#93935"
 canonical_pr: "#94022"
@@ -17,7 +17,7 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27789870356](https://github.com/openclaw/clownfish/actions/runs/27789870356)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27790009229](https://github.com/openclaw/clownfish/actions/runs/27790009229)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: #94022
 
 ## Summary
 
-Plan-only classification for the hydrated cron startup catch-up deferral cluster. #94022 remains the canonical contributor branch and needs a narrow bounded repair/proof pass before any future merge decision; no GitHub mutations are planned because comments, labels, closes, merges, force-pushes, and bypasses are blocked by the job.
+#94022 remains the canonical repair path. Current main still has the source-reproducible cron startup overflow deferral bug, and #94022 is a bounded six-file repair that preserves Jah-xy's contribution; no replacement PR is needed. The remaining work is to refresh the contributor branch proof and address the review-bot proof/model-state concern with focused cron validation plus `pnpm check:changed`, not to expand the code delta.
 
 ## Impact
 
@@ -47,7 +47,7 @@ Plan-only classification for the hydrated cron startup catch-up deferral cluster
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -59,19 +59,19 @@ Plan-only classification for the hydrated cron startup catch-up deferral cluster
   "source_refs": [
     "#94022",
     "#93935",
-    "#93810",
-    "#93993",
     "#94091",
-    "#94346"
+    "#94346",
+    "#93993",
+    "#93810"
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair contributor PR #94022 in place with a narrow proof/cleanup pass for the cron startup catch-up deferral state. The bounded work is to verify or adjust the in-memory pending deferral Set lifetime, document/establish that src/cron/service/state.ts does not require persisted-state migration handling, and keep Jah-xy's branch as the canonical credited path.",
+  "summary": "Repair/refresh the existing #94022 contributor branch rather than replacing it. Keep the fix inside the current six-file cron deferral surface, preserve Jah-xy's commit/credit, and refresh proof for the current head. The expected repair shape is the existing #94022 approach: store pending startup catch-up deferral IDs in mutable CronServiceState, have every maintenance recompute consult and clear that Set when the deferred slot is due, and keep ordinary stale-future repair enabled for unrelated jobs.",
   "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
-  "pr_body": "Repair plan for Clownfish executor: continue on contributor PR #94022 and keep Jah-xy's attribution. Scope is limited to the existing six-file cron deferral surface. Address the latest ClawSweeper blockers by proving the pending deferral Set is in-memory/lifetime-bounded, confirming no persisted-state migration is required for src/cron/service/state.ts, and validating with the focused cron tests plus pnpm check:changed. Do not run PR lifecycle commands, inline probes, Codex /review, force-push, merge, close, label, or comment from this plan.",
+  "pr_body": "Summary:\n- Continue #94022 as the canonical repair for #93935.\n- Keep pending startup catch-up deferral IDs in mutable cron service state so read/status, timer finalization, empty-due, and manual maintenance recomputes do not advance the staggered catch-up slot to the natural cron schedule.\n- Clear pending deferral IDs once the deferred slot is reached so ordinary stale-future repair remains enabled afterward.\n\nCredit:\n- Source PR: #94022 by Jah-xy.\n- Clownfish repair keeps the useful contributor work and attribution on the same branch.\n\nVerification:\n- `node scripts/run-vitest.mjs src/cron/service.jobs.test.ts src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.test.ts src/cron/service/timer.regression.test.ts`\n- `pnpm check:changed`\n\nNotes:\n- Do not expand beyond the existing six-file cron deferral surface.\n- `pendingCatchupDeferralJobIds` is in-memory `CronServiceState`, not persisted cron store schema; no doctor migration should be needed for that field.",
   "likely_files": [
     "src/cron/service.jobs.test.ts",
     "src/cron/service.test-harness.ts",
@@ -81,20 +81,20 @@ Plan-only classification for the hydrated cron startup catch-up deferral cluster
     "src/cron/service/timer.ts"
   ],
   "validation_commands": [
-    "node scripts/run-vitest.mjs src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.regression.test.ts src/cron/service/timer.test.ts src/cron/service.jobs.test.ts",
+    "node scripts/run-vitest.mjs src/cron/service.jobs.test.ts src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.test.ts src/cron/service/timer.regression.test.ts",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve Jah-xy as the source contributor for PR #94022.",
-    "Keep existing branch history when repairing because maintainer_can_modify=true and the job explicitly requests repair_contributor_branch.",
-    "Mention source PR #94022 and Jah-xy in any eventual replacement or finalization notes if a later executor cannot safely update the branch."
+    "Preserve Jah-xy's authorship and source PR #94022 as the canonical contributor path.",
+    "Keep the Clownfish repair commit on the contributor branch only as a maintainer repair/follow-up commit.",
+    "If PR text is refreshed, include attribution to Jah-xy and reference #94022 as the source PR."
   ],
   "source_job": "jobs/openclaw/inbox/repair-94022-fresh-plan-20260618.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -102,31 +102,31 @@ Plan-only classification for the hydrated cron startup catch-up deferral cluster
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/94022 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #94022 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #94022 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #93810 | keep_closed | skipped | superseded | Historical merged partial fix; no action needed in this plan. |
-| #93935 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical candidate but cannot be closed in this run. |
-| #93993 | keep_closed | skipped | superseded | Already-closed superseded PR; no action available or needed. |
-| #94022 | fix_needed | planned | canonical | Canonical contributor branch is viable but needs an executor repair/proof artifact rather than merge or closure. |
-| #94091 | keep_related | planned | duplicate | Duplicate classification is clear, but no close action is allowed in this job. |
-| #94346 | keep_related | planned | superseded | Superseded by the stronger canonical branch #94022; no mutation allowed. |
-| repair-94022-fresh-plan-20260618 | build_fix_artifact | planned |  | Provide an executable narrow repair/proof plan for the applicator without mutating GitHub in plan mode. |
+| #94022 | fix_needed | planned | canonical | Repair should stay on the contributor branch; no broad replacement or close/merge action is allowed by the job. |
+| cluster:repair-94022-fresh-plan-20260618 | build_fix_artifact | planned |  | Executable artifact for repairing/refreshing the existing contributor branch, not opening an unrelated replacement. |
+| #93935 | keep_related | planned | fixed_by_candidate | The issue is covered by the canonical candidate but closure is blocked in this job. |
+| #94091 | keep_related | planned | superseded | Duplicate PR closeout is out of scope for this execute job. |
+| #94346 | keep_related | planned | superseded | Superseded by #94022, but close/comment actions are blocked. |
+| #93810 | keep_closed | skipped | related | Historical partial fix only. |
+| #93993 | keep_closed | skipped | superseded | Historical superseded PR only. |
 
 ## Needs Human
 

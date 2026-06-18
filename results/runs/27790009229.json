@@ -1,0 +1,214 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94022-fresh-plan-20260618",
+  "mode": "execute",
+  "run_id": "27790009229",
+  "workflow_run_id": "27790009229",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27790009229",
+  "head_sha": "25ac9d1189c643a6d523a1400a355ceb01355ca8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T21:19:53Z",
+  "workflow_updated_at": "2026-06-18T21:35:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94022-fresh-plan-20260618.md",
+  "published_at": "2026-06-18T21:36:28.368Z",
+  "canonical": "#94022",
+  "canonical_issue": "#93935",
+  "canonical_pr": "#94022",
+  "summary": "#94022 remains the canonical repair path. Current main still has the source-reproducible cron startup overflow deferral bug, and #94022 is a bounded six-file repair that preserves Jah-xy's contribution; no replacement PR is needed. The remaining work is to refresh the contributor branch proof and address the review-bot proof/model-state concern with focused cron validation plus `pnpm check:changed`, not to expand the code delta.",
+  "actions": [
+    {
+      "target": "#94022",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Repair should stay on the contributor branch; no broad replacement or close/merge action is allowed by the job."
+    },
+    {
+      "target": "cluster:repair-94022-fresh-plan-20260618",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Executable artifact for repairing/refreshing the existing contributor branch, not opening an unrelated replacement."
+    },
+    {
+      "target": "#93935",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94022",
+      "candidate_fix": "#94022",
+      "reason": "The issue is covered by the canonical candidate but closure is blocked in this job."
+    },
+    {
+      "target": "#94091",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Duplicate PR closeout is out of scope for this execute job."
+    },
+    {
+      "target": "#94346",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Superseded by #94022, but close/comment actions are blocked."
+    },
+    {
+      "target": "#93810",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical partial fix only."
+    },
+    {
+      "target": "#93993",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94022",
+      "candidate_fix": null,
+      "reason": "Historical superseded PR only."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 3,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94022",
+    "source_refs": [
+      "#94022",
+      "#93935",
+      "#94091",
+      "#94346",
+      "#93993",
+      "#93810"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair/refresh the existing #94022 contributor branch rather than replacing it. Keep the fix inside the current six-file cron deferral surface, preserve Jah-xy's commit/credit, and refresh proof for the current head. The expected repair shape is the existing #94022 approach: store pending startup catch-up deferral IDs in mutable CronServiceState, have every maintenance recompute consult and clear that Set when the deferred slot is due, and keep ordinary stale-future repair enabled for unrelated jobs.",
+    "pr_title": "fix(cron): preserve startup catch-up deferrals across maintenance recomputes",
+    "pr_body": "Summary:\n- Continue #94022 as the canonical repair for #93935.\n- Keep pending startup catch-up deferral IDs in mutable cron service state so read/status, timer finalization, empty-due, and manual maintenance recomputes do not advance the staggered catch-up slot to the natural cron schedule.\n- Clear pending deferral IDs once the deferred slot is reached so ordinary stale-future repair remains enabled afterward.\n\nCredit:\n- Source PR: #94022 by Jah-xy.\n- Clownfish repair keeps the useful contributor work and attribution on the same branch.\n\nVerification:\n- `node scripts/run-vitest.mjs src/cron/service.jobs.test.ts src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.test.ts src/cron/service/timer.regression.test.ts`\n- `pnpm check:changed`\n\nNotes:\n- Do not expand beyond the existing six-file cron deferral surface.\n- `pendingCatchupDeferralJobIds` is in-memory `CronServiceState`, not persisted cron store schema; no doctor migration should be needed for that field.",
+    "likely_files": [
+      "src/cron/service.jobs.test.ts",
+      "src/cron/service.test-harness.ts",
+      "src/cron/service/jobs.ts",
+      "src/cron/service/ops.ts",
+      "src/cron/service/state.ts",
+      "src/cron/service/timer.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/service.jobs.test.ts src/cron/service.startup-overflow-clobber.test.ts src/cron/service.restart-catchup.test.ts src/cron/service/ops.test.ts src/cron/service/ops.regression.test.ts src/cron/service/timer.test.ts src/cron/service/timer.regression.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve Jah-xy's authorship and source PR #94022 as the canonical contributor path.",
+      "Keep the Clownfish repair commit on the contributor branch only as a maintainer repair/follow-up commit.",
+      "If PR text is refreshed, include attribution to Jah-xy and reference #94022 as the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94022-fresh-plan-20260618.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/94022",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "5acba550a066a572a3ad40efc46750183fcae65d",
+      "checkpoint_commits": [
+        "f235fdc081543def6add9722530375aa4c6e1fbc",
+        "968cf2609888724d7bc87466251aa2fce908b95f",
+        "f8e0540cd840f836e0cfc7a9b93485367fd91130",
+        "5acba550a066a572a3ad40efc46750183fcae65d"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#94022",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#94022",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
