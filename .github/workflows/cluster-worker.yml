@@ -1,5 +1,7 @@
 name: cluster worker
 
+run-name: cluster worker ${{ github.event.client_payload.dispatch_id || github.event.inputs.job || 'manual' }}
+
 on:
   repository_dispatch:
     types:

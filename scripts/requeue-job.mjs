@@ -19,7 +19,7 @@ const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
 const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
-const DEFAULT_OBSERVE_TIMEOUT_MS = 60 * 1000;
+const DEFAULT_OBSERVE_TIMEOUT_MS = 5 * 60 * 1000;
 const DEFAULT_GATE_CAPTURE_TIMEOUT_MS = 5 * 60 * 1000;
 
 const args = parseArgs(process.argv.slice(2));
@@ -89,6 +89,7 @@ if (!execute) {
 const gateRestores = [];
 const headSha = currentHeadSha();
 const dispatchStartedAt = new Date(Date.now() - 5000).toISOString();
+const dispatchId = `requeue-${Date.now()}-${path.basename(job.relativePath, path.extname(job.relativePath))}`;
 
 try {
   if (openExecuteWindow && ["execute", "autonomous"].includes(mode)) {
@@ -102,10 +103,14 @@ try {
   summary.live_worker_capacity_before_dispatch = waitForCapacity
     ? waitForLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers })
     : assertLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers });
-  dispatchJob(job.relativePath, mode, headSha);
-  const observedRuns = waitForObservedRuns({ headSha, since: dispatchStartedAt, expectedCount: 1 });
+  dispatchJob(job.relativePath, mode, headSha, dispatchId);
+  const observedRuns = waitForObservedRuns({ dispatchId, since: dispatchStartedAt, expectedCount: 1 });
+  if (observedRuns.length !== 1) {
+    throw new Error(`timed out observing dispatched run for ${dispatchId}; execute gates were not captured`);
+  }
 
   summary.status = "dispatched";
+  summary.dispatch_id = dispatchId;
   summary.observed_runs = observedRuns.map((run) => ({
     run_id: String(run.databaseId),
     status: run.status,
@@ -197,11 +202,11 @@ function findFirstFile(root, basename) {
   return null;
 }
 
-function dispatchJob(jobPath, mode, requiredAncestorSha) {
+function dispatchJob(jobPath, mode, requiredAncestorSha, dispatchId) {
   const payload = {
     event_type: "projectclownfish_worker",
     client_payload: {
-      dispatch_id: `requeue-${Date.now()}-${path.basename(jobPath, path.extname(jobPath))}`,
+      dispatch_id: dispatchId,
       job: jobPath,
       mode,
       runner,
@@ -235,14 +240,14 @@ function dispatchJob(jobPath, mode, requiredAncestorSha) {
   }
 }
 
-function waitForObservedRuns({ expectedCount, headSha, since }) {
+function waitForObservedRuns({ expectedCount, dispatchId, since }) {
   const timeoutMs = Number(process.env.CLOWNFISH_REQUEUE_OBSERVE_TIMEOUT_MS ?? DEFAULT_OBSERVE_TIMEOUT_MS);
   const deadline = Date.now() + (Number.isInteger(timeoutMs) && timeoutMs > 0 ? timeoutMs : DEFAULT_OBSERVE_TIMEOUT_MS);
   let latest = [];
   while (Date.now() < deadline) {
     latest = listClusterRuns()
-      .filter((run) => run.headSha === headSha)
       .filter((run) => Date.parse(run.createdAt) >= Date.parse(since))
+      .filter((run) => String(run.displayTitle ?? "").includes(dispatchId))
       .sort((left, right) => Date.parse(left.createdAt) - Date.parse(right.createdAt));
     if (latest.length >= expectedCount) {
       return latest.slice(-expectedCount);
@@ -311,7 +316,7 @@ function listClusterRuns() {
     "--limit",
     "50",
     "--json",
-    "databaseId,headSha,status,conclusion,createdAt,url",
+    "databaseId,displayTitle,status,conclusion,createdAt,url",
   ]);
 }
 

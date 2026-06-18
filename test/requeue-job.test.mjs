@@ -37,7 +37,8 @@ if (args[0] === "variable" && args[1] === "list") {
   json([
     {
       databaseId: 123456,
-      headSha: process.env.FAKE_HEAD_SHA,
+      displayTitle: "cluster worker " + state.dispatchPayload.client_payload.dispatch_id,
+      headSha: "newer-publisher-sha",
       status: "in_progress",
       conclusion: null,
       createdAt: new Date().toISOString(),
@@ -113,6 +114,7 @@ if (args[0] === "variable" && args[1] === "list") {
   assert.equal(finalState.dispatchPayload.client_payload.dry_run, false);
   assert.equal(finalState.dispatchPayload.client_payload.ref, "main");
   assert.equal(finalState.dispatchPayload.client_payload.required_ancestor_sha, headSha);
+  assert.match(report.dispatch_id, /^requeue-[0-9]+-pr-close-canary-94489-20260618a$/);
 });
 
 test("requeue rejects a write-mode override until the job itself is promoted", () => {
@@ -129,4 +131,9 @@ test("requeue rejects a write-mode override until the job itself is promoted", (
 
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /refusing requeue mode override/);
+});
+
+test("cluster worker run names expose repository dispatch ids", () => {
+  const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
+  assert.match(workflow, /run-name: cluster worker .*github\.event\.client_payload\.dispatch_id/);
 });
