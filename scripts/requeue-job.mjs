@@ -97,7 +97,7 @@ try {
   summary.live_worker_capacity_before_dispatch = waitForCapacity
     ? waitForLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers })
     : assertLiveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers });
-  dispatchJob(job.relativePath, mode);
+  dispatchJob(job.relativePath, mode, headSha);
   const observedRuns = waitForObservedRuns({ headSha, since: dispatchStartedAt, expectedCount: 1 });
 
   summary.status = "dispatched";
@@ -191,29 +191,38 @@ function findFirstFile(root, basename) {
   return null;
 }
 
-function dispatchJob(jobPath, mode) {
+function dispatchJob(jobPath, mode, requiredAncestorSha) {
+  const payload = {
+    event_type: "projectclownfish_worker",
+    client_payload: {
+      dispatch_id: `requeue-${Date.now()}-${path.basename(jobPath, path.extname(jobPath))}`,
+      job: jobPath,
+      mode,
+      runner,
+      execution_runner: executionRunner,
+      model,
+      dry_run: false,
+      ref: "main",
+      required_ancestor_sha: requiredAncestorSha,
+    },
+  };
   const result = spawnSync(
     "gh",
     [
-      "workflow",
-      "run",
-      workflow,
-      "--repo",
-      repo,
-      "-f",
-      `job=${jobPath}`,
-      "-f",
-      `mode=${mode}`,
-      "-f",
-      `runner=${runner}`,
-      "-f",
-      `execution_runner=${executionRunner}`,
-      "-f",
-      `model=${model}`,
-      "-f",
-      "dry_run=false",
+      "api",
+      "--method",
+      "POST",
+      `repos/${repo}/dispatches`,
+      "--input",
+      "-",
     ],
-    { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
+    {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      env: ghEnv(),
+      input: `${JSON.stringify(payload)}\n`,
+      stdio: "pipe",
+    },
   );
   if (result.status !== 0) {
     throw new Error(`failed to dispatch ${jobPath}: ${result.stderr || result.stdout}`);

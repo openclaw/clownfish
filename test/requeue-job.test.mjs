@@ -12,7 +12,7 @@ test("requeue waits for the cluster job that captures execute gates", () => {
   const bin = path.join(fixture, "bin");
   const state = path.join(fixture, "state.json");
   fs.mkdirSync(bin);
-  fs.writeFileSync(state, JSON.stringify({ viewCalls: 0, workflowArgs: [] }));
+  fs.writeFileSync(state, JSON.stringify({ viewCalls: 0, dispatchArgs: [], dispatchPayload: null }));
   fs.writeFileSync(
     path.join(bin, "gh"),
     `#!/usr/bin/env node
@@ -25,6 +25,11 @@ const json = (value) => process.stdout.write(JSON.stringify(value));
 if (args[0] === "variable" && args[1] === "list") {
   json([{ name: "CLOWNFISH_ALLOW_EXECUTE", value: "1" }]);
 } else if (args[0] === "variable" && args[1] === "set") {
+  process.stdout.write("");
+} else if (args[0] === "api" && args.some((arg) => arg.endsWith("/dispatches"))) {
+  state.dispatchArgs = args;
+  state.dispatchPayload = JSON.parse(fs.readFileSync(0, "utf8"));
+  fs.writeFileSync(statePath, JSON.stringify(state));
   process.stdout.write("");
 } else if (args[0] === "api") {
   json([]);
@@ -39,10 +44,6 @@ if (args[0] === "variable" && args[1] === "list") {
       url: "https://example.test/runs/123456",
     },
   ]);
-} else if (args[0] === "workflow" && args[1] === "run") {
-  state.workflowArgs = args;
-  fs.writeFileSync(statePath, JSON.stringify(state));
-  process.stdout.write("");
 } else if (args[0] === "run" && args[1] === "view") {
   state.viewCalls += 1;
   fs.writeFileSync(statePath, JSON.stringify(state));
@@ -105,5 +106,9 @@ if (args[0] === "variable" && args[1] === "list") {
   assert.equal(report.gate_capture_runs[0].worker_job_status, "in_progress");
   const finalState = JSON.parse(fs.readFileSync(state, "utf8"));
   assert.equal(finalState.viewCalls, 2);
-  assert.ok(finalState.workflowArgs.includes("dry_run=false"));
+  assert.deepEqual(finalState.dispatchArgs.slice(0, 5), ["api", "--method", "POST", "repos/openclaw/clownfish/dispatches", "--input"]);
+  assert.equal(finalState.dispatchPayload.event_type, "projectclownfish_worker");
+  assert.equal(finalState.dispatchPayload.client_payload.dry_run, false);
+  assert.equal(finalState.dispatchPayload.client_payload.ref, "main");
+  assert.equal(finalState.dispatchPayload.client_payload.required_ancestor_sha, headSha);
 });
