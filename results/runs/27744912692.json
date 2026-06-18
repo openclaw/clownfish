@@ -1,0 +1,229 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-92902-live-pr-inventory-20260617t080414-001-20260617a",
+  "mode": "autonomous",
+  "run_id": "27744912692",
+  "workflow_run_id": "27744912692",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27744912692",
+  "head_sha": "5e4579520d2c0f67afd482b6e40b12f7d4a3caa3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-18T07:51:13Z",
+  "workflow_updated_at": "2026-06-18T08:09:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-92902-live-pr-inventory-20260617t080414-001-20260617a.md",
+  "published_at": "2026-06-18T08:10:20.273Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92902",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/92884",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92902",
+  "summary": "Plan repair for canonical PR #92902. The hydrated artifact shows #92902 is open, maintainer-editable, two-file scoped, but merge-conflicting/dirty with a failing Real behavior proof. Current main still lacks preferOver-aware same-origin replacement channel schema ownership in src/config/channel-config-metadata.ts, while the PR patch is stale against current ownership metadata. Unrelated open candidates stay independent.",
+  "actions": [
+    {
+      "target": "#92884",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92884",
+      "candidate_fix": "#92902",
+      "reason": "Canonical issue remains open while the maintainer-editable source PR is repaired."
+    },
+    {
+      "target": "#92902",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92902",
+      "candidate_fix": null,
+      "reason": "Repair contributor branch #92902, preserving @YonganZhang credit, instead of opening an unrelated replacement."
+    },
+    {
+      "target": "cluster:repair-92902-live-pr-inventory-20260617t080414-001-20260617a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92902",
+      "candidate_fix": null,
+      "reason": "Executable repair artifact needed for the deterministic applicator/executor."
+    },
+    {
+      "target": "#76744",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Docs spelling PR is unrelated to the replacement channel schema ownership repair."
+    },
+    {
+      "target": "#76920",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Telegram delivery routing is a separate behavior family."
+    },
+    {
+      "target": "#92996",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "CLI timeout validation is unrelated to #92884/#92902."
+    },
+    {
+      "target": "#93087",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Diagnostics OTel config alignment is a separate cluster."
+    },
+    {
+      "target": "#93069",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93087",
+      "reason": "Open linked diagnostics issue belongs to the #93087 family, not this repair cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 5
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92902",
+    "source_refs": [
+      "#92902",
+      "#92884",
+      "#12293",
+      "#30892",
+      "#43808",
+      "#49704",
+      "#52824",
+      "#76744",
+      "#76920",
+      "#84901",
+      "#87487",
+      "#92490",
+      "#92996",
+      "#93087",
+      "#52286",
+      "#73900",
+      "#76734",
+      "#78724",
+      "#78755",
+      "#93069"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #92902 so replacement channel plugins that declare preferOver keep ownership of the active channel config schema deterministically on current main.",
+    "pr_title": "fix(config): repair replacement channel schema ownership",
+    "pr_body": "## Summary\n- Repair #92902 on current main so same-origin replacement channel plugins that declare `preferOver` keep ownership of active channel config schemas.\n- Preserve schema ownership diagnostics (`schemaPluginId` / `schemaPluginOrigin`) while adding deterministic preferOver-aware replacement behavior.\n- Keep the patch scoped to `src/config/channel-config-metadata.ts` and focused regression coverage in `src/config/validation.channel-metadata.test.ts` unless the proof identifies a minimal adjacent test harness change.\n\nFixes https://github.com/openclaw/openclaw/issues/92884.\nSource PR: https://github.com/openclaw/openclaw/pull/92902 by @YonganZhang. This repair carries forward that contribution and credit.\n\n## Validation\n- `node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts`\n- `node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts src/plugins/channel-plugin-ids.test.ts src/cli/config-cli.test.ts src/config/runtime-schema.test.ts`\n- `git diff --check`\n- `pnpm check:changed`\n- Rerun Real behavior proof for #92902 before merge consideration.",
+    "likely_files": [
+      "src/config/channel-config-metadata.ts",
+      "src/config/validation.channel-metadata.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts",
+      "node scripts/run-vitest.mjs src/config/validation.channel-metadata.test.ts src/plugins/channel-plugin-ids.test.ts src/cli/config-cli.test.ts src/config/runtime-schema.test.ts",
+      "git diff --check",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/92902 by @YonganZhang.",
+      "Preserve @YonganZhang attribution in the repaired PR body and merge notes.",
+      "Do not edit CHANGELOG.md for this normal PR; carry user-visible release-note context in the PR body or squash/merge message."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-92902-live-pr-inventory-20260617t080414-001-20260617a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/92902",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "5ce7eb420797bd07f6ffdb4e002fd6a50b6318af",
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92902",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#92902",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
