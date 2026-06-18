@@ -3025,6 +3025,7 @@ function parseAllowedValidationCommand(command) {
   if (isAllowedAutoreviewValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedShellSyntaxValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedPullRequestArtifactReviewValidation(parts)) return parts;
+  if (rawParts.length === parts.length && isAllowedCorepackChangedValidation(parts)) return parts;
   if (rawParts.length === parts.length && isAllowedCorepackOxfmtValidation(parts)) return parts;
   if (!["pnpm", "npm", "node", "git"].includes(parts[0])) {
     throw new Error(`unsupported validation command: ${text}`);
@@ -3062,6 +3063,10 @@ function isAllowedPullRequestArtifactReviewValidation(parts) {
     parts[1] === "review-validate-artifacts" &&
     /^[1-9][0-9]*$/.test(parts[2])
   );
+}
+
+function isAllowedCorepackChangedValidation(parts) {
+  return parts.length === 3 && parts[0] === "corepack" && parts[1] === "pnpm" && parts[2] === "check:changed";
 }
 
 function isAllowedCorepackOxfmtValidation(parts) {
