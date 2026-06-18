@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-90468-single-replan-wave-20260617"
 mode: "autonomous"
-run_id: "27710804119"
-workflow_run_id: "27710804119"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27710804119"
-head_sha: "80f2057262e82e8e3a0d7a11c1b20c4711f99c85"
+run_id: "27744912745"
+workflow_run_id: "27744912745"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27744912745"
+head_sha: "5e4579520d2c0f67afd482b6e40b12f7d4a3caa3"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-17T18:51:37.355Z"
+published_at: "2026-06-18T08:11:44.337Z"
 canonical: "https://github.com/openclaw/openclaw/pull/90468"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/90468"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27710804119](https://github.com/openclaw/clownfish/actions/runs/27710804119)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27744912745](https://github.com/openclaw/clownfish/actions/runs/27744912745)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/90468
 
 ## Summary
 
-PR #90468 is the canonical repair target. It is open, maintainer-editable, narrow, non-security, and still needs a repair pass for the prompt-template argument parser before any merge path can be considered.
+PR #90468 is the canonical repair path. It is open, maintainer-editable, narrow, and already carries the contributor's prompt-template apostrophe fix plus a later Clownfish repair commit, but it is not merge-ready in this job because merge is blocked by permissions, the hydrated review state still includes CHANGES_REQUESTED, and one CI lane is failing. Plan repair/validation on the existing contributor branch rather than replacing it.
 
 ## Impact
 
@@ -64,9 +64,9 @@ PR #90468 is the canonical repair target. It is open, maintainer-editable, narro
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #90468 on the contributor branch by keeping prose apostrophes literal while preserving documented shell-style single and double quote parsing, including valid single-quote concatenation.",
+  "summary": "Repair contributor PR #90468 in place so prompt-template slash-command argument parsing preserves ordinary apostrophes while retaining documented shell-style single and double quote grouping, including embedded single-quote concatenation. Rebase/refresh the branch against current main, address the maintainer review regressions, rerun focused tests plus check:changed, and leave contributor credit on the original PR.",
   "pr_title": "fix(agents): keep apostrophes in prompt-template arguments",
-  "pr_body": "## Summary\n- repair the prompt-template argument parser from #90468 so ordinary apostrophes and possessives stay literal\n- preserve shell-style single/double quoted spans and valid single-quote concatenation such as `foo'bar baz' next`\n- add focused parser regressions for contractions, plural possessives, standalone quoted spans, and concatenation\n\n## Credit\nThis repairs and carries forward @yetval's source PR: https://github.com/openclaw/openclaw/pull/90468.\n\n## Verification\n- `pnpm test packages/agent-core/src/harness/prompt-templates.test.ts`\n- `pnpm check:changed`",
+  "pr_body": "## Summary\n- Repairs #90468 in place so prompt-template slash-command arguments keep ordinary apostrophes in contractions and possessives.\n- Preserves shell-style quoted spans, including valid embedded single-quote concatenation such as `foo'bar baz' next`.\n- Adds/keeps regressions for contractions before later standalone quoted spans and plural possessives before quoted spans.\n\n## Credit\nThis carries forward @yetval's original fix and proof from https://github.com/openclaw/openclaw/pull/90468. Clownfish repair work should stay on that contributor PR branch when possible so attribution remains in the original PR history.\n\n## Verification\n- `pnpm test packages/agent-core/src/harness/prompt-templates.test.ts`\n- `pnpm check:changed`\n\n## Notes\nCurrent main at 70489061cab62786b794ac593f85933b3ade2063 still treats every apostrophe as a quote delimiter in `parseCommandArgs`, which corrupts examples like `don't 'quoted text' next`. The executor should re-fetch #90468 head eee751c6b3514f56a8bc18b98d92bc29acf9bbf9, rebase if needed, verify that the maintainer review regressions remain fixed, and patch only the parser/tests if not.",
   "likely_files": [
     "packages/agent-core/src/harness/prompt-template-arguments.ts",
     "packages/agent-core/src/harness/prompt-templates.test.ts"
@@ -76,9 +76,9 @@ PR #90468 is the canonical repair target. It is open, maintainer-editable, narro
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve contributor credit for @yetval as the original PR author.",
-    "Keep https://github.com/openclaw/openclaw/pull/90468 as the source PR and carry the apostrophe parsing fix forward on that branch.",
-    "Release-note context should credit the user-facing parser fix without editing CHANGELOG.md directly."
+    "Preserve @yetval as the original contributor on https://github.com/openclaw/openclaw/pull/90468.",
+    "Keep the repair on the existing PR branch when possible; do not replace the PR unless maintainer_can_modify becomes false, the branch becomes unsafe, or unrelated churn appears.",
+    "PR/release-note context should credit @yetval for identifying and implementing the apostrophe parsing fix; Clownfish repair commits should be described as follow-up review repair only."
   ],
   "source_job": "jobs/openclaw/inbox/repair-90468-single-replan-wave-20260617.md",
   "security_sensitive": false,
@@ -111,8 +111,8 @@ PR #90468 is the canonical repair target. It is open, maintainer-editable, narro
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90468 | fix_needed | planned | canonical | The PR targets a real current-main parser bug and is the best canonical path because the branch is maintainer-editable and narrow, but it still requires a repair pass plus fresh branch verification before merge. |
-| cluster:repair-90468-single-replan-wave-20260617 | build_fix_artifact | planned |  | A complete executable repair artifact is safe: the affected surface is narrow, the unresolved review concern is concrete, and contributor credit can be preserved by updating the existing maintainer-editable PR branch. |
+| #90468 | fix_needed | planned | canonical | The canonical PR is useful and maintainer-editable, but it still needs a repair/validation pass on the contributor branch before any future merge decision. |
+| cluster:repair-90468-single-replan-wave-20260617 | build_fix_artifact | planned |  | Build an executable in-place repair plan for #90468; do not open a replacement PR unless the branch becomes uneditable or broad during execution. |
 
 ## Needs Human
 
