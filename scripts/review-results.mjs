@@ -374,7 +374,12 @@ function nonSecurityAssertionStrippedText(value) {
     )
     .replace(/\bsecurity[-_\s]?sensitive[-_\s]?guard(?:[-_\s]?detect)?\b/gi, "routine CI guard")
     .replace(/\bsecurity[-_\s]?sensitive\s*[=:]\s*(?:false|0|no)\b/gi, "non-security classification")
+    .replace(/\bsecurity[-_\s]?sensitive\s+(?:false|0|no)\b/gi, "non-security classification")
     .replace(/\bsecuritySensitive\s*[=:]\s*(?:false|0|no)\b/g, "non-security classification")
+    .replace(
+      /\bsecurity[-_\s]?boundary\.security[-_\s]?sensitive[-_\s]?(?:items?|refs?|targets?)\s+(?:is|are)\s+(?:empty|absent|clear)\b/gi,
+      "non-security classification",
+    )
     .replace(
       /\bsecurity[-_\s]?boundary(?:\s+(?:preflight|review|artifact|policy|check)){0,4}\s+(?:reports?|reported|shows?|showed|found|finds|has|had)\s+(?:no|zero)\s+security[-_\s]?sensitive\s+(?:signal|signals|refs?|items?|target|targets)\b/gi,
       "non-security classification",

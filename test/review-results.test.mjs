@@ -127,6 +127,51 @@ test("review-results ignores false security_sensitive field echoes", () => {
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results ignores empty security boundary item collections in mutating evidence", () => {
+  const dir = makeResultDir(
+    {
+      mode: "execute",
+      actions: [
+        {
+          target: "#90672",
+          action: "comment",
+          status: "planned",
+          idempotency_key: "cluster-test:comment:90672:empty-security-items",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z",
+          comment: "The closeout remains pending maintainer review.",
+          evidence: [
+            "Preflight item_matrix marks #90672 security_sensitive false.",
+            "security_boundary.security_sensitive_items is empty, so route_security is not allowed for this run.",
+          ],
+          reason: "The target remains a non-security maintainer workflow item.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#90672",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(telegram): report blocked group ingress in /status",
+            labels: ["channel: telegram", "proof: sufficient"],
+            updated_at: "2026-06-15T14:15:01Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
 test("review-results ignores security-boundary no-signal prose in mutating action evidence", () => {
   const dir = makeResultDir(
     {
