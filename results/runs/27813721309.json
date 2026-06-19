@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-89628",
+  "mode": "autonomous",
+  "run_id": "27813721309",
+  "workflow_run_id": "27813721309",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27813721309",
+  "head_sha": "241c318ecbd41754be08ba6578a28a48d4fc1efc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T08:07:53Z",
+  "workflow_updated_at": "2026-06-19T08:08:49Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-89628.md",
+  "published_at": "2026-06-19T08:09:42.279Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": "#89628",
+  "summary": "PR #89628 is the hydrated open canonical automerge candidate. ClawSweeper paused the loop for conflict resolution plus refreshed proof on the rebased head; the PR branch is maintainer-editable and the preflight artifact marks it non-security-sensitive, so the safe autonomous outcome is a contributor-branch repair artifact, not merge, close, or security routing.",
+  "actions": [
+    {
+      "target": "#89628",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89628",
+      "candidate_fix": "#89628",
+      "reason": "Repair is permitted and branch update is safe; merge and close are explicitly blocked."
+    },
+    {
+      "target": "automerge-openclaw-openclaw-89628",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89628",
+      "candidate_fix": "#89628",
+      "reason": "The executor should repair the contributor branch, refresh proof, and request a fresh ClawSweeper verdict for the current head."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#89628",
+    "source_refs": [
+      "#89628"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #89628 in place by rebasing/refactoring narrowly onto current main, resolving live conflicts, rerunning focused startup-help validation, refreshing the PR proof, and then sending the exact repaired head back through ClawSweeper. Do not merge or close from this worker result.",
+    "pr_title": "Repair automerge for precomputed command help startup",
+    "pr_body": "Clownfish repair for #89628.\n\nThis repair keeps @yyzquwu's contributor branch as the source path, preserves attribution, resolves the live rebase/conflict blocker reported by ClawSweeper, and refreshes proof on the repaired head.\n\nValidation plan:\n- pnpm -s vitest run src/cli/run-main.test.ts src/entry.test.ts test/openclaw-launcher.e2e.test.ts test/scripts/bench-cli-startup.test.ts test/scripts/check-cli-startup-memory.test.ts test/scripts/write-cli-startup-metadata.test.ts\n- pnpm check:changed\n\nAfter validation, request a fresh ClawSweeper review for the exact repaired head. This worker result does not merge or close anything.",
+    "likely_files": [
+      "openclaw.mjs",
+      "scripts/bench-cli-startup.ts",
+      "scripts/check-cli-startup-memory.mjs",
+      "scripts/write-cli-startup-metadata.ts",
+      "src/cli/root-help-metadata.ts",
+      "src/cli/run-main-policy.ts",
+      "src/cli/run-main.test.ts",
+      "src/entry.test.ts",
+      "src/entry.ts",
+      "test/openclaw-launcher.e2e.test.ts",
+      "test/scripts/bench-cli-startup.test.ts",
+      "test/scripts/check-cli-startup-memory.test.ts",
+      "test/scripts/write-cli-startup-metadata.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/cli/run-main.test.ts src/entry.test.ts test/openclaw-launcher.e2e.test.ts test/scripts/bench-cli-startup.test.ts test/scripts/check-cli-startup-memory.test.ts test/scripts/write-cli-startup-metadata.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/89628",
+      "Contributor credit: @yyzquwu authored the canonical PR and branch to repair in place.",
+      "Preserve commit attribution where possible while resolving conflicts and refreshing proof."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-89628.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

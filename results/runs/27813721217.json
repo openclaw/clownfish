@@ -1,0 +1,139 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-86062",
+  "mode": "autonomous",
+  "run_id": "27813721217",
+  "workflow_run_id": "27813721217",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27813721217",
+  "head_sha": "241c318ecbd41754be08ba6578a28a48d4fc1efc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T08:07:53Z",
+  "workflow_updated_at": "2026-06-19T08:08:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-86062.md",
+  "published_at": "2026-06-19T08:09:42.276Z",
+  "canonical": "#86062",
+  "canonical_issue": null,
+  "canonical_pr": "#86062",
+  "summary": "#86062 is the automerge-opted canonical PR. ClawSweeper paused on the exact head because GitHub reports the branch as conflicting/dirty, so the safe next action is a bounded contributor-branch repair/rebase and fresh exact-head review. No close or merge action is planned.",
+  "actions": [
+    {
+      "target": "#86040",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#86062",
+      "candidate_fix": null,
+      "reason": "Already closed historical context only."
+    },
+    {
+      "target": "#86062",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#86062",
+      "candidate_fix": "#86062",
+      "reason": "Automerge repair is allowed and should repair the contributor branch narrowly rather than merge or close."
+    },
+    {
+      "target": "#86793",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86062",
+      "candidate_fix": null,
+      "reason": "Related session-state work, but not a duplicate or replacement for the canonical automerge PR."
+    },
+    {
+      "target": "#86794",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#86062",
+      "candidate_fix": null,
+      "reason": "Already merged related context only."
+    },
+    {
+      "target": "#86826",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86062",
+      "candidate_fix": null,
+      "reason": "Related session-state PR with a different root cause and failing gates."
+    },
+    {
+      "target": "#86954",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#86062",
+      "candidate_fix": null,
+      "reason": "Already closed related context only."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "build_fix_artifact": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#86062",
+    "source_refs": [
+      "#86062",
+      "#86040",
+      "#86793",
+      "#86794",
+      "#86826",
+      "#86954"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the automerge-opted contributor branch for #86062 by rebasing/refreshing it onto current main, resolving the dirty/conflicting branch state, preserving the existing timestamp fallback behavior, and requesting a fresh ClawSweeper review for the exact repaired head.",
+    "pr_title": "feat(ui): timestamp unnamed dashboard sessions",
+    "pr_body": "Repair branch for Clownfish automerge of #86062.\n\nSummary:\n- Refresh the contributor branch onto current main.\n- Resolve the dirty/conflicting state reported by ClawSweeper for head 862716e2b8909ccdb5e1635da05e07d5a6b1cedc.\n- Preserve the display-only timestamp fallback for unnamed Control UI dashboard sessions.\n- Preserve contributor credit for @davidmosiah and source PR https://github.com/openclaw/openclaw/pull/86062.\n\nValidation:\n- git diff --check\n- node scripts/run-vitest.mjs ui/src/ui/controllers/sessions.test.ts ui/src/ui/app-render.helpers.node.test.ts\n- node scripts/run-vitest.mjs src/gateway/session-utils.test.ts\n- pnpm check:changed\n\nAfter repair, request a fresh ClawSweeper review for the exact repaired head before any merge decision.",
+    "likely_files": [
+      "src/gateway/server-methods/sessions.ts",
+      "src/gateway/server-session-events.ts",
+      "src/gateway/session-utils.test.ts",
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.types.ts",
+      "ui/src/ui/app-render.helpers.node.test.ts",
+      "ui/src/ui/controllers/sessions.test.ts",
+      "ui/src/ui/controllers/sessions.ts",
+      "ui/src/ui/session-display.ts",
+      "ui/src/ui/types.ts"
+    ],
+    "validation_commands": [
+      "git diff --check",
+      "node scripts/run-vitest.mjs ui/src/ui/controllers/sessions.test.ts ui/src/ui/app-render.helpers.node.test.ts",
+      "node scripts/run-vitest.mjs src/gateway/session-utils.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve original contributor credit for @davidmosiah from source PR https://github.com/openclaw/openclaw/pull/86062.",
+      "Keep both original commits or otherwise retain authorship/Co-authored-by attribution if conflict repair requires rewriting commits."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-86062.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

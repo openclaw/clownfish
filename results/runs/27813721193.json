@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-84028",
+  "mode": "autonomous",
+  "run_id": "27813721193",
+  "workflow_run_id": "27813721193",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27813721193",
+  "head_sha": "241c318ecbd41754be08ba6578a28a48d4fc1efc",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T08:07:53Z",
+  "workflow_updated_at": "2026-06-19T08:08:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84028.md",
+  "published_at": "2026-06-19T08:09:42.273Z",
+  "canonical": "#84028",
+  "canonical_issue": null,
+  "canonical_pr": "#84028",
+  "summary": "PR #84028 is the canonical automerge candidate, but the latest ClawSweeper review reports the branch as conflicting/dirty and asks for a refresh against current main before it can proceed. Because maintainer_can_modify is true and fix PRs are allowed while merge/close are blocked, plan a bounded contributor-branch repair artifact.",
+  "actions": [
+    {
+      "target": "#84028",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84028",
+      "candidate_fix": "#84028",
+      "reason": "This is the maintainer-selected automerge PR and remains the canonical path, but merge is out of scope for this worker."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-84028",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#84028",
+      "candidate_fix": "#84028",
+      "reason": "A narrow contributor-branch repair is executable and preserves the original PR and author credit."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#84028",
+    "source_refs": [
+      "#84028"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "build_fix_artifact"
+    ],
+    "summary": "Repair source PR #84028 by refreshing the Arabic Control UI locale bundle, Arabic translation memory, and Arabic glossary against current main, resolving the ClawSweeper-reported conflicting/dirty branch state without expanding the PR scope.",
+    "pr_title": "fix(ui): refresh Arabic Control UI translations",
+    "pr_body": "Repair for Clownfish automerge candidate #84028.\n\nSource PR: https://github.com/openclaw/openclaw/pull/84028\nOriginal contributor: @aim9sour\n\nScope:\n- Refresh the Arabic Control UI locale strings against current main.\n- Keep the Arabic translation memory and glossary aligned with the refreshed locale bundle.\n- Do not expand beyond the files already touched by #84028 unless the rebase requires a narrow generated-sync adjustment.\n\nValidation:\n- pnpm check:changed\n- pnpm -s vitest run ui/src/i18n\n\nCredit: this repair preserves attribution for @aim9sour and keeps #84028 as the canonical source PR.",
+    "likely_files": [
+      "ui/src/i18n/locales/ar.ts",
+      "ui/src/i18n/.i18n/ar.tm.jsonl",
+      "ui/src/i18n/.i18n/glossary.ar.json"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm -s vitest run ui/src/i18n"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for aim9sour as the author of source PR #84028.",
+      "Keep source PR https://github.com/openclaw/openclaw/pull/84028 as the canonical PR instead of replacing it, because maintainer_can_modify is true.",
+      "If a replacement becomes necessary later, the replacement PR body must credit aim9sour and link #84028 as the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84028.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
