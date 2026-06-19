@@ -16,7 +16,7 @@ on:
       runner:
         description: "Runner label for cluster planning/review work"
         required: true
-        default: blacksmith-4vcpu-ubuntu-2404
+        default: ubuntu-latest
         type: string
       execution_runner:
         description: "Runner label for fix/apply execution work"
@@ -34,7 +34,7 @@ env:
 
 jobs:
   finalize:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5

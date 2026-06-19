@@ -20,7 +20,7 @@ on:
       runner:
         description: "Runner label for cluster planning/review work"
         required: true
-        default: blacksmith-4vcpu-ubuntu-2404
+        default: ubuntu-latest
         type: string
       execution_runner:
         description: "Reserved for parity with cluster-worker dispatch"
@@ -93,7 +93,7 @@ jobs:
           CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
           INPUT_JOBS_JSON: ${{ inputs.jobs_json || '[]' }}
           INPUT_MODE: ${{ inputs.mode || 'plan' }}
-          INPUT_RUNNER: ${{ inputs.runner || 'blacksmith-4vcpu-ubuntu-2404' }}
+          INPUT_RUNNER: ${{ inputs.runner || 'ubuntu-latest' }}
           INPUT_MODEL: ${{ inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
           INPUT_MAX_PARALLEL: ${{ inputs.max_parallel || '50' }}
           INPUT_HYDRATE_COMMENTS: ${{ inputs.hydrate_comments || '0' }}
@@ -110,7 +110,7 @@ jobs:
           const fromDispatch = process.env.EVENT_NAME === "repository_dispatch";
           const jobs = fromDispatch ? payload.jobs : JSON.parse(process.env.INPUT_JOBS_JSON || "[]");
           const mode = String(fromDispatch ? payload.mode ?? "plan" : process.env.INPUT_MODE ?? "plan");
-          const runner = String(fromDispatch ? payload.runner ?? "blacksmith-4vcpu-ubuntu-2404" : process.env.INPUT_RUNNER);
+          const runner = String(fromDispatch ? payload.runner ?? "ubuntu-latest" : process.env.INPUT_RUNNER);
           const model = String(fromDispatch ? payload.model ?? "gpt-5.5" : process.env.INPUT_MODEL);
           const maxParallel = Number(fromDispatch ? payload.max_parallel ?? 50 : process.env.INPUT_MAX_PARALLEL);
           const hydration = payload.hydration ?? {};

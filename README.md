@@ -243,7 +243,7 @@ Merge is deliberately harder than closeout. A merge action must include `merge_p
 
 Replacement fix work uses a recoverable target branch named `clownfish/<cluster-id>`. The executor resumes that branch if it already exists and pushes checkpoint commits after agent edits and review-fix edits, adding `Co-authored-by` trailers for non-bot source PR authors when a contributor PR is replaced. It then opens or updates the PR only after validation and Codex `/review` pass. If `/review` still blocks the merge after retries, the run writes a blocked fix report and leaves the checkpoint branch recoverable instead of losing the patch.
 
-Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24, `blacksmith-4vcpu-ubuntu-2404` for cluster planning/review, and `blacksmith-16vcpu-ubuntu-2404` for fix/apply execution. Fix execution prepares the target checkout with Corepack and the target `pnpm` package manager before validation; the execution job caches Codex, npm, Corepack, and the target pnpm store. Fix validation is pinned to OpenClaw's fast changed-lane posture by default: `pnpm check:changed` plus diff checks are the hard local gate, and target validation commands normalize to `pnpm check:changed` unless `CLOWNFISH_TARGET_VALIDATION_MODE=strict` or `CLOWNFISH_STRICT_TARGET_VALIDATION=1` is explicitly set. Unrelated flaky main CI, broad `pnpm check`, full tests, live, docker, and e2e lanes do not block narrow ProjectClownfish fixes by default.
+Runs for the same job path and mode are queued instead of running concurrently. The workflow uses Node 24, `ubuntu-latest` for cluster planning/review, and `blacksmith-16vcpu-ubuntu-2404` for fix/apply execution. Fix execution prepares the target checkout with Corepack and the target `pnpm` package manager before validation; the execution job caches Codex, npm, Corepack, and the target pnpm store. Fix validation is pinned to OpenClaw's fast changed-lane posture by default: `pnpm check:changed` plus diff checks are the hard local gate, and target validation commands normalize to `pnpm check:changed` unless `CLOWNFISH_TARGET_VALIDATION_MODE=strict` or `CLOWNFISH_STRICT_TARGET_VALIDATION=1` is explicitly set. Unrelated flaky main CI, broad `pnpm check`, full tests, live, docker, and e2e lanes do not block narrow ProjectClownfish fixes by default.
 
 Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions. The committed ledger keeps only the cluster summary, run URL, action counts, apply outcomes, closed targets, and needs-human entries.
 
@@ -339,7 +339,7 @@ npm run import-gitcrawl -- --from-gitcrawl --limit 80 --mode autonomous \
 # file list in capacity-sized waves instead of refusing the whole batch.
 CLOWNFISH_MAX_LIVE_WORKERS=50 npm run dispatch -- jobs/openclaw/inbox/cluster-example.md \
   --mode autonomous \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Select a plan-only wave by total referenced issue/PR count without dispatching.
@@ -376,7 +376,7 @@ npm run dispatch -- --jobs-file /tmp/clownfish-plan-wave-all.txt \
   --max-linked-refs 0 \
   --max-comments-per-item 0 \
   --max-review-comments-per-pr 0 \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Full open-PR inventory sweep from the local gitcrawl snapshot. Generate
@@ -406,7 +406,7 @@ npm run dispatch -- --jobs-file /tmp/clownfish-plan-wave-all.txt \
   --max-linked-refs 0 \
   --max-comments-per-item 0 \
   --max-review-comments-per-pr 0 \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Write/apply dispatches are deliberately capped separately. The default
@@ -420,7 +420,7 @@ npm run dispatch -- --jobs-file /tmp/clownfish-close-retry.txt \
   --batch-size 1 \
   --batch-delay-ms 120000 \
   --dispatch-concurrency 1 \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Find explicitly recoverable, checkpointed active-inbox fix failures that have
@@ -435,7 +435,7 @@ npm run requeue -- 24947178021
 # write gates when the job is execute/autonomous, waits for the run to start,
 # then closes the gates.
 npm run requeue -- 24947178021 --execute --open-execute-window \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 
 # Execute a reviewed fix artifact locally. Requires both execution gates and a write token.
@@ -482,7 +482,7 @@ CLOWNFISH_ALLOW_EXECUTE=1 npm run tag-clownfish -- --live --apply
 # dispatched workers to start, records the self-heal ledger, and closes the gate.
 npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
   --max-live-workers 50 \
-  --runner blacksmith-4vcpu-ubuntu-2404 \
+  --runner ubuntu-latest \
   --execution-runner blacksmith-16vcpu-ubuntu-2404
 ```
 

@@ -15,7 +15,7 @@ import {
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
-const defaultRunner = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
+const defaultRunner = process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest";
 const defaultExecutionRunner = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const mode = args.mode ?? "plan";
 const runner = args.runner ?? defaultRunner;

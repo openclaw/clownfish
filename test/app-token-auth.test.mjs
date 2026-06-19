@@ -380,7 +380,7 @@ if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
       ["event_type", payload.event_type, "projectclownfish_worker"],
       ["job", client.job, "jobs/openclaw/inbox/cluster-example.md"],
       ["mode", client.mode, "autonomous"],
-      ["runner", client.runner, "blacksmith-4vcpu-ubuntu-2404"],
+      ["runner", client.runner, "ubuntu-latest"],
       ["execution_runner", client.execution_runner, "blacksmith-16vcpu-ubuntu-2404"],
       ["model", client.model, "gpt-5.5"],
       ["dry_run", String(client.dry_run), "true"],
