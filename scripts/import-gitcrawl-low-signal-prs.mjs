@@ -42,7 +42,13 @@ const blockedLabelPatterns = compileLabelPatterns(
 const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
 const dryRun = Boolean(args["dry-run"]);
 const jsonOutput = Boolean(args.json);
-const changedFilesSourceSql = changedFilesSource();
+
+if (args.help || args.h) {
+  console.log(
+    "usage: node scripts/import-gitcrawl-low-signal-prs.mjs [--repo owner/name] [--db path] [--out dir] [--mode plan|execute|autonomous] [--limit N] [--batch-size N] [--min-score N] [--max-files N] [--sort stale|recent|score] [--suffix slug] [--dry-run] [--json]",
+  );
+  process.exit(0);
+}
 
 if (!["plan", "execute", "autonomous"].includes(mode)) {
   console.error("mode must be plan, execute, or autonomous");
@@ -53,6 +59,7 @@ if (!["stale", "recent", "score"].includes(sort)) {
   process.exit(2);
 }
 
+const changedFilesSourceSql = changedFilesSource();
 const candidates = selectCandidates();
 const batches = [];
 for (let i = 0; i < candidates.length; i += batchSize) {
@@ -104,7 +111,7 @@ function selectCandidates() {
       t.author_type,
       t.labels_json,
       t.assignees_json,
-      t.raw_json,
+      json_extract(t.raw_json, '$.author_association') as author_association,
       t.is_draft,
       t.created_at_gh,
       t.updated_at_gh,
@@ -152,12 +159,15 @@ function hydrateRowsWithLiveFiles(rows) {
 }
 
 function candidateHasDeterministicBlocker(row) {
-  const raw = safeJson(row.raw_json);
   const labels = safeJson(row.labels_json);
   const assignees = safeJson(row.assignees_json);
   const title = String(row.title ?? "");
   const body = String(row.body ?? "");
-  return isMaintainerAssociated(raw.author_association) || assignees.length > 0 || hasSecuritySignalText(title, body, labels);
+  return (
+    isMaintainerAssociated(row.author_association) ||
+    assignees.length > 0 ||
+    hasSecuritySignalText(title, body, labels)
+  );
 }
 
 function compareRowsForHydration(left, right) {
@@ -209,7 +219,6 @@ ${numbers
 }
 
 function scoreCandidate(row) {
-  const raw = safeJson(row.raw_json);
   const labels = safeJson(row.labels_json);
   const assignees = safeJson(row.assignees_json);
   const files = unique(String(row.files ?? "").split(",").filter(Boolean));
@@ -218,7 +227,8 @@ function scoreCandidate(row) {
   const signals = [];
   const blockers = [];
 
-  if (isMaintainerAssociated(raw.author_association)) blockers.push(`author association is ${raw.author_association}`);
+  if (isMaintainerAssociated(row.author_association))
+    blockers.push(`author association is ${row.author_association}`);
   if (assignees.length > 0) blockers.push("assigned PR");
   if (hasSecuritySignalText(title, body, labels)) blockers.push("security-sensitive text or labels");
   for (const label of labelNames(labels)) {
@@ -246,7 +256,7 @@ function scoreCandidate(row) {
     ref: `#${row.number}`,
     title,
     author: row.author_login,
-    author_association: raw.author_association ?? null,
+    author_association: row.author_association ?? null,
     created_at: row.created_at_gh,
     updated_at: row.updated_at_gh ?? row.last_pulled_at,
     is_draft: Boolean(row.is_draft),

@@ -36,6 +36,16 @@ test("low-signal import preserves repeated exclude-signal flags", { skip: hasSql
   assert.deepEqual(payload.options.excluded_signals, ["docs_only", "test_only"]);
 });
 
+test("low-signal import help does not read the candidate database", () => {
+  const result = spawnSync(process.execPath, ["scripts/import-gitcrawl-low-signal-prs.mjs", "--help"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stdout, /usage: node scripts\/import-gitcrawl-low-signal-prs\.mjs/);
+});
+
 function runImport(fixture, ...extraArgs) {
   return spawnSync(
     process.execPath,
@@ -151,6 +161,14 @@ ${[
     labels: ["triage: low-signal-docs"],
     file: "test/helper.test.ts",
   },
+  {
+    id: 8,
+    number: 990008,
+    title: "docs: maintainer wording update",
+    labels: ["triage: low-signal-docs"],
+    file: "docs/maintainer.md",
+    authorAssociation: "MEMBER",
+  },
 ]
   .map((row) => renderThreadInsert(row))
   .join("\n")}
@@ -161,7 +179,7 @@ ${[
 function renderThreadInsert(row) {
   const body = "A small drive-by wording update without linked context.";
   const labelsJson = JSON.stringify(row.labels.map((name) => ({ name })));
-  const rawJson = JSON.stringify({ author_association: "CONTRIBUTOR" });
+  const rawJson = JSON.stringify({ author_association: row.authorAssociation ?? "CONTRIBUTOR" });
   return `
 insert into threads values (
   ${row.id},
