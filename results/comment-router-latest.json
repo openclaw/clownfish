@@ -1,16 +1,16 @@
 {
   "status": "executed",
-  "generated_at": "2026-06-19T03:17:28.877Z",
+  "generated_at": "2026-06-19T03:31:03.229Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
-  "since": "2026-06-19T00:17:10.023Z",
+  "since": "2026-06-19T00:30:47.354Z",
   "execute": true,
   "max_comments": 1,
   "requested_comment_ids": [
-    "4748209090"
+    "4748266409"
   ],
-  "all_comments_scanned": 982,
+  "all_comments_scanned": 902,
   "max_autoclose_targets": 8,
   "scanned_comments": 1,
   "commands_seen": 1,
@@ -28,17 +28,17 @@
   "max_auto_repairs_per_pr": 5,
   "commands": [
     {
-      "idempotency_key": "comment-router:openclaw/openclaw:94685:4748209090:2026-06-19T03:16:45Z:automerge",
-      "comment_id": "4748209090",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwPrwg",
-      "comment_version_key": "4748209090:2026-06-19T03:16:45Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/94685#issuecomment-4748209090",
+      "idempotency_key": "comment-router:openclaw/openclaw:90882:4748266409:2026-06-19T03:30:17Z:automerge",
+      "comment_id": "4748266409",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwTLqQ",
+      "comment_version_key": "4748266409:2026-06-19T03:30:17Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/90882#issuecomment-4748266409",
       "repo": "openclaw/openclaw",
-      "issue_number": 94685,
+      "issue_number": 90882,
       "author": "vincentkoc",
       "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:16:45Z",
-      "comment_updated_at": "2026-06-19T03:16:45Z",
+      "comment_created_at": "2026-06-19T03:30:17Z",
+      "comment_updated_at": "2026-06-19T03:30:17Z",
       "trigger": "slash",
       "command": "automerge",
       "intent": "automerge",
@@ -52,72 +52,67 @@
       "status": "executed",
       "actions": [
         {
-          "action": "ensure_automerge_job",
-          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94685.md",
-          "status": "executed",
-          "mode": "autonomous",
-          "cluster_id": "automerge-openclaw-openclaw-94685",
-          "status_detail": "written"
+          "action": "label",
+          "label": "clownfish:automerge",
+          "status": "executed"
         },
         {
           "action": "label",
-          "label": "clownfish:automerge",
+          "label": "clawsweeper:automerge",
           "status": "executed"
         },
         {
           "action": "dispatch_clawsweeper",
           "workflow": "sweep.yml",
           "status": "executed",
-          "dispatched_at": "2026-06-19T03:17:33.947Z",
+          "dispatched_at": "2026-06-19T03:31:11.471Z",
           "event": "repository_dispatch",
           "repo": "openclaw/clawsweeper",
-          "item_number": 94685
+          "item_number": 90882
         },
         {
           "action": "comment",
           "status": "executed",
-          "commented_at": "2026-06-19T03:17:36.609Z"
+          "commented_at": "2026-06-19T03:31:13.444Z"
         }
       ],
       "author_repository_permission": "admin",
       "target": {
         "kind": "pull_request",
-        "title": "fix(codex): release timed-out app-server lanes",
-        "branch": "codex/fix-84569-codex-lane-release",
-        "head_sha": "517c4a48e33a17433b73106c42e137a9e492f5c1",
-        "author": "hannesrudolph",
+        "title": "fix: add self-knowledge docs rule to system prompt",
+        "branch": "sutrah/self-knowledge-docs-prompt",
+        "head_sha": "88a7db5d2a5678f33ff9c4b03351b45f79060c34",
+        "author": "sutrahsing",
         "labels": [
+          "docs",
           "agents",
-          "size: S",
-          "extensions: codex",
+          "size: XS",
+          "proof: supplied",
           "proof: sufficient",
-          "P1",
+          "P3",
           "rating: 🐚 platinum hermit",
-          "merge-risk: 🚨 session-state",
-          "merge-risk: 🚨 message-delivery",
-          "status: 👀 ready for maintainer look"
+          "status: 👀 ready for maintainer look",
+          "clownfish:automerge"
         ],
         "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-94685",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94685.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-94685",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94685.md",
+        "cluster_id": "automerge-openclaw-openclaw-90882",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-90882.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-90882",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-90882.md",
         "mode": "autonomous",
-        "merge_state_status": "UNSTABLE",
+        "merge_state_status": "UNKNOWN",
         "review_decision": "",
         "checks": {
-          "total": 184,
+          "total": 197,
           "counts": {
             "CANCELLED": 2,
-            "SKIPPED": 40,
-            "SUCCESS": 140,
-            "FAILURE": 1,
+            "SKIPPED": 48,
+            "SUCCESS": 146,
             "NEUTRAL": 1
           },
           "blockers": [
             "auto-response:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "checks-node-core-tooling:FAILURE"
+            "Real behavior proof:CANCELLED"
           ]
         }
       }
