@@ -1,0 +1,124 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-test-projects-routing-baseline-20260619",
+  "mode": "plan",
+  "run_id": "27799449960",
+  "workflow_run_id": "27799449960",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799449960",
+  "head_sha": "632b924c06fc37b2608b74ad8fa2485ff462fc49",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:17:48Z",
+  "workflow_updated_at": "2026-06-19T01:20:28Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-test-projects-routing-baseline-20260619.md",
+  "published_at": "2026-06-19T01:21:10.585Z",
+  "canonical": "#88551",
+  "canonical_issue": null,
+  "canonical_pr": "#88551",
+  "summary": "Current main at 2c6bf1a5d8997593e0ebb004edc3ca94a69ccf23 already contains the missing routing expectation for test/scripts/openai-chat-tools-client.test.ts, and the focused routing test passes. No replacement maintenance PR is needed for this cluster.",
+  "actions": [
+    {
+      "target": "#88551",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88551",
+      "candidate_fix": null,
+      "reason": "#88551 remains the canonical auth-routing PR, but this plan-only job is limited to the independent tooling baseline failure."
+    },
+    {
+      "target": "repair-test-projects-routing-baseline-20260619",
+      "action": "build_fix_artifact",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#88551",
+      "candidate_fix": null,
+      "reason": "The standalone baseline failure described by the job is already fixed on latest main, so opening a new maintenance PR would duplicate existing state."
+    },
+    {
+      "target": "#85105",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#88551",
+      "candidate_fix": "#89305",
+      "reason": "Already-closed historical context ref; no closure action is valid."
+    },
+    {
+      "target": "#85127",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#88551",
+      "candidate_fix": null,
+      "reason": "Already closed; historical auth-routing context only."
+    },
+    {
+      "target": "#86568",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#88551",
+      "candidate_fix": null,
+      "reason": "Already closed; historical auth-routing context only."
+    },
+    {
+      "target": "#89305",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#88551",
+      "candidate_fix": "#89305",
+      "reason": "Already merged historical context ref; no action needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88551",
+    "source_refs": [
+      "#88551",
+      "#85127",
+      "#86568",
+      "#89305",
+      "#85105"
+    ],
+    "repair_strategy": "already_fixed_on_main",
+    "planned_actions": [],
+    "summary": "No PR required. Current main already includes the missing test-project routing expectation for test/scripts/openai-chat-tools-client.test.ts, and the focused routing test passes.",
+    "pr_title": "No PR: routing baseline already fixed on main",
+    "pr_body": "Current main already includes test/scripts/openai-chat-tools-client.test.ts in the top-level helper route expectation, and the focused routing test passes. Clownfish should not open a replacement PR for this cluster.",
+    "likely_files": [
+      "src/scripts/test-projects.test.ts",
+      "test/scripts/openai-chat-tools-client.test.ts"
+    ],
+    "validation_commands": [
+      "corepack pnpm test:serial src/scripts/test-projects.test.ts -t \"routes top-level test helpers to importing repo tests\""
+    ],
+    "credit_notes": [
+      "#88551 remains credited to yu-xin-c for the auth-routing PR. No new maintenance PR is needed for the separate tooling baseline because main is already corrected."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-test-projects-routing-baseline-20260619.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
