@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T012409-001",
+  "mode": "plan",
+  "run_id": "27799721489-1-0",
+  "workflow_run_id": "27799721489",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799721489",
+  "head_sha": "6876f6f6821bdeef440fd07985b126e0dd22324e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:26:18Z",
+  "workflow_updated_at": "2026-06-19T01:27:57Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-001.md",
+  "published_at": "2026-06-19T01:31:39.658Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification completed for five open PRs. Four PRs are independent maintainer-ready candidates but lack complete merge preflight, so no merge or fix PR is recommended from this shard. PR #88845 needs maintainer review because the hydrated diff is broad, release-branch scoped, and currently blocked by failing checks.",
+  "actions": [
+    {
+      "target": "#88280",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful PR; merge is blocked by missing required merge preflight and unknown mergeability, not by a dedupe or closure decision."
+    },
+    {
+      "target": "#92070",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent provider behavior PR; no checks and no merge preflight are available, so this shard should not merge or raise a replacement fix."
+    },
+    {
+      "target": "#88925",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent session-state PR; keep open for normal review and validation because merge preflight is incomplete."
+    },
+    {
+      "target": "#88898",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused PR; it looks plausible but cannot be marked merge_candidate without the required Codex /review and complete merge preflight."
+    },
+    {
+      "target": "#88845",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad release-branch PR with mixed scopes and failing checks requires maintainer judgment; no bounded executable fix artifact is safe from this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88845 requires maintainer judgment because the hydrated PR is broad, release-branch scoped, marked dirty/active, and includes failing checks."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

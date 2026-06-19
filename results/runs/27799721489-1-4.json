@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T012409-005",
+  "mode": "plan",
+  "run_id": "27799721489-1-4",
+  "workflow_run_id": "27799721489",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799721489",
+  "head_sha": "6876f6f6821bdeef440fd07985b126e0dd22324e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:26:18Z",
+  "workflow_updated_at": "2026-06-19T01:27:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-005.md",
+  "published_at": "2026-06-19T01:31:39.670Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode PR inventory classification only. No GitHub mutations are planned because the job blocks comment/close actions and no PR has the complete merge preflight required for a merge recommendation.",
+  "actions": [
+    {
+      "target": "#91049",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad cross-platform message-delivery/session-state change requires maintainer judgment before any repair or merge path."
+    },
+    {
+      "target": "#93534",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct small PR with passing checks, but not merge-recommendable without complete merge preflight and current mergeability proof."
+    },
+    {
+      "target": "#93699",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct focused PR with passing checks, but not merge-recommendable without complete merge preflight and current mergeability proof."
+    },
+    {
+      "target": "#93588",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93588",
+      "reason": "Useful focused contributor PR appears repairable, but the failing security-fast check blocks merge until the contributor branch is repaired and revalidated."
+    },
+    {
+      "target": "#93697",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad mixed-scope PR with unresolved automated review context requires maintainer judgment before repair, split, or merge planning."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_independent": 2,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#91049 broad cross-platform session-state/message-delivery change needs maintainer judgment.",
+    "#93697 broad mixed-scope PR with unresolved Codex review context needs maintainer judgment."
+  ],
+  "repair_candidate": {
+    "target": "#93588",
+    "source_refs": [
+      "#93588",
+      "#93482",
+      "#91049",
+      "#93534",
+      "#93697",
+      "#93699"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair contributor PR #93588 by addressing the failing security-fast check while preserving the existing focused exec_command-as-exec-like behavior and contributor attribution.",
+    "pr_title": "fix(agents): treat codex exec_command as exec-like",
+    "pr_body": "Repair contributor PR #93588 by keeping the focused exec_command-as-exec-like helper and test coverage while addressing the failing security-fast check. Source PR: https://github.com/openclaw/openclaw/pull/93588. Credit: thanks @yu-xin-c for the original implementation and tests.\n\nValidation:\n- pnpm check:changed\n- pnpm test src/agents/tool-mutation.test.ts src/agents/tool-error-summary.test.ts src/agents/embedded-agent-subscribe.handlers.tools.test.ts src/agents/embedded-agent-runner/run/payloads.test.ts\n- rerun security-fast for PR #93588",
+    "likely_files": [
+      "src/agents/exec-tool-names.ts",
+      "src/agents/tool-error-summary.ts",
+      "src/agents/tool-mutation.ts",
+      "src/agents/embedded-agent-subscribe.handlers.tools.ts",
+      "src/agents/embedded-agent-runner/run/payloads.test.ts",
+      "src/agents/embedded-agent-subscribe.handlers.tools.test.ts",
+      "src/agents/tool-mutation.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test src/agents/tool-mutation.test.ts src/agents/tool-error-summary.test.ts src/agents/embedded-agent-subscribe.handlers.tools.test.ts src/agents/embedded-agent-runner/run/payloads.test.ts",
+      "rerun security-fast for PR #93588"
+    ],
+    "credit_notes": [
+      "Preserve credit for @yu-xin-c as the contributor and source PR author.",
+      "Replacement or repair PR body should link https://github.com/openclaw/openclaw/pull/93588 and state that the implementation is based on the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-005.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#91049 broad cross-platform session-state/message-delivery change needs maintainer judgment.",
+      "#93697 broad mixed-scope PR with unresolved Codex review context needs maintainer judgment."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

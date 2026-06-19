@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T012409-002",
+  "mode": "plan",
+  "run_id": "27799721489-1-1",
+  "workflow_run_id": "27799721489",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799721489",
+  "head_sha": "6876f6f6821bdeef440fd07985b126e0dd22324e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:26:18Z",
+  "workflow_updated_at": "2026-06-19T01:27:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-002.md",
+  "published_at": "2026-06-19T01:31:39.661Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No security-sensitive item was identified in the hydrated artifact. No PR has the complete merge preflight required for a merge recommendation, and no bounded executable replacement fix artifact is safe for this mixed inventory shard.",
+  "actions": [
+    {
+      "target": "#84560",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The branch contains broad unrelated churn for a narrow CLI feature and failing checks; maintainer judgment is required before deciding whether to salvage, split, or replace it."
+    },
+    {
+      "target": "#87932",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This looks like an independent, potentially useful PR, but merge cannot be recommended without the required merge preflight and review evidence."
+    },
+    {
+      "target": "#93502",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent small PR that may be mergeable after normal review, but merge_candidate is blocked by missing merge preflight."
+    },
+    {
+      "target": "#93519",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent PR with useful scope, but failing checks and missing merge preflight block merge recommendation; no complete executable repair artifact is available from the compacted evidence."
+    },
+    {
+      "target": "#91245",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent compatibility PR; merge is blocked by failing checks and missing merge preflight, and the artifact does not provide a complete narrow repair plan."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84560 requires maintainer judgment because the PR mixes the narrow dm-policy/dm-allowlist feature with broad release/package churn and failing checks."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

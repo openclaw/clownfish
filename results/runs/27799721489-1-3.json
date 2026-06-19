@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T012409-004",
+  "mode": "plan",
+  "run_id": "27799721489-1-3",
+  "workflow_run_id": "27799721489",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799721489",
+  "head_sha": "6876f6f6821bdeef440fd07985b126e0dd22324e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:26:18Z",
+  "workflow_updated_at": "2026-06-19T01:27:57Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-004.md",
+  "published_at": "2026-06-19T01:31:39.667Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification completed for five open PRs. No merge actions are recommended because the artifact lacks complete merge preflight proof, including Codex /review. Three PRs need targeted maintainer attention due to broad compatibility risk, active grinding with a failing check, or an active re-review/conflict state; two should remain independent maintainer-ready PRs.",
+  "actions": [
+    {
+      "target": "#88683",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad compatibility-sensitive update CLI change needs maintainer judgment before any finalization path; merge is blocked by missing complete merge preflight."
+    },
+    {
+      "target": "#93168",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent, narrow PR with passing artifact checks, but not eligible for merge recommendation without complete merge preflight."
+    },
+    {
+      "target": "#93365",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active grinding label plus a failing check blocks merge and fixed-by-candidate handling; the artifact does not include enough failure detail for a complete executable repair artifact."
+    },
+    {
+      "target": "#93377",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active re-review/conflict state and dirty mergeability require targeted maintainer or author follow-up before merge or repair can be planned safely."
+    },
+    {
+      "target": "#93369",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-ready PR with passing artifact checks, but merge recommendation is blocked by missing complete merge preflight."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 3,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#88683 needs maintainer judgment for an XL compatibility-sensitive update CLI change before finalization.",
+    "#93365 needs follow-up because it is marked actively grinding and has a failing checks-node-agentic-commands-agent-channel check.",
+    "#93377 needs follow-up because it is dirty/unmergeable and in a re-review loop."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

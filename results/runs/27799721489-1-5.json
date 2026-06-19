@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T012409-006",
+  "mode": "plan",
+  "run_id": "27799721489-1-5",
+  "workflow_run_id": "27799721489",
+  "run_attempt": "1",
+  "matrix_index": "5",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27799721489",
+  "head_sha": "6876f6f6821bdeef440fd07985b126e0dd22324e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T01:26:18Z",
+  "workflow_updated_at": "2026-06-19T01:27:57Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-006.md",
+  "published_at": "2026-06-19T01:31:39.674Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five independent open PRs. No merge actions are recommended because the artifact lacks complete merge preflight proof, including Codex /review and resolved comment/review-bot evidence. #93830 has a concrete repair path for failing lint/type checks; #89762 and #93599 need scoped maintainer decisions before automation should proceed.",
+  "actions": [
+    {
+      "target": "#86649",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused PR; keep in normal PR review lane until merge preflight is complete."
+    },
+    {
+      "target": "#89762",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer product/compatibility judgment before automation finalizes a cross-cutting config and session-state behavior change."
+    },
+    {
+      "target": "#93206",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent focused provider compatibility fix; keep in normal PR review lane until merge preflight is complete."
+    },
+    {
+      "target": "#93599",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision on whether to split or narrow the branch before Clownfish repair/merge automation preserves the contributor work."
+    },
+    {
+      "target": "#93830",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#93830",
+      "reason": "Repair the contributor branch for failing lint/type checks, then rerun validation and Codex /review before any merge consideration."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "needs_human": 2,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89762 requires maintainer product/compatibility judgment for a cross-cutting config-level responseUsage default and session-state behavior change.",
+    "#93599 requires maintainer scope judgment because the branch mixes the hallucinated-extension fix with unrelated-looking WhatsApp/Slack/channel changes."
+  ],
+  "repair_candidate": {
+    "target": "#93830",
+    "source_refs": [
+      "#93830",
+      "#86649",
+      "#89762",
+      "#93206",
+      "#93599"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair #93830 on the contributor branch so the Matrix reasoning m.notice fix can be considered after failing lint/type checks are resolved and merge preflight is complete.",
+    "pr_title": "fix(matrix): repair reasoning notice delivery checks",
+    "pr_body": "Clownfish repair plan for #93830.\n\nSource PR: https://github.com/openclaw/openclaw/pull/93830 by @ml12580. This keeps the contributor's Matrix reasoning-block delivery fix as the canonical implementation path and preserves attribution.\n\nScope:\n- keep reasoning blocks delivered to Matrix as m.notice when /reasoning is enabled\n- fix the failing check-lint and check-prod-types results from the hydrated preflight artifact\n- avoid unrelated Matrix, auto-reply, or channel behavior changes\n\nValidation:\n- pnpm -s vitest run extensions/matrix/src/matrix/monitor/handler.test.ts extensions/matrix/src/matrix/monitor/replies.test.ts src/auto-reply/reply/dispatch-from-config.test.ts\n- pnpm check:changed\n- Codex /review before merge, with all findings addressed",
+    "likely_files": [
+      "extensions/matrix/src/matrix/monitor/handler.test.ts",
+      "extensions/matrix/src/matrix/monitor/handler.ts",
+      "extensions/matrix/src/matrix/monitor/replies.test.ts",
+      "extensions/matrix/src/matrix/monitor/replies.ts",
+      "extensions/matrix/src/matrix/send.ts",
+      "extensions/matrix/src/matrix/send/types.ts",
+      "src/auto-reply/get-reply-options.types.ts",
+      "src/auto-reply/reply/dispatch-from-config.test.ts",
+      "src/auto-reply/reply/dispatch-from-config.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/matrix/src/matrix/monitor/handler.test.ts extensions/matrix/src/matrix/monitor/replies.test.ts src/auto-reply/reply/dispatch-from-config.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for ml12580 and PR https://github.com/openclaw/openclaw/pull/93830.",
+      "If a replacement PR is needed after branch repair fails, name #93830 as the source PR and carry attribution in the PR body/changelog note."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T012409-006.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#89762 requires maintainer product/compatibility judgment for a cross-cutting config-level responseUsage default and session-state behavior change.",
+      "#93599 requires maintainer scope judgment because the branch mixes the hallucinated-extension fix with unrelated-looking WhatsApp/Slack/channel changes."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
