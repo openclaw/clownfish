@@ -13,6 +13,7 @@ import {
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
 import {
+  AUTOMERGE_OPT_IN_LABELS,
   AUTOCLOSE_INTENTS,
   MERGE_INTENTS,
   REPAIR_INTENTS,
@@ -47,7 +48,7 @@ import {
 const DEFAULT_TARGET_REPO = "openclaw/openclaw";
 const DEFAULT_HEAD_PREFIX = "clownfish/";
 const DEFAULT_LABEL = "clownfish";
-const AUTOMERGE_LABEL = "clownfish:automerge";
+const [AUTOMERGE_LABEL, CLAWSWEEPER_AUTOMERGE_LABEL] = AUTOMERGE_OPT_IN_LABELS;
 const HUMAN_REVIEW_LABEL = "clownfish:human-review";
 const DEFAULT_LABEL_COLOR = "F97316";
 const DEFAULT_LABEL_DESCRIPTION = "Tracked by Clownfish automation";
@@ -276,6 +277,7 @@ function classifyCommand(command) {
       actions: [
         ...actions,
         { action: "label", label: AUTOMERGE_LABEL, status: execute ? "pending" : "planned" },
+        { action: "label", label: CLAWSWEEPER_AUTOMERGE_LABEL, status: execute ? "pending" : "planned" },
         { action: "dispatch_clawsweeper", workflow: clawsweeperWorkflow, status: execute ? "pending" : "planned" },
         { action: "comment", status: execute ? "pending" : "planned" },
       ],
@@ -562,15 +564,24 @@ function executeCommand(command) {
   }
   if (command.intent === "automerge" && command.issue_number) {
     const job = ensureAutomergeJob(command);
-    ensureAutomergeLabel(command.repo);
+    ensureAutomergeLabels(command.repo);
     if (hasLabel(command.target, HUMAN_REVIEW_LABEL)) {
       ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--remove-label", HUMAN_REVIEW_LABEL]);
     }
     ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", AUTOMERGE_LABEL]);
+    ghBestEffort([
+      "issue",
+      "edit",
+      String(command.issue_number),
+      "--repo",
+      command.repo,
+      "--add-label",
+      CLAWSWEEPER_AUTOMERGE_LABEL,
+    ]);
     const clawsweeper = dispatchClawSweeperReview(command);
     dispatched = { ...(dispatched ?? {}), clawsweeper };
     command.actions = command.actions.map((action) => {
-      if (action.action === "label") return { ...action, status: "executed", label: AUTOMERGE_LABEL };
+      if (action.action === "label") return { ...action, status: "executed" };
       if (action.action === "remove_label") return { ...action, status: "executed", label: HUMAN_REVIEW_LABEL };
       if (action.action === "ensure_automerge_job") return { ...action, status: "executed", ...job };
       if (action.action === "dispatch_clawsweeper") {
@@ -1225,17 +1236,27 @@ function ensureDefaultLabel(repo) {
   ]);
 }
 
-function ensureAutomergeLabel(repo) {
+function ensureAutomergeLabels(repo) {
+  ensureLabel(repo, AUTOMERGE_LABEL, "0E8A16", "Maintainer opted this PR into bounded Clownfish automerge");
+  ensureLabel(
+    repo,
+    CLAWSWEEPER_AUTOMERGE_LABEL,
+    "0E8A16",
+    "Maintainer opted this PR into ClawSweeper-reviewed automerge",
+  );
+}
+
+function ensureLabel(repo, name, color, description) {
   ghBestEffort([
     "label",
     "create",
-    AUTOMERGE_LABEL,
+    name,
     "--repo",
     repo,
     "--color",
-    "0E8A16",
+    color,
     "--description",
-    "Maintainer opted this Clownfish PR into bounded ClawSweeper-reviewed automerge",
+    description,
   ]);
 }
 

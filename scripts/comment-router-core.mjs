@@ -3,6 +3,7 @@ export const MERGE_INTENTS = new Set(["clawsweeper_auto_merge"]);
 export const AUTOCLOSE_INTENTS = new Set(["autoclose"]);
 export const AUTOMERGE_JOB_SOURCE = "pr_automerge";
 export const DEFAULT_ALLOWED_REPOSITORY_PERMISSIONS = ["admin", "maintain", "write"];
+export const AUTOMERGE_OPT_IN_LABELS = ["clownfish:automerge", "clawsweeper:automerge"];
 
 export function repoSlug(repo) {
   return String(repo ?? "")
