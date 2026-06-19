@@ -1,0 +1,147 @@
+name: external merge preflight
+
+run-name: external merge preflight ${{ inputs.pull_request || 'manual' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_job:
+        description: "Committed merge-enabled inventory job path"
+        required: true
+        type: string
+      pull_request:
+        description: "Open pull request number contained in source_job"
+        required: true
+        type: string
+      runner:
+        description: "Runner for deterministic target validation and review"
+        required: true
+        default: blacksmith-16vcpu-ubuntu-2404
+        type: string
+      apply:
+        description: "Apply the reviewed merge artifact after preflight passes"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  preflight:
+    name: Preflight external PR
+    runs-on: ${{ inputs.runner }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Cache Codex CLI and npm downloads
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.npm
+            ~/.projectclownfish/codex
+          key: ${{ runner.os }}-node24-codex-${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}-v1
+          restore-keys: |
+            ${{ runner.os }}-node24-codex-
+
+      - name: Install Codex CLI
+        env:
+          CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
+        run: |
+          set -euo pipefail
+          npm config set prefix "$HOME/.projectclownfish/codex"
+          npm config set cache "$HOME/.npm"
+          echo "$HOME/.projectclownfish/codex/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.projectclownfish/codex/bin:$PATH"
+          if ! command -v codex >/dev/null 2>&1 || ! codex --version | grep -Fq "$CODEX_CLI_VERSION"; then
+            npm install -g "@openai/codex@$CODEX_CLI_VERSION" --prefer-offline --no-audit --no-fund
+          fi
+          codex --version
+
+      - name: Authenticate Codex
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+          test -n "${CODEX_API_KEY:-}"
+          printenv OPENAI_API_KEY | codex login --with-api-key >/dev/null
+
+      - name: Run read-only external merge preflight
+        env:
+          GH_TOKEN: ${{ secrets.CLOWNFISH_READ_GH_TOKEN || github.token }}
+          CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
+          CLOWNFISH_MODEL: ${{ vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
+          SOURCE_JOB: ${{ inputs.source_job }}
+          PULL_REQUEST: ${{ inputs.pull_request }}
+          OPENCLAW_LOCAL_CHECK: "0"
+        run: |
+          set -euo pipefail
+          run_dir=".projectclownfish/external-merge-preflight"
+          npm run preflight-external-merge -- "$SOURCE_JOB" --pr "$PULL_REQUEST" --run-dir "$run_dir"
+          npm run review-results -- "$run_dir"
+          node --input-type=module -e 'import fs from "node:fs"; const report = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (report.status !== "passed") { console.error(`external merge preflight blocked: ${report.reason ?? "unknown"}`); process.exit(1); }' "$run_dir/preflight-report.json"
+
+      - name: Upload preflight artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: external-merge-preflight-${{ github.run_id }}
+          path: .projectclownfish/external-merge-preflight
+          if-no-files-found: warn
+
+  apply:
+    name: Apply reviewed merge
+    needs: preflight
+    if: ${{ needs.preflight.result == 'success' && inputs.apply && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && vars.CLOWNFISH_ALLOW_MERGE == '1' }}
+    runs-on: blacksmith-16vcpu-ubuntu-2404
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Download preflight artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: external-merge-preflight-${{ github.run_id }}
+          path: .projectclownfish/external-merge-preflight
+
+      - name: Create GitHub App token
+        id: app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.CLOWNFISH_APP_ID }}
+          private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
+          owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+
+      - name: Apply through the guarded applicator
+        env:
+          CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
+          CLOWNFISH_ALLOW_EXECUTE: "1"
+          CLOWNFISH_ALLOW_MERGE: "1"
+          CLOWNFISH_GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: |
+          set -euo pipefail
+          run_dir=".projectclownfish/external-merge-preflight"
+          npm run apply-result -- "$run_dir/preflight-job.md" "$run_dir/result.json" --report "$run_dir/apply-report.json"
+
+      - name: Upload apply artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: external-merge-apply-${{ github.run_id }}
+          path: .projectclownfish/external-merge-preflight
+          if-no-files-found: warn
