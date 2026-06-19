@@ -70,6 +70,7 @@ const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const headPrefix = String(args["head-prefix"] ?? process.env.CLOWNFISH_HEAD_PREFIX ?? DEFAULT_HEAD_PREFIX);
 const label = String(args.label ?? process.env.CLOWNFISH_LABEL ?? DEFAULT_LABEL);
 const execute = Boolean(args.execute);
+const replayLegacyAutomerge = Boolean(args["replay-legacy-automerge"]);
 const writeReport = Boolean(args["write-report"] || execute);
 const waitForCapacity = Boolean(args["wait-for-capacity"]);
 const maxLiveWorkers = readMaxLiveWorkers(args);
@@ -116,9 +117,18 @@ const clownfishAuthors = commaSet(
 assertRepo(targetRepo, "repo");
 assertRepo(clownfishRepo, "clownfish-repo");
 assertRepo(clawsweeperRepo, "clawsweeper-repo");
+if (replayLegacyAutomerge && requestedCommentIds.size === 0) {
+  throw new Error("--replay-legacy-automerge requires --comment-ids for exact replay scope");
+}
 
 const ledger = readLedger(ledgerPath());
 const processedCommentVersions = new Set((ledger.commands ?? []).map(commentVersionKey).filter(Boolean));
+const processedLegacyAutomergeReplays = new Set(
+  (ledger.commands ?? [])
+    .filter((entry) => entry.automation_source === "legacy_automerge_bridge")
+    .map((entry) => entry.idempotency_key)
+    .filter(Boolean),
+);
 const plannedAutoRepairHeads = new Set();
 const collaboratorPermissionCache = new Map();
 const allComments = listRecentComments();
@@ -223,20 +233,36 @@ function classifyCommand(command) {
   if (!command.issue_number) {
     return { ...command, status: "ignored", reason: "could not resolve issue or PR number" };
   }
-  if (command.comment_version_key && processedCommentVersions.has(command.comment_version_key)) {
+  const processed = command.comment_version_key && processedCommentVersions.has(command.comment_version_key);
+  if (processed && !(replayLegacyAutomerge && command.intent === "automerge")) {
     return { ...command, status: "skipped", reason: "comment version already processed in ledger" };
   }
 
   const issue = fetchIssue(command.issue_number);
   const pull = issue.pull_request ? fetchPullRequestView(command.issue_number) : null;
   const target = pull ? classifyPullTarget(pull, command.issue_number) : classifyIssueTarget(issue);
-  const next = { ...command, target };
+  let next = { ...command, target };
+  if (processed) {
+    if (!isLegacyAutomergeBridgeCandidate({ issue, target })) {
+      return { ...next, status: "skipped", reason: "comment version already processed in ledger" };
+    }
+    const replayIdempotencyKey = legacyAutomergeReplayKey(command);
+    if (processedLegacyAutomergeReplays.has(replayIdempotencyKey)) {
+      return { ...next, status: "skipped", reason: "legacy automerge bridge replay already processed" };
+    }
+    next = {
+      ...next,
+      idempotency_key: replayIdempotencyKey,
+      automation_source: "legacy_automerge_bridge",
+      response_marker_key: `${command.comment_version_key}:legacy-automerge-bridge-v1`,
+    };
+  }
 
   if (
     hasExistingResponse(
-      command.issue_number,
-      command.comment_version_key ?? command.comment_id,
-      command.intent,
+      next.issue_number,
+      next.response_marker_key ?? next.comment_version_key ?? next.comment_id,
+      next.intent,
       target.head_sha,
     )
   ) {
@@ -519,6 +545,16 @@ function autoRepairHeadKey(command) {
   const sha = command.target?.head_sha;
   if (!sha) return null;
   return `${command.repo}#${command.issue_number}:${sha}`;
+}
+
+function isLegacyAutomergeBridgeCandidate({ issue, target }) {
+  return (
+    String(issue?.state ?? "").toLowerCase() === "open" &&
+    target?.kind === "pull_request" &&
+    hasLabel(target, AUTOMERGE_LABEL) &&
+    !hasLabel(target, CLAWSWEEPER_AUTOMERGE_LABEL) &&
+    !hasLabel(target, HUMAN_REVIEW_LABEL)
+  );
 }
 
 function executeCommand(command) {
@@ -1271,6 +1307,10 @@ function ledgerPath() {
 function idempotencyKey(parsed, issueNumber, commentId, commentUpdatedAt) {
   const prefix = parsed.trusted_bot ? "clawsweeper-repair" : "comment-router";
   return `${prefix}:${targetRepo}:${issueNumber}:${commentId}:${commentUpdatedAt ?? "unknown"}:${parsed.intent}`;
+}
+
+function legacyAutomergeReplayKey(command) {
+  return `${command.idempotency_key}:legacy-automerge-bridge-v1`;
 }
 
 function commentVersionKey(entry) {

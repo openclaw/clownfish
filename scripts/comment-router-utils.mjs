@@ -68,6 +68,7 @@ export function appendLedger(current, entries) {
 }
 
 function ledgerEntryKey(entry) {
+  if (entry.idempotency_key) return entry.idempotency_key;
   return entry.comment_version_key ?? `${entry.comment_id ?? "unknown"}:${entry.comment_updated_at ?? "legacy"}`;
 }
 

@@ -297,6 +297,25 @@ test("renderResponse reports automerge resume actions", () => {
   assert.match(body, /\/clownfish stop/);
 });
 
+test("renderResponse gives legacy automerge bridge replays their own marker", () => {
+  const body = renderResponse(
+    {
+      comment_id: "459",
+      comment_version_key: "459:2026-04-29T07:12:31Z",
+      response_marker_key: "459:2026-04-29T07:12:31Z:legacy-automerge-bridge-v1",
+      intent: "automerge",
+      target: { head_sha: "def459" },
+    },
+    {
+      clawsweeper: {
+        workflow: "sweep.yml",
+      },
+    },
+  );
+
+  assert.match(body, /clownfish-command:459:2026-04-29T07:12:31Z:legacy-automerge-bridge-v1:automerge:def459/);
+});
+
 test("renderResponse reports maintainer autoclose results", () => {
   const body = renderResponse(
     {
