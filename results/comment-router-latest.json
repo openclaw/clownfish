@@ -1,20 +1,20 @@
 {
   "status": "executed",
-  "generated_at": "2026-06-19T03:45:17.612Z",
+  "generated_at": "2026-06-19T03:54:47.870Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
-  "since": "2026-06-19T00:44:44.445Z",
+  "since": "2026-06-19T00:54:15.740Z",
   "execute": true,
   "max_comments": 5,
   "requested_comment_ids": [
-    "4748315200",
-    "4748315203",
-    "4748315208",
-    "4748315222",
-    "4748315259"
+    "4748352879",
+    "4748352883",
+    "4748352884",
+    "4748352889",
+    "4748352898"
   ],
-  "all_comments_scanned": 908,
+  "all_comments_scanned": 987,
   "max_autoclose_targets": 8,
   "scanned_comments": 5,
   "commands_seen": 5,
@@ -32,17 +32,17 @@
   "max_auto_repairs_per_pr": 5,
   "commands": [
     {
-      "idempotency_key": "comment-router:openclaw/openclaw:94746:4748315259:2026-06-19T03:44:04Z:automerge",
-      "comment_id": "4748315259",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwWKew",
-      "comment_version_key": "4748315259:2026-06-19T03:44:04Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/94746#issuecomment-4748315259",
+      "idempotency_key": "comment-router:openclaw/openclaw:94478:4748352879:2026-06-19T03:53:34Z:automerge",
+      "comment_id": "4748352879",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwYdbw",
+      "comment_version_key": "4748352879:2026-06-19T03:53:34Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/94478#issuecomment-4748352879",
       "repo": "openclaw/openclaw",
-      "issue_number": 94746,
+      "issue_number": 94478,
       "author": "vincentkoc",
       "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:44:04Z",
-      "comment_updated_at": "2026-06-19T03:44:04Z",
+      "comment_created_at": "2026-06-19T03:53:34Z",
+      "comment_updated_at": "2026-06-19T03:53:34Z",
       "trigger": "slash",
       "command": "automerge",
       "intent": "automerge",
@@ -55,6 +55,14 @@
       "finding_id": null,
       "status": "executed",
       "actions": [
+        {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94478.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-94478",
+          "status_detail": "written"
+        },
         {
           "action": "label",
           "label": "clownfish:automerge",
@@ -69,136 +77,46 @@
           "action": "dispatch_clawsweeper",
           "workflow": "sweep.yml",
           "status": "executed",
-          "dispatched_at": "2026-06-19T03:45:25.373Z",
+          "dispatched_at": "2026-06-19T03:54:56.530Z",
           "event": "repository_dispatch",
           "repo": "openclaw/clawsweeper",
-          "item_number": 94746
+          "item_number": 94478
         },
         {
           "action": "comment",
           "status": "executed",
-          "commented_at": "2026-06-19T03:45:27.426Z"
+          "commented_at": "2026-06-19T03:54:58.458Z"
         }
       ],
       "author_repository_permission": "admin",
       "target": {
         "kind": "pull_request",
-        "title": "fix(note): prevent clack from re-breaking copy-sensitive tokens",
-        "branch": "fix/issue-94730-clean",
-        "head_sha": "b17a4ff5711c1d7607ffbc06b7f4f13ff3373afe",
-        "author": "xzh-xydt",
+        "title": "fix(doctor): repair legacy Codex route persistence",
+        "branch": "andy/94184-provider-catalog",
+        "head_sha": "7b5bc00f3142d709b8e87c46dc83c0e39e919910",
+        "author": "turbotheturtle",
         "labels": [
-          "size: XS",
+          "commands",
+          "size: S",
           "proof: supplied",
           "proof: sufficient",
-          "P2",
+          "P1",
           "rating: 🐚 platinum hermit",
-          "status: 👀 ready for maintainer look",
-          "clownfish:automerge"
+          "status: 👀 ready for maintainer look"
         ],
         "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-94746",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94746.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-94746",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94746.md",
+        "cluster_id": "automerge-openclaw-openclaw-94478",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94478.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-94478",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94478.md",
         "mode": "autonomous",
         "merge_state_status": "CLEAN",
         "review_decision": "",
         "checks": {
           "total": 183,
           "counts": {
-            "CANCELLED": 4,
-            "SKIPPED": 34,
-            "SUCCESS": 144,
-            "NEUTRAL": 1
-          },
-          "blockers": [
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "Real behavior proof:CANCELLED"
-          ]
-        }
-      }
-    },
-    {
-      "idempotency_key": "comment-router:openclaw/openclaw:84794:4748315200:2026-06-19T03:44:03Z:automerge",
-      "comment_id": "4748315200",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwWKQA",
-      "comment_version_key": "4748315200:2026-06-19T03:44:03Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/84794#issuecomment-4748315200",
-      "repo": "openclaw/openclaw",
-      "issue_number": 84794,
-      "author": "vincentkoc",
-      "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:44:03Z",
-      "comment_updated_at": "2026-06-19T03:44:03Z",
-      "trigger": "slash",
-      "command": "automerge",
-      "intent": "automerge",
-      "autoclose_message": null,
-      "trusted_bot": false,
-      "trusted_bot_author": null,
-      "automation_source": null,
-      "repair_reason": null,
-      "expected_head_sha": null,
-      "finding_id": null,
-      "status": "executed",
-      "actions": [
-        {
-          "action": "label",
-          "label": "clownfish:automerge",
-          "status": "executed"
-        },
-        {
-          "action": "label",
-          "label": "clawsweeper:automerge",
-          "status": "executed"
-        },
-        {
-          "action": "dispatch_clawsweeper",
-          "workflow": "sweep.yml",
-          "status": "executed",
-          "dispatched_at": "2026-06-19T03:45:34.702Z",
-          "event": "repository_dispatch",
-          "repo": "openclaw/clawsweeper",
-          "item_number": 84794
-        },
-        {
-          "action": "comment",
-          "status": "executed",
-          "commented_at": "2026-06-19T03:45:36.713Z"
-        }
-      ],
-      "author_repository_permission": "admin",
-      "target": {
-        "kind": "pull_request",
-        "title": "Clean up isolated cron sessions after runs",
-        "branch": "fix/isolated-cron-delete-after-run-84707",
-        "head_sha": "afed2f54ea2d7935246faac9727ea4246738c21e",
-        "author": "turbotheturtle",
-        "labels": [
-          "size: S",
-          "proof: supplied",
-          "proof: sufficient",
-          "P2",
-          "rating: 🦞 diamond lobster",
-          "status: 👀 ready for maintainer look",
-          "clownfish:automerge"
-        ],
-        "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-84794",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84794.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-84794",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84794.md",
-        "mode": "autonomous",
-        "merge_state_status": "CLEAN",
-        "review_decision": "",
-        "checks": {
-          "total": 184,
-          "counts": {
-            "SKIPPED": 40,
-            "SUCCESS": 143,
+            "SKIPPED": 36,
+            "SUCCESS": 146,
             "NEUTRAL": 1
           },
           "blockers": []
@@ -206,17 +124,17 @@
       }
     },
     {
-      "idempotency_key": "comment-router:openclaw/openclaw:93814:4748315203:2026-06-19T03:44:03Z:automerge",
-      "comment_id": "4748315203",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwWKQw",
-      "comment_version_key": "4748315203:2026-06-19T03:44:03Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/93814#issuecomment-4748315203",
+      "idempotency_key": "comment-router:openclaw/openclaw:86719:4748352883:2026-06-19T03:53:34Z:automerge",
+      "comment_id": "4748352883",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwYdcw",
+      "comment_version_key": "4748352883:2026-06-19T03:53:34Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/86719#issuecomment-4748352883",
       "repo": "openclaw/openclaw",
-      "issue_number": 93814,
+      "issue_number": 86719,
       "author": "vincentkoc",
       "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:44:03Z",
-      "comment_updated_at": "2026-06-19T03:44:03Z",
+      "comment_created_at": "2026-06-19T03:53:34Z",
+      "comment_updated_at": "2026-06-19T03:53:34Z",
       "trigger": "slash",
       "command": "automerge",
       "intent": "automerge",
@@ -229,6 +147,14 @@
       "finding_id": null,
       "status": "executed",
       "actions": [
+        {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-86719.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-86719",
+          "status_detail": "written"
+        },
         {
           "action": "label",
           "label": "clownfish:automerge",
@@ -243,71 +169,66 @@
           "action": "dispatch_clawsweeper",
           "workflow": "sweep.yml",
           "status": "executed",
-          "dispatched_at": "2026-06-19T03:45:44.843Z",
+          "dispatched_at": "2026-06-19T03:55:07.607Z",
           "event": "repository_dispatch",
           "repo": "openclaw/clawsweeper",
-          "item_number": 93814
+          "item_number": 86719
         },
         {
           "action": "comment",
           "status": "executed",
-          "commented_at": "2026-06-19T03:45:47.284Z"
+          "commented_at": "2026-06-19T03:55:09.806Z"
         }
       ],
       "author_repository_permission": "admin",
       "target": {
         "kind": "pull_request",
-        "title": "fix(trajectory): export legacy v1 sessions without entry timestamps",
-        "branch": "fix/trajectory-export-legacy-v1-timestamp",
-        "head_sha": "050fe83b9a71373c5e978ed51d689d3ffdb55e15",
-        "author": "yetval",
+        "title": "fix(skills): retarget stale plugin skill symlinks",
+        "branch": "fix/plugin-skill-stale-symlink",
+        "head_sha": "94a9765735ed50a6c692b2611218a687b6246fbc",
+        "author": "stevenepalmer",
         "labels": [
           "size: XS",
           "proof: supplied",
           "proof: sufficient",
           "P2",
-          "rating: 🐚 platinum hermit",
-          "status: 👀 ready for maintainer look",
-          "clownfish:automerge"
+          "rating: 🦞 diamond lobster",
+          "status: 👀 ready for maintainer look"
         ],
         "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-93814",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93814.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-93814",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93814.md",
+        "cluster_id": "automerge-openclaw-openclaw-86719",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-86719.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-86719",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-86719.md",
         "mode": "autonomous",
         "merge_state_status": "CLEAN",
         "review_decision": "",
         "checks": {
-          "total": 225,
+          "total": 176,
           "counts": {
-            "CANCELLED": 5,
-            "SKIPPED": 75,
-            "SUCCESS": 144,
+            "CANCELLED": 1,
+            "SKIPPED": 36,
+            "SUCCESS": 138,
             "NEUTRAL": 1
           },
           "blockers": [
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "Real behavior proof:CANCELLED"
+            "auto-response:CANCELLED"
           ]
         }
       }
     },
     {
-      "idempotency_key": "comment-router:openclaw/openclaw:93823:4748315208:2026-06-19T03:44:03Z:automerge",
-      "comment_id": "4748315208",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwWKSA",
-      "comment_version_key": "4748315208:2026-06-19T03:44:03Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/93823#issuecomment-4748315208",
+      "idempotency_key": "comment-router:openclaw/openclaw:94337:4748352884:2026-06-19T03:53:34Z:automerge",
+      "comment_id": "4748352884",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwYddA",
+      "comment_version_key": "4748352884:2026-06-19T03:53:34Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/94337#issuecomment-4748352884",
       "repo": "openclaw/openclaw",
-      "issue_number": 93823,
+      "issue_number": 94337,
       "author": "vincentkoc",
       "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:44:03Z",
-      "comment_updated_at": "2026-06-19T03:44:03Z",
+      "comment_created_at": "2026-06-19T03:53:34Z",
+      "comment_updated_at": "2026-06-19T03:53:34Z",
       "trigger": "slash",
       "command": "automerge",
       "intent": "automerge",
@@ -320,6 +241,14 @@
       "finding_id": null,
       "status": "executed",
       "actions": [
+        {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94337.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-94337",
+          "status_detail": "written"
+        },
         {
           "action": "label",
           "label": "clownfish:automerge",
@@ -334,148 +263,263 @@
           "action": "dispatch_clawsweeper",
           "workflow": "sweep.yml",
           "status": "executed",
-          "dispatched_at": "2026-06-19T03:45:55.096Z",
+          "dispatched_at": "2026-06-19T03:55:17.804Z",
           "event": "repository_dispatch",
           "repo": "openclaw/clawsweeper",
-          "item_number": 93823
+          "item_number": 94337
         },
         {
           "action": "comment",
           "status": "executed",
-          "commented_at": "2026-06-19T03:45:57.684Z"
+          "commented_at": "2026-06-19T03:55:20.305Z"
         }
       ],
       "author_repository_permission": "admin",
       "target": {
         "kind": "pull_request",
-        "title": "fix(whatsapp): keep opening text chunk when first media fails on multi-chunk reply",
-        "branch": "fix/whatsapp-multichunk-first-media-fallback",
-        "head_sha": "b609e446541cbf136c39d1dcce9cb2cc0dfe7fa2",
-        "author": "yetval",
+        "title": "fix(tui): show 0 not ? for fresh-session context tokens in footer",
+        "branch": "fix/followup-93798",
+        "head_sha": "43657b52c803047d84269256765c0e21ef1bf145",
+        "author": "mushuiyu886",
         "labels": [
-          "channel: whatsapp-web",
-          "size: XS",
+          "size: S",
           "proof: supplied",
           "proof: sufficient",
-          "P2",
+          "P3",
           "rating: 🐚 platinum hermit",
-          "status: 👀 ready for maintainer look",
-          "clownfish:automerge"
+          "status: 👀 ready for maintainer look"
         ],
         "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-93823",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93823.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-93823",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93823.md",
+        "cluster_id": "automerge-openclaw-openclaw-94337",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94337.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-94337",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94337.md",
         "mode": "autonomous",
         "merge_state_status": "CLEAN",
         "review_decision": "",
         "checks": {
-          "total": 206,
-          "counts": {
-            "CANCELLED": 8,
-            "SKIPPED": 57,
-            "SUCCESS": 140,
-            "NEUTRAL": 1
-          },
-          "blockers": [
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "auto-response:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "Real behavior proof:CANCELLED",
-            "Real behavior proof:CANCELLED"
-          ]
-        }
-      }
-    },
-    {
-      "idempotency_key": "comment-router:openclaw/openclaw:94684:4748315222:2026-06-19T03:44:03Z:automerge",
-      "comment_id": "4748315222",
-      "comment_node_id": "IC_kwDOQb6kR88AAAABGwWKVg",
-      "comment_version_key": "4748315222:2026-06-19T03:44:03Z",
-      "comment_url": "https://github.com/openclaw/openclaw/pull/94684#issuecomment-4748315222",
-      "repo": "openclaw/openclaw",
-      "issue_number": 94684,
-      "author": "vincentkoc",
-      "author_association": "MEMBER",
-      "comment_created_at": "2026-06-19T03:44:03Z",
-      "comment_updated_at": "2026-06-19T03:44:03Z",
-      "trigger": "slash",
-      "command": "automerge",
-      "intent": "automerge",
-      "autoclose_message": null,
-      "trusted_bot": false,
-      "trusted_bot_author": null,
-      "automation_source": null,
-      "repair_reason": null,
-      "expected_head_sha": null,
-      "finding_id": null,
-      "status": "executed",
-      "actions": [
-        {
-          "action": "label",
-          "label": "clownfish:automerge",
-          "status": "executed"
-        },
-        {
-          "action": "label",
-          "label": "clawsweeper:automerge",
-          "status": "executed"
-        },
-        {
-          "action": "dispatch_clawsweeper",
-          "workflow": "sweep.yml",
-          "status": "executed",
-          "dispatched_at": "2026-06-19T03:46:07.015Z",
-          "event": "repository_dispatch",
-          "repo": "openclaw/clawsweeper",
-          "item_number": 94684
-        },
-        {
-          "action": "comment",
-          "status": "executed",
-          "commented_at": "2026-06-19T03:46:09.291Z"
-        }
-      ],
-      "author_repository_permission": "admin",
-      "target": {
-        "kind": "pull_request",
-        "title": "fix: #80507 show dry-run output for message send/poll",
-        "branch": "fix/issue-80507-dry-run-output",
-        "head_sha": "dce6d6a0d3831b62e896b9de04639a8c8d1f8741",
-        "author": "lzyyzznl",
-        "labels": [
-          "commands",
-          "size: XS",
-          "proof: supplied",
-          "proof: sufficient",
-          "P2",
-          "rating: 🐚 platinum hermit",
-          "status: 👀 ready for maintainer look",
-          "clownfish:automerge"
-        ],
-        "is_clownfish_pr": false,
-        "cluster_id": "automerge-openclaw-openclaw-94684",
-        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94684.md",
-        "automerge_cluster_id": "automerge-openclaw-openclaw-94684",
-        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94684.md",
-        "mode": "autonomous",
-        "merge_state_status": "CLEAN",
-        "review_decision": "",
-        "checks": {
-          "total": 234,
+          "total": 202,
           "counts": {
             "CANCELLED": 4,
-            "SKIPPED": 82,
-            "SUCCESS": 147,
+            "SKIPPED": 52,
+            "SUCCESS": 145,
+            "NEUTRAL": 1
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED"
+          ]
+        }
+      }
+    },
+    {
+      "idempotency_key": "comment-router:openclaw/openclaw:94539:4748352889:2026-06-19T03:53:34Z:automerge",
+      "comment_id": "4748352889",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwYdeQ",
+      "comment_version_key": "4748352889:2026-06-19T03:53:34Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/94539#issuecomment-4748352889",
+      "repo": "openclaw/openclaw",
+      "issue_number": 94539,
+      "author": "vincentkoc",
+      "author_association": "MEMBER",
+      "comment_created_at": "2026-06-19T03:53:34Z",
+      "comment_updated_at": "2026-06-19T03:53:34Z",
+      "trigger": "slash",
+      "command": "automerge",
+      "intent": "automerge",
+      "autoclose_message": null,
+      "trusted_bot": false,
+      "trusted_bot_author": null,
+      "automation_source": null,
+      "repair_reason": null,
+      "expected_head_sha": null,
+      "finding_id": null,
+      "status": "executed",
+      "actions": [
+        {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94539.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-94539",
+          "status_detail": "written"
+        },
+        {
+          "action": "label",
+          "label": "clownfish:automerge",
+          "status": "executed"
+        },
+        {
+          "action": "label",
+          "label": "clawsweeper:automerge",
+          "status": "executed"
+        },
+        {
+          "action": "dispatch_clawsweeper",
+          "workflow": "sweep.yml",
+          "status": "executed",
+          "dispatched_at": "2026-06-19T03:55:28.206Z",
+          "event": "repository_dispatch",
+          "repo": "openclaw/clawsweeper",
+          "item_number": 94539
+        },
+        {
+          "action": "comment",
+          "status": "executed",
+          "commented_at": "2026-06-19T03:55:30.678Z"
+        }
+      ],
+      "author_repository_permission": "admin",
+      "target": {
+        "kind": "pull_request",
+        "title": "fix(android): group settings by intent",
+        "branch": "fix/android-settings-sections",
+        "head_sha": "da9bf5c5b591c72555510feb1d7931073d203f0a",
+        "author": "tosko4",
+        "labels": [
+          "app: android",
+          "size: S",
+          "proof: supplied",
+          "proof: sufficient",
+          "P3",
+          "rating: 🐚 platinum hermit",
+          "status: 👀 ready for maintainer look",
+          "proof: 📸 screenshot"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": "automerge-openclaw-openclaw-94539",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94539.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-94539",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94539.md",
+        "mode": "autonomous",
+        "merge_state_status": "CLEAN",
+        "review_decision": "",
+        "checks": {
+          "total": 142,
+          "counts": {
+            "CANCELLED": 13,
+            "SKIPPED": 101,
+            "SUCCESS": 28
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "dispatch:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED"
+          ]
+        }
+      }
+    },
+    {
+      "idempotency_key": "comment-router:openclaw/openclaw:94687:4748352898:2026-06-19T03:53:34Z:automerge",
+      "comment_id": "4748352898",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABGwYdgg",
+      "comment_version_key": "4748352898:2026-06-19T03:53:34Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/94687#issuecomment-4748352898",
+      "repo": "openclaw/openclaw",
+      "issue_number": 94687,
+      "author": "vincentkoc",
+      "author_association": "MEMBER",
+      "comment_created_at": "2026-06-19T03:53:34Z",
+      "comment_updated_at": "2026-06-19T03:53:34Z",
+      "trigger": "slash",
+      "command": "automerge",
+      "intent": "automerge",
+      "autoclose_message": null,
+      "trusted_bot": false,
+      "trusted_bot_author": null,
+      "automation_source": null,
+      "repair_reason": null,
+      "expected_head_sha": null,
+      "finding_id": null,
+      "status": "executed",
+      "actions": [
+        {
+          "action": "ensure_automerge_job",
+          "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687.md",
+          "status": "executed",
+          "mode": "autonomous",
+          "cluster_id": "automerge-openclaw-openclaw-94687",
+          "status_detail": "written"
+        },
+        {
+          "action": "label",
+          "label": "clownfish:automerge",
+          "status": "executed"
+        },
+        {
+          "action": "label",
+          "label": "clawsweeper:automerge",
+          "status": "executed"
+        },
+        {
+          "action": "dispatch_clawsweeper",
+          "workflow": "sweep.yml",
+          "status": "executed",
+          "dispatched_at": "2026-06-19T03:55:38.901Z",
+          "event": "repository_dispatch",
+          "repo": "openclaw/clawsweeper",
+          "item_number": 94687
+        },
+        {
+          "action": "comment",
+          "status": "executed",
+          "commented_at": "2026-06-19T03:55:41.021Z"
+        }
+      ],
+      "author_repository_permission": "admin",
+      "target": {
+        "kind": "pull_request",
+        "title": "fix(gateway): accept port for health and probe",
+        "branch": "bryan/fix-gateway-health-probe-port",
+        "head_sha": "6ba0afbe106c0de2a56c285d765debb4f7c3f767",
+        "author": "bryantegomoh",
+        "labels": [
+          "docs",
+          "gateway",
+          "cli",
+          "commands",
+          "size: M",
+          "proof: supplied",
+          "proof: sufficient",
+          "P2",
+          "rating: 🐚 platinum hermit",
+          "status: 👀 ready for maintainer look"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": "automerge-openclaw-openclaw-94687",
+        "job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687.md",
+        "automerge_cluster_id": "automerge-openclaw-openclaw-94687",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687.md",
+        "mode": "autonomous",
+        "merge_state_status": "CLEAN",
+        "review_decision": "",
+        "checks": {
+          "total": 210,
+          "counts": {
+            "CANCELLED": 8,
+            "SKIPPED": 58,
+            "SUCCESS": 143,
             "NEUTRAL": 1
           },
           "blockers": [
             "auto-response:CANCELLED",
             "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED",
             "Real behavior proof:CANCELLED",
             "Real behavior proof:CANCELLED"
           ]
