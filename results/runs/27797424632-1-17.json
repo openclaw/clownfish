@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-026",
+  "mode": "plan",
+  "run_id": "27797424632-1-17",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-026.md",
+  "published_at": "2026-06-19T00:25:28.114Z",
+  "canonical": "#90227",
+  "canonical_issue": null,
+  "canonical_pr": "#90227",
+  "summary": "Plan-only assessment for open PR #90227. The PR is a small, useful Windows-compatibility test fix, but it is not merge-ready because required merge preflight is incomplete and the current proof gate is failing. Recommend repairing the contributor branch rather than replacing or closing it.",
+  "actions": [
+    {
+      "target": "#90227",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90227",
+      "candidate_fix": "#90227",
+      "reason": "Useful small PR, but merge policy requires proof gate, mergeability, comments/bot-review resolution, Codex /review, and validation evidence before merge_candidate."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-026",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90227",
+      "candidate_fix": "#90227",
+      "reason": "A repair artifact is executable and preserves contributor credit; a merge action is currently blocked by failed proof and missing merge preflight."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90227",
+    "source_refs": [
+      "#90227"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90227 so the Windows-compatible Zalo credentials test change has accepted behavior proof and complete merge preflight. Keep the patch narrow and preserve aniruddhaadak80 as the source contributor.",
+    "pr_title": "test: make zalo credentials tests compatible with Windows",
+    "pr_body": "Repair source PR #90227 by keeping the Zalo credentials test compatibility change narrow, producing accepted real behavior proof, and completing merge preflight. Credit: original source PR by @aniruddhaadak80 at https://github.com/openclaw/openclaw/pull/90227.",
+    "likely_files": [
+      "extensions/zalouser/src/zalo-js.credentials.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/zalouser/src/zalo-js.credentials.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for aniruddhaadak80 as the original author of PR #90227.",
+      "Keep source PR URL https://github.com/openclaw/openclaw/pull/90227 in any repair notes or replacement path if replacement later becomes necessary."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-026.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

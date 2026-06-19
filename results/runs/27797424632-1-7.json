@@ -1,0 +1,99 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-012",
+  "mode": "plan",
+  "run_id": "27797424632-1-7",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-012.md",
+  "published_at": "2026-06-19T00:25:28.124Z",
+  "canonical": "#88681",
+  "canonical_issue": null,
+  "canonical_pr": "#88681",
+  "summary": "#88681 is the only hydrated open PR in this cluster and is the canonical contributor branch for the runtime plugin stall diagnostics work. It is not merge-ready from this artifact because mergeability is unknown and the required merge preflight is incomplete: comments were not hydrated despite 3 comments, no review-bot comments were hydrated, and no Codex /review result is present. Plan a contributor-branch repair/preflight pass rather than replacement or closure.",
+  "actions": [
+    {
+      "target": "#88681",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88681",
+      "candidate_fix": "#88681",
+      "reason": "The PR appears useful and scoped, but the plan artifact lacks the complete merge preflight required to recommend merge. Because maintainer_can_modify=true, the executable path is to repair/preflight the contributor branch and preserve author credit rather than replace it or escalate the whole cluster."
+    },
+    {
+      "target": "#88681",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88681",
+      "candidate_fix": "#88681",
+      "reason": "Create an executable contributor-branch repair artifact so the deterministic fix executor can finish the missing merge-preflight work before any later merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88681",
+    "source_refs": [
+      "#88681",
+      "#87327"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalize contributor PR #88681 by completing the missing merge preflight on the existing maintainer-editable branch. Keep the implementation scope to runtime plugin stall diagnostics: progress snapshots while runtime plugins load, propagation into embedded-agent and cron execution phase reporting, and timeout messages that include attempted/completed/in-flight plugin ids only while the last phase is runtime_plugins.",
+    "pr_title": "Repair runtime plugin stall diagnostics preflight",
+    "pr_body": "This Clownfish repair continues the contributor branch from #88681 by completing merge preflight for runtime plugin stall diagnostics while preserving alexzhu0's authorship and attribution.\n\nScope:\n- Keep Ask #1 from #87327 focused on naming attempted/completed/in-flight runtime plugins during plugin startup stalls.\n- Hydrate and address PR comments/review-bot findings before merge consideration.\n- Run Codex /review and targeted runtime plugin/cron validation.\n\nValidation:\n- pnpm -s vitest run src/plugins/loader.test.ts src/agents/runtime-plugins.test.ts src/cron/isolated-agent/run.runtime-plugins.test.ts src/cron/service/execution-errors.test.ts src/cron/service/timer.regression.test.ts\n- pnpm check:changed\n\nCredit: source PR #88681 by @alexzhu0.",
+    "likely_files": [
+      "src/plugins/loader.ts",
+      "src/plugins/runtime/load-diagnostics.ts",
+      "src/plugins/loader.test.ts",
+      "src/agents/runtime-plugins.ts",
+      "src/agents/runtime-plugins.test.ts",
+      "src/agents/embedded-agent-runner/run.ts",
+      "src/agents/embedded-agent-runner/run/params.ts",
+      "src/cron/isolated-agent/run.ts",
+      "src/cron/isolated-agent/run.runtime-plugins.test.ts",
+      "src/cron/service/execution-errors.ts",
+      "src/cron/service/execution-errors.test.ts",
+      "src/cron/service/timer.regression.test.ts",
+      "src/cron/types.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/plugins/loader.test.ts src/agents/runtime-plugins.test.ts src/cron/isolated-agent/run.runtime-plugins.test.ts src/cron/service/execution-errors.test.ts src/cron/service/timer.regression.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for alexzhu0 as the author of source PR https://github.com/openclaw/openclaw/pull/88681.",
+      "If a maintainer-visible changelog entry is added, credit alexzhu0/source PR #88681."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-012.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

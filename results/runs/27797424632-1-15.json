@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-024",
+  "mode": "plan",
+  "run_id": "27797424632-1-15",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-024.md",
+  "published_at": "2026-06-19T00:25:28.112Z",
+  "canonical": "#81157",
+  "canonical_issue": null,
+  "canonical_pr": "#81157",
+  "summary": "Plan-only assessment for PR #81157. The PR is small, non-security, mergeable, and maintainer-editable, but it is not merge-ready because required merge preflight is incomplete: one behavior-proof check is failing, PR comments were not hydrated, no review-bot comment hydration is available, and no Codex /review proof is present. Recommend repairing the contributor branch before merge consideration.",
+  "actions": [
+    {
+      "target": "#81157",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Repair and complete proof/review gates before any merge recommendation."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-024",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81157",
+      "candidate_fix": "#81157",
+      "reason": "Produce an executable repair plan for the existing contributor PR branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81157",
+    "source_refs": [
+      "#81157",
+      "#69582"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #81157 on the contributor branch by completing the missing validation and review gates for the process tool action validation fix. Do not replace the branch unless repair proves impossible; preserve adone0 as the source contributor.",
+    "pr_title": "fix(agents): reject invalid process.action at the tool invocation boundary",
+    "pr_body": "Repair/finalization plan for Clownfish cluster live-pr-inventory-20260618T170451-024.\n\nSource PR: https://github.com/openclaw/openclaw/pull/81157\nContributor credit: Thanks @adone0 for the original fix; this path preserves attribution while completing the remaining validation gates.\n\nScope:\n- Keep the runtime guard for invalid process.action values in src/agents/bash-tools.process.ts.\n- Keep or adjust the focused malformed-action tests in src/agents/bash-tools.test.ts.\n- Hydrate and address any human or review-bot comments before merge consideration.\n- Recover the failing Real behavior proof gate or document the exact non-code proof blocker.\n\nValidation:\n- pnpm -s vitest run src/agents/bash-tools.test.ts\n- pnpm check:changed\n- Codex /review clean before merge preflight.",
+    "likely_files": [
+      "src/agents/bash-tools.process.ts",
+      "src/agents/bash-tools.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/bash-tools.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/81157",
+      "Contributor credit: adone0 authored the original fix and should remain credited in repaired commits or PR body attribution."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-024.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

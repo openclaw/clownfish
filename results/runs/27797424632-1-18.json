@@ -1,0 +1,101 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-027",
+  "mode": "plan",
+  "run_id": "27797424632-1-18",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "18",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-027.md",
+  "published_at": "2026-06-19T00:25:28.115Z",
+  "canonical": "#92892",
+  "canonical_issue": null,
+  "canonical_pr": "#92892",
+  "summary": "Plan-only assessment: #92892 is the useful canonical repair candidate for the Gemini CLI image-capability fix, but it is not merge-ready because mergeability is unknown, the Real behavior proof check is failing, comments/review-bot preflight is not hydrated, and no Codex /review proof is present. Recommend a bounded contributor-branch repair path that preserves YonganZhang's credit.",
+  "actions": [
+    {
+      "target": "#92892",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "Useful contributor PR should be repaired on its editable branch before any merge recommendation; failing proof and missing merge preflight block merge_candidate."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-027",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "Build an executable repair artifact for Clownfish scripts; do not merge until validation and review gates are complete."
+    },
+    {
+      "target": "#92892",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92892",
+      "candidate_fix": "#92892",
+      "reason": "Plan the guarded fix-PR path as a fallback only after branch repair attempts; no direct worker mutation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92892",
+    "source_refs": [
+      "#92892",
+      "#91739"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair PR #92892 so Gemini CLI image-capable chat models are accepted when catalog metadata is stale or missing image-input metadata, while retaining fail-closed behavior for non-chat Gemini models such as embeddings. The repair must resolve the failing Real behavior proof check and complete merge preflight before any merge recommendation.",
+    "pr_title": "fix(gateway): allow Gemini CLI image-capable models",
+    "pr_body": "## Summary\n- Repair and finalize the focused Gemini CLI image-capability fix from #92892.\n- Treat google-gemini-cli Gemini flash/pro chat models as image-capable when catalog metadata is stale or missing image input.\n- Preserve fail-closed behavior for non-chat Gemini models such as embeddings.\n\n## Credit\nThis carries forward the work from YonganZhang in https://github.com/openclaw/openclaw/pull/92892.\n\n## Validation\n- pnpm format:check src/gateway/session-utils.ts src/gateway/session-utils.test.ts\n- pnpm -s vitest run src/gateway/session-utils.test.ts\n- pnpm check:changed\n- git diff --check\n- Codex /review clean before merge",
+    "likely_files": [
+      "src/gateway/session-utils.ts",
+      "src/gateway/session-utils.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm format:check src/gateway/session-utils.ts src/gateway/session-utils.test.ts",
+      "pnpm -s vitest run src/gateway/session-utils.test.ts",
+      "pnpm check:changed",
+      "git diff --check"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for YonganZhang as the author of source PR https://github.com/openclaw/openclaw/pull/92892.",
+      "If a replacement PR is required, include explicit attribution to YonganZhang and link the source PR in the PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-027.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

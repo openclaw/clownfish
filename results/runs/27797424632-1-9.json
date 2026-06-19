@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-014",
+  "mode": "plan",
+  "run_id": "27797424632-1-9",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-014.md",
+  "published_at": "2026-06-19T00:25:28.126Z",
+  "canonical": "#90885",
+  "canonical_issue": null,
+  "canonical_pr": "#90885",
+  "summary": "Plan-only assessment for one open maintainer-ready PR. #90885 is focused and useful, but not merge-ready because mergeability is unknown, two checks are failing, comments/review comments were not hydrated, and no Codex /review merge proof is present. Recommend repairing the contributor branch.",
+  "actions": [
+    {
+      "target": "#90885",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90885",
+      "candidate_fix": "#90885",
+      "reason": "Useful contributor PR, but merge policy requires clean checks, known mergeability, resolved comments/bot comments, and passed Codex /review."
+    },
+    {
+      "target": "live-pr-inventory-20260618T170451-014",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90885",
+      "candidate_fix": "#90885",
+      "reason": "A bounded repair artifact gives the executor a merge-readiness path without mutating GitHub from plan mode."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90885",
+    "source_refs": [
+      "#90885",
+      "#90340"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90885 so compaction runtime resolves bare compaction model aliases to canonical model refs while preserving literal model-id precedence and provider/auth fallback behavior.",
+    "pr_title": "fix(agent): resolve compaction model alias to canonical model ref",
+    "pr_body": "Repair source PR https://github.com/openclaw/openclaw/pull/90885 by keeping the patch focused on embedded-agent-runner compaction model selection. Preserve Pick-cat attribution, resolve failing checks if branch-caused, hydrate and address comments/review-bot findings, run Codex /review, and rerun pnpm check:changed before any merge recommendation.",
+    "likely_files": [
+      "src/agents/embedded-agent-runner/compaction-runtime-context.ts",
+      "src/agents/embedded-agent-runner/compaction-runtime-context.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "node --import tsx --no-warnings src/agents/embedded-agent-runner/compaction-runtime-context.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve Pick-cat as source contributor for https://github.com/openclaw/openclaw/pull/90885."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-014.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

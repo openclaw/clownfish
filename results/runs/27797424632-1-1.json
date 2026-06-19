@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-005",
+  "mode": "plan",
+  "run_id": "27797424632-1-1",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-005.md",
+  "published_at": "2026-06-19T00:25:28.107Z",
+  "canonical": "#88551",
+  "canonical_issue": null,
+  "canonical_pr": "#88551",
+  "summary": "PR #88551 is the canonical useful contributor fix, but it should not be recommended for merge from this artifact because the merge preflight is incomplete: review comments and bot comments were not hydrated, mergeability is unknown, and no Codex /review pass is present. Plan a maintainer-safe repair/finalization pass on the contributor branch with credit preserved.",
+  "actions": [
+    {
+      "target": "#88551",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88551",
+      "candidate_fix": "#88551",
+      "reason": "Useful narrow contributor PR, but complete merge preflight proof is missing."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260618T170451-005",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#88551",
+      "candidate_fix": "#88551",
+      "reason": "Executable repair artifact is safe and bounded because the source PR is narrow, editable, and already has passing relevant checks."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88551",
+    "source_refs": [
+      "#88551"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair/finalize contributor PR #88551 rather than replace it. The patch already appears narrow and useful; the missing work is live merge readiness proof, review hydration, Codex /review, and any small follow-up edits needed by those gates.",
+    "pr_title": "fix(agents): skip auth gate for CLI-owned transport",
+    "pr_body": "Repair/finalization plan for Clownfish cluster live-pr-inventory-20260618T170451-005:\n\n- Source PR: https://github.com/openclaw/openclaw/pull/88551 by @yu-xin-c\n- Keep the existing narrow contributor patch when possible.\n- Re-fetch live PR state and hydrate human review comments plus review-bot comments.\n- Rebase or refresh the branch only if needed.\n- Run Codex /review and address every actionable finding.\n- Validate with targeted vitest coverage and pnpm check:changed.\n- Preserve attribution to @yu-xin-c in the merge path.",
+    "likely_files": [
+      "src/agents/command/attempt-execution.ts",
+      "src/agents/command/attempt-execution.cli.test.ts",
+      "src/agents/model-fallback.ts",
+      "src/agents/model-fallback.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/command/attempt-execution.cli.test.ts src/agents/model-fallback.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for yu-xin-c as the source PR author.",
+      "Use PR #88551 as the source PR in any finalization or replacement notes if repair unexpectedly becomes impossible."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-005.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

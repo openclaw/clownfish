@@ -1,0 +1,100 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-016",
+  "mode": "plan",
+  "run_id": "27797424632-1-11",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-016.md",
+  "published_at": "2026-06-19T00:25:28.108Z",
+  "canonical": "#90154",
+  "canonical_issue": null,
+  "canonical_pr": "#90154",
+  "summary": "Plan-only result for open PR #90154. The PR is the canonical repair path for this shard, but merge cannot be recommended because the artifact does not contain complete merge preflight proof: mergeability is unknown, the one PR comment was not hydrated, review-bot comments were not hydrated, and no Codex /review result is present. Recommend repairing/finalizing the contributor branch with preserved credit before any merge replay.",
+  "actions": [
+    {
+      "target": "#90154",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90154",
+      "candidate_fix": "#90154",
+      "reason": "Keep #90154 as the canonical contributor PR and run the repair/finalization path. Do not emit merge_candidate until the applicator/executor proves mergeability, hydrates and resolves comments/review-bot findings, runs Codex /review cleanly, and revalidates the narrow gateway test set plus changed-file checks."
+    },
+    {
+      "target": "#90154",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90154",
+      "candidate_fix": "#90154",
+      "reason": "Build an executable repair/finalization artifact for the existing contributor branch rather than opening an unrelated replacement PR from this plan-only worker."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90154",
+    "source_refs": [
+      "#90154",
+      "#72418",
+      "#72419"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair and finalize contributor PR #90154 as the canonical fix for backend self-pairing shared auth. Complete missing merge preflight, address any hydrated comments or review-bot findings, run Codex /review, make only narrow repairs if needed, and preserve coygeek's authorship and source PR credit.",
+    "pr_title": "fix(gateway): restrict backend self-pairing shared auth",
+    "pr_body": "Repair/finalization path for #90154.\n\nSource PR credit: this carries forward coygeek's work from https://github.com/openclaw/openclaw/pull/90154.\n\nScope:\n- Keep the existing #90154 behavior: shared gateway token/password auth should not use the direct-local backend self-pairing exception.\n- Preserve dedicated backend paths for device-token and explicit auth.mode = \"none\" local backend connects.\n- Keep bootstrap-token on the guarded pairing path, matching the concern noted from #72419.\n- Validate the gateway auth tests and pnpm check:changed before merge.\n\nLinked refs: fixes #72418; considers closed context #72419.",
+    "likely_files": [
+      "docs/gateway/security/index.md",
+      "src/gateway/call.test.ts",
+      "src/gateway/call.ts",
+      "src/gateway/probe.auth.integration.test.ts",
+      "src/gateway/server.auth.compat-baseline.test.ts",
+      "src/gateway/server.node-invoke-approval-bypass.test.ts",
+      "src/gateway/server/ws-connection/handshake-auth-helpers.test.ts",
+      "src/gateway/server/ws-connection/handshake-auth-helpers.ts",
+      "src/gateway/server/ws-connection/message-handler.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/gateway/server/ws-connection/handshake-auth-helpers.test.ts",
+      "pnpm -s vitest run src/gateway/server/ws-connection/connect-policy.test.ts",
+      "pnpm -s vitest run src/gateway/server.auth.compat-baseline.test.ts",
+      "pnpm -s vitest run src/gateway/server.node-invoke-approval-bypass.test.ts src/gateway/probe.auth.integration.test.ts src/gateway/server.sessions-send.test.ts src/gateway/call.test.ts src/gateway/server.auth.compat-baseline.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for coygeek.",
+      "Source PR: https://github.com/openclaw/openclaw/pull/90154.",
+      "If a replacement PR becomes necessary after repair attempts, the PR body and any closeout comment must explicitly credit coygeek and identify #90154 as the source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-016.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

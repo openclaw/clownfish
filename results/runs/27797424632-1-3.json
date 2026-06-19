@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260618T170451-007",
+  "mode": "plan",
+  "run_id": "27797424632-1-3",
+  "workflow_run_id": "27797424632",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27797424632",
+  "head_sha": "f6a19612e0eb95c0b06732763aeadec3696ef036",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T00:17:32Z",
+  "workflow_updated_at": "2026-06-19T00:23:11Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-007.md",
+  "published_at": "2026-06-19T00:25:28.120Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": "#88581",
+  "summary": "Plan-only assessment for one open contributor PR. #88581 is a useful non-security feature PR with focused files and passing checks, but it lacks complete merge preflight proof: mergeability is unknown, hydrated issue comments are absent, the prior Codex review is only represented by a summary excerpt, and there is no evidence of a clean current Codex /review. Recommend a repair/preflight pass on the contributor branch rather than merge.",
+  "actions": [
+    {
+      "target": "#88581",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88581",
+      "reason": "Useful contributor PR should be repaired/preflighted on its editable branch before any merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88581",
+    "source_refs": [
+      "#88581",
+      "#54397",
+      "#85502",
+      "#88479",
+      "#88690"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair/preflight the editable contributor branch for #88581 instead of replacing it. The branch is maintainer-editable, focused, already has tests and docs, and has passing CI, but it needs current mergeability, hydrated comment/review-bot resolution, and a clean Codex /review before merge can be recommended.",
+    "pr_title": "Repair /name chat command PR preflight",
+    "pr_body": "Repair/preflight source PR #88581 by BSG2000 for the /name chat command. This should preserve source PR attribution, hydrate and address existing human and bot review feedback, refresh against current main if needed, run a clean Codex /review, and validate with the focused command test plus pnpm check:changed before any merge recommendation.",
+    "likely_files": [
+      "docs/tools/slash-commands.md",
+      "src/auto-reply/commands-registry.shared.ts",
+      "src/auto-reply/reply/commands-handlers.runtime.ts",
+      "src/auto-reply/reply/commands-name.test.ts",
+      "src/auto-reply/reply/commands-name.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/auto-reply/reply/commands-name.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve BSG2000 as the source PR author for #88581.",
+      "If Clownfish needs to push repair commits to the contributor branch or create a replacement PR later, include source PR credit and attribution to https://github.com/openclaw/openclaw/pull/88581."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260618T170451-007.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
