@@ -1,0 +1,196 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-94685-codex-timeout-20260619",
+  "mode": "autonomous",
+  "run_id": "27801992610",
+  "workflow_run_id": "27801992610",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27801992610",
+  "head_sha": "0013de46986afa851794bc90a3a0e3371eb7dd5f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T02:38:38Z",
+  "workflow_updated_at": "2026-06-19T02:58:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-94685-codex-timeout-20260619.md",
+  "published_at": "2026-06-19T02:59:13.705Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94685",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/84569",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94685",
+  "summary": "#94685 remains the canonical repair path for the Codex app-server lane-release slice. It is open, maintainer-editable, narrow, and has proof, but merge is blocked by job policy and the failing `checks-node-core-tooling-docker` check; the worker could not fetch live check logs because GitHub CLI had no token. Plan repair on the existing contributor branch, rerun focused Codex lane recovery proof plus `pnpm check:changed`, and leave related refs open.",
+  "actions": [
+    {
+      "target": "#94685",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94685",
+      "candidate_fix": null,
+      "reason": "Repair existing PR branch before any merge consideration; merge is blocked by job frontmatter and failing docker check."
+    },
+    {
+      "target": "cluster:repair-94685-codex-timeout-20260619",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94685",
+      "candidate_fix": null,
+      "reason": "Create an executable repair plan for #94685 without mutating GitHub directly."
+    },
+    {
+      "target": "#84569",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94685",
+      "candidate_fix": "#94685",
+      "reason": "Related canonical incident, not eligible for closure in this repair-first run."
+    },
+    {
+      "target": "#84578",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94685",
+      "candidate_fix": null,
+      "reason": "Separate related surface; leave open outside this cluster's Codex timeout repair."
+    },
+    {
+      "target": "#94082",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94685",
+      "candidate_fix": null,
+      "reason": "Already merged context ref only."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [
+    "Live GitHub check logs for the failing `checks-node-core-tooling-docker` job were unavailable in this worker because `gh` lacked `GH_TOKEN`; executor should inspect that job log before deciding whether source repair is needed beyond rebasing/rerunning."
+  ],
+  "repair_candidate": {
+    "target": "#94685",
+    "source_refs": [
+      "#94685",
+      "#84569",
+      "#94082",
+      "#84578"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #94685 in place: preserve the contributor's Codex app-server lane-release hook wiring, keep the patch scoped to the Codex attempt and embedded runner lane hooks, diagnose/rerun the failed docker check, and avoid replacement PR creation unless the branch becomes uneditable.",
+    "pr_title": "fix(codex): release timed-out app-server lanes",
+    "pr_body": "## Summary\nRepair #94685 in place so plugin-owned Codex app-server attempts use the same bounded command-lane release contract as native runs when a turn timeout/abort path never settles.\n\nThis keeps @hannesrudolph's source PR (#94685) as the credited implementation path and preserves the narrow Codex lane-release scope for #84569. #94082 remains the native-runner precedent; #84578 is the separate WhatsApp final-error delivery slice.\n\n## Repair Notes\n- Preserve current main behavior outside the lane-release hook wiring.\n- Diagnose the failing `checks-node-core-tooling-docker` job before changing source beyond the timeout cleanup path.\n- Do not broaden into WhatsApp delivery or durable fallback work.\n\n## Verification\n- `pnpm test src/agents/embedded-agent-runner/run.codex-app-server-recovery.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "extensions/codex/src/app-server/run-attempt.ts",
+      "src/agents/embedded-agent-runner/run.ts",
+      "src/agents/embedded-agent-runner/run.codex-app-server-recovery.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/embedded-agent-runner/run.codex-app-server-recovery.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve authorship and credit for @hannesrudolph on #94685.",
+      "PR body should keep the #84569 linkage and note #94082 as the native-runner precedent.",
+      "No CHANGELOG.md edit for this normal repair PR; release-note context belongs in the PR body or squash message."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-94685-codex-timeout-20260619.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "Live GitHub check logs for the failing `checks-node-core-tooling-docker` job were unavailable in this worker because `gh` lacked `GH_TOKEN`; executor should inspect that job log before deciding whether source repair is needed beyond rebasing/rerunning."
+    ],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/94685",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "517c4a48e33a17433b73106c42e137a9e492f5c1",
+      "checkpoint_commits": [
+        "5e5a5d67c9140a6fef405d6bd8769240bb3305d7",
+        "4424fe8db54fc989460e8c148d4d58df18e67ca8",
+        "517c4a48e33a17433b73106c42e137a9e492f5c1"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#94685",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#94685",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
