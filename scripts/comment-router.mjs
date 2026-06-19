@@ -28,6 +28,7 @@ import {
   renderAutomergeJob,
   renderResponse,
   selectCommandCandidates,
+  selectCommentsById,
 } from "./comment-router-core.mjs";
 import {
   appendLedger,
@@ -84,6 +85,7 @@ const maxAutoRepairsPerPr = positiveInteger(
   args["max-auto-repairs-per-pr"] ?? process.env.CLOWNFISH_CLAWSWEEPER_MAX_REPAIRS_PER_PR ?? 5,
   "max-auto-repairs-per-pr",
 );
+const requestedCommentIds = commaSet(args["comment-ids"] ?? process.env.CLOWNFISH_COMMENT_IDS ?? "");
 const lookbackMinutes = positiveInteger(
   args["lookback-minutes"] ?? process.env.CLOWNFISH_COMMENT_LOOKBACK_MINUTES ?? 180,
   "lookback-minutes",
@@ -118,7 +120,15 @@ const ledger = readLedger(ledgerPath());
 const processedCommentVersions = new Set((ledger.commands ?? []).map(commentVersionKey).filter(Boolean));
 const plannedAutoRepairHeads = new Set();
 const collaboratorPermissionCache = new Map();
-const comments = listRecentComments();
+const allComments = listRecentComments();
+const selectedComments = selectCommentsById(allComments, { ids: requestedCommentIds });
+if (selectedComments.missingIds.length > 0) {
+  throw new Error(
+    `requested comment IDs were not found in the scoped feed: ${selectedComments.missingIds.join(", ")}. ` +
+      "Adjust --since/--lookback-minutes or retry after GitHub indexes the comments.",
+  );
+}
+const comments = selectedComments.comments;
 const commandCandidates = selectCommandCandidates(comments, {
   limit: maxComments,
   parse: (comment) => parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots }),
@@ -165,6 +175,8 @@ const report = {
   since,
   execute,
   max_comments: maxComments,
+  requested_comment_ids: [...requestedCommentIds],
+  all_comments_scanned: allComments.length,
   max_autoclose_targets: maxAutocloseTargets,
   scanned_comments: comments.length,
   commands_seen: commands.length,

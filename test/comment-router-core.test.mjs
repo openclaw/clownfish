@@ -17,6 +17,7 @@ import {
   renderAutomergeJob,
   renderResponse,
   selectCommandCandidates,
+  selectCommentsById,
 } from "../scripts/comment-router-core.mjs";
 import { parseSimpleYaml, validateJob } from "../scripts/lib.mjs";
 
@@ -128,6 +129,23 @@ test("selectCommandCandidates caps commands after skipping unrelated comment cha
       { id: "command-2", intent: "fix_ci" },
     ],
   );
+});
+
+test("selectCommentsById scopes execution to an exact comment set", () => {
+  const selected = selectCommentsById(
+    [
+      { id: "100", body: "/clownfish automerge" },
+      { id: "101", body: "/clownfish fix ci" },
+      { id: "102", body: "/clownfish rebase" },
+    ],
+    { ids: new Set(["102", "100", "missing"]) },
+  );
+
+  assert.deepEqual(
+    selected.comments.map((comment) => comment.id),
+    ["100", "102"],
+  );
+  assert.deepEqual(selected.missingIds, ["missing"]);
 });
 
 test("parseTrustedAutomation accepts only trusted ClawSweeper repair signals", () => {

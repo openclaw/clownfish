@@ -138,6 +138,18 @@ export function selectCommandCandidates(comments, { limit, parse } = {}) {
   return selected;
 }
 
+export function selectCommentsById(comments, { ids = new Set() } = {}) {
+  const requested = new Set([...ids].map((id) => String(id).trim()).filter(Boolean));
+  if (requested.size === 0) return { comments: [...(comments ?? [])], missingIds: [] };
+
+  const selected = (comments ?? []).filter((comment) => requested.has(String(comment?.id ?? "").trim()));
+  const found = new Set(selected.map((comment) => String(comment.id).trim()));
+  return {
+    comments: selected,
+    missingIds: [...requested].filter((id) => !found.has(id)),
+  };
+}
+
 export function parseTrustedAutomation(comment, { trustedAuthors = new Set() } = {}) {
   const author = String(comment?.user?.login ?? "").toLowerCase();
   if (!trustedAuthors.has(author)) return null;
