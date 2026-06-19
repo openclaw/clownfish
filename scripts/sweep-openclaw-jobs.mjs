@@ -126,6 +126,18 @@ function classifyJob(jobPath) {
     return { ...row, status: "delete_test_job", reason: "old smoke/test job has a published result and no open clownfish PR" };
   }
   if (!latest) {
+    if (
+      verifyTargetRefsLive &&
+      row.live_target_refs_total > 0 &&
+      row.live_target_refs_missing === 0 &&
+      row.live_target_refs_open > 0
+    ) {
+      return {
+        ...row,
+        status: "keep",
+        reason: "no published run record found, but target issue/PR refs remain open in live GitHub state",
+      };
+    }
     return { ...row, status: "move_to_stuck", reason: "no published run record found" };
   }
   if (needsRequeue(latest)) {

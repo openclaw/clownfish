@@ -126,6 +126,29 @@ test("sweep-openclaw-jobs preserves requeue candidates with open target refs", (
   assert.equal(dryReport.requeue_candidates[0].reason, "latest result has blocked apply actions");
 });
 
+test("sweep-openclaw-jobs keeps unrecorded jobs with open target refs", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "unrecorded-open.md"), {
+    clusterId: "unrecorded-open-cluster",
+    canonical: ["#321"],
+    candidates: ["#321"],
+    clusterRefs: ["#321"],
+  });
+
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(liveRefReport, `${JSON.stringify({ refs: [liveRef(321, "OPEN")] }, null, 2)}\n`);
+
+  const dryRun = sweep(fixture, liveRefReport);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const dryReport = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(dryReport.totals.move_to_stuck ?? 0, 0);
+  assert.equal(dryReport.totals.keep, 1);
+  assert.equal(
+    dryReport.keep_jobs[0].reason,
+    "no published run record found, but target issue/PR refs remain open in live GitHub state",
+  );
+});
+
 test("sweep-openclaw-jobs keeps pushed repairs when only post-flight merge is blocked", () => {
   const fixture = makeFixture();
   writeJob(path.join(fixture.inbox, "pushed-repair.md"), {
