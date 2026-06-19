@@ -16,6 +16,11 @@ require_human_for:
   - security_sensitive
   - active_author_followup
   - broad_code_delta
+allowed_fix_files:
+  - "src/auto-reply/commands-registry.shared.ts"
+  - "src/auto-reply/reply/commands-handlers.runtime.ts"
+  - "src/auto-reply/reply/commands-name.ts"
+  - "src/auto-reply/reply/commands-name.test.ts"
 canonical:
   - "#88581"
 candidates:

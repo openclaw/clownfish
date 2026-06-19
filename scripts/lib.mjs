@@ -330,6 +330,7 @@ export function validateJob(job) {
     "candidates",
     "cluster_refs",
     "maintainer_close_refs",
+    "allowed_fix_files",
   ]) {
     if (fm[key] !== undefined && !Array.isArray(fm[key])) {
       errors.push(`${key} must be a list`);
@@ -353,6 +354,30 @@ export function validateJob(job) {
   for (const ref of fm.maintainer_close_refs ?? []) {
     if (!isGithubRef(ref)) {
       errors.push(`maintainer_close_refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
+    }
+  }
+  if (fm.allowed_fix_files !== undefined) {
+    const seen = new Set();
+    for (const file of fm.allowed_fix_files) {
+      const value = String(file);
+      if (
+        typeof file !== "string" ||
+        !value ||
+        value.startsWith("/") ||
+        value.includes("..") ||
+        value.includes("*") ||
+        value.includes("?") ||
+        value.includes("[") ||
+        value.includes("\\")
+      ) {
+        errors.push(`allowed_fix_files must contain unique literal repo-relative paths: ${file}`);
+        continue;
+      }
+      if (seen.has(value)) {
+        errors.push(`allowed_fix_files must not contain duplicates: ${file}`);
+        continue;
+      }
+      seen.add(value);
     }
   }
   for (const key of [

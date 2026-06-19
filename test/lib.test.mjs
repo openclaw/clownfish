@@ -4,7 +4,13 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { hasDeterministicSecuritySignal, hasSecuritySignalText, renderPrompt } from "../scripts/lib.mjs";
+import {
+  hasDeterministicSecuritySignal,
+  hasSecuritySignalText,
+  parseJob,
+  renderPrompt,
+  validateJob,
+} from "../scripts/lib.mjs";
 
 test("security signal detection ignores non-security advisory wording", () => {
   assert.equal(
@@ -43,6 +49,35 @@ test("deterministic security signals accept labels and structured ClawSweeper ma
     }),
     true,
   );
+});
+
+test("validateJob rejects non-literal allowed_fix_files", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-"));
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: allowed-fix-files
+mode: autonomous
+allowed_actions:
+  - fix
+candidates:
+  - "#1"
+allowed_fix_files:
+  - "src/app.js"
+  - "../escape.js"
+  - "src/*.test.js"
+  - "src/app.js"
+---
+`,
+  );
+
+  assert.deepEqual(validateJob(parseJob(jobPath)), [
+    "allowed_fix_files must contain unique literal repo-relative paths: ../escape.js",
+    "allowed_fix_files must contain unique literal repo-relative paths: src/*.test.js",
+    "allowed_fix_files must not contain duplicates: src/app.js",
+  ]);
 });
 
 test("renderPrompt compacted cluster plan keeps live hydration metadata", () => {

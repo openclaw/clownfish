@@ -26,6 +26,32 @@ test("execute-fix-artifact reserves broad validation and review for the executor
   assert.match(source, /validation_commands in the repository context are executor-managed requirements/);
 });
 
+test("execute-fix-artifact permits surface-heavy artifacts only within a declared file allowlist", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /const artifactWithinDeclaredScope =[\s\S]*?likelyFiles\.every\(\(file\) => allowedFixFiles\.includes\(String\(file\)\)\);/,
+  );
+  assert.match(
+    source,
+    /const tooManySurfaces =\s*\n\s*affectedSurfaces\.length > maxAutonomousFixSurfaces && !artifactWithinDeclaredScope;/,
+  );
+});
+
+test("execute-fix-artifact rejects checkpoint changes outside a declared file allowlist", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /function commitCheckpointIfNeeded\(\{ targetDir, message, trailers = \[\], allowedFixFiles = \[\] \}\) \{[\s\S]*?assertUncommittedPathsWithinAllowedFixFiles\(\{ targetDir, allowedFixFiles \}\);/,
+  );
+  assert.match(
+    source,
+    /throw new Error\(`declared allowed_fix_files excludes uncommitted paths: \$\{outside\.join\(", "\)\}`\);/,
+  );
+});
+
 test("execute-fix-artifact bounds auxiliary GitHub and git subprocesses by the fix deadline", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const workflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
@@ -321,7 +347,7 @@ test("execute-fix-artifact defers a broad scope block only for explicit rebase-o
   assert.match(source, /const rebaseOnlyBlock = validateRebaseOnlyRepair\(\{ job, fixArtifact \}\);/);
   assert.match(
     source,
-    /function executeRepairBranch\(\{ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight \}\)/,
+    /function executeRepairBranch\(\{ fixArtifact, job, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight \}\)/,
   );
   assert.match(source, /if \(!rebased && \(scopeBlock \|\| rebaseOnly\)\)/);
 });

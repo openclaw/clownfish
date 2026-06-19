@@ -319,6 +319,7 @@ try {
     try {
       outcome = executeRepairBranch({
         fixArtifact,
+        job,
         targetDir,
         scopeBlock: deferScopeBlockForRebaseOnlyRepair ? scopeBlock : null,
         rebaseOnly: rebaseOnlyRepair,
@@ -677,8 +678,9 @@ function shouldPromoteNeedsHumanReplacement(fixArtifact, workerResult) {
   return hasReplacementDecision && hasUneditableOrUnsafeSource && hasBlockedFixAction;
 }
 
-function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight }) {
+function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, rebaseOnly = false, ensureCodexWritePreflight }) {
   const baseBranch = String(process.env.CLOWNFISH_FIX_BASE_BRANCH ?? DEFAULT_BASE_BRANCH);
+  const allowedFixFiles = declaredAllowedFixFiles(job);
   const sourcePr = firstSourcePullRequest(fixArtifact);
   noteFixStage("source_pr_rehydration_start", { pull_request: sourcePr.number });
   const pull = fetchPullRequest(sourcePr.number);
@@ -779,6 +781,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
     allowExistingChanges: (rebaseOnly && rebased) || resumedRepairCheckpoint,
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: rebaseOnly,
+    allowedFixFiles,
     pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
@@ -793,6 +796,7 @@ function executeRepairBranch({ fixArtifact, targetDir, scopeBlock = null, rebase
         allowExistingChanges: true,
         allowReviewFixes: false,
         refreshBaseBeforeReview: true,
+        allowedFixFiles,
         pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
       });
       if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
@@ -1148,6 +1152,7 @@ function editValidatePrepareMerge({
   allowExistingChanges = false,
   allowReviewFixes = true,
   refreshBaseBeforeReview = false,
+  allowedFixFiles = [],
   pushCheckpoint = null,
 }) {
   const changedGateBaseline = captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch });
@@ -1172,6 +1177,7 @@ function editValidatePrepareMerge({
         previousSummary,
         repositoryContext,
         changedGateBaseline,
+        allowedFixFiles,
       });
       const summaryPath = path.join(workRoot, `${mode}-codex-summary-${attempt}.md`);
       const timeoutMs = boundedCodexTimeoutMs("Codex fix worker");
@@ -1224,6 +1230,7 @@ function editValidatePrepareMerge({
     targetDir,
     message: fixArtifact.pr_title,
     trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
+    allowedFixFiles,
   });
   if (firstCheckpoint) {
     checkpointCommits.push(firstCheckpoint);
@@ -1247,6 +1254,7 @@ function editValidatePrepareMerge({
             targetDir,
             message: `fix(clownfish): address review for ${result.cluster_id} (${attempt})`,
             trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
+            allowedFixFiles,
           });
           if (checkpoint) {
             checkpointCommits.push(checkpoint);
@@ -1274,6 +1282,7 @@ function editValidatePrepareMerge({
         targetDir,
         message: `fix(clownfish): repair validation for ${result.cluster_id} (${editAttempts})`,
         trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
+        allowedFixFiles,
       });
       if (checkpoint) {
         checkpointCommits.push(checkpoint);
@@ -1290,6 +1299,7 @@ function editValidatePrepareMerge({
     targetDir,
     message: `fix(clownfish): finalize ${result.cluster_id}`,
     trailers: mode === "replacement" ? coAuthorTrailers(contributorCredits) : [],
+    allowedFixFiles,
   });
   if (finalCheckpoint) {
     checkpointCommits.push(finalCheckpoint);
@@ -1313,6 +1323,7 @@ function buildFixPrompt({
   previousSummary,
   repositoryContext,
   changedGateBaseline,
+  allowedFixFiles = [],
 }) {
   const baselineDiagnostics =
     changedGateBaseline?.status === "failed" && changedGateBaseline.report?.eligible
@@ -1344,6 +1355,9 @@ function buildFixPrompt({
     "- do not inspect or print environment variables, credentials, tokens, or secrets;",
     "- do not change auth, approval, sandbox, or trust-boundary semantics unless the artifact explicitly asks for that boundary change;",
     "- exec-adjacent bugs are allowed when the fix is ordinary correctness or hardening and does not redefine the security boundary;",
+    ...(allowedFixFiles.length
+      ? [`- edit only these declared files: ${allowedFixFiles.join(", ")}; do not add, delete, or modify any other path;`]
+      : []),
     "- before returning, verify `git status --porcelain` would show changed files.",
     "",
     `Mode: ${mode}`,
@@ -2371,7 +2385,13 @@ function validateAutonomousFixScope({ job, fixArtifact }) {
   const crossesCore = likelyFiles.some((file) => /^src\//.test(String(file)));
   const crossSurfaceCount = [crossesDocs, crossesConfig, crossesTests, crossesCore].filter(Boolean).length;
   const tooManyFiles = likelyFiles.length > maxAutonomousFixFiles;
-  const tooManySurfaces = affectedSurfaces.length > maxAutonomousFixSurfaces;
+  const allowedFixFiles = declaredAllowedFixFiles(job);
+  const artifactWithinDeclaredScope =
+    allowedFixFiles.length > 0 &&
+    likelyFiles.length > 0 &&
+    likelyFiles.every((file) => allowedFixFiles.includes(String(file)));
+  const tooManySurfaces =
+    affectedSurfaces.length > maxAutonomousFixSurfaces && !artifactWithinDeclaredScope;
   const mixedFeatureScope = likelyFiles.length > 4 && crossSurfaceCount >= 3;
 
   if (!featureSignal || (!tooManyFiles && !tooManySurfaces && !mixedFeatureScope)) return null;
@@ -2385,9 +2405,14 @@ function validateAutonomousFixScope({ job, fixArtifact }) {
       `affected_surfaces=${affectedSurfaces.length}/${maxAutonomousFixSurfaces}`,
       `cross_surface_count=${crossSurfaceCount}`,
       `mixed_feature_scope=${mixedFeatureScope}`,
+      `artifact_within_declared_scope=${artifactWithinDeclaredScope}`,
       `sample_files=${likelyFiles.slice(0, 8).join(", ")}`,
     ],
   };
+}
+
+function declaredAllowedFixFiles(job) {
+  return [...new Set((job.frontmatter.allowed_fix_files ?? []).map((file) => String(file).trim()).filter(Boolean))];
 }
 
 function validateRebaseOnlyRepair({ job, fixArtifact }) {
@@ -3618,13 +3643,30 @@ function fetchDeeperHistory({ targetDir, baseBranch }) {
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
 }
 
-function commitCheckpointIfNeeded({ targetDir, message, trailers = [] }) {
+function commitCheckpointIfNeeded({ targetDir, message, trailers = [], allowedFixFiles = [] }) {
   if (!run("git", ["status", "--porcelain"], { cwd: targetDir }).trim()) return "";
+  assertUncommittedPathsWithinAllowedFixFiles({ targetDir, allowedFixFiles });
   run("git", ["add", "--all"], { cwd: targetDir });
   const args = ["commit", "-m", message];
   for (const trailer of uniqueStrings(trailers)) args.push("-m", trailer);
   run("git", args, { cwd: targetDir });
   return run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
+}
+
+function assertUncommittedPathsWithinAllowedFixFiles({ targetDir, allowedFixFiles }) {
+  if (!allowedFixFiles.length) return;
+  const allowed = new Set(allowedFixFiles);
+  const changed = [
+    ...run("git", ["diff", "--name-only"], { cwd: targetDir }).split("\n"),
+    ...run("git", ["diff", "--cached", "--name-only"], { cwd: targetDir }).split("\n"),
+    ...run("git", ["ls-files", "--others", "--exclude-standard"], { cwd: targetDir }).split("\n"),
+  ]
+    .map((file) => file.trim())
+    .filter(Boolean);
+  const outside = [...new Set(changed)].filter((file) => !allowed.has(file));
+  if (outside.length) {
+    throw new Error(`declared allowed_fix_files excludes uncommitted paths: ${outside.join(", ")}`);
+  }
 }
 
 function currentHead(targetDir) {
