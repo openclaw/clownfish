@@ -202,7 +202,7 @@ export function parseTrustedAutomation(comment, { trustedAuthors = new Set() } =
 }
 
 export function renderResponse(command, dispatched) {
-  const markerId = command.comment_version_key ?? command.comment_id;
+  const markerId = command.response_marker_key ?? command.comment_version_key ?? command.comment_id;
   const marker = `<!-- clownfish-command:${markerId}:${command.intent}:${command.target?.head_sha ?? "na"} -->`;
   if (command.intent === "help") {
     return [
