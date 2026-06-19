@@ -22,6 +22,7 @@ import {
   automergeGateBlockReason,
   automergeClusterId,
   automergeJobPath,
+  automergeReviewedHeadBlockReason,
   buildAutomergeMergeArgs,
   isMaintainerCommandAllowed,
   parseCommand,
@@ -423,17 +424,11 @@ function classifyAutomergePass(command, issue, pull) {
   if (String(issue.state ?? "").toLowerCase() !== "open") return { ...command, status: "skipped", reason: "PR is not open" };
   if (!pull) return { ...command, status: "skipped", reason: "ClawSweeper pass marker is not on a PR" };
   if (!hasLabel(command.target, AUTOMERGE_LABEL)) return { ...command, status: "skipped", reason: "PR is not opted into Clownfish automerge" };
-  if (!command.expected_head_sha || command.expected_head_sha === "unknown") {
-    return { ...command, status: "skipped", reason: "ClawSweeper pass marker must include the reviewed PR head SHA" };
-  }
-  if (
-    command.expected_head_sha &&
-    command.expected_head_sha !== "unknown" &&
-    command.target?.head_sha &&
-    command.expected_head_sha !== command.target.head_sha
-  ) {
-    return { ...command, status: "skipped", reason: "ClawSweeper pass marker targets a stale PR head SHA" };
-  }
+  const reviewedHeadBlock = automergeReviewedHeadBlockReason({
+    expectedHeadSha: command.expected_head_sha,
+    currentHeadSha: command.target?.head_sha,
+  });
+  if (reviewedHeadBlock) return { ...command, status: "skipped", reason: reviewedHeadBlock };
   return {
     ...command,
     status: "ready",
@@ -1032,17 +1027,11 @@ function validateAutomergeReadiness({ command, view, target }) {
   if (view.state && view.state !== "OPEN") return `pull request is ${String(view.state).toLowerCase()}`;
   if (view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? "") !== "main") return "pull request base is not main";
-  if (!command.expected_head_sha || command.expected_head_sha === "unknown") {
-    return "ClawSweeper pass marker must include the reviewed PR head SHA";
-  }
-  if (
-    command.expected_head_sha &&
-    command.expected_head_sha !== "unknown" &&
-    view.headRefOid &&
-    command.expected_head_sha !== view.headRefOid
-  ) {
-    return "ClawSweeper pass marker targets a stale PR head SHA";
-  }
+  const reviewedHeadBlock = automergeReviewedHeadBlockReason({
+    expectedHeadSha: command.expected_head_sha,
+    currentHeadSha: view.headRefOid,
+  });
+  if (reviewedHeadBlock) return reviewedHeadBlock;
   if (view.mergeable !== "MERGEABLE") return `mergeable state is ${view.mergeable || "unknown"}`;
   if (!["CLEAN", "HAS_HOOKS"].includes(String(view.mergeStateStatus ?? ""))) {
     return `merge state status is ${view.mergeStateStatus || "unknown"}`;

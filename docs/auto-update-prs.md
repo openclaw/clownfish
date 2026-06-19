@@ -127,6 +127,11 @@ action:
 <!-- clawsweeper-verdict:needs-human sha=<head-sha> -->
 ```
 
+The `sha` attribute is the reviewed pull request head and must be the full
+40-character Git SHA. Clownfish treats missing, shortened, malformed, or stale
+pass-marker SHAs as non-mergeable, and records the exact blocker instead of
+falling back to an unpinned merge.
+
 Accepted marker actions:
 
 - `fix-required`
