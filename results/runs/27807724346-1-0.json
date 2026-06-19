@@ -1,0 +1,56 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1247-small-dedupe-wave",
+  "mode": "plan",
+  "run_id": "27807724346-1-0",
+  "workflow_run_id": "27807724346",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27807724346",
+  "head_sha": "deb2ac7ddd03604b39c80460a2c07a603f493d82",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T05:38:29Z",
+  "workflow_updated_at": "2026-06-19T05:39:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1247-small-dedupe-wave.md",
+  "published_at": "2026-06-19T05:41:41.649Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan mode only. #40945 is explicitly security-sensitive in the hydrated preflight artifact and should be routed to central OpenClaw security handling. #94466 is non-security and related to the same broad image/WebChat area, but it describes a distinct native Mac App MEDIA open/download regression rather than the remote markdown image rendering behavior in #40945, so no duplicate closeout is planned.",
+  "actions": [
+    {
+      "target": "#40945",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated items are out of scope for Clownfish dedupe cleanup and must be routed without close, label, comment, merge, or fix actions."
+    },
+    {
+      "target": "#94466",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#40945",
+      "candidate_fix": null,
+      "reason": "Same broad WebChat image handling area, but the affected surface and user-visible failure differ enough that #94466 should not be closed as a duplicate of the quarantined #40945."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,66 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1050-small-dedupe-wave",
+  "mode": "plan",
+  "run_id": "27807724346-1-2",
+  "workflow_run_id": "27807724346",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27807724346",
+  "head_sha": "deb2ac7ddd03604b39c80460a2c07a603f493d82",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-19T05:38:29Z",
+  "workflow_updated_at": "2026-06-19T05:39:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1050-small-dedupe-wave.md",
+  "published_at": "2026-06-19T05:41:41.650Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode classification only. #61009 is the only open item and is explicitly security-sensitive in the preflight artifact, so it is routed to central security handling. #87213 and #92141 are already closed in live preflight state and must not receive close actions. No live non-security canonical remains in this cluster.",
+  "actions": [
+    {
+      "target": "#61009",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is outside ProjectClownfish cleanup scope and should be routed to central OpenClaw security handling without closing, labeling, commenting, merging, or fixing."
+    },
+    {
+      "target": "#87213",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in live preflight state; no mutation is valid. It is related context, not a live duplicate closeout target."
+    },
+    {
+      "target": "#92141",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Historical canonical representative is already closed. No open non-security item in this cluster should replace it as live canonical."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
