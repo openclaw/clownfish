@@ -7,6 +7,17 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
+test("codex result schema requires every action property for strict response formatting", () => {
+  const schema = JSON.parse(fs.readFileSync(path.join(repoRoot, "schemas/codex-result.schema.json"), "utf8"));
+  const actionSchema = schema.properties.actions.items;
+
+  assert.deepEqual(
+    [...actionSchema.required].sort(),
+    Object.keys(actionSchema.properties).sort(),
+    "OpenAI strict response schemas require every action property to be listed in required",
+  );
+});
+
 test("review-results fails worker infrastructure auth blocks", () => {
   const dir = makeResultDir({
     status: "blocked",
@@ -20,6 +31,21 @@ test("review-results fails worker infrastructure auth blocks", () => {
   assert.notEqual(result.status, 0);
   assert.match(result.stdout, /worker infrastructure blocked/);
   assert.match(result.stdout, /401 Unauthorized/);
+});
+
+test("review-results fails response-format schema blocks", () => {
+  const dir = makeResultDir({
+    status: "blocked",
+    summary:
+      "Invalid schema for response_format 'codex_output_schema': In context=('properties', 'actions', 'items'), 'required' is required to be supplied and include every key in properties.",
+    needs_human: ["invalid_json_schema"],
+  });
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /worker infrastructure blocked/);
+  assert.match(result.stdout, /Invalid schema for response_format/);
 });
 
 test("review-results fails explicit worker failed status", () => {
