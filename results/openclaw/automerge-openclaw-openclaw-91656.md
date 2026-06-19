@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-91656"
 mode: "autonomous"
-run_id: "27809120098"
-workflow_run_id: "27809120098"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27809120098"
-head_sha: "7b098933c29cc0ac8d160e5b666058b97ab63065"
+run_id: "27809309357"
+workflow_run_id: "27809309357"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27809309357"
+head_sha: "f6bd14630ee6b9b0b68aa12df0df2d8a503afd24"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-19T06:20:42.237Z"
-canonical: "#91656"
-canonical_issue: "#91654"
-canonical_pr: "#91656"
-actions_total: 3
+published_at: "2026-06-19T06:29:09.658Z"
+canonical: "https://github.com/openclaw/openclaw/pull/91656"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/91654"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/91656"
+actions_total: 4
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,28 +26,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27809120098](https://github.com/openclaw/clownfish/actions/runs/27809120098)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27809309357](https://github.com/openclaw/clownfish/actions/runs/27809309357)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #91656
+Canonical: https://github.com/openclaw/openclaw/pull/91656
 
 ## Summary
 
-Automerge repair should stay on source PR #91656. The hydrated PR is open, maintainer_can_modify is true, and the actionable ClawSweeper finding is test-only: refresh the expanded parseAbsoluteTimeMs coverage so it matches current main's strict ISO parser from merged #93903. No close or merge actions are planned because the job blocks both.
+PR #91656 is the editable canonical repair path for the cron parser coverage issue. It is not merge-ready because the latest ClawSweeper review flags at least one test expectation that conflicts with current main's strict ISO parser behavior, so the next deterministic action is a bounded repair of the contributor branch, not merge or close.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 4 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -63,28 +63,29 @@ Automerge repair should stay on source PR #91656. The hydrated PR is open, maint
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
+    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair source PR #91656 in place by updating the expanded parseAbsoluteTimeMs tests to match current main's strict ISO absolute timestamp contract. The repair should keep the change test-only, remove or invert any expectation that unpadded/non-strict ISO-like strings such as 2024-1-15 parse successfully, and preserve SpecialLeon's contributor branch and attribution.",
-  "pr_title": "test(cron): expand parseAbsoluteTimeMs coverage for strict ISO parsing",
-  "pr_body": "## Summary\n- Repair Clownfish automerge source PR #91656 in place.\n- Keep the parseAbsoluteTimeMs expansion test-only.\n- Align invalid/non-strict ISO expectations with current main after #93903.\n\n## Credit\nSource PR: https://github.com/openclaw/openclaw/pull/91656 by @SpecialLeon. Clownfish repair preserves attribution and keeps the branch narrow.\n\n## Verification\n- node scripts/run-vitest.mjs src/cron/parse.test.ts\n- node scripts/crabbox-wrapper.mjs run -- env OPENCLAW_CHECK_CHANGED_REMOTE_CHILD=1 OPENCLAW_CHANGED_LANES_RAW_SYNC=1 corepack pnpm check:changed",
+  "summary": "Repair contributor PR #91656 in place by aligning the expanded parseAbsoluteTimeMs tests with current main's strict ISO absolute timestamp contract. The likely repair is to change any valid-case expectation for malformed non-padded dates such as 2024-1-15 to expect null, or remove it from the valid table, while preserving the broader valid coverage for canonical ISO dates, UTC indicators, offsets, fractional seconds, and whitespace handling.",
+  "pr_title": "test(cron): expand parseAbsoluteTimeMs test coverage to 39 cases",
+  "pr_body": "## Summary\n- Repair contributor PR #91656 in place after ClawSweeper review.\n- Keep the expanded `parseAbsoluteTimeMs` coverage, but align malformed ISO-like date expectations with current main's strict parser behavior from #93903.\n- Expected code surface stays test-only: `src/cron/parse.test.ts`.\n\n## Credit\nThis continues SpecialLeon's source PR #91656 for the linked coverage request #91654.\n\n## Verification\n- `node scripts/run-vitest.mjs src/cron/parse.test.ts`\n- `pnpm check:changed`",
   "likely_files": [
     "src/cron/parse.test.ts"
   ],
   "validation_commands": [
     "node scripts/run-vitest.mjs src/cron/parse.test.ts",
-    "node scripts/crabbox-wrapper.mjs run -- env OPENCLAW_CHECK_CHANGED_REMOTE_CHILD=1 OPENCLAW_CHANGED_LANES_RAW_SYNC=1 corepack pnpm check:changed"
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Source PR and contributor credit stay with @SpecialLeon: https://github.com/openclaw/openclaw/pull/91656.",
-    "Repair should preserve the original test-coverage intent from #91654 while aligning with the stricter parser behavior merged in #93903."
+    "Repair the existing contributor branch for #91656; preserve SpecialLeon as the source PR author and keep the original PR URL in the final proof.",
+    "No changelog entry required because the intended repair is test-only and does not change user-visible runtime behavior."
   ],
   "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-91656.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -92,27 +93,28 @@ Automerge repair should stay on source PR #91656. The hydrated PR is open, maint
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/91656 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #91656 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #91656 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91656 | build_fix_artifact | planned | canonical | Repair the contributor branch rather than open a replacement: the PR is test-only, open, focused, and maintainer-editable; the needed change is bounded to src/cron/parse.test.ts. |
-| #91654 | keep_related | planned | fixed_by_candidate | The issue is covered by the repaired #91656 path, but it must remain open until a maintainer-owned close path exists after merge. |
-| #93903 | keep_closed | skipped | related | Historical merged context only; no action is needed on the closed PR. |
+| #91656 | fix_needed | planned | canonical | Repair the contributor branch so the expanded test coverage matches the strict parser behavior already present on main. |
+| cluster:automerge-openclaw-openclaw-91656 | build_fix_artifact | planned |  | Create an executable repair plan for the current #91656 head before ClawSweeper re-review. |
+| #91654 | keep_related | planned | fixed_by_candidate | Keep the linked coverage issue open and related to the canonical PR repair path. |
+| #93903 | keep_closed | skipped | related | Closed historical context only; use it as behavior evidence for repairing #91656. |
 
 ## Needs Human
 
