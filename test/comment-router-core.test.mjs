@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  AUTOMERGE_OPT_IN_LABELS,
   AUTOCLOSE_INTENTS,
   MERGE_INTENTS,
   REPAIR_INTENTS,
@@ -60,6 +61,10 @@ test("parseCommand recognizes maintainer slash commands", () => {
 test("autoclose reason parser preserves maintainer wording", () => {
   assert.equal(autocloseReasonFromCommand("autoclose We don't want this feature"), "We don't want this feature");
   assert.equal(autocloseReasonFromCommand("autoclose"), "");
+});
+
+test("automerge opt-in labels bridge Clownfish and ClawSweeper", () => {
+  assert.deepEqual(AUTOMERGE_OPT_IN_LABELS, ["clownfish:automerge", "clawsweeper:automerge"]);
 });
 
 test("automerge job helpers create stable adopted PR job identity", () => {
