@@ -1,0 +1,148 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-84028",
+  "mode": "autonomous",
+  "run_id": "27867197555",
+  "workflow_run_id": "27867197555",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27867197555",
+  "head_sha": "8ab4d140bd398f3809697c401ff9a1bc5fe6f7e2",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-20T09:36:12Z",
+  "workflow_updated_at": "2026-06-20T10:03:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84028.md",
+  "published_at": "2026-06-20T10:04:28.627Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/84028",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/84028",
+  "summary": "PR #84028 is the canonical automerge candidate, but the hydrated ClawSweeper comment and live PR metadata show it is dirty/conflicting. The branch is safe to repair because maintainer_can_modify is true, the diff is narrow, and the only actionable blocker is refresh/rebase of generated Arabic i18n output against current main.",
+  "actions": [
+    {
+      "target": "#84028",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84028",
+      "candidate_fix": "#84028",
+      "reason": "Automerge is blocked by conflicts/dirty state, but the contributor branch is editable and the repair scope is bounded to generated Arabic i18n refresh plus validation."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-84028",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#84028",
+      "candidate_fix": "#84028",
+      "reason": "A complete executable repair artifact is available and allowed by the job's fix/raise_pr permissions."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#84028",
+    "source_refs": [
+      "#84028"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #84028 by refreshing the Arabic Control UI translation generated files against current main, preserving the PR's intended Arabic translations and glossary alignment while resolving the dirty/conflicting merge state.",
+    "pr_title": "fix(ui): improve Arabic Control UI translations",
+    "pr_body": "What Problem This Solves\n\nArabic Control UI strings still show English fallbacks or inconsistent terminology across Skills, chat, browser/tool profile labels, and Cron empty states.\n\nWhy This Change Was Made\n\nThis repairs contributor PR #84028 by refreshing the Arabic locale, translation memory, and glossary against current main so the branch is mergeable while preserving @aim9sour's translation work and glossary choice for Skills -> المهارات.\n\nUser Impact\n\nArabic users see localized Control UI labels in the affected Skills, chat, and Cron surfaces instead of English fallback text.\n\nEvidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/84028 by @aim9sour.\n- Hydrated ClawSweeper review found the patch quality/proof sufficient but blocked merge because the head is CONFLICTING/DIRTY.\n- Current main still contains English fallback strings in ui/src/i18n/locales/ar.ts.\n- Validation to run after repair: pnpm ui:i18n:sync, pnpm ui:i18n:check, pnpm check:changed.",
+    "likely_files": [
+      "ui/src/i18n/locales/ar.ts",
+      "ui/src/i18n/.i18n/glossary.ar.json",
+      "ui/src/i18n/.i18n/ar.tm.jsonl"
+    ],
+    "validation_commands": [
+      "pnpm ui:i18n:sync",
+      "pnpm ui:i18n:check",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/84028, authored by @aim9sour.",
+      "Preserve @aim9sour as the source PR author and keep the PR body credit intact; this is a branch repair, not a replacement."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84028.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "fix execution deadline exceeded before Codex /review; 101866ms remains, 90000ms reserved for report upload",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": "https://github.com/openclaw/openclaw/pull/84028",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix execution deadline exceeded before Codex /review; 101866ms remains, 90000ms reserved for report upload",
+      "commit": "2a332c7d8395e766f20d76ed1494d8c61011f342",
+      "checkpoint_commits": [
+        "7c9935ce89d727e5b3d07784148a95d7ab4eed39",
+        "2a332c7d8395e766f20d76ed1494d8c61011f342"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#84028",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

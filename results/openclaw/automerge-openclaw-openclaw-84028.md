@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-84028"
 mode: "autonomous"
-run_id: "27813721193"
-workflow_run_id: "27813721193"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27813721193"
-head_sha: "241c318ecbd41754be08ba6578a28a48d4fc1efc"
+run_id: "27867197555"
+workflow_run_id: "27867197555"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27867197555"
+head_sha: "8ab4d140bd398f3809697c401ff9a1bc5fe6f7e2"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-19T08:09:42.273Z"
-canonical: "#84028"
+published_at: "2026-06-20T10:04:28.627Z"
+canonical: "https://github.com/openclaw/openclaw/pull/84028"
 canonical_issue: null
-canonical_pr: "#84028"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/84028"
 actions_total: 2
-fix_executed: 0
-fix_failed: 0
-fix_blocked: 0
+fix_executed: 1
+fix_failed: 1
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -26,26 +26,26 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27813721193](https://github.com/openclaw/clownfish/actions/runs/27813721193)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27867197555](https://github.com/openclaw/clownfish/actions/runs/27867197555)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #84028
+Canonical: https://github.com/openclaw/openclaw/pull/84028
 
 ## Summary
 
-PR #84028 is the canonical automerge candidate, but the latest ClawSweeper review reports the branch as conflicting/dirty and asks for a refresh against current main before it can proceed. Because maintainer_can_modify is true and fix PRs are allowed while merge/close are blocked, plan a bounded contributor-branch repair artifact.
+PR #84028 is the canonical automerge candidate, but the hydrated ClawSweeper comment and live PR metadata show it is dirty/conflicting. The branch is safe to repair because maintainer_can_modify is true, the diff is narrow, and the only actionable blocker is refresh/rebase of generated Arabic i18n output against current main.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 2 |
-| Fix executed | 0 |
-| Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix executed | 1 |
+| Fix failed | 1 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -61,31 +61,32 @@ PR #84028 is the canonical automerge candidate, but the latest ClawSweeper revie
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
+    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair source PR #84028 by refreshing the Arabic Control UI locale bundle, Arabic translation memory, and Arabic glossary against current main, resolving the ClawSweeper-reported conflicting/dirty branch state without expanding the PR scope.",
-  "pr_title": "fix(ui): refresh Arabic Control UI translations",
-  "pr_body": "Repair for Clownfish automerge candidate #84028.\n\nSource PR: https://github.com/openclaw/openclaw/pull/84028\nOriginal contributor: @aim9sour\n\nScope:\n- Refresh the Arabic Control UI locale strings against current main.\n- Keep the Arabic translation memory and glossary aligned with the refreshed locale bundle.\n- Do not expand beyond the files already touched by #84028 unless the rebase requires a narrow generated-sync adjustment.\n\nValidation:\n- pnpm check:changed\n- pnpm -s vitest run ui/src/i18n\n\nCredit: this repair preserves attribution for @aim9sour and keeps #84028 as the canonical source PR.",
+  "summary": "Repair contributor PR #84028 by refreshing the Arabic Control UI translation generated files against current main, preserving the PR's intended Arabic translations and glossary alignment while resolving the dirty/conflicting merge state.",
+  "pr_title": "fix(ui): improve Arabic Control UI translations",
+  "pr_body": "What Problem This Solves\n\nArabic Control UI strings still show English fallbacks or inconsistent terminology across Skills, chat, browser/tool profile labels, and Cron empty states.\n\nWhy This Change Was Made\n\nThis repairs contributor PR #84028 by refreshing the Arabic locale, translation memory, and glossary against current main so the branch is mergeable while preserving @aim9sour's translation work and glossary choice for Skills -> المهارات.\n\nUser Impact\n\nArabic users see localized Control UI labels in the affected Skills, chat, and Cron surfaces instead of English fallback text.\n\nEvidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/84028 by @aim9sour.\n- Hydrated ClawSweeper review found the patch quality/proof sufficient but blocked merge because the head is CONFLICTING/DIRTY.\n- Current main still contains English fallback strings in ui/src/i18n/locales/ar.ts.\n- Validation to run after repair: pnpm ui:i18n:sync, pnpm ui:i18n:check, pnpm check:changed.",
   "likely_files": [
     "ui/src/i18n/locales/ar.ts",
-    "ui/src/i18n/.i18n/ar.tm.jsonl",
-    "ui/src/i18n/.i18n/glossary.ar.json"
+    "ui/src/i18n/.i18n/glossary.ar.json",
+    "ui/src/i18n/.i18n/ar.tm.jsonl"
   ],
   "validation_commands": [
-    "pnpm check:changed",
-    "pnpm -s vitest run ui/src/i18n"
+    "pnpm ui:i18n:sync",
+    "pnpm ui:i18n:check",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve contributor credit for aim9sour as the author of source PR #84028.",
-    "Keep source PR https://github.com/openclaw/openclaw/pull/84028 as the canonical PR instead of replacing it, because maintainer_can_modify is true.",
-    "If a replacement becomes necessary later, the replacement PR body must credit aim9sour and link #84028 as the source PR."
+    "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/84028, authored by @aim9sour.",
+    "Preserve @aim9sour as the source PR author and keep the PR body credit intact; this is a branch repair, not a replacement."
   ],
   "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-84028.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "executed",
+  "terminal": true
 }
 ```
 
@@ -93,7 +94,9 @@ PR #84028 is the canonical automerge candidate, but the latest ClawSweeper revie
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | failed |  |  | fix execution deadline exceeded before Codex /review; 101866ms remains, 90000ms reserved for report upload |
+| repair_contributor_branch | blocked | https://github.com/openclaw/openclaw/pull/84028 |  | fix execution deadline exceeded before Codex /review; 101866ms remains, 90000ms reserved for report upload |
+| automerge_repair_outcome_comment | executed | #84028 |  |  |
 
 ## Apply Actions
 
@@ -111,8 +114,8 @@ PR #84028 is the canonical automerge candidate, but the latest ClawSweeper revie
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #84028 | keep_canonical | planned | canonical | This is the maintainer-selected automerge PR and remains the canonical path, but merge is out of scope for this worker. |
-| cluster:automerge-openclaw-openclaw-84028 | build_fix_artifact | planned |  | A narrow contributor-branch repair is executable and preserves the original PR and author credit. |
+| #84028 | fix_needed | planned | canonical | Automerge is blocked by conflicts/dirty state, but the contributor branch is editable and the repair scope is bounded to generated Arabic i18n refresh plus validation. |
+| cluster:automerge-openclaw-openclaw-84028 | build_fix_artifact | planned |  | A complete executable repair artifact is available and allowed by the job's fix/raise_pr permissions. |
 
 ## Needs Human
 
