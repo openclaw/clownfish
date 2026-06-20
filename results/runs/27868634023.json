@@ -1,0 +1,187 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-85899",
+  "mode": "autonomous",
+  "run_id": "27868634023",
+  "workflow_run_id": "27868634023",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27868634023",
+  "head_sha": "6446bd3d1d39bd5ffbad40cf962ce06681d50760",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-20T10:38:46Z",
+  "workflow_updated_at": "2026-06-20T10:40:54Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-85899.md",
+  "published_at": "2026-06-20T10:41:34.421Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/85899",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/85899",
+  "summary": "Canonical PR #85899 is the maintainer-opted automerge candidate. It is useful, narrow, non-security, and maintainer-editable, but it is not merge-ready because the hydrated PR state is dirty against main. Plan a repair of the contributor branch, then rerun review and changed checks. No close or merge actions are planned because the job blocks both.",
+  "actions": [
+    {
+      "target": "#85899",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Repair the canonical contributor PR branch because it is the narrow opted-in fix path and only needs rebase/review validation before the applicator can consider final merge routing."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-85899",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Automerge job allows fix and raise_pr, blocks merge/close, and requires a contributor-branch repair artifact when the useful canonical PR is stale or dirty."
+    },
+    {
+      "target": "#60048",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Same memory docs area, different deliverable and unresolved review findings; keep open outside this cluster."
+    },
+    {
+      "target": "#72748",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#81802",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Closed merged runtime fix, independent of this docs repair cluster."
+    },
+    {
+      "target": "#86701",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Closed merged runtime fix, independent of this docs repair cluster."
+    },
+    {
+      "target": "#92745",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#85899",
+      "candidate_fix": null,
+      "reason": "Closed merged diagnostic fix, independent of this docs repair cluster."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "blocked": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#85899",
+    "source_refs": [
+      "#85899",
+      "#60048",
+      "#72748",
+      "#81802",
+      "#86701",
+      "#92745"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #85899 by rebasing/updating its maintainer-editable branch against current main, preserving the narrow recursive `memory/**/*.md` docs and descriptor alignment, then rerun changed checks and a fresh review. Do not merge from this worker result.",
+    "pr_title": "docs(memory): align descriptors and docs with recursive memory/**/*.md",
+    "pr_body": "What Problem This Solves\n\nThe memory runtime already indexes nested files under `memory/`, but several user-facing tool descriptions and docs still say `memory/*.md`. That flat-glob wording can mislead agents and users into thinking nested daily memory files are not searched.\n\nWhy This Change Was Made\n\nThis repairs the existing maintainer-editable contributor PR #85899 rather than replacing it. Current main still recursively lists memory files through `packages/memory-host-sdk/src/host/internal.ts`, while descriptors/docs on main still contain stale `memory/*.md` wording. The branch only needs to be refreshed against current main and revalidated.\n\nUser Impact\n\nUsers and agents see consistent recursive `memory/**/*.md` wording for memory search/get behavior without any runtime behavior change.\n\nEvidence\n\n- Source proof: `collectMemoryFilesFromDir` recursively walks `memory/` and `listMemoryFiles` calls it for the default memory directory and directory extraPaths.\n- Hydrated PR #85899 proof: Real behavior proof, check-docs, check-lint, check-test-types, check-dependencies, and security-fast are passing on the preflight artifact, but the PR is dirty against main.\n- Required executor validation: `pnpm docs:list`, `pnpm check:changed`, and fresh Codex/ClawSweeper review before any merge routing.\n\nCredit\n\nThis repair carries forward @leafbird's source PR: https://github.com/openclaw/openclaw/pull/85899.",
+    "likely_files": [
+      "extensions/memory-core/index.ts",
+      "extensions/memory-core/src/tools.ts",
+      "extensions/memory-core/src/prompt-section.ts",
+      "src/config/schema.help.ts",
+      "docs/concepts/memory-builtin.md",
+      "docs/concepts/memory.md",
+      "docs/concepts/system-prompt.md",
+      "docs/gateway/config-agents.md",
+      "docs/reference/token-use.md",
+      "docs/.generated/config-baseline.sha256"
+    ],
+    "validation_commands": [
+      "pnpm docs:list",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve original PR credit for @leafbird from https://github.com/openclaw/openclaw/pull/85899.",
+      "Keep @steipete co-author attribution already present on the current PR head if the rebase retains that commit or equivalent change.",
+      "No changelog entry is required for this docs/descriptor wording repair."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-85899.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#85899",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -2,20 +2,20 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-85899"
 mode: "autonomous"
-run_id: "27809116088"
-workflow_run_id: "27809116088"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27809116088"
-head_sha: "7b098933c29cc0ac8d160e5b666058b97ab63065"
+run_id: "27868634023"
+workflow_run_id: "27868634023"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27868634023"
+head_sha: "6446bd3d1d39bd5ffbad40cf962ce06681d50760"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-19T06:19:57.432Z"
-canonical: "#85899"
+published_at: "2026-06-20T10:41:34.421Z"
+canonical: "https://github.com/openclaw/openclaw/pull/85899"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/85899"
-actions_total: 4
-fix_executed: 0
+actions_total: 7
+fix_executed: 1
 fix_failed: 0
-fix_blocked: 0
+fix_blocked: 1
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
@@ -26,26 +26,26 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27809116088](https://github.com/openclaw/clownfish/actions/runs/27809116088)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27868634023](https://github.com/openclaw/clownfish/actions/runs/27868634023)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #85899
+Canonical: https://github.com/openclaw/openclaw/pull/85899
 
 ## Summary
 
-PR #85899 is the canonical automerge candidate and should be repaired by refreshing the contributor branch against current main. It is open, maintainer-editable, non-security for this run, already has real behavior proof and relevant checks passing, but the preflight reports mergeable_state=dirty and ClawSweeper paused on branch refresh/conflict work.
+Canonical PR #85899 is the maintainer-opted automerge candidate. It is useful, narrow, non-security, and maintainer-editable, but it is not merge-ready because the hydrated PR state is dirty against main. Plan a repair of the contributor branch, then rerun review and changed checks. No close or merge actions are planned because the job blocks both.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
-| Fix executed | 0 |
+| Worker actions | 7 |
+| Fix executed | 1 |
 | Fix failed | 0 |
-| Fix blocked | 0 |
+| Fix blocked | 1 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
@@ -58,17 +58,20 @@ PR #85899 is the canonical automerge candidate and should be repaired by refresh
   "target": "#85899",
   "source_refs": [
     "#85899",
+    "#60048",
     "#72748",
-    "#81802"
+    "#81802",
+    "#86701",
+    "#92745"
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair PR #85899 by refreshing leafbird/docs/memory-recursive-wording onto current main and resolving only conflicts in the existing wording/docs/config-baseline changes. Do not broaden runtime scope, do not merge, and do not close related refs.",
+  "summary": "Repair contributor PR #85899 by rebasing/updating its maintainer-editable branch against current main, preserving the narrow recursive `memory/**/*.md` docs and descriptor alignment, then rerun changed checks and a fresh review. Do not merge from this worker result.",
   "pr_title": "docs(memory): align descriptors and docs with recursive memory/**/*.md",
-  "pr_body": "## Summary\n- Refreshes the existing maintainer-editable source PR branch for #85899 onto current main.\n- Keeps the patch scoped to recursive `memory/**/*.md` wording in memory-core descriptors, prompt/config help, public docs, and generated config-baseline metadata.\n- Preserves @leafbird attribution from source PR #85899 and the split-out source work in #72748.\n\n## Verification\n- `pnpm docs:list`\n- `pnpm config:docs:gen`\n- `git diff --check`\n- `node scripts/run-vitest.mjs extensions/memory-core/src/tools.test.ts`",
+  "pr_body": "What Problem This Solves\n\nThe memory runtime already indexes nested files under `memory/`, but several user-facing tool descriptions and docs still say `memory/*.md`. That flat-glob wording can mislead agents and users into thinking nested daily memory files are not searched.\n\nWhy This Change Was Made\n\nThis repairs the existing maintainer-editable contributor PR #85899 rather than replacing it. Current main still recursively lists memory files through `packages/memory-host-sdk/src/host/internal.ts`, while descriptors/docs on main still contain stale `memory/*.md` wording. The branch only needs to be refreshed against current main and revalidated.\n\nUser Impact\n\nUsers and agents see consistent recursive `memory/**/*.md` wording for memory search/get behavior without any runtime behavior change.\n\nEvidence\n\n- Source proof: `collectMemoryFilesFromDir` recursively walks `memory/` and `listMemoryFiles` calls it for the default memory directory and directory extraPaths.\n- Hydrated PR #85899 proof: Real behavior proof, check-docs, check-lint, check-test-types, check-dependencies, and security-fast are passing on the preflight artifact, but the PR is dirty against main.\n- Required executor validation: `pnpm docs:list`, `pnpm check:changed`, and fresh Codex/ClawSweeper review before any merge routing.\n\nCredit\n\nThis repair carries forward @leafbird's source PR: https://github.com/openclaw/openclaw/pull/85899.",
   "likely_files": [
     "extensions/memory-core/index.ts",
     "extensions/memory-core/src/tools.ts",
@@ -83,21 +86,19 @@ PR #85899 is the canonical automerge candidate and should be repaired by refresh
   ],
   "validation_commands": [
     "pnpm docs:list",
-    "pnpm config:docs:gen",
-    "git diff --check",
-    "node scripts/run-vitest.mjs extensions/memory-core/src/tools.test.ts"
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve @leafbird credit for source PR #85899.",
-    "Mention #72748 as the broader source PR that was split down to this wording-only repair.",
-    "No CHANGELOG.md edit for this normal docs/descriptors repair."
+    "Preserve original PR credit for @leafbird from https://github.com/openclaw/openclaw/pull/85899.",
+    "Keep @steipete co-author attribution already present on the current PR head if the rebase retains that commit or equivalent change.",
+    "No changelog entry is required for this docs/descriptor wording repair."
   ],
   "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-85899.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "executed",
+  "terminal": true
 }
 ```
 
@@ -105,7 +106,8 @@ PR #85899 is the canonical automerge candidate and should be repaired by refresh
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| execute_fix | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 |
+| automerge_repair_outcome_comment | executed | #85899 |  |  |
 
 ## Apply Actions
 
@@ -123,10 +125,13 @@ PR #85899 is the canonical automerge candidate and should be repaired by refresh
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #72748 | keep_closed | skipped | superseded | Historical source PR only; no mutation planned. |
-| #81802 | keep_closed | skipped | related | Related landed context, not an active candidate for this repair cluster. |
-| #85899 | fix_needed | planned | canonical | Allowed fix path exists: repair the maintainer-editable contributor branch, keep scope to branch refresh and any conflict resolution needed for the existing docs/descriptors change. |
-| #85899 | build_fix_artifact | planned | canonical | Executable repair artifact should refresh the contributor branch and rerun narrow docs/config validation. |
+| #85899 | fix_needed | planned | canonical | Repair the canonical contributor PR branch because it is the narrow opted-in fix path and only needs rebase/review validation before the applicator can consider final merge routing. |
+| cluster:automerge-openclaw-openclaw-85899 | build_fix_artifact | planned |  | Automerge job allows fix and raise_pr, blocks merge/close, and requires a contributor-branch repair artifact when the useful canonical PR is stale or dirty. |
+| #60048 | keep_related | planned | related | Same memory docs area, different deliverable and unresolved review findings; keep open outside this cluster. |
+| #72748 | keep_closed | skipped | related | Closed historical context only. |
+| #81802 | keep_closed | skipped | independent | Closed merged runtime fix, independent of this docs repair cluster. |
+| #86701 | keep_closed | skipped | independent | Closed merged runtime fix, independent of this docs repair cluster. |
+| #92745 | keep_closed | skipped | independent | Closed merged diagnostic fix, independent of this docs repair cluster. |
 
 ## Needs Human
 
