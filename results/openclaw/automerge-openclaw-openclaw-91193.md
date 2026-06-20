@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-91193"
 mode: "autonomous"
-run_id: "27813721293"
-workflow_run_id: "27813721293"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27813721293"
-head_sha: "241c318ecbd41754be08ba6578a28a48d4fc1efc"
+run_id: "27868634010"
+workflow_run_id: "27868634010"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27868634010"
+head_sha: "6446bd3d1d39bd5ffbad40cf962ce06681d50760"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-19T08:10:48.126Z"
-canonical: "#91193"
-canonical_issue: "#83893"
-canonical_pr: "#91193"
-actions_total: 3
+published_at: "2026-06-20T10:58:07.144Z"
+canonical: "https://github.com/openclaw/openclaw/pull/91193"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/83893"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/91193"
+actions_total: 6
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,28 +26,28 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27813721293](https://github.com/openclaw/clownfish/actions/runs/27813721293)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27868634010](https://github.com/openclaw/clownfish/actions/runs/27868634010)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #91193
+Canonical: https://github.com/openclaw/openclaw/pull/91193
 
 ## Summary
 
-Plan a bounded repair of opted-in PR #91193. The hydrated artifact marks #91193 open, non-security-sensitive, maintainer-modifiable, and covered by passing checks, but ClawSweeper has not produced a final merge-ready verdict for the current automerge path and previously called out refresh/rebase/canonical-selection work. Close and merge are blocked by job policy.
+#91193 is the maintainer-opted automerge PR for the Commander rawArgs documentation path, but it is dirty against current main and has an actionable ClawSweeper finding. Plan a bounded repair of the contributor branch; do not merge or close because this job blocks those actions.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 6 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -59,34 +59,37 @@ Plan a bounded repair of opted-in PR #91193. The hydrated artifact marks #91193 
   "source_refs": [
     "#91193",
     "#83893",
-    "#88085"
+    "#88085",
+    "#92162",
+    "#86438"
   ],
   "repair_strategy": "repair_contributor_branch",
   "planned_actions": [
+    "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair contributor PR #91193 in place for the Clownfish automerge loop by refreshing it onto current main if needed, preserving the narrow Commander rawArgs documentation/test mitigation, and requesting a fresh ClawSweeper review on the repaired head.",
-  "pr_title": "fix(cli): document Commander rawArgs internal dependency",
-  "pr_body": "## Summary\n- refresh the opted-in contributor branch for #91193 onto current main if needed\n- keep the narrow documentation comment for Commander's internal rawArgs dependency\n- keep or repair the action-reparse regression coverage without expanding scope into the broader runtime-warning approach from #88085\n\n## Linked refs\n- Closes #83893\n- Source PR: https://github.com/openclaw/openclaw/pull/91193\n- Related broader candidate: https://github.com/openclaw/openclaw/pull/88085\n\n## Credit\nThis is a Clownfish repair of the contributor branch for #91193. Preserve attribution for @whiteyzy and the existing commits by @secooond.\n\n## Validation\n- pnpm -s vitest run src/cli/program/action-reparse.test.ts\n- pnpm check:changed\n- fresh ClawSweeper review on the exact repaired head before final router action",
+  "summary": "Repair #91193 in place: rebase the editable contributor branch onto current main, preserve the current root-program lazy reparse behavior, and update the rawArgs documentation/test so it reflects real Commander root command behavior instead of a fake-parent setup.",
+  "pr_title": "fix(cli): document Commander rawArgs dependency in action reparse",
+  "pr_body": "## What Problem This Solves\n\nRepairs #91193 so the Commander `rawArgs` dependency is documented and tested against the current root-command reparse behavior that landed after #92162.\n\n## Why This Change Was Made\n\nClawSweeper found that the #91193 regression test used a fake parent object, while current main now walks to a real root `Command` and reparses with `rootProgram.parseAsync`. The repair should rebase onto current main, keep the existing root reparse behavior, and make the test exercise the real command hierarchy or remove the stale fake-parent assertion.\n\n## User Impact\n\nNo intended CLI behavior change. This is a maintainability repair that documents the private Commander runtime dependency without weakening nested lazy-command reparsing.\n\n## Evidence\n\n- Current main: 602bc0baa9c88a20db773328d428dd031dfa89cb\n- Commander runtime source initializes, sets, and clears `rawArgs`; public typings do not expose `rawArgs`.\n- Required validation after repair: `node scripts/run-vitest.mjs run src/cli/program/action-reparse.test.ts --pool forks --maxWorkers=1 --reporter=tap` and `pnpm check:changed`.\n\nCredit: based on #91193 by @whiteyzy / @secooond. Preserve related context from #92162, and credit #88085 by @Ylsssq926 if any guard/warning approach is reused.",
   "likely_files": [
     "src/cli/program/action-reparse.ts",
     "src/cli/program/action-reparse.test.ts"
   ],
   "validation_commands": [
-    "pnpm -s vitest run src/cli/program/action-reparse.test.ts",
+    "node scripts/run-vitest.mjs run src/cli/program/action-reparse.test.ts --pool forks --maxWorkers=1 --reporter=tap",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair source PR https://github.com/openclaw/openclaw/pull/91193 in place because maintainer_can_modify is true.",
-    "Preserve contributor credit for @whiteyzy and the existing commits by @secooond on #91193.",
-    "Mention #83893 as the linked root issue and #88085 as a related competing broader candidate in any repair summary."
+    "Preserve contributor credit for #91193 by @whiteyzy; commits in the PR are authored as @secooond in the hydrated artifact.",
+    "If the repair borrows any guard or warning idea from #88085, credit @Ylsssq926 and link https://github.com/openclaw/openclaw/pull/88085 in the PR body.",
+    "Keep #92162 credited as the already-merged root reparse behavior that this repair must not regress."
   ],
   "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-91193.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": null,
-  "terminal": null
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -94,27 +97,30 @@ Plan a bounded repair of opted-in PR #91193. The hydrated artifact marks #91193 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/91193 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #91193 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #91193 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83893 | keep_related | planned | fixed_by_candidate | Keep the root issue open while the opted-in repair PR receives a bounded Clownfish repair and fresh review. |
-| #88085 | keep_related | planned | related | This is a competing broader candidate for the same root-cause family, not the opted-in automerge PR for this cluster. |
-| #91193 | build_fix_artifact | planned | canonical | Repair the contributor branch in place, preserve credit, and require a fresh ClawSweeper verdict for the exact repaired head before any router-owned finalization. |
+| #83893 | keep_canonical | planned | canonical | Canonical issue remains open while the chosen repair path is prepared on #91193. |
+| #91193 | fix_needed | planned | canonical | Repair the editable source PR branch by rebasing onto current main and addressing the review finding before any ClawSweeper/merge gate. |
+| cluster:automerge-openclaw-openclaw-91193 | build_fix_artifact | planned |  | Build an executable repair artifact for the automerge executor. |
+| #88085 | keep_related | planned | related | Related competing candidate; keep open and do not mutate in this #91193 repair job. |
+| #86438 | keep_closed | skipped | related | Already closed context refs must not receive close or mutation actions. |
+| #92162 | keep_closed | skipped | related | Already closed merged context; use as proof only. |
 
 ## Needs Human
 
