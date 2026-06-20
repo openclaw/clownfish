@@ -1,0 +1,150 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-93351",
+  "mode": "autonomous",
+  "run_id": "27875426653",
+  "workflow_run_id": "27875426653",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27875426653",
+  "head_sha": "b9ea876fdcb5ab9314b59cc4dc4a84d155c81760",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-20T15:24:04Z",
+  "workflow_updated_at": "2026-06-20T15:26:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93351.md",
+  "published_at": "2026-06-20T15:26:43.093Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93351",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93351",
+  "summary": "PR #93351 is the canonical automerge repair target. It is a useful, narrow contributor PR for `openclaw agent --message-file`, but it is not merge-ready because the hydrated preflight reports a dirty merge state and a fresh ClawSweeper review with issues before merge. The branch is maintainer-editable, so the safe path is to repair the contributor branch rather than replace it. Linked #79182/#79200 are a related but separate `openclaw message send --message-file` family and should stay open/out of this automerge cluster.",
+  "actions": [
+    {
+      "target": "#93351",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93351",
+      "candidate_fix": null,
+      "reason": "Repair the maintainer-editable contributor branch because it is the canonical automerge PR but is dirty and has actionable ClawSweeper merge-readiness work."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-93351",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93351",
+      "candidate_fix": "#93351",
+      "reason": "Build an executable repair artifact for the existing contributor branch rather than opening a replacement PR."
+    },
+    {
+      "target": "#79182",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93351",
+      "candidate_fix": null,
+      "reason": "Same message-file ergonomics family, but not the same root cause or command surface as #93351."
+    },
+    {
+      "target": "#79200",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93351",
+      "candidate_fix": null,
+      "reason": "Related sibling feature surface, not a duplicate or candidate fix for #93351."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {
+    "blocked": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93351",
+    "source_refs": [
+      "#93351",
+      "#79182",
+      "#79200"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #93351 in place: rebase/resolve the dirty branch, address the current ClawSweeper merge-readiness findings for the new `openclaw agent --message-file` public input path, preserve exact file-body semantics across Gateway and `--local`, and rerun changed checks plus a fresh review.",
+    "pr_title": "feat(cli): add --message-file to openclaw agent",
+    "pr_body": "## What Problem This Solves\n\n`openclaw agent` currently requires inline `--message`, which is fragile for long prompts, Markdown/code blocks, JSON, and multiline shell or PowerShell content. This repair keeps @ooiuuii's contributor PR #93351 as the canonical path and makes the branch landable.\n\n## Why This Change Was Made\n\nThe branch is maintainer-editable but currently dirty against `main`, and the latest ClawSweeper review still reports merge-readiness work for the new public Agent CLI input contract. The repair should stay bounded to #93351: rebase/resolve conflicts, confirm `--message-file` is mutually exclusive with inline `--message`, preserve exact UTF-8 file content for Gateway and `--local`, keep existing inline `--message` behavior unchanged, and update docs/tests only for the agent command.\n\n## User Impact\n\nUsers can pass multiline agent prompts from a file without shell interpolation while existing inline `--message` calls continue to work. This does not change `openclaw message send`, channel delivery limits, Gateway protocol shape, or transport adapters.\n\n## Evidence\n\nCurrent main still requires `-m, --message <text>` in `src/cli/program/register.agent-turn.ts` and `src/commands/agent-via-gateway.ts` reads only `opts.message`, so the feature is not already present. Hydrated PR #93351 is open, maintainer-editable, and dirty; hydrated checks on the existing head were green before the branch became dirty, but fresh `pnpm check:changed` and a fresh review are required after repair.",
+    "likely_files": [
+      "src/cli/program/register.agent-turn.ts",
+      "src/commands/agent-via-gateway.ts",
+      "src/cli/program/register.agent.test.ts",
+      "src/commands/agent-via-gateway.test.ts",
+      "docs/cli/agent.md",
+      "docs/tools/agent-send.md"
+    ],
+    "validation_commands": [
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor PR by @ooiuuii: https://github.com/openclaw/openclaw/pull/93351.",
+      "Keep the PR body/release-note context crediting @ooiuuii for the `openclaw agent --message-file` feature.",
+      "Do not fold in #79200/#79182 work; that is the separate `openclaw message send --message-file` surface."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-93351.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#93351",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
