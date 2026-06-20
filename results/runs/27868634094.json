@@ -1,0 +1,195 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-83041",
+  "mode": "autonomous",
+  "run_id": "27868634094",
+  "workflow_run_id": "27868634094",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27868634094",
+  "head_sha": "6446bd3d1d39bd5ffbad40cf962ce06681d50760",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-20T10:38:47Z",
+  "workflow_updated_at": "2026-06-20T10:55:14Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-83041.md",
+  "published_at": "2026-06-20T10:55:53.514Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/83041",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/46797",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/83041",
+  "summary": "PR #83041 is the canonical repair path for issue #46797, but it is not merge-ready: the hydrated artifact reports mergeable_state=dirty and ClawSweeper's latest review asks for maintainer review/compatibility proof around the additive persisted restart-sentinel stats field. The branch is maintainer-editable, so the next safe action is a bounded repair of the contributor branch, not a replacement PR, merge, or close.",
+  "actions": [
+    {
+      "target": "#46797",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#46797",
+      "candidate_fix": "#83041",
+      "reason": "Keep the canonical issue open until #83041 or another validated fix lands; close and post-merge closeout are blocked by job policy."
+    },
+    {
+      "target": "#55372",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#46797",
+      "candidate_fix": null,
+      "reason": "Related restart-sentinel area, but independent remaining product decision outside this automerge repair scope."
+    },
+    {
+      "target": "#83041",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83041",
+      "candidate_fix": "#83041",
+      "reason": "Repair the contributor branch: rebase/resolve dirty state and address ClawSweeper's compatibility-proof blocker, then rerun review and validation."
+    },
+    {
+      "target": "#93863",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#83041",
+      "candidate_fix": "#83041",
+      "reason": "Superseded by the canonical repair path, but close actions are blocked in this job and require a landed canonical fix or explicit human close path."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-83041",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#83041",
+      "candidate_fix": "#83041",
+      "reason": "Executor should repair the existing contributor branch, preserve @xuruiray credit, rerun changed checks and fresh review, then hand final merge gating back to Clownfish applicator/router."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#83041",
+    "source_refs": [
+      "#83041",
+      "#46797",
+      "#93863",
+      "#55372"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair maintainer-editable PR #83041 so it is rebase-clean and explicitly proves compatibility for persisted restart sentinels that lack the new optional restart-required stats field. Keep the fix on the contributor branch and preserve @xuruiray credit.",
+    "pr_title": "Repair config patch restart-required notices",
+    "pr_body": "What Problem This Solves\n\nFixes #46797 by making config.patch/config.apply restart notices distinguish a pending required restart from a completed restart.\n\nWhy This Change Was Made\n\nClownfish is repairing source PR #83041 by @xuruiray rather than replacing it because the branch is maintainer-editable and the change is narrow. The repair should rebase/resolve the dirty branch state and address ClawSweeper's review blocker by proving old persisted restart sentinels remain readable when they do not contain the new optional restart-required stats metadata.\n\nUser Impact\n\nUsers should see a clear `Gateway restart required (...)` notice when a config patch requires a manual gateway restart, while completed startup follow-up notices should not keep telling them that the completed restart is still required.\n\nEvidence\n\nCurrent main still summarizes restart sentinels from kind/status/mode in `src/infra/restart-sentinel.ts` and config writes build sentinel stats without restart-required state in `src/gateway/server-methods/config-write-flow.ts`. Validate with focused restart-sentinel/config tests plus `pnpm check:changed` after the branch is repaired.",
+    "likely_files": [
+      "src/gateway/server-methods/config-write-flow.ts",
+      "src/gateway/server-methods/config.shared-auth.test.ts",
+      "src/gateway/server-restart-sentinel.ts",
+      "src/gateway/server-restart-sentinel.test.ts",
+      "src/infra/restart-sentinel.ts",
+      "src/infra/restart-sentinel.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/infra/restart-sentinel.test.ts src/gateway/server-methods/config.shared-auth.test.ts src/gateway/server-restart-sentinel.test.ts src/gateway/server.config-patch.test.ts -- --reporter=verbose",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair source PR: https://github.com/openclaw/openclaw/pull/83041 by @xuruiray.",
+      "Keep @xuruiray as the credited contributor for the landed behavior change.",
+      "#93863 by @arkyu2077 independently identified the same wording symptom, but this automerge repair should not close or replace that PR until the canonical fix path lands and closeout is separately allowed."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-83041.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/83041",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "13f7f84f675de211c73c9be4b2f8921540f3a711",
+      "checkpoint_commits": [
+        "28ebee865332880ccbbeca4071da3f12ea094dec",
+        "70084388d638a86323589a90da07faa9678796f2",
+        "8c7604c9ca96cca9304c52e657a6c1fdd84ec522",
+        "13f7f84f675de211c73c9be4b2f8921540f3a711"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#83041",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#83041",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
