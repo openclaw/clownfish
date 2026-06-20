@@ -1,0 +1,201 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-77339",
+  "mode": "autonomous",
+  "run_id": "27875370830",
+  "workflow_run_id": "27875370830",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27875370830",
+  "head_sha": "b9ea876fdcb5ab9314b59cc4dc4a84d155c81760",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-20T15:21:48Z",
+  "workflow_updated_at": "2026-06-20T15:35:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-77339.md",
+  "published_at": "2026-06-20T15:36:01.158Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77339",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/77322",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77339",
+  "summary": "#77339 is the canonical repairable PR for #77322, but it is not merge-ready: the hydrated artifact shows mergeable_state=dirty and the latest ClawSweeper/Codex review found pre-merge issues at head e87d2a84430f5a469042c6e5d9c4314044645f8f. The branch is maintainer-editable, so plan a bounded repair on the contributor branch rather than replacement.",
+  "actions": [
+    {
+      "target": "#77322",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77322",
+      "candidate_fix": "#77339",
+      "reason": "Keep the canonical issue open while repairing #77339."
+    },
+    {
+      "target": "#77339",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch, address the bot review finding, remove normal-PR changelog churn if still present, rebase against current main, then rerun review and checks."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-77339",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Create an executable repair artifact for the Clownfish applicator."
+    },
+    {
+      "target": "#69419",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation is valid."
+    },
+    {
+      "target": "#77326",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation is valid."
+    },
+    {
+      "target": "#90128",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#77339",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no mutation is valid."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#77339",
+    "source_refs": [
+      "#77339",
+      "#77322",
+      "#77326",
+      "#69419",
+      "#90128"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #77339 in place: rebase the maintainer-editable branch onto current main, keep the narrow reset-cache fix for auto-reply session.model/modelProvider runtime cache fields, address the ClawSweeper stored-data-model proof concern, and remove normal-PR CHANGELOG.md churn if it is still present after rebase.",
+    "pr_title": "fix(auto-reply): clear runtime model cache on reset",
+    "pr_body": "What Problem This Solves\n\nFixes #77322 by ensuring explicit auto-reply /new and /reset do not carry stale persisted runtime model/modelProvider cache fields into the freshly minted channel session after defaults change.\n\nWhy This Change Was Made\n\nThe old persisted session row can contain runtime cache fields even when there is no explicit user model override. When reset creates a new session and merges with the existing store row, those cache fields can survive and make the next run use the old model instead of the current configured default. This repair keeps the existing contributor PR path, rebases it onto current main, and documents why deleting these reset-time runtime cache fields is the intended behavior rather than a data migration.\n\nUser Impact\n\nAfter /new or /reset, channel sessions return to the current default model unless a user-owned override is intentionally preserved. Runtime fallback/cache pins from the prior session no longer keep users stuck on an old model.\n\nEvidence\n\n- Source issue: #77322\n- Source PR: #77339 by @mjamiv\n- Related superseded proof: #77326\n- ClawSweeper review requested repair at head e87d2a84430f5a469042c6e5d9c4314044645f8f: branch dirty against main and stored runtime cache-field compatibility proof needed.\n- Validation to run after repair: pnpm test src/auto-reply/reply/session.test.ts; pnpm check:changed.",
+    "likely_files": [
+      "src/auto-reply/reply/session.ts",
+      "src/auto-reply/reply/session.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/auto-reply/reply/session.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/77339 and preserve @mjamiv credit in commit/PR history.",
+      "Mention #77326/@hclsys in PR-body evidence if the repaired patch keeps the same root-cause proof or test shape from that earlier superseded PR.",
+      "Do not add or keep CHANGELOG.md for this normal PR; release-note context belongs in the PR body or squash message."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-77339.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/77339",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "3d2bb892727b10e24132bf5e92b1d5cff541304c",
+      "checkpoint_commits": [
+        "2e4f2ce25b2af07d9e7d3de48ef6d0cbb12f18b9",
+        "e0d6df6276e7bbe64633ba7cf3038d4d33e0df2a",
+        "3d2bb892727b10e24132bf5e92b1d5cff541304c"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#77339",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#77339",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
