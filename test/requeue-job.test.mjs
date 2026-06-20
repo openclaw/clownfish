@@ -175,4 +175,5 @@ test("requeue rejects a write-mode override until the job itself is promoted", (
 test("cluster worker run names expose repository dispatch ids", () => {
   const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
   assert.match(workflow, /run-name: cluster worker .*github\.event\.client_payload\.dispatch_id/);
+  assert.match(workflow, /github\.event\.inputs\.dispatch_id/);
 });

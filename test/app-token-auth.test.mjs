@@ -190,6 +190,53 @@ test("dispatch supports repository-worker canary dispatch", () => {
   assert.match(result.stdout, /dispatched 1\/1/);
 });
 
+test("repository-worker falls back only from the known GitHub schema 422", () => {
+  const fixture = makeFixture();
+  writeFailingGh(fixture.bin, "gh");
+  const fakeGhx = writeFakeGh(fixture.bin, "ghx");
+  writeShallowCheckoutGit(fixture.bin);
+  const env = {
+    ...process.env,
+    PATH: `${fixture.bin}${path.delimiter}${process.env.PATH}`,
+    EXPECT_REPOSITORY_WORKER_FIELDS: "1",
+    EXPECT_REPOSITORY_DISPATCH_FALLBACK: "1",
+  };
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/dispatch-jobs.mjs",
+      "jobs/openclaw/inbox/cluster-example.md",
+      "--mode",
+      "autonomous",
+      "--dispatch-event",
+      "repository-worker",
+      "--gh-bin",
+      fakeGhx,
+      "--allow-app-token-auth",
+      "--skip-publish-backlog-check",
+      "--max-live-workers",
+      "1",
+      "--hydrate-comments",
+      "1",
+      "--max-linked-refs",
+      "20",
+      "--max-comments-per-item",
+      "30",
+      "--max-review-comments-per-pr",
+      "50",
+      "--dry-run",
+      "1",
+      "--no-dispatch-ledger",
+    ],
+    { cwd: repoRoot, encoding: "utf8", env },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /known GitHub 422 schema error/);
+  assert.match(result.stdout, /dispatched 1\/1/);
+});
+
 test("repository-worker dispatch fetches main when a shallow checkout lacks origin/main", () => {
   const fixture = makeFixture();
   writeFailingGh(fixture.bin, "gh");
@@ -351,6 +398,29 @@ if (args[0] === "variable" && args[1] === "list") {
   process.exit(0);
 }
 if (args[0] === "workflow" && args[1] === "run") {
+  if (process.env.EXPECT_REPOSITORY_DISPATCH_FALLBACK === "1") {
+    if (!args.join(" ").includes("dispatch_id=dispatch-")) {
+      console.error("missing repository dispatch fallback id", args.join(" "));
+      process.exit(1);
+    }
+    for (const expected of [
+      "job=jobs/openclaw/inbox/cluster-example.md",
+      "mode=autonomous",
+      "runner=ubuntu-latest",
+      "execution_runner=blacksmith-16vcpu-ubuntu-2404",
+      "model=gpt-5.5",
+      "dry_run=true",
+      "hydrate_comments=1",
+      "max_linked_refs=20",
+      "max_comments_per_item=30",
+      "max_review_comments_per_pr=50",
+    ]) {
+      if (!args.includes(expected)) {
+        console.error("missing repository fallback field", expected, args.join(" "));
+        process.exit(1);
+      }
+    }
+  }
   if (process.env.EXPECT_HYDRATION_FIELDS === "1") {
     for (const expected of [
       "hydrate_comments=0",
@@ -408,6 +478,10 @@ if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
       console.error("wrong required_ancestor_sha", client.required_ancestor_sha, "wanted", process.env.EXPECT_REQUIRED_ANCESTOR);
       process.exit(1);
     }
+  }
+  if (process.env.EXPECT_REPOSITORY_DISPATCH_FALLBACK === "1") {
+    console.error("gh: Invalid request.\\nFor 'links/0/schema', nil is not an object. (HTTP 422)");
+    process.exit(1);
   }
   console.log("accepted repository dispatch");
   process.exit(0);

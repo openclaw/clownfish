@@ -1,6 +1,6 @@
 name: cluster worker
 
-run-name: cluster worker ${{ github.event.client_payload.dispatch_id || github.event.inputs.job || 'manual' }}
+run-name: cluster worker ${{ github.event.client_payload.dispatch_id || github.event.inputs.dispatch_id || github.event.inputs.job || 'manual' }}
 
 on:
   repository_dispatch:
@@ -8,6 +8,11 @@ on:
       - projectclownfish_worker
   workflow_dispatch:
     inputs:
+      dispatch_id:
+        description: "Optional idempotency id for a dispatcher retry"
+        required: false
+        default: ""
+        type: string
       job:
         description: "Job markdown path, for example jobs/openclaw/inbox/cluster-001.md"
         required: true
@@ -565,7 +570,7 @@ jobs:
 
       - name: Execute credited fix artifact
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' && env.CLOWNFISH_ALLOW_FIX_PR == '1' }}
-        timeout-minutes: 30
+        timeout-minutes: 50
         run: npm run execute-fix -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Apply safe closure actions

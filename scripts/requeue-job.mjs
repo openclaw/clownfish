@@ -257,8 +257,54 @@ function dispatchJob(jobPath, mode, requiredAncestorSha, dispatchId) {
     },
   );
   if (result.status !== 0) {
+    if (isRepositoryDispatchSchemaBug(result)) {
+      const fallback = spawnSync(
+        "gh",
+        [
+          "workflow",
+          "run",
+          workflow,
+          "--repo",
+          repo,
+          "--ref",
+          "main",
+          "-f",
+          `dispatch_id=${dispatchId}`,
+          "-f",
+          `job=${jobPath}`,
+          "-f",
+          `mode=${mode}`,
+          "-f",
+          `runner=${runner}`,
+          "-f",
+          `execution_runner=${executionRunner}`,
+          "-f",
+          `model=${model}`,
+          "-f",
+          "dry_run=false",
+        ],
+        {
+          cwd: repoRoot(),
+          encoding: "utf8",
+          env: ghEnv(),
+          stdio: "pipe",
+        },
+      );
+      if (fallback.status === 0) {
+        console.warn(
+          `repository_dispatch returned the known GitHub 422 schema error for ${jobPath}; retried via workflow_dispatch`,
+        );
+        return;
+      }
+      throw new Error(`failed to dispatch ${jobPath} with workflow fallback: ${fallback.stderr || fallback.stdout}`);
+    }
     throw new Error(`failed to dispatch ${jobPath}: ${result.stderr || result.stdout}`);
   }
+}
+
+function isRepositoryDispatchSchemaBug(result) {
+  const output = `${result.stderr ?? ""}\n${result.stdout ?? ""}`;
+  return /HTTP 422/i.test(output) && /links\/0\/schema/i.test(output);
 }
 
 function waitForObservedRuns({ expectedCount, dispatchId, since }) {

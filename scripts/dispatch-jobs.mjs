@@ -538,27 +538,7 @@ function dispatchJob(relative, position) {
   if (repositoryWorkerDispatch) return dispatchRepositoryWorker(relative, position);
   return runCommand(
     ghCommand,
-    [
-      "workflow",
-      "run",
-      workflow,
-      "--repo",
-      repo,
-      ...(ref ? ["--ref", ref] : []),
-      "-f",
-      `job=${relative}`,
-      "-f",
-      `mode=${mode}`,
-      "-f",
-      `runner=${runner}`,
-      "-f",
-      `execution_runner=${executionRunner}`,
-      "-f",
-      `model=${model}`,
-      "-f",
-      `dry_run=${dryRunBoolean ? "true" : "false"}`,
-      ...Object.entries(hydrationInputs).flatMap(([name, value]) => ["-f", `${name}=${value}`]),
-    ],
+    workflowDispatchArgs(relative),
     relative,
     position,
   );
@@ -593,7 +573,57 @@ function dispatchRepositoryWorker(relative, position) {
     position,
     `${JSON.stringify(payload)}\n`,
     workerDispatchId,
-  );
+  ).then((result) => {
+    if (!isRepositoryDispatchSchemaBug(result)) return result;
+
+    console.warn(
+      `repository_dispatch returned the known GitHub 422 schema error for ${relative}; retrying via workflow_dispatch`,
+    );
+    return runCommand(
+      ghCommand,
+      workflowDispatchArgs(relative, workerDispatchId),
+      relative,
+      position,
+      null,
+      workerDispatchId,
+    ).then((fallback) => ({
+      ...fallback,
+      dispatch_event: "workflow",
+      dispatch_fallback_reason: "repository_dispatch_422_links_schema",
+    }));
+  });
+}
+
+function workflowDispatchArgs(relative, dispatchId = null) {
+  return [
+    "workflow",
+    "run",
+    workflow,
+    "--repo",
+    repo,
+    "--ref",
+    ref || "main",
+    ...(dispatchId ? ["-f", `dispatch_id=${dispatchId}`] : []),
+    "-f",
+    `job=${relative}`,
+    "-f",
+    `mode=${mode}`,
+    "-f",
+    `runner=${runner}`,
+    "-f",
+    `execution_runner=${executionRunner}`,
+    "-f",
+    `model=${model}`,
+    "-f",
+    `dry_run=${dryRunBoolean ? "true" : "false"}`,
+    ...Object.entries(hydrationInputs).flatMap(([name, value]) => ["-f", `${name}=${value}`]),
+  ];
+}
+
+function isRepositoryDispatchSchemaBug(result) {
+  if (result.status === 0) return false;
+  const output = `${result.stderr ?? ""}\n${result.stdout ?? ""}`;
+  return /HTTP 422/i.test(output) && /links\/0\/schema/i.test(output);
 }
 
 function dispatchRepositoryBatch(batch, position) {
@@ -667,7 +697,8 @@ function dispatchAttempt(result, status) {
     position: result.position,
     dispatched_at: result.dispatched_at ?? new Date().toISOString(),
     batch_dispatch_id: result.batch_dispatch_id ?? null,
-    dispatch_event: dispatchEvent,
+    dispatch_event: result.dispatch_event ?? dispatchEvent,
+    dispatch_fallback_reason: result.dispatch_fallback_reason ?? null,
     error: status === "failed" ? stripAnsi(result.stderr || result.stdout || "") : null,
   };
 }

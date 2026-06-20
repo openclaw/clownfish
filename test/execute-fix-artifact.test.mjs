@@ -63,7 +63,7 @@ test("execute-fix-artifact bounds auxiliary GitHub and git subprocesses by the f
   assert.match(source, /function closeSupersededSourcePr\([\s\S]*?const closed = runStatus\("gh", \["pr", "close"/);
   assert.match(
     workflow,
-    /- name: Execute credited fix artifact[\s\S]*?timeout-minutes: 30[\s\S]*?run: npm run execute-fix/,
+    /- name: Execute credited fix artifact[\s\S]*?timeout-minutes: 50[\s\S]*?run: npm run execute-fix/,
   );
 });
 
