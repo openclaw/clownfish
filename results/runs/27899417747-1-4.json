@@ -1,0 +1,150 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T052239-005",
+  "mode": "plan",
+  "run_id": "27899417747-1-4",
+  "workflow_run_id": "27899417747",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899417747",
+  "head_sha": "93c97ea84e5e6d1aacb9274e57b163cb359b5b76",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:00:25Z",
+  "workflow_updated_at": "2026-06-21T09:03:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T052239-005.md",
+  "published_at": "2026-06-21T09:07:23.958Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification: keep #83902 open with #89897 as the strongest surviving CLI terminator PR, treat #87986 and #88085 as independent non-merge-ready PRs, treat #88900 as superseded by the shipped Discord fix path, and quarantine security-sensitive ref #90183.",
+  "actions": [
+    {
+      "target": "#83902",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83902",
+      "candidate_fix": "#89897",
+      "reason": "Keep the root issue open until the best surviving PR in the #83902 family is repaired or merged."
+    },
+    {
+      "target": "#84066",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Treat this as a closed historical predecessor in the #83902 family."
+    },
+    {
+      "target": "#84438",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "This PR stays in the related/superseded bucket rather than a merge path because a stronger overlapping branch exists and this branch is not merge-ready."
+    },
+    {
+      "target": "#85710",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Keep this as an overlapping superseded branch; it is not the best surviving PR for the #83902 fix family."
+    },
+    {
+      "target": "#87986",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep it independent; the live data does not support a merge recommendation or a complete executable repair artifact."
+    },
+    {
+      "target": "#88085",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep this PR independent from the other inventory items; it needs its own repair or review path."
+    },
+    {
+      "target": "#88895",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is already-resolved context, not an actionable open target."
+    },
+    {
+      "target": "#88900",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#88895",
+      "candidate_fix": "#88944",
+      "reason": "Keep this open PR in the superseded bucket because the bug already has a shipped mainline fix path."
+    },
+    {
+      "target": "#88944",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#88895",
+      "candidate_fix": null,
+      "reason": "Treat this as historical shipped-fix context for the Discord bug family."
+    },
+    {
+      "target": "#89897",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Keep this as the canonical PR in the #83902 family, but do not recommend merge from this plan-only artifact."
+    },
+    {
+      "target": "#90183",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine this exact ref to central security handling and keep unrelated non-security planning separate."
+    },
+    {
+      "target": "#90906",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Treat this as another closed predecessor in the #83902 fix family."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_closed": 4,
+    "keep_related": 3,
+    "keep_independent": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

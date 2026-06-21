@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T052239-001",
+  "mode": "plan",
+  "run_id": "27899417747-1-0",
+  "workflow_run_id": "27899417747",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899417747",
+  "head_sha": "93c97ea84e5e6d1aacb9274e57b163cb359b5b76",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:00:25Z",
+  "workflow_updated_at": "2026-06-21T09:03:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T052239-001.md",
+  "published_at": "2026-06-21T09:07:23.944Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation shard: keep #59695, #80627, #79603, and #93402 as the surviving live paths; route #79601 to security handling; leave closed historical PRs skipped; and escalate #80924 and #94566 for specific maintainer judgment. No merge recommendation or executable fix artifact is safe from this hydrated artifact.",
+  "actions": [
+    {
+      "target": "#59695",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59695",
+      "candidate_fix": null,
+      "reason": "Best surviving path for this change stays open, but the artifact does not contain the complete merge preflight required for a merge recommendation."
+    },
+    {
+      "target": "#76578",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80627",
+      "candidate_fix": "#80627",
+      "reason": "Historical superseded attempt; keep as closed evidence only."
+    },
+    {
+      "target": "#76581",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80627",
+      "candidate_fix": "#80627",
+      "reason": "Already-closed superseded attempt; no further action is valid in plan mode."
+    },
+    {
+      "target": "#79601",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This exact item must be quarantined to central security handling and not processed through normal backlog cleanup."
+    },
+    {
+      "target": "#79603",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79603",
+      "candidate_fix": "#93402",
+      "reason": "Canonical issue should remain open until the focused fix candidate merges and validation completes."
+    },
+    {
+      "target": "#79654",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#79603",
+      "candidate_fix": "#93402",
+      "reason": "Closed historical gateway attempt is superseded by the current focused open fix path."
+    },
+    {
+      "target": "#80619",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80627",
+      "candidate_fix": "#80627",
+      "reason": "Already-closed earlier attempt in the same skills-update PR family."
+    },
+    {
+      "target": "#80624",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80627",
+      "candidate_fix": "#80627",
+      "reason": "Historical superseded PR; keep closed and carry the live path on #80627."
+    },
+    {
+      "target": "#80627",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80627",
+      "candidate_fix": null,
+      "reason": "This remains the surviving PR for the skills-update message improvement, but the artifact does not support merge or an executable repair recommendation yet."
+    },
+    {
+      "target": "#80924",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad generated i18n delta requires explicit maintainer judgment rather than an automated merge or repair recommendation."
+    },
+    {
+      "target": "#82029",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "low_signal",
+      "canonical": "#79603",
+      "candidate_fix": "#93402",
+      "reason": "Already-closed low-signal historical branch; keep as evidence only."
+    },
+    {
+      "target": "#93402",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93402",
+      "candidate_fix": null,
+      "reason": "This is the surviving focused gateway fix path, but the artifact does not yet satisfy the full merge-preflight bar for an automated merge recommendation."
+    },
+    {
+      "target": "#94566",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product-direction and sponsorship decision is still unresolved for this new Android UX surface."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "keep_closed": 6,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 7,
+    "skipped": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80924: broad generated i18n refresh with persistent cache artifact updates needs explicit maintainer review before any merge recommendation.",
+    "#94566: Android offline-chat recovery UX needs maintainer sponsorship or a narrower requested scope before automation can proceed."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

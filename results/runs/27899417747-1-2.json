@@ -1,0 +1,153 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T052239-003",
+  "mode": "plan",
+  "run_id": "27899417747-1-2",
+  "workflow_run_id": "27899417747",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899417747",
+  "head_sha": "93c97ea84e5e6d1aacb9274e57b163cb359b5b76",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:00:25Z",
+  "workflow_updated_at": "2026-06-21T09:03:36Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T052239-003.md",
+  "published_at": "2026-06-21T09:07:23.950Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory triage over the hydrated PR shard. No merge recommendations were safe because no candidate had a complete merge preflight with Codex /review evidence, and no cluster-scoped executable fix artifact was complete. #80455 and #80947 are the surviving PR paths in their families, #79853 and #79985 should stay open as independent maintainer-review candidates, #82514 needs a maintainer decision because the partial UI i18n branch is broad and failing core checks, #46217 and #80435 stay open alongside their linked PRs, and #53550 is quarantined with route_security.",
+  "actions": [
+    {
+      "target": "#79853",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused standalone PR that should remain open for maintainer review, but it is not merge-ready from the hydrated state."
+    },
+    {
+      "target": "#79985",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear standalone docs+test PR with no dedupe action needed; keep open for maintainer review rather than recommend merge."
+    },
+    {
+      "target": "#80455",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80455",
+      "candidate_fix": null,
+      "reason": "Best surviving PR for the #80435 bug family, but not safe to merge from the hydrated state."
+    },
+    {
+      "target": "#80947",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80947",
+      "candidate_fix": null,
+      "reason": "Best surviving non-security PR in this family, but still short of the merge-preflight proof required for a merge recommendation."
+    },
+    {
+      "target": "#82514",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#46217",
+      "reason": "Broad partial UI i18n branch with failing core checks; maintainer judgment is needed on whether to split, narrow, or otherwise redirect the work."
+    },
+    {
+      "target": "#46217",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#82514",
+      "reason": "Related active PR exists, but the issue remains broader than the partial PR and should stay open."
+    },
+    {
+      "target": "#53550",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is in the central-security-only lane and must be quarantined from ordinary backlog cleanup."
+    },
+    {
+      "target": "#80435",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#80455",
+      "reason": "Keep the issue open alongside the active PR because the fix path has not yet cleared merge gates."
+    },
+    {
+      "target": "#24277",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no action is valid in this run."
+    },
+    {
+      "target": "#67641",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no action is valid in this run."
+    },
+    {
+      "target": "#80448",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80455",
+      "candidate_fix": null,
+      "reason": "Already closed and superseded by the surviving #80455 path."
+    },
+    {
+      "target": "#80935",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#80947",
+      "candidate_fix": null,
+      "reason": "Already closed and clearly superseded by #80947."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_canonical": 2,
+    "needs_human": 1,
+    "keep_related": 2,
+    "route_security": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#82514 needs a maintainer decision because the branch is a broad partial UI i18n change set with failing core checks and no narrow executable repair plan in the artifact."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

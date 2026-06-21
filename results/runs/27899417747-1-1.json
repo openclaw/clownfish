@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260619T052239-002",
+  "mode": "plan",
+  "run_id": "27899417747-1-1",
+  "workflow_run_id": "27899417747",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899417747",
+  "head_sha": "93c97ea84e5e6d1aacb9274e57b163cb359b5b76",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:00:25Z",
+  "workflow_updated_at": "2026-06-21T09:03:36Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260619T052239-002.md",
+  "published_at": "2026-06-21T09:07:23.947Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned non-mutating classifications for five open PRs: keep #73649 and #78139 open as independent maintainer-review candidates, keep #78105 and #78884 open as related follow-up work, and send #94627 to maintainer judgment because it is a broad design-policy change with a failing security gate. No merge recommendation or executable fix artifact is safe from this plan-only inventory shard.",
+  "actions": [
+    {
+      "target": "#73649",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow PR; keep it open for ordinary maintainer review instead of planning merge or repair from this shard."
+    },
+    {
+      "target": "#78105",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plugin-warning remediation remains open, but this plan-only shard does not have enough proof to recommend merge or a repair artifact."
+    },
+    {
+      "target": "#78139",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow PR stays open for maintainer review; failing exact-head checks and stale-branch signals block merge, but do not force a fix artifact from this inventory shard."
+    },
+    {
+      "target": "#78884",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#65312",
+      "candidate_fix": null,
+      "reason": "Keep the PR open as related current work for #65312; the shard does not have merge preflight or a single repair artifact to finish it automatically."
+    },
+    {
+      "target": "#94627",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on the broad iOS/shared design-policy change and the failing security gate before any merge or repair recommendation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 2,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94627: broad iOS/shared design-token cleanup adds an enforced SwiftLint policy and still has a failing `security-fast` check, so maintainer judgment is required before merge or repair."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
