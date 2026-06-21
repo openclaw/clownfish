@@ -44,3 +44,21 @@ Clownfish should use this job only for the bounded ClawSweeper review/fix loop:
 - If the PR branch cannot be safely updated, emit a narrow credited replacement only when the artifact can preserve the original contributor credit; otherwise return `needs_human`.
 - Do not merge, close, or bypass review gates from the worker. The comment router owns final merge only after a passing ClawSweeper verdict for the exact current head.
 - Keep repair scope limited to actionable ClawSweeper findings, failing relevant checks, and required review feedback on this PR.
+
+## Pinned repair requirements
+
+Start from the current source PR head `917bfb2cc552c40fa6e8d20233c4d2b2e4ab4db2`. Do not rebase or replay the existing Telegram sanitizer patch without addressing these two defects.
+
+1. Make `extensions/discord/src/monitor/native-command.model-picker.test.ts` deterministic. In `beforeEach`, use the existing native-command test seam to install a fixed unbound `main` Discord route, and restore the real resolver in `afterEach`. Do not change production Discord picker behavior unless the isolated test proves it necessary.
+2. Preserve Telegram model reachability. Bare `/model` must not emit a partial `tgcmd` menu when any configured model exceeds Telegram callback limits. Use the existing browse picker or compact `mdl_sel` callback path so both short and long models remain selectable. Replace the test that expects the long model to disappear with coverage that proves it remains selectable.
+3. Run this focused suite before pushing a checkpoint:
+
+   ```bash
+   pnpm test:serial \
+     extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts \
+     extensions/discord/src/monitor/native-command.model-picker.test.ts \
+     extensions/telegram/src/bot-native-commands.test.ts \
+     src/auto-reply/commands-registry.test.ts
+   ```
+
+Treat current unrelated `opencode-go` `check:changed` type failures as baseline evidence only. Do not edit that surface. Push only after the focused suite passes, then run normal changed validation and review.
