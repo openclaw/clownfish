@@ -21,6 +21,11 @@ const FIX_REPAIR_STRATEGIES = new Set([
   "already_fixed_on_main",
   "needs_human",
 ]);
+const EXECUTABLE_FIX_REPAIR_STRATEGIES = new Set([
+  "repair_contributor_branch",
+  "replace_uneditable_branch",
+  "new_fix_pr",
+]);
 const MUTATING_ACTIONS = new Set([
   "close",
   "close_duplicate",
@@ -280,6 +285,7 @@ function reviewResult(resultPath) {
     }
     validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
+    validateExecutableFixTargetLabels({ fixActions, fixArtifact: result.fix_artifact, itemByRef, failures });
   }
   const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
   if (plannedMergeActions.length > 0) {
@@ -661,6 +667,35 @@ function validateFixArtifact(fixArtifact, failures) {
       failures.push("replacement fix artifact credit must include original PR URL");
     }
   }
+}
+
+function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef, failures }) {
+  if (!EXECUTABLE_FIX_REPAIR_STRATEGIES.has(fixArtifact?.repair_strategy)) return;
+
+  const plannedFixActions = fixActions.filter((action) => action.status === "planned");
+  if (plannedFixActions.length === 0) return;
+
+  const refs = new Set(
+    [
+      ...plannedFixActions.flatMap((action) => [action.target, action.candidate_fix]),
+      ...(fixArtifact.linked_refs ?? []),
+      ...(fixArtifact.source_prs ?? []),
+    ]
+      .map(normalizeRef)
+      .filter(Boolean),
+  );
+
+  for (const ref of refs) {
+    const item = itemByRef.get(ref);
+    const blockedLabel = findExecutableFixBlockedLabel(item?.labels);
+    if (blockedLabel) {
+      failures.push(`${ref} executable repair target has blocked label: ${blockedLabel}`);
+    }
+  }
+}
+
+function findExecutableFixBlockedLabel(labels) {
+  return (labels ?? []).map(String).find((label) => /^merge-risk:/i.test(label) || label.toLowerCase() === "clawsweeper:automerge");
 }
 
 function isDisallowedPullRequestLifecycleValidationCommand(command) {

@@ -1000,62 +1000,78 @@ test("review-results ignores an explicit non-security boundary assertion in fix 
   assert.match(result.stdout, /"status": "passed"/);
 });
 
-test("review-results trusts a preflight non-security-sensitive assertion for a security-shaped fix", () => {
-  const dir = makeResultDir(
+test("review-results rejects executable repair paths bound to risk-labeled preflight PRs", () => {
+  const bindings = [
     {
-      mode: "autonomous",
+      name: "direct action target",
       actions: [
         {
           target: "#91286",
           action: "fix_needed",
           status: "planned",
-          idempotency_key: "cluster-test:fix-needed:91286:non-security-sensitive",
+          idempotency_key: "cluster-test:fix-needed:91286:risk-label",
           classification: "canonical",
           target_kind: "pull_request",
           target_updated_at: "2026-06-15T10:00:00Z",
-          evidence: [
-            "#91286 still needs the QR rendering repair.",
-            "Preflight marks #91286 open, canonical, and non-security-sensitive.",
-          ],
+          evidence: ["#91286 is hydrated as the contributor repair target."],
           reason: "Repair the contributor branch and preserve attribution.",
         },
       ],
-      fix_artifact: {
-        summary: "Repair QR rendering without changing security boundaries.",
-        affected_surfaces: ["web-ui", "qr"],
-        likely_files: ["ui/src/ui/components/qr-code.tsx", "ui/src/ui/components/qr-code.test.tsx"],
-        linked_refs: ["#91286"],
-        validation_commands: ["pnpm check:changed"],
-        changelog_required: true,
-        credit_notes: ["Preserve contributor attribution for the source PR."],
-        pr_title: "fix(web-ui): repair QR rendering",
-        pr_body: "## Summary\n- repair QR rendering\n\n## Test plan\n- pnpm check:changed",
-        repair_strategy: "repair_contributor_branch",
-        allow_no_pr: false,
-      },
+      fixArtifact: validFixArtifact(),
     },
     {
-      job: fixEnabledJob(),
-      plan: {
-        items: [
-          {
-            ref: "#91286",
-            kind: "pull_request",
-            state: "open",
-            title: "fix(security): tighten SecretRef auth boundary",
-            labels: ["merge-risk: security-boundary"],
-            updated_at: "2026-06-15T10:00:00Z",
-            security_sensitive: false,
-          },
-        ],
-      },
+      name: "candidate fix reference",
+      actions: [plannedBuildFixArtifact({ candidate_fix: "#91286" })],
+      fixArtifact: validFixArtifact(),
     },
-  );
+    {
+      name: "artifact linked reference",
+      actions: [plannedBuildFixArtifact()],
+      fixArtifact: validFixArtifact({ linked_refs: ["#91286"] }),
+    },
+    {
+      name: "artifact source reference",
+      actions: [plannedBuildFixArtifact()],
+      fixArtifact: validFixArtifact({ source_prs: ["https://github.com/openclaw/openclaw/pull/91286"] }),
+    },
+  ];
 
-  const result = review(dir);
+  for (const label of ["merge-risk: availability", "clawsweeper:automerge"]) {
+    for (const binding of bindings) {
+      const dir = makeResultDir(
+        {
+          mode: "autonomous",
+          actions: binding.actions,
+          fix_artifact: binding.fixArtifact,
+        },
+        {
+          job: fixEnabledJob(),
+          plan: {
+            items: [
+              {
+                ref: "#91286",
+                kind: "pull_request",
+                state: "open",
+                title: "fix(cron): repair timer behavior",
+                labels: [label],
+                updated_at: "2026-06-15T10:00:00Z",
+                security_sensitive: false,
+              },
+            ],
+          },
+        },
+      );
 
-  assert.equal(result.status, 0, result.stdout || result.stderr);
-  assert.match(result.stdout, /"status": "passed"/);
+      const result = review(dir);
+
+      assert.notEqual(result.status, 0, `${binding.name}: ${result.stdout || result.stderr}`);
+      assert.match(
+        result.stdout,
+        new RegExp(`#91286 executable repair target has blocked label: ${label}`),
+        binding.name,
+      );
+    }
+  }
 });
 
 test("review-results allows unavailable non-mutating plan classifications", () => {
@@ -1123,7 +1139,7 @@ test("review-results honors non-security preflight for security-shaped targets",
             kind: "pull_request",
             state: "open",
             title: "fix(security): tighten SecretRef auth boundary",
-            labels: ["merge-risk: security-boundary"],
+            labels: ["merge-risk: security-boundary", "clawsweeper:automerge"],
             updated_at: "2026-06-15T10:00:00Z",
             security_sensitive: false,
           },
@@ -1680,6 +1696,21 @@ function validFixArtifact(overrides = {}) {
     repair_strategy: "new_fix_pr",
     allow_no_pr: false,
     branch_update_blockers: [],
+    ...overrides,
+  };
+}
+
+function plannedBuildFixArtifact(overrides = {}) {
+  return {
+    target: "cluster:cluster-test",
+    action: "build_fix_artifact",
+    status: "planned",
+    idempotency_key: "cluster-test:build-fix-artifact:risk-label",
+    classification: "canonical",
+    target_kind: null,
+    target_updated_at: null,
+    evidence: ["The repair artifact is bound to a hydrated PR."],
+    reason: "Build the narrow repair artifact.",
     ...overrides,
   };
 }
