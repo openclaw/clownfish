@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-92230"
 mode: "autonomous"
-run_id: "27897196416"
-workflow_run_id: "27897196416"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27897196416"
-head_sha: "f88562ba4b45ffade560e416536c50c7a9a7542e"
+run_id: "27897795272"
+workflow_run_id: "27897795272"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27897795272"
+head_sha: "791045fa62c8a83ccaf1e6118c1f6d789e9174cd"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-21T07:46:31.442Z"
+published_at: "2026-06-21T08:11:59.744Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92230"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92230"
 actions_total: 3
-fix_executed: 1
-fix_failed: 1
-fix_blocked: 1
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27897196416](https://github.com/openclaw/clownfish/actions/runs/27897196416)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27897795272](https://github.com/openclaw/clownfish/actions/runs/27897795272)
 
 Workflow conclusion: success
 
@@ -36,18 +36,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/92230
 
 ## Summary
 
-#92230 remains the open canonical PR and is maintainer-editable, but the pinned repair requirements identify two remaining code/test defects at head 25949bd916f46682a8fa120ccb878346e498af97. Close and merge are blocked by the job, so the safe executable path is a narrow repair of the existing contributor branch. #94067 is already closed and merged, and is only historical related context.
+#92230 is the open canonical PR for adding configured model choices to /model. The PR is maintainer-editable at head 38ee9edebfc7633bb232871a0df05c3dedcd1490, but the job pins two remaining repair requirements: preserve Discord configured ACP binding readiness for bare /model before loading picker data, and prove Telegram long-model reachability through the provider browse callback to a real mdl_sel_<provider>/<model> route. Close and merge are blocked by job policy, so the executable path is to repair the existing contributor branch and preserve @clawSean's PR credit. #94067 is already closed and merged and remains only related historical context.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
 | Worker actions | 3 |
-| Fix executed | 1 |
-| Fix failed | 1 |
-| Fix blocked | 1 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -65,16 +65,15 @@ Canonical: https://github.com/openclaw/openclaw/pull/92230
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #92230 in place. Move bare Discord /model picker handling behind the configured ACP binding readiness route guard so unavailable configured bindings return the existing unavailable response without loading picker data or sending picker UI. Strengthen Telegram long-model coverage so over-budget /model choices fall back through provider browse and the provider list path exposes a usable mdl_sel selection route for the long model, while short-model tgcmd callbacks remain unchanged.",
+  "summary": "Repair #92230 in place. First route bare Discord /model through the same configured ACP binding readiness guard used by the normal native command path before loading model picker data or replying. Then strengthen Telegram tests so long model callback overflow proves the provider browse callback opens a menu containing the real provider-scoped mdl_sel_<provider>/<model> selection route, while preserving direct tgcmd behavior for short models.",
   "pr_title": "fix(clownfish): repair model menu automerge for #92230",
-  "pr_body": "What Problem This Solves\n\n#92230 adds configured model choices to /model, but the pinned automerge repair pass still needs two bounded fixes before review can continue: bare Discord /model must honor configured ACP binding readiness before opening the picker, and Telegram long-model proof must demonstrate a reachable mdl_sel route after provider browse rather than only proving mdl_prov appears.\n\nWhy This Change Was Made\n\nThis repair keeps the existing contributor PR branch as the canonical review lane and limits changes to the two remaining Clownfish repair requirements. It should preserve the existing unavailable configured-binding response, avoid exposing picker data when the binding is unavailable, and keep Telegram short-model callbacks unchanged while proving the long-model fallback remains selectable.\n\nUser Impact\n\nDiscord users with an unavailable configured ACP binding should see the same unavailable-binding response for bare /model that they get for the normal command path. Telegram users should still be able to reach and select long configured model IDs through the provider browse flow when direct callback data would exceed Telegram's limit.\n\nEvidence\n\nPlanned focused validation:\n\npnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts\n\npnpm check:changed\n\nCredit\n\nBuilt on @clawSean's source PR: https://github.com/openclaw/openclaw/pull/92230. Clownfish repair scope is limited to the pinned automerge findings.",
+  "pr_body": "## What Problem This Solves\n\nRepairs the automerge candidate in #92230 so configured `/model` choices remain safe across Discord and Telegram native command surfaces.\n\n## Why This Change Was Made\n\nThe pinned Clownfish repair requirements identify two remaining defects on the current PR head `38ee9edebfc7633bb232871a0df05c3dedcd1490`: bare Discord `/model` must not bypass configured ACP binding readiness, and Telegram long-model handling must prove the provider browse path reaches a real provider-scoped `mdl_sel_<provider>/<model>` selection route instead of only asserting `mdl_prov`.\n\n## User Impact\n\nDiscord users with configured ACP bindings keep the existing unavailable-binding response when the binding cannot be prepared, without exposing picker data. Telegram users keep short-model direct callbacks, while long model names remain reachable through the provider browse menu.\n\n## Evidence\n\nPlanned focused validation:\n`pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts`\n\nThen run `pnpm check:changed`. Treat unrelated `opencode-go` changed-check type failures as baseline evidence only and do not edit that surface.\n\nSource PR: https://github.com/openclaw/openclaw/pull/92230\nCredit: original contribution by @clawSean; Clownfish repair keeps the contributor branch as the review lane.",
   "likely_files": [
     "extensions/discord/src/monitor/native-command.ts",
     "extensions/discord/src/monitor/native-command.model-picker.test.ts",
     "extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts",
     "extensions/telegram/src/bot-native-commands.ts",
     "extensions/telegram/src/bot-native-commands.test.ts",
-    "extensions/telegram/src/command-ui.ts",
     "extensions/telegram/src/native-command-callback-data.ts",
     "src/auto-reply/commands-registry.test.ts"
   ],
@@ -83,15 +82,15 @@ Canonical: https://github.com/openclaw/openclaw/pull/92230
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair the existing maintainer-editable contributor branch for #92230 rather than replacing it.",
-    "Keep @clawSean credited as the original contributor for https://github.com/openclaw/openclaw/pull/92230.",
-    "Mention in any repair PR/body/comment that Clownfish only added the bounded automerge repair on top of @clawSean's source PR."
+    "Preserve @clawSean as the original contributor on source PR https://github.com/openclaw/openclaw/pull/92230.",
+    "Repair the contributor branch directly because maintainer_can_modify=true; do not open a replacement unless branch update fails later.",
+    "PR body or final repair comment should state that Clownfish carried the existing contributor PR forward and kept credit on #92230."
   ],
   "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-92230.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
-  "repair_status": "executed",
+  "repair_status": "pushed",
   "terminal": true
 }
 ```
@@ -100,29 +99,27 @@ Canonical: https://github.com/openclaw/openclaw/pull/92230
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | validation command failed (pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts): $ node scripts/test-projects-serial.mjs extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts [test] starting test/vitest/vitest.auto-reply.config.ts [test] starting test/vitest/vitest.extension-discord.config.ts [test] starting test/vitest/vitest.extension-telegram.config.ts [31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m [41m[1m FAIL [22m[49m [30m[43m extension-telegram [49m[39m extensions/telegram/src/bot-native-commands.test.ts[2m > [22mregisterTelegramNativeCommands[2m > [22mfalls back to model browse controls when configured model callbacks exceed Telegram limits [31m[1mAssertionError[22m: expected [ …(3) ] to deep equally contain [ { …(2) } ][39m [32m- Expected[39m [31m+ Received[39m [2m [[22m [31m+ [[39m [2m {[22m [32m- "callback_data": "mdl_sel/nousresearch/hermes-3-llama-3.1-405b:extended",[39m [31m+ "callback_data": "mdl_sel_openrouter/short-model",[39m [31m+ "text": "short-model",[39m [31m+ },[39m [31m+ ],[39m [31m+ [[39m [31m+ {[39m... |
-| repair_contributor_branch | blocked | https://github.com/openclaw/openclaw/pull/92230 |  | validation command failed (pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts): $ node scripts/test-projects-serial.mjs extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts [test] starting test/vitest/vitest.auto-reply.config.ts [test] starting test/vitest/vitest.extension-discord.config.ts [test] starting test/vitest/vitest.extension-telegram.config.ts [31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m [41m[1m FAIL [22m[49m [30m[43m extension-telegram [49m[39m extensions/telegram/src/bot-native-commands.test.ts[2m > [22mregisterTelegramNativeCommands[2m > [22mfalls back to model browse controls when configured model callbacks exceed Telegram limits [31m[1mAssertionError[22m: expected [ …(3) ] to deep equally contain [ { …(2) } ][39m [32m- Expected[39m [31m+ Received[39m [2m [[22m [31m+ [[39m [2m {[22m [32m- "callback_data": "mdl_sel/nousresearch/hermes-3-llama-3.1-405b:extended",[39m [31m+ "callback_data": "mdl_sel_openrouter/short-model",[39m [31m+ "text": "short-model",[39m [31m+ },[39m [31m+ ],[39m [31m+ [[39m [31m+ {[39m... |
-| automerge_repair_outcome_comment | executed | #92230 |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/92230 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #92230 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #92230 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92230 | fix_needed | planned | canonical | Repair the existing contributor PR branch at the pinned head; do not replace, close, or merge. |
-| cluster:automerge-openclaw-openclaw-92230 | build_fix_artifact | planned |  | Create an executable repair plan for the canonical contributor branch. |
-| #94067 | keep_closed | skipped | related | Already closed refs are evidence only; no mutation is valid. |
+| #92230 | fix_needed | planned | canonical | Repair the existing contributor PR branch; do not replace, close, or merge. |
+| #94067 | keep_closed | skipped | related | Already merged related context; keep closed. |
+| cluster:automerge-openclaw-openclaw-92230 | build_fix_artifact | planned |  | Build a narrow executable repair artifact for the canonical contributor branch. |
 
 ## Needs Human
 

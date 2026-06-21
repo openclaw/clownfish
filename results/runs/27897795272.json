@@ -1,0 +1,175 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-92230",
+  "mode": "autonomous",
+  "run_id": "27897795272",
+  "workflow_run_id": "27897795272",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27897795272",
+  "head_sha": "791045fa62c8a83ccaf1e6118c1f6d789e9174cd",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T07:51:01Z",
+  "workflow_updated_at": "2026-06-21T08:11:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-92230.md",
+  "published_at": "2026-06-21T08:11:59.744Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92230",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92230",
+  "summary": "#92230 is the open canonical PR for adding configured model choices to /model. The PR is maintainer-editable at head 38ee9edebfc7633bb232871a0df05c3dedcd1490, but the job pins two remaining repair requirements: preserve Discord configured ACP binding readiness for bare /model before loading picker data, and prove Telegram long-model reachability through the provider browse callback to a real mdl_sel_<provider>/<model> route. Close and merge are blocked by job policy, so the executable path is to repair the existing contributor branch and preserve @clawSean's PR credit. #94067 is already closed and merged and remains only related historical context.",
+  "actions": [
+    {
+      "target": "#92230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor PR branch; do not replace, close, or merge."
+    },
+    {
+      "target": "#94067",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Already merged related context; keep closed."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-92230",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Build a narrow executable repair artifact for the canonical contributor branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92230",
+    "source_refs": [
+      "#92230",
+      "#94067"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #92230 in place. First route bare Discord /model through the same configured ACP binding readiness guard used by the normal native command path before loading model picker data or replying. Then strengthen Telegram tests so long model callback overflow proves the provider browse callback opens a menu containing the real provider-scoped mdl_sel_<provider>/<model> selection route, while preserving direct tgcmd behavior for short models.",
+    "pr_title": "fix(clownfish): repair model menu automerge for #92230",
+    "pr_body": "## What Problem This Solves\n\nRepairs the automerge candidate in #92230 so configured `/model` choices remain safe across Discord and Telegram native command surfaces.\n\n## Why This Change Was Made\n\nThe pinned Clownfish repair requirements identify two remaining defects on the current PR head `38ee9edebfc7633bb232871a0df05c3dedcd1490`: bare Discord `/model` must not bypass configured ACP binding readiness, and Telegram long-model handling must prove the provider browse path reaches a real provider-scoped `mdl_sel_<provider>/<model>` selection route instead of only asserting `mdl_prov`.\n\n## User Impact\n\nDiscord users with configured ACP bindings keep the existing unavailable-binding response when the binding cannot be prepared, without exposing picker data. Telegram users keep short-model direct callbacks, while long model names remain reachable through the provider browse menu.\n\n## Evidence\n\nPlanned focused validation:\n`pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts`\n\nThen run `pnpm check:changed`. Treat unrelated `opencode-go` changed-check type failures as baseline evidence only and do not edit that surface.\n\nSource PR: https://github.com/openclaw/openclaw/pull/92230\nCredit: original contribution by @clawSean; Clownfish repair keeps the contributor branch as the review lane.",
+    "likely_files": [
+      "extensions/discord/src/monitor/native-command.ts",
+      "extensions/discord/src/monitor/native-command.model-picker.test.ts",
+      "extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts",
+      "extensions/telegram/src/bot-native-commands.ts",
+      "extensions/telegram/src/bot-native-commands.test.ts",
+      "extensions/telegram/src/native-command-callback-data.ts",
+      "src/auto-reply/commands-registry.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @clawSean as the original contributor on source PR https://github.com/openclaw/openclaw/pull/92230.",
+      "Repair the contributor branch directly because maintainer_can_modify=true; do not open a replacement unless branch update fails later.",
+      "PR body or final repair comment should state that Clownfish carried the existing contributor PR forward and kept credit on #92230."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-92230.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/92230",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e556df6baf754973db7c0ec4f05e79e28842b255",
+      "checkpoint_commits": [
+        "d881adb9e283913b81fbfebcfce10cdfa6a8f5c1",
+        "554f8e71e8935d6623a026abcfccdcd478cfb1e9",
+        "e556df6baf754973db7c0ec4f05e79e28842b255"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#92230",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#92230",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
