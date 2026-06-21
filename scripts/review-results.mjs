@@ -113,6 +113,7 @@ function reviewResult(resultPath) {
   const closeActions = [];
   const fixActions = [];
   const mergeActions = [];
+  const expectedClusterTarget = `cluster:${result.cluster_id}`;
   const hasFixPath = actions.some((action) => FIX_ACTIONS.has(String(action.action ?? "")) && ["planned", "blocked"].includes(action.status));
   for (const action of actions) {
     const name = String(action.action ?? "");
@@ -127,6 +128,13 @@ function reviewResult(resultPath) {
     if (!target) failures.push("action missing target");
     if (target.includes(",")) failures.push(`${target} action target must be a single ref, not a comma-separated list`);
     if (!name) failures.push(`${target || "unknown target"} missing action`);
+    const invalidClusterTarget = target.startsWith("cluster:") && target !== expectedClusterTarget;
+    if (invalidClusterTarget) {
+      failures.push(`${target} cluster-scoped target must be exactly ${expectedClusterTarget}`);
+    }
+    if (name === "build_fix_artifact" && target !== expectedClusterTarget && !invalidClusterTarget) {
+      failures.push(`${target} build_fix_artifact target must be exactly ${expectedClusterTarget}`);
+    }
     if (!action.idempotency_key) failures.push(`${target} missing idempotency_key`);
     if (!Array.isArray(action.evidence) || action.evidence.length === 0) {
       failures.push(`${target} missing evidence`);
@@ -266,6 +274,10 @@ function reviewResult(resultPath) {
   }
 
   if (fixActions.length > 0) {
+    const buildFixArtifactActions = fixActions.filter((action) => action.action === "build_fix_artifact");
+    if (buildFixArtifactActions.length > 1) {
+      failures.push(`result contains ${buildFixArtifactActions.length} build_fix_artifact actions; at most one is allowed`);
+    }
     validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
   }

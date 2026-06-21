@@ -43,6 +43,7 @@ Before action:
 - if a security-sensitive linked ref appears, quarantine that exact item with `route_security` and continue classifying unrelated non-security items; never emit cluster-scoped `route_security`;
 - emit `route_security` only when the matching hydrated preflight item is explicitly `security_sensitive: true`, or the item is unavailable with a documented hydration failure; a preflight `security_sensitive: false` is authoritative for this run and cannot be overridden by check names, comments, labels, or validator wording;
 - if security-sensitive refs block only that exact ref, route only the exact refs with `route_security` and keep a separate non-security cluster-level fix path moving when you can include a complete executable `fix_artifact`; use cluster-scoped `needs_human` only when the fix itself depends on the quarantined security decision or no complete executable fix artifact is safe;
+- a cluster-scoped fix action must target exactly `cluster:<cluster_id>`; never append a synthetic suffix or subcluster name. Emit at most one `build_fix_artifact` action per result, and only when one narrow executable artifact covers the work. If several unrelated repairs are viable, keep them as individual hydrated `fix_needed` actions and do not combine them into one artifact;
 - use GitHub and the local job/repo artifacts as evidence; do not use web search, third-party mirrors, blogs, or copied issue pages as evidence.
 - use `needs_human` only for the specific unresolved decision, not as the default result for a whole cluster.
 

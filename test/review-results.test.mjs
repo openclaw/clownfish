@@ -759,6 +759,73 @@ test("review-results allows non-security fix artifact with separately routed sec
   assert.match(result.stdout, /"status": "passed"/);
 });
 
+test("review-results rejects synthetic cluster fix targets even with fabricated target metadata", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test:googlechat-spacetype-repair",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "cluster-test:build-fix-artifact:googlechat",
+          classification: "canonical",
+          target_kind: "issue",
+          target_updated_at: "2026-06-21T09:49:00Z",
+          evidence: ["The plan claims a narrow Google Chat repair."],
+          reason: "Open a replacement fix PR.",
+        },
+      ],
+      fix_artifact: validFixArtifact(),
+    },
+    { job: fixEnabledJob() },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /cluster:cluster-test:googlechat-spacetype-repair cluster-scoped target must be exactly cluster:cluster-test/);
+});
+
+test("review-results rejects multiple build fix artifact actions", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "cluster-test:build-fix-artifact:one",
+          classification: "canonical",
+          target_kind: null,
+          target_updated_at: null,
+          evidence: ["The first narrow repair is executable."],
+          reason: "Open one narrow fix PR.",
+        },
+        {
+          target: "cluster:cluster-test",
+          action: "build_fix_artifact",
+          status: "planned",
+          idempotency_key: "cluster-test:build-fix-artifact:two",
+          classification: "canonical",
+          target_kind: null,
+          target_updated_at: null,
+          evidence: ["The second narrow repair is executable."],
+          reason: "Open another narrow fix PR.",
+        },
+      ],
+      fix_artifact: validFixArtifact(),
+    },
+    { job: fixEnabledJob() },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /result contains 2 build_fix_artifact actions; at most one is allowed/);
+});
+
 test("review-results allows non-security fix actions that mention sibling security-boundary routes", () => {
   const dir = makeResultDir(
     {
@@ -1596,6 +1663,24 @@ function validMergePreflight(target) {
       findings_addressed: true,
       evidence: ["Codex /review returned clean."],
     },
+  };
+}
+
+function validFixArtifact(overrides = {}) {
+  return {
+    summary: "Repair the narrow test fixture.",
+    affected_surfaces: ["gateway"],
+    likely_files: ["src/gateway/test-fixture.ts", "src/gateway/test-fixture.test.ts"],
+    linked_refs: [],
+    validation_commands: ["pnpm check:changed"],
+    changelog_required: false,
+    credit_notes: [],
+    pr_title: "fix(gateway): repair test fixture",
+    pr_body: "## Summary\n- repair the narrow fixture\n\n## Test plan\n- pnpm check:changed",
+    repair_strategy: "new_fix_pr",
+    allow_no_pr: false,
+    branch_update_blockers: [],
+    ...overrides,
   };
 }
 
