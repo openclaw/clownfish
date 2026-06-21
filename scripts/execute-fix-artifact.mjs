@@ -3,7 +3,14 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import {
+  assertAllowedOwner,
+  hasDeterministicSecuritySignal,
+  parseArgs,
+  parseJob,
+  repoRoot,
+  validateJob,
+} from "./lib.mjs";
 import {
   automergeRepairOutcomeComment,
   externalMessageProvenance,
@@ -255,6 +262,22 @@ if (scopeBlock && !deferScopeBlockForRebaseOnlyRepair) {
     repair_strategy: fixArtifact.repair_strategy,
     reason: scopeBlock.reason,
     evidence: scopeBlock.evidence,
+  });
+  writeReport(report, resultPath);
+  process.exit(0);
+}
+const liveTargetPolicyBlock = validateLiveAutonomousTargetPolicy({ job, fixArtifact });
+if (liveTargetPolicyBlock) {
+  report.status = "blocked";
+  report.reason = liveTargetPolicyBlock.reason;
+  report.no_target_mutations = true;
+  report.actions.push({
+    action: "execute_fix",
+    status: "blocked",
+    code: liveTargetPolicyBlock.code,
+    repair_strategy: fixArtifact.repair_strategy,
+    reason: liveTargetPolicyBlock.reason,
+    evidence: liveTargetPolicyBlock.evidence,
   });
   writeReport(report, resultPath);
   process.exit(0);
@@ -2420,6 +2443,37 @@ function mutableFixSourceRefs(fixArtifact) {
   return [];
 }
 
+function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
+  if (job.frontmatter.mode !== "autonomous") return null;
+
+  const sources =
+    fixArtifact.repair_strategy === "repair_contributor_branch"
+      ? [firstSourcePullRequest(fixArtifact)]
+      : fixArtifact.repair_strategy === "replace_uneditable_branch"
+        ? supersededReplacementSources(fixArtifact).map(parsePullRequestUrl).filter(Boolean)
+        : [];
+
+  for (const source of sources) {
+    const pull = fetchPullRequest(source.number);
+    const labels = (pull.labels ?? []).map((label) => String(label?.name ?? label)).filter(Boolean);
+    const normalizedLabels = labels.map((label) => label.toLowerCase());
+    const blockedSignals = [
+      ...(normalizedLabels.includes("clawsweeper:automerge") ? ["clawsweeper:automerge"] : []),
+      ...labels.filter((label) => /^merge-risk:/i.test(label)),
+      ...(hasDeterministicSecuritySignal({ labels }) ? ["security-sensitive"] : []),
+    ];
+    if (blockedSignals.length === 0) continue;
+
+    return {
+      code: "live_target_policy_block",
+      reason: `live source PR #${source.number} has blocked labels: ${blockedSignals.join(", ")}`,
+      evidence: [`source=#${source.number}`, `labels=${labels.join(", ") || "none"}`],
+    };
+  }
+
+  return null;
+}
+
 function validateAutonomousFixScope({ job, fixArtifact }) {
   if (allowBroadFixArtifacts || job.frontmatter.allow_broad_fix_artifacts === true) return null;
 
@@ -3953,6 +4007,10 @@ function appendAutomergeRepairOutcomeComment(report, resultPath) {
     action: "automerge_repair_outcome_comment",
     target: target ? `#${target}` : null,
   };
+  if (report.no_target_mutations === true) {
+    report.actions.push({ ...base, status: "skipped", reason: "live target policy blocks all target mutations" });
+    return;
+  }
   if (!jobAllowsAction("comment")) {
     report.actions.push({ ...base, status: "skipped", reason: "job blocks outcome comments" });
     return;

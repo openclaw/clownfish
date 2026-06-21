@@ -169,6 +169,83 @@ process.exit(99);
   ]);
 });
 
+test("execute-fix-artifact blocks live autonomous repair targets with risk labels before target mutation", () => {
+  for (const { label, expectedSignal, automerge, repairStrategy = "repair_contributor_branch" } of [
+    { label: "merge-risk: compatibility", expectedSignal: "merge-risk: compatibility", automerge: false },
+    {
+      label: "merge-risk: availability",
+      expectedSignal: "merge-risk: availability",
+      automerge: false,
+      repairStrategy: "replace_uneditable_branch",
+    },
+    { label: "security:sensitive", expectedSignal: "security-sensitive", automerge: false },
+    { label: "clawsweeper:automerge", expectedSignal: "clawsweeper:automerge", automerge: true },
+  ]) {
+    const fixture = makeFixture();
+    const clusterId = `live-target-policy-${label.replace(/[^a-z]+/gi, "-").replace(/^-|-$/g, "")}`;
+    const resultPath = path.join(fixture.runDir, "result.json");
+    const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+    const ghLog = path.join(fixture.root, "gh.log");
+
+    fs.writeFileSync(
+      fixture.jobPath,
+      `${jobFile(clusterId).replace(
+        "security_sensitive: false",
+        `${automerge ? "source: pr_automerge\n" : ""}security_sensitive: false`,
+      )}`,
+    );
+    const result = resultFile(clusterId);
+    result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+    result.fix_artifact.repair_strategy = repairStrategy;
+    result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+    fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+    writeLiveTargetPolicyGhStub({ binDir: fixture.binDir, ghLog, labels: [label] });
+
+    const child = spawnSync(
+      process.execPath,
+      [
+        "scripts/execute-fix-artifact.mjs",
+        fixture.jobPath,
+        resultPath,
+        "--target-dir",
+        fixture.targetDir,
+        "--work-dir",
+        fixture.workDir,
+        "--report",
+        reportPath,
+      ],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+          CLOWNFISH_ALLOWED_OWNER: "openclaw",
+          CLOWNFISH_ALLOW_EXECUTE: "1",
+          CLOWNFISH_ALLOW_FIX_PR: "1",
+        },
+      },
+    );
+
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+    assert.deepEqual(fs.readFileSync(ghLog, "utf8").trim().split("\n"), ["api repos/openclaw/openclaw/pulls/1"]);
+
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.status, "blocked");
+    assert.equal(report.no_target_mutations, true);
+    assert.equal(report.actions[0].code, "live_target_policy_block");
+    assert.match(report.reason, new RegExp(expectedSignal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    if (automerge) {
+      assert.deepEqual(report.actions.at(-1), {
+        action: "automerge_repair_outcome_comment",
+        target: "#1",
+        status: "skipped",
+        reason: "live target policy blocks all target mutations",
+      });
+    }
+  }
+});
+
 test("execute-fix-artifact ignores security-routed lineage that is not a mutable repair source", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
@@ -1314,6 +1391,23 @@ const [command, ...args] = process.argv.slice(2);
 if (command !== "pnpm") process.exit(2);
 const child = spawnSync("pnpm", args, { stdio: "inherit" });
 process.exit(child.status ?? 1);
+`,
+  );
+}
+
+function writeLiveTargetPolicyGhStub({ binDir, ghLog, labels }) {
+  writeExecutable(
+    path.join(binDir, "gh"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const args = process.argv.slice(2);
+fs.appendFileSync(${JSON.stringify(ghLog)}, args.join(" ") + "\\n");
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/1") {
+  console.log(JSON.stringify({ labels: ${JSON.stringify(labels)}.map((name) => ({ name })) }));
+  process.exit(0);
+}
+console.error("unexpected gh call: " + args.join(" "));
+process.exit(2);
 `,
   );
 }
