@@ -1,0 +1,152 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T140336-004",
+  "mode": "plan",
+  "run_id": "27906899670",
+  "workflow_run_id": "27906899670",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27906899670",
+  "head_sha": "f23cc742192d509fbcc7f56a00f5e1052307bf97",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T14:08:35Z",
+  "workflow_updated_at": "2026-06-21T14:10:08Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T140336-004.md",
+  "published_at": "2026-06-21T14:10:47.503Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. No GitHub mutations are allowed by mode or job blocked_actions. The hydrated preflight artifact reports no security-sensitive job refs. None of the five seed PRs has the complete merge preflight required for a merge recommendation; each is classified independently against its current hydrated state.",
+  "actions": [
+    {
+      "target": "#83041",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#83041",
+      "reason": "Calibrated Clownfish/automerge PR is the likely fix path for #46797, but it is not merge-ready in this plan run; repair the contributor branch rather than recommending merge."
+    },
+    {
+      "target": "#67432",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#67432",
+      "reason": "The current PR appears narrow and useful but has stale/failing validation and no complete merge preflight. Keep it for maintainer review rather than closing or merging."
+    },
+    {
+      "target": "#95347",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#95347",
+      "reason": "This looks like a plausible active memory fix path, but pending checks and missing merge preflight block merge recommendation. It should remain in review rather than be closed or combined into a cluster fix artifact."
+    },
+    {
+      "target": "#94134",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94134",
+      "reason": "Broad feature/auth-provider surface needs maintainer judgment; do not merge or build an automated replacement from this inventory shard."
+    },
+    {
+      "target": "#94084",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94084",
+      "reason": "This is the strongest hydrated plugin-update fix path, but missing merge preflight prevents a merge recommendation. Keep it as the active review candidate."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T140336-004",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#83041",
+      "reason": "One narrow executable repair artifact is safe for #83041 only. Other seed PRs either need maintainer review, have pending/failing validation without a concrete repair shape, or lack merge preflight but are otherwise review candidates."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 3,
+    "needs_human": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94134 requires maintainer judgment because the iOS onboarding feature changes gateway discovery, shared gateway channel behavior, and auth precedence across a large diff with auth-provider compatibility risk."
+  ],
+  "repair_candidate": {
+    "target": "#83041",
+    "source_refs": [
+      "#83041",
+      "#46797",
+      "#67431",
+      "#67432",
+      "#80823",
+      "#90030",
+      "#91742",
+      "#92065",
+      "#92639",
+      "#93394",
+      "#93863",
+      "#94084",
+      "#94134",
+      "#94225",
+      "#94564",
+      "#95347",
+      "#55372",
+      "#83337",
+      "#84256",
+      "#90023"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #83041 on the existing contributor branch so the config patch restart-required notice fix can return to merge-ready state without replacing contributor work.",
+    "pr_title": "fix(config): repair config patch restart-required notices",
+    "pr_body": "Repair PR #83041 on its existing branch after the plan preflight found unstable checks. This keeps @xuruiray's source PR as the canonical path for #46797, preserves attribution, and limits changes to the restart-sentinel/config-write flow plus focused regression tests.\n\nValidation:\n- node scripts/run-vitest.mjs src/infra/restart-sentinel.test.ts src/gateway/server-restart-sentinel.test.ts src/gateway/server-methods/config.shared-auth.test.ts\n- pnpm check:changed\n\nRefs: #83041, #46797",
+    "likely_files": [
+      "src/gateway/server-methods/config-write-flow.ts",
+      "src/gateway/server-methods/config.shared-auth.test.ts",
+      "src/gateway/server-restart-sentinel.ts",
+      "src/gateway/server-restart-sentinel.test.ts",
+      "src/infra/restart-sentinel.ts",
+      "src/infra/restart-sentinel.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/infra/restart-sentinel.test.ts src/gateway/server-restart-sentinel.test.ts src/gateway/server-methods/config.shared-auth.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR #83041 by @xuruiray remains the canonical branch and should keep contributor attribution.",
+      "Existing Clownfish repair commits are already on the branch; keep @xuruiray credited in the PR body/changelog if user-facing release notes mention the fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T140336-004.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#94134 requires maintainer judgment because the iOS onboarding feature changes gateway discovery, shared gateway channel behavior, and auth precedence across a large diff with auth-provider compatibility risk."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
