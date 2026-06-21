@@ -1012,7 +1012,7 @@ function writePayload(name, value) {
 
 function ghJson(ghArgs) {
   const text = ghWithRetry(ghArgs);
-  return JSON.parse(text || "null");
+  return JSON.parse(stripAnsi(text) || "null");
 }
 
 function ghPaged(apiPath) {
@@ -1028,7 +1028,7 @@ function ghWithRetry(ghArgs, attempts = 6) {
       return execFileSync("gh", ghArgs, {
         cwd: repoRoot(),
         encoding: "utf8",
-        env: process.env,
+        env: githubCliEnv(),
         maxBuffer: 64 * 1024 * 1024,
         stdio: ["ignore", "pipe", "pipe"],
       }).trim();
@@ -1039,6 +1039,12 @@ function ghWithRetry(ghArgs, attempts = 6) {
     }
   }
   throw lastError;
+}
+
+function githubCliEnv() {
+  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
+  delete env.FORCE_COLOR;
+  return env;
 }
 
 function ghBestEffort(ghArgs) {
