@@ -1,0 +1,131 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-007",
+  "mode": "plan",
+  "run_id": "27900181321-1-6",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-007.md",
+  "published_at": "2026-06-21T09:37:15.995Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open PRs. No GitHub mutations planned because the job blocks comments, labels, close actions, force-pushes, and check bypasses; no PR has complete merge preflight evidence.",
+  "actions": [
+    {
+      "target": "#89068",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90022",
+      "candidate_fix": null,
+      "reason": "Related maintainer draft in the dynamic-tool hardening family; keep it open for maintainer review rather than merge or replacement."
+    },
+    {
+      "target": "#89213",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89286",
+      "candidate_fix": null,
+      "reason": "Related draft work in the CLI prompt tool guard family; newer related #89286 should remain the comparison point, but no closure or merge is available in this job."
+    },
+    {
+      "target": "#94094",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93694",
+      "candidate_fix": "#93694",
+      "reason": "The PR is useful evidence for #82121 but cannot be merged as-is due failed proof and unresolved bot finding; a narrow repair should draw from the safer provenance-backed direction rather than global stripping."
+    },
+    {
+      "target": "#94151",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer proof/review; merge preflight is incomplete and there is no hydrated replacement PR to supersede it."
+    },
+    {
+      "target": "#94487",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94482",
+      "candidate_fix": null,
+      "reason": "Small plausible fix with green checks, but no complete merge preflight or passed Codex /review evidence is present; keep open for maintainer finalization."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "fix_needed": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93694",
+    "source_refs": [
+      "#93694",
+      "#94094",
+      "#82121",
+      "#94743",
+      "#82128",
+      "#83828",
+      "#89068",
+      "#89213",
+      "#89286",
+      "#90022",
+      "#93086",
+      "#94151",
+      "#94487"
+    ],
+    "repair_strategy": "new_fix_pr",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "A narrow follow-up fix path is warranted for the #82121 truncation-sentinel family because #94094 fails proof and has an unresolved code-fence preservation finding, while #93694 contains safer provenance-backed hydration behavior but is too broad for an automatic merge recommendation in this shard.",
+    "pr_title": "fix(agents): hydrate truncated session replies without stripping user text",
+    "pr_body": "Fixes #82121.\n\nThis follows the safer provenance-backed direction from #93694 and avoids the global sanitizer stripping approach that left #94094 with a code-fence preservation blocker. Credit to @markoub for the session hydration path and @MoerAI for the sanitizer regression work.\n\nValidation:\n- pnpm test src/agents/run-wait.test.ts\n- pnpm test src/agents/openclaw-tools.sessions.test.ts\n- pnpm test src/agents/embedded-agent-helpers.sanitizeuserfacingtext.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/agents/run-wait.ts",
+      "src/agents/tools/chat-history-text.ts",
+      "src/agents/tools/embedded-gateway-stub.ts",
+      "src/agents/openclaw-tools.sessions.test.ts",
+      "src/agents/run-wait.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/run-wait.test.ts",
+      "pnpm test src/agents/openclaw-tools.sessions.test.ts",
+      "pnpm test src/agents/embedded-agent-helpers.sanitizeuserfacingtext.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit MoerAI for #94094's sanitizer-focused reproduction and tests.",
+      "Credit markoub for #93694's provenance-backed session-reply hydration approach.",
+      "Mention #82121 as the source issue."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-007.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

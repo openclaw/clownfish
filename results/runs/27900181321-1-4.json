@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-005",
+  "mode": "plan",
+  "run_id": "27900181321-1-4",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-005.md",
+  "published_at": "2026-06-21T09:37:15.986Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory items. No GitHub mutations are permitted. No item has the complete merge preflight required for merge_candidate; three items are conservatively kept for separate handling, and two require targeted maintainer judgment because of broad/unclear scope or active author follow-up.",
+  "actions": [
+    {
+      "target": "#95229",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on whether to accept the broad plugin API/runtime-state hardening in #95229 or prefer a narrower #94516 fix such as #94781. Merge is blocked by missing complete merge_preflight."
+    },
+    {
+      "target": "#95237",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94119",
+      "candidate_fix": "#94119",
+      "reason": "#95237 is related to the #92241 stale-gateway warning/fix family and overlaps strongly with #94119, but close actions are blocked and no merge preflight exists. Keep it related for maintainer comparison rather than closing or merging in this plan."
+    },
+    {
+      "target": "#93588",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent non-security agent behavior PR. It is not a duplicate of the gateway/Copilot/outbound items, and merge is blocked only by missing complete merge_preflight."
+    },
+    {
+      "target": "#94952",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is an independent outbound routing fix with a focused diff. It should not be closed or merged from this plan because the required merge preflight is missing."
+    },
+    {
+      "target": "#95253",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#92241",
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required because the PR is explicitly waiting on author and ClawSweeper found issues before merge. It is related to #92241 but should not be merged or replaced from this plan."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_related": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#95229: choose canonical/scope for the #94516 Copilot missing runtime.state fix family; #95229 is broader than narrower hydrated alternatives such as #94781.",
+    "#95253: active author follow-up is present and ClawSweeper found issues before merge for the postinstall stale-gateway warning approach."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

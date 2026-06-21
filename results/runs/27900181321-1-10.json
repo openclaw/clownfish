@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-011",
+  "mode": "plan",
+  "run_id": "27900181321-1-10",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-011.md",
+  "published_at": "2026-06-21T09:37:15.918Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only result for the PR inventory shard. No merge_candidate or fix PR is safe to emit: merge preflight is missing for otherwise focused PRs, #94116 is draft, and #89426 is a broad 183-file docs/comment delta requiring maintainer judgment. Security-sensitive linked PRs are scoped to route_security only.",
+  "actions": [
+    {
+      "target": "#77797",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related product/design issue; no close, merge, or fix artifact action is allowed or clear from this shard."
+    },
+    {
+      "target": "#77800",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plugin contract regression issue; keep open as related context."
+    },
+    {
+      "target": "#78084",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated PR is out of ProjectClownfish mutation scope and should be handled by central OpenClaw security routing."
+    },
+    {
+      "target": "#89037",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89050",
+      "candidate_fix": "#89050",
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "#89050",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated PR is quarantined from ProjectClownfish mutation."
+    },
+    {
+      "target": "#89206",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89050",
+      "candidate_fix": "#89050",
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "#89211",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Do not merge or close. Keep as related session-state PR; failing proof/checks and missing merge preflight block finalization."
+    },
+    {
+      "target": "#89215",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89422",
+      "reason": "Related to #89422 but not safe for fixed-by-candidate closeout in this plan-only shard."
+    },
+    {
+      "target": "#89369",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and superseded by main; no mutation planned."
+    },
+    {
+      "target": "#89422",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent PR, but missing complete merge preflight blocks merge_candidate; no executable repair artifact is needed from this shard."
+    },
+    {
+      "target": "#89426",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code/docs delta is explicitly listed as a human-review condition; split or maintainer judgment is needed before finalization."
+    },
+    {
+      "target": "#94116",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft PR with related follow-up evidence; keep independent and do not merge or replace from this shard."
+    },
+    {
+      "target": "#94217",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused independent PR, but missing complete merge preflight blocks merge_candidate; no bounded repair artifact is justified."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "route_security": 2,
+    "keep_closed": 3,
+    "keep_independent": 3,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89426 requires maintainer judgment because the hydrated PR is a broad 183-file docs/comment/code-adjacent delta with a failing topology/architecture check and no complete merge preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

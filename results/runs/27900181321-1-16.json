@@ -1,0 +1,162 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-017",
+  "mode": "plan",
+  "run_id": "27900181321-1-16",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "16",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-017.md",
+  "published_at": "2026-06-21T09:37:15.940Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification completed for the mixed PR inventory shard. No merge recommendations are safe because no open PR has complete merge preflight; two broad/open PRs need maintainer judgment, one security-sensitive linked PR is routed centrally, and the remaining open candidates are non-mutating keep classifications.",
+  "actions": [
+    {
+      "target": "#62827",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive closure actions."
+    },
+    {
+      "target": "#62838",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical PR; use only as evidence for the /activate family."
+    },
+    {
+      "target": "#62841",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#62838",
+      "candidate_fix": null,
+      "reason": "Related/superseded by the same /activate alias family, but close is blocked by job frontmatter and the PR is not merge-ready."
+    },
+    {
+      "target": "#85200",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context."
+    },
+    {
+      "target": "#85235",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed by maintainer; no action."
+    },
+    {
+      "target": "#85478",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta plus dirty merge state requires maintainer judgment before any merge or repair path."
+    },
+    {
+      "target": "#85486",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated item is out of ProjectClownfish mutation scope and should be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#85498",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": "#85478",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate/superseded context; no closure action."
+    },
+    {
+      "target": "#85612",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context."
+    },
+    {
+      "target": "#85727",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR with missing proof/rebase needs; low-signal closeout is disabled and no merge preflight exists."
+    },
+    {
+      "target": "#85745",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Discord config PR that needs proof/rebase before merge; no complete fix artifact is safe from this mixed shard."
+    },
+    {
+      "target": "#85747",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad architecture and bundled cross-scope changes require maintainer judgment; no merge or repair recommendation is safe in this plan."
+    },
+    {
+      "target": "#85904",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical context."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 7,
+    "keep_related": 1,
+    "needs_human": 2,
+    "route_security": 1,
+    "keep_independent": 2
+  },
+  "action_status_counts": {
+    "skipped": 7,
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85478 needs maintainer review because it is broad, dirty, and lacks complete merge preflight despite sufficient proof.",
+    "#85747 needs maintainer judgment because it bundles broad worker-thread, gateway restart, and Discord timeout changes with failed proof and dirty merge state."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

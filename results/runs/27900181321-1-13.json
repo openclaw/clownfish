@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-014",
+  "mode": "plan",
+  "run_id": "27900181321-1-13",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "13",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-014.md",
+  "published_at": "2026-06-21T09:37:15.929Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR candidates. No GitHub mutations are planned. All PRs are draft and lack complete merge preflight; #89580 is independent and blocked from merge by failing real-behavior proof, while the schema-hardening PRs remain related but require normal maintainer handling before any merge path.",
+  "actions": [
+    {
+      "target": "#89329",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related schema-hardening work, but draft state and missing merge preflight block merge recommendation."
+    },
+    {
+      "target": "#89579",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related agent schema-hardening work with passing proof, but draft state and missing merge preflight block merge recommendation."
+    },
+    {
+      "target": "#89580",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent performance PR with failing behavior proof and missing benchmark/runtime proof; no merge, close, or replacement fix path is safe from this plan."
+    },
+    {
+      "target": "#89582",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/author decision is needed on the canonical malformed-entry policy and requested follow-up test before this draft PR can move toward merge."
+    },
+    {
+      "target": "#89603",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related broader schema-quarantine hardening with passing proof, but draft state, API-surface review, and missing merge preflight block merge recommendation."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89582 requires maintainer/author decision on the Tool Search malformed-entry policy and requested stable catalog rebuild regression before any merge path."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

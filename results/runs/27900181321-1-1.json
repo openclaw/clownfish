@@ -1,0 +1,196 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-002",
+  "mode": "plan",
+  "run_id": "27900181321-1-1",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-002.md",
+  "published_at": "2026-06-21T09:37:15.914Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory shard. No GitHub mutations are allowed by the job. None of the five listed PRs has a complete merge preflight; each is kept non-mutating with a specific blocker or follow-up path. Linked hydrated refs are included only where they are needed to preserve the classification context.",
+  "actions": [
+    {
+      "target": "#48396",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47120",
+      "candidate_fix": "#48396",
+      "reason": "Useful contributor PR, but current head is not merge-ready and needs a bounded UI repair before any merge or closeout path."
+    },
+    {
+      "target": "#52236",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45082",
+      "candidate_fix": "#52236",
+      "reason": "Keep as related evidence for #45082 rather than merging or replacing in this mixed shard; the draft author note and incomplete fix shape make it unsuitable for direct finalization."
+    },
+    {
+      "target": "#55861",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#55850",
+      "candidate_fix": "#55861",
+      "reason": "Useful contributor PR with a narrow repair path, but not currently merge-ready."
+    },
+    {
+      "target": "#58367",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#58367",
+      "candidate_fix": "#58367",
+      "reason": "Maintainer-owned draft changes product/security-adjacent gateway pairing defaults; deciding whether that behavior change is desired is a maintainer judgment."
+    },
+    {
+      "target": "#16544",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#16544",
+      "candidate_fix": "#16544",
+      "reason": "Keep as an independent maintainer-owned refactor candidate; it is not ready for merge or replacement in this shard."
+    },
+    {
+      "target": "#47120",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47120",
+      "candidate_fix": "#48396",
+      "reason": "Issue remains the canonical product/request thread for the session-list preview work."
+    },
+    {
+      "target": "#45082",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45082",
+      "candidate_fix": "#52236",
+      "reason": "Issue remains open as the canonical Mattermost thread-routing follow-up."
+    },
+    {
+      "target": "#55850",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#55850",
+      "candidate_fix": "#55861",
+      "reason": "Issue remains the canonical bug report for the collapsed-sidebar overlap."
+    },
+    {
+      "target": "#47243",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the exact hydrated security-sensitive ref to central OpenClaw security handling."
+    },
+    {
+      "target": "#52120",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#45082",
+      "candidate_fix": "#52120",
+      "reason": "Related historical/contributor context for #45082; not a merge or close candidate in this job."
+    },
+    {
+      "target": "#80781",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#80781",
+      "candidate_fix": "#80781",
+      "reason": "Historical context only; no mutation needed."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "keep_related": 6,
+    "needs_human": 1,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#58367 requires maintainer judgment because it is a protected draft changing gateway pairing defaults with unresolved review-bot feedback."
+  ],
+  "repair_candidate": {
+    "target": "#48396",
+    "source_refs": [
+      "#48396",
+      "#55861",
+      "#52236",
+      "#52120",
+      "#58367",
+      "#47120",
+      "#55850",
+      "#45082",
+      "#16544",
+      "#47243",
+      "#80781"
+    ],
+    "repair_strategy": "needs_human",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Two narrow contributor PRs have repairable non-security paths, but this mixed inventory shard should not open one omnibus fix PR. Split into targeted follow-up fix jobs for #48396/#47120 and #55861/#55850, preserving contributor attribution. #52236/#45082 needs a separate Mattermost design/repair pass before code work. #58367 requires maintainer decision before any fix artifact is executable.",
+    "pr_title": "Split required: repair session-list preview and collapsed-sidebar PRs in separate follow-up jobs",
+    "pr_body": "This shard is plan-only and contains unrelated PRs. Do not open an omnibus PR. Create separate follow-up fix PRs for #48396/#47120 and #55861/#55850 if maintainers want Clownfish to repair them. Keep #52236/#45082 for a dedicated Mattermost thread-routing pass and route #58367 to maintainer judgment before changing gateway pairing behavior.",
+    "likely_files": [
+      "ui/src/ui/views/sessions.ts",
+      "ui/src/styles/components.css",
+      "ui/src/styles/layout.css",
+      "ui/src/ui/navigation.browser.test.ts",
+      "extensions/mattermost/src/mattermost/monitor.ts",
+      "extensions/mattermost/src/channel.ts",
+      "src/gateway/server/ws-connection/message-handler.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm --dir ui test -- navigation.browser.test.ts",
+      "pnpm test -- extensions/mattermost/src/mattermost/monitor.ts extensions/mattermost/src/channel.test.ts",
+      "pnpm test -- src/gateway/server.local-device-pairing-approval.test.ts"
+    ],
+    "credit_notes": [
+      "Credit @SiriuSM00N and source PR https://github.com/openclaw/openclaw/pull/48396 for the session-list preview UI repair.",
+      "Credit @betamod and source PR https://github.com/openclaw/openclaw/pull/55861 for the collapsed-sidebar regression test/layout repair.",
+      "Credit @teconomix and source PRs https://github.com/openclaw/openclaw/pull/52236 and https://github.com/openclaw/openclaw/pull/52120 for Mattermost thread-routing investigation if a later fix reuses that analysis.",
+      "Preserve @jacobtomlinson ownership on #58367 until maintainer decision is made."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#47243"
+    ],
+    "needs_human": [
+      "#58367 requires maintainer judgment because it is a protected draft changing gateway pairing defaults with unresolved review-bot feedback."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

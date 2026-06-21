@@ -1,0 +1,225 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-013",
+  "mode": "plan",
+  "run_id": "27900181321-1-12",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "12",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-013.md",
+  "published_at": "2026-06-21T09:37:15.927Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification. No merge recommendations because no PR has complete merge preflight; no close/comment actions because they are blocked by job frontmatter. Open PRs are kept as independent or related remediation candidates with their current blockers called out.",
+  "actions": [
+    {
+      "target": "#68236",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#83088",
+      "candidate_fix": null,
+      "reason": "Related to the open auth-order issue family, but draft status, failed proof, and unresolved bot findings block merge or fix-by-candidate classification."
+    },
+    {
+      "target": "#72145",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#72145",
+      "reason": "Already merged historical WhatsApp watchdog fix; no mutation is applicable."
+    },
+    {
+      "target": "#83088",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83088",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open auth-order issue; linked draft test PR is not a fix and does not close the issue."
+    },
+    {
+      "target": "#88903",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88903",
+      "candidate_fix": "#88971",
+      "reason": "Keep open and related to active candidate #88971; fixed-by-candidate closeout is blocked because #88971 is unmerged, dirty, and has failing checks."
+    },
+    {
+      "target": "#88971",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88903",
+      "candidate_fix": "#88971",
+      "reason": "Useful contributor branch should be repaired rather than merged as-is; merge is blocked by dirty state, failing checks, and missing merge preflight."
+    },
+    {
+      "target": "#89098",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89098",
+      "reason": "Keep as related remediation work in the gateway/plugin descriptor area; draft status and unresolved bot review findings block merge or fix artifact replacement."
+    },
+    {
+      "target": "#89115",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context issue; no action needed in this inventory shard."
+    },
+    {
+      "target": "#89210",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89210",
+      "candidate_fix": "#89214",
+      "reason": "Keep open and related to candidate PR #89214; fixed-by-candidate closeout is blocked because the PR is unmerged and has failing proof/check state."
+    },
+    {
+      "target": "#89214",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89210",
+      "candidate_fix": "#89214",
+      "reason": "Keep as the active #89210 candidate, but do not merge or mark fixed-by-candidate while required proof/checks and merge preflight remain incomplete."
+    },
+    {
+      "target": "#89270",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89270",
+      "reason": "Keep as related provider-schema hardening work; draft status, maintainer review requirement, and missing merge preflight block merge."
+    },
+    {
+      "target": "#93330",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93330",
+      "reason": "Keep as a small related WhatsApp cleanup candidate; merge is blocked by failing check and missing merge preflight."
+    },
+    {
+      "target": "#93406",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93406",
+      "candidate_fix": null,
+      "reason": "Keep as related but independent WhatsApp liveness follow-up; the active-probe product decision is not resolved by #89214 or #93330."
+    },
+    {
+      "target": "#88971",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88903",
+      "candidate_fix": "#88971",
+      "reason": "Emit an executable repair artifact for the clearest useful contributor PR in this shard."
+    },
+    {
+      "target": "#88971",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88903",
+      "candidate_fix": "#88971",
+      "reason": "Plan-only executable follow-up for the repair artifact; deterministic executor owns whether this becomes a PR."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 9,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 12,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#88971",
+    "source_refs": [
+      "#88971",
+      "#88903",
+      "#68236",
+      "#72145",
+      "#89098",
+      "#89214",
+      "#89270",
+      "#93330",
+      "#83088",
+      "#89115",
+      "#89210",
+      "#93406"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair contributor PR #88971 so the user-stop abort provenance/session-takeover suppression fix can be validated against current main without losing @tanshanshan's credit. The repair should rebase or otherwise refresh the branch, resolve the dirty merge state, address current failing checks, rerun focused tests, and only proceed to merge after a fresh Codex /review and complete merge preflight.",
+    "pr_title": "fix(agents): repair user-stop abort provenance suppression",
+    "pr_body": "## Summary\n- Repair and refresh the contributor fix from #88971 for #88903.\n- Preserve explicit user-stop abort provenance through chat.abort and suppress EmbeddedAttemptSessionTakeoverError only for proven user-initiated Stop paths.\n- Keep restart/auth-revoked/timeout/programmatic abort paths outside the suppression path.\n\n## Credit\nThis carries forward the source PR work from @tanshanshan in https://github.com/openclaw/openclaw/pull/88971 with attribution preserved.\n\n## Validation\n- pnpm -s vitest run src/agents/embedded-agent-runner/run/attempt.abort-provenance.test.ts src/gateway/chat-abort.test.ts ui/src/ui/app-chat.test.ts ui/src/ui/controllers/chat.test.ts\n- node scripts/abort-provenance-proof.mjs\n- pnpm check:changed\n- git diff --check\n\nLinked issue: https://github.com/openclaw/openclaw/issues/88903\nCluster: live-pr-inventory-20260621T092949-013",
+    "likely_files": [
+      "packages/gateway-protocol/src/schema/logs-chat.ts",
+      "scripts/abort-provenance-proof.mjs",
+      "src/agents/embedded-agent-runner/run/attempt.abort-provenance.test.ts",
+      "src/agents/embedded-agent-runner/run/attempt.ts",
+      "src/gateway/chat-abort.test.ts",
+      "src/gateway/chat-abort.ts",
+      "src/gateway/server-methods/chat.ts",
+      "ui/src/ui/app-chat.test.ts",
+      "ui/src/ui/app-gateway.ts",
+      "ui/src/ui/chat/realtime-talk-shared.ts",
+      "ui/src/ui/controllers/chat.test.ts",
+      "ui/src/ui/controllers/chat.ts",
+      "ui/src/ui/controllers/workboard.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/embedded-agent-runner/run/attempt.abort-provenance.test.ts src/gateway/chat-abort.test.ts ui/src/ui/app-chat.test.ts ui/src/ui/controllers/chat.test.ts",
+      "node scripts/abort-provenance-proof.mjs",
+      "pnpm check:changed",
+      "git diff --check"
+    ],
+    "credit_notes": [
+      "Repair source PR: https://github.com/openclaw/openclaw/pull/88971 by @tanshanshan.",
+      "Preserve attribution in any replacement or follow-up PR body: credit @tanshanshan for the original abort provenance and session-takeover suppression implementation.",
+      "Issue context: https://github.com/openclaw/openclaw/issues/88903."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-013.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

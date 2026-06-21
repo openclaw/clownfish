@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-012",
+  "mode": "plan",
+  "run_id": "27900181321-1-11",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-012.md",
+  "published_at": "2026-06-21T09:37:15.923Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for remediation inventory shard 12. No GitHub mutations are planned because the job blocks comment, close, label, force-push, and bypass actions; merge recommendations are blocked by missing complete merge preflight and unresolved proof/review-bot gates. Security-sensitive linked issue #81359 is routed centrally without affecting non-security PR classification.",
+  "actions": [
+    {
+      "target": "#81359",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue must be routed to central OpenClaw security handling and kept read-only."
+    },
+    {
+      "target": "#94335",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90299",
+      "candidate_fix": "#94420",
+      "reason": "Same problem family as #90299, but not a safe canonical merge candidate for this shard; keep related rather than closing because close/comment actions are blocked by the job."
+    },
+    {
+      "target": "#94514",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "A narrow docs PR with unresolved author/review-bot gate; no merge or closure action is safe in this plan-only shard."
+    },
+    {
+      "target": "#94849",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94846",
+      "candidate_fix": "#94855",
+      "reason": "Related candidate for #94846, but not merge-ready and appears less complete than linked #94855; keep related rather than closing because closure actions are blocked."
+    },
+    {
+      "target": "#94859",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94850",
+      "candidate_fix": null,
+      "reason": "Same progress-label family as #94850/#94861 but a distinct implementation choice; keep related pending maintainer preference and proof rather than merging."
+    },
+    {
+      "target": "#94861",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94850",
+      "candidate_fix": null,
+      "reason": "Related candidate for #94850, but merge needs maintainer product direction/proof and a complete merge preflight."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

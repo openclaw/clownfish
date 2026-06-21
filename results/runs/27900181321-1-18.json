@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-019",
+  "mode": "plan",
+  "run_id": "27900181321-1-18",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "18",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-019.md",
+  "published_at": "2026-06-21T09:37:15.946Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory result. No GitHub mutations are allowed. One security-sensitive PR is routed centrally, the AgentHarness policy fork needs a maintainer decision, and the remaining draft PRs are kept as non-merge-ready work rather than merged or replaced without a complete executable fix artifact.",
+  "actions": [
+    {
+      "target": "#89072",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft and missing complete merge preflight; keep as related non-security Codex hardening work."
+    },
+    {
+      "target": "#89136",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer must choose skip-invalid versus fail-closed AgentHarness registry semantics before either competing PR can be finalized."
+    },
+    {
+      "target": "#89149",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Clear non-security extension-registry hardening work, but draft/waiting-on-author status and unresolved review feedback block merge or replacement without a complete fix artifact."
+    },
+    {
+      "target": "#89171",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unclear canonical behavior contract between #89171 and #89136 requires maintainer judgment."
+    },
+    {
+      "target": "#89266",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive item is read-only for Clownfish and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#89272",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Non-security doctor diagnostic hardening is plausible, but conflict, draft state, and missing complete merge preflight block merge; no complete executable replacement artifact is available in this plan."
+    },
+    {
+      "target": "#90022",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#90022",
+      "reason": "Historical merged context only; no action needed."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2,
+    "route_security": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89136 and #89171 require a maintainer decision on AgentHarness malformed-tool semantics: skip unreadable/invalid descriptors or fail closed with AgentHarnessError."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

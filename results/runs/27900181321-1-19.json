@@ -1,0 +1,159 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-020",
+  "mode": "plan",
+  "run_id": "27900181321-1-19",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "19",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-020.md",
+  "published_at": "2026-06-21T09:37:15.949Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification. No GitHub mutations are recommended. #89693 has a narrow contributor-branch repair path; #89696 and #89726 need scoped human/author decisions before finalization; the remaining PRs are non-merge classifications because they are draft, independent, or blocked by unresolved review/proof requirements.",
+  "actions": [
+    {
+      "target": "#88554",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already-closed historical context only; no closure, merge, or fix action is valid."
+    },
+    {
+      "target": "#89071",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related draft PR; keep it visible but do not merge or close in this plan."
+    },
+    {
+      "target": "#89295",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent docs PR blocked by unresolved review-bot findings; no merge preflight is complete and no narrow cluster fix should be generated here."
+    },
+    {
+      "target": "#89693",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89693",
+      "reason": "Concrete narrow repair is available on the contributor branch before merge consideration."
+    },
+    {
+      "target": "#89696",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer product decision is needed before repair: whether the low-memory guard should be accepted as a default-on runtime/config behavior."
+    },
+    {
+      "target": "#89726",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active author follow-up blocks Clownfish finalization; keep the decision scoped to this draft PR."
+    },
+    {
+      "target": "#89733",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related draft PR; keep it queued for maintainer finalization after draft/preflight state changes."
+    },
+    {
+      "target": "live-pr-inventory-20260621T092949-020:fix-artifact",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#89693",
+      "reason": "Emit a complete executable repair artifact for the only narrow fixable PR in this inventory shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "needs_human": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89696 requires maintainer product/compatibility decision on accepting a default-on low-memory tool guard before any repair or merge path is safe.",
+    "#89726 is a draft maintainer-owned PR labeled waiting on author, so Clownfish should not finalize it until the author updates or clears the draft state."
+  ],
+  "repair_candidate": {
+    "target": "#89693",
+    "source_refs": [
+      "#89693",
+      "#88554",
+      "#89071",
+      "#89295",
+      "#89696",
+      "#89726",
+      "#89733"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #89693 on the contributor branch by narrowing optional scanner search-miss handling so required trailing search failures after partial progress remain fatal, while preserving the intended optional-search-miss behavior and contributor attribution.",
+    "pr_title": "fix(cron): narrow optional scanner search miss handling",
+    "pr_body": "## Summary\n- Repairs #89693 by keeping required trailing scanner search failures fatal even when earlier progress output exists.\n- Preserves the optional scanner search-miss behavior only when the payload is explicitly proven optional.\n- Adds focused regression coverage for partial progress followed by a required trailing search failure.\n\n## Credit\n- Source PR: https://github.com/openclaw/openclaw/pull/89693 by henryyuen168-ship-it.\n- Carries forward the source PR attribution to Mike's rebased local commit noted in the PR body.\n\n## Validation\n- `pnpm -s vitest run src/cron/isolated-agent/helpers.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "src/cron/isolated-agent/helpers.ts",
+      "src/cron/isolated-agent/helpers.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/cron/isolated-agent/helpers.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/89693 by henryyuen168-ship-it.",
+      "Preserve the PR body's attribution to Mike's local commit 61017e26fef06f45d33baefbd25bce51fca56af9 when summarizing the repair.",
+      "The repair should be committed as a maintainer edit to the existing contributor branch when possible, preserving GitHub PR authorship."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-020.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#89696 requires maintainer product/compatibility decision on accepting a default-on low-memory tool guard before any repair or merge path is safe.",
+      "#89726 is a draft maintainer-owned PR labeled waiting on author, so Clownfish should not finalize it until the author updates or clears the draft state."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

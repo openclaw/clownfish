@@ -1,0 +1,191 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-016",
+  "mode": "plan",
+  "run_id": "27900181321-1-15",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-016.md",
+  "published_at": "2026-06-21T09:37:15.936Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for live PR inventory shard 16. No GitHub mutations are planned. One narrow repair path is executable for #61322; the other open PRs are blocked from merge by missing proof, conflicts/stale branches, failed checks, unresolved review findings, or scope that is too broad for this shard.",
+  "actions": [
+    {
+      "target": "#51868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#93869",
+      "candidate_fix": "#93869",
+      "reason": "The useful contributor work is represented by the hydrated replacement #93869, but close/comment actions are blocked by this plan job."
+    },
+    {
+      "target": "#60445",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This remains useful context for the exec-approval delivery family, but it lacks proof and has known behavior risk, so no merge or fix artifact is safe from this shard."
+    },
+    {
+      "target": "#61322",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#61322",
+      "reason": "A bounded branch repair is available: fix the sessionsDir handling in the existing contributor PR, preserve @rbutera credit, and rerun focused validation."
+    },
+    {
+      "target": "#61322",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#61322",
+      "reason": "The job allows fix/raise_pr and the repair scope is narrow enough for the deterministic executor."
+    },
+    {
+      "target": "#61329",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is a plausible independent UI behavior change, but it needs branch refresh and real Control UI proof before any merge or fix path."
+    },
+    {
+      "target": "#61624",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a real feature request but too broad and currently too unstable for an executable fix artifact in this inventory shard."
+    },
+    {
+      "target": "#20879",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#61624",
+      "candidate_fix": "#61624",
+      "reason": "Closed context only; no mutation is valid for an already closed issue."
+    },
+    {
+      "target": "#57914",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context only; no mutation is valid for an already closed PR."
+    },
+    {
+      "target": "#61321",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#61322",
+      "candidate_fix": "#61322",
+      "reason": "Closed context only; no mutation is valid, but it remains source evidence for the #61322 repair path."
+    },
+    {
+      "target": "#61607",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#61624",
+      "candidate_fix": "#61624",
+      "reason": "Closed context only; no mutation is valid for an already closed issue."
+    },
+    {
+      "target": "#66174",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#61322",
+      "candidate_fix": null,
+      "reason": "Related follow-up session-state work, but not the listed candidate repair path for this shard."
+    },
+    {
+      "target": "#93869",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93869",
+      "candidate_fix": "#93869",
+      "reason": "Canonical QR rendering path for the #51868 family, but merge is blocked by the latest review state and missing merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_independent": 1,
+    "keep_closed": 4,
+    "keep_canonical": 1
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#61322",
+    "source_refs": [
+      "#61322",
+      "#61321",
+      "#51868",
+      "#57914",
+      "#60445",
+      "#61329",
+      "#61624",
+      "#66174",
+      "#93869",
+      "#20879",
+      "#61607"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #61322 so stale same-agent absolute sessionFile paths are remapped relative to the active sessionsDir, including non-default session stores, then validate the focused sessions tests and changed-file checks.",
+    "pr_title": "fix(sessions): respect active session store when remapping stale paths",
+    "pr_body": "## Summary\n- Repairs source PR #61322 by preserving the same-agent stale path remap while anchoring it to the active sessionsDir, including custom session stores.\n- Keeps the contributor's regression coverage focused on cross-root sessionFile remapping.\n- Carries source PR attribution for @rbutera.\n\n## Source and Credit\n- Source PR: https://github.com/openclaw/openclaw/pull/61322\n- Linked issue context: https://github.com/openclaw/openclaw/issues/61321\n- Credit: @rbutera provided the original narrow fix direction and test coverage.\n\n## Validation\n- pnpm test:serial src/config/sessions.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/config/sessions/paths.ts",
+      "src/config/sessions.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial src/config/sessions.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @rbutera for the source PR #61322 and the original same-agent cross-root session path repair direction."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-016.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

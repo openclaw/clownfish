@@ -1,0 +1,134 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-024",
+  "mode": "plan",
+  "run_id": "27900181321-1-23",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "23",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-024.md",
+  "published_at": "2026-06-21T09:37:15.971Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR inventory classification for five open PR candidates. No GitHub mutations are planned because close/comment/label are blocked, merge preflight is incomplete for all candidates, and several candidates are draft or require proof/review repair.",
+  "actions": [
+    {
+      "target": "#64436",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent feature PR with incomplete merge preflight; keep open for its own maintainer/review path."
+    },
+    {
+      "target": "#64800",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#64800",
+      "reason": "The bug path appears real and narrow, but the PR needs repair/proof before it can be merged."
+    },
+    {
+      "target": "#86013",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#81299",
+      "candidate_fix": null,
+      "reason": "Related LINE delivery work, but too broad and partially overlapping to close or merge in this shard."
+    },
+    {
+      "target": "#89924",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer PR with a narrow related plugin-manifest fix; keep open for maintainer review."
+    },
+    {
+      "target": "#89979",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer PR with requested changes and incomplete preflight; keep related, not merge-ready."
+    },
+    {
+      "target": "#64800",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#64800",
+      "reason": "Executable narrow repair artifact is appropriate for the #64800 provider hook-alias bug."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "keep_related": 3,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#64800",
+    "source_refs": [
+      "#64800",
+      "#64127",
+      "#64436",
+      "#81299",
+      "#86013",
+      "#89924",
+      "#89979",
+      "#64085",
+      "#65656",
+      "#72574"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #64800 on the contributor branch or a replacement branch if branch repair fails: update wrapProviderStreamFn on current main so all matching provider hook implementations can contribute wrapStreamFn, while filtering unrelated providers and avoiding duplicate invocation of the primary matched provider. Preserve @klin3867 credit from source PR #64800.",
+    "pr_title": "fix(plugins): preserve hook-alias stream wrappers across providers",
+    "pr_body": "## Summary\n- repair `wrapProviderStreamFn` so matching provider and hookAlias plugins can chain `wrapStreamFn`\n- keep unrelated providers out of the wrapper chain\n- avoid invoking the matched provider wrapper twice\n\n## Source credit\nCarries forward the fix direction from source PR https://github.com/openclaw/openclaw/pull/64800 by @klin3867 with attribution preserved.\n\n## Validation\n- `node scripts/run-vitest.mjs src/plugins/provider-runtime.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "src/plugins/provider-runtime.ts",
+      "src/plugins/provider-runtime.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/plugins/provider-runtime.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @klin3867 as source PR author for #64800.",
+      "Replacement PR body should state that it carries forward the source PR's provider hook-alias stream-wrapper fix and attribution."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-024.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

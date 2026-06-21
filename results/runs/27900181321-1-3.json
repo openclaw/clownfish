@@ -1,0 +1,140 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-004",
+  "mode": "plan",
+  "run_id": "27900181321-1-3",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-004.md",
+  "published_at": "2026-06-21T09:37:15.980Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for five open PR inventory candidates. No GitHub mutations are planned because the job blocks comments, labels, closes, force-pushes, bypasses, and no listed PR has the complete merge preflight required for a merge recommendation.",
+  "actions": [
+    {
+      "target": "#95059",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#91539",
+      "candidate_fix": "#95059",
+      "reason": "Keep the contributor PR as the likely repair path, but require proof/review completion before merge."
+    },
+    {
+      "target": "#93950",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93994",
+      "candidate_fix": "#93950",
+      "reason": "Related overlapping implementation; do not close in this plan because close is blocked and #93950 is open with useful contributor work."
+    },
+    {
+      "target": "#94049",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76831",
+      "candidate_fix": "#94049",
+      "reason": "Useful focused contributor PR, but it needs proof/review completion before merge."
+    },
+    {
+      "target": "#94069",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#79670",
+      "candidate_fix": "#94069",
+      "reason": "Provider default change requires maintainer product decision and active author follow-up status is present."
+    },
+    {
+      "target": "#95230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#95230",
+      "reason": "Small useful automation fix, but review-bot requested changes must be addressed before merge."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94069 requires maintainer product decision on whether changing the Google Gemini onboarding default to another preview model is desirable given issue #79670's quota/compatibility concern and the PR's waiting-on-author status."
+  ],
+  "repair_candidate": {
+    "target": "#95059",
+    "source_refs": [
+      "#95059",
+      "#94049",
+      "#95230",
+      "#91539",
+      "#76831",
+      "#87749",
+      "#93950",
+      "#93976",
+      "#93994",
+      "#94069",
+      "#94245",
+      "#79670",
+      "#93947"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair plan for the non-merge-ready contributor PRs in this shard: preserve contributor branches where maintainer_can_modify=true, complete the exact proof/review gaps called out by hydrated ClawSweeper comments, and then re-run merge preflight. No replacement PR should be opened from this plan because each repair candidate is still editable and useful.",
+    "pr_title": "Repair non-merge-ready contributor PRs from inventory shard 004",
+    "pr_body": "## Summary\n\nRepair the three maintainer-editable contributor PRs in live-pr-inventory-20260621T092949-004 that are useful but not merge-ready: #95059, #94049, and #95230. Keep the existing contributor branches as the source PR path, preserve credit and attribution for the original authors, and complete only the proof/review gaps identified by the hydrated ClawSweeper comments.\n\n## Source PRs and credit\n\n- Source PR #95059 by @mmyzwl: document-extract bundled plugin ESM build repair for #91539. Preserve contributor credit and attribution if this fix lands.\n- Source PR #94049 by @xialonglee: WhatsApp tts.auto active-session inbound-audio metadata repair for #76831. Preserve contributor credit and attribution if this fix lands.\n- Source PR #95230 by @hugenshen: docs-list .mdx discovery and changed-test routing repair. Preserve contributor credit and attribution if this fix lands.\n\n## Validation\n\n- For #95059, run the document-extract bundled extension proof that demonstrates capabilities register after the tsdown ESM format change, then run pnpm check:changed for tsdown.config.ts.\n- For #94049, run the focused auto-reply media-path regression covering steered inbound audio metadata persistence and dispatch, then run pnpm check:changed for the touched auto-reply/session files.\n- For #95230, run pnpm docs:list and the changed-test routing test covering scripts/docs-list.js, then run pnpm check:changed for scripts/docs-list.js and its test-support changes.\n- Before any merge recommendation, run Codex /review and populate merge_preflight with security clearance, resolved comments, resolved bot comments, addressed findings, exact head SHA, and validation command results.\n\nNo replacement PR should be opened from this plan because all three repair candidates are open and maintainer_can_modify=true.",
+    "likely_files": [
+      "tsdown.config.ts",
+      "src/auto-reply/reply/agent-runner.ts",
+      "src/auto-reply/reply/dispatch-from-config.ts",
+      "src/config/sessions/types.ts",
+      "src/plugins/session-entry-slot-keys.ts",
+      "src/auto-reply/reply/agent-runner.media-paths.test.ts",
+      "scripts/docs-list.js",
+      "scripts/test-projects.test-support.mjs",
+      "test/scripts/test-projects.test.ts"
+    ],
+    "validation_commands": [
+      "For #95059: run the document-extract bundled extension proof that demonstrates capabilities are registered after the tsdown ESM format change, then run pnpm check:changed for tsdown.config.ts.",
+      "For #94049: run the focused auto-reply media-path regression covering steered inbound audio metadata persistence and dispatch, then run pnpm check:changed for the touched auto-reply/session files.",
+      "For #95230: run pnpm docs:list and the changed-test routing test that covers scripts/docs-list.js, then run pnpm check:changed for scripts/docs-list.js and its test-support changes.",
+      "Before any later merge recommendation: run Codex /review and include a merge_preflight with security clearance, resolved comments, resolved bot comments, addressed findings, exact head SHA, and validation command results."
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @mmyzwl on #95059 if the document-extract build repair lands.",
+      "Preserve contributor credit for @xialonglee on #94049 if the WhatsApp TTS metadata repair lands.",
+      "Preserve contributor credit for @hugenshen on #95230 if the docs-list .mdx repair lands."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-004.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#94069 requires maintainer product decision on whether changing the Google Gemini onboarding default to another preview model is desirable given issue #79670's quota/compatibility concern and the PR's waiting-on-author status."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

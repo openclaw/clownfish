@@ -1,0 +1,156 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T092949-008",
+  "mode": "plan",
+  "run_id": "27900181321-1-7",
+  "workflow_run_id": "27900181321",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900181321",
+  "head_sha": "5fc052719042f68ba5b16b02e95e835561e8645b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:32:45Z",
+  "workflow_updated_at": "2026-06-21T09:34:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-008.md",
+  "published_at": "2026-06-21T09:37:15.998Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": "#95242",
+  "summary": "Plan-only PR remediation assessment for five hydrated open PRs. Recommend #95242 as the only merge candidate because the hydrated artifact shows a narrow cron fix, current passing checks/proof, no hydrated review comments, and security cleared. Recommend a replacement/repair fix artifact for #50177 because it is a small useful contributor PR with maintainer modification allowed but unresolved bot findings and failing proof/checks. Keep the two maintainer draft PRs independent, and route #87300 to human decision because it is broad, unstable, targets develop, and is waiting on author.",
+  "actions": [
+    {
+      "target": "#95242",
+      "action": "merge_candidate",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95242",
+      "candidate_fix": "#95242",
+      "reason": null
+    },
+    {
+      "target": "#50177",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#50177",
+      "reason": "Narrow contributor PR needs repair before merge."
+    },
+    {
+      "target": "#50177",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#50177",
+      "reason": "Executable narrow repair artifact is available for a useful contributor PR."
+    },
+    {
+      "target": "#50177",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#50177",
+      "reason": "Open a credited repair PR only after the executor validates the fix artifact."
+    },
+    {
+      "target": "#89946",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned PR is independently useful but not merge-ready and not an autonomous repair target."
+    },
+    {
+      "target": "#88533",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft maintainer-owned parked cleanup is not merge-ready and should remain outside this remediation shard."
+    },
+    {
+      "target": "#87300",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed on whether to continue, split, or decline a broad feature PR that is unstable, targets develop, and is waiting on author."
+    }
+  ],
+  "action_counts": {
+    "merge_candidate": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1,
+    "keep_independent": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#87300 requires a maintainer product/scope decision: broad Control UI model-selector replacement, base develop, unstable checks, failed proof, and waiting on author."
+  ],
+  "repair_candidate": {
+    "target": "#50177",
+    "source_refs": [
+      "#50177",
+      "#95242",
+      "#36537",
+      "#50175",
+      "#57322",
+      "#63228",
+      "#74366",
+      "#87300",
+      "#88533",
+      "#89946",
+      "#93261",
+      "#52089",
+      "#92369"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair the useful contributor PR #50177 by preserving its slash-menu clipping fix while addressing remaining review-bot blockers: scope active slash-menu lookup to the rendered chat instance, clean the input wrapper markup/indentation, and validate slash-menu behavior. If direct branch repair is unavailable during execution, open a replacement fix PR that credits RickyTong1 and source PR #50177.",
+    "pr_title": "fix(webchat): keep slash menu visible and scoped",
+    "pr_body": "## Summary\n- Repair the webchat slash-command menu overflow fix from #50177 while preserving contributor credit.\n- Scope active slash-menu item lookup to the current chat render root instead of using a global document query.\n- Keep keyboard navigation scroll behavior and clean up the composer wrapper markup/styles.\n\n## Credit\nThanks @RickyTong1 for the source PR and root-cause fix in https://github.com/openclaw/openclaw/pull/50177. This Clownfish repair carries that work forward with attribution.\n\n## Validation\n- pnpm -s vitest run ui/src/ui/views/chat.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "ui/src/ui/views/chat.ts",
+      "ui/src/styles/chat/layout.css",
+      "ui/src/styles/layout.mobile.css",
+      "ui/src/ui/views/chat.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run ui/src/ui/views/chat.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Source PR #50177 by RickyTong1 identified the slash menu overflow clipping root cause and added keyboard scroll handling.",
+      "Replacement PR body must explicitly credit RickyTong1 and link https://github.com/openclaw/openclaw/pull/50177.",
+      "If a user-facing changelog entry is added, attribution should mention the source PR contribution."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T092949-008.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#87300 requires a maintainer product/scope decision: broad Control UI model-selector replacement, base develop, unstable checks, failed proof, and waiting on author."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
