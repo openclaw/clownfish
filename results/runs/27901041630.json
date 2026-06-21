@@ -1,0 +1,74 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T100702-001",
+  "mode": "plan",
+  "run_id": "27901041630",
+  "workflow_run_id": "27901041630",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27901041630",
+  "head_sha": "6ac20cc9ece6734b01bdab15ae96365819bb112e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T10:10:15Z",
+  "workflow_updated_at": "2026-06-21T10:11:32Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T100702-001.md",
+  "published_at": "2026-06-21T10:12:17.299Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for four independent open PR inventory candidates. No GitHub mutations are permitted by this job. No merge_candidate actions are emitted because none has a complete merge preflight with passed Codex /review evidence, and #95527/#95534 still have pending checks in the hydrated state. #86893 is classified non-mutatingly because the hydrated review says changes are needed but the provided artifacts do not contain a complete executable fix_artifact.",
+  "actions": [
+    {
+      "target": "#93168",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone ready PR with no concrete repair artifact required; keep it in maintainer review until merge preflight is complete."
+    },
+    {
+      "target": "#86893",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR is useful and related to the cron cold-runner timeout family, but the provided artifacts do not include a complete executable fix artifact for the needed changes; keep it related for maintainer review rather than emitting a placeholder fix action."
+    },
+    {
+      "target": "#95527",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Pending checks and missing complete merge_preflight block merge_candidate; no repair is indicated by hydrated evidence."
+    },
+    {
+      "target": "#95534",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Pending checks and missing complete merge_preflight block merge_candidate; no further repair is indicated by hydrated evidence."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
