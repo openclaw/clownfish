@@ -42,3 +42,10 @@ test("run-worker uses an Actions-safe sandbox without exposing credentials to Co
   assert.match(source, /"--sandbox",\s*codexWorkerSandbox/);
   assert.match(source, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
 });
+
+test("run-worker repair prompt preserves the cluster fix artifact contract", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "run-worker.mjs"), "utf8");
+
+  assert.match(source, /cluster-scoped fix action must target exactly `cluster:<cluster_id>`/);
+  assert.match(source, /at most one `build_fix_artifact` action/);
+});

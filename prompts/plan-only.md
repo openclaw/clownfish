@@ -41,4 +41,11 @@ Use closure actions only for targets that are open in live GitHub state. If a li
 
 Use the same action fields as execute mode when possible: `classification`, `target_kind`, `target_updated_at`, `canonical`, `duplicate_of`, `candidate_fix`, `evidence`, and a stable `idempotency_key`. In plan mode these are recommendations only.
 
+For a cluster-scoped fix action, `target` must be exactly
+`cluster:<cluster_id>`; never append a synthetic suffix or subcluster name.
+Emit at most one `build_fix_artifact` action per worker result, and only when
+one narrow, executable `fix_artifact` covers the work. If several unrelated
+repairs are viable, emit individual `fix_needed` actions for their hydrated
+issue/PR refs and do not create a combined artifact.
+
 Return structured JSON only.
