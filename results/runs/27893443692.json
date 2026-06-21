@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-92230",
+  "mode": "autonomous",
+  "run_id": "27893443692",
+  "workflow_run_id": "27893443692",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27893443692",
+  "head_sha": "1203337fbfa8bee6047d27912acf9a1324792e7c",
+  "workflow_conclusion": "cancelled",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T04:26:13Z",
+  "workflow_updated_at": "2026-06-21T04:41:09Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-92230.md",
+  "published_at": "2026-06-21T04:41:48.946Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92230",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92230",
+  "summary": "#92230 is the open canonical PR for adding configured model choices to /model. The hydrated preflight marks it non-security-sensitive and maintainer-editable, but it is not merge-ready: the job pins two concrete repair requirements, the latest hydrated ClawSweeper comment reports an actionable Telegram model reachability defect, and relevant validation has been failing. Because merge/close are blocked and fix/raise_pr is allowed, the executable path is to repair the existing contributor branch and preserve @clawSean's source PR credit.",
+  "actions": [
+    {
+      "target": "#92230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Repair the existing maintainer-editable contributor PR branch; do not merge or close because both are blocked by job policy and the PR still has bounded actionable repair requirements."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-92230",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "A complete narrow repair artifact is safe and executable for the existing PR branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92230",
+    "source_refs": [
+      "#92230"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #92230 in place by making the Discord native-command model picker test deterministic and preserving Telegram /model model reachability for callback values that exceed Telegram limits.",
+    "pr_title": "feat: add model switch choices to /model",
+    "pr_body": "What Problem This Solves\n\nRepairs the existing #92230 automerge branch so configured /model choices remain available across supported native command surfaces.\n\nWhy This Change Was Made\n\nClawSweeper found that Telegram could emit a partial tgcmd menu when a configured model exceeded Telegram callback limits, making long configured models unreachable. The repair should route Telegram bare /model through the existing browse picker or compact mdl_sel callback path instead of dropping over-limit models. The Discord model picker test also needs a deterministic fixed unbound main route via the existing native-command test seam.\n\nUser Impact\n\nUsers keep the richer /model picker behavior without losing long configured Telegram models. Contributor credit remains on @clawSean's source PR.\n\nEvidence\n\nRun the focused suite: pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts\n\nThen run pnpm check:changed. Source PR: https://github.com/openclaw/openclaw/pull/92230.",
+    "likely_files": [
+      "extensions/discord/src/monitor/native-command.model-picker.test.ts",
+      "extensions/telegram/src/bot-native-commands.ts",
+      "extensions/telegram/src/bot-native-commands.test.ts",
+      "extensions/telegram/src/command-ui.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing PR branch so the contributor trail remains on #92230.",
+      "Preserve credit for @clawSean as the original PR author and source contributor: https://github.com/openclaw/openclaw/pull/92230.",
+      "Do not edit unrelated opencode-go type failures; treat them as baseline only if they appear during changed validation."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-92230.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
