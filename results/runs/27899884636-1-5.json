@@ -1,0 +1,219 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-006",
+  "mode": "plan",
+  "run_id": "27899884636-1-5",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "5",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-006.md",
+  "published_at": "2026-06-21T09:24:41.653Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification. No GitHub mutations are allowed by this job. Security-sensitive linked refs are quarantined individually; the two symlink-test PRs need a narrow replacement/repair fix artifact; the remaining maintainer-ready PRs stay open because merge preflight is incomplete.",
+  "actions": [
+    {
+      "target": "#57447",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated item; route only this ref to central OpenClaw security handling."
+    },
+    {
+      "target": "#80600",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical security-sensitive context; no mutation, route/quarantine classification only."
+    },
+    {
+      "target": "#83387",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive historical context; no closure or fix action."
+    },
+    {
+      "target": "#83390",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90151",
+      "reason": "Issue is related to open PR #90151, but no close action is allowed or safe in this plan-only run."
+    },
+    {
+      "target": "#83435",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical PR; no action."
+    },
+    {
+      "target": "#90151",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90151",
+      "reason": "Docs PR appears viable but cannot be recommended for merge without complete merge preflight."
+    },
+    {
+      "target": "#90223",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow test repair is concrete, but current PR is not merge-ready because proof failed and review-bot findings remain unresolved."
+    },
+    {
+      "target": "#90280",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow test repair is concrete, but current PR is not merge-ready because proof failed and review-bot findings remain unresolved."
+    },
+    {
+      "target": "#90443",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue; quarantine this exact ref only."
+    },
+    {
+      "target": "#90489",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90489",
+      "reason": "Focused PR can stay in maintainer review, but merge recommendation is blocked by missing merge preflight."
+    },
+    {
+      "target": "#90518",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90537",
+      "reason": "Issue is related to open PR #90537, but no close action is allowed or safe in this plan-only run."
+    },
+    {
+      "target": "#90537",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90537",
+      "reason": "PR appears substantively ready for maintainer review, but merge recommendation is blocked by missing merge preflight."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T091708-006",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Create a narrow replacement fix artifact for the two related symlink-test PR repairs."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T091708-006",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Applicator/executor may open a fix PR from the generated artifact after guarded validation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 4,
+    "keep_related": 2,
+    "keep_closed": 1,
+    "keep_independent": 3,
+    "fix_needed": 2,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 13,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90223",
+    "source_refs": [
+      "#90223",
+      "#90280",
+      "#80600",
+      "#83435",
+      "#90151",
+      "#90489",
+      "#90537",
+      "#57447",
+      "#83387",
+      "#83390",
+      "#90443",
+      "#90518"
+    ],
+    "repair_strategy": "new_fix_pr",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Replace the two failing symlink-test PRs with a narrow test-only repair that probes file-symlink capability inside test lifecycle/evaluation, uses capability-based gating consistently, keeps Zalo's existing runIf convention, and avoids module-import filesystem side effects.",
+    "pr_title": "test: make symlink capability checks lifecycle-safe",
+    "pr_body": "## Summary\n- carry forward @aniruddhaadak80's QQ Bot and Zalo symlink-test compatibility fixes from #90223 and #90280\n- move symlink capability probing out of module import time\n- gate the symlink assertions on actual file-symlink capability while keeping each test file's local Vitest convention\n\n## Source PR credit\n- Source PR: https://github.com/openclaw/openclaw/pull/90223 by @aniruddhaadak80\n- Source PR: https://github.com/openclaw/openclaw/pull/90280 by @aniruddhaadak80\n\n## Validation\n- pnpm -s vitest run extensions/qqbot/src/engine/utils/file-utils.test.ts extensions/zalo/src/token.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "extensions/qqbot/src/engine/utils/file-utils.test.ts",
+      "extensions/zalo/src/token.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run extensions/qqbot/src/engine/utils/file-utils.test.ts extensions/zalo/src/token.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for @aniruddhaadak80 from https://github.com/openclaw/openclaw/pull/90223.",
+      "Preserve source PR credit for @aniruddhaadak80 from https://github.com/openclaw/openclaw/pull/90280.",
+      "Replacement PR body should state that it carries forward the symlink capability-test approach from both source PRs."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-006.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#57447",
+      "#80600",
+      "#83387",
+      "#90443"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,193 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-005",
+  "mode": "plan",
+  "run_id": "27899884636-1-4",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-005.md",
+  "published_at": "2026-06-21T09:24:41.649Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification. No GitHub mutations are planned. Merge recommendations are blocked because none of the open PRs has a complete merge preflight with passed Codex /review proof; #90217 has a narrow repair path, and #83633 is quarantined as the only security-sensitive hydrated ref.",
+  "actions": [
+    {
+      "target": "#83633",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined without affecting unrelated non-security PR classification."
+    },
+    {
+      "target": "#87566",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87566",
+      "candidate_fix": "#89855",
+      "reason": "Keep the source issue open while the linked PR remains unmerged."
+    },
+    {
+      "target": "#87626",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#87566",
+      "candidate_fix": "#89855",
+      "reason": "Already closed; retained only as historical context for the #87566/#89855 family."
+    },
+    {
+      "target": "#89855",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87566",
+      "candidate_fix": "#89855",
+      "reason": "Useful narrow candidate for #87566, but merge is not planned without required merge preflight."
+    },
+    {
+      "target": "#89981",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#89981",
+      "reason": "Independent small PR; not mergeable by this worker without full merge preflight."
+    },
+    {
+      "target": "#90217",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90217",
+      "reason": "A narrow executable repair is available: move the probe into test setup, skip on any platform without directory symlink capability, and revalidate."
+    },
+    {
+      "target": "live-pr-inventory-20260621T091708-005",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90217",
+      "reason": "Provide an executable repair plan for the affected PR without opening or mutating anything in plan mode."
+    },
+    {
+      "target": "#91632",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged; retained as historical context for Tool Search behavior only."
+    },
+    {
+      "target": "#92273",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92273",
+      "candidate_fix": "#93374",
+      "reason": "Keep source issue open until the linked fix PR is landed and validated."
+    },
+    {
+      "target": "#92278",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#92273",
+      "candidate_fix": "#93374",
+      "reason": "Already closed; retained as historical context and contributor-credit evidence for the Tool Search recovery family."
+    },
+    {
+      "target": "#93374",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#92273",
+      "candidate_fix": "#93374",
+      "reason": "Useful linked candidate for #92273, but merge is blocked by missing merge preflight."
+    },
+    {
+      "target": "#93930",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#93930",
+      "reason": "Independent candidate with useful scope, but merge is blocked by a failing check and missing merge preflight; no complete repair artifact is safe from the compacted evidence."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 4,
+    "keep_closed": 3,
+    "keep_independent": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90217",
+    "source_refs": [
+      "#90217",
+      "#83633",
+      "#87626",
+      "#89855",
+      "#89981",
+      "#91632",
+      "#92278",
+      "#93374",
+      "#93930",
+      "#87566",
+      "#92273"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #90217 so the doctor state integrity symlink capability probe runs inside the test lifecycle, skips the symlinked-state-dir test whenever directory symlinks are unavailable on any platform, and revalidates the Windows robustness behavior.",
+    "pr_title": "test: repair doctor symlink capability probe",
+    "pr_body": "Fixes the repair path for https://github.com/openclaw/openclaw/pull/90217.\n\nSummary:\n- Move the directory symlink capability probe out of module import time and into test setup.\n- Skip the symlinked state-dir regression test whenever directory symlinks are unavailable, regardless of platform.\n- Keep the Windows junction behavior covered when capability is present.\n\nCredit: based on source PR #90217 by @aniruddhaadak80.\n\nValidation:\n- pnpm -s vitest run src/commands/doctor-state-integrity.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/commands/doctor-state-integrity.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/commands/doctor-state-integrity.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @aniruddhaadak80 as the source PR author for #90217.",
+      "Preserve the source PR URL in any repair commit or PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-005.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#83633"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-015",
+  "mode": "plan",
+  "run_id": "27899884636-1-14",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-015.md",
+  "published_at": "2026-06-21T09:24:41.608Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five listed open PRs. No GitHub mutations are allowed by this job. #91988, #91559, and #93222 are useful canonical PR paths for their own issue families but are not merge-ready without complete merge preflight. #78411 is independent low-risk docs churn and should stay open for normal maintainer review. #93149 needs a maintainer product-surface decision before close or merge planning.",
+  "actions": [
+    {
+      "target": "#91988",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91988",
+      "candidate_fix": "#91988",
+      "reason": "Keep #91988 as the canonical open fix path for #91931, but do not recommend merge in this plan because merge preflight is incomplete."
+    },
+    {
+      "target": "#91559",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91559",
+      "candidate_fix": "#91559",
+      "reason": "Keep #91559 as the canonical open fix path for #91542, but do not recommend merge without complete merge preflight."
+    },
+    {
+      "target": "#78411",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep #78411 independent for normal maintainer review; this plan cannot close low-signal docs PRs or recommend merge without merge preflight."
+    },
+    {
+      "target": "#93149",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on whether OpenClaw wants the new cron add dry-run preview surface before any merge or close recommendation."
+    },
+    {
+      "target": "#93222",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93222",
+      "candidate_fix": "#93222",
+      "reason": "Keep #93222 as the canonical repaired contributor branch, but do not recommend merge until the failing check/review-thread state is resolved and complete merge preflight is available."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93149 requires maintainer product-direction judgment for adding cron add --dry-run before merge or close planning."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

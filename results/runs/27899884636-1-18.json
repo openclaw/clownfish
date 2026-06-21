@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-019",
+  "mode": "plan",
+  "run_id": "27899884636-1-18",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "18",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-019.md",
+  "published_at": "2026-06-21T09:24:41.629Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for the PR inventory shard. No GitHub mutations are recommended. Four narrow PRs remain plausible canonical candidates for their own root causes but are not merge candidates because the artifact does not contain a complete merge preflight/Codex review. The iOS onboarding PR needs maintainer judgment because it is a broad auth-provider/mobile workflow change. The exact security-sensitive linked issue is routed centrally without poisoning unrelated PR classification.",
+  "actions": [
+    {
+      "target": "#78145",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94130",
+      "candidate_fix": "#94130",
+      "reason": "The issue is plausibly covered by #94130, but closure/fixed-by-candidate is blocked by job policy and missing merge preflight."
+    },
+    {
+      "target": "#78177",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94112",
+      "candidate_fix": "#94112",
+      "reason": "The issue has a plausible open candidate fix, but fixed-by-candidate closure is not allowed in this plan."
+    },
+    {
+      "target": "#78189",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94112",
+      "candidate_fix": "#94112",
+      "reason": "Already closed historical PR; retain as superseded evidence only."
+    },
+    {
+      "target": "#85357",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85357",
+      "candidate_fix": "#85357",
+      "reason": "Already merged historical heartbeat-policy fix; no action needed."
+    },
+    {
+      "target": "#90695",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94130",
+      "candidate_fix": "#94130",
+      "reason": "Already closed predecessor; retain as superseded evidence for the #94130 path."
+    },
+    {
+      "target": "#94053",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive linked issue must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#94087",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94088",
+      "candidate_fix": "#94088",
+      "reason": "Already closed superseded heartbeat PR; no closure action is valid."
+    },
+    {
+      "target": "#94088",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94088",
+      "candidate_fix": "#94088",
+      "reason": "Best current heartbeat implementation candidate, but merge is blocked by missing merge preflight and a failed proof lane."
+    },
+    {
+      "target": "#94112",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94112",
+      "candidate_fix": "#94112",
+      "reason": "Plausible canonical candidate for #78177, kept for maintainer finalization rather than merged in this plan."
+    },
+    {
+      "target": "#94130",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94130",
+      "candidate_fix": "#94130",
+      "reason": "Plausible canonical candidate for #78145, but merge preflight is incomplete."
+    },
+    {
+      "target": "#94134",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad mobile onboarding/auth-provider feature requires maintainer product and risk review; not suitable for autonomous merge or fix artifact from this shard."
+    },
+    {
+      "target": "#94233",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94233",
+      "candidate_fix": "#94233",
+      "reason": "Plausible narrow canonical candidate, but no merge recommendation without complete merge preflight."
+    },
+    {
+      "target": "#94538",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94088",
+      "candidate_fix": "#94088",
+      "reason": "Superseded by #94088, but closure is blocked and this plan may not mutate GitHub."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_closed": 4,
+    "route_security": 1,
+    "keep_canonical": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94134 requires maintainer judgment because it is a broad iOS onboarding/auth-provider feature with unknown mergeability and a failing android-test-third-party check."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-010",
+  "mode": "plan",
+  "run_id": "27899884636-1-9",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-010.md",
+  "published_at": "2026-06-21T09:24:41.671Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five primary open PRs plus hydrated linked refs. No GitHub mutations are planned. No PR has a complete merge preflight, so no merge_candidate action is emitted. #88555 is quarantined as the only security-sensitive hydrated ref. #93587 needs maintainer judgment because the branch has active author follow-up, session-state scope, and failing checks without enough failure detail for an executable repair artifact.",
+  "actions": [
+    {
+      "target": "#88555",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref; route only this ref to central OpenClaw security handling."
+    },
+    {
+      "target": "#89409",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89409",
+      "candidate_fix": null,
+      "reason": "Useful narrow docs PR, but not merge-ready under this job's merge gates."
+    },
+    {
+      "target": "#89920",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89920",
+      "candidate_fix": "#89920",
+      "reason": "Already closed/merged historical context for channel progress work."
+    },
+    {
+      "target": "#91203",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91203",
+      "candidate_fix": null,
+      "reason": "Best surviving path for this narrow Matrix/channel progress label issue, but merge is blocked by missing complete merge_preflight."
+    },
+    {
+      "target": "#93587",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer needs to decide whether this session-state branch should be repaired, narrowed, or sent back to the author."
+    },
+    {
+      "target": "#94326",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94326",
+      "candidate_fix": null,
+      "reason": "Best surviving path for the reserved index stem bug, but not merge-ready under this worker's merge gates."
+    },
+    {
+      "target": "#94555",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94555",
+      "candidate_fix": "#94562",
+      "reason": "Keep issue open as the canonical report until a fix lands; post-merge closeout is disabled in this job."
+    },
+    {
+      "target": "#94562",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94562",
+      "candidate_fix": "#94562",
+      "reason": "Canonical Workboard fix path, but not merge-ready and no executable repair artifact is safe from the compacted failure evidence."
+    },
+    {
+      "target": "#94617",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94562",
+      "candidate_fix": "#94562",
+      "reason": "Superseded by canonical Workboard PR #94562; keep as related because closure is blocked."
+    },
+    {
+      "target": "#94865",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94562",
+      "candidate_fix": "#94562",
+      "reason": "Superseded by #94562; keep as related because closure is blocked."
+    },
+    {
+      "target": "#94868",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94868",
+      "candidate_fix": "#94868",
+      "reason": "Already closed/merged historical context for channel progress detail work."
+    },
+    {
+      "target": "#94883",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94562",
+      "candidate_fix": "#94562",
+      "reason": "Superseded by #94562; keep as related because closure is blocked."
+    },
+    {
+      "target": "#94900",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94562",
+      "candidate_fix": "#94562",
+      "reason": "Superseded by #94562 and includes unrelated churn; keep as related because closure is blocked."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_canonical": 5,
+    "keep_closed": 2,
+    "needs_human": 1,
+    "keep_related": 4
+  },
+  "action_status_counts": {
+    "planned": 11,
+    "skipped": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93587 requires maintainer judgment: active author follow-up, session-state scope, and failing checks without enough hydrated failure detail to produce a complete repair artifact."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

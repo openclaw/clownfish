@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-001",
+  "mode": "plan",
+  "run_id": "27899884636-1-0",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-001.md",
+  "published_at": "2026-06-21T09:24:41.581Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planning only. Used the hydrated preflight artifact as live state for the five inventory PRs; no GitHub mutations are permitted because the job is mode=plan and close/comment/label are blocked.",
+  "actions": [
+    {
+      "target": "#86279",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86034",
+      "candidate_fix": "#86279",
+      "reason": "A useful contributor repair path exists, but merge is blocked by missing current diff/mergeability and missing merge preflight."
+    },
+    {
+      "target": "#87923",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#87740",
+      "candidate_fix": "#87923",
+      "reason": "Related historical fix PR, but its issue is already closed elsewhere and its failing proof check blocks finalization."
+    },
+    {
+      "target": "#84728",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84727",
+      "candidate_fix": "#84728",
+      "reason": "Strong related candidate for maintainer review, but not eligible for merge recommendation without complete merge preflight."
+    },
+    {
+      "target": "#94215",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#78038",
+      "candidate_fix": "#94215",
+      "reason": "Narrow useful PR, but it needs repair or maintainer review for the failing check and overlap with broader zh-CN PRs before merge."
+    },
+    {
+      "target": "#94567",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#94567",
+      "reason": "Maintainer product-direction decision is required after active author follow-up on a broad session-continuation change."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 2,
+    "keep_related": 2,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94567 requires maintainer product-direction review after active author follow-up and broad session/config/gateway changes."
+  ],
+  "repair_candidate": {
+    "target": "#86279",
+    "source_refs": [
+      "#86279",
+      "#94215",
+      "#86034",
+      "#78038",
+      "#80924",
+      "#86925",
+      "#84728",
+      "#87923",
+      "#94567",
+      "#84727",
+      "#86808",
+      "#87740",
+      "#87925"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Cluster-scoped repair plan for the inventory PRs that have concrete contributor-branch repair paths but are not merge-ready from the hydrated artifact.",
+    "pr_title": "Repair maintainer-ready PR blockers from live inventory shard 001",
+    "pr_body": "This repair artifact covers only the narrow non-security blocker paths identified in live-pr-inventory-20260621T091708-001.\n\nSource PRs:\n- #86279 by tianxiaochannel-oss88: media generation completion delivery success should be preserved when requester delivery fails.\n- #94215 by eldar702: zh-CN theme/cron labels and Dreaming restart modal translations with focused regression coverage.\n\nPlan:\n- Rebase or repair contributor branches where maintainer_can_modify remains true.\n- For #86279, recover the current diff against main, verify the delivery-target gap from #86034, keep the patch narrow, and rerun targeted media/reply checks.\n- For #94215, resolve the failing tooling check, compare overlap with #80924/#86925, keep only the narrow #78038 corrections if a replacement is needed, and rerun i18n tests plus type/lint checks.\n\nCredit and attribution must be preserved in commit messages and PR body if a replacement branch is opened.",
+    "likely_files": [
+      "src/auto-reply/reply/subagent-announce-delivery.ts",
+      "src/core/runtime/media-ui/*",
+      "ui/src/i18n/locales/zh-CN.ts",
+      "ui/src/i18n/test/zh-CN-labels.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm test -- src/auto-reply/reply",
+      "pnpm test -- ui/src/i18n/test/zh-CN-labels.test.ts",
+      "pnpm run check:test-types",
+      "pnpm run check-lint"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for #86279 by tianxiaochannel-oss88 if repairing or replacing the media delivery fix.",
+      "Preserve source PR credit for #94215 by eldar702 if repairing or replacing the zh-CN locale fix; note AI-assisted source PR in the replacement PR body if used.",
+      "Do not close or supersede contributor PRs in this plan mode run; comment/close are blocked."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#94567 requires maintainer product-direction review after active author follow-up and broad session/config/gateway changes."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

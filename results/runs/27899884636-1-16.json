@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-017",
+  "mode": "plan",
+  "run_id": "27899884636-1-16",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "16",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-017.md",
+  "published_at": "2026-06-21T09:24:41.620Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open maintainer-ready PRs. No merge actions are recommended because no item has a complete merge preflight with resolved review state and Codex /review proof. One PR needs a specific maintainer re-review decision; the other four are non-mutating keep classifications.",
+  "actions": [
+    {
+      "target": "#93585",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone PR, but finalization requires normal maintainer review and complete merge preflight before any merge recommendation."
+    },
+    {
+      "target": "#93689",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#57594",
+      "candidate_fix": "#93689",
+      "reason": "Specific maintainer re-review is needed to confirm the active author follow-up resolves the CHANGES_REQUESTED review before merge planning."
+    },
+    {
+      "target": "#93827",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#43803",
+      "candidate_fix": "#93827",
+      "reason": "Related to the hydrated browser profile reload issue, but not merge-ready in this plan because review-bot feedback says changes are needed and no complete executable repair artifact is available from this shard."
+    },
+    {
+      "target": "#93841",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone UI PR, but merge is blocked by dirty merge state and missing merge preflight; classify without mutation."
+    },
+    {
+      "target": "#93956",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone provider PR, but final merge planning requires a complete merge preflight and resolved maintainer review path."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "needs_human": 1,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93689 requires maintainer re-review because the artifact still shows CHANGES_REQUESTED after the contributor's follow-up update."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

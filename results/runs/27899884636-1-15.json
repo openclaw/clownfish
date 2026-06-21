@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-016",
+  "mode": "plan",
+  "run_id": "27899884636-1-15",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "15",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-016.md",
+  "published_at": "2026-06-21T09:24:41.615Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open inventory PRs plus hydrated linked refs. No GitHub mutations are planned. Merge recommendations are blocked because the artifact does not include complete merge_preflight proof. #93180 needs maintainer judgment due broad auth/session/doctor scope. #85341 is routed to central security handling as the only security-sensitive hydrated item.",
+  "actions": [
+    {
+      "target": "#93239",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small standalone docs PR can remain open for maintainer review; no merge action is safe without merge_preflight."
+    },
+    {
+      "target": "#93356",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related plugin-cache PR, but merge cannot be recommended from this artifact."
+    },
+    {
+      "target": "#91728",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused regression-test PR remains a plausible maintainer-review item, but this plan should not recommend merge without merge_preflight."
+    },
+    {
+      "target": "#92892",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#91739",
+      "reason": "Keep the PR tied to #91739 for maintainer review or a future repair run; current evidence blocks merge."
+    },
+    {
+      "target": "#93180",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required on the broad legacy Codex migration/auth/session behavior before merge or automated repair."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this hydrated security-sensitive linked ref; it does not block non-security classification for the inventory PRs."
+    },
+    {
+      "target": "#91739",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#92892",
+      "reason": "Issue remains open and related to #92892, but should not be closed until the candidate PR is validated."
+    },
+    {
+      "target": "#77848",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related provider-cache work should stay out of this inventory shard's mutation path."
+    },
+    {
+      "target": "#59416",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#91728",
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#90747",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#93356",
+      "reason": "Already closed; use as credit/evidence only."
+    },
+    {
+      "target": "#91869",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#91728",
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#91875",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#91728",
+      "reason": "Already closed; no mutation is valid."
+    },
+    {
+      "target": "#92127",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged; use as context only."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 1,
+    "keep_related": 5,
+    "needs_human": 1,
+    "route_security": 1,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#93180 requires maintainer judgment because it is an XL legacy Codex migration/auth/session-state PR with broad code and docs scope."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

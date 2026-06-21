@@ -1,0 +1,219 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T091708-004",
+  "mode": "plan",
+  "run_id": "27899884636-1-3",
+  "workflow_run_id": "27899884636",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899884636",
+  "head_sha": "8908afe44fcb1ca0b58d8bc66ab2a33d7af7e75b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:20:20Z",
+  "workflow_updated_at": "2026-06-21T09:22:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-004.md",
+  "published_at": "2026-06-21T09:24:41.645Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for the live PR inventory shard. No GitHub mutations are planned directly. No PR has complete merge preflight proof; one narrow repair artifact is viable for #89800, #83482 is quarantined as the exact security-sensitive linked ref, and the remaining open PRs are kept for maintainer review or related follow-up rather than merged.",
+  "actions": [
+    {
+      "target": "#15614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical context only."
+    },
+    {
+      "target": "#81889",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical phone-code feature context."
+    },
+    {
+      "target": "#83482",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive linked PR is out of ProjectClownfish mutation scope."
+    },
+    {
+      "target": "#85866",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad auth/session feature needs maintainer product review before any merge or repair path."
+    },
+    {
+      "target": "#85867",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85866",
+      "candidate_fix": "#85866",
+      "reason": "Related open tracking issue should remain open while the broad #85866 maintainer decision is unresolved."
+    },
+    {
+      "target": "#85868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85866",
+      "candidate_fix": "#85866",
+      "reason": "Related but not safely closable as duplicate; keep open for follow-up."
+    },
+    {
+      "target": "#86850",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed historical conflict context only."
+    },
+    {
+      "target": "#88642",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical typing fix; no mutation allowed."
+    },
+    {
+      "target": "#89110",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#88642",
+      "candidate_fix": null,
+      "reason": "Related follow-up to merged typing work, but failed proof and missing merge preflight block finalization."
+    },
+    {
+      "target": "#89748",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused but independent PR; failed proof and missing merge preflight block merge."
+    },
+    {
+      "target": "#89790",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with incomplete merge gates; keep for maintainer/check follow-up."
+    },
+    {
+      "target": "#89800",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89800",
+      "candidate_fix": "#89800",
+      "reason": "Narrow actionable review repair is needed before merge preflight can be built."
+    },
+    {
+      "target": "#89800",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#89800",
+      "candidate_fix": "#89800",
+      "reason": "Executable repair artifact included for the narrow #89800 blocker."
+    },
+    {
+      "target": "#90477",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89110",
+      "candidate_fix": null,
+      "reason": "Related broad WhatsApp typing work with failing checks; not mergeable in this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 4,
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_related": 4,
+    "keep_independent": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 4,
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#85866 requires maintainer/product judgment before merge because it is a large WhatsApp auth-provider/session-state feature despite passing proof checks."
+  ],
+  "repair_candidate": {
+    "target": "#89800",
+    "source_refs": [
+      "#89800",
+      "#83482",
+      "#85866",
+      "#86850",
+      "#88642",
+      "#89110",
+      "#89748",
+      "#89790",
+      "#90477",
+      "#15614",
+      "#81889",
+      "#85867",
+      "#85868"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #89800 by normalizing the semantic current session key consistently: use the already-trimmed requested key when deciding whether to take the WebChat current-session branch, and add regression coverage for whitespace-decorated \"current\" input.",
+    "pr_title": "fix(agents): normalize current session status key",
+    "pr_body": "## Summary\n- Repair #89800 by using the trimmed requested session key when detecting semantic `current`.\n- Add regression coverage for whitespace-decorated `current` input in WebChat session_status resolution.\n- Preserve @sweetcornna's source PR attribution.\n\n## Source Credit\nBased on https://github.com/openclaw/openclaw/pull/89800 by @sweetcornna.\n\n## Validation\n- `pnpm -s vitest run src/agents/openclaw-tools.session-status.test.ts`\n- `pnpm check:changed`",
+    "likely_files": [
+      "src/agents/tools/session-status-tool.ts",
+      "src/agents/openclaw-tools.session-status.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/agents/openclaw-tools.session-status.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Thanks @sweetcornna for the source PR and focused WebChat current-session fix.",
+      "Preserve attribution to source PR https://github.com/openclaw/openclaw/pull/89800 in any repair commit or PR body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T091708-004.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#83482"
+    ],
+    "needs_human": [
+      "#85866 requires maintainer/product judgment before merge because it is a large WhatsApp auth-provider/session-state feature despite passing proof checks."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
