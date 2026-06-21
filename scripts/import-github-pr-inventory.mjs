@@ -15,7 +15,7 @@ const existingResultsDir = path.resolve(
 );
 const mode = String(args.mode ?? "autonomous");
 const existingResultsActionPolicy = String(
-  args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? (mode === "autonomous" ? "terminal" : "all"),
+  args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "terminal",
 );
 const strategy = String(args.strategy ?? "triage");
 const limit = limitArg("limit", 100);

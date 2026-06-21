@@ -25,6 +25,23 @@ test("autonomous live PR inventory defaults to stale candidates and terminal res
   assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106", "#108"]);
 });
 
+test("plan inventory defaults result coverage to terminal actions", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+  writePublishedResult(path.join(fixture.results, "processed.md"));
+
+  const plan = runImport(fixture, "--mode", "plan", "--strategy", "remediation", "--bucket", "all");
+  assert.equal(plan.status, 0, plan.stderr || plan.stdout);
+  const payload = JSON.parse(plan.stdout);
+
+  assert.equal(payload.options.existing_results_action_policy, "terminal");
+  const candidates = new Set(payload.candidates.map((candidate) => candidate.ref));
+  assert.equal(candidates.has("#101"), true);
+  assert.equal(candidates.has("#104"), true);
+  assert.equal(candidates.has("#102"), false);
+  assert.equal(candidates.has("#103"), false);
+});
+
 test("live PR inventory protects active structured job refs but not archived or incidental references", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
