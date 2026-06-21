@@ -1074,6 +1074,59 @@ test("review-results rejects executable repair paths bound to risk-labeled prefl
   }
 });
 
+test("review-results rejects close actions targeting risk-labeled preflight PRs", () => {
+  for (const label of ["merge-risk: availability", "clawsweeper:automerge"]) {
+    const dir = makeResultDir(
+      {
+        mode: "autonomous",
+        actions: [
+          {
+            target: "#91286",
+            action: "close_superseded",
+            status: "planned",
+            idempotency_key: "cluster-test:close-superseded:91286:risk-label",
+            classification: "superseded",
+            target_kind: "pull_request",
+            target_updated_at: "2026-06-15T10:00:00Z",
+            canonical: "#91287",
+            candidate_fix: "#91287",
+            comment: "Thanks @contributor; the canonical path preserves contributor credit.",
+            evidence: ["#91287 is the hydrated canonical path."],
+            reason: "The contributor PR is superseded by the canonical path.",
+          },
+        ],
+      },
+      {
+        plan: {
+          items: [
+            {
+              ref: "#91286",
+              kind: "pull_request",
+              state: "open",
+              labels: [label],
+              updated_at: "2026-06-15T10:00:00Z",
+              security_sensitive: false,
+            },
+            {
+              ref: "#91287",
+              kind: "pull_request",
+              state: "open",
+              labels: [],
+              updated_at: "2026-06-15T10:00:01Z",
+              security_sensitive: false,
+            },
+          ],
+        },
+      },
+    );
+
+    const result = review(dir);
+
+    assert.notEqual(result.status, 0, result.stdout || result.stderr);
+    assert.match(result.stdout, new RegExp(`#91286 close action targets high-risk label: ${label}`));
+  }
+});
+
 test("review-results allows unavailable non-mutating plan classifications", () => {
   const dir = makeResultDir(
     {

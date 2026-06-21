@@ -219,6 +219,8 @@ function reviewResult(resultPath) {
       closeActions.push(action);
       if (!item) failures.push(`${target} close action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} close action targets ${item.state} item`);
+      const blockedLabel = findHighRiskMutationLabel(item?.labels);
+      if (blockedLabel) failures.push(`${target} close action targets high-risk label: ${blockedLabel}`);
       if (action.status !== "planned" && !isFixFirstBlockedCloseAction(action, hasFixPath)) {
         failures.push(`${target} close action status must be planned or fix-first blocked`);
       }
@@ -687,14 +689,14 @@ function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef,
 
   for (const ref of refs) {
     const item = itemByRef.get(ref);
-    const blockedLabel = findExecutableFixBlockedLabel(item?.labels);
+    const blockedLabel = findHighRiskMutationLabel(item?.labels);
     if (blockedLabel) {
       failures.push(`${ref} executable repair target has blocked label: ${blockedLabel}`);
     }
   }
 }
 
-function findExecutableFixBlockedLabel(labels) {
+function findHighRiskMutationLabel(labels) {
   return (labels ?? []).map(String).find((label) => /^merge-risk:/i.test(label) || label.toLowerCase() === "clawsweeper:automerge");
 }
 

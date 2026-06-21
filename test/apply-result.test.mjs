@@ -198,6 +198,46 @@ test("apply-result blocks MEMBER-owned close targets before close-comment handli
   assert.equal(ghCalls.some((args) => args[1].includes("/comments")), false);
 });
 
+test("apply-result blocks high-risk close targets before comment or close mutation", () => {
+  for (const label of ["merge-risk: availability", "clawsweeper:automerge"]) {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    const callLogPath = path.join(tmp, "gh-calls.jsonl");
+    fs.mkdirSync(binDir, { recursive: true });
+    fs.writeFileSync(callLogPath, "");
+    writeGhStub(binDir, { labels: [label] });
+
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true }));
+    fs.writeFileSync(resultPath, `${JSON.stringify(resultJson(), null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir, { dryRun: false, callLogPath });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(report.actions[0].reason, `target has blocked live label: ${label}`);
+    const ghCalls = fs
+      .readFileSync(callLogPath, "utf8")
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    assert.equal(
+      ghCalls.some((args) => args[1].includes("/comments") && args.includes("POST")),
+      false,
+      JSON.stringify(ghCalls),
+    );
+    assert.equal(
+      ghCalls.some((args) => args[0] === "pr" && args[1] === "close"),
+      false,
+      JSON.stringify(ghCalls),
+    );
+  }
+});
+
 test("apply-result retains prior reports as apply attempts", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -362,7 +402,7 @@ function apply(jobPath, resultPath, reportPath, binDir, { dryRun = true, callLog
 
 function writeGhStub(
   binDir,
-  { issueState = "open", includeExistingMarker = false, authorAssociation = "NONE", ansi = false } = {},
+  { issueState = "open", includeExistingMarker = false, authorAssociation = "NONE", ansi = false, labels = [] } = {},
 ) {
   const ghPath = path.join(binDir, "gh");
   const ansiPrefix = ansi ? "\u001b[1;32m" : "";
@@ -385,7 +425,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     state: ${JSON.stringify(issueState)},
     title: "streaming fix",
     updated_at: ${JSON.stringify(issueState === "open" ? "2026-06-11T05:07:30Z" : "2026-06-11T12:38:26Z")},
-    labels: [],
+    labels: ${JSON.stringify(labels)},
     author_association: ${JSON.stringify(authorAssociation)},
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });

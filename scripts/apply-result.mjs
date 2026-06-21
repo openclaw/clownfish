@@ -329,6 +329,15 @@ function applyCloseAction({
       live_state: live.state,
     };
   }
+  const blockedLabel = findHighRiskMutationLabel(live.labels);
+  if (blockedLabel) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: `target has blocked live label: ${blockedLabel}`,
+      live_state: live.state,
+    };
+  }
   if (classification === "low_signal") {
     const lowSignalBlock = validateLowSignalLiveState(result.repo, target, live, kind);
     if (lowSignalBlock) {
@@ -570,6 +579,12 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     merge_method: "squash",
     expected_head_sha: expectedHeadSha,
   };
+}
+
+function findHighRiskMutationLabel(labels) {
+  return (labels ?? [])
+    .map((label) => String(label?.name ?? label).trim())
+    .find((label) => /^merge-risk:/i.test(label) || label.toLowerCase() === "clawsweeper:automerge");
 }
 
 function validateClosePolicy({ job, actionName }) {
