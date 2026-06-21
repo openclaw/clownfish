@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-002",
+  "mode": "plan",
+  "run_id": "27899643378-1-1",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-002.md",
+  "published_at": "2026-06-21T09:14:45.291Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five listed open PRs independently from the hydrated preflight artifact. #95271 is superseded by the active replacement lane #95278. The other four remain open but are not safe merge recommendations in this run because the artifact does not provide a complete merge preflight and, where applicable, still shows unresolved review or failing check blockers.",
+  "actions": [
+    {
+      "target": "#95246",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep this PR open as an independent maintainer-review candidate. The artifact supports that the patch is narrow and green, but it does not satisfy the merge-policy requirement for a complete merge preflight with passed Codex /review evidence."
+    },
+    {
+      "target": "#95113",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a real follow-up PR, not a duplicate, but merge is blocked by current failing checks and missing merge-preflight proof. The run does not contain a complete executable repair artifact, so the conservative plan output is to keep it open as an independent repair candidate."
+    },
+    {
+      "target": "#95271",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#95278",
+      "candidate_fix": "#95278",
+      "reason": "This PR is superseded by the later replacement lane #95278. Because the job blocks close/comment mutations, the plan keeps #95271 related rather than recommending a closure action in this run."
+    },
+    {
+      "target": "#95300",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This remains an independent contributor PR, but it is not merge-ready in the hydrated state because review changes are still required and at least one relevant check is failing. Without a complete executable repair plan in the artifact, the safe plan result is to keep it open."
+    },
+    {
+      "target": "#95129",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#92058",
+      "reason": "The PR is a valid candidate fix for #92058, but the plan artifact still falls short of merge-policy proof. Keeping it open as an independent candidate is safer than recommending merge without a complete preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

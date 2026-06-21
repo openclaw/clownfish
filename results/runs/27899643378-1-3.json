@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-004",
+  "mode": "plan",
+  "run_id": "27899643378-1-3",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "3",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-004.md",
+  "published_at": "2026-06-21T09:14:45.337Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation inventory: #94915, #95120, #95283, and #95348 should remain the current canonical PRs for their respective fix paths, but none has the complete merge preflight required for a merge recommendation. #95320 needs maintainer judgment because the current fix path introduces a broader UI/session-state mode and still has unstable failing checks.",
+  "actions": [
+    {
+      "target": "#94915",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94915",
+      "candidate_fix": null,
+      "reason": "Best current fix candidate for the gateway draining readiness bug; safe to keep as canonical, but not safe to recommend merge without the required merge preflight."
+    },
+    {
+      "target": "#95120",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95120",
+      "candidate_fix": null,
+      "reason": "Clear surviving PR for the per-DM model override gap; keep it as the canonical path pending maintainer review and full merge preflight."
+    },
+    {
+      "target": "#95283",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95283",
+      "candidate_fix": null,
+      "reason": "Best surviving fix candidate for the reasoning/content boundary bug; keep canonical, but do not recommend merge while relevant checks are failing and merge preflight is incomplete."
+    },
+    {
+      "target": "#95348",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95348",
+      "candidate_fix": null,
+      "reason": "This is the current live PR for a narrow fix, but failing validation and missing merge preflight mean the safe plan is to keep it canonical rather than recommend merge or repair."
+    },
+    {
+      "target": "#95320",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This item crosses the job's broad-code-delta/session-state threshold and still has unstable failing validation; maintainer judgment is needed on scope before recommending merge or a repair path."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#95320: confirm whether the broader opt-in 'All agents' sidebar mode is the intended fix path for the linked session-visibility bug, or whether the change should be narrowed before finalization."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

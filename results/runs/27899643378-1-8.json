@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-009",
+  "mode": "plan",
+  "run_id": "27899643378-1-8",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "8",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-009.md",
+  "published_at": "2026-06-21T09:14:45.362Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned non-mutating inventory classification: kept #94633 and #94760 as the strongest surviving PRs in their duplicate families, marked #94990 as superseded by #94633, and kept #95226, #95393, and #95432 independent because merge preflight is incomplete and hydrated checks still block merge without a concrete repair artifact.",
+  "actions": [
+    {
+      "target": "#94633",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94633",
+      "candidate_fix": null,
+      "reason": "Best surviving PR for the #94547 schema bug family. Keep it open as canonical, but do not recommend merge because the artifact does not include the required merge preflight and full hydrated checks are not uniformly clean."
+    },
+    {
+      "target": "#94760",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94760",
+      "candidate_fix": null,
+      "reason": "Best surviving PR for the #83730 Feishu p2p DM reply-target bug family. Keep it open as canonical; merge is still blocked because the required merge preflight is absent from the hydrated artifact."
+    },
+    {
+      "target": "#94990",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94633",
+      "candidate_fix": "#94633",
+      "reason": "Treat this as superseded by #94633 rather than opening a second merge path for the same root cause. Because close/comment actions are blocked in this plan-only job, keep it related instead of planning a closure mutation."
+    },
+    {
+      "target": "#95226",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with no duplicate-family action needed. Keep it open for maintainer follow-up because merge is blocked and the artifact does not support a complete executable fix artifact."
+    },
+    {
+      "target": "#95393",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with a clear narrow scope, but not merge-ready and not concrete enough for a bounded fix artifact from this shard. Keep it open for maintainer review."
+    },
+    {
+      "target": "#95432",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with no overlapping duplicate family in this shard. Keep it open for maintainer follow-up rather than inventing a fix artifact without clear failure diagnosis."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

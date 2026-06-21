@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-018",
+  "mode": "plan",
+  "run_id": "27899643378-1-17",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "17",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-018.md",
+  "published_at": "2026-06-21T09:14:45.327Z",
+  "canonical": "#95278",
+  "canonical_issue": "#94571",
+  "canonical_pr": "#95278",
+  "summary": "#94571 remains the canonical issue and #95278 is the active credited replacement PR, but #95278 is not merge-ready because `checks-node-core-tooling` is failing on head `b02000fcc5c4b9354df6a60dddc4405c00117462`. #95271 is superseded by #95278, and #94573 is already closed as the credited source PR replaced by #95278.",
+  "actions": [
+    {
+      "target": "#94571",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94571",
+      "candidate_fix": "#95278",
+      "reason": "Keep the production report open as the canonical issue until the active credited fix path in #95278 lands."
+    },
+    {
+      "target": "#94573",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#95278",
+      "candidate_fix": "#95278",
+      "reason": "Historical source PR only; it is already closed and superseded by the credited replacement PR #95278."
+    },
+    {
+      "target": "#95271",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#95278",
+      "candidate_fix": "#95278",
+      "reason": "Classify #95271 as superseded/related rather than closing it in this shard because #95278 is the active canonical landing candidate and closure is blocked."
+    },
+    {
+      "target": "#95278",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95278",
+      "candidate_fix": "#95278",
+      "reason": "#95278 is the canonical PR for this shard, but it needs a narrow repair pass on the existing branch before any merge recommendation is safe."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T090519-018",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#95278",
+      "candidate_fix": "#95278",
+      "reason": "Build a narrow repair artifact for #95278 so the executor can repair the existing canonical PR branch and re-run focused validation."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 1,
+    "keep_related": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#95278",
+    "source_refs": [
+      "#95278",
+      "#94573",
+      "#94571",
+      "#95271"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair canonical PR #95278 on its existing branch so the credited replacement lane for #94571 can merge after the failing `checks-node-core-tooling` check is resolved and focused validation is rerun.",
+    "pr_title": "Avoid copying process.env in ingress queue state DB opens",
+    "pr_body": "Repairs #95278 so the credited replacement lane for #94571 can merge cleanly.\n\nContext:\n- Canonical issue: #94571\n- Canonical PR: #95278\n- Source lineage: #94573 by @kaka-srp\n\nPlan:\n- Refresh or rebase #95278 onto current `main` only if needed for the failing check.\n- Inspect the failing `checks-node-core-tooling` result on head `b02000fcc5c4b9354df6a60dddc4405c00117462` and make the smallest repair needed without widening scope beyond the ingress-queue fix unless the failing job proves another narrow file is required.\n- Re-run focused validation and `pnpm check:changed`.\n- Preserve existing contributor attribution and the `Fixes #94571` close linkage.",
+    "likely_files": [
+      "src/channels/message/ingress-queue.ts",
+      "src/channels/message/ingress-queue.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial src/channels/message/ingress-queue.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve the existing credit chain from source PR #94573 and keep attribution to @kaka-srp.",
+      "Keep #95278 as the active review lane if the repair stays on the current branch; do not drop the inherited `Fixes #94571` linkage.",
+      "If the executor must fall back to a replacement PR, carry forward the original contributor credit and source PR URL in the replacement body."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-018.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

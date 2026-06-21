@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-010",
+  "mode": "plan",
+  "run_id": "27899643378-1-9",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "9",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-010.md",
+  "published_at": "2026-06-21T09:14:45.365Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation shard classified the five listed open PRs without mutations. #94942, #95080, #94880, and #95118 stay open as related work; #95107 stays open as an independent Android feature. No merge recommendation is safe from this artifact because none includes a complete merge_preflight with explicit Codex /review proof, resolved comment/bot-comment proof, and fresh merge gates in the required format.",
+  "actions": [
+    {
+      "target": "#94880",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related because the artifact points to an unhydrated stronger canonical PR for the same docs bug, and this shard does not have the hydrated canonical needed for a duplicate/superseded close recommendation."
+    },
+    {
+      "target": "#94942",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90455",
+      "candidate_fix": null,
+      "reason": "Active candidate fix for the hydrated canonical issue #90455, but this plan shard lacks the complete merge_preflight required to recommend merge."
+    },
+    {
+      "target": "#95080",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90178",
+      "candidate_fix": null,
+      "reason": "Keep as related because it is the active candidate fix for canonical issue #90178, but merge_candidate is blocked by missing merge_preflight rather than by a repair need."
+    },
+    {
+      "target": "#95107",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent maintainer-review feature PR: not a dedupe/repair case in this shard, and not merge-ready under ProjectClownfish because the required merge_preflight is absent."
+    },
+    {
+      "target": "#95118",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related because it is an active candidate fix for a referenced but unhydrated issue family, while merge_candidate is blocked solely by missing merge_preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

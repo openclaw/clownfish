@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-003",
+  "mode": "plan",
+  "run_id": "27899643378-1-2",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-003.md",
+  "published_at": "2026-06-21T09:14:45.332Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation inventory classified the five listed PRs without GitHub mutations. #95098, #95268, #95305, and #95319 are the strongest current paths in their respective families but lack a complete merge preflight or have failing checks, so they stay canonical recommendations rather than merge actions. #95317 stays related because the bot-cited canonical PR is not hydrated in this artifact and its own failing checks block a merge recommendation.",
+  "actions": [
+    {
+      "target": "#95268",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95268",
+      "candidate_fix": null,
+      "reason": "Best hydrated PR for #95198, but not merge-ready under the cluster's preflight rules."
+    },
+    {
+      "target": "#95305",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95305",
+      "candidate_fix": null,
+      "reason": "Strongest hydrated fix path for #95219, but current failing checks and missing merge preflight prevent a merge recommendation."
+    },
+    {
+      "target": "#95317",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same fix family as an unhydrated cited canonical PR, with no safe merge path from the current artifact."
+    },
+    {
+      "target": "#95319",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95319",
+      "candidate_fix": null,
+      "reason": "Standalone canonical PR for its bug, but blocked from merge by failing checks and incomplete repair evidence."
+    },
+    {
+      "target": "#95098",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95098",
+      "candidate_fix": null,
+      "reason": "Best current path for the markdown-only CI routing fix, but merge preflight proof is incomplete in this plan artifact."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,159 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-005",
+  "mode": "plan",
+  "run_id": "27899643378-1-4",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-005.md",
+  "published_at": "2026-06-21T09:14:45.343Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory shard over independent maintainer-ready PRs. Kept #95372, #95384, #94811, #95010, and #95359 as the surviving PR paths for their respective fixes; marked #94019 and #69707 as related follow-on context, #94560 as independent, and #93908 as still open but currently tracked by candidate fix #95384 pending mergeable validation. Historical refs #93758, #94282, and #94682 stay closed, and #94763 is quarantined with route_security. No merge_candidate or fix_artifact is emitted because no open PR has a complete merge preflight, and the hydrated artifact does not provide a narrow executable repair beyond non-mutating classification.",
+  "actions": [
+    {
+      "target": "#69707",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Same embedding-dimensions symptom family as other linked refs, but meaningfully different component and implementation scope, so it should stay open as related context rather than be folded into this shard."
+    },
+    {
+      "target": "#93758",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94811",
+      "candidate_fix": null,
+      "reason": "Historical merged context only; keep it closed and use it as evidence for the surviving Ollama follow-up path."
+    },
+    {
+      "target": "#93908",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#95384",
+      "reason": "The issue is currently best tracked by #95384, but it should remain open until that candidate is fully validated and lands."
+    },
+    {
+      "target": "#94019",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#95384",
+      "candidate_fix": null,
+      "reason": "This PR improves operator diagnostics for the same symptom family, but it does not replace the root-cause fix in #95384."
+    },
+    {
+      "target": "#94282",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#95359",
+      "candidate_fix": null,
+      "reason": "Keep the merged feature PR closed; it is useful historical context for the follow-on owner-mismatch guard in #95359."
+    },
+    {
+      "target": "#94560",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR should be handled on its own review path; it is neither a duplicate nor a superseding candidate for the other items in the shard."
+    },
+    {
+      "target": "#94682",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#95010",
+      "candidate_fix": null,
+      "reason": "Closed predecessor only; #95010 is the live replacement PR for the same patch series."
+    },
+    {
+      "target": "#94763",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This ref is out of scope for ProjectClownfish backlog cleanup and must route to central OpenClaw security handling."
+    },
+    {
+      "target": "#94811",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94811",
+      "candidate_fix": null,
+      "reason": "Best surviving PR for the Ollama dimensionality bug family; keep it as the canonical review path without recommending merge yet."
+    },
+    {
+      "target": "#95010",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95010",
+      "candidate_fix": null,
+      "reason": "This is the surviving canonical PR for the automation-gating change, but current failing checks prevent a merge recommendation."
+    },
+    {
+      "target": "#95359",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95359",
+      "candidate_fix": null,
+      "reason": "This is the active canonical PR for the owner-mismatch force-install guard, but missing live check hydration blocks any merge recommendation."
+    },
+    {
+      "target": "#95372",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95372",
+      "candidate_fix": null,
+      "reason": "Best surviving PR for the CLI capability metadata flag-drift bug; keep it as canonical and leave merge for a later run with complete preflight."
+    },
+    {
+      "target": "#95384",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95384",
+      "candidate_fix": "#93908",
+      "reason": "This is the canonical root-cause fix path for the Feishu/plugin-version mismatch issue, but it is not merge-ready because relevant checks are failing."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_closed": 3,
+    "keep_independent": 1,
+    "route_security": 1,
+    "keep_canonical": 5
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

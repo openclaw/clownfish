@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T090519-011",
+  "mode": "plan",
+  "run_id": "27899643378-1-10",
+  "workflow_run_id": "27899643378",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27899643378",
+  "head_sha": "d895337f657424308faa54738e5206ce72f2a438",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:09:54Z",
+  "workflow_updated_at": "2026-06-21T09:12:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T090519-011.md",
+  "published_at": "2026-06-21T09:14:45.296Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation review for five open PRs: no merge recommendation is safe from this artifact because none includes a complete merge preflight with clean /review evidence. Four PRs stay open on non-mutating paths, one overlapping Workboard PR stays related because its stronger canonical sibling is not hydrated in this run, and the explicitly flagged security-sensitive linked PR is quarantined only at the item level.",
+  "actions": [
+    {
+      "target": "#95128",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a standalone maintainer-review PR. Merge is not recommended from this run because the artifact does not contain the required complete merge_preflight or a clean passed /review record, but there is no concrete fix artifact to build."
+    },
+    {
+      "target": "#95130",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#90404",
+      "candidate_fix": null,
+      "reason": "Keep open on the existing PR path. The artifact supports this as the current fix candidate for #90404, but it does not provide the complete merge preflight needed for a merge recommendation and does not contain a bounded repair plan beyond maintainer review."
+    },
+    {
+      "target": "#95436",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#91171",
+      "candidate_fix": null,
+      "reason": "Keep open as the current non-security fix path for #91171. The linked security-sensitive sibling does not block this ordinary bug path, but the artifact still falls short of the complete merge_preflight required for a merge recommendation."
+    },
+    {
+      "target": "#95453",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as an independently reviewable candidate PR. Because the canonical issue and sibling candidates are not hydrated in this shard, the worker should not emit fixed-by-candidate or superseded close logic here, and the artifact still lacks merge-preflight proof for merge_candidate."
+    },
+    {
+      "target": "#95468",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related only. The overlapping canonical PR path referenced in comments is not hydrated, so the worker should not recommend merge or close actions against #95468 from this artifact alone."
+    },
+    {
+      "target": "#95455",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine the exact flagged item to central security handling and keep all other non-security PR classifications moving."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
