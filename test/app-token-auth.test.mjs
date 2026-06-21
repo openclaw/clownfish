@@ -253,7 +253,7 @@ test("repository-batch falls back only from the known GitHub schema 422", () => 
     [
       "scripts/dispatch-jobs.mjs",
       "jobs/openclaw/inbox/cluster-example.md",
-      "jobs/openclaw/inbox/gitcrawl-1109-intake-20260621.md",
+      "jobs/openclaw/outbox/finalized/gitcrawl-1109-intake-20260621.md",
       "--mode",
       "plan",
       "--dispatch-event",
@@ -447,7 +447,7 @@ if (args[0] === "variable" && args[1] === "list") {
 if (args[0] === "workflow" && args[1] === "run") {
   if (process.env.EXPECT_REPOSITORY_BATCH_FALLBACK === "1") {
     for (const expected of [
-      "jobs_json=[\\"jobs/openclaw/inbox/cluster-example.md\\",\\"jobs/openclaw/inbox/gitcrawl-1109-intake-20260621.md\\"]",
+      "jobs_json=[\\"jobs/openclaw/inbox/cluster-example.md\\",\\"jobs/openclaw/outbox/finalized/gitcrawl-1109-intake-20260621.md\\"]",
       "mode=plan",
       "runner=ubuntu-latest",
       "execution_runner=blacksmith-16vcpu-ubuntu-2404",
