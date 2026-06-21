@@ -10,7 +10,7 @@ const hasSqlite = spawnSync("sqlite3", ["--version"], { stdio: "ignore" }).statu
 
 test("cluster import can dedupe against published results without stale job id collisions", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
   const fixture = makeFixture();
-  seedPortableGitcrawlDb(fixture.db);
+  seedPortableGitcrawlDb(fixture.db, { firstLabels: ["merge-risk: 🚨 security-boundary"] });
   writeStaleJob(path.join(fixture.existing, "gitcrawl-1-old.md"));
   writePublishedResult(path.join(fixture.results, "processed.md"), ["#101"]);
 
@@ -31,6 +31,7 @@ test("cluster import can dedupe against published results without stale job id c
   assert.equal(payload.generated[0].source_cluster_id, 1);
   assert.deepEqual(payload.generated[0].cluster_refs, ["#102"]);
   assert.deepEqual(payload.generated[0].existing_overlap_refs, ["#101"]);
+  assert.deepEqual(payload.generated[0].security_signal_refs, ["#101"]);
 });
 
 test("cluster import skips maintainer-only risk labels by default", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {

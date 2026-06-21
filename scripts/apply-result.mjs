@@ -155,6 +155,11 @@ function hydratedPreflightCloseRefs(resultPath, repo) {
   const planPath = path.join(path.dirname(resultPath), "cluster-plan.json");
   if (!fs.existsSync(planPath)) return new Set();
   const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+  const readOnlyContextRefs = new Set(
+    (plan.scope?.read_only_context_refs ?? [])
+      .map((ref) => normalizeIssueRef(ref, repo))
+      .filter(Boolean),
+  );
   return new Set(
     (plan.items ?? [])
       .filter(
@@ -165,7 +170,8 @@ function hydratedPreflightCloseRefs(resultPath, repo) {
           item.ref &&
           item.kind &&
           item.state &&
-          item.updated_at,
+          item.updated_at &&
+          !readOnlyContextRefs.has(normalizeIssueRef(item.ref, repo)),
       )
       .map((item) => normalizeIssueRef(item.ref, repo))
       .filter(Boolean),

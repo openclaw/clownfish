@@ -53,7 +53,15 @@ const primaryRefs = [
   ...(job.frontmatter.candidates ?? []),
 ].map((ref) => normalizeRef(job.frontmatter.repo, ref));
 const contextRefs = (job.frontmatter.cluster_refs ?? []).map((ref) => normalizeRef(job.frontmatter.repo, ref));
-const seedRefs = uniqueRefs(hydrateClusterRefs ? [...primaryRefs, ...contextRefs] : primaryRefs);
+const readOnlyContextRefs = [
+  ...(job.frontmatter.existing_overlap_refs ?? []),
+  ...(job.frontmatter.security_signal_refs ?? []),
+].map((ref) => normalizeRef(job.frontmatter.repo, ref));
+const seedRefs = uniqueRefs([
+  ...primaryRefs,
+  ...readOnlyContextRefs,
+  ...(hydrateClusterRefs ? contextRefs : []),
+]);
 
 const externalRefs = seedRefs.filter((ref) => ref.repo !== job.frontmatter.repo);
 const seedNumbers = seedRefs
@@ -129,6 +137,7 @@ const plan = {
     seed_refs: seedRefs.map(formatNormalizedRef),
     linked_refs: [...linkedRefs.values()].map(formatNormalizedRef).sort(),
     context_refs: uniqueRefs(contextRefs).map(formatNormalizedRef).sort(),
+    read_only_context_refs: uniqueRefs(readOnlyContextRefs).map(formatNormalizedRef).sort(),
     external_refs: externalRefs.map(formatNormalizedRef).sort(),
     expansion_policy:
       MAX_LINKED_REFS > 0

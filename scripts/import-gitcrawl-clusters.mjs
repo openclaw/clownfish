@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
+import { hasDeterministicSecuritySignal, hasSecuritySignalText, parseArgs, repoRoot } from "./lib.mjs";
 
 const DEFAULT_BLOCK_LABELS = [
   "proof:*",
@@ -127,7 +127,8 @@ for (const clusterId of clusterIds) {
   }
 
   const securitySensitiveMembers = members.filter((member) =>
-    hasSecuritySignalText(member.title, member.body, safeJson(member.labels_json)),
+    hasDeterministicSecuritySignal({ labels: safeJson(member.labels_json) }) ||
+    hasSecuritySignalText(member.title, member.body),
   );
   const targetMembers = overlapPolicy === "exclude-existing"
     ? members.filter((member) => !overlappingRefSet.has(Number(member.number)))
@@ -213,7 +214,7 @@ for (const clusterId of clusterIds) {
   const clusterSlug = suffix ? `gitcrawl-${clusterId}-${slugify(suffix)}` : `gitcrawl-${clusterId}-${slug}`;
   const targetRepresentative = targetMemberNumbers.has(Number(representative.number));
   const canonical = representative.number && targetRepresentative ? [`#${representative.number}`] : [];
-  const securityRefs = targetSecuritySensitiveMembers.map((member) => `#${member.number}`);
+  const securityRefs = securitySensitiveMembers.map((member) => `#${member.number}`);
   const overlapRefs = overlappingRefs.map((number) => `#${number}`);
 
   const markdown = [

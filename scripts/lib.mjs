@@ -5,7 +5,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 const SECURITY_SIGNAL_PATTERN =
   /\b(vulnerabilit(?:y|ies)|cve-\d+|ghsa|exploit|ssrf|xss|csrf|rce|(?:sql|command|code|prompt)\s*injection|auth(?:entication)?\s*bypass|privilege\s+escalation|sensitive\s+data|secrets?|security\s+(?:issue|bug|fix|patch|advisory|triage|review|re-evaluation|reclassification|flag|scan|scanner|surface|surfaces)|flagged\s+as\s+suspicious|(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token).{0,80}(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text)|(?:leak(?:ed|age)?|expos(?:e|ed|ure)|plaintext|plain[-_\s]?text).{0,80}(?:secretref|secret|credential|api[-_\s]?key|private[-_\s]?key|token))\b/i;
 const SECURITY_LABEL_PATTERN =
-  /^(?:security|security[-_: ]sensitive|security[:/].+|type:\s*security|kind:\s*security|impact:\s*security|clawsweeper:needs-security-review)$/i;
+  /^(?:security|security[-_: ]sensitive|security[:/].+|type:\s*security|kind:\s*security|impact:\s*security|clawsweeper:needs-security-review|merge-risk:\s*.*security[-_: ]boundary)$/i;
 const STRUCTURED_SECURITY_MARKER_PATTERN =
   /<!--\s*clawsweeper-(?:security|route|verdict)\s*:\s*(?:security|security-sensitive|sensitive|route-security|central-security)\b[^>]*-->/i;
 const PROMPT_ARTIFACT_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_ARTIFACT_MAX_CHARS ?? 320_000);
@@ -329,6 +329,8 @@ export function validateJob(job) {
     "canonical",
     "candidates",
     "cluster_refs",
+    "existing_overlap_refs",
+    "security_signal_refs",
     "maintainer_close_refs",
     "allowed_fix_files",
   ]) {
@@ -346,9 +348,9 @@ export function validateJob(job) {
       errors.push(`candidate refs must look like #123: ${ref}`);
     }
   }
-  for (const ref of fm.cluster_refs ?? []) {
+  for (const ref of [...(fm.cluster_refs ?? []), ...(fm.existing_overlap_refs ?? []), ...(fm.security_signal_refs ?? [])]) {
     if (!isGithubRef(ref)) {
-      errors.push(`cluster_refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
+      errors.push(`context refs must look like #123 or a GitHub issue/PR URL: ${ref}`);
     }
   }
   for (const ref of fm.maintainer_close_refs ?? []) {
