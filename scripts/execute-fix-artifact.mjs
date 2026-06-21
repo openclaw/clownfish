@@ -121,6 +121,10 @@ const preserveFocusedValidation = job.frontmatter.preserve_focused_validation ==
 
 assertAllowedOwner(job.frontmatter.repo, process.env.CLOWNFISH_ALLOWED_OWNER);
 
+function jobAllowsAction(action) {
+  return job.frontmatter.allowed_actions.includes(action) && !(job.frontmatter.blocked_actions ?? []).includes(action);
+}
+
 if (!["execute", "autonomous"].includes(job.frontmatter.mode)) {
   throw new Error("refusing fix execution: job frontmatter mode is not execute or autonomous");
 }
@@ -178,10 +182,10 @@ if (plannedFixActions.length === 0) {
 if (process.env.CLOWNFISH_ALLOW_FIX_PR !== "1") {
   throw new Error("refusing fix execution: CLOWNFISH_ALLOW_FIX_PR must be 1");
 }
-if (!job.frontmatter.allowed_actions.includes("fix") || !job.frontmatter.allowed_actions.includes("raise_pr")) {
+if (!jobAllowsAction("fix") || !jobAllowsAction("raise_pr")) {
   throw new Error("refusing fix execution: job must allow fix and raise_pr");
 }
-if ((job.frontmatter.blocked_actions ?? []).includes("fix") || job.frontmatter.allow_fix_pr !== true) {
+if (job.frontmatter.allow_fix_pr !== true) {
   throw new Error("refusing fix execution: fix is blocked by job frontmatter");
 }
 
@@ -846,6 +850,7 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
   const threadResolution = rebaseOnly
     ? { status: "skipped", reason: "rebase-only repair does not resolve review threads" }
     : prepareReviewThreadsForMerge({ repo: result.repo, number: sourcePr.number, targetDir });
+  let sourceComment = { status: "skipped", reason: "rebase-only repair" };
   if (!rebaseOnly) {
     const comment = repairContributorBranchComment({
       sourcePrUrl: sourcePr.url,
@@ -856,10 +861,15 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
         reviewedSha: prep.commit,
       }),
     });
-    run("gh", ["pr", "comment", String(sourcePr.number), "--repo", result.repo, "--body", comment], {
-      cwd: targetDir,
-      env: ghEnv(),
-    });
+    if (jobAllowsAction("comment")) {
+      run("gh", ["pr", "comment", String(sourcePr.number), "--repo", result.repo, "--body", comment], {
+        cwd: targetDir,
+        env: ghEnv(),
+      });
+      sourceComment = { status: "executed" };
+    } else {
+      sourceComment = { status: "skipped", reason: "job blocks source PR comments" };
+    }
   }
   return {
     action: "repair_contributor_branch",
@@ -873,6 +883,7 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     merge_preflight: prep.merge_preflight,
     review_threads: threadResolution,
     rebase_proof: rebaseProof,
+    source_comment: sourceComment,
   };
 }
 
@@ -1002,7 +1013,12 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     ).trim();
   const prNumber = pullRequestNumberFromUrl(prUrl);
   if (prNumber) ensurePullRequestOpen({ number: prNumber, targetDir });
-  if (prNumber) labelReplacementPullRequest({ number: prNumber, targetDir });
+  const replacementPrLabels =
+    prNumber && jobAllowsAction("label")
+      ? labelReplacementPullRequest({ number: prNumber, targetDir })
+      : prNumber
+        ? { status: "skipped", reason: "job blocks replacement PR labels" }
+        : null;
   if (prNumber) prep.merge_preflight.target = `#${prNumber}`;
   const threadResolution = prNumber
     ? prepareReviewThreadsForMerge({ repo: result.repo, number: prNumber, targetDir })
@@ -1017,9 +1033,11 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
       const parsed = parsePullRequestUrl(source);
       if (!parsed || parsed.repo !== result.repo) continue;
       supersededSourceActions.push(
-        closeSupersededSourcePrs
+        closeSupersededSourcePrs && jobAllowsAction("close")
           ? closeSupersededSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, contributorCredits, provenance })
-          : linkReplacementSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, provenance }),
+          : jobAllowsAction("comment")
+            ? linkReplacementSourcePr({ source, parsed, replacementPrUrl: prUrl, targetDir, provenance })
+            : skippedReplacementSourceLink({ source, parsed }),
       );
     }
   }
@@ -1034,6 +1052,7 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     checkpoint_commits: prep.checkpoint_commits,
     merge_preflight: prep.merge_preflight,
     review_threads: threadResolution,
+    replacement_pr_labels: replacementPrLabels,
     superseded_sources: supersededSources,
     superseded_source_actions: supersededSourceActions,
     contributor_credit: contributorCredits.map(publicContributorCredit),
@@ -1043,10 +1062,13 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
 function labelReplacementPullRequest({ number, targetDir }) {
   ensureLabel(result.repo, CLOWNFISH_LABEL, CLOWNFISH_LABEL_COLOR, CLOWNFISH_LABEL_DESCRIPTION, targetDir);
   addLabel(result.repo, number, CLOWNFISH_LABEL, targetDir);
+  const labels = [CLOWNFISH_LABEL];
   if (job.frontmatter.source === "clawsweeper_commit" || job.frontmatter.commit_sha) {
     ensureLabel(result.repo, COMMIT_FINDING_LABEL, COMMIT_FINDING_LABEL_COLOR, COMMIT_FINDING_LABEL_DESCRIPTION, targetDir);
     addLabel(result.repo, number, COMMIT_FINDING_LABEL, targetDir);
+    labels.push(COMMIT_FINDING_LABEL);
   }
+  return { status: "executed", labels };
 }
 
 function ensureLabel(repo, name, color, description, targetDir) {
@@ -1069,6 +1091,9 @@ function addLabel(repo, number, name, targetDir) {
 
 function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir, provenance }) {
   const base = { source, pr: `#${parsed.number}`, action: "link_replacement_source" };
+  if (!jobAllowsAction("comment")) {
+    return { ...base, status: "skipped", reason: "job blocks source PR comments" };
+  }
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
   if (view.mergedAt || view.state === "MERGED") {
     return { ...base, status: "skipped", reason: "already merged", merged_at: view.mergedAt ?? null };
@@ -1085,8 +1110,21 @@ function linkReplacementSourcePr({ source, parsed, replacementPrUrl, targetDir, 
   return { ...base, status: "executed", reason: "linked replacement PR without closing source PR" };
 }
 
+function skippedReplacementSourceLink({ source, parsed }) {
+  return {
+    source,
+    pr: `#${parsed.number}`,
+    action: "link_replacement_source",
+    status: "skipped",
+    reason: "job blocks source PR comments",
+  };
+}
+
 function closeSupersededSourcePr({ source, parsed, replacementPrUrl, targetDir, contributorCredits, provenance }) {
   const base = { source, pr: `#${parsed.number}`, action: "close_superseded_source" };
+  if (!jobAllowsAction("comment") || !jobAllowsAction("close")) {
+    return { ...base, status: "skipped", reason: "job blocks source PR closeout" };
+  }
   const view = fetchSourcePullRequestView({ repo: result.repo, number: parsed.number, targetDir });
   if (view.mergedAt || view.state === "MERGED") {
     return { ...base, status: "skipped", reason: "already merged", merged_at: view.mergedAt ?? null };
@@ -3907,7 +3945,6 @@ function stdoutReportSummary(report, reportPath) {
 
 function appendAutomergeRepairOutcomeComment(report, resultPath) {
   if (!isAutomergeRepairJob()) return;
-  if (!job.frontmatter.allowed_actions.includes("comment")) return;
   if (report.actions?.some((action) => action.action === "automerge_repair_outcome_comment")) return;
   if (hasSuccessfulFixMutation(report)) return;
 
@@ -3916,6 +3953,10 @@ function appendAutomergeRepairOutcomeComment(report, resultPath) {
     action: "automerge_repair_outcome_comment",
     target: target ? `#${target}` : null,
   };
+  if (!jobAllowsAction("comment")) {
+    report.actions.push({ ...base, status: "skipped", reason: "job blocks outcome comments" });
+    return;
+  }
   if (!target) {
     report.actions.push({ ...base, status: "skipped", reason: "missing automerge target PR" });
     return;

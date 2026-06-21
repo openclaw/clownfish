@@ -26,6 +26,22 @@ test("execute-fix-artifact reserves broad validation and review for the executor
   assert.match(source, /validation_commands in the repository context are executor-managed requirements/);
 });
 
+test("execute-fix-artifact enforces job action permissions for replacement side effects", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(
+    source,
+    /function jobAllowsAction\(action\) \{\s*return job\.frontmatter\.allowed_actions\.includes\(action\) && !\(job\.frontmatter\.blocked_actions \?\? \[\]\)\.includes\(action\);/,
+  );
+  assert.match(source, /prNumber && jobAllowsAction\("label"\)/);
+  assert.match(source, /closeSupersededSourcePrs && jobAllowsAction\("close"\)/);
+  assert.match(source, /jobAllowsAction\("comment"\)\s*\?\s*linkReplacementSourcePr/);
+  assert.match(source, /function linkReplacementSourcePr\([\s\S]*?if \(!jobAllowsAction\("comment"\)\)/);
+  assert.match(source, /function closeSupersededSourcePr\([\s\S]*?if \(!jobAllowsAction\("comment"\) \|\| !jobAllowsAction\("close"\)\)/);
+  assert.match(source, /if \(jobAllowsAction\("comment"\)\) \{\s*run\("gh", \["pr", "comment"/);
+  assert.match(source, /function appendAutomergeRepairOutcomeComment\([\s\S]*?if \(!jobAllowsAction\("comment"\)\)/);
+});
+
 test("execute-fix-artifact permits surface-heavy artifacts only within a declared file allowlist", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
