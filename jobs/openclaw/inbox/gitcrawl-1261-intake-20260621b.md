@@ -1,7 +1,7 @@
 ---
 repo: openclaw/openclaw
 cluster_id: gitcrawl-1261-intake-20260621b
-mode: plan
+mode: autonomous
 allowed_actions:
   - comment
   - label
@@ -18,8 +18,11 @@ require_human_for:
   - conflicting_prs
   - unclear_canonical
   - broad_code_delta
-canonical: []
+canonical:
+  - "#88750"
 candidates:
+  - "#93728"
+maintainer_close_refs:
   - "#93728"
 cluster_refs:
   - "#93728"
@@ -29,6 +32,7 @@ existing_overlap_refs:
 security_policy: central_security_only
 import_security_policy: "skip-full"
 security_sensitive: false
+allow_instant_close: true
 canonical_hint: "gitcrawl representative #88750 is already owned by an existing job; worker must choose the best live canonical from the remaining open refs."
 notes: "Generated from gitcrawl run cluster 1261 on 2026-06-21. Existing-overlap refs #88750 were excluded from actionable refs and kept as context only."
 ---
