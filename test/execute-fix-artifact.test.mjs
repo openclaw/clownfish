@@ -315,18 +315,26 @@ test("execute-fix-artifact falls back to replacement when review proves a contri
   assert.match(fallback, /if \(unsafeContributorDiff\) return true;/);
 });
 
-test("execute-fix-artifact resumes contributor checkpoint branches without a duplicate edit", () => {
+test("execute-fix-artifact resumes contributor checkpoint branches unless a fresh repair is required", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(
     source,
     /const resumedRepairCheckpoint = hasClownfishRepairCheckpoint\(\{\s*targetDir,\s*baseBranch,\s*clusterId: result\.cluster_id,\s*\}\);/,
   );
-  assert.match(source, /allowExistingChanges: \(rebaseOnly && rebased\) \|\| resumedRepairCheckpoint,/);
+  assert.match(source, /const forceFreshRepair = job\.frontmatter\.force_fresh_repair === true;/);
+  assert.match(source, /allowExistingChanges: !forceFreshRepair && \(\(rebaseOnly && rebased\) \|\| resumedRepairCheckpoint\),/);
   assert.match(
     source,
     /function hasClownfishRepairCheckpoint\(\{ targetDir, baseBranch, clusterId \}\) \{[\s\S]*?git", \["log", "--format=%s", `origin\/\$\{baseBranch\}\.\.HEAD`\]/,
   );
+});
+
+test("execute-fix-artifact preserves requested focused validation ahead of changed-only normalization", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /const preserveFocusedValidation = job\.frontmatter\.preserve_focused_validation === true;/);
+  assert.match(source, /if \(!strictTargetValidation && !preserveFocusedValidation && scripts\.has\("check:changed"\)\) \{/);
 });
 
 test("execute-fix-artifact checkpoints contributor repairs before slow validation", () => {
