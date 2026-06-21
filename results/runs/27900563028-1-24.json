@@ -1,0 +1,138 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-025",
+  "mode": "plan",
+  "run_id": "27900563028-1-24",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "24",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-025.md",
+  "published_at": "2026-06-21T09:55:07.708Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PR inventory candidates. No merge recommendation is safe because required merge preflight is incomplete and each candidate has either failing proof/checks, unresolved review-bot findings, stale/rebase requirements, active follow-up, or broad scope. No GitHub mutations are planned.",
+  "actions": [
+    {
+      "target": "#69954",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69954",
+      "candidate_fix": "#69954",
+      "reason": "Keep #69954 as the canonical contributor branch for the session cleanup bug, but it needs repair/proof before merge rather than a merge recommendation."
+    },
+    {
+      "target": "#72025",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72025",
+      "candidate_fix": "#72025",
+      "reason": "The PR is useful and focused enough to repair, but unresolved review-bot findings and failing proof block merge."
+    },
+    {
+      "target": "#72351",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72351",
+      "candidate_fix": "#72351",
+      "reason": "The PR is narrow and likely repairable, but it needs rebase/proof before it can be considered for merge."
+    },
+    {
+      "target": "#72510",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#72510",
+      "reason": "The PR is useful but broad enough that finalization requires maintainer judgment on product/scope before a narrow repair artifact would be safe."
+    },
+    {
+      "target": "#72677",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#72677",
+      "reason": "This may be a viable PR, but the broad cross-surface delta and stale review context require maintainer review rather than an automated merge or repair plan."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#72510 requires maintainer judgment on whether the broad Telegram/auto-reply bot-targeting design and null-vs-undefined semantics should be repaired in this PR or split.",
+    "#72677 requires maintainer judgment on whether the broad cron warning/config/protocol/UI/docs/Matrix delta is acceptable as one PR despite proof passing."
+  ],
+  "repair_candidate": {
+    "target": "#69954",
+    "source_refs": [
+      "#69954",
+      "#72025",
+      "#72351",
+      "#50248",
+      "#72020",
+      "#61322",
+      "#72167",
+      "#72510",
+      "#72677",
+      "#92542",
+      "#20393",
+      "#63897",
+      "#65919"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair the narrow contributor PRs that are useful but currently blocked by proof, rebase, or review-bot findings: #69954, #72025, and #72351. Do not open one combined code PR; these are independent repair tracks and should be dispatched as separate follow-up jobs or contributor-branch repairs.",
+    "pr_title": "Repair proof-blocked narrow PRs from inventory shard 25",
+    "pr_body": "This is not intended as a single combined implementation PR. Clownfish should repair the contributor branches separately where possible: #69954 for session cleanup, #72025 for Signal status reactions, and #72351 for TUI history-limit zero. Each repair must preserve source PR attribution, address review-bot findings, rebase onto current main where needed, run the targeted test listed for that PR, run pnpm check:changed, and request Codex /review before any merge recommendation.",
+    "likely_files": [
+      "src/config/sessions/cleanup-service.ts",
+      "src/config/sessions/store.pruning.integration.test.ts",
+      "extensions/signal/src/monitor/event-handler.ts",
+      "extensions/signal/src/monitor/event-handler.status-reactions.test.ts",
+      "src/tui/tui-session-actions.ts",
+      "src/tui/tui-session-actions.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/config/sessions/store.pruning.integration.test.ts",
+      "pnpm test extensions/signal/src/monitor/event-handler.status-reactions.test.ts",
+      "pnpm test src/tui/tui-session-actions.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve #69954 credit for Blahdude / original source PR; current branch also contains an openclaw-clownfish repair commit.",
+      "Preserve #72025 credit for Hua688 as the Signal status reaction implementation author.",
+      "Preserve #72351 credit for Stedyclaw as the TUI zero-history-limit fix author."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-025.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#72510 requires maintainer judgment on whether the broad Telegram/auto-reply bot-targeting design and null-vs-undefined semantics should be repaired in this PR or split.",
+      "#72677 requires maintainer judgment on whether the broad cron warning/config/protocol/UI/docs/Matrix delta is acceptable as one PR despite proof passing."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,141 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-026",
+  "mode": "plan",
+  "run_id": "27900563028-1-25",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "25",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-026.md",
+  "published_at": "2026-06-21T09:55:07.714Z",
+  "canonical": null,
+  "canonical_issue": "#50289",
+  "canonical_pr": "#73440",
+  "summary": "Plan-only inventory classification for five hydrated open PRs. No GitHub mutations are permitted by this job; merge is blocked for every PR because complete merge preflight is absent and/or checks/review findings remain unresolved. One narrow repair path is executable for #73440; the other PRs are kept as related remediation candidates pending author proof or maintainer follow-up.",
+  "actions": [
+    {
+      "target": "#72987",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow documentation PR, but unresolved bot feedback and failed proof gate block merge preflight."
+    },
+    {
+      "target": "#73159",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused and potentially useful, but proof/check failures and unresolved review-bot feedback mean it should stay in the remediation backlog rather than merge now."
+    },
+    {
+      "target": "#73440",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50289",
+      "candidate_fix": "#73440",
+      "reason": "This is the clearest narrow repair candidate in the shard: it targets an open source issue, has maintainer-editable branch permissions, and has concrete review findings that can be fixed without broad redesign."
+    },
+    {
+      "target": "#73440",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#50289",
+      "candidate_fix": "#73440",
+      "reason": "Complete repair plan is narrow enough for Clownfish to prepare a branch update or replacement fix artifact."
+    },
+    {
+      "target": "#74068",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#74068",
+      "reason": "Keep as related maintainer-owned draft work; draft state, active maintainer follow-up, and scope inconsistency block automated repair or merge recommendation."
+    },
+    {
+      "target": "#74274",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#74274",
+      "reason": "Potentially useful UI/gateway fix, but unresolved review feedback and failed proof/parity gates mean it should remain related remediation work for a future repair pass."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#74068 requires maintainer judgment before automation because it is a maintainer-authored draft with active author follow-up and mismatched hydrated scope evidence."
+  ],
+  "repair_candidate": {
+    "target": "#73440",
+    "source_refs": [
+      "#73440",
+      "#50289",
+      "#50317",
+      "#72987",
+      "#73159",
+      "#73445",
+      "#73452",
+      "#73456",
+      "#73458",
+      "#73463",
+      "#73466",
+      "#74068",
+      "#74274"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #73440 so the ownerAllowFrom memoization fix for #50289 handles cached empty arrays correctly and exposes a real test reset helper before any merge consideration.",
+    "pr_title": "fix(gateway/command-auth): repair ownerAllowFrom memoization cache",
+    "pr_body": "## Summary\n- carry forward #73440's ownerAllowFrom memoization fix for #50289\n- return cached empty-array results by checking memo map membership instead of cached value truthiness\n- make the ownerAllowFrom memo test reset helper actually clear the cache between tests\n\n## Credit\n- Source PR: https://github.com/openclaw/openclaw/pull/73440 by @eric-zachary077\n- Source issue: https://github.com/openclaw/openclaw/issues/50289 by @songchenghao\n\n## Validation\n- pnpm test src/auto-reply/command-auth.owner-allow-from-memo.test.ts\n- pnpm test src/auto-reply/command-auth.test.ts\n- pnpm exec oxfmt --check --threads=1 src/auto-reply/command-auth.ts src/auto-reply/command-auth.owner-allow-from-memo.test.ts",
+    "likely_files": [
+      "src/auto-reply/command-auth.ts",
+      "src/auto-reply/command-auth.owner-allow-from-memo.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/auto-reply/command-auth.owner-allow-from-memo.test.ts",
+      "pnpm test src/auto-reply/command-auth.test.ts",
+      "pnpm exec oxfmt --check --threads=1 src/auto-reply/command-auth.ts src/auto-reply/command-auth.owner-allow-from-memo.test.ts"
+    ],
+    "credit_notes": [
+      "Credit @eric-zachary077 as the source PR author for #73440.",
+      "Credit #50289 as the source issue report from @songchenghao."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-026.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#74068 requires maintainer judgment before automation because it is a maintainer-authored draft with active author follow-up and mismatched hydrated scope evidence."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,179 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-022",
+  "mode": "plan",
+  "run_id": "27900563028-1-21",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "21",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-022.md",
+  "published_at": "2026-06-21T09:55:07.698Z",
+  "canonical": "#94928",
+  "canonical_issue": "#94688",
+  "canonical_pr": "#94928",
+  "summary": "Plan-only classification for the PR remediation inventory shard. No GitHub mutations are planned because comments, labels, and closes are blocked by the job; merge recommendations are also blocked where merge preflight is incomplete, draft state exists, proof/checks fail, security quarantine applies, or a safer canonical path is already present.",
+  "actions": [
+    {
+      "target": "#90265",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89565",
+      "candidate_fix": null,
+      "reason": "Related to newer maintainer-owned #89565; keep open for maintainer review rather than merge or close in this plan-only shard."
+    },
+    {
+      "target": "#90875",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90875",
+      "reason": "The patch is narrow and useful, but the proof gate failed. Build a focused repair/proof artifact instead of recommending merge."
+    },
+    {
+      "target": "#94311",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94289",
+      "candidate_fix": null,
+      "reason": "No net file changes remain; keep related to #94289 rather than merge or build from this PR."
+    },
+    {
+      "target": "#94948",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94928",
+      "candidate_fix": "#94928",
+      "reason": "Superseded by the broader agent-command boundary fix in #94928; keep related because close actions are blocked in this job."
+    },
+    {
+      "target": "#95301",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94928",
+      "candidate_fix": "#94928",
+      "reason": "Superseded by #94928 and blocked by a failing check; keep related because close actions are blocked in this job."
+    },
+    {
+      "target": "#95213",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive linked PR; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#95247",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive linked PR; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#94758",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed but explicitly security-sensitive linked PR; record route-only classification with no mutation."
+    },
+    {
+      "target": "#90875",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90875",
+      "reason": "Create an executable repair/proof plan for the only narrow non-security PR in this shard that has a concrete failing proof gate."
+    },
+    {
+      "target": "#90875",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90875",
+      "reason": "Plan a guarded fix PR path only if direct branch repair is unavailable or insufficient after validation."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "fix_needed": 1,
+    "route_security": 3,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 10
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90875",
+    "source_refs": [
+      "#90875",
+      "#94928",
+      "#94688",
+      "#89565",
+      "#90265",
+      "#94067",
+      "#94311",
+      "#94758",
+      "#94948",
+      "#95213",
+      "#95247",
+      "#95301",
+      "#94289"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Repair/proof plan for #90875: verify the zsh-specific path/PATH linkage bug, keep the one-file loop-variable rename if it proves the behavior, and add a focused regression or proof script so the Real behavior proof gate can pass before any merge consideration.",
+    "pr_title": "fix(clawdock-helpers): prove zsh PATH is preserved while ensuring dirs",
+    "pr_body": "## Summary\n- Preserve @lshgdut's one-file fix from #90875 by avoiding zsh's special `path` array name inside `_clawdock_ensure_dir`.\n- Add focused behavior proof that sourcing clawdock helpers and ensuring a directory does not mutate `PATH` under zsh.\n\n## Source and credit\n- Source PR: https://github.com/openclaw/openclaw/pull/90875\n- Credit: Thanks @lshgdut for the original diagnosis and patch for zsh `path`/`PATH` linkage.\n\n## Validation\n- `zsh -fc 'typeset -a before after; source scripts/clawdock/clawdock-helpers.sh; before=(${path[@]}); _clawdock_ensure_dir /tmp/openclaw-clawdock-proof; after=(${path[@]}); [[ ${(@j/:/)before} == ${(@j/:/)after} ]]'`\n- `npm run validate`",
+    "likely_files": [
+      "scripts/clawdock/clawdock-helpers.sh",
+      "scripts/clawdock/clawdock-helpers.test.sh"
+    ],
+    "validation_commands": [
+      "zsh -fc 'typeset -a before after; source scripts/clawdock/clawdock-helpers.sh; before=(${path[@]}); _clawdock_ensure_dir /tmp/openclaw-clawdock-proof; after=(${path[@]}); [[ ${(@j/:/)before} == ${(@j/:/)after} ]]'",
+      "npm run validate"
+    ],
+    "credit_notes": [
+      "Source PR: https://github.com/openclaw/openclaw/pull/90875",
+      "Credit @lshgdut for identifying the zsh path/PATH linkage caused by the loop variable name and for the original one-file fix."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-022.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#95213",
+      "#95247",
+      "#94758"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

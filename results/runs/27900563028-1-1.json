@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-002",
+  "mode": "plan",
+  "run_id": "27900563028-1-1",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-002.md",
+  "published_at": "2026-06-21T09:55:07.646Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation classification for five open PRs. No GitHub mutations are planned directly. No hydrated item is security-sensitive. No merge recommendation is safe because none has a complete merge preflight with resolved review state and passed Codex /review. One contributor PR has a bounded repair path; the broad channel-turn PR needs maintainer judgment.",
+  "actions": [
+    {
+      "target": "#90194",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89666",
+      "candidate_fix": null,
+      "reason": "Keep in the cron remediation family, but do not merge from this plan-only shard."
+    },
+    {
+      "target": "#90195",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Author-owned draft work should stay on its own track."
+    },
+    {
+      "target": "#90204",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": "#90204",
+      "reason": "Repair the contributor branch before any merge consideration; preserve contributor credit."
+    },
+    {
+      "target": "#90204",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90204",
+      "reason": "Provide an executable repair plan for the affected contributor PR."
+    },
+    {
+      "target": "#90248",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta and active author follow-up are explicit human-review triggers."
+    },
+    {
+      "target": "#90268",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89301",
+      "candidate_fix": null,
+      "reason": "Keep as related trajectory hardening work; do not merge or replace from this shard."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90248 requires maintainer scope judgment because it is an XL dirty-candidate PR with broad cross-surface code delta and active author follow-up."
+  ],
+  "repair_candidate": {
+    "target": "#90204",
+    "source_refs": [
+      "#90204",
+      "#89301",
+      "#89719",
+      "#89721",
+      "#90194",
+      "#90195",
+      "#90248",
+      "#90268",
+      "#90332",
+      "#46369",
+      "#76456",
+      "#89666"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90204 in-place so the Windows compatibility fixes can be evaluated with clean proof and addressed review-bot feedback.",
+    "pr_title": "Repair Windows compatibility proof for #90204",
+    "pr_body": "Repair plan for #90204:\n\n- Address Copilot review findings in path normalization, symlink-dependent tests, and channel ordering behavior.\n- Keep the repair on the contributor branch when possible because maintainer_can_modify is true.\n- Preserve @aniruddhaadak80 credit as the source PR author.\n- Re-run targeted Windows compatibility and changed-file checks before any merge recommendation.\n\nSource PR: https://github.com/openclaw/openclaw/pull/90204",
+    "likely_files": [
+      "src/logging/diagnostic-support-redaction.ts",
+      "src/logging/diagnostic-support-export.test.ts",
+      "packages/memory-host-sdk/src/host/backend-config.test.ts",
+      "extensions/canvas/src/host/server.test.ts",
+      "src/channels/plugins/package-state-probes.ts",
+      "src/entry.respawn.test.ts",
+      "src/trajectory/export.ts",
+      "src/trajectory/runtime.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/logging/diagnostic-support-export.test.ts src/entry.respawn.test.ts src/trajectory/runtime.test.ts",
+      "pnpm test packages/memory-host-sdk/src/host/backend-config.test.ts extensions/canvas/src/host/server.test.ts",
+      "pnpm test src/channels/plugins/package-state-probes.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair source PR: https://github.com/openclaw/openclaw/pull/90204",
+      "Credit original contributor @aniruddhaadak80 for the Windows compatibility fix shape and source PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [
+      "#90248 requires maintainer scope judgment because it is an XL dirty-candidate PR with broad cross-surface code delta and active author follow-up."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

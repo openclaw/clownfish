@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-027",
+  "mode": "plan",
+  "run_id": "27900563028-1-26",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "26",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-027.md",
+  "published_at": "2026-06-21T09:55:07.718Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR remediation shard. No GitHub mutations are allowed by mode or job blocked_actions. None of the five listed PRs has a complete merge preflight with resolved review-bot status plus Codex /review proof, so no merge_candidate is emitted. #94964 is not a safe repair/merge candidate because it mixes the gateway reload race with an unrelated QMD Windows path fix already tracked by #92302; the other PRs remain useful but need proof, maintainer review, or narrower follow-up before finalization.",
+  "actions": [
+    {
+      "target": "#94964",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is needed on whether to split the unrelated memory/QMD fix out of this gateway reload PR or redirect to a narrower canonical gateway PR. A cluster-scoped repair PR is not safe without choosing that scope."
+    },
+    {
+      "target": "#74509",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent Matrix PR. Keep open for author/maintainer proof work; failing proof and missing merge preflight block merge, but no cluster mutation is appropriate."
+    },
+    {
+      "target": "#74643",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent config/agents PR. Keep open; failing proof and missing merge preflight block merge, and the changes are not an appropriate Clownfish replacement-fix target in this shard."
+    },
+    {
+      "target": "#81164",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent broad feature PR. Keep open for maintainer-owned review; merge and automated repair are blocked by broad scope and missing merge preflight."
+    },
+    {
+      "target": "#85404",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent useful member PR. Keep open for maintainer review/final merge preflight; current artifact does not justify merge or replacement repair."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94964: decide whether to split the unrelated QMD Windows memory command parsing changes from the gateway reload race PR, or choose a narrower canonical gateway fix path among the hydrated #79487 family (#93046/#94772/#94964)."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,142 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-028",
+  "mode": "plan",
+  "run_id": "27900563028-1-27",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "27",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-028.md",
+  "published_at": "2026-06-21T09:55:07.722Z",
+  "canonical": null,
+  "canonical_issue": "#85450",
+  "canonical_pr": null,
+  "summary": "Plan-only remediation classification for the hydrated PR inventory shard. No GitHub mutations are planned because comments and closes are blocked; no merge is recommended because no candidate has a complete clean merge preflight. #89923 and #90383 need maintainer/author follow-up decisions; #85609 is routed to central security handling only.",
+  "actions": [
+    {
+      "target": "#85450",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85481",
+      "candidate_fix": "#85481",
+      "reason": "Keep the linked issue with the Feishu fix path; post-merge closeout is disabled and #85481 is not merge-ready in this plan."
+    },
+    {
+      "target": "#85481",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85481",
+      "candidate_fix": "#85481",
+      "reason": "Best Feishu canonical fix path, but merge is blocked by missing complete merge preflight and failing expanded checks."
+    },
+    {
+      "target": "#85609",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Quarantine only this exact security-sensitive linked ref; continue ordinary non-security classification for the rest of the cluster."
+    },
+    {
+      "target": "#89603",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90219",
+      "candidate_fix": "#90219",
+      "reason": "Related earlier draft in the unreadable tool-schema family; keep for maintainer context rather than merge or close in this plan."
+    },
+    {
+      "target": "#89717",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#90219",
+      "candidate_fix": "#90219",
+      "reason": "Likely superseded by #90219, but closure/comment actions are blocked in the job; keep related as a non-mutating classification."
+    },
+    {
+      "target": "#89923",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90135",
+      "reason": "Active author follow-up and overlapping maintainer-owned plugin metadata PRs need maintainer/author direction before finalization."
+    },
+    {
+      "target": "#89982",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Legitimate small log-level cleanup family, but proof and compatibility questions block merge or fixed-by-candidate closeout."
+    },
+    {
+      "target": "#90135",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90135",
+      "reason": "Promising related plugin metadata guard path, but draft state and missing merge preflight block merge recommendation."
+    },
+    {
+      "target": "#90219",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90219",
+      "candidate_fix": "#90219",
+      "reason": "Best hydrated core-agent unreadable tool-schema path in this shard, but draft state and missing merge preflight block merge."
+    },
+    {
+      "target": "#90383",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad code delta plus active author follow-up requires maintainer/author decision before Clownfish can recommend merge or replacement."
+    },
+    {
+      "target": "#90990",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related log-level cleanup follow-up; keep open pending proof rather than merge, close, or replace."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 6,
+    "keep_canonical": 2,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 11
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89923: draft maintainer-owned plugin metadata PR is waiting on author and overlaps #90135; maintainer/author direction is needed before finalization.",
+    "#90383: draft size-L Ollama PR is waiting on author and ClawSweeper found issues; broad-delta finalization needs maintainer/author decision."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

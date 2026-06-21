@@ -1,0 +1,93 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-008",
+  "mode": "plan",
+  "run_id": "27900563028-1-7",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "7",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-008.md",
+  "published_at": "2026-06-21T09:55:07.746Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment using the provided cluster preflight artifact as live GitHub state. No merge, close, comment, label, or fix PR action is recommended because every seed PR is either draft, waiting on author, missing clean merge preflight/Codex-review proof, or has unresolved review status. One linked security-sensitive PR is routed centrally without blocking unrelated non-security classification.",
+  "actions": [
+    {
+      "target": "#87192",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref must be routed centrally, scoped only to that exact ref."
+    },
+    {
+      "target": "#87471",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related candidate for #87321, but draft state and missing clean merge preflight block merge; no executable replacement fix is justified from this shard."
+    },
+    {
+      "target": "#87694",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related candidate for #70903 but not merge-ready; the artifact does not contain enough exact unresolved findings for a complete executable fix artifact."
+    },
+    {
+      "target": "#87888",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone useful PR, but missing required merge preflight; no dedupe, replacement, or human escalation is needed."
+    },
+    {
+      "target": "#88175",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent PR with unresolved review status; keep it open for author/maintainer follow-up rather than merge or replace."
+    },
+    {
+      "target": "#88950",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone draft maintainer PR; keep it open rather than merge or replace from this plan-only shard."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 2,
+    "keep_independent": 3
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

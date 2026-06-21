@@ -1,0 +1,168 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-011",
+  "mode": "plan",
+  "run_id": "27900563028-1-10",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "10",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-011.md",
+  "published_at": "2026-06-21T09:55:07.650Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five maintainer-owned draft PRs. No GitHub mutations are planned because close/comment/label are blocked and none of the seed PRs has a complete merge preflight. Security-sensitive linked PR #89759 is quarantined separately.",
+  "actions": [
+    {
+      "target": "#89794",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful narrow draft PR, but it lacks the complete merge preflight required for a merge recommendation and appears related to later UI descriptor isolation work rather than independently merge-ready."
+    },
+    {
+      "target": "#89852",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90034",
+      "reason": "A concrete repair path exists: consolidate the session-action lookup fix around the later helper shape from #90034 while preserving #89852 attribution. The seed PR is not merge-ready as-is."
+    },
+    {
+      "target": "#89912",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This is a broad session/transcript contract decision with active author follow-up and product/API design uncertainty, which the job marks as human-required."
+    },
+    {
+      "target": "#89929",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow useful draft work, but not merge-ready under the job's merge policy; it should remain related pending maintainer review or a later repair batch."
+    },
+    {
+      "target": "#89931",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow useful draft work, but not merge-ready under the job's merge policy; it should remain related pending maintainer review or a later repair batch."
+    },
+    {
+      "target": "#89759",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is out of scope for Clownfish backlog cleanup and should be handled by central OpenClaw security review."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T094459-011",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90034",
+      "reason": "Build a narrow replacement fix plan for the session-action lookup path, preserving source PR credit."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260621T094459-011",
+      "action": "open_fix_pr",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#90034",
+      "reason": "Open a replacement fix PR through the applicator only if the repair artifact is accepted."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "fix_needed": 1,
+    "needs_human": 1,
+    "route_security": 1,
+    "build_fix_artifact": 1,
+    "open_fix_pr": 1
+  },
+  "action_status_counts": {
+    "planned": 8
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89912 requires maintainer/product judgment on the public transcript update identity contract and proof expectations before any merge or repair path."
+  ],
+  "repair_candidate": {
+    "target": "#89852",
+    "source_refs": [
+      "#89852",
+      "#90034",
+      "#72287",
+      "#80267",
+      "#89759",
+      "#89763",
+      "#89794",
+      "#89912",
+      "#89929",
+      "#89931",
+      "#89969",
+      "#89988",
+      "#88838"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact",
+      "open_fix_pr"
+    ],
+    "summary": "Create a narrow replacement PR for the non-security session-action lookup hardening path, using #89852 as the seed report and #90034 as the clearer helper-shaped candidate. The replacement should guard gateway session-action registration reads so unreadable plugin rows do not break scope resolution or dispatch, while preserving default write-scope behavior for missing/empty/sparse requiredScopes.",
+    "pr_title": "fix(gateway): isolate plugin session action lookups",
+    "pr_body": "## Summary\n- guard plugin session-action registration lookup for gateway authorization and dispatch\n- skip unreadable plugin-owned session-action rows while preserving healthy rows\n- preserve default write-scope behavior for missing, empty, or sparse requiredScopes\n\n## Credit\nCarries forward the session-action lookup hardening from #89852 and the helper-shaped follow-up in #90034. Thanks @vincentkoc for the source PRs and tests.\n\n## Validation\n- pnpm vitest run src/gateway/method-scopes.test.ts src/gateway/server-methods/plugin-host-hooks.test.ts src/plugins/contracts/session-actions.contract.test.ts\n- pnpm check:changed",
+    "likely_files": [
+      "src/gateway/method-scopes.ts",
+      "src/gateway/method-scopes.test.ts",
+      "src/gateway/server-methods/plugin-host-hooks.ts",
+      "src/gateway/server-methods/plugin-host-hooks.test.ts",
+      "src/gateway/plugin-session-action-registrations.ts",
+      "src/plugins/contracts/session-actions.contract.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm vitest run src/gateway/method-scopes.test.ts src/gateway/server-methods/plugin-host-hooks.test.ts src/plugins/contracts/session-actions.contract.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @vincentkoc as the author of source PR #89852 and related helper candidate #90034.",
+      "Replacement PR body should explicitly say it carries forward the session-action lookup hardening from #89852/#90034 with attribution to @vincentkoc."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-011.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#89759"
+    ],
+    "needs_human": [
+      "#89912 requires maintainer/product judgment on the public transcript update identity contract and proof expectations before any merge or repair path."
+    ],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

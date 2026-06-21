@@ -1,0 +1,83 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-005",
+  "mode": "plan",
+  "run_id": "27900563028-1-4",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "4",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-005.md",
+  "published_at": "2026-06-21T09:55:07.735Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR remediation inventory. All five listed PRs are open, non-security, and independently useful or potentially useful, but none has the complete merge preflight required for a merge recommendation. Closure and comments are blocked by job frontmatter, and the candidates span unrelated docs, config/runtime, i18n, Docker, and doctor diagnostics work, so no single cluster-scoped executable fix artifact is safe.",
+  "actions": [
+    {
+      "target": "#60048",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful standalone docs candidate, but not merge-ready and not part of a safe cluster-wide repair artifact."
+    },
+    {
+      "target": "#60922",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature/config/runtime PR with unresolved behavior proof and review findings; keep it open outside this inventory decision."
+    },
+    {
+      "target": "#61396",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Narrow standalone i18n glossary PR, but currently blocked by parseability/proof/rebase evidence."
+    },
+    {
+      "target": "#61464",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful but broad Docker/operator-helper PR; keep as independent rather than merge or cluster-repair from this plan."
+    },
+    {
+      "target": "#62338",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#62328",
+      "candidate_fix": null,
+      "reason": "Diagnostic slice related to open canonical issue #62328, but not a full fix and not merge-ready."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

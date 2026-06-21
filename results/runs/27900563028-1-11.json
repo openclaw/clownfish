@@ -1,0 +1,123 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-012",
+  "mode": "plan",
+  "run_id": "27900563028-1-11",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-012.md",
+  "published_at": "2026-06-21T09:55:07.652Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification of fresh PR remediation inventory. No GitHub mutations are planned because every seed PR is still draft, lacks complete merge preflight, and either has unique code surface or a specific author/coordination blocker. No security-sensitive hydrated item was present.",
+  "actions": [
+    {
+      "target": "#89969",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but not merge-ready and not a duplicate of another hydrated item."
+    },
+    {
+      "target": "#89977",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused compatibility-sensitive PR should remain separate for maintainer review rather than be closed or merged from this inventory shard."
+    },
+    {
+      "target": "#89980",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific maintainer/author decision is needed on the waiting-on-author state and dependency ordering with #90073 before this PR can be finalized."
+    },
+    {
+      "target": "#89983",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful auth-provider-adjacent hardening PR with unique surface; keep for separate maintainer review."
+    },
+    {
+      "target": "#90005",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but not merge-ready and not safely replaceable as part of this multi-PR inventory shard without a narrower fix artifact."
+    },
+    {
+      "target": "#89999",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related CLI metadata hardening work should be tracked as follow-up context, not merged or closed from this shard."
+    },
+    {
+      "target": "#90002",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related CLI metadata hardening work should be handled in its own finalization path."
+    },
+    {
+      "target": "#90073",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related shared snapshot hardening likely needs its own ordered finalization before dependent trajectory work."
+    },
+    {
+      "target": "#90135",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Specific maintainer decision is needed to choose the canonical same-surface branch or split/sequence the overlapping manifest owner metadata PRs."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 2,
+    "keep_related": 3
+  },
+  "action_status_counts": {
+    "planned": 9
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#89980: waiting-on-author PR with bot-identified dependency on #90073 before finalization.",
+    "#90135: linked same-surface PR needs maintainer choice of canonical branch or sequencing because bot review reports overlap/conflict."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

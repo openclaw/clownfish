@@ -1,0 +1,85 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-007",
+  "mode": "plan",
+  "run_id": "27900563028-1-6",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "6",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-007.md",
+  "published_at": "2026-06-21T09:55:07.741Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only PR remediation inventory. No GitHub mutations are recommended because close/comment actions are blocked by the job, merge preflight is incomplete for all open PRs, and several PRs still have proof, draft, active-author, broad-diff, or unresolved review blockers.",
+  "actions": [
+    {
+      "target": "#71503",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related/open remediation candidate; proof failure and missing merge preflight block merge, and there is no complete executable fix artifact for a code repair."
+    },
+    {
+      "target": "#72513",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#71930",
+      "candidate_fix": null,
+      "reason": "Keep related to #71930; the candidate appears directionally relevant but proof failure and missing merge preflight block merge or fixed-by-candidate closure."
+    },
+    {
+      "target": "#80110",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#80110",
+      "candidate_fix": null,
+      "reason": "Keep as the open canonical maintainer path for the subagent raw-output cluster; merge is blocked by unresolved Codex review findings and absent merge preflight."
+    },
+    {
+      "target": "#80139",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required for a broad active-author PR with unresolved review findings; merge and automated repair are not safe from the available artifact."
+    },
+    {
+      "target": "#80246",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as related/open draft remediation candidate; draft state and skipped validation block merge, but the artifact does not show an ambiguity requiring cluster-level escalation."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#80139 requires maintainer judgment because it is a broad active-author PR with unresolved Codex review findings and status waiting on author."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,158 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-021",
+  "mode": "plan",
+  "run_id": "27900563028-1-20",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "20",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-021.md",
+  "published_at": "2026-06-21T09:55:07.694Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only inventory classification for five open seed PRs plus hydrated linked context. No GitHub mutations are planned because the job blocks comment, label, close, force-push, and bypass actions; merge is not recommended without complete merge preflight evidence.",
+  "actions": [
+    {
+      "target": "#49869",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route only this PR and continue non-security classification."
+    },
+    {
+      "target": "#40088",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90019",
+      "reason": "Related to #90019 but not safe to mark fixed-by-candidate or close because #90019 lacks merge preflight and has unresolved review status."
+    },
+    {
+      "target": "#81566",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#94912",
+      "reason": "Issue is related to #94912, but fixed-by-candidate closeout is unavailable because post-merge close is disabled and merge preflight is incomplete."
+    },
+    {
+      "target": "#81569",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94912",
+      "candidate_fix": "#94912",
+      "reason": "Already closed context; historical evidence only."
+    },
+    {
+      "target": "#88959",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related plugin/provider-runtime work but independent from the seed descriptor-row and provider-row PRs."
+    },
+    {
+      "target": "#89999",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small maintainer-owned PR with a distinct CLI descriptor-row scope; keep it for maintainer follow-up rather than merge or repair in this plan."
+    },
+    {
+      "target": "#90019",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct memory-search repair candidate, but merge and fixed-by-candidate closeout are blocked by unresolved review/check status and incomplete merge preflight."
+    },
+    {
+      "target": "#90048",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Small distinct maintainer-owned PR, not a duplicate or merge candidate without author/maintainer follow-up and merge preflight."
+    },
+    {
+      "target": "#90065",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Distinct agents/session-state PR; merge and fixed-by-candidate paths are blocked by failed proof and incomplete merge preflight."
+    },
+    {
+      "target": "#90637",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94912",
+      "candidate_fix": "#94912",
+      "reason": "Already closed context; no closure action is valid."
+    },
+    {
+      "target": "#93791",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged historical memory-search context; no action needed."
+    },
+    {
+      "target": "#94715",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94912",
+      "candidate_fix": "#94912",
+      "reason": "Already closed context; retain as evidence for the current Nextcloud Talk path."
+    },
+    {
+      "target": "#94912",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Best current non-security Nextcloud Talk candidate, but plan cannot recommend merge without complete merge preflight and cannot close/label/comment under job blockers."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 4,
+    "keep_closed": 4,
+    "keep_independent": 4
+  },
+  "action_status_counts": {
+    "planned": 9,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

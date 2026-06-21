@@ -1,0 +1,140 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T094459-015",
+  "mode": "plan",
+  "run_id": "27900563028-1-14",
+  "workflow_run_id": "27900563028",
+  "run_attempt": "1",
+  "matrix_index": "14",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27900563028",
+  "head_sha": "fdad71f3fc93815b44bc9a216c0f5a46f5821a88",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T09:49:23Z",
+  "workflow_updated_at": "2026-06-21T09:51:29Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-015.md",
+  "published_at": "2026-06-21T09:55:07.665Z",
+  "canonical": "#94781",
+  "canonical_issue": null,
+  "canonical_pr": "#94781",
+  "summary": "Plan-only remediation assessment for five open PR inventory candidates. No GitHub mutations are planned because the job blocks comments/labels/closures and no PR has complete merge preflight proof.",
+  "actions": [
+    {
+      "target": "#94781",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94781",
+      "candidate_fix": "#94781",
+      "reason": "Keep as the canonical narrow Copilot fix candidate, but do not recommend merge because merge_preflight is incomplete and ClawSweeper still requests real behavior proof."
+    },
+    {
+      "target": "#94855",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94855",
+      "candidate_fix": "#94855",
+      "reason": "Keep as canonical for the cron recovered-warning candidate family, but do not recommend merge because merge_preflight is missing and the artifact still labels the PR as needing real behavior proof."
+    },
+    {
+      "target": "#95298",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#95298",
+      "candidate_fix": "#95298",
+      "reason": "The PR is a plausible fix path but needs repair/proof before any merge recommendation; failing checks and missing merge preflight block merge only for this item."
+    },
+    {
+      "target": "#55851",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#55851",
+      "candidate_fix": "#55851",
+      "reason": "Do not merge until the actionable bot/Codex review findings are repaired and a clean merge_preflight exists."
+    },
+    {
+      "target": "#64503",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#64503",
+      "candidate_fix": "#64503",
+      "reason": "Keep as the canonical MS Teams fix candidate, but it needs branch/proof/semantics repair before merge."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "fix_needed": 3
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94781",
+    "source_refs": [
+      "#94781",
+      "#94855",
+      "#95298",
+      "#55851",
+      "#64503",
+      "#94516",
+      "#94846",
+      "#94525",
+      "#94849",
+      "#95229",
+      "#88064",
+      "#94867",
+      "#94997"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed"
+    ],
+    "summary": "Repair useful contributor PRs in-place where possible; do not open a replacement PR until validation and Codex /review pass. The highest-priority executable repairs are #55851 review findings, #64503 Teams proof/semantics/rebase, and #95298 failing tooling check/proof. #94781 and #94855 should remain canonical candidates pending real behavior proof and clean merge preflight.",
+    "pr_title": "[clownfish] repair PR inventory shard 15 candidates",
+    "pr_body": "This is a plan-only repair artifact for live-pr-inventory-20260621T094459-015. It does not mutate GitHub.\n\nCandidate paths:\n- #94781 remains the narrow canonical Copilot missing runtime.state fix for #94516; merge requires real behavior proof and clean merge preflight.\n- #94855 remains the canonical cron recovered-warning fix for #94846; merge requires real behavior proof and clean merge preflight.\n- #95298 needs repair/proof because checks-node-core-tooling failed and no merge preflight is present.\n- #55851 needs review-finding repairs before merge, especially transient api_error classification and test/assertion coverage.\n- #64503 needs rebase/proof/semantics repair before merge; preserve ndholakia source PR credit.\n\nValidation should include pnpm check:changed plus the targeted vitest files listed in the artifact. Run Codex /review after repairs and address every finding before any merge recommendation.",
+    "likely_files": [
+      "extensions/copilot/index.ts",
+      "src/cron/isolated-agent/helpers.ts",
+      "src/agents/embedded-agent-subscribe.handlers.messages.ts",
+      "src/agents/embedded-agent-subscribe.handlers.messages.test.ts",
+      "src/agents/embedded-agent-helpers/errors.ts",
+      "src/agents/embedded-agent-helpers.formatassistanterrortext.test.ts",
+      "src/agents/embedded-agent-runner/run/payloads.errors.test.ts",
+      "extensions/msteams/src/monitor-handler/message-handler.ts",
+      "extensions/msteams/src/monitor-handler.adaptive-card.test.ts",
+      "CHANGELOG.md"
+    ],
+    "validation_commands": [
+      "pnpm check:changed",
+      "pnpm -s vitest run extensions/copilot/index.test.ts",
+      "pnpm -s vitest run src/cron/isolated-agent.helpers.test.ts",
+      "pnpm -s vitest run src/agents/embedded-agent-subscribe.handlers.messages.test.ts",
+      "pnpm -s vitest run src/agents/embedded-agent-helpers.formatassistanterrortext.test.ts src/agents/embedded-agent-runner/run/payloads.errors.test.ts",
+      "pnpm -s vitest run extensions/msteams/src/monitor-handler.adaptive-card.test.ts"
+    ],
+    "credit_notes": [
+      "Preserve source PR credit for ajwan8998 on #94781 if the Copilot fix is repaired or replaced.",
+      "Preserve source PR credit for LiLan0125 on #94855 if the cron fix is repaired or replaced; note related evidence from Pandah97/#94849 and bowenluo718/#94867 if reused.",
+      "Preserve source PR credit for Marvinthebored and commit author Peetiegonzalez on #95298 if the DeepSeek reasoning fix is repaired or replaced.",
+      "Preserve source PR credit for TinyTb on #55851 if the transient error context work is repaired or replaced.",
+      "Preserve source PR credit for ndholakia and later commit author BradGroux on #64503 if the MS Teams fix is repaired or replaced."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T094459-015.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
