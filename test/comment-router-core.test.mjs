@@ -202,6 +202,10 @@ test("automerge pass contract requires a full exact reviewed head SHA", () => {
     "ClawSweeper pass marker must include a full 40-character reviewed PR head SHA",
   );
   assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: "g".repeat(40), currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker must include a full 40-character reviewed PR head SHA",
+  );
+  assert.equal(
     automergeReviewedHeadBlockReason({ expectedHeadSha: STALE_HEAD_SHA, currentHeadSha: HEAD_SHA }),
     "ClawSweeper pass marker targets a stale PR head SHA",
   );
@@ -475,10 +479,12 @@ test("automerge merge args pin the reviewed head SHA", () => {
     buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha: HEAD_SHA }),
     ["pr", "merge", "123", "--repo", "openclaw/openclaw", "--squash", "--match-head-commit", HEAD_SHA],
   );
-  assert.throws(
-    () => buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha: "abc123" }),
-    /full 40-character Git SHA/,
-  );
+  for (const expectedHeadSha of [undefined, "unknown", "abc123", "g".repeat(40)]) {
+    assert.throws(
+      () => buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha }),
+      /full 40-character Git SHA/,
+    );
+  }
 });
 
 test("automerge gate block only reports closed merge policy gates", () => {
