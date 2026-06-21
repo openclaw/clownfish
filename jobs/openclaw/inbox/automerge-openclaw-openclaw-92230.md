@@ -49,7 +49,7 @@ Clownfish should use this job only for the bounded ClawSweeper review/fix loop:
 
 ## Pinned repair requirements
 
-Start from the current source PR head `f97f5520051b84c6859721221106210537d01c89`. Keep the fresh model-picker repair, but correct these two remaining defects before adding unrelated scope.
+Start from the current source PR head `e012d5b51d99919f76ea8b8ed9c101a5bf66065f`. Keep the fresh model-picker repair, but correct these two remaining defects before adding unrelated scope.
 
 1. Preserve configured Discord ACP binding readiness for bare `/model`. The picker branch must resolve the same guarded native route state as the normal command path before it loads picker data or replies. When a configured binding is unavailable, return the existing unavailable-binding response and do not expose a picker or its agent catalog. Add a regression test with a failed configured binding that proves the picker loader/reply is not invoked.
 2. Prove Telegram long-model reachability, not merely dispatch fallback. When any `/model` choice cannot fit Telegram callback data, do not emit a partial `tgcmd` keyboard; fall back to the established `/model` handling and assert it renders usable browse/compact `mdl_sel` controls that include a route to select the long model. Retain short-model behavior where all callbacks fit.
