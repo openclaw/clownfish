@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T111106-002",
+  "mode": "plan",
+  "run_id": "27902559319-1-1",
+  "workflow_run_id": "27902559319",
+  "run_attempt": "1",
+  "matrix_index": "1",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27902559319",
+  "head_sha": "90ecaf3b351dd69181ec07e99d29cf775ad0a29b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T11:16:09Z",
+  "workflow_updated_at": "2026-06-21T11:18:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T111106-002.md",
+  "published_at": "2026-06-21T11:20:27.715Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Planned conservative, non-mutating classifications for the five live PR inventory refs. No shared canonical was selected because the job is an inventory shard and merge/fix/low-signal closeout are disabled or not safely applicable.",
+  "actions": [
+    {
+      "target": "#90833",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful contributor PR with overlapping session-rename work and failing proof/checks; closure would require a clearer replacement/credit path than this plan-mode inventory provides."
+    },
+    {
+      "target": "#90834",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#90834",
+      "reason": "Focused candidate fix remains open, but the job blocks merge/fix/post-merge closeout and requires human judgment for focused bug-fix correctness."
+    },
+    {
+      "target": "#90887",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft broad contributor PR should not be closed or treated as canonical in this inventory shard; it remains related cron failure-alert work."
+    },
+    {
+      "target": "#90908",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#90908",
+      "reason": "Maintainer-owned focused runtime behavior change needs maintainer technical judgment; plan mode should not close, merge, or label it as resolved."
+    },
+    {
+      "target": "#90970",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Translation/glossary content correctness and the failed proof gate require maintainer judgment; low-signal closure is disabled."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90908 requires maintainer technical judgment because it is an actively discussed focused runtime behavior change with maintainer involvement.",
+    "#90970 requires maintainer content/proof judgment because low-signal closeout is disabled, author follow-up is active, and Real behavior proof failed."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

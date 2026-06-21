@@ -1,0 +1,104 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T111106-006",
+  "mode": "plan",
+  "run_id": "27902559319-1-5",
+  "workflow_run_id": "27902559319",
+  "run_attempt": "1",
+  "matrix_index": "5",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27902559319",
+  "head_sha": "90ecaf3b351dd69181ec07e99d29cf775ad0a29b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T11:16:09Z",
+  "workflow_updated_at": "2026-06-21T11:18:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T111106-006.md",
+  "published_at": "2026-06-21T11:20:27.742Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode inventory classification for five live PRs. No GitHub mutations are recommended. Two hydrated linked refs are security-sensitive and should be routed to central security handling; the five inventory PRs should stay open because they are useful contributor or maintainer PRs with proof, review, check, or maintainer-decision blockers rather than boring duplicate/low-signal closeouts.",
+  "actions": [
+    {
+      "target": "#9155",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked issue is out of scope for Clownfish backlog cleanup and must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#78927",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR is read-only for this workflow; route it without blocking unrelated non-security PR inventory classification."
+    },
+    {
+      "target": "#90626",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90378",
+      "candidate_fix": null,
+      "reason": "Useful focused cron PR with unresolved proof/check and compatibility questions; keep it open and related to #90378 rather than close or merge."
+    },
+    {
+      "target": "#91473",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90975",
+      "candidate_fix": null,
+      "reason": "This is not a boring duplicate or low-signal PR; it is a stacked Antigravity CLI follow-up with proof and technical correctness blockers, so keep it related to the hydrated #90975 Antigravity backend path."
+    },
+    {
+      "target": "#92128",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85653",
+      "candidate_fix": null,
+      "reason": "Small but behaviorally risky Feishu session-state PR with missing proof; keep it related to #85653 and do not close or route it as security."
+    },
+    {
+      "target": "#95051",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#94937",
+      "candidate_fix": null,
+      "reason": "Maintainer-owned focused bug-fix PR has active human proof/follow-up, a bot needs-changes review, and a failing check; final disposition is a maintainer judgment, not an automated closeout."
+    },
+    {
+      "target": "#94785",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#86387",
+      "candidate_fix": null,
+      "reason": "Useful QQ Bot route-persistence PR should remain open for proof/re-review; it is not eligible for low-signal or duplicate closure."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 4,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#95051: maintainer-owned Telegram durable reasoning fix needs maintainer judgment because ClawSweeper requested changes, a contributor added follow-up proof/suggestion, and one check is failing."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

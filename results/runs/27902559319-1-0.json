@@ -1,0 +1,102 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260621T111106-001",
+  "mode": "plan",
+  "run_id": "27902559319-1-0",
+  "workflow_run_id": "27902559319",
+  "run_attempt": "1",
+  "matrix_index": "0",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27902559319",
+  "head_sha": "90ecaf3b351dd69181ec07e99d29cf775ad0a29b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-21T11:16:09Z",
+  "workflow_updated_at": "2026-06-21T11:18:07Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260621T111106-001.md",
+  "published_at": "2026-06-21T11:20:27.709Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-mode live PR inventory classification. No GitHub mutations are planned. The five listed open PRs are not safe closeout candidates; two hydrated linked PRs are explicitly security-sensitive and should be routed without affecting unrelated non-security PRs.",
+  "actions": [
+    {
+      "target": "#89990",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone maintainer draft PR; keep open for maintainer review."
+    },
+    {
+      "target": "#90226",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone behavior/product PR with active author context; not a duplicate or low-signal closeout candidate."
+    },
+    {
+      "target": "#90723",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Standalone feature PR requiring maintainer review and sequencing, with no shared canonical in this inventory shard."
+    },
+    {
+      "target": "#90779",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90296",
+      "candidate_fix": null,
+      "reason": "Related to open canonical issue #90296, but the PR still needs proof and is not a closure or merge candidate in this job."
+    },
+    {
+      "target": "#90828",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90711",
+      "candidate_fix": null,
+      "reason": "Related to open canonical issue #90711, but proof/check failures mean no closeout or merge recommendation is safe."
+    },
+    {
+      "target": "#88379",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; route to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#90054",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked PR; route to central OpenClaw security handling without mutation."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 3,
+    "keep_related": 2,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
