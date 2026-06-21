@@ -11,6 +11,7 @@ import {
   automergeGateBlockReason,
   automergeJobBranch,
   automergeJobPath,
+  automergeReviewedHeadBlockReason,
   buildAutomergeMergeArgs,
   isMaintainerCommandAllowed,
   parseCommand,
@@ -21,6 +22,9 @@ import {
   selectCommentsById,
 } from "../scripts/comment-router-core.mjs";
 import { parseSimpleYaml, validateJob } from "../scripts/lib.mjs";
+
+const HEAD_SHA = "a".repeat(40);
+const STALE_HEAD_SHA = "b".repeat(40);
 
 test("parseCommand recognizes maintainer slash commands", () => {
   assert.deepEqual(parseCommand("/clownfish fix ci"), {
@@ -174,14 +178,38 @@ test("parseTrustedAutomation accepts trusted ClawSweeper pass verdicts for autom
   const parsed = parseTrustedAutomation(
     {
       user: { login: "clawsweeper[bot]" },
-      body: "ClawSweeper review passed.\n<!-- clawsweeper-verdict:pass sha=abc123 -->",
+      body: `ClawSweeper review passed.\n<!-- clawsweeper-verdict:pass sha=${HEAD_SHA} -->`,
     },
     { trustedAuthors },
   );
 
   assert.equal(parsed.intent, "clawsweeper_auto_merge");
-  assert.equal(parsed.expected_head_sha, "abc123");
+  assert.equal(parsed.expected_head_sha, HEAD_SHA);
   assert.match(parsed.repair_reason, /verdict: pass/);
+});
+
+test("automerge pass contract requires a full exact reviewed head SHA", () => {
+  assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: null, currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker must include the reviewed PR head SHA",
+  );
+  assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: "unknown", currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker must include the reviewed PR head SHA",
+  );
+  assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: "abc123", currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker must include a full 40-character reviewed PR head SHA",
+  );
+  assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: "g".repeat(40), currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker must include a full 40-character reviewed PR head SHA",
+  );
+  assert.equal(
+    automergeReviewedHeadBlockReason({ expectedHeadSha: STALE_HEAD_SHA, currentHeadSha: HEAD_SHA }),
+    "ClawSweeper pass marker targets a stale PR head SHA",
+  );
+  assert.equal(automergeReviewedHeadBlockReason({ expectedHeadSha: HEAD_SHA, currentHeadSha: HEAD_SHA }), "");
 });
 
 test("parseTrustedAutomation treats trusted ClawSweeper needs-human as automerge repair input", () => {
@@ -189,13 +217,13 @@ test("parseTrustedAutomation treats trusted ClawSweeper needs-human as automerge
   const parsed = parseTrustedAutomation(
     {
       user: { login: "clawsweeper[bot]" },
-      body: "ClawSweeper needs maintainer judgment.\n<!-- clawsweeper-verdict:needs-human sha=abc123 -->",
+      body: `ClawSweeper needs maintainer judgment.\n<!-- clawsweeper-verdict:needs-human sha=${HEAD_SHA} -->`,
     },
     { trustedAuthors },
   );
 
   assert.equal(parsed.intent, "clawsweeper_auto_repair");
-  assert.equal(parsed.expected_head_sha, "abc123");
+  assert.equal(parsed.expected_head_sha, HEAD_SHA);
   assert.match(parsed.repair_reason, /needs-human/);
 });
 
@@ -204,13 +232,13 @@ test("parseTrustedAutomation preserves explicit human-review verdicts as pauses"
   const parsed = parseTrustedAutomation(
     {
       user: { login: "clawsweeper[bot]" },
-      body: "ClawSweeper needs explicit human review.\n<!-- clawsweeper-verdict:human-review sha=abc123 -->",
+      body: `ClawSweeper needs explicit human review.\n<!-- clawsweeper-verdict:human-review sha=${HEAD_SHA} -->`,
     },
     { trustedAuthors },
   );
 
   assert.equal(parsed.intent, "clawsweeper_needs_human");
-  assert.equal(parsed.expected_head_sha, "abc123");
+  assert.equal(parsed.expected_head_sha, HEAD_SHA);
 });
 
 test("parseTrustedAutomation falls back to actionable ClawSweeper review text", () => {
@@ -407,6 +435,28 @@ test("renderResponse reports automerge completion", () => {
   assert.doesNotMatch(body, /ProjectClownfish/i);
 });
 
+test("renderResponse explains blocked automerge pass decisions", () => {
+  const body = renderResponse(
+    {
+      comment_id: "790",
+      intent: "clawsweeper_auto_merge",
+      trusted_bot_author: "clawsweeper[bot]",
+      repair_reason: `structured ClawSweeper verdict: pass (sha=${HEAD_SHA})`,
+      target: { head_sha: HEAD_SHA },
+    },
+    {
+      merge: {
+        status: "blocked",
+        reason: "ClawSweeper pass marker targets a stale PR head SHA",
+      },
+    },
+  );
+
+  assert.match(body, /saw the passing review, but one reef gate still blocked the merge/);
+  assert.match(body, /Merge status: ClawSweeper pass marker targets a stale PR head SHA/);
+  assert.match(body, /left the PR open/);
+});
+
 test("repair intent set documents executable repair commands", () => {
   assert.deepEqual([...REPAIR_INTENTS].sort(), [
     "address_review",
@@ -426,9 +476,15 @@ test("autoclose intent set documents destructive maintainer commands", () => {
 
 test("automerge merge args pin the reviewed head SHA", () => {
   assert.deepEqual(
-    buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha: "abc123" }),
-    ["pr", "merge", "123", "--repo", "openclaw/openclaw", "--squash", "--match-head-commit", "abc123"],
+    buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha: HEAD_SHA }),
+    ["pr", "merge", "123", "--repo", "openclaw/openclaw", "--squash", "--match-head-commit", HEAD_SHA],
   );
+  for (const expectedHeadSha of [undefined, "unknown", "abc123", "g".repeat(40)]) {
+    assert.throws(
+      () => buildAutomergeMergeArgs({ issueNumber: 123, repo: "openclaw/openclaw", expectedHeadSha }),
+      /full 40-character Git SHA/,
+    );
+  }
 });
 
 test("automerge gate block only reports closed merge policy gates", () => {

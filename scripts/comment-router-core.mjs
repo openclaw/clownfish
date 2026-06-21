@@ -105,11 +105,25 @@ export function isMaintainerCommandAllowed({
 }
 
 export function buildAutomergeMergeArgs({ issueNumber, repo, expectedHeadSha }) {
-  const args = ["pr", "merge", String(issueNumber), "--repo", repo, "--squash"];
-  if (expectedHeadSha && expectedHeadSha !== "unknown") {
-    args.push("--match-head-commit", expectedHeadSha);
+  if (!isFullGitSha(expectedHeadSha)) throw new Error("expectedHeadSha must be a full 40-character Git SHA");
+  return ["pr", "merge", String(issueNumber), "--repo", repo, "--squash", "--match-head-commit", expectedHeadSha];
+}
+
+export function automergeReviewedHeadBlockReason({ expectedHeadSha, currentHeadSha }) {
+  const expected = String(expectedHeadSha ?? "");
+  if (!expected || expected === "unknown") {
+    return "ClawSweeper pass marker must include the reviewed PR head SHA";
   }
-  return args;
+  if (!isFullGitSha(expected)) {
+    return "ClawSweeper pass marker must include a full 40-character reviewed PR head SHA";
+  }
+  const current = String(currentHeadSha ?? "");
+  if (current && expected !== current) return "ClawSweeper pass marker targets a stale PR head SHA";
+  return "";
+}
+
+export function isFullGitSha(value) {
+  return /^[0-9a-f]{40}$/i.test(String(value ?? ""));
 }
 
 export function parseCommand(body) {
