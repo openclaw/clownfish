@@ -237,6 +237,53 @@ test("repository-worker falls back only from the known GitHub schema 422", () =>
   assert.match(result.stdout, /dispatched 1\/1/);
 });
 
+test("repository-batch falls back only from the known GitHub schema 422", () => {
+  const fixture = makeFixture();
+  writeFailingGh(fixture.bin, "gh");
+  const fakeGhx = writeFakeGh(fixture.bin, "ghx");
+  writeShallowCheckoutGit(fixture.bin);
+  const env = {
+    ...process.env,
+    PATH: `${fixture.bin}${path.delimiter}${process.env.PATH}`,
+    EXPECT_REPOSITORY_BATCH_FALLBACK: "1",
+  };
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/dispatch-jobs.mjs",
+      "jobs/openclaw/inbox/cluster-example.md",
+      "jobs/openclaw/inbox/gitcrawl-1109-intake-20260621.md",
+      "--mode",
+      "plan",
+      "--dispatch-event",
+      "repository-batch",
+      "--gh-bin",
+      fakeGhx,
+      "--allow-app-token-auth",
+      "--skip-publish-backlog-check",
+      "--max-live-workers",
+      "2",
+      "--batch-max-parallel",
+      "2",
+      "--hydrate-comments",
+      "1",
+      "--max-linked-refs",
+      "20",
+      "--max-comments-per-item",
+      "30",
+      "--max-review-comments-per-pr",
+      "50",
+      "--no-dispatch-ledger",
+    ],
+    { cwd: repoRoot, encoding: "utf8", env },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /known GitHub 422 schema error for batch/);
+  assert.match(result.stdout, /dispatched repository batch .* with 2 plan job\(s\)/);
+});
+
 test("repository-worker dispatch fetches main when a shallow checkout lacks origin/main", () => {
   const fixture = makeFixture();
   writeFailingGh(fixture.bin, "gh");
@@ -398,6 +445,25 @@ if (args[0] === "variable" && args[1] === "list") {
   process.exit(0);
 }
 if (args[0] === "workflow" && args[1] === "run") {
+  if (process.env.EXPECT_REPOSITORY_BATCH_FALLBACK === "1") {
+    for (const expected of [
+      "jobs_json=[\\"jobs/openclaw/inbox/cluster-example.md\\",\\"jobs/openclaw/inbox/gitcrawl-1109-intake-20260621.md\\"]",
+      "mode=plan",
+      "runner=ubuntu-latest",
+      "execution_runner=blacksmith-16vcpu-ubuntu-2404",
+      "model=gpt-5.5",
+      "max_parallel=2",
+      "hydrate_comments=1",
+      "max_linked_refs=20",
+      "max_comments_per_item=30",
+      "max_review_comments_per_pr=50",
+    ]) {
+      if (!args.some((arg) => arg.includes(expected))) {
+        console.error("missing repository batch fallback field", expected, args.join(" "));
+        process.exit(1);
+      }
+    }
+  }
   if (process.env.EXPECT_REPOSITORY_DISPATCH_FALLBACK === "1") {
     if (!args.join(" ").includes("dispatch_id=dispatch-")) {
       console.error("missing repository dispatch fallback id", args.join(" "));
@@ -443,6 +509,25 @@ if (args[0] === "api" && args.some((arg) => arg.endsWith("/runs"))) {
 }
 if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
   const payload = JSON.parse(fs.readFileSync(0, "utf8"));
+  if (process.env.EXPECT_REPOSITORY_BATCH_FALLBACK === "1") {
+    const client = payload.client_payload || {};
+    const expected = [
+      ["event_type", payload.event_type, "projectclownfish_batch"],
+      ["mode", client.mode, "plan"],
+      ["runner", client.runner, "ubuntu-latest"],
+      ["execution_runner", client.execution_runner, "blacksmith-16vcpu-ubuntu-2404"],
+      ["model", client.model, "gpt-5.5"],
+      ["max_parallel", String(client.max_parallel), "2"],
+    ];
+    for (const [name, actual, wanted] of expected) {
+      if (actual !== wanted) {
+        console.error("bad repository batch field", name, actual, "wanted", wanted, JSON.stringify(payload));
+        process.exit(1);
+      }
+    }
+    console.error("gh: Invalid request.\\nFor 'links/0/schema', nil is not an object. (HTTP 422)");
+    process.exit(1);
+  }
   if (process.env.EXPECT_REPOSITORY_WORKER_FIELDS === "1") {
     const client = payload.client_payload || {};
     const hydration = client.hydration || {};

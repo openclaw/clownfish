@@ -655,7 +655,50 @@ function dispatchRepositoryBatch(batch, position) {
     position,
     `${JSON.stringify(payload)}\n`,
     batchDispatchId,
-  );
+  ).then((result) => {
+    if (!isRepositoryDispatchSchemaBug(result)) return result;
+
+    console.warn(
+      `repository_dispatch returned the known GitHub 422 schema error for batch ${batchDispatchId}; retrying via workflow_dispatch`,
+    );
+    return runCommand(
+      ghCommand,
+      batchWorkflowDispatchArgs(batch),
+      "__repository_batch__",
+      position,
+      null,
+      batchDispatchId,
+    ).then((fallback) => ({
+      ...fallback,
+      dispatch_event: "workflow",
+      dispatch_fallback_reason: "repository_dispatch_422_links_schema",
+    }));
+  });
+}
+
+function batchWorkflowDispatchArgs(batch) {
+  return [
+    "workflow",
+    "run",
+    batchWorkflow,
+    "--repo",
+    repo,
+    "--ref",
+    ref || "main",
+    "-f",
+    `jobs_json=${JSON.stringify(batch)}`,
+    "-f",
+    `mode=${mode}`,
+    "-f",
+    `runner=${runner}`,
+    "-f",
+    `execution_runner=${executionRunner}`,
+    "-f",
+    `model=${model}`,
+    "-f",
+    `max_parallel=${batchMaxParallel}`,
+    ...Object.entries(hydrationInputs).flatMap(([name, value]) => ["-f", `${name}=${value}`]),
+  ];
 }
 
 function runCommand(command, commandArgs, relative, position, stdin = null, batchDispatchId = null) {
