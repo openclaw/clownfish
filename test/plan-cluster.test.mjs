@@ -109,4 +109,43 @@ canonical:
   assert.equal(candidate.kind, "pull_request");
   assert.match(candidate.hydration_error, /pull request #2: unexpected end of JSON input/);
   assert.match(candidate.pull_request.hydration_error, /pull request #2: unexpected end of JSON input/);
+
+  const contextJobPath = path.join(tmp, "context-job.md");
+  const contextRunDir = path.join(tmp, "context-run");
+  fs.writeFileSync(
+    contextJobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: mandatory-context-hydration
+mode: plan
+allowed_actions:
+  - comment
+candidates:
+  - "#1"
+canonical:
+  - "#1"
+existing_overlap_refs:
+  - "#2"
+security_signal_refs:
+  - "#2"
+---
+
+# Read-only context hydration
+`,
+  );
+  const contextResult = spawnSync("node", ["scripts/plan-cluster.mjs", contextJobPath, "--run-dir", contextRunDir], {
+    cwd: repoRoot,
+    env: {
+      ...process.env,
+      PATH: `${binDir}${path.delimiter}${process.env.PATH}`,
+      CLOWNFISH_HYDRATE_COMMENTS: "0",
+      CLOWNFISH_HYDRATE_CLUSTER_REFS: "0",
+    },
+    encoding: "utf8",
+  });
+
+  assert.equal(contextResult.status, 0, contextResult.stderr || contextResult.stdout);
+  const contextPlan = JSON.parse(fs.readFileSync(path.join(contextRunDir, "cluster-plan.json"), "utf8"));
+  assert.deepEqual(contextPlan.scope.read_only_context_refs, ["#2"]);
+  assert.ok(contextPlan.items.some((item) => item.ref === "#2"));
 });

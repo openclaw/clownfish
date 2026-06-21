@@ -647,6 +647,29 @@ test("review-results allows unavailable security route when hydration was rate l
   assert.match(result.stdout, /route_security target was not marked security_sensitive in preflight/);
 });
 
+test("review-results rejects route_security without a hydrated preflight item", () => {
+  const dir = makeResultDir({
+    actions: [
+      {
+        target: "#89936",
+        action: "route_security",
+        status: "planned",
+        idempotency_key: "cluster-test:route_security:89936:missing",
+        classification: "security_sensitive",
+        target_kind: "unknown",
+        target_updated_at: null,
+        evidence: ["Imported metadata identified a security boundary."],
+        reason: "Route to central security handling.",
+      },
+    ],
+  });
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /route_security target was not hydrated in preflight/);
+});
+
 test("review-results allows non-security fix artifact with separately routed security ref", () => {
   const dir = makeResultDir(
     {

@@ -171,6 +171,9 @@ function reviewResult(resultPath) {
       failures.push(`${target} security-sensitive target must use route_security`);
     }
     if (ROUTE_SECURITY_ACTIONS.has(name)) {
+      if (!item) {
+        failures.push(`${target} route_security target was not hydrated in preflight`);
+      }
       if (action.classification !== "security_sensitive") {
         failures.push(`${target} route_security action must use security_sensitive classification`);
       }

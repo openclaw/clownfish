@@ -43,6 +43,7 @@ test("deterministic security signals ignore prose credential wording", () => {
 
 test("deterministic security signals accept labels and structured ClawSweeper markers", () => {
   assert.equal(hasDeterministicSecuritySignal({ labels: ["security:sensitive"] }), true);
+  assert.equal(hasDeterministicSecuritySignal({ labels: ["merge-risk: 🚨 security-boundary"] }), true);
   assert.equal(
     hasDeterministicSecuritySignal({
       comments: ["<!-- clawsweeper-security:security-sensitive item=123 sha=abc -->"],
