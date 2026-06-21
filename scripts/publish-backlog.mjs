@@ -87,24 +87,89 @@ function listWorkflowRuns() {
 }
 
 function readPublishedRunIds() {
-  const fromOrigin = execFileSync("git", ["ls-tree", "-r", "--name-only", "origin/main", "results/runs"], {
+  const fromOrigin = execFileSync(
+    "git",
+    ["ls-tree", "-r", "--name-only", "origin/main", "results/runs", "results/review-rejections"],
+    {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    },
+  )
+    .split("\n")
+    .filter(Boolean)
+    .filter((file) => file.startsWith("results/runs/"))
+    .map((file) => path.basename(file, ".json"));
+  const terminalRejections = readTerminalRejectionIdsFromGit("origin/main");
+  if (fromOrigin.length > 0 || terminalRejections.size > 0) return new Set([...fromOrigin, ...terminalRejections]);
+
+  const dir = path.join(repoRoot(), "results", "runs");
+  const resultRuns = !fs.existsSync(dir)
+    ? []
+    : fs
+        .readdirSync(dir)
+        .filter((name) => name.endsWith(".json"))
+        .map((name) => path.basename(name, ".json"));
+  return new Set([...resultRuns, ...readTerminalRejectionIdsFromDirectory()]);
+}
+
+function readTerminalRejectionIdsFromGit(ref) {
+  const files = execFileSync("git", ["ls-tree", "-r", "--name-only", ref, "results/review-rejections"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   })
     .split("\n")
-    .filter(Boolean)
-    .map((file) => path.basename(file, ".json"));
-  if (fromOrigin.length > 0) return new Set(fromOrigin);
+    .filter((file) => file.startsWith("results/review-rejections/") && file.endsWith(".json"));
+  const ids = new Set();
+  for (const file of files) {
+    try {
+      const rejection = JSON.parse(
+        execFileSync("git", ["show", `${ref}:${file}`], {
+          cwd: repoRoot(),
+          encoding: "utf8",
+          stdio: ["ignore", "pipe", "pipe"],
+        }),
+      );
+      const runId = validTerminalRejectionRunId(rejection);
+      if (runId === path.basename(file, ".json")) ids.add(runId);
+    } catch {
+      continue;
+    }
+  }
+  return ids;
+}
 
-  const dir = path.join(repoRoot(), "results", "runs");
-  if (!fs.existsSync(dir)) return new Set();
-  return new Set(
-    fs
-      .readdirSync(dir)
-      .filter((name) => name.endsWith(".json"))
-      .map((name) => path.basename(name, ".json")),
-  );
+function readTerminalRejectionIdsFromDirectory() {
+  const directory = path.join(repoRoot(), "results", "review-rejections");
+  if (!fs.existsSync(directory)) return new Set();
+  const ids = new Set();
+  for (const name of fs.readdirSync(directory)) {
+    if (!name.endsWith(".json")) continue;
+    try {
+      const runId = validTerminalRejectionRunId(JSON.parse(fs.readFileSync(path.join(directory, name), "utf8")));
+      if (runId === path.basename(name, ".json")) ids.add(runId);
+    } catch {
+      continue;
+    }
+  }
+  return ids;
+}
+
+function validTerminalRejectionRunId(value) {
+  const runId = String(value?.run_id ?? "");
+  const workflowRunId = String(value?.workflow_run_id ?? "");
+  const runAttempt = String(value?.run_attempt ?? "");
+  const matrixIndex = value?.matrix_index === null ? null : String(value?.matrix_index ?? "");
+  const targets = Array.isArray(value?.targets) ? value.targets.map(String) : [];
+  if (!/^\d+(?:-\d+-\d+)?$/.test(runId)) return null;
+  if (!/^\d+$/.test(workflowRunId) || !/^\d+$/.test(runAttempt)) return null;
+  if (matrixIndex !== null && !/^\d+$/.test(matrixIndex)) return null;
+  if (runId !== workflowRunId && runId !== `${workflowRunId}-${runAttempt}-${matrixIndex}`) return null;
+  if (value?.code !== "high_risk_close_target" || targets.length === 0 || !targets.every((target) => /^#\d+$/.test(target))) {
+    return null;
+  }
+  return runId;
 }
 
 function isPublishedRun(run, publishedRunIds) {

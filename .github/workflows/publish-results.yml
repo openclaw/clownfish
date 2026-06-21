@@ -110,8 +110,13 @@ jobs:
               --review-report artifacts/review-results.json \
               --runs-json artifacts/runs.json
             if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/runs.json","utf8")); process.exit(rows.length === 0 ? 0 : 1)'; then
-              echo "has_results=false" >> "$GITHUB_OUTPUT"
-              echo "No review-passing cluster results to publish"
+              if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/review-terminal.json","utf8")).rejections; process.exit(Array.isArray(rows) && rows.length > 0 ? 1 : 0)'; then
+                echo "has_results=false" >> "$GITHUB_OUTPUT"
+                echo "No review-passing cluster results or terminal rejections to publish"
+                exit 0
+              fi
+              echo "has_results=true" >> "$GITHUB_OUTPUT"
+              echo "Publishing terminal review rejections without normal result artifacts"
               exit 0
             fi
             set +e
@@ -124,9 +129,11 @@ jobs:
             fi
           fi
           if node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("artifacts/runs.json","utf8")); process.exit(rows.length === 0 ? 0 : 1)'; then
-            echo "has_results=false" >> "$GITHUB_OUTPUT"
-            echo "No review-passing cluster results to publish"
-            exit 0
+            if node -e 'const fs=require("node:fs"); const rows=fs.existsSync("artifacts/review-terminal.json") ? JSON.parse(fs.readFileSync("artifacts/review-terminal.json","utf8")).rejections : []; process.exit(Array.isArray(rows) && rows.length > 0 ? 1 : 0)'; then
+              echo "has_results=false" >> "$GITHUB_OUTPUT"
+              echo "No review-passing cluster results or terminal rejections to publish"
+              exit 0
+            fi
           fi
           echo "has_results=true" >> "$GITHUB_OUTPUT"
 
@@ -142,7 +149,7 @@ jobs:
 
           git fetch origin main
           git checkout -B main origin/main
-          publish_args=(artifacts --runs-json artifacts/runs.json)
+          publish_args=(artifacts --runs-json artifacts/runs.json --review-terminal artifacts/review-terminal.json)
           if [ "$PUBLISH_AGGREGATE" != "true" ]; then
             publish_args+=(--skip-aggregate)
           fi

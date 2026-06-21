@@ -164,6 +164,48 @@ test("publish-result leaves reports unchanged when fix-artifact.json is absent",
   assert.doesNotMatch(fs.readFileSync(reportPath, "utf8"), /## Repair Candidate/);
 });
 
+test("publish-result records validated terminal review rejections separately from normal results", (t) => {
+  const fixture = makeFixture();
+  const runId = "27901628359-1-3";
+  const recordPath = path.join(repoRoot, "results", "review-rejections", `${runId}.json`);
+  const previousRecord = readIfExists(recordPath);
+  t.after(() => {
+    restore(recordPath, previousRecord);
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  });
+
+  const terminalPath = path.join(fixture.root, "review-terminal.json");
+  fs.writeFileSync(
+    terminalPath,
+    `${JSON.stringify(
+      {
+        rejections: [
+          {
+            run_id: runId,
+            workflow_run_id: "27901628359",
+            run_attempt: "1",
+            matrix_index: "3",
+            code: "high_risk_close_target",
+            targets: ["#91444", "#91446"],
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/publish-result.mjs", fixture.root, "--review-terminal", terminalPath, "--skip-aggregate", "--no-run-url"],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  assert.deepEqual(JSON.parse(fs.readFileSync(recordPath, "utf8")).targets, ["#91444", "#91446"]);
+  assert.match(child.stdout, /"terminal_rejections": 1/);
+});
+
 test("publish-result preserves executed apply actions across later apply attempts", (t) => {
   const fixture = makeFixture();
   const runId = `publish-result-apply-attempts-${process.pid}-${Date.now()}`;

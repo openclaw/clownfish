@@ -84,6 +84,60 @@ test("filter retains only runs with a surviving result artifact", () => {
   assert.equal(run.status, 0, run.stderr || run.stdout);
   assert.deepEqual(JSON.parse(fs.readFileSync(fixture.runsJson, "utf8")), [{ run_id: "100" }]);
   assert.equal(fs.existsSync(`${failedResult}.failed`), true);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(fixture.artifacts, "review-terminal.json"), "utf8")).rejections, []);
+});
+
+test("filter records a validated terminal review rejection by exact matrix child run id", () => {
+  const fixture = makeFixture();
+  const failedResult = path.join(fixture.artifacts, "projectclownfish-200-1-3", "result.json");
+  fs.mkdirSync(path.dirname(failedResult), { recursive: true });
+  fs.writeFileSync(failedResult, "{}\n");
+  fs.writeFileSync(fixture.runsJson, `${JSON.stringify([{ run_id: "200" }], null, 2)}\n`);
+  fs.writeFileSync(
+    fixture.reviewReport,
+    `${JSON.stringify(
+      {
+        reports: [
+          {
+            status: "failed",
+            result: failedResult,
+            terminal_rejection: {
+              code: "high_risk_close_target",
+              targets: ["#91444", "#91446"],
+            },
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const run = spawnSync(
+    process.execPath,
+    [
+      "scripts/filter-reviewed-artifacts.mjs",
+      fixture.artifacts,
+      "--review-report",
+      fixture.reviewReport,
+      "--runs-json",
+      fixture.runsJson,
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  assert.deepEqual(JSON.parse(fs.readFileSync(fixture.runsJson, "utf8")), []);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(fixture.artifacts, "review-terminal.json"), "utf8")).rejections, [
+    {
+      run_id: "200-1-3",
+      workflow_run_id: "200",
+      run_attempt: "1",
+      matrix_index: "3",
+      code: "high_risk_close_target",
+      targets: ["#91444", "#91446"],
+    },
+  ]);
 });
 
 test("publisher defaults to successful runs and exits before reviewing an empty filtered set", () => {
@@ -93,8 +147,9 @@ test("publisher defaults to successful runs and exits before reviewing an empty 
   assert.match(workflow, /BACKFILL_CONCLUSION: \${{ github\.event\.inputs\.conclusion \|\| 'success' }}/);
   assert.match(
     workflow,
-    /filter-reviewed-artifacts[\s\S]*No review-passing cluster results to publish[\s\S]*review-results\.filtered\.json/,
+    /filter-reviewed-artifacts[\s\S]*No review-passing cluster results or terminal rejections to publish/,
   );
+  assert.match(workflow, /Publishing terminal review rejections without normal result artifacts/);
 });
 
 function makeFixture() {

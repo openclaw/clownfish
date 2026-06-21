@@ -31,6 +31,7 @@ const metadataByRunId = readRunMetadata(args["runs-json"]);
 const skipAggregate = Boolean(args["skip-aggregate"]);
 const noRunUrl = Boolean(args["no-run-url"]);
 const published = [];
+const terminalPublished = publishTerminalRejections(args["review-terminal"]);
 
 for (const input of inputs) {
   for (const resultPath of findResultPaths(path.resolve(input))) {
@@ -44,7 +45,63 @@ if (!skipAggregate) {
   updateDashboard();
 }
 
-console.log(JSON.stringify({ published: published.length, aggregate: !skipAggregate, records: published }, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      published: published.length,
+      terminal_rejections: terminalPublished.length,
+      aggregate: !skipAggregate,
+      records: published,
+      terminal_records: terminalPublished,
+    },
+    null,
+    2,
+  ),
+);
+
+function publishTerminalRejections(filePath) {
+  if (!filePath || typeof filePath !== "string" || !fs.existsSync(filePath)) return [];
+  const rows = readJson(filePath)?.rejections;
+  if (!Array.isArray(rows)) return [];
+  const published = [];
+  const outputDir = path.join(repoRoot(), "results", "review-rejections");
+  for (const row of rows) {
+    const rejection = sanitizeTerminalRejection(row);
+    if (!rejection) continue;
+    fs.mkdirSync(outputDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(outputDir, `${rejection.run_id}.json`),
+      `${JSON.stringify({ version: 1, ...rejection, published_at: new Date().toISOString() }, null, 2)}\n`,
+      "utf8",
+    );
+    published.push(rejection);
+  }
+  return published;
+}
+
+function sanitizeTerminalRejection(value) {
+  if (!isObject(value)) return null;
+  const runId = String(value.run_id ?? "");
+  const workflowRunId = String(value.workflow_run_id ?? "");
+  const runAttempt = String(value.run_attempt ?? "");
+  const matrixIndex = value.matrix_index === null ? null : String(value.matrix_index ?? "");
+  const targets = [...new Set((Array.isArray(value.targets) ? value.targets : []).map(String))].sort();
+  if (!/^\d+(?:-\d+-\d+)?$/.test(runId)) return null;
+  if (!/^\d+$/.test(workflowRunId) || !/^\d+$/.test(runAttempt)) return null;
+  if (matrixIndex !== null && !/^\d+$/.test(matrixIndex)) return null;
+  if (runId !== workflowRunId && runId !== `${workflowRunId}-${runAttempt}-${matrixIndex}`) return null;
+  if (value.code !== "high_risk_close_target" || targets.length === 0 || !targets.every((target) => /^#\d+$/.test(target))) {
+    return null;
+  }
+  return {
+    run_id: runId,
+    workflow_run_id: workflowRunId,
+    run_attempt: runAttempt,
+    matrix_index: matrixIndex,
+    code: value.code,
+    targets,
+  };
+}
 
 function publishResult(resultPath) {
   const runDir = path.dirname(resultPath);

@@ -1127,6 +1127,113 @@ test("review-results rejects close actions targeting risk-labeled preflight PRs"
   }
 });
 
+test("review-results marks an otherwise-valid high-risk close rejection as terminal", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "close_superseded",
+          status: "planned",
+          idempotency_key: "cluster-test:close-superseded:91286:terminal-rejection",
+          classification: "superseded",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          canonical: "#91287",
+          candidate_fix: "#91287",
+          comment: "Thanks @contributor; the canonical path preserves contributor credit.",
+          evidence: ["#91287 is the hydrated canonical path."],
+          reason: "The contributor PR is superseded by the canonical path.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            labels: ["merge-risk: availability"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+          {
+            ref: "#91287",
+            kind: "pull_request",
+            state: "open",
+            labels: [],
+            updated_at: "2026-06-15T10:00:01Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+  const report = JSON.parse(result.stdout);
+
+  assert.notEqual(result.status, 0);
+  assert.deepEqual(report.reports[0].terminal_rejection, {
+    code: "high_risk_close_target",
+    targets: ["#91286"],
+  });
+});
+
+test("review-results does not terminalize mixed high-risk close failures", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "close_superseded",
+          status: "planned",
+          idempotency_key: "",
+          classification: "superseded",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          canonical: "#91287",
+          candidate_fix: "#91287",
+          comment: "Thanks @contributor; the canonical path preserves contributor credit.",
+          evidence: ["#91287 is the hydrated canonical path."],
+          reason: "The contributor PR is superseded by the canonical path.",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            labels: ["merge-risk: availability"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+          {
+            ref: "#91287",
+            kind: "pull_request",
+            state: "open",
+            labels: [],
+            updated_at: "2026-06-15T10:00:01Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+  const report = JSON.parse(result.stdout);
+
+  assert.notEqual(result.status, 0);
+  assert.equal(report.reports[0].terminal_rejection, null);
+});
+
 test("review-results allows unavailable non-mutating plan classifications", () => {
   const dir = makeResultDir(
     {

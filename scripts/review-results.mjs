@@ -94,6 +94,7 @@ function reviewResult(resultPath) {
   const warnings = [];
   const itemByRef = buildItemMap(plan, result.repo);
   const actionCounts = {};
+  const terminalRejectionTargets = [];
 
   if (!Array.isArray(result.actions)) failures.push("result.actions must be an array");
   if (!result.repo) failures.push("result.repo is required");
@@ -220,7 +221,10 @@ function reviewResult(resultPath) {
       if (!item) failures.push(`${target} close action missing preflight item`);
       if (item && item.state !== "open") failures.push(`${target} close action targets ${item.state} item`);
       const blockedLabel = findHighRiskMutationLabel(item?.labels);
-      if (blockedLabel) failures.push(`${target} close action targets high-risk label: ${blockedLabel}`);
+      if (blockedLabel) {
+        failures.push(`${target} close action targets high-risk label: ${blockedLabel}`);
+        terminalRejectionTargets.push(normalizeRef(target));
+      }
       if (action.status !== "planned" && !isFixFirstBlockedCloseAction(action, hasFixPath)) {
         failures.push(`${target} close action status must be planned or fix-first blocked`);
       }
@@ -334,6 +338,13 @@ function reviewResult(resultPath) {
     action_counts: actionCounts,
     failures,
     warnings,
+    terminal_rejection:
+      failures.length > 0 && failures.length === terminalRejectionTargets.length
+        ? {
+            code: "high_risk_close_target",
+            targets: [...new Set(terminalRejectionTargets)].sort(),
+          }
+        : null,
   };
 }
 

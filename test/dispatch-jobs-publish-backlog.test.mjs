@@ -82,6 +82,62 @@ test("publish backlog keeps a partial cluster batch missing", () => {
   assert.deepEqual(summary.missing_run_ids, ["200"]);
 });
 
+test("publish backlog accepts a terminal review rejection for a missing batch child", () => {
+  const result = runPublishBacklog({
+    workflow: "cluster-batch.yml",
+    runs: [completedRun(200, 3)],
+    artifactsByRunId: {
+      200: [
+        "projectclownfish-200-3-0",
+        "projectclownfish-200-3-1",
+        "projectclownfish-200-3-2",
+      ],
+    },
+    publishedRunIds: ["200-3-0", "200-3-2"],
+    terminalRejections: [
+      {
+        run_id: "200-3-1",
+        workflow_run_id: "200",
+        run_attempt: "3",
+        matrix_index: "1",
+        code: "high_risk_close_target",
+        targets: ["#91444"],
+      },
+    ],
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(JSON.parse(result.stdout).missing_count, 0);
+});
+
+test("publish backlog ignores malformed terminal review rejections", () => {
+  const result = runPublishBacklog({
+    workflow: "cluster-batch.yml",
+    runs: [completedRun(200, 3)],
+    artifactsByRunId: {
+      200: [
+        "projectclownfish-200-3-0",
+        "projectclownfish-200-3-1",
+        "projectclownfish-200-3-2",
+      ],
+    },
+    publishedRunIds: ["200-3-0", "200-3-2"],
+    terminalRejections: [
+      {
+        run_id: "200-3-1",
+        workflow_run_id: "200",
+        run_attempt: "3",
+        matrix_index: "1",
+        code: "high_risk_close_target",
+        targets: [],
+      },
+    ],
+  });
+
+  assert.notEqual(result.status, 0);
+  assert.equal(JSON.parse(result.stdout).missing_count, 1);
+});
+
 test("publish backlog keeps exact IDs for single cluster workers", () => {
   const result = runPublishBacklog({
     workflow: "cluster-worker.yml",
@@ -103,7 +159,14 @@ function makeFixture() {
   };
 }
 
-function runPublishBacklog({ workflow, runs, artifactsByRunId = {}, runAttemptsByRunId = {}, publishedRunIds }) {
+function runPublishBacklog({
+  workflow,
+  runs,
+  artifactsByRunId = {},
+  runAttemptsByRunId = {},
+  publishedRunIds,
+  terminalRejections = [],
+}) {
   const fixture = makeFixture();
   writeFakeGhx(fixture);
   writeFakeGit(fixture);
@@ -138,6 +201,7 @@ function runPublishBacklog({ workflow, runs, artifactsByRunId = {}, runAttemptsB
         FAKE_GHX_ARTIFACTS: JSON.stringify(artifactsByRunId),
         FAKE_GHX_RUN_ATTEMPTS: JSON.stringify(runAttemptsByRunId),
         FAKE_GIT_PUBLISHED_RUN_IDS: JSON.stringify(publishedRunIds),
+        FAKE_GIT_TERMINAL_REJECTIONS: JSON.stringify(terminalRejections),
       },
     },
   );
@@ -210,8 +274,27 @@ function writeFakeGit(fixture) {
 const args = process.argv.slice(2);
 if (args[0] === "ls-tree") {
   const runIds = JSON.parse(process.env.FAKE_GIT_PUBLISHED_RUN_IDS ?? "[]");
-  process.stdout.write(runIds.map((runId) => \`results/runs/\${runId}.json\`).join("\\n"));
+  const terminalRejections = JSON.parse(process.env.FAKE_GIT_TERMINAL_REJECTIONS ?? "[]");
+  const wantsRuns = args.includes("results/runs");
+  const wantsTerminal = args.includes("results/review-rejections");
+  const files = [
+    ...(wantsRuns ? runIds.map((runId) => \`results/runs/\${runId}.json\`) : []),
+    ...(wantsTerminal ? terminalRejections.map((rejection) => \`results/review-rejections/\${rejection.run_id}.json\`) : []),
+  ];
+  process.stdout.write(files.join("\\n"));
   process.exit(0);
+}
+if (args[0] === "show") {
+  const terminalRejections = JSON.parse(process.env.FAKE_GIT_TERMINAL_REJECTIONS ?? "[]");
+  const file = String(args[1] ?? "").split(":").at(-1);
+  const runId = file.split("/").at(-1).replace(/\\.json$/, "");
+  const rejection = terminalRejections.find((candidate) => candidate.run_id === runId);
+  if (rejection) {
+    process.stdout.write(JSON.stringify(rejection));
+    process.exit(0);
+  }
+  process.stderr.write("missing terminal rejection: " + file + "\\n");
+  process.exit(1);
 }
 process.stderr.write("unexpected git invocation: " + args.join(" ") + "\\n");
 process.exit(1);

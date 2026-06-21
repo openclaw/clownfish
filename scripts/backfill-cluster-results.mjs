@@ -313,13 +313,45 @@ function selectedRunAttempt(run) {
 
 function readPublishedRunIds() {
   const dir = path.join(repoRoot(), "results", "runs");
-  if (!fs.existsSync(dir)) return new Set();
-  return new Set(
-    fs
-      .readdirSync(dir)
-      .filter((name) => name.endsWith(".json"))
-      .map((name) => path.basename(name, ".json")),
-  );
+  const resultRuns = !fs.existsSync(dir)
+    ? []
+    : fs
+        .readdirSync(dir)
+        .filter((name) => name.endsWith(".json"))
+        .map((name) => path.basename(name, ".json"));
+  return new Set([...resultRuns, ...readTerminalRejectionIds()]);
+}
+
+function readTerminalRejectionIds() {
+  const directory = path.join(repoRoot(), "results", "review-rejections");
+  if (!fs.existsSync(directory)) return new Set();
+  const ids = new Set();
+  for (const name of fs.readdirSync(directory)) {
+    if (!name.endsWith(".json")) continue;
+    try {
+      const runId = validTerminalRejectionRunId(JSON.parse(fs.readFileSync(path.join(directory, name), "utf8")));
+      if (runId === path.basename(name, ".json")) ids.add(runId);
+    } catch {
+      continue;
+    }
+  }
+  return ids;
+}
+
+function validTerminalRejectionRunId(value) {
+  const runId = String(value?.run_id ?? "");
+  const workflowRunId = String(value?.workflow_run_id ?? "");
+  const runAttempt = String(value?.run_attempt ?? "");
+  const matrixIndex = value?.matrix_index === null ? null : String(value?.matrix_index ?? "");
+  const targets = Array.isArray(value?.targets) ? value.targets.map(String) : [];
+  if (!/^\d+(?:-\d+-\d+)?$/.test(runId)) return null;
+  if (!/^\d+$/.test(workflowRunId) || !/^\d+$/.test(runAttempt)) return null;
+  if (matrixIndex !== null && !/^\d+$/.test(matrixIndex)) return null;
+  if (runId !== workflowRunId && runId !== `${workflowRunId}-${runAttempt}-${matrixIndex}`) return null;
+  if (value?.code !== "high_risk_close_target" || targets.length === 0 || !targets.every((target) => /^#\d+$/.test(target))) {
+    return null;
+  }
+  return runId;
 }
 
 function summarizeRun(run) {
