@@ -116,6 +116,8 @@ if (jobErrors.length > 0) {
   console.error(jobErrors.join("\n"));
   process.exit(1);
 }
+const forceFreshRepair = job.frontmatter.force_fresh_repair === true;
+const preserveFocusedValidation = job.frontmatter.preserve_focused_validation === true;
 
 assertAllowedOwner(job.frontmatter.repo, process.env.CLOWNFISH_ALLOWED_OWNER);
 
@@ -218,6 +220,8 @@ if (rebaseOnlyRepair) {
 }
 noteFixStage("execution_started", {
   rebase_only: rebaseOnlyRepair,
+  force_fresh_repair: forceFreshRepair,
+  preserve_focused_validation: preserveFocusedValidation,
   fix_step_timeout_ms: fixStepDeadlineAtMs - fixExecutionStartedAtMs,
 });
 const rebaseOnlyBlock = validateRebaseOnlyRepair({ job, fixArtifact });
@@ -778,7 +782,7 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     baseBranch,
     // Fresh contributor repairs need an edit. A prior Clownfish checkpoint has
     // already been edited, so a requeue should validate and review it instead.
-    allowExistingChanges: (rebaseOnly && rebased) || resumedRepairCheckpoint,
+    allowExistingChanges: !forceFreshRepair && ((rebaseOnly && rebased) || resumedRepairCheckpoint),
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: rebaseOnly,
     allowedFixFiles,
@@ -2972,7 +2976,7 @@ function targetValidationEnv() {
 function resolveAllowedValidationCommands(command, cwd, baseBranch = DEFAULT_BASE_BRANCH) {
   const parts = parseAllowedValidationCommand(command);
   const scripts = readPackageScriptSet(cwd);
-  if (!strictTargetValidation && scripts.has("check:changed")) {
+  if (!strictTargetValidation && !preserveFocusedValidation && scripts.has("check:changed")) {
     return [["pnpm", "check:changed"]];
   }
   if (parts[0] === "npm" && parts[1] === "run" && parts[2] === "validate") {

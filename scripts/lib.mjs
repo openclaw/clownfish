@@ -390,6 +390,8 @@ export function validateJob(job) {
     "allow_broad_fix_artifacts",
     "require_fix_before_close",
     "rebase_only",
+    "force_fresh_repair",
+    "preserve_focused_validation",
     "security_sensitive",
   ]) {
     if (fm[key] !== undefined && typeof fm[key] !== "boolean") {

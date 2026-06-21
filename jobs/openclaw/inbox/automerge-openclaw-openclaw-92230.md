@@ -25,6 +25,8 @@ allow_merge: false
 allow_unmerged_fix_close: false
 allow_post_merge_close: false
 require_fix_before_close: true
+force_fresh_repair: true
+preserve_focused_validation: true
 security_policy: central_security_only
 security_sensitive: false
 target_branch: clownfish/automerge-openclaw-openclaw-92230
