@@ -25,6 +25,21 @@ test("autonomous live PR inventory defaults to stale candidates and terminal res
   assert.deepEqual(JSON.parse(broad.stdout).candidates.map((candidate) => candidate.ref), ["#104", "#105", "#106", "#108"]);
 });
 
+test("live PR inventory protects active structured job refs but not archived or incidental references", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+  writeExistingJob(path.join(fixture.out, "active.md"), "#101", "mentions #102 in notes");
+  writeExistingJob(path.join(fixture.root, "outbox", "finalized", "archived.md"), "#104");
+
+  const result = runImport(fixture, "--default-existing-dir", "--bucket", "all");
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+
+  const candidates = new Set(JSON.parse(result.stdout).candidates.map((candidate) => candidate.ref));
+  assert.equal(candidates.has("#101"), false);
+  assert.equal(candidates.has("#102"), true);
+  assert.equal(candidates.has("#104"), true);
+});
+
 test("remediation inventory is plan-only and enables finalization recommendations", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
@@ -67,7 +82,8 @@ test("remediation inventory is plan-only and enables finalization recommendation
 
 function runImport(fixture, ...extraArgs) {
   const write = extraArgs.includes("--write");
-  const args = extraArgs.filter((arg) => arg !== "--write");
+  const defaultExistingDir = extraArgs.includes("--default-existing-dir");
+  const args = extraArgs.filter((arg) => arg !== "--write" && arg !== "--default-existing-dir");
   return spawnSync(
     process.execPath,
     [
@@ -80,8 +96,7 @@ function runImport(fixture, ...extraArgs) {
       "all",
       "--batch-size",
       "10",
-      "--existing-dir",
-      fixture.existing,
+      ...(defaultExistingDir ? [] : ["--existing-dir", fixture.existing]),
       "--existing-results-dir",
       fixture.results,
       "--out",
@@ -226,6 +241,25 @@ result_status: "planned"
 | #101 | keep_independent | planned | independent | Non-terminal inventory classification. |
 | #102 | keep_closed | skipped | superseded | Already closed. |
 | #103 | close_duplicate | planned | duplicate | Planned close that executed. |
+`,
+  );
+}
+
+function writeExistingJob(filePath, ref, notes = "") {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(
+    filePath,
+    `---
+repo: openclaw/openclaw
+cluster_id: existing-${ref.slice(1)}
+mode: plan
+candidates:
+  - "${ref}"
+cluster_refs:
+  - "${ref}"
+---
+
+${notes}
 `,
   );
 }

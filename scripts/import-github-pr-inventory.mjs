@@ -9,7 +9,7 @@ const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
 const [owner, name] = repo.split("/");
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", owner, "inbox")));
-const existingDir = path.resolve(String(args["existing-dir"] ?? args.existing_dir ?? path.join(repoRoot(), "jobs", owner)));
+const existingDir = path.resolve(String(args["existing-dir"] ?? args.existing_dir ?? outDir));
 const existingResultsDir = path.resolve(
   String(args["existing-results-dir"] ?? args.existing_results_dir ?? path.join(repoRoot(), "results", owner)),
 );
@@ -293,11 +293,7 @@ function existingMentionedRefs(roots) {
   for (const root of roots) {
     if (!fs.existsSync(root) || visited.has(root)) continue;
     visited.add(root);
-    for (const file of markdownAndJsonFiles(root)) {
-      if (file.endsWith(".md")) addStructuredJobRefs(refs, file);
-      const text = fs.readFileSync(file, "utf8");
-      for (const match of text.matchAll(/#([1-9][0-9]{0,6})\b/g)) refs.add(`#${match[1]}`);
-    }
+    for (const file of markdownJobFiles(root)) addStructuredJobRefs(refs, file);
   }
   return refs;
 }
@@ -395,12 +391,12 @@ function escapeRegExp(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function markdownAndJsonFiles(root) {
+function markdownJobFiles(root) {
   const files = [];
   for (const entry of fs.readdirSync(root, { recursive: true })) {
     const file = path.join(root, String(entry));
     if (!fs.statSync(file).isFile()) continue;
-    if (file.endsWith(".md") || file.endsWith(".json")) files.push(file);
+    if (file.endsWith(".md")) files.push(file);
   }
   return files;
 }
