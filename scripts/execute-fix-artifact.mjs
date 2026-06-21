@@ -1159,10 +1159,7 @@ function editValidatePrepareMerge({
   allowedFixFiles = [],
   pushCheckpoint = null,
 }) {
-  const changedGateBaseline = captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch });
-  if (changedGateBaseline) {
-    report.changed_gate_baseline = changedGateBaseline.report;
-  }
+  const changedGateBaseline = prepareChangedGateBaseline({ fixArtifact, targetDir, baseBranch });
   let producedChanges = allowExistingChanges;
   let editAttempts = 0;
   let previousSummary = "";
@@ -1253,6 +1250,9 @@ function editValidatePrepareMerge({
         refreshBaseBeforeReview,
         branch,
         changedGateBaseline,
+        onChangedGateBaseline: (baseline) => {
+          report.changed_gate_baseline = baseline.report;
+        },
         onReviewFix: (attempt, reviewFix) => {
           const checkpoint = commitCheckpointIfNeeded({
             targetDir,
@@ -1679,6 +1679,7 @@ function validateAndReviewLoop({
   refreshBaseBeforeReview = false,
   branch = null,
   changedGateBaseline = null,
+  onChangedGateBaseline = null,
   onReviewFix = null,
 }) {
   let lastReview = null;
@@ -1688,7 +1689,21 @@ function validateAndReviewLoop({
   while (reviewAttempts < maxReviewAttempts) {
     const attempt = reviewAttempts + 1;
     noteFixStage("validation_start", { mode, attempt, base_refreshes: baseRefreshes });
-    validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch, changedGateBaseline);
+    validationCommands = runAllowedValidationCommands(fixArtifact.validation_commands, targetDir, baseBranch, changedGateBaseline, {
+      onChangedGateBaseline,
+    });
+    if (changedGateBaseline?.status === "deferred") {
+      Object.assign(changedGateBaseline, {
+        status: "skipped_final_gate_passed",
+        report: {
+          command: `pnpm check:changed -- ${changedGateBaseline.paths.join(" ")}`,
+          status: "skipped_final_gate_passed",
+          pre_edit_head: changedGateBaseline.pre_edit_head,
+          paths: changedGateBaseline.paths,
+        },
+      });
+      onChangedGateBaseline?.(changedGateBaseline);
+    }
     runDiffCheck({ targetDir, baseBranch });
     noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length, base_refreshes: baseRefreshes });
     if (refreshBaseBeforeReview && branch && refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
@@ -2535,7 +2550,13 @@ function setupGitIdentity(cwd) {
   run("git", ["config", "user.email", process.env.CLOWNFISH_GIT_USER_EMAIL ?? "projectclownfish@users.noreply.github.com"], { cwd });
 }
 
-function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_BRANCH, changedGateBaseline = null) {
+function runAllowedValidationCommands(
+  commands,
+  cwd,
+  baseBranch = DEFAULT_BASE_BRANCH,
+  changedGateBaseline = null,
+  { onChangedGateBaseline = null } = {},
+) {
   ensureMergeBaseAvailable({ targetDir: cwd, baseBranch });
   const validationEnv = targetValidationEnv();
   const executed = [];
@@ -2550,6 +2571,17 @@ function runAllowedValidationCommands(commands, cwd, baseBranch = DEFAULT_BASE_B
         executed.push(rendered);
         noteFixStage("validation_command_complete", { command: rendered });
       } catch (error) {
+        if (isDeferredChangedGateBaseline({ parts, error, changedGateBaseline })) {
+          try {
+            Object.assign(
+              changedGateBaseline,
+              captureChangedGateBaseline({ targetDir: cwd, baseBranch, changedGateBaseline }),
+            );
+          } catch (baselineError) {
+            Object.assign(changedGateBaseline, unavailableChangedGateBaseline({ changedGateBaseline, baselineError }));
+          }
+          onChangedGateBaseline?.(changedGateBaseline);
+        }
         const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch, changedGateBaseline });
         if (fallbackCommands.length > 0) {
           for (const fallbackParts of fallbackCommands) {
@@ -2744,7 +2776,7 @@ function packageScriptRequirement(parts) {
   return { name: script, command: ["pnpm", script].join(" ") };
 }
 
-function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAULT_BASE_BRANCH }) {
+function prepareChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAULT_BASE_BRANCH }) {
   if (strictTargetValidation) return null;
   const resolvedCommands = uniqueStrings(
     (fixArtifact.validation_commands ?? []).flatMap((command) =>
@@ -2755,16 +2787,71 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
   const paths = changedGateBaselinePaths(fixArtifact, targetDir);
   if (paths.length === 0) return null;
 
+  return {
+    status: "deferred",
+    pre_edit_head: currentHead(targetDir),
+    paths,
+  };
+}
+
+function isDeferredChangedGateBaseline({ parts, error, changedGateBaseline }) {
+  return (
+    changedGateBaseline?.status === "deferred" &&
+    error?.validation_result?.kind === "exit_failure" &&
+    parts[0] === "pnpm" &&
+    parts[1] === "check:changed" &&
+    parts.length === 2
+  );
+}
+
+function captureChangedGateBaseline({ targetDir, baseBranch = DEFAULT_BASE_BRANCH, changedGateBaseline }) {
+  const { pre_edit_head: preEditHead, paths } = changedGateBaseline;
+  const changedDependencyFiles = changedDependencyManifestFiles({ targetDir, preEditHead });
+  if (changedDependencyFiles.length > 0) {
+    return {
+      status: "skipped_dependency_change",
+      report: {
+        command: `pnpm check:changed -- ${paths.join(" ")}`,
+        status: "skipped_dependency_change",
+        pre_edit_head: preEditHead,
+        paths,
+        changed_dependency_files: changedDependencyFiles,
+      },
+    };
+  }
   const command = ["pnpm", "check:changed", "--", ...paths];
   const rendered = command.join(" ");
-  noteFixStage("validation_baseline_start", { command: rendered, paths });
-  const outcome = runValidationCommand(command, {
-    cwd: targetDir,
-    env: targetValidationEnv(),
-    rendered,
-    phase: "baseline",
-    allowFailure: true,
-  });
+  const baselineDir = fs.mkdtempSync(path.join(workRoot, "changed-gate-baseline-"));
+  let addedWorktree = false;
+  let cleanupError = null;
+  noteFixStage("validation_baseline_start", { command: rendered, paths, pre_edit_head: preEditHead });
+  let outcome;
+  try {
+    run("git", ["worktree", "add", "--detach", baselineDir, preEditHead], { cwd: targetDir });
+    addedWorktree = true;
+    const sourceNodeModules = path.join(targetDir, "node_modules");
+    if (fs.existsSync(sourceNodeModules)) {
+      fs.symlinkSync(sourceNodeModules, path.join(baselineDir, "node_modules"), "dir");
+    }
+    outcome = runValidationCommand(command, {
+      cwd: baselineDir,
+      env: targetValidationEnv(),
+      rendered,
+      phase: "baseline",
+      allowFailure: true,
+    });
+  } finally {
+    if (addedWorktree) {
+      const removed = runStatus("git", ["worktree", "remove", "--force", baselineDir], { cwd: targetDir });
+      if (removed.status !== 0) {
+        cleanupError = compactText(`${removed.stderr ?? ""}\n${removed.stdout ?? ""}`, 600);
+        fs.rmSync(baselineDir, { recursive: true, force: true });
+        runStatus("git", ["worktree", "prune"], { cwd: targetDir });
+      }
+    } else {
+      fs.rmSync(baselineDir, { recursive: true, force: true });
+    }
+  }
   if (outcome.ok) {
     noteFixStage("validation_baseline_complete", { status: "passed" });
     return {
@@ -2773,8 +2860,10 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
       report: {
         command: rendered,
         status: "passed",
+        pre_edit_head: preEditHead,
         paths,
         diagnostic_count: 0,
+        ...(cleanupError ? { cleanup_error: cleanupError } : {}),
       },
     };
   }
@@ -2795,13 +2884,36 @@ function captureChangedGateBaseline({ fixArtifact, targetDir, baseBranch = DEFAU
     report: {
       command: rendered,
       status: "failed",
+      pre_edit_head: preEditHead,
       paths,
       eligible,
       diagnostic_count: diagnostics.items.length,
       unparsed_failure_count: diagnostics.unparsed_failure_lines.length,
       has_test_failure: diagnostics.has_test_failure,
+      ...(cleanupError ? { cleanup_error: cleanupError } : {}),
     },
   };
+}
+
+function unavailableChangedGateBaseline({ changedGateBaseline, baselineError }) {
+  return {
+    status: "unavailable",
+    report: {
+      command: `pnpm check:changed -- ${changedGateBaseline.paths.join(" ")}`,
+      status: "unavailable",
+      pre_edit_head: changedGateBaseline.pre_edit_head,
+      paths: changedGateBaseline.paths,
+      error: compactText(baselineError?.message ?? baselineError, 600),
+    },
+  };
+}
+
+function changedDependencyManifestFiles({ targetDir, preEditHead }) {
+  const files = run("git", ["diff", "--name-only", preEditHead, "--"], { cwd: targetDir })
+    .split("\n")
+    .map((file) => file.trim())
+    .filter(Boolean);
+  return files.filter((file) => /(^|\/)(package\.json|pnpm-lock\.yaml|pnpm-workspace\.yaml|package-lock\.json|npm-shrinkwrap\.json|yarn\.lock)$/.test(file));
 }
 
 function changedGateBaselinePaths(fixArtifact, targetDir) {

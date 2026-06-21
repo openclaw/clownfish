@@ -581,7 +581,7 @@ process.exit(9);
   const diagnostics = JSON.parse(
     fs.readFileSync(path.join(fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
   );
-  assert.equal(diagnostics.command, "pnpm check:changed -- src/app.js");
+  assert.equal(diagnostics.command, "pnpm check:changed");
   assert.equal(diagnostics.exit_code, 9);
   assert.equal(diagnostics.timed_out, false);
   assert.match(diagnostics.stdout, /validation stdout token=\[redacted\]/);
@@ -692,7 +692,7 @@ process.exit(0);
   assert.match(prompt, /Expected \{ after 'if' condition/);
 });
 
-test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics only after changed-test proof", () => {
+test("execute-fix-artifact defers unchanged baseline changed-gate diagnostics until the final gate fails", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "baseline-diagnostic-cluster",
     baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
@@ -704,6 +704,7 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
   assert.deepEqual(run.report.changed_gate_baseline, {
     command: "pnpm check:changed -- src/app.js",
     status: "failed",
+    pre_edit_head: run.fixture.initialHead,
     paths: ["src/app.js"],
     eligible: true,
     diagnostic_count: 1,
@@ -713,14 +714,14 @@ test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics
   assert.equal(fs.readFileSync(run.targetedTestMarker, "utf8").trim(), "test:serial src/app.test.js");
 
   const baselineDebug = JSON.parse(
-    fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", "validation-command-001.json"), "utf8"),
+    fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", "validation-command-002.json"), "utf8"),
   );
   assert.equal(baselineDebug.phase, "baseline");
   assert.deepEqual(baselineDebug.argv, ["pnpm", "check:changed", "--", "src/app.js"]);
   assert.equal(baselineDebug.exit_code, 1);
 });
 
-test("execute-fix-artifact gives eligible baseline diagnostics to the initial repair worker", () => {
+test("execute-fix-artifact does not give deferred baseline diagnostics to the initial repair worker", () => {
   const output = [
     "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
     "[ELIFECYCLE] Command failed with exit code 2.",
@@ -734,8 +735,57 @@ test("execute-fix-artifact gives eligible baseline diagnostics to the initial re
 
   assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
   const prompt = fs.readFileSync(run.initialPrompt, "utf8");
-  assert.match(prompt, /Existing changed-gate baseline diagnostics:/);
-  assert.match(prompt, /src\/web-search\/runtime\.ts\(374,10\): TS6133/);
+  assert.doesNotMatch(prompt, /Existing changed-gate baseline diagnostics:/);
+});
+
+test("execute-fix-artifact skips the baseline when the final changed gate passes", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "clean-changed-gate-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "",
+    postExitCode: 0,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.deepEqual(run.report.changed_gate_baseline, {
+    command: "pnpm check:changed -- src/app.js",
+    status: "skipped_final_gate_passed",
+    pre_edit_head: run.fixture.initialHead,
+    paths: ["src/app.js"],
+  });
+  assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "1");
+  const phases = fs
+    .readdirSync(path.join(run.fixture.runDir, "fix-executor-debug"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => JSON.parse(fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", file), "utf8")).phase);
+  assert.equal(phases.includes("baseline"), false);
+});
+
+test("execute-fix-artifact does not compare baseline diagnostics after dependency metadata changes", () => {
+  const run = runBaselineChangedGateFixture({
+    clusterId: "dependency-metadata-changed-cluster",
+    baselineOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    postOutput: "src/web-search/runtime.ts(374,10): error TS6133: 'resolveWebSearchDefinition' is declared but its value is never read.",
+    dependencyManifestChange: true,
+    maxEditAttempts: 1,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.deepEqual(run.report.changed_gate_baseline, {
+    command: "pnpm check:changed -- src/app.js",
+    status: "skipped_dependency_change",
+    pre_edit_head: run.fixture.initialHead,
+    paths: ["src/app.js"],
+    changed_dependency_files: ["package.json"],
+  });
+  assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "1");
+  const phases = fs
+    .readdirSync(path.join(run.fixture.runDir, "fix-executor-debug"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => JSON.parse(fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", file), "utf8")).phase);
+  assert.equal(phases.includes("baseline"), false);
 });
 
 test("execute-fix-artifact tolerates unchanged baseline changed-gate diagnostics for source-only repairs", () => {
@@ -996,6 +1046,7 @@ test("execute-fix-artifact does not tolerate signaled changed-gate failures", ()
 
   assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
   assert.equal(run.report.status, "blocked");
+  assert.equal(run.report.changed_gate_baseline, undefined);
   assert.equal(fs.existsSync(run.targetedTestMarker), false);
   const signals = fs
     .readdirSync(path.join(run.fixture.runDir, "fix-executor-debug"))
@@ -1030,6 +1081,9 @@ function runBaselineChangedGateFixture({
   editedFile = "src/app.test.js",
   validationCommands = ["pnpm check:changed"],
   postSignal = null,
+  postExitCode = 1,
+  dependencyManifestChange = false,
+  maxEditAttempts = null,
 }) {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
@@ -1064,6 +1118,12 @@ if (!fs.existsSync(${JSON.stringify(initialPrompt)})) {
   fs.writeFileSync(${JSON.stringify(initialPrompt)}, fs.readFileSync(0, "utf8"));
 }
 fs.writeFileSync(path.join(cd, ${JSON.stringify(editedFile)}), "export const fixture = true;\\n");
+if (${JSON.stringify(dependencyManifestChange)}) {
+  fs.writeFileSync(
+    path.join(cd, "package.json"),
+    JSON.stringify({ scripts: { "check:changed": "node scripts/check-changed.mjs", fixture: "true" } }, null, 2) + "\\n",
+  );
+}
 fs.writeFileSync(path.join(cd, ".clownfish-edited"), "true\\n");
 if (output) fs.writeFileSync(output, "edited\\n");
 `,
@@ -1085,7 +1145,7 @@ if (args[0] === "check:changed") {
   if (fs.existsSync(path.join(process.cwd(), ".clownfish-edited")) && ${JSON.stringify(postSignal)}) {
     process.kill(process.pid, ${JSON.stringify(postSignal)});
   }
-  process.exit(1);
+  process.exit(fs.existsSync(path.join(process.cwd(), ".clownfish-edited")) ? ${JSON.stringify(postExitCode)} : 1);
 }
 if (args[0] === "test:serial") {
   fs.writeFileSync(${JSON.stringify(targetedTestMarker)}, args.join(" "));
@@ -1124,6 +1184,7 @@ process.exit(0);
         CLOWNFISH_INSTALL_TARGET_DEPS: "0",
         CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
         CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+        ...(maxEditAttempts ? { CLOWNFISH_FIX_EDIT_ATTEMPTS: String(maxEditAttempts) } : {}),
         ...(strict ? { CLOWNFISH_TARGET_VALIDATION_MODE: "strict" } : {}),
       },
     },
@@ -1178,12 +1239,14 @@ test "$2" = "94022"
   git(["push", "-u", "origin", "main"], { cwd: seedDir });
   git(["clone", originDir, targetDir], { cwd: root });
   git(["checkout", "main"], { cwd: targetDir });
+  const initialHead = git(["rev-parse", "HEAD"], { cwd: targetDir });
 
   return {
     root,
     binDir,
     runDir,
     workDir,
+    initialHead,
     originDir,
     targetDir,
     jobPath: path.join(root, "job.md"),
