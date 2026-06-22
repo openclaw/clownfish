@@ -2458,11 +2458,12 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
     const pull = fetchPullRequest(source.number);
     const labels = (pull.labels ?? []).map((label) => String(label?.name ?? label)).filter(Boolean);
     const normalizedLabels = labels.map((label) => label.toLowerCase());
+    const isAdoptedAutomergeTarget = source.number === adoptedAutomergeTarget;
     const blockedSignals = [
-      ...(normalizedLabels.includes("clawsweeper:automerge") && source.number !== adoptedAutomergeTarget
+      ...(normalizedLabels.includes("clawsweeper:automerge") && !isAdoptedAutomergeTarget
         ? ["clawsweeper:automerge"]
         : []),
-      ...labels.filter((label) => /^merge-risk:/i.test(label)),
+      ...labels.filter((label) => /^merge-risk:/i.test(label) && (!isAdoptedAutomergeTarget || hasDeterministicSecuritySignal({ labels: [label] }))),
       ...(hasDeterministicSecuritySignal({ labels }) ? ["security-sensitive"] : []),
     ];
     if (blockedSignals.length === 0) continue;

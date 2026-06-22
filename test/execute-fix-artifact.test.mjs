@@ -251,8 +251,65 @@ test("execute-fix-artifact permits ClawSweeper automerge labels only for the ado
   assert.match(source, /job\.frontmatter\.source !== "pr_automerge"/);
   assert.match(
     source,
-    /normalizedLabels\.includes\("clawsweeper:automerge"\) && source\.number !== adoptedAutomergeTarget/,
+    /normalizedLabels\.includes\("clawsweeper:automerge"\) && !isAdoptedAutomergeTarget/,
   );
+});
+
+test("execute-fix-artifact permits non-security merge-risk labels for the adopted automerge repair target", () => {
+  const fixture = makeFixture();
+  const clusterId = "live-target-policy-adopted-risk";
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const ghLog = path.join(fixture.root, "gh.log");
+
+  fs.writeFileSync(
+    fixture.jobPath,
+    jobFile(clusterId)
+      .replace("canonical: []", 'canonical:\n  - "#1"')
+      .replace("security_sensitive: false", "security_sensitive: false\nsource: pr_automerge"),
+  );
+  const result = resultFile(clusterId);
+  result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeLiveTargetPolicyGhStub({ binDir: fixture.binDir, ghLog, labels: ["merge-risk: compatibility", "clawsweeper:automerge"] });
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  assert.deepEqual(fs.readFileSync(ghLog, "utf8").trim().split("\n"), [
+    "api repos/openclaw/openclaw/pulls/1",
+    "api repos/openclaw/openclaw/issues/1/comments?per_page=100 --paginate --jq .[].body",
+  ]);
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.notEqual(report.code, "live_target_policy_block");
+  assert.notEqual(report.actions[0]?.code, "live_target_policy_block");
 });
 
 test("execute-fix-artifact ignores security-routed lineage that is not a mutable repair source", () => {
