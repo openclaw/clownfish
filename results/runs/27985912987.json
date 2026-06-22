@@ -1,0 +1,94 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T171200-006",
+  "mode": "autonomous",
+  "run_id": "27985912987",
+  "workflow_run_id": "27985912987",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27985912987",
+  "head_sha": "c04f50348a81466bff25309ddae1df1b19b3e4c4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:40:56Z",
+  "workflow_updated_at": "2026-06-22T21:42:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T171200-006.md",
+  "published_at": "2026-06-22T21:43:10.393Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the remediation shard from the hydrated preflight artifact. Three seed PRs are already closed, two open seed PRs are non-merge actions because they have merge-risk labels and no complete merge preflight, and the exact linked security-sensitive PR is routed to central security handling without blocking unrelated non-security classifications.",
+  "actions": [
+    {
+      "target": "#94323",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94323",
+      "candidate_fix": "#94323",
+      "reason": "Already closed/merged in live hydrated state; no action allowed or needed."
+    },
+    {
+      "target": "#94378",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94378",
+      "candidate_fix": null,
+      "reason": "Useful open PR, but not eligible for merge recommendation or automated repair artifact in this shard because merge-risk compatibility and merge preflight gates are not cleared."
+    },
+    {
+      "target": "#94443",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94443",
+      "candidate_fix": "#94443",
+      "reason": "Already closed in live hydrated state; no close, merge, or fix mutation is valid."
+    },
+    {
+      "target": "#95120",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#95120",
+      "candidate_fix": "#95120",
+      "reason": "Already closed in live hydrated state; no mutation is valid."
+    },
+    {
+      "target": "#94560",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94560",
+      "candidate_fix": null,
+      "reason": "Useful open PR, but failing relevant check plus merge-risk compatibility prevents merge recommendation or automated repair artifact in this shard."
+    },
+    {
+      "target": "#81443",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route to central OpenClaw security handling without comment, close, merge, label, or fix PR action."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_related": 2,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
