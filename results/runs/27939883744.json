@@ -1,0 +1,77 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "ghcrawl-157023-autonomous-smoke",
+  "mode": "autonomous",
+  "run_id": "27939883744",
+  "workflow_run_id": "27939883744",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27939883744",
+  "head_sha": "1763fdb0c23e13d9d9f5b94b8a476b1f0a0f65b4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T08:32:07Z",
+  "workflow_updated_at": "2026-06-22T08:34:42Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/ghcrawl-157023-autonomous-smoke.md",
+  "published_at": "2026-06-22T08:35:58.012Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/73989",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/73989",
+  "summary": "The original job candidates are now closed. #41030 is superseded by the shipped transport-liveness design in #69833, while #45712 has already been replaced by the open Clownfish repair PR #73989 with contributor credit preserved. Current main still appears to need the reconnect-grace fix, but #73989 is not safely repairable by this deterministic result because the hydrated PR carries the blocked clawsweeper:automerge label, is dirty, has failing checks, and has unresolved review evidence.",
+  "actions": [
+    {
+      "target": "#41030",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73989",
+      "candidate_fix": "#69833",
+      "reason": "Already closed and superseded; keep as historical contributor context only."
+    },
+    {
+      "target": "#45712",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#73989",
+      "candidate_fix": "#73989",
+      "reason": "Already replaced by the open canonical repair PR #73989."
+    },
+    {
+      "target": "#73989",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#73989",
+      "candidate_fix": null,
+      "reason": "A human or dedicated maintainer workflow must clear the blocked ClawSweeper/automerge state before any executable repair or merge plan can safely target #73989."
+    },
+    {
+      "target": "cluster:ghcrawl-157023-autonomous-smoke",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#73989",
+      "candidate_fix": null,
+      "reason": "No complete executable cluster fix artifact is safe from the provided artifacts without first resolving the blocked #73989 ClawSweeper/automerge state."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Resolve the blocked #73989 ClawSweeper/automerge and human-review state before planning an executable repair or merge path for the reconnect-grace fix."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
