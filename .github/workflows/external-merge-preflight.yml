@@ -101,7 +101,11 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: external-merge-preflight-${{ github.run_id }}
-          path: .projectclownfish/external-merge-preflight
+          path: |
+            .projectclownfish/external-merge-preflight/preflight-job.md
+            .projectclownfish/external-merge-preflight/result.json
+            .projectclownfish/external-merge-preflight/cluster-plan.json
+            .projectclownfish/external-merge-preflight/preflight-report.json
           if-no-files-found: warn
 
   apply:
@@ -146,5 +150,10 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: external-merge-apply-${{ github.run_id }}
-          path: .projectclownfish/external-merge-preflight
+          path: |
+            .projectclownfish/external-merge-preflight/preflight-job.md
+            .projectclownfish/external-merge-preflight/result.json
+            .projectclownfish/external-merge-preflight/cluster-plan.json
+            .projectclownfish/external-merge-preflight/preflight-report.json
+            .projectclownfish/external-merge-preflight/apply-report.json
           if-no-files-found: warn
