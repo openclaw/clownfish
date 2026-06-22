@@ -7,12 +7,11 @@ allowed_actions:
   - label
   - fix
   - raise_pr
+  - merge
 blocked_actions:
   - close
-  - merge
 require_human_for:
   - close
-  - merge
 allowed_fix_files:
   - src/cli/gateway-cli/register.ts
   - src/cli/gateway-cli/call.ts
@@ -37,7 +36,7 @@ cluster_refs:
   - #94687
 allow_instant_close: false
 allow_fix_pr: true
-allow_merge: false
+allow_merge: true
 allow_unmerged_fix_close: false
 allow_post_merge_close: false
 require_fix_before_close: true
@@ -60,4 +59,6 @@ Clownfish should use this job only for the bounded ClawSweeper review/fix loop:
   diagnostic config propagation required by review, and focused regression tests.
 - Preserve contributor credit. Create a credited fresh-main replacement only if
   the source branch becomes unsafe or cannot be updated during execution.
-- Do not merge, close, remove labels, or bypass the existing human-review gate.
+- Rebase onto current `main`, rerun focused validation and Codex review, and
+  merge only after the deterministic merge preflight is clean. Do not close,
+  remove labels, or bypass checks.
