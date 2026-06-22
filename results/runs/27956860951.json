@@ -1,0 +1,212 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-84794",
+  "mode": "autonomous",
+  "run_id": "27956860951",
+  "workflow_run_id": "27956860951",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27956860951",
+  "head_sha": "ef0f5696aba4579a264930969a690eda2deebc85",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T13:37:39Z",
+  "workflow_updated_at": "2026-06-22T13:49:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-84794.md",
+  "published_at": "2026-06-22T13:50:17.577Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/84794",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/84707",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/84794",
+  "summary": "PR #84794 remains the canonical repair path for isolated cron deleteAfterRun session cleanup, but ClawSweeper paused it for human review on the current head. The branch is maintainer-editable, focused, and has passing relevant checks, so the safe next action is a repair-contributor-branch fix artifact rather than merge or close.",
+  "actions": [
+    {
+      "target": "#84794",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#84794",
+      "candidate_fix": null,
+      "reason": "Automerge is blocked by the ClawSweeper human-review gate, but the branch is safe to update and narrow enough for repair_contributor_branch."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-84794",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#84794",
+      "candidate_fix": "#84794",
+      "reason": "The job explicitly allows fix/raise_pr and asks for repair_contributor_branch when ClawSweeper returns needs-human on a safe editable branch."
+    },
+    {
+      "target": "#84707",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#84794",
+      "candidate_fix": "#84794",
+      "reason": "Keep open until the canonical PR is repaired, reviewed, and landed by the applicator/maintainer flow."
+    },
+    {
+      "target": "#10253",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84794",
+      "candidate_fix": null,
+      "reason": "Related lifecycle area, but not the same root cause or a closeable duplicate of #84794."
+    },
+    {
+      "target": "#56488",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84794",
+      "candidate_fix": null,
+      "reason": "Adjacent deleteAfterRun behavior, but distinct root cause and active canonical issue."
+    },
+    {
+      "target": "#88197",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#84794",
+      "candidate_fix": null,
+      "reason": "Related cron cleanup theme, but not covered by this PR and not safe to close or fold into the repair artifact."
+    },
+    {
+      "target": "#67718",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#84794",
+      "candidate_fix": "#84794",
+      "reason": "Already closed; no closure action is valid."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#84794",
+    "source_refs": [
+      "#84794",
+      "#84707",
+      "#67718",
+      "#10253",
+      "#56488",
+      "#88197"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing contributor PR #84794 branch for the ClawSweeper automerge loop. The branch should keep the narrow isolated cron deleteAfterRun cleanup fix, add or strengthen any compatibility/review proof needed for the human-review gate, rerun focused cron validation plus pnpm check:changed, then request a fresh ClawSweeper/Codex review. Do not merge from this worker result.",
+    "pr_title": "Clean up isolated cron sessions after runs",
+    "pr_body": "What Problem This Solves\n\nIsolated cron jobs with deleteAfterRun: true can finish through terminal paths where delivery cleanup is not reached, especially delivery.mode: \"none\", leaving run sessions and transcripts behind.\n\nWhy This Change Was Made\n\nThis keeps PR #84794 as the canonical contributor repair path from @TurboTheTurtle and carries the cleanup through the isolated runner final path while preserving the existing delivery-dispatch cleanup behavior. The repair pass should address ClawSweeper's current human-review/compatibility proof gate for session-state cleanup before any merge decision.\n\nUser Impact\n\nCron users with isolated deleteAfterRun jobs should no longer accumulate completed run sessions and transcript files for terminal no-delivery paths.\n\nEvidence\n\nSource PR: https://github.com/openclaw/openclaw/pull/84794\nFixes: https://github.com/openclaw/openclaw/issues/84707\nRelated closed report: https://github.com/openclaw/openclaw/issues/67718\nValidation to run after repair: node scripts/run-vitest.mjs src/cron/isolated-agent/run.fast-mode.test.ts src/cron/isolated-agent/delivery-dispatch.double-announce.test.ts src/cron/service.delivery-plan.test.ts src/cron/service.session-reaper-in-finally.test.ts; pnpm check:changed.",
+    "likely_files": [
+      "src/cron/isolated-agent/run.ts",
+      "src/cron/isolated-agent/delivery-dispatch.ts",
+      "src/cron/isolated-agent/session-cleanup.ts",
+      "src/cron/isolated-agent/run.fast-mode.test.ts",
+      "src/cron/isolated-agent/run.test-harness.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/isolated-agent/run.fast-mode.test.ts src/cron/isolated-agent/delivery-dispatch.double-announce.test.ts src/cron/service.delivery-plan.test.ts src/cron/service.session-reaper-in-finally.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @TurboTheTurtle as the author of https://github.com/openclaw/openclaw/pull/84794.",
+      "Any repair commit pushed to the contributor branch should keep the original PR as the source PR and avoid replacing the branch unless it becomes unsafe or uneditable."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-84794.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/84794",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "4db53b5f78d47b6805f7517dc88a7902e0e88ca9",
+      "checkpoint_commits": [
+        "15db4801db32ae713b92fec1a6bdf7218f11cab4",
+        "4db53b5f78d47b6805f7517dc88a7902e0e88ca9"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#84794",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#84794",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
