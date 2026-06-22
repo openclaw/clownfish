@@ -382,7 +382,21 @@ function checkoutExactPullHead({ repo, pullRequest, expectedHeadSha }) {
   if (actualHeadSha !== expectedHeadSha) {
     throw new Error(`PR head changed during checkout: expected ${expectedHeadSha}, got ${actualHeadSha}`);
   }
-  run("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], { cwd: targetDir });
+  ensureMergeBase({ cwd: targetDir, baseBranch, pullRequest, ref });
+}
+
+function ensureMergeBase({ cwd, baseBranch, pullRequest, ref }) {
+  for (const depth of [50, 200, 1000]) {
+    const probe = spawnSync("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], {
+      cwd,
+      encoding: "utf8",
+      maxBuffer: 1024 * 1024,
+    });
+    if (probe.status === 0 && String(probe.stdout ?? "").trim()) return;
+    run("git", ["fetch", "--no-tags", "--deepen", String(depth), "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd });
+    run("git", ["fetch", "--no-tags", "--deepen", String(depth), "origin", `pull/${pullRequest}/head:${ref}`], { cwd });
+  }
+  run("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], { cwd });
 }
 
 function prepareTargetToolchain(cwd) {
@@ -766,11 +780,11 @@ function normalizeState(value) {
 }
 
 function redact(value) {
-  return value
-    .replaceAll(process.env.GH_TOKEN ?? "", "[redacted]")
-    .replaceAll(process.env.GITHUB_TOKEN ?? "", "[redacted]")
-    .replaceAll(process.env.CLOWNFISH_READ_GH_TOKEN ?? "", "[redacted]")
-    .slice(0, 1200);
+  let redacted = value;
+  for (const secret of [process.env.GH_TOKEN, process.env.GITHUB_TOKEN, process.env.CLOWNFISH_READ_GH_TOKEN]) {
+    if (secret) redacted = redacted.replaceAll(secret, "[redacted]");
+  }
+  return redacted.slice(0, 1200);
 }
 
 function writeJson(filePath, value) {
