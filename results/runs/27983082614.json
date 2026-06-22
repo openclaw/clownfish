@@ -1,0 +1,78 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1130-autonomous-drip-20260622c",
+  "mode": "autonomous",
+  "run_id": "27983082614",
+  "workflow_run_id": "27983082614",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27983082614",
+  "head_sha": "05235774a47f6e48050dfd2a71a7887faf209e1c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T20:50:10Z",
+  "workflow_updated_at": "2026-06-22T20:53:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1130-autonomous-drip-20260622c.md",
+  "published_at": "2026-06-22T20:53:52.184Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/88850",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/88836",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/88850",
+  "summary": "Current main still has the #88836 Microsoft Teams attachment-threading bug, and #88836 remains the canonical issue. #93288 is related Teams send behavior, but it is a separate per-call top-level-post feature and should stay open outside this attachment-threading repair. The previously planned executable repair through contributor PR #88850 is not safe for automation in this result because the hydrated target and overlapping attachment-threading PR context carry the blocked label merge-risk: 🚨 message-delivery.",
+  "actions": [
+    {
+      "target": "#88836",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88836",
+      "candidate_fix": "#88850",
+      "reason": "Canonical issue remains live; closeout is blocked until the canonical fix path is repaired and validated by a maintainer-approved path."
+    },
+    {
+      "target": "#88850",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#88850",
+      "candidate_fix": null,
+      "reason": "The PR is a plausible canonical repair path, but automation cannot safely emit an executable repair action while the target carries the blocked message-delivery merge-risk label."
+    },
+    {
+      "target": "#93288",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related Teams threading surface, but a distinct feature gap and canonical family."
+    },
+    {
+      "target": "cluster:gitcrawl-1130-autonomous-drip-20260622c",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#88850",
+      "candidate_fix": null,
+      "reason": "Cluster-level executable fix artifact is blocked by the validator-enforced message-delivery merge-risk label gate; maintainer input is needed before automation repairs or replaces the contributor branch."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "needs_human": 2,
+    "keep_related": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision required: whether and how to proceed with the #88836 Teams attachment-threading repair while #88850 and overlapping attachment-threading PR context carry the blocked label merge-risk: 🚨 message-delivery. Preserve source PR credit for #88850 by @charles-openclaw if repair or replacement proceeds."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
