@@ -1,0 +1,197 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T194451-003",
+  "mode": "autonomous",
+  "run_id": "27987353058",
+  "workflow_run_id": "27987353058",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27987353058",
+  "head_sha": "6285a79f524630cdae91a65449b547942d74f62b",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T22:08:42Z",
+  "workflow_updated_at": "2026-06-22T22:11:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T194451-003.md",
+  "published_at": "2026-06-22T22:11:52.407Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the remediation shard from the hydrated preflight artifact. No merge is recommended because none of the open seed PRs has a complete merge preflight with clean Codex /review evidence. No executable fix artifact is emitted because the viable open repair targets carry merge-risk labels or are broad/draft, which blocks Clownfish automation in this job. Security-sensitive linked refs are routed item-by-item.",
+  "actions": [
+    {
+      "target": "#25592",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated issue is security-sensitive and must be quarantined to central OpenClaw security triage."
+    },
+    {
+      "target": "#73399",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated PR is security-sensitive and must be routed centrally, not mutated by backlog automation."
+    },
+    {
+      "target": "#94359",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; merge automation is blocked by missing merge preflight and session-state merge risk."
+    },
+    {
+      "target": "#59920",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as a viable contributor PR, but do not merge or emit a repair artifact under merge-risk labels without a complete merge preflight."
+    },
+    {
+      "target": "#95682",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open; failing relevant check plus missing merge preflight block merge/fixed-by-candidate automation."
+    },
+    {
+      "target": "#93833",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; auth-provider merge risk requires full preflight before merge."
+    },
+    {
+      "target": "#89017",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already merged before this worker result; no mutation needed."
+    },
+    {
+      "target": "#61213",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94359",
+      "candidate_fix": "#94359",
+      "reason": "Keep related to the open display-name PR; no closeout is allowed or proven landed."
+    },
+    {
+      "target": "#79183",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94359",
+      "candidate_fix": "#94359",
+      "reason": "Keep related until a canonical fix lands and can be validated."
+    },
+    {
+      "target": "#84753",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94359",
+      "candidate_fix": "#94359",
+      "reason": "Keep related; current artifact does not prove full coverage or allow closeout."
+    },
+    {
+      "target": "#77996",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Broad gateway/protocol/UI feature work with failing proof needs maintainer direction outside this shard."
+    },
+    {
+      "target": "#74163",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Draft broad tracker workflow needs maintainer decision; no narrow executable fix artifact is safe."
+    },
+    {
+      "target": "#89961",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open in its own review lane; no merge or repair action is appropriate here."
+    },
+    {
+      "target": "#59918",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59920",
+      "candidate_fix": "#59920",
+      "reason": "Historical context only."
+    },
+    {
+      "target": "#79251",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94359",
+      "candidate_fix": "#94359",
+      "reason": "Historical contributor context; no mutation valid."
+    },
+    {
+      "target": "#95628",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#95682",
+      "candidate_fix": "#95682",
+      "reason": "Historical context for #95682; no mutation valid."
+    },
+    {
+      "target": "#66081",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#59920",
+      "candidate_fix": "#59920",
+      "reason": "Historical context only; no close action allowed."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "keep_related": 8,
+    "keep_closed": 5,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 12,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#77996: broad gateway/protocol/UI archived-transcript feature with failing Real behavior proof needs maintainer direction.",
+    "#74163: draft broad Microsoft tracker workflow with active author updates and proof gap needs maintainer/product decision."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
