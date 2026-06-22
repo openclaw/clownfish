@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T065936-002",
+  "mode": "autonomous",
+  "run_id": "27935624367",
+  "workflow_run_id": "27935624367",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27935624367",
+  "head_sha": "52ba0dbfa026d51f76a4eb3534fd2dd797188bea",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T07:06:49Z",
+  "workflow_updated_at": "2026-06-22T07:08:52Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T065936-002.md",
+  "published_at": "2026-06-22T07:10:00.712Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the live PR inventory shard conservatively. No merge, fix, raise-PR, close, or public GitHub mutation is planned. The open PRs remain open because each either needs proof, product/maintainer judgment, unresolved bot-review work, or central security handling on a linked item.",
+  "actions": [
+    {
+      "target": "#46895",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#46894",
+      "candidate_fix": null,
+      "reason": "Related focused bug-fix PR for #46894, but unresolved automated review findings and failed proof block any stronger action in this close/comment/label-only inventory shard."
+    },
+    {
+      "target": "#48396",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#47120",
+      "candidate_fix": null,
+      "reason": "Related feature PR for #47120, but it has unresolved correctness findings and missing proof; closure would discard useful contributor context without a replacement path."
+    },
+    {
+      "target": "#49750",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open as related Slack/thread routing work; bot-review blockers and failed proof prevent merge-ready or fixed-by-candidate treatment."
+    },
+    {
+      "target": "#48278",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": "#48238",
+      "candidate_fix": null,
+      "reason": "Maintainer/product judgment is needed before accepting a new compaction guard config surface; this is not a duplicate or closeout candidate."
+    },
+    {
+      "target": "#50454",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#49523",
+      "candidate_fix": null,
+      "reason": "Keep open as related to the centrally routed #49523 issue; unresolved P1 review feedback and failing proof block stronger action."
+    },
+    {
+      "target": "#49523",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Central OpenClaw security triage must own this issue; unrelated non-security PR classifications continue separately."
+    },
+    {
+      "target": "#47243",
+      "action": "route_security",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Recorded as security-sensitive closed context; no action is needed while classifying the open non-security PRs."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 4,
+    "needs_human": 1,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#48278 needs maintainer/product judgment before adding a new compaction guard config/default/docs surface.",
+    "#49523 must be handled by central OpenClaw security triage; #50454 should not be treated as merge-ready while that linked security issue and its unresolved Codex P1 review finding remain open."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
