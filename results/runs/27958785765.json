@@ -1,0 +1,157 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-13539-autonomous-bulk-20260622a",
+  "mode": "autonomous",
+  "run_id": "27958785765",
+  "workflow_run_id": "27958785765",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27958785765",
+  "head_sha": "6df12705136a41273cee813d009a7bf18ef7423f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T14:07:35Z",
+  "workflow_updated_at": "2026-06-22T14:11:25Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-13539-autonomous-bulk-20260622a.md",
+  "published_at": "2026-06-22T14:12:20.106Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/76873",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/60256",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/76873",
+  "summary": "Classified the live open items only. The closed representative #50414 is obsolete. The best current canonical path for #60256 is open PR #76873, which targets the shared outbound resolver bug: current main infers a target kind but passes params.preferredKind into id-like plugin resolution, while Discord normalization treats bare numeric IDs as channel targets. #76873 is narrow and green in the artifact, but it still needs maintainer acceptance of the resolver contract and a clean required review before any merge or issue closeout. #90626 is related cron default-delivery work, not the best canonical for the env-var Discord-channel report, and it has failing relevant proof/checks.",
+  "actions": [
+    {
+      "target": "#68170",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route to central OpenClaw security handling only."
+    },
+    {
+      "target": "#76873",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#76873",
+      "candidate_fix": null,
+      "reason": "Canonical PR is plausible and narrow, but merge is blocked on maintainer acceptance of the shared resolver contract, fresh required review proof, and normal merge preflight."
+    },
+    {
+      "target": "#60256",
+      "action": "close_fixed_by_candidate",
+      "status": "blocked",
+      "classification": "fixed_by_candidate",
+      "canonical": "#76873",
+      "candidate_fix": "#76873",
+      "reason": "High-confidence covered-by-candidate classification, but closure is blocked until #76873 is merged and validated."
+    },
+    {
+      "target": "#90626",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#76873",
+      "candidate_fix": null,
+      "reason": "Related but not the best canonical path for #60256; keep open for its broader default-delivery/product decision."
+    },
+    {
+      "target": "#54634",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different root cause and excluded existing-overlap context; no cluster action."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 1,
+    "close_fixed_by_candidate": 1,
+    "keep_related": 1,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "#76873 needs maintainer acceptance of the inferred-kind shared resolver contract, fresh required review proof, and normal merge preflight before merge.",
+    "#60256 closeout is blocked until #76873 lands; live labels also include no-new-fix-pr/product-review/live-repro gates, so this worker should not open a replacement fix PR."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#60256",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#76873",
+      "candidate_fix": "#76873",
+      "title": null,
+      "idempotency_key": "gitcrawl-13539-autonomous-bulk-20260622a:#60256:close-fixed-by-76873-blocked:2026-06-18T12:56:12Z",
+      "source_status": "blocked",
+      "source_reason": "High-confidence covered-by-candidate classification, but closure is blocked until #76873 is merged and validated.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-22T14:11:19.976Z",
+      "report_source": "apply"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#60256",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#76873",
+      "candidate_fix": "#76873",
+      "title": null,
+      "idempotency_key": "gitcrawl-13539-autonomous-bulk-20260622a:#60256:close-fixed-by-76873-blocked:2026-06-18T12:56:12Z",
+      "source_status": "blocked",
+      "source_reason": "High-confidence covered-by-candidate classification, but closure is blocked until #76873 is merged and validated.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-22T14:11:19.976Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#60256",
+      "action": "close_fixed_by_candidate",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#76873",
+      "candidate_fix": "#76873",
+      "title": null,
+      "idempotency_key": "gitcrawl-13539-autonomous-bulk-20260622a:#60256:close-fixed-by-76873-blocked:2026-06-18T12:56:12Z",
+      "source_status": "blocked",
+      "source_reason": "High-confidence covered-by-candidate classification, but closure is blocked until #76873 is merged and validated.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 2,
+      "applied_at": "2026-06-22T14:11:20.311Z",
+      "report_source": "apply"
+    }
+  ]
+}
