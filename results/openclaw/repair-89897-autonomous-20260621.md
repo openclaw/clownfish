@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-89897-autonomous-20260621"
 mode: "autonomous"
-run_id: "27907658899"
-workflow_run_id: "27907658899"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27907658899"
-head_sha: "0e26fc52a4dc83f4a28a07ad7d395d6c114631ec"
+run_id: "27925418936"
+workflow_run_id: "27925418936"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27925418936"
+head_sha: "4932bb8eec6c39d39d0a74f9278095dabe1b047c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-21T14:50:06.672Z"
+published_at: "2026-06-22T02:28:45.839Z"
 canonical: "https://github.com/openclaw/openclaw/pull/89897"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/83902"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/89897"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27907658899](https://github.com/openclaw/clownfish/actions/runs/27907658899)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27925418936](https://github.com/openclaw/clownfish/actions/runs/27925418936)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/89897
 
 ## Summary
 
-Plan a narrow repair of the existing writable contributor PR #89897 only. Current main still has the hardcoded command-path terminator, #89897 is the canonical repair lane for #83902, and the latest actionable ClawSweeper finding is the stale test-comment sentence in src/cli/argv.test.ts:340-341.
+Plan to repair only canonical PR #89897 on its writable contributor branch. Current main e913e073 still has the reported hardcoded command-path terminator in src/cli/argv.ts, while the hydrated #89897 branch is open, maintainer_can_modify=true, and scoped to src/cli/argv.ts plus src/cli/argv.test.ts. No GitHub mutations, merge, comment, label, close, or replacement PR are planned.
 
 ## Impact
 
@@ -69,9 +69,9 @@ Plan a narrow repair of the existing writable contributor PR #89897 only. Curren
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair PR #89897 in place by keeping the production replacement of the hardcoded command-path terminator with FLAG_TERMINATOR, and deleting the stale test-comment wording that still refers to a removed companion contract test.",
+  "summary": "Repair #89897 in place by keeping the production change to use FLAG_TERMINATOR in getCommandPathInternal and tightening the focused argv regression coverage to address the latest ClawSweeper concern without adding PR-only scripts or broad CLI invocation churn.",
   "pr_title": "fix(cli): use flag terminator in command path parsing",
-  "pr_body": "## What Problem This Solves\n\nRepairs #89897 for #83902 by keeping command-path parsing aligned with the shared FLAG_TERMINATOR constant and removing the stale test-comment wording called out by ClawSweeper.\n\n## Why This Change Was Made\n\nCurrent main still has getCommandPathInternal comparing against the literal \"--\" while sibling argv helpers use FLAG_TERMINATOR. The contributor branch already contains the right production fix, but the latest ClawSweeper review found that the added test comment still refers to a companion contract test that was removed.\n\n## User Impact\n\nNo behavior change while FLAG_TERMINATOR remains \"--\". This keeps future command-path parsing consistent if the centralized terminator changes.\n\n## Evidence\n\n- Repairs existing contributor PR: https://github.com/openclaw/openclaw/pull/89897\n- Fixes canonical issue: https://github.com/openclaw/openclaw/issues/83902\n- Latest branch head rechecked: b0f2e31b17ae799b958a1ca7f0ff4e4b9336c50b\n- Required validation: pnpm -s vitest run src/cli/argv.test.ts; pnpm check:changed",
+  "pr_body": "## What Problem This Solves\n\nFixes #83902 by keeping CLI command-path parsing aligned with the shared FLAG_TERMINATOR constant instead of a hardcoded \"--\" literal.\n\n## Why This Change Was Made\n\nCurrent main still stops getCommandPathInternal on a string literal while sibling argv helpers use FLAG_TERMINATOR. #89897 is the selected writable contributor lane, so the repair should stay on that branch and address the latest ClawSweeper feedback with focused argv coverage only.\n\n## User Impact\n\nNo runtime behavior changes while FLAG_TERMINATOR remains \"--\". This prevents future command-path parsing drift if the shared terminator contract changes.\n\n## Evidence\n\n- pnpm -s vitest run src/cli/argv.test.ts\n- pnpm check:changed\n\nCredit: carries forward @whiteyzy's #89897 implementation for @davinci282828's #83902 report.",
   "likely_files": [
     "src/cli/argv.ts",
     "src/cli/argv.test.ts"
@@ -81,8 +81,9 @@ Plan a narrow repair of the existing writable contributor PR #89897 only. Curren
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve #89897 as the contributor implementation lane and retain attribution for @whiteyzy / the existing contributor commits on https://github.com/openclaw/openclaw/pull/89897.",
-    "Issue credit remains with @davinci282828 for reporting #83902."
+    "Preserve #89897 as the contributor implementation lane from @whiteyzy: https://github.com/openclaw/openclaw/pull/89897.",
+    "Keep #83902 credited as the source report from @davinci282828.",
+    "Do not create a replacement PR; update the writable contributor branch only."
   ],
   "source_job": "jobs/openclaw/outbox/finalized/repair-89897-autonomous-20260621.md",
   "security_sensitive": false,
@@ -115,13 +116,13 @@ Plan a narrow repair of the existing writable contributor PR #89897 only. Curren
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83902 | keep_canonical | planned | canonical |  |
-| #89897 | fix_needed | planned | canonical | Repair the existing contributor branch by deleting the stale comment sentence while preserving the production FLAG_TERMINATOR change and focused argv regression coverage. |
-| cluster:repair-89897-autonomous-20260621 | build_fix_artifact | planned |  |  |
-| #84438 | keep_related | skipped | related | Out of scope for this repair-only cluster. |
-| #85710 | keep_related | skipped | related | Out of scope for this repair-only cluster. |
-| #84066 | keep_closed | skipped | superseded |  |
-| #90906 | keep_closed | skipped | superseded |  |
+| #83902 | keep_related | planned | related | Issue remains open as linked context until canonical PR #89897 lands. |
+| #84066 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| #84438 | keep_related | planned | related | Related open PR left untouched by job boundary. |
+| #85710 | keep_related | planned | related | Related open PR left untouched by job boundary. |
+| #89897 | fix_needed | planned | canonical | Repair existing writable contributor branch #89897; do not create a replacement PR. |
+| #90906 | keep_closed | skipped | superseded | Already closed; no close action is valid. |
+| cluster:repair-89897-autonomous-20260621 | build_fix_artifact | planned |  | Create executable repair plan for the applicator to update #89897 only. |
 
 ## Needs Human
 

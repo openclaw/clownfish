@@ -1,0 +1,211 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-89897-autonomous-20260621",
+  "mode": "autonomous",
+  "run_id": "27925418936",
+  "workflow_run_id": "27925418936",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27925418936",
+  "head_sha": "4932bb8eec6c39d39d0a74f9278095dabe1b047c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T02:15:21Z",
+  "workflow_updated_at": "2026-06-22T02:28:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/repair-89897-autonomous-20260621.md",
+  "published_at": "2026-06-22T02:28:45.839Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/89897",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/83902",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/89897",
+  "summary": "Plan to repair only canonical PR #89897 on its writable contributor branch. Current main e913e073 still has the reported hardcoded command-path terminator in src/cli/argv.ts, while the hydrated #89897 branch is open, maintainer_can_modify=true, and scoped to src/cli/argv.ts plus src/cli/argv.test.ts. No GitHub mutations, merge, comment, label, close, or replacement PR are planned.",
+  "actions": [
+    {
+      "target": "#83902",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Issue remains open as linked context until canonical PR #89897 lands."
+    },
+    {
+      "target": "#84066",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "#84438",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Related open PR left untouched by job boundary."
+    },
+    {
+      "target": "#85710",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Related open PR left untouched by job boundary."
+    },
+    {
+      "target": "#89897",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Repair existing writable contributor branch #89897; do not create a replacement PR."
+    },
+    {
+      "target": "#90906",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Already closed; no close action is valid."
+    },
+    {
+      "target": "cluster:repair-89897-autonomous-20260621",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#89897",
+      "candidate_fix": "#89897",
+      "reason": "Create executable repair plan for the applicator to update #89897 only."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#89897",
+    "source_refs": [
+      "#89897",
+      "#83902",
+      "#84066",
+      "#84438",
+      "#85710",
+      "#90906"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #89897 in place by keeping the production change to use FLAG_TERMINATOR in getCommandPathInternal and tightening the focused argv regression coverage to address the latest ClawSweeper concern without adding PR-only scripts or broad CLI invocation churn.",
+    "pr_title": "fix(cli): use flag terminator in command path parsing",
+    "pr_body": "## What Problem This Solves\n\nFixes #83902 by keeping CLI command-path parsing aligned with the shared FLAG_TERMINATOR constant instead of a hardcoded \"--\" literal.\n\n## Why This Change Was Made\n\nCurrent main still stops getCommandPathInternal on a string literal while sibling argv helpers use FLAG_TERMINATOR. #89897 is the selected writable contributor lane, so the repair should stay on that branch and address the latest ClawSweeper feedback with focused argv coverage only.\n\n## User Impact\n\nNo runtime behavior changes while FLAG_TERMINATOR remains \"--\". This prevents future command-path parsing drift if the shared terminator contract changes.\n\n## Evidence\n\n- pnpm -s vitest run src/cli/argv.test.ts\n- pnpm check:changed\n\nCredit: carries forward @whiteyzy's #89897 implementation for @davinci282828's #83902 report.",
+    "likely_files": [
+      "src/cli/argv.ts",
+      "src/cli/argv.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm -s vitest run src/cli/argv.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve #89897 as the contributor implementation lane from @whiteyzy: https://github.com/openclaw/openclaw/pull/89897.",
+      "Keep #83902 credited as the source report from @davinci282828.",
+      "Do not create a replacement PR; update the writable contributor branch only."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/repair-89897-autonomous-20260621.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/89897",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "41ef0684e80a218c268e6adc3ec65fe01e9949ed",
+      "checkpoint_commits": [
+        "4b239c40a2cbd6c28d66952f55a09ae068f84dc4",
+        "b3b8aff480eea62e9de3adc8c118bbf026808187",
+        "41ef0684e80a218c268e6adc3ec65fe01e9949ed"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#89897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#89897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
