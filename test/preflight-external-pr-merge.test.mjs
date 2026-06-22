@@ -36,6 +36,7 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /preflight_passed: \$\{\{ steps\.outcome\.outputs\.preflight_passed \}\}/);
   assert.match(workflow, /needs\.preflight\.outputs\.preflight_passed == 'true'/);
   assert.match(workflow, /inputs\.apply && vars\.CLOWNFISH_ALLOW_EXECUTE == '1' && vars\.CLOWNFISH_ALLOW_MERGE == '1'/);
+  assert.match(workflow, /runs-on: \$\{\{ inputs\.runner \}\}/);
   assert.match(workflow, /npm run apply-result/);
   assert.match(workflow, /permission-pull-requests: write/);
 });

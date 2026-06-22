@@ -14,7 +14,7 @@ on:
         required: true
         type: string
       runner:
-        description: "Runner for deterministic target validation and review"
+        description: "Runner for deterministic target validation, review, and guarded apply"
         required: true
         default: blacksmith-16vcpu-ubuntu-2404
         type: string
@@ -108,7 +108,7 @@ jobs:
     name: Apply reviewed merge
     needs: preflight
     if: ${{ needs.preflight.result == 'success' && needs.preflight.outputs.preflight_passed == 'true' && inputs.apply && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && vars.CLOWNFISH_ALLOW_MERGE == '1' }}
-    runs-on: blacksmith-16vcpu-ubuntu-2404
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
