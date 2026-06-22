@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1176-autonomous-drip-20260622c",
+  "mode": "autonomous",
+  "run_id": "27984458399",
+  "workflow_run_id": "27984458399",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27984458399",
+  "head_sha": "61efa894fa6abf0b205fccafa69d71f52d68930e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:14:05Z",
+  "workflow_updated_at": "2026-06-22T21:16:18Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1176-autonomous-drip-20260622c.md",
+  "published_at": "2026-06-22T21:17:13.210Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/93568",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93568",
+  "canonical_pr": null,
+  "summary": "Current main still has the #93568 behavior: explicit plugin allowlist auto-append is still ClickClack-only, while Weixin/channel setup and onboarding call the same helper. The open candidate PR #93603 is explicitly security-sensitive in the preflight artifact and carries merge-risk labels, so this worker quarantines that PR and keeps #93568 as the canonical open issue instead of producing an executable fix artifact that would depend on the quarantined trust-boundary decision.",
+  "actions": [
+    {
+      "target": "#93568",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "Canonical issue remains open because the reported Weixin allowlist bootstrap failure still exists on current main."
+    },
+    {
+      "target": "#92084",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive ref must be quarantined rather than processed by backlog cleanup."
+    },
+    {
+      "target": "#93582",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive ref must be quarantined rather than processed by backlog cleanup."
+    },
+    {
+      "target": "#93593",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "Closed context PR kept as historical evidence only."
+    },
+    {
+      "target": "#93603",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive PR must be routed to central OpenClaw security handling before any merge or repair decision."
+    },
+    {
+      "target": "#93684",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive ref must be quarantined rather than processed by backlog cleanup."
+    },
+    {
+      "target": "cluster:gitcrawl-1176-autonomous-drip-20260622c",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "Maintainer/security triage must decide the plugin allowlist trust-boundary direction before Clownfish can repair, replace, merge, or close against #93568."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 4,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide whether the #93568 behavior should be fixed by generalizing explicit-selection plugins.allow auto-append beyond ClickClack, and clear or reject the security-boundary concern on #93603 before any executable fix/merge path."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -1,0 +1,127 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1226-autonomous-drip-20260622c",
+  "mode": "autonomous",
+  "run_id": "27984463051",
+  "workflow_run_id": "27984463051",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27984463051",
+  "head_sha": "ad2aa372d1afe8f999bd6e3bc32cc8efaf427126",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:14:10Z",
+  "workflow_updated_at": "2026-06-22T21:16:37Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1226-autonomous-drip-20260622c.md",
+  "published_at": "2026-06-22T21:17:13.213Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/93465",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93465",
+  "canonical_pr": null,
+  "summary": "#93465 remains the live canonical issue for the Windows ACPX Claude spawn EINVAL failure on current main. #93990 is explicitly security_sensitive in the hydrated preflight and must be routed to central security triage. #93551 is a related non-security candidate, but its merge-risk labels and unresolved ClawSweeper compatibility/availability concerns block an executable Clownfish fix artifact under this job's gates.",
+  "actions": [
+    {
+      "target": "#93465",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Keep #93465 open as the canonical tracker; no landed fix is proven on current main."
+    },
+    {
+      "target": "#93551",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Useful candidate for #93465, but not merge-ready and not safe to route into an executable Clownfish fix artifact while high-risk labels remain."
+    },
+    {
+      "target": "#93990",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Route only the exact security-sensitive PR to central OpenClaw security handling; continue non-security classification separately."
+    },
+    {
+      "target": "#74163",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Unrelated open context item from bounded hydration; keep independent."
+    },
+    {
+      "target": "cluster:gitcrawl-1226-autonomous-drip-20260622c",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: clear/repair #93551 despite merge-risk labels, wait for central security handling of #93990, or authorize a separate narrow fix job with explicit lineage/credit handling."
+    },
+    {
+      "target": "#95310",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate context; no action."
+    },
+    {
+      "target": "#40340",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#93465",
+      "candidate_fix": null,
+      "reason": "Already closed adjacent context; no action."
+    },
+    {
+      "target": "#8869",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent context; no action."
+    },
+    {
+      "target": "#9160",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent context; no action."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1,
+    "keep_independent": 1,
+    "needs_human": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1,
+    "skipped": 4
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Choose/clear the canonical fix lane for #93465. #93551 is the only non-security candidate but is blocked by merge-risk compatibility/availability labels and unresolved ClawSweeper review concerns; #93990 is quarantined as security-sensitive, so no complete executable Clownfish fix artifact is safe in this run."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
