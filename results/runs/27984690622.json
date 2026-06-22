@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1279-autonomous-drip-20260622c",
+  "mode": "autonomous",
+  "run_id": "27984690622",
+  "workflow_run_id": "27984690622",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27984690622",
+  "head_sha": "a57a199d843ac88c62f5e8147c940d56dba35f18",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:18:17Z",
+  "workflow_updated_at": "2026-06-22T21:20:32Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1279-autonomous-drip-20260622c.md",
+  "published_at": "2026-06-22T21:21:32.869Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/57594",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/57594",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93689",
+  "summary": "Current main still has the Zalo proactive outbound target bug: Zalo strips zalo/zl prefixes, then delegates direct-id detection to the shared numeric-only predicate, so nonnumeric chat_id values do not enter the direct target path. #57594 remains the canonical issue. #93689 is the hydrated active fix candidate, but it is an excluded existing-overlap ref with merge-risk/failing-check/review-state blockers, so this run should not emit merge or replacement-fix actions.",
+  "actions": [
+    {
+      "target": "#57594",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#57594",
+      "candidate_fix": "#93689",
+      "reason": "Keep #57594 open as the canonical issue until a canonical fix PR lands; require_fix_before_close blocks closeout."
+    },
+    {
+      "target": "#93689",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#57594",
+      "candidate_fix": "#93689",
+      "reason": "Treat #93689 as the related active fix candidate, but do not merge, close, or build a replacement fix artifact from it in this cluster because it is excluded overlap and still has merge-risk/review/check gates."
+    },
+    {
+      "target": "#90859",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#57594",
+      "candidate_fix": "#93689",
+      "reason": "Historical evidence only; no mutation is allowed for an already closed PR."
+    },
+    {
+      "target": "#84599",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#57594",
+      "candidate_fix": null,
+      "reason": "Linked context only; it is not part of the Zalo outbound chat_id root cause."
+    },
+    {
+      "target": "cluster:gitcrawl-1279-autonomous-drip-20260622c",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#57594",
+      "candidate_fix": "#93689",
+      "reason": "Maintainer decision needed: either adopt #93689 into a separate repair/merge lane with its merge-risk label and review/check blockers explicitly cleared, or leave #57594 open until that canonical fix path lands."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "keep_independent": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide whether to adopt #93689 for a separate repair/merge lane despite its excluded-overlap status, `merge-risk: 🚨 message-delivery` label, failing check, unresolved review state, and missing fresh Codex /review merge_preflight."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
