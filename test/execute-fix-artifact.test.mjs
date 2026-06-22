@@ -42,16 +42,28 @@ test("execute-fix-artifact enforces job action permissions for replacement side 
   assert.match(source, /function appendAutomergeRepairOutcomeComment\([\s\S]*?if \(!jobAllowsAction\("comment"\)\)/);
 });
 
-test("execute-fix-artifact permits surface-heavy artifacts only within a declared file allowlist", () => {
+test("execute-fix-artifact permits surface-heavy artifacts within an explicit or adopted PR file scope", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(
     source,
-    /const artifactWithinDeclaredScope =[\s\S]*?likelyFiles\.every\(\(file\) => allowedFixFiles\.includes\(String\(file\)\)\);/,
+    /const adoptedAutomergeFiles = adoptedAutomergeRepairSourceFiles\(\{ job, fixArtifact \}\);/,
   );
   assert.match(
     source,
-    /const tooManySurfaces =\s*\n\s*affectedSurfaces\.length > maxAutonomousFixSurfaces && !artifactWithinDeclaredScope;/,
+    /const allowedScopeFiles = uniqueStrings\(\[\.\.\.allowedFixFiles, \.\.\.adoptedAutomergeFiles\]\);/,
+  );
+  assert.match(
+    source,
+    /const artifactWithinAllowedScope =[\s\S]*?likelyFiles\.every\(\(file\) => allowedScopeFiles\.includes\(String\(file\)\)\);/,
+  );
+  assert.match(
+    source,
+    /const tooManySurfaces =\s*\n\s*tooManySurfacesBeforeScope && !artifactWithinAllowedScope;/,
+  );
+  assert.match(
+    source,
+    /function adoptedAutomergeRepairSourceFiles\(\{ job, fixArtifact \}\)[\s\S]*?fixArtifact\.repair_strategy !== "repair_contributor_branch"[\s\S]*?source\.number !== adoptedTarget[\s\S]*?fetchPullRequestFilePaths\(\{ targetDir: repoRoot\(\), number: adoptedTarget \}\)/,
   );
 });
 
@@ -522,7 +534,8 @@ test("execute-fix-artifact defers a broad scope block only for explicit rebase-o
 test("execute-fix-artifact permits narrow config-and-test repairs", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
-  assert.match(source, /const mixedFeatureScope = likelyFiles\.length > 4 && crossSurfaceCount >= 3;/);
+  assert.match(source, /const mixedFeatureScopeBeforeScope = likelyFiles\.length > 4 && crossSurfaceCount >= 3;/);
+  assert.match(source, /const mixedFeatureScope = mixedFeatureScopeBeforeScope && !artifactWithinAllowedScope;/);
   assert.match(source, /!tooManyFiles && !tooManySurfaces && !mixedFeatureScope/);
 });
 
