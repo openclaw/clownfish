@@ -291,7 +291,13 @@ function reviewResult(resultPath) {
     }
     validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
-    validateExecutableFixTargetLabels({ fixActions, fixArtifact: result.fix_artifact, itemByRef, failures });
+    validateExecutableFixTargetLabels({
+      fixActions,
+      fixArtifact: result.fix_artifact,
+      itemByRef,
+      sourceJobPolicy,
+      failures,
+    });
   }
   const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
   if (plannedMergeActions.length > 0) {
@@ -682,11 +688,28 @@ function validateFixArtifact(fixArtifact, failures) {
   }
 }
 
-function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef, failures }) {
+function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef, sourceJobPolicy, failures }) {
   if (!EXECUTABLE_FIX_REPAIR_STRATEGIES.has(fixArtifact?.repair_strategy)) return;
 
   const plannedFixActions = fixActions.filter((action) => action.status === "planned");
   if (plannedFixActions.length === 0) return;
+  const adoptedAutomergeTarget = adoptedAutomergeRepairTarget(sourceJobPolicy);
+  const sourceRefs = [...new Set((fixArtifact.source_prs ?? []).map(normalizeRef).filter(Boolean))];
+  if (sourceJobPolicy?.source === "pr_automerge") {
+    if (!adoptedAutomergeTarget) {
+      failures.push("adopted automerge repair requires exactly one canonical PR");
+    } else if (sourceRefs.length !== 1 || sourceRefs[0] !== adoptedAutomergeTarget) {
+      failures.push(`adopted automerge repair source must be the canonical PR: ${adoptedAutomergeTarget}`);
+    } else if (!itemByRef.get(adoptedAutomergeTarget)) {
+      failures.push(`${adoptedAutomergeTarget} adopted automerge repair source was not hydrated in preflight`);
+    }
+    for (const action of plannedFixActions) {
+      const target = normalizeRef(action.target);
+      if (target && target !== adoptedAutomergeTarget) {
+        failures.push(`${target} adopted automerge repair action must target ${adoptedAutomergeTarget}`);
+      }
+    }
+  }
 
   const refs = new Set(
     [
@@ -700,15 +723,28 @@ function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef,
 
   for (const ref of refs) {
     const item = itemByRef.get(ref);
-    const blockedLabel = findHighRiskMutationLabel(item?.labels);
+    const blockedLabel = findHighRiskMutationLabel(item?.labels, {
+      allowAutomergeRepair: ref === adoptedAutomergeTarget,
+    });
     if (blockedLabel) {
       failures.push(`${ref} executable repair target has blocked label: ${blockedLabel}`);
     }
   }
 }
 
-function findHighRiskMutationLabel(labels) {
-  return (labels ?? []).map(String).find((label) => /^merge-risk:/i.test(label) || label.toLowerCase() === "clawsweeper:automerge");
+function adoptedAutomergeRepairTarget(sourceJobPolicy) {
+  if (sourceJobPolicy?.source !== "pr_automerge") return "";
+  const canonicalRefs = [...new Set((sourceJobPolicy.canonical ?? []).map(normalizeRef).filter(Boolean))];
+  return canonicalRefs.length === 1 ? canonicalRefs[0] : "";
+}
+
+function findHighRiskMutationLabel(labels, { allowAutomergeRepair = false } = {}) {
+  return (labels ?? [])
+    .map(String)
+    .find(
+      (label) =>
+        /^merge-risk:/i.test(label) || (label.toLowerCase() === "clawsweeper:automerge" && !allowAutomergeRepair),
+    );
 }
 
 function isDisallowedPullRequestLifecycleValidationCommand(command) {
@@ -756,7 +792,10 @@ function readSourceJobPolicySnapshot(plan) {
     typeof permissions.allow_fix_pr !== "boolean" ||
     typeof permissions.allow_merge !== "boolean" ||
     !Array.isArray(permissions.maintainer_calibration) ||
-    !permissions.maintainer_calibration.every((entry) => typeof entry === "string")
+    !permissions.maintainer_calibration.every((entry) => typeof entry === "string") ||
+    (permissions.source !== undefined && permissions.source !== null && typeof permissions.source !== "string") ||
+    (permissions.canonical !== undefined &&
+      (!Array.isArray(permissions.canonical) || !permissions.canonical.every((entry) => typeof entry === "string")))
   ) {
     return null;
   }

@@ -170,7 +170,7 @@ process.exit(99);
 });
 
 test("execute-fix-artifact blocks live autonomous repair targets with risk labels before target mutation", () => {
-  for (const { label, expectedSignal, automerge, repairStrategy = "repair_contributor_branch" } of [
+  for (const { label, expectedSignal, repairStrategy = "repair_contributor_branch", adoptedCanonical = null } of [
     { label: "merge-risk: compatibility", expectedSignal: "merge-risk: compatibility", automerge: false },
     {
       label: "merge-risk: availability",
@@ -179,7 +179,12 @@ test("execute-fix-artifact blocks live autonomous repair targets with risk label
       repairStrategy: "replace_uneditable_branch",
     },
     { label: "security:sensitive", expectedSignal: "security-sensitive", automerge: false },
-    { label: "clawsweeper:automerge", expectedSignal: "clawsweeper:automerge", automerge: true },
+    { label: "clawsweeper:automerge", expectedSignal: "clawsweeper:automerge" },
+    {
+      label: "clawsweeper:automerge",
+      expectedSignal: "clawsweeper:automerge",
+      adoptedCanonical: "#2",
+    },
   ]) {
     const fixture = makeFixture();
     const clusterId = `live-target-policy-${label.replace(/[^a-z]+/gi, "-").replace(/^-|-$/g, "")}`;
@@ -189,10 +194,11 @@ test("execute-fix-artifact blocks live autonomous repair targets with risk label
 
     fs.writeFileSync(
       fixture.jobPath,
-      `${jobFile(clusterId).replace(
-        "security_sensitive: false",
-        `${automerge ? "source: pr_automerge\n" : ""}security_sensitive: false`,
-      )}`,
+      adoptedCanonical
+        ? jobFile(clusterId)
+            .replace("canonical: []", `canonical:\n  - "${adoptedCanonical}"`)
+            .replace("security_sensitive: false", "security_sensitive: false\nsource: pr_automerge")
+        : jobFile(clusterId),
     );
     const result = resultFile(clusterId);
     result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
@@ -235,15 +241,18 @@ test("execute-fix-artifact blocks live autonomous repair targets with risk label
     assert.equal(report.no_target_mutations, true);
     assert.equal(report.actions[0].code, "live_target_policy_block");
     assert.match(report.reason, new RegExp(expectedSignal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    if (automerge) {
-      assert.deepEqual(report.actions.at(-1), {
-        action: "automerge_repair_outcome_comment",
-        target: "#1",
-        status: "skipped",
-        reason: "live target policy blocks all target mutations",
-      });
-    }
   }
+});
+
+test("execute-fix-artifact permits ClawSweeper automerge labels only for the adopted repair target", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /function adoptedAutomergeRepairTarget\(job\)/);
+  assert.match(source, /job\.frontmatter\.source !== "pr_automerge"/);
+  assert.match(
+    source,
+    /normalizedLabels\.includes\("clawsweeper:automerge"\) && source\.number !== adoptedAutomergeTarget/,
+  );
 });
 
 test("execute-fix-artifact ignores security-routed lineage that is not a mutable repair source", () => {

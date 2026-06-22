@@ -295,6 +295,8 @@ function fallbackPlan({ sourceJob, pullRequest, baseBranch }) {
 
 function sourceJobPermissions(job) {
   return {
+    source: job.frontmatter.source ?? null,
+    canonical: [...(job.frontmatter.canonical ?? [])],
     allowed_actions: [...job.frontmatter.allowed_actions],
     blocked_actions: [...(job.frontmatter.blocked_actions ?? [])],
     allow_fix_pr: job.frontmatter.allow_fix_pr === true,
