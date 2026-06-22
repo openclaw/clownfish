@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1239-autonomous-bulk-20260622a",
+  "mode": "autonomous",
+  "run_id": "27958785681",
+  "workflow_run_id": "27958785681",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27958785681",
+  "head_sha": "6df12705136a41273cee813d009a7bf18ef7423f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T14:07:35Z",
+  "workflow_updated_at": "2026-06-22T14:10:25Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1239-autonomous-bulk-20260622a.md",
+  "published_at": "2026-06-22T14:11:22.791Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/87449",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/87449",
+  "summary": "The only actionable candidate from the job, #71645, is already closed. The bounded artifact also contains a closed security-sensitive linked PR (#75256), which should be routed to central security handling if any further action is needed. I did not emit a new fix artifact because the hydrated comments identify #87449 as the newer canonical Mattermost boundary-fix path, but that PR is not hydrated in this cluster artifact and live GitHub hydration is unavailable in this worker.",
+  "actions": [
+    {
+      "target": "#71645",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#70508",
+      "candidate_fix": null,
+      "reason": "Already closed; retain as historical superseded context only."
+    },
+    {
+      "target": "#75256",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive and must remain outside Clownfish backlog-cleanup/fix handling."
+    },
+    {
+      "target": "cluster:gitcrawl-1239-autonomous-bulk-20260622a",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Opening a new fix artifact would risk duplicating or conflicting with the unhydrated canonical #87449; maintainer or a fresh hydrated cluster pass should decide that path."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "route_security": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Verify and hydrate https://github.com/openclaw/openclaw/pull/87449, then either keep it as the canonical Mattermost boundary fix or generate a separate narrow fix artifact if it is closed/non-viable."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
