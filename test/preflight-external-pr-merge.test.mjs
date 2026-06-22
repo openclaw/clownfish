@@ -102,6 +102,35 @@ test("external merge preflight tolerates base drift when exact head remains clea
   assert.equal(report.base_drift_allowed, true);
 });
 
+test("external merge preflight polls transient unknown mergeability", () => {
+  const fixture = makeFixture({
+    mergeViews: [
+      { mergeable: "UNKNOWN", mergeStateStatus: "UNKNOWN" },
+      { mergeable: "MERGEABLE", mergeStateStatus: "CLEAN" },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const result = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "result.json"), "utf8"));
+  assert.equal(result.actions.length, 1);
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed");
+});
+
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
     mergeStateStatus: "UNSTABLE",
@@ -222,6 +251,7 @@ function makeFixture({
   pullLabels = [],
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
+  mergeViews = null,
   currentMainSha = null,
 } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
@@ -269,6 +299,7 @@ const path = require("node:path");
 const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
+const mergeViews = ${JSON.stringify(mergeViews)};
 if (args[0] === "repo" && args[1] === "clone") {
   const target = args[3];
   fs.mkdirSync(path.join(target, ".git"), { recursive: true });
@@ -276,7 +307,11 @@ if (args[0] === "repo" && args[1] === "clone") {
   process.exit(0);
 }
 if (args[0] === "pr" && args[1] === "view") {
-  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: ${JSON.stringify(mergeStateStatus)}, mergeable: "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: ${JSON.stringify(statusCheckRollup)}, updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
+  const counterPath = ${JSON.stringify(path.join(root, "pr-view-count"))};
+  const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
+  fs.writeFileSync(counterPath, String(count + 1));
+  const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
+  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: ${JSON.stringify(statusCheckRollup)}, updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {

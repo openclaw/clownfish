@@ -61,15 +61,7 @@ let report = {
 
 try {
   pull = ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]);
-  view = ghJson([
-    "pr",
-    "view",
-    String(pullRequest),
-    "--repo",
-    sourceJob.frontmatter.repo,
-    "--json",
-    "comments,headRefOid,isDraft,mergeStateStatus,mergeable,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
-  ]);
+  view = fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest });
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
@@ -306,6 +298,32 @@ function sourceJobPermissions(job) {
     allow_merge: job.frontmatter.allow_merge === true,
     maintainer_calibration: [...(job.frontmatter.maintainer_calibration ?? [])],
   };
+}
+
+function fetchSettledPullRequestView({ repo, pullRequest }) {
+  const attempts = positiveInteger(process.env.CLOWNFISH_MERGEABLE_POLL_ATTEMPTS, 6);
+  const delayMs = nonNegativeInteger(process.env.CLOWNFISH_MERGEABLE_POLL_DELAY_MS, 5000);
+  let latest = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    latest = ghJson([
+      "pr",
+      "view",
+      String(pullRequest),
+      "--repo",
+      repo,
+      "--json",
+      "comments,headRefOid,isDraft,mergeStateStatus,mergeable,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
+    ]);
+    if (!hasUnknownMergeability(latest)) return latest;
+    if (attempt < attempts && delayMs > 0) {
+      run("sleep", [String(delayMs / 1000)]);
+    }
+  }
+  return latest;
+}
+
+function hasUnknownMergeability(view) {
+  return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
 }
 
 function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
@@ -722,6 +740,16 @@ function isCleanCodexReview(review) {
     review.findings.length === 0 &&
     review.findings_addressed === true
   );
+}
+
+function positiveInteger(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function nonNegativeInteger(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback;
 }
 
 function ghJson(commandArgs) {
