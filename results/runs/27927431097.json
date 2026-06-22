@@ -1,0 +1,201 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-94687-repair",
+  "mode": "autonomous",
+  "run_id": "27927431097",
+  "workflow_run_id": "27927431097",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27927431097",
+  "head_sha": "11ec776922cfce6685a4219304149fef4ba122c9",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T03:21:14Z",
+  "workflow_updated_at": "2026-06-22T03:33:34Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687-repair.md",
+  "published_at": "2026-06-22T03:34:19.055Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94687",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79100",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94687",
+  "summary": "Canonical path is repair of open PR #94687. The PR is editable and already owns issue #79100, but it is not merge-ready because the hydrated Codex review has an actionable blocker: health --port must override OPENCLAW_GATEWAY_PORT/OPENCLAW_GATEWAY_URL the same way probe is intended to honor the explicit local port. Merge and close are blocked by job policy, so this result emits only non-mutating classifications plus one executable repair artifact for the existing contributor branch. The executable artifact is scoped only to the canonical PR and issue; blocked-label related PRs remain historical credit evidence, not repair targets.",
+  "actions": [
+    {
+      "target": "#79100",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Keep the source issue open until the canonical PR is repaired and merged by a human-approved path."
+    },
+    {
+      "target": "#89555",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Historical superseded attempt; no mutation valid for already closed PR."
+    },
+    {
+      "target": "#89623",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Historical superseded attempt; preserve credit as context only."
+    },
+    {
+      "target": "#91907",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Separate test-auth cleanup cluster, not part of this gateway CLI repair."
+    },
+    {
+      "target": "#94687",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Repair the existing contributor PR branch, then rerun review/changed checks; do not merge in this job."
+    },
+    {
+      "target": "#94917",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Already closed superseded PR; no mutation valid."
+    },
+    {
+      "target": "#95181",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Keep open but classified as superseded; human/applicator policy must handle any close later."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-94687-repair",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Fix-enabled job; canonical PR is editable but not merge-ready due to actionable review feedback."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_closed": 3,
+    "keep_independent": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "failed": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94687",
+    "source_refs": [
+      "#94687",
+      "#79100",
+      "#89555",
+      "#89623",
+      "#91907",
+      "#94917",
+      "#95181"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #94687 in place so gateway health/probe --port consistently targets the explicit local port, including when OPENCLAW_GATEWAY_PORT or OPENCLAW_GATEWAY_URL is present, while preserving existing auth/config credential propagation.",
+    "pr_title": "fix(gateway): repair health port override",
+    "pr_body": "## What Problem This Solves\n\nRepairs #94687 for #79100 so `openclaw gateway health --port <port>` and `openclaw gateway probe --port <port>` target the requested local gateway port instead of being ignored by existing gateway environment/config target selection.\n\n## Why This Change Was Made\n\nThe hydrated Codex review found that health could still follow `OPENCLAW_GATEWAY_PORT` or `OPENCLAW_GATEWAY_URL` because the current patch only changed config.gateway.port in one path. The repair should make the explicit CLI port a first-class local target override for health/probe while preserving configured credentials and explicit `--url` behavior.\n\n## User Impact\n\nScripts can start a gateway on a non-default port and then run health/probe against the same port with the visible `--port` flag. Existing `--url`, token/password, and configured credential behavior should continue to work.\n\n## Evidence\n\n- Current main lacks `--port` on the relevant health/probe command surfaces.\n- Address Codex review on #94687 about env target precedence.\n- Preserve contributor credit for #94687 as the source PR and keep attribution for earlier related attempts if any implementation detail is reused.\n- Run focused gateway CLI/status/call regression tests plus `pnpm check:changed` before handing back for human review.",
+    "likely_files": [
+      "src/cli/gateway-cli/register.ts",
+      "src/cli/gateway-cli/call.ts",
+      "src/cli/gateway-port-option.ts",
+      "src/commands/gateway-status.ts",
+      "src/commands/gateway-status/helpers.ts",
+      "src/gateway/call.ts",
+      "src/gateway/connection-details.ts",
+      "src/cli/gateway-cli/register.option-collisions.test.ts",
+      "src/cli/gateway-port-option.test.ts",
+      "src/commands/gateway-status.test.ts",
+      "src/commands/gateway-status/helpers.test.ts",
+      "src/gateway/call.test.ts",
+      "docs/cli/gateway.md"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cli/gateway-cli/register.option-collisions.test.ts src/cli/gateway-port-option.test.ts src/commands/gateway-status.test.ts src/commands/gateway-status/helpers.test.ts src/gateway/call.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair #94687 on BryanTegomoh's contributor branch; keep PR authorship and source credit intact.",
+      "Do not edit CHANGELOG.md for this normal PR; keep user-facing release-note context in the PR body or squash message.",
+      "Earlier related attempts by Alix-007 (#89555, #89623), zhangqueping (#94917), and arkyu2077/Jasmine Zhang (#95181) remain credited in cluster evidence if any implementation detail is reused; those blocked-label PRs are not executable repair targets."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687-repair.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "declared allowed_fix_files excludes uncommitted paths: src/commands/health.ts",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#94687",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
