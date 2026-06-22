@@ -103,6 +103,35 @@ test("external merge preflight tolerates base drift when exact head remains clea
   assert.equal(report.base_drift_allowed, true);
 });
 
+test("external merge preflight treats zero-finding clean reviews as clean", () => {
+  const fixture = makeFixture({
+    codexReview: {
+      status: "clean",
+      summary: "No blocking findings; best-fix verdict: best for this scope.",
+      findings: [],
+      findings_addressed: false,
+      evidence: ["No findings were emitted, so there is nothing to address."],
+    },
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed");
+});
+
 test("external merge preflight polls transient unknown mergeability", () => {
   const fixture = makeFixture({
     mergeViews: [
@@ -303,6 +332,13 @@ function makeFixture({
   mergeStateStatus = "CLEAN",
   mergeViews = null,
   currentMainSha = null,
+  codexReview = {
+    status: "clean",
+    summary: "clean fixture review",
+    findings: [],
+    findings_addressed: true,
+    evidence: ["Codex /review clean"],
+  },
 } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
@@ -401,7 +437,7 @@ process.exit(0);
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 const index = args.indexOf("--output-last-message");
-fs.writeFileSync(args[index + 1], JSON.stringify({ status: "clean", summary: "clean fixture review", findings: [], findings_addressed: true, evidence: ["Codex /review clean"] }));
+fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 `,
   );
   return { binDir, headSha, jobPath, runDir };

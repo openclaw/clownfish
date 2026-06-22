@@ -758,11 +758,11 @@ function evidenceExamples(items) {
 }
 
 function isCleanCodexReview(review) {
+  const findings = Array.isArray(review?.findings) ? review.findings : null;
   return (
     ["passed", "clean"].includes(String(review?.status ?? "").toLowerCase()) &&
-    Array.isArray(review?.findings) &&
-    review.findings.length === 0 &&
-    review.findings_addressed === true
+    findings &&
+    findings.length === 0
   );
 }
 
