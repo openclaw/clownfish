@@ -69,17 +69,38 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
 
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
+    pullLabels: [{ name: "clownfish:automerge" }],
     issueComments: [
       {
         author: { login: "clawsweeper[bot]" },
         authorAssociation: "CONTRIBUTOR",
-        body: "Codex review: needs maintainer review before merge. Summary only; no findings.",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- [P2] No repair job is needed; the remaining action is the maintainer or automerge path for this exact head after normal checks and mergeability gates.",
+          "",
+          "**Security**",
+          "Cleared: Security review cleared: the diff does not touch credentials, auth, dependencies, workflows, package resolution, or code execution surfaces.",
+          "",
+          "<!-- clawsweeper-verdict:needs-human item=123 sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa confidence=high -->",
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
       {
         author: { login: "vincentkoc" },
         authorAssociation: "MEMBER",
-        body: "/clownfish automerge",
+        body: [
+          "<!-- clownfish-command:4748167943:2026-06-19T03:09:29Z:automerge:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->",
+          "Clownfish is on the reef for this PR.",
+          "",
+          "I tagged `clownfish:automerge` and sent ClawSweeper over this exact head. If the sweep finds rough coral, failing checks, or `needs-human`, I will take another bounded repair lap.",
+        ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
       },
       {
@@ -140,7 +161,7 @@ test("external merge preflight blocks actionable comment findings", () => {
   assert.match(report.reason, /actionable top-level issue comment/);
 });
 
-function makeFixture({ issueComments = [], reviewComments = [], reviews = [] } = {}) {
+function makeFixture({ issueComments = [], reviewComments = [], reviews = [], pullLabels = [] } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
   const runDir = path.join(root, "run");
@@ -205,7 +226,7 @@ if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
-  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: "2026-06-19T00:00:00Z", labels: [], head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: "2026-06-19T00:00:00Z", labels: ${JSON.stringify(pullLabels)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));

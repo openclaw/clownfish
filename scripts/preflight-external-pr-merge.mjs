@@ -314,8 +314,8 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
     pull.title,
     pull.body,
     ...(pull.labels ?? []).map((label) => label.name),
-    ...issueComments.map((comment) => comment.body),
-    ...(view.reviews ?? []).map((review) => review.body),
+    ...issueComments.filter((comment) => !isNonBlockingCommentEvidence(comment, { pull })).map((comment) => comment.body),
+    ...(view.reviews ?? []).filter((review) => !isNonBlockingCommentEvidence(review, { pull })).map((review) => review.body),
     ...reviewComments.map((comment) => comment.body),
   ];
 
@@ -593,14 +593,10 @@ function isReviewBot(review) {
 }
 
 function isActionableCommentEvidence(comment, { pull }) {
-  const body = String(comment.body ?? "").trim();
-  if (!body) return false;
-  const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
-  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
-  const normalized = body.toLowerCase();
+  if (isNonBlockingCommentEvidence(comment, { pull })) return false;
 
-  if (isBenignAutomationComment({ author, body: normalized })) return false;
-  if (isMaintainerCommandComment({ association, body: normalized })) return false;
+  const body = String(comment.body ?? "").trim();
+  const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
 
   if (isReviewBot({ author: { login: author }, body })) {
     return /found issues|requested changes|changes requested|needs human|do not merge|duplicate|superseded|security/i.test(
@@ -608,14 +604,27 @@ function isActionableCommentEvidence(comment, { pull }) {
     );
   }
 
-  const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
-  if (author && pullAuthor && author === pullAuthor && isAuthorStatusComment(normalized)) return false;
-
   return true;
 }
 
-function isBenignAutomationComment({ author, body }) {
+function isNonBlockingCommentEvidence(comment, { pull }) {
+  const body = String(comment.body ?? "").trim();
+  if (!body) return true;
+  const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const normalized = body.toLowerCase();
+
+  if (isBenignAutomationComment({ author, body: normalized, pull })) return true;
+  if (isMaintainerCommandComment({ association, body: normalized })) return true;
+
+  const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  if (author && pullAuthor && author === pullAuthor && isAuthorStatusComment(normalized)) return true;
+  return false;
+}
+
+function isBenignAutomationComment({ author, body, pull }) {
   if (!/\[bot\]$|bot$/.test(author)) return false;
+  if (isClawSweeperReadyReviewComment({ author, body, pull })) return true;
   return (
     /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
       body,
@@ -624,7 +633,24 @@ function isBenignAutomationComment({ author, body }) {
 }
 
 function isMaintainerCommandComment({ association, body }) {
-  return ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) && /^\/(?:clownfish|clawsweeper)\b/.test(body);
+  return (
+    ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
+    (/^\/(?:clownfish|clawsweeper)\b/.test(body) || /^<!--\s*(?:clownfish|clawsweeper)-command:/.test(body))
+  );
+}
+
+function isClawSweeperReadyReviewComment({ author, body, pull }) {
+  if (author !== "clawsweeper[bot]") return false;
+  if (!hasClownfishAutomergeLabel(pull)) return false;
+  if (!/^codex review:\s*needs maintainer review before merge\./.test(body)) return false;
+  if (!/(review metrics:\*\*\s*none identified|review metrics:\s*none identified|result:\s*ready for maintainer review|no repair job is needed)/.test(body)) {
+    return false;
+  }
+  return !/found issues before merge|requested changes|changes requested|do not merge/.test(body);
+}
+
+function hasClownfishAutomergeLabel(pull) {
+  return (pull?.labels ?? []).some((label) => String(label?.name ?? "").toLowerCase() === "clownfish:automerge");
 }
 
 function isAuthorStatusComment(body) {
