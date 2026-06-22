@@ -631,7 +631,7 @@ function isFailingCheck(check) {
   if (IGNORED_CHECKS.has(name) || IGNORED_CHECKS.has(String(check.workflowName ?? ""))) return false;
   const status = String(check.status ?? check.state ?? "").toUpperCase();
   const conclusion = String(check.conclusion ?? "").toUpperCase();
-  return (status && !["COMPLETED", "SUCCESS"].includes(status)) || (conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion));
+  return ["COMPLETED", "SUCCESS"].includes(status) && conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion);
 }
 
 function isAcceptableMergeState(view) {

@@ -327,7 +327,7 @@ test("apply-result blocks a stale PR base when latest checks are not clean", () 
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
   fs.mkdirSync(binDir, { recursive: true });
-  writeStaleMergeGhStub(binDir, { statusCheckRollup: [{ name: "CI", status: "IN_PROGRESS", conclusion: "" }] });
+  writeStaleMergeGhStub(binDir, { statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: "FAILURE" }] });
 
   const jobPath = path.join(tmp, "job.md");
   const resultPath = path.join(tmp, "result.json");

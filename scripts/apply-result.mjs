@@ -825,11 +825,7 @@ function validateStatusChecks(checks) {
     const name = check.name ?? check.context ?? "unknown check";
     const status = String(check.status ?? check.state ?? "").toUpperCase();
     const conclusion = String(check.conclusion ?? "").toUpperCase();
-    if (status && !["COMPLETED", "SUCCESS"].includes(status)) {
-      blockers.push(`${name}: ${status}`);
-      continue;
-    }
-    if (conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion)) {
+    if (["COMPLETED", "SUCCESS"].includes(status) && conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion)) {
       blockers.push(`${name}: ${conclusion}`);
     }
   }
