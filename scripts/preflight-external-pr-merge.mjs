@@ -623,7 +623,7 @@ function isNonBlockingCommentEvidence(comment, { pull }) {
 }
 
 function isBenignAutomationComment({ author, body, pull }) {
-  if (!/\[bot\]$|bot$/.test(author)) return false;
+  if (!isAutomationAuthor(author)) return false;
   if (isClawSweeperReadyReviewComment({ author, body, pull })) return true;
   return (
     /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
@@ -640,7 +640,7 @@ function isMaintainerCommandComment({ association, body }) {
 }
 
 function isClawSweeperReadyReviewComment({ author, body, pull }) {
-  if (author !== "clawsweeper[bot]") return false;
+  if (!["clawsweeper", "clawsweeper[bot]"].includes(author)) return false;
   if (!hasClownfishAutomergeLabel(pull)) return false;
   if (!/^codex review:\s*needs maintainer review before merge\./.test(body)) return false;
   if (!/(review metrics:\*\*\s*none identified|review metrics:\s*none identified|result:\s*ready for maintainer review|no repair job is needed)/.test(body)) {
@@ -651,6 +651,10 @@ function isClawSweeperReadyReviewComment({ author, body, pull }) {
 
 function hasClownfishAutomergeLabel(pull) {
   return (pull?.labels ?? []).some((label) => String(label?.name ?? "").toLowerCase() === "clownfish:automerge");
+}
+
+function isAutomationAuthor(author) {
+  return /\[bot\]$|bot$/.test(author) || ["clawsweeper", "openclaw-clownfish"].includes(author);
 }
 
 function isAuthorStatusComment(body) {

@@ -72,7 +72,7 @@ test("external merge preflight tolerates non-actionable automation comments", ()
     pullLabels: [{ name: "clownfish:automerge" }],
     issueComments: [
       {
-        author: { login: "clawsweeper[bot]" },
+        author: { login: "clawsweeper" },
         authorAssociation: "CONTRIBUTOR",
         body: [
           "Codex review: needs maintainer review before merge.",
