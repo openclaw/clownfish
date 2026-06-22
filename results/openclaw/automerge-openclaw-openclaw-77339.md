@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-77339"
 mode: "autonomous"
-run_id: "27875370830"
-workflow_run_id: "27875370830"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27875370830"
-head_sha: "b9ea876fdcb5ab9314b59cc4dc4a84d155c81760"
+run_id: "27954308149"
+workflow_run_id: "27954308149"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27954308149"
+head_sha: "2441e845c55754a3bc941b5957c2eaf0e9ec1a1b"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-20T15:36:01.158Z"
+published_at: "2026-06-22T13:06:55.710Z"
 canonical: "https://github.com/openclaw/openclaw/pull/77339"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/77322"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/77339"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27875370830](https://github.com/openclaw/clownfish/actions/runs/27875370830)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27954308149](https://github.com/openclaw/clownfish/actions/runs/27954308149)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/77339
 
 ## Summary
 
-#77339 is the canonical repairable PR for #77322, but it is not merge-ready: the hydrated artifact shows mergeable_state=dirty and the latest ClawSweeper/Codex review found pre-merge issues at head e87d2a84430f5a469042c6e5d9c4314044645f8f. The branch is maintainer-editable, so plan a bounded repair on the contributor branch rather than replacement.
+#77339 remains the repairable canonical PR for #77322, but it is not merge-ready in this worker result. The hydrated ClawSweeper comment still asks for maintainer review and the preflight check matrix has failing relevant gates on the current PR head, so the correct autonomous output is a contributor-branch repair artifact, not merge or closure.
 
 ## Impact
 
@@ -68,9 +68,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/77339
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair #77339 in place: rebase the maintainer-editable branch onto current main, keep the narrow reset-cache fix for auto-reply session.model/modelProvider runtime cache fields, address the ClawSweeper stored-data-model proof concern, and remove normal-PR CHANGELOG.md churn if it is still present after rebase.",
+  "summary": "Repair PR #77339 in place. Rebase or refresh the maintainer-editable contributor branch, inspect the failing check logs for head 3d2bb892727b10e24132bf5e92b1d5cff541304c, address only actionable failures or ClawSweeper review blockers, rerun focused session coverage and pnpm check:changed, then request a fresh ClawSweeper review.",
   "pr_title": "fix(auto-reply): clear runtime model cache on reset",
-  "pr_body": "What Problem This Solves\n\nFixes #77322 by ensuring explicit auto-reply /new and /reset do not carry stale persisted runtime model/modelProvider cache fields into the freshly minted channel session after defaults change.\n\nWhy This Change Was Made\n\nThe old persisted session row can contain runtime cache fields even when there is no explicit user model override. When reset creates a new session and merges with the existing store row, those cache fields can survive and make the next run use the old model instead of the current configured default. This repair keeps the existing contributor PR path, rebases it onto current main, and documents why deleting these reset-time runtime cache fields is the intended behavior rather than a data migration.\n\nUser Impact\n\nAfter /new or /reset, channel sessions return to the current default model unless a user-owned override is intentionally preserved. Runtime fallback/cache pins from the prior session no longer keep users stuck on an old model.\n\nEvidence\n\n- Source issue: #77322\n- Source PR: #77339 by @mjamiv\n- Related superseded proof: #77326\n- ClawSweeper review requested repair at head e87d2a84430f5a469042c6e5d9c4314044645f8f: branch dirty against main and stored runtime cache-field compatibility proof needed.\n- Validation to run after repair: pnpm test src/auto-reply/reply/session.test.ts; pnpm check:changed.",
+  "pr_body": "What Problem This Solves\n\nRepairs the existing Clownfish-automerge PR #77339 for #77322 so /new and /reset do not preserve stale persisted auto-reply runtime model/modelProvider cache fields after defaults change.\n\nWhy This Change Was Made\n\nThe current canonical PR is narrow and maintainer-editable, but the hydrated check matrix for head 3d2bb892727b10e24132bf5e92b1d5cff541304c has failing relevant gates and the latest ClawSweeper review still requires maintainer review before merge. The repair should keep the fix on the contributor branch, address only actionable review/check blockers, and preserve attribution.\n\nUser Impact\n\nChannel users should get a fresh runtime model selection after /new or /reset instead of silently continuing to run with a stale cached model/provider from the previous persisted session row.\n\nEvidence\n\nSource PR: https://github.com/openclaw/openclaw/pull/77339\nCanonical issue: https://github.com/openclaw/openclaw/issues/77322\nExpected validation: pnpm test src/auto-reply/reply/session.test.ts; pnpm check:changed\nCredit: based on the existing contributor PR by @mjamiv.",
   "likely_files": [
     "src/auto-reply/reply/session.ts",
     "src/auto-reply/reply/session.test.ts"
@@ -80,11 +80,11 @@ Canonical: https://github.com/openclaw/openclaw/pull/77339
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/77339 and preserve @mjamiv credit in commit/PR history.",
-    "Mention #77326/@hclsys in PR-body evidence if the repaired patch keeps the same root-cause proof or test shape from that earlier superseded PR.",
-    "Do not add or keep CHANGELOG.md for this normal PR; release-note context belongs in the PR body or squash message."
+    "Preserve the existing #77339 contributor trail and PR discussion rather than replacing the branch.",
+    "Credit the source PR author @mjamiv and source PR https://github.com/openclaw/openclaw/pull/77339 in any repair note or final PR update.",
+    "Keep #77326/@hclsys as related prior superseded context in evidence, not as the source branch being repaired."
   ],
-  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-77339.md",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-77339.md",
   "security_sensitive": false,
   "security_routed_refs": [],
   "needs_human": [],
@@ -115,12 +115,12 @@ Canonical: https://github.com/openclaw/openclaw/pull/77339
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77322 | keep_canonical | planned | canonical | Keep the canonical issue open while repairing #77339. |
-| #77339 | fix_needed | planned | canonical | Repair the existing contributor branch, address the bot review finding, remove normal-PR changelog churn if still present, rebase against current main, then rerun review and checks. |
-| cluster:automerge-openclaw-openclaw-77339 | build_fix_artifact | planned |  | Create an executable repair artifact for the Clownfish applicator. |
-| #69419 | keep_closed | skipped | related | Closed historical context only; no mutation is valid. |
-| #77326 | keep_closed | skipped | superseded | Closed historical context only; no mutation is valid. |
-| #90128 | keep_closed | skipped | related | Closed historical context only; no mutation is valid. |
+| #69419 | keep_closed | skipped | related | Historical related fix, not an open target. |
+| #77322 | keep_canonical | planned | canonical | Keep the root issue open until the canonical PR is repaired and lands. |
+| #77326 | keep_closed | skipped | superseded | Already closed superseded PR; no action needed. |
+| #77339 | fix_needed | planned | canonical | Repair the existing contributor branch before any merge consideration. |
+| #90128 | keep_closed | skipped | related | Closed related context only. |
+| cluster:automerge-openclaw-openclaw-77339 | build_fix_artifact | planned |  | Executable repair artifact for the existing PR branch. |
 
 ## Needs Human
 
