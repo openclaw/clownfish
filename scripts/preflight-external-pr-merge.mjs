@@ -10,7 +10,7 @@ const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
 const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
-const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 10 * 60 * 1000);
+const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 20 * 60 * 1000);
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
