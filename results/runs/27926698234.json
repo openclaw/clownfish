@@ -1,0 +1,215 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-95084",
+  "mode": "autonomous",
+  "run_id": "27926698234",
+  "workflow_run_id": "27926698234",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27926698234",
+  "head_sha": "48c97992ba2331b28c73d7fa7193c9ef8c995193",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T02:58:51Z",
+  "workflow_updated_at": "2026-06-22T03:06:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-95084.md",
+  "published_at": "2026-06-22T03:07:24.132Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/95084",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90684",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/95084",
+  "summary": "PR #95084 is the non-security canonical automerge repair target for the Google Chat sanitizer slice. It is safe to repair the existing contributor branch because maintainer_can_modify is true, but merge is blocked by job policy and the PR still needs a fresh repair/rebase/check loop after the automerge pause and unstable check state. Security-sensitive linked refs are quarantined individually without blocking the Google Chat repair lane, and blocked-label sibling PRs are kept out of the executable repair target set.",
+  "actions": [
+    {
+      "target": "#84441",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#87610",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed context ref; no mutation is valid or needed."
+    },
+    {
+      "target": "#88332",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#89125",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed historical fix; no mutation is valid or needed."
+    },
+    {
+      "target": "#90684",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route to central OpenClaw security handling."
+    },
+    {
+      "target": "#95084",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95084",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch, rerun the focused Google Chat test plus changed gate, and re-enter ClawSweeper review. Merge remains disallowed by the job."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-95084",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#95084",
+      "candidate_fix": null,
+      "reason": "Create a repair plan for the automerge executor rather than merging or closing directly."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#95084",
+    "source_refs": [
+      "#95084",
+      "#90684",
+      "#84441",
+      "#89125",
+      "#87610",
+      "#88332"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing #95084 contributor branch in place: keep the Google Chat outbound sanitizer change narrow, rebase/refresh if needed, address the automerge pause, rerun focused Google Chat proof and changed gate, then request fresh ClawSweeper review for the exact repaired head.",
+    "pr_title": "fix(googlechat): sanitize internal tool-trace lines from outbound text (#90684)",
+    "pr_body": "## What Problem This Solves\nGoogle Chat outbound text on current main only applies plain text sanitization, so assistant-visible internal tool-trace lines can still reach users. This keeps the focused #95084 Google Chat fix moving without taking over the broader security-routed cross-channel umbrella in #90684.\n\n## Why This Change Was Made\nRepair the existing contributor branch for #95084 instead of opening a replacement because the branch is narrow and maintainers can modify it. The expected code shape is to compose `sanitizeAssistantVisibleText()` before `sanitizeForPlainText()` in `extensions/googlechat/src/channel.adapters.ts`, with focused regression coverage in `extensions/googlechat/src/channel.test.ts`.\n\n## User Impact\nGoogle Chat users should no longer see internal `failed` tool-trace banners for benign non-zero shell exits when the assistant's final visible content is otherwise normal. Ordinary prose should remain unchanged. This does not close #90684 or change the Codex-native warning taxonomy in #88332.\n\n## Evidence\n- Source PR: https://github.com/openclaw/openclaw/pull/95084 by @jailbirt.\n- Current main `a1828110704fade5281dde8b0d2e305d5b23dd54` still shows Google Chat using only `sanitizeForPlainText(text)` in `extensions/googlechat/src/channel.adapters.ts`.\n- ClawSweeper review on the hydrated PR passed for head `9449e1557490b3229c939c1f9f16598cbeaac281`, but the automerge loop later paused and the PR has unstable check state, so the executor should refresh and rerun proof.\n- Validation: `node scripts/run-vitest.mjs extensions/googlechat/src/channel.test.ts`; `pnpm check:changed`.",
+    "likely_files": [
+      "extensions/googlechat/src/channel.adapters.ts",
+      "extensions/googlechat/src/channel.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs extensions/googlechat/src/channel.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair source PR https://github.com/openclaw/openclaw/pull/95084 in place so @jailbirt keeps contributor credit.",
+      "PR body and final squash/merge message should preserve that this is the Google Chat slice of #90684 and does not close the broader cross-channel/security-routed umbrella.",
+      "Security-sensitive linked refs #84441, #88332, and #90684 stay routed to central OpenClaw security handling; the repair must not expand into those scopes.",
+      "Closed historical PR #89125 remains attribution-preserved context only and is not part of the executable Google Chat repair target."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-95084.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#84441",
+      "#88332",
+      "#90684"
+    ],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/95084",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "2c0caace2495bf735f2f2e8ee86964b36d18fb4f",
+      "checkpoint_commits": [
+        "253a3590e0446e530a6a6dea8a5d8cd448a583c0",
+        "2c0caace2495bf735f2f2e8ee86964b36d18fb4f"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#95084",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#95084",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
