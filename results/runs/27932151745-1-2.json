@@ -1,0 +1,95 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T053937-003",
+  "mode": "plan",
+  "run_id": "27932151745-1-2",
+  "workflow_run_id": "27932151745",
+  "run_attempt": "1",
+  "matrix_index": "2",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27932151745",
+  "head_sha": "a087378a544243b34bff08b4b61086ceb5375f14",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T05:43:39Z",
+  "workflow_updated_at": "2026-06-22T05:45:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T053937-003.md",
+  "published_at": "2026-06-22T05:48:06.269Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only remediation assessment for five open PRs. No security-sensitive hydrated items were present. #84589 has a narrow useful patch but cannot receive an executable repair action from this result because its hydrated labels include merge-risk: automation, which blocks the repair target. #86233 needs maintainer review because the hydrated diff is broad runtime behavior work. #93887, #95130, and #95191 should remain independently open because they lack complete merge preflight evidence required for a merge recommendation.",
+  "actions": [
+    {
+      "target": "#84589",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep this contributor PR independently open for maintainer handling; the blocked automation-risk label makes the prior executable repair action unsafe to emit."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260622T053937-003",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#84589",
+      "reason": "Human maintainer judgment is required before any repair or replacement path for #84589 because the only executable repair artifact is blocked by the hydrated automation-risk label."
+    },
+    {
+      "target": "#86233",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "The PR changes runtime log-retention behavior across implementation, tests, docs, and changelog; require_human_for includes broad_code_delta."
+    },
+    {
+      "target": "#93887",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR appears independently viable, but plan mode cannot recommend merge without complete merge preflight."
+    },
+    {
+      "target": "#95130",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR should stay independently open for normal maintainer finalization; no cluster close, merge, or repair action is safe from this artifact alone."
+    },
+    {
+      "target": "#95191",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "This PR appears independent and low-risk, but the required merge preflight is incomplete."
+    }
+  ],
+  "action_counts": {
+    "keep_independent": 4,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#84589 repair path requires maintainer judgment because the hydrated PR has blocked label merge-risk: 🚨 automation and the prior executable repair artifact is not safe to emit.",
+    "#86233 requires maintainer judgment for broad runtime log-retention behavior changes before merge or repair finalization."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
