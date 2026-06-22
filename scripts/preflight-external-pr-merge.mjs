@@ -437,6 +437,8 @@ function runValidation({ targetDir, baseBranch }) {
 function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob }) {
   const schemaPath = path.join(runDir, "codex-review.schema.json");
   const outputPath = path.join(runDir, "codex-review.json");
+  const defaultCodexReviewSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "read-only";
+  const codexReviewSandbox = process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX ?? defaultCodexReviewSandbox;
   writeJson(schemaPath, {
     $schema: "https://json-schema.org/draft/2020-12/schema",
     type: "object",
@@ -484,7 +486,7 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
       "--model",
       String(process.env.CLOWNFISH_MODEL ?? "gpt-5.5"),
       "--sandbox",
-      "read-only",
+      codexReviewSandbox,
       "--output-schema",
       schemaPath,
       "--output-last-message",
