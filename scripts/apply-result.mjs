@@ -1084,6 +1084,7 @@ function ghWithRetry(ghArgs, attempts = 6) {
 
 function githubCliEnv() {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
+  if (!env.GH_TOKEN && env.CLOWNFISH_GH_TOKEN) env.GH_TOKEN = env.CLOWNFISH_GH_TOKEN;
   delete env.FORCE_COLOR;
   return env;
 }

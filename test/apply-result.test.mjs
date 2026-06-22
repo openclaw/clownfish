@@ -9,6 +9,12 @@ const repoRoot = path.resolve(import.meta.dirname, "..");
 const EXPECTED_HEAD_SHA = "a".repeat(40);
 const CHANGED_HEAD_SHA = "b".repeat(40);
 
+test("apply-result maps the applicator token into gh CLI auth", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "apply-result.mjs"), "utf8");
+
+  assert.match(source, /if \(!env\.GH_TOKEN && env\.CLOWNFISH_GH_TOKEN\) env\.GH_TOKEN = env\.CLOWNFISH_GH_TOKEN;/);
+});
+
 test("apply-result allows explicit current-main fixed-by close without candidate_fix", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
