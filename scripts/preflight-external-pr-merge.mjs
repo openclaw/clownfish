@@ -332,7 +332,7 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(view.reviewDecision ?? ""))) {
     blockers.push(`PR review decision is ${view.reviewDecision}`);
   }
-  const failingChecks = (view.statusCheckRollup ?? []).filter(isFailingCheck).map(checkName);
+  const failingChecks = latestStatusChecks(view.statusCheckRollup ?? []).filter(isFailingCheck).map(checkName);
   if (failingChecks.length > 0) blockers.push(`PR has non-passing checks: ${failingChecks.slice(0, 4).join(", ")}`);
   if (threads.hasNextPage) blockers.push("PR has more than 100 review threads");
   const unresolved = threads.nodes.filter((thread) => !thread.isResolved);
@@ -582,6 +582,23 @@ function isFailingCheck(check) {
   const status = String(check.status ?? check.state ?? "").toUpperCase();
   const conclusion = String(check.conclusion ?? "").toUpperCase();
   return (status && !["COMPLETED", "SUCCESS"].includes(status)) || (conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion));
+}
+
+function latestStatusChecks(checks) {
+  const latest = new Map();
+  for (const check of checks) {
+    const key = `${String(check.workflowName ?? "")}\0${checkName(check)}`;
+    const prior = latest.get(key);
+    if (!prior || checkTimestamp(check) >= checkTimestamp(prior)) {
+      latest.set(key, check);
+    }
+  }
+  return [...latest.values()];
+}
+
+function checkTimestamp(check) {
+  const value = Date.parse(String(check.completedAt ?? check.completed_at ?? check.startedAt ?? check.started_at ?? ""));
+  return Number.isFinite(value) ? value : 0;
 }
 
 function checkName(check) {

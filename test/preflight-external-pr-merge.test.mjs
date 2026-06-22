@@ -70,6 +70,24 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
     pullLabels: [{ name: "clownfish:automerge" }],
+    statusCheckRollup: [
+      {
+        name: "Real behavior proof",
+        workflowName: "Real behavior proof",
+        status: "COMPLETED",
+        conclusion: "CANCELLED",
+        startedAt: "2026-06-18T16:38:09Z",
+        completedAt: "2026-06-18T16:38:12Z",
+      },
+      {
+        name: "Real behavior proof",
+        workflowName: "Real behavior proof",
+        status: "COMPLETED",
+        conclusion: "SUCCESS",
+        startedAt: "2026-06-19T03:15:11Z",
+        completedAt: "2026-06-19T03:15:25Z",
+      },
+    ],
     issueComments: [
       {
         author: { login: "clawsweeper" },
@@ -161,7 +179,7 @@ test("external merge preflight blocks actionable comment findings", () => {
   assert.match(report.reason, /actionable top-level issue comment/);
 });
 
-function makeFixture({ issueComments = [], reviewComments = [], reviews = [], pullLabels = [] } = {}) {
+function makeFixture({ issueComments = [], reviewComments = [], reviews = [], pullLabels = [], statusCheckRollup = [] } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
   const runDir = path.join(root, "run");
@@ -214,7 +232,7 @@ if (args[0] === "repo" && args[1] === "clone") {
   process.exit(0);
 }
 if (args[0] === "pr" && args[1] === "view") {
-  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: "CLEAN", mergeable: "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: [], updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
+  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: "CLEAN", mergeable: "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: ${JSON.stringify(statusCheckRollup)}, updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
