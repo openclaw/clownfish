@@ -1,0 +1,116 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1377-autonomous-bulk-20260622b",
+  "mode": "autonomous",
+  "run_id": "27961719270",
+  "workflow_run_id": "27961719270",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27961719270",
+  "head_sha": "cbf4207a7692d7b1b364a892069127245a796578",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T14:52:27Z",
+  "workflow_updated_at": "2026-06-22T14:54:42Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1377-autonomous-bulk-20260622b.md",
+  "published_at": "2026-06-22T14:55:30.370Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/94147",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/94147",
+  "canonical_pr": null,
+  "summary": "Hydrated #94147 is the only open in-scope candidate and is explicitly security_sensitive=true in the preflight artifact, so the worker must route it to central OpenClaw security triage and must not close, merge, comment-fix, or open a fix PR. Current main e66aa357f85b46b5d370efe181cd005a75fbab22 still shows the macOS one-second permission monitor path reaching fresh CLLocationManager authorization reads, but backlog automation is blocked from producing an executable fix artifact until security triage clears the boundary.",
+  "actions": [
+    {
+      "target": "#94147",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": "#94147",
+      "candidate_fix": null,
+      "reason": "Security-sensitive issue is out of scope for Clownfish backlog mutation; quarantine exact ref only."
+    },
+    {
+      "target": "cluster:gitcrawl-1377-autonomous-bulk-20260622b",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#94147",
+      "candidate_fix": null,
+      "reason": "Central OpenClaw security triage must clear or own #94147 before Clownfish can plan a fix, closeout, or merge path."
+    },
+    {
+      "target": "#94286",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": "#94147",
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive context PR; no mutation."
+    },
+    {
+      "target": "#94734",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": "#94147",
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive linked PR; no mutation."
+    },
+    {
+      "target": "#95086",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "security_sensitive",
+      "canonical": "#94147",
+      "candidate_fix": null,
+      "reason": "Closed security-sensitive linked PR; no mutation."
+    },
+    {
+      "target": "#40877",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Different platform and owner surface; keep open outside this macOS security-sensitive cluster."
+    },
+    {
+      "target": "#51433",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#40877",
+      "candidate_fix": null,
+      "reason": "Closed iOS context PR; no mutation."
+    },
+    {
+      "target": "#39516",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Closed independent context PR; no mutation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "needs_human": 1,
+    "keep_closed": 5,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Central OpenClaw security triage must decide #94147 before any Clownfish fix PR, merge, or closeout path can proceed."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
