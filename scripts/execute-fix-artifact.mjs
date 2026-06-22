@@ -2506,14 +2506,21 @@ function validateAutonomousFixScope({ job, fixArtifact }) {
   const crossesCore = likelyFiles.some((file) => /^src\//.test(String(file)));
   const crossSurfaceCount = [crossesDocs, crossesConfig, crossesTests, crossesCore].filter(Boolean).length;
   const tooManyFiles = likelyFiles.length > maxAutonomousFixFiles;
+  const tooManySurfacesBeforeScope = affectedSurfaces.length > maxAutonomousFixSurfaces;
+  const mixedFeatureScopeBeforeScope = likelyFiles.length > 4 && crossSurfaceCount >= 3;
+
+  if (!featureSignal || (!tooManyFiles && !tooManySurfacesBeforeScope && !mixedFeatureScopeBeforeScope)) return null;
+
   const allowedFixFiles = declaredAllowedFixFiles(job);
-  const artifactWithinDeclaredScope =
-    allowedFixFiles.length > 0 &&
+  const adoptedAutomergeFiles = adoptedAutomergeRepairSourceFiles({ job, fixArtifact });
+  const allowedScopeFiles = uniqueStrings([...allowedFixFiles, ...adoptedAutomergeFiles]);
+  const artifactWithinAllowedScope =
+    allowedScopeFiles.length > 0 &&
     likelyFiles.length > 0 &&
-    likelyFiles.every((file) => allowedFixFiles.includes(String(file)));
+    likelyFiles.every((file) => allowedScopeFiles.includes(String(file)));
   const tooManySurfaces =
-    affectedSurfaces.length > maxAutonomousFixSurfaces && !artifactWithinDeclaredScope;
-  const mixedFeatureScope = likelyFiles.length > 4 && crossSurfaceCount >= 3;
+    tooManySurfacesBeforeScope && !artifactWithinAllowedScope;
+  const mixedFeatureScope = mixedFeatureScopeBeforeScope && !artifactWithinAllowedScope;
 
   if (!featureSignal || (!tooManyFiles && !tooManySurfaces && !mixedFeatureScope)) return null;
 
@@ -2526,7 +2533,8 @@ function validateAutonomousFixScope({ job, fixArtifact }) {
       `affected_surfaces=${affectedSurfaces.length}/${maxAutonomousFixSurfaces}`,
       `cross_surface_count=${crossSurfaceCount}`,
       `mixed_feature_scope=${mixedFeatureScope}`,
-      `artifact_within_declared_scope=${artifactWithinDeclaredScope}`,
+      `artifact_within_allowed_scope=${artifactWithinAllowedScope}`,
+      `adopted_automerge_scope_files=${adoptedAutomergeFiles.length}`,
       `sample_files=${likelyFiles.slice(0, 8).join(", ")}`,
     ],
   };
@@ -2534,6 +2542,21 @@ function validateAutonomousFixScope({ job, fixArtifact }) {
 
 function declaredAllowedFixFiles(job) {
   return [...new Set((job.frontmatter.allowed_fix_files ?? []).map((file) => String(file).trim()).filter(Boolean))];
+}
+
+function adoptedAutomergeRepairSourceFiles({ job, fixArtifact }) {
+  const adoptedTarget = adoptedAutomergeRepairTarget(job);
+  if (!adoptedTarget || fixArtifact.repair_strategy !== "repair_contributor_branch") return [];
+
+  let source;
+  try {
+    source = firstSourcePullRequest(fixArtifact);
+  } catch {
+    return [];
+  }
+  if (source.number !== adoptedTarget) return [];
+
+  return fetchPullRequestFilePaths({ targetDir: repoRoot(), number: adoptedTarget });
 }
 
 function validateRebaseOnlyRepair({ job, fixArtifact }) {
