@@ -13,6 +13,9 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /source job does not explicitly contain/);
   assert.match(script, /pull\/\$\{pullRequest\}\/head:\$\{ref\}/);
   assert.match(script, /PR head changed during checkout/);
+  assert.match(script, /function ensureMergeBase/);
+  assert.match(script, /--deepen/);
+  assert.match(script, /if \(secret\) redacted = redacted\.replaceAll/);
   assert.match(script, /base advanced before validation/);
   assert.match(script, /unresolved review thread/);
   assert.match(script, /top-level issue comment/);
@@ -266,6 +269,7 @@ const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 if (args[0] === "rev-parse") console.log(args[1] === "origin/main" ? base : head);
+if (args[0] === "merge-base") console.log(base);
 process.exit(0);
 `,
   );
