@@ -2,54 +2,54 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-89323"
 mode: "autonomous"
-run_id: "27813721344"
-workflow_run_id: "27813721344"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27813721344"
-head_sha: "241c318ecbd41754be08ba6578a28a48d4fc1efc"
+run_id: "27956860994"
+workflow_run_id: "27956860994"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27956860994"
+head_sha: "ef0f5696aba4579a264930969a690eda2deebc85"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-06-19T08:10:48.129Z"
-canonical: "#89323"
-canonical_issue: "#89249"
-canonical_pr: "#89323"
-actions_total: 3
+result_status: "planned"
+published_at: "2026-06-22T13:47:52.572Z"
+canonical: "https://github.com/openclaw/openclaw/pull/89323"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/89249"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/89323"
+actions_total: 7
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # automerge-openclaw-openclaw-89323
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27813721344](https://github.com/openclaw/clownfish/actions/runs/27813721344)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27956860994](https://github.com/openclaw/clownfish/actions/runs/27956860994)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
-Canonical: #89323
+Canonical: https://github.com/openclaw/openclaw/pull/89323
 
 ## Summary
 
-Automerge repair planning found #89323 clean and current, with passing relevant checks and no artifact-level security-sensitive flag. ClawSweeper nevertheless returned needs-human on the exact current head and said no repair lane is needed, so the remaining decision is maintainer approval rather than an autonomous code change.
+#89323 is the canonical repair path for the Control UI hidden subagent session picker pagination bug tracked by #89249. The PR branch is maintainer-editable and clean in the preflight artifact, but the latest ClawSweeper state is needs-human/protected-label handling rather than a merge-ready verdict, so this worker plans a bounded repair/refresh artifact for the existing contributor branch and emits no close or merge actions.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 7 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Repair Candidate
 
@@ -59,35 +59,40 @@ Automerge repair planning found #89323 clean and current, with passing relevant 
   "source_refs": [
     "#89323",
     "#89249",
-    "#89283"
+    "#89258",
+    "#89283",
+    "#89196",
+    "#89774"
   ],
   "repair_strategy": "repair_contributor_branch",
-  "planned_actions": [],
-  "summary": "No autonomous code repair is identified for #89323. Preserve the contributor branch as the source path; if a later maintainer or ClawSweeper comment identifies a concrete repair, repair the contributor branch narrowly at the current head. Otherwise allow no PR because the current blocker is human approval, not implementation work.",
+  "planned_actions": [
+    "fix_needed",
+    "build_fix_artifact"
+  ],
+  "summary": "Repair and refresh the existing #89323 contributor branch for the Control UI chat session picker hidden-subagent pagination bug. Keep scope to the current UI picker implementation and tests; address only fresh ClawSweeper/Codex findings, stale branch work, or relevant check failures.",
   "pr_title": "fix(web-ui): skip hidden subagent picker pages",
-  "pr_body": "Clownfish repair note for #89323. Current hydrated state shows the contributor PR is clean, relevant checks pass, and ClawSweeper says no repair lane is needed; the remaining gate is maintainer approval on the exact current head c6b0342f48c4a67d475d40e35edd40110a95cbcc. If a later review adds a concrete repair request, update the contributor branch narrowly and keep attribution to giodl73-repo and source PR https://github.com/openclaw/openclaw/pull/89323.",
+  "pr_body": "What Problem This Solves\n\nFixes the Control UI chat session picker dead-end tracked in #89249, where hidden spawned/subagent rows can consume a raw sessions.list page so Load More appears to do nothing and the picker shows misleading raw counts.\n\nWhy This Change Was Made\n\nThe picker filters inactive subagent/spawnedBy sessions from the visible UI, but current main still loads one raw page at a time and renders the raw total count. The repair should keep #89323's narrow UI-owned approach: advance through hidden-only pages until visible rows are found or pagination is exhausted, and avoid presenting raw totals as visible totals when rows are filtered.\n\nUser Impact\n\nUsers with many spawned/subagent sessions can keep navigating ordinary chat sessions from the Control UI picker without a dead-end Load More state or confusing visible/raw count mismatch.\n\nEvidence\n\nCurrent main d3781cc4 still has the one-page Load More path in ui/src/ui/chat/session-controls.ts and filters subagent rows later from picker options. Existing #89323 head c6b0342f48c4a67d475d40e35edd40110a95cbcc is maintainer-editable, has Real behavior proof SUCCESS in the hydrated artifact, and includes focused unit plus browser E2E coverage. Run focused chat picker tests and pnpm check:changed after any refresh or repair.",
   "likely_files": [
     "ui/src/ui/chat/session-controls.ts",
-    "ui/src/ui/e2e/chat-picker-pagination.e2e.test.ts",
-    "ui/src/ui/views/chat.test.ts"
+    "ui/src/ui/views/chat.test.ts",
+    "ui/src/ui/e2e/chat-picker-pagination.e2e.test.ts"
   ],
   "validation_commands": [
-    "pnpm check:changed",
-    "OPENCLAW_CAPTURE_UI_PROOF=1 OPENCLAW_VITEST_MAX_WORKERS=1 pnpm -s vitest run ui/src/ui/e2e/chat-picker-pagination.e2e.test.ts --reporter=dot",
-    "OPENCLAW_VITEST_MAX_WORKERS=1 pnpm -s vitest run ui/src/ui/views/chat.test.ts -t \"chat session picker\" --reporter=dot"
+    "node scripts/run-vitest.mjs ui/src/ui/views/chat.test.ts -t \"chat session picker\" --reporter=dot",
+    "node scripts/run-vitest.mjs ui/src/ui/e2e/chat-picker-pagination.e2e.test.ts --reporter=dot",
+    "pnpm check:changed"
   ],
   "credit_notes": [
-    "Source PR: https://github.com/openclaw/openclaw/pull/89323",
-    "Credit giodl73-repo for the Control UI picker fix and browser proof if any repair or replacement path is needed."
+    "Preserve @giodl73-repo as the source PR author for https://github.com/openclaw/openclaw/pull/89323.",
+    "If any replacement becomes necessary later, credit @giodl73-repo and source PR #89323 in the PR body and release-note context.",
+    "Do not use #89258 as the replacement source path in this job; it is closed, uneditable, and takes a different API shape."
   ],
-  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-89323.md",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-89323.md",
   "security_sensitive": false,
   "security_routed_refs": [],
-  "needs_human": [
-    "#89323 needs maintainer approval before ClawSweeper or the merge gate continues. The hydrated ClawSweeper comment says no repair lane is needed for the clean current head, so there is no safe autonomous code change to make in this worker result."
-  ],
-  "repair_status": null,
-  "terminal": null
+  "needs_human": [],
+  "repair_status": "pushed",
+  "terminal": true
 }
 ```
 
@@ -95,28 +100,32 @@ Automerge repair planning found #89323 clean and current, with passing relevant 
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| repair_contributor_branch | pushed | https://github.com/openclaw/openclaw/pull/89323 |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #89323 | merge_canonical | blocked | fix_pr | job does not allow merge |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+|  | post_flight | #89323 | merge_canonical | blocked | job does not allow merge |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89249 | keep_canonical | planned | canonical | Keep the canonical issue open for validation and follow-up. |
-| #89283 | keep_related | planned | related | This is related CLI output work, not the automerge repair candidate for the UI picker bug. |
-| #89323 | needs_human | planned | needs_human | ClawSweeper returned needs-human on the exact current head, and the comment identifies maintainer approval as the remaining gate rather than an actionable code repair. |
+| #89323 | fix_needed | planned | canonical | Repair the existing contributor branch only if the executor can refresh/revalidate the exact PR and address any fresh ClawSweeper/Codex findings; merge remains blocked by job policy. |
+| cluster:automerge-openclaw-openclaw-89323 | build_fix_artifact | planned |  | Build an executable repair artifact for the existing PR branch so the executor can refresh, validate, run review, and return the branch to the comment router. |
+| #89249 | keep_related | planned | fixed_by_candidate | Keep the issue open and related to the canonical fix PR. |
+| #89283 | keep_related | planned | related | Related but not a duplicate or replacement for #89323. |
+| #89774 | keep_related | planned | related | Related product follow-up; not part of this automerge repair. |
+| #89196 | keep_closed | skipped | superseded | Historical evidence only. |
+| #89258 | keep_closed | skipped | superseded | Closed historical candidate only. |
 
 ## Needs Human
 
-- #89323 needs maintainer approval before ClawSweeper or the merge gate continues. The hydrated ClawSweeper comment says no repair lane is needed for the clean current head, so there is no safe autonomous code change to make in this worker result.
+- none
