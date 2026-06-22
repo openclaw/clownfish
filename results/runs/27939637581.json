@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T082436-003",
+  "mode": "plan",
+  "run_id": "27939637581",
+  "workflow_run_id": "27939637581",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27939637581",
+  "head_sha": "6abf12c320bac33250a7858c03767ed587132248",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T08:27:30Z",
+  "workflow_updated_at": "2026-06-22T08:29:03Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T082436-003.md",
+  "published_at": "2026-06-22T08:29:35.797Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only classification for the fresh PR inventory shard. No GitHub mutations are allowed by mode or blocked_actions. The five open inventory PRs are each useful but not merge-recommendable from this artifact because complete merge preflight is missing; #88908 also has dirty mergeability and unresolved Copilot review comments. No fix action is emitted because the PRs are independent repairs and no complete executable fix_artifact is safe from the provided artifacts.",
+  "actions": [
+    {
+      "target": "#88908",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#88908",
+      "reason": "Dirty mergeability plus unresolved review-bot evidence and missing merge preflight block merge_candidate. Because this result has no complete executable fix_artifact, the safe plan-only classification is to keep the useful PR open for repair/rebase/review."
+    },
+    {
+      "target": "#89817",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89817",
+      "reason": "Useful independent PR, but missing merge preflight and a failing check mean it should stay open for maintainer/review follow-up rather than be merged or repaired via a cluster artifact."
+    },
+    {
+      "target": "#89818",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#89818",
+      "reason": "Useful independent provider repair but not merge-ready from this artifact; keep open for normal maintainer review/check repair."
+    },
+    {
+      "target": "#93087",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93087",
+      "reason": "#93087 appears to be the best open diagnostics OTel config repair path, but this plan cannot recommend merge without complete merge preflight and clean checks."
+    },
+    {
+      "target": "#93115",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated ref is marked security-sensitive by the artifact and must be routed centrally."
+    },
+    {
+      "target": "#93584",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": "#93584",
+      "reason": "Useful open compaction repair, but missing complete merge preflight blocks merge_candidate; keep it open for maintainer finalization."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 5,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
