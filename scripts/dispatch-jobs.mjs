@@ -15,7 +15,7 @@ import {
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
-const defaultRunner = process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest";
+const defaultRunner = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const defaultExecutionRunner = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const mode = args.mode ?? "plan";
 const runner = args.runner ?? defaultRunner;
@@ -40,6 +40,7 @@ const batchWorkflow = String(
 const batchEventType = String(
   args["batch-event-type"] ?? args.batch_event_type ?? process.env.CLOWNFISH_BATCH_EVENT_TYPE ?? "projectclownfish_batch",
 );
+const BATCH_MAX_PARALLEL_CAP = 32;
 const workerEventType = String(
   args["worker-event-type"] ??
     args.worker_event_type ??
@@ -47,7 +48,7 @@ const workerEventType = String(
     "projectclownfish_worker",
 );
 const batchMaxParallel = positiveNumberArg(
-  args["batch-max-parallel"] ?? args.batch_max_parallel ?? process.env.CLOWNFISH_BATCH_MAX_PARALLEL ?? 50,
+  args["batch-max-parallel"] ?? args.batch_max_parallel ?? process.env.CLOWNFISH_BATCH_MAX_PARALLEL ?? 8,
   "batch-max-parallel",
 );
 const batchMatrixLimit = positiveNumberArg(
@@ -131,7 +132,7 @@ const headSha = currentHeadSha();
 
 if (files.length === 0) {
   console.error(
-    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 50] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--dispatch-event workflow|repository-worker|repository-batch] [--batch-max-parallel N] [--publish-backlog-threshold 25] [--publish-backlog-wait-ms 600000] [--publish-backlog-poll-ms 30000] [--hydrate-comments 0|1] [--max-linked-refs N] [--dry-run 0|1] [--allow-app-token-auth] [--skip-token-secret-check]",
+    "usage: node scripts/dispatch-jobs.mjs <job.md> [...] [--jobs-file path] [--mode plan|execute|autonomous] [--runner label] [--execution-runner label] [--model model] [--gh-bin ghx] [--max-live-workers 32] [--wait-for-capacity] [--batch-size N] [--batch-delay-ms N] [--dispatch-limit N] [--dispatch-concurrency N] [--dispatch-event workflow|repository-worker|repository-batch] [--batch-max-parallel N] [--publish-backlog-threshold 25] [--publish-backlog-wait-ms 600000] [--publish-backlog-poll-ms 30000] [--hydrate-comments 0|1] [--max-linked-refs N] [--dry-run 0|1] [--allow-app-token-auth] [--skip-token-secret-check]",
   );
   process.exit(2);
 }
@@ -166,6 +167,10 @@ if (repositoryBatchDispatch && dispatchBatchSize > 0) {
 }
 if (repositoryWorkerDispatch && ref && ref !== "main") {
   console.error("repository-worker dispatch only supports --ref main because repository_dispatch runs the default-branch workflow");
+  process.exit(2);
+}
+if (repositoryBatchDispatch && batchMaxParallel > BATCH_MAX_PARALLEL_CAP) {
+  console.error(`--batch-max-parallel cannot exceed ${BATCH_MAX_PARALLEL_CAP}`);
   process.exit(2);
 }
 if (repositoryBatchDispatch && batchMaxParallel > maxLiveWorkers) {
@@ -229,12 +234,17 @@ if (!failed) {
 
 if (!failed) {
   const requested = repositoryBatchDispatch
-    ? Math.ceil(jobsToDispatch.length / batchMatrixLimit)
+    ? Math.ceil(jobsToDispatch.length / batchMatrixLimit) * batchMaxParallel
     : throttledDispatch
       ? Math.min(jobsToDispatch.length, 1)
       : jobsToDispatch.length;
   const capacityOptions = { repo, workflow: dispatchWorkflow, requested, maxLiveWorkers, ghCommand };
   const capacity = throttledDispatch ? waitForLiveWorkerCapacity(capacityOptions) : assertLiveWorkerCapacity(capacityOptions);
+  if (repositoryBatchDispatch && capacity.active > 0) {
+    throw new Error(
+      `refusing repository-batch dispatch: ${capacity.active} active ${batchWorkflow} run(s) already occupy unknown matrix capacity; retry after they finish`,
+    );
+  }
   console.log(
     `live worker capacity: ${capacity.active}/${capacity.max_live_workers} active; dispatching ${jobsToDispatch.length} ${dispatchWorkflow} job(s)`,
   );

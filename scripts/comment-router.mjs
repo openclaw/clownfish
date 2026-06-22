@@ -63,7 +63,9 @@ const clownfishRepo = String(args["clownfish-repo"] ?? process.env.CLOWNFISH_REP
 const workflow = String(args.workflow ?? process.env.CLOWNFISH_COMMENT_WORKFLOW ?? "cluster-worker.yml");
 const clawsweeperRepo = String(args["clawsweeper-repo"] ?? process.env.CLOWNFISH_CLAWSWEEPER_REPO ?? "openclaw/clawsweeper");
 const clawsweeperWorkflow = String(args["clawsweeper-workflow"] ?? process.env.CLOWNFISH_CLAWSWEEPER_WORKFLOW ?? "sweep.yml");
-const runner = String(args.runner ?? process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest");
+const runner = String(
+  args.runner ?? process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404",
+);
 const executionRunner = String(
   args["execution-runner"] ?? args.execution_runner ?? process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404",
 );

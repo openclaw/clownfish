@@ -31,7 +31,7 @@ on:
       runner:
         description: "Runner label for repair planning/review work"
         required: true
-        default: ubuntu-latest
+        default: blacksmith-4vcpu-ubuntu-2404
         type: string
       execution_runner:
         description: "Runner label for fix/apply execution work"
@@ -88,7 +88,7 @@ jobs:
           lookback_minutes="${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || vars.CLOWNFISH_COMMENT_LOOKBACK_MINUTES || '180' }}"
           since="${{ github.event_name == 'workflow_dispatch' && inputs.since || '' }}"
           max_comments="${{ github.event_name == 'workflow_dispatch' && inputs.max_comments || vars.CLOWNFISH_COMMENT_MAX_COMMENTS || '100' }}"
-          runner="${{ github.event_name == 'workflow_dispatch' && inputs.runner || vars.CLOWNFISH_WORKER_RUNNER || 'ubuntu-latest' }}"
+          runner="${{ github.event_name == 'workflow_dispatch' && inputs.runner || vars.CLOWNFISH_WORKER_RUNNER || 'blacksmith-4vcpu-ubuntu-2404' }}"
           execution_runner="${{ github.event_name == 'workflow_dispatch' && inputs.execution_runner || vars.CLOWNFISH_EXECUTION_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}"
 
           args=(

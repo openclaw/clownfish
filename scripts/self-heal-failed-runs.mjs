@@ -17,7 +17,7 @@ import { isActiveInboxJob, selectRetryableFailedRuns } from "./self-heal-selecti
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
-const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest";
+const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const QUEUED_STATUSES = new Set(["queued", "requested", "waiting", "pending"]);
 

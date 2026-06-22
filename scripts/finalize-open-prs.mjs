@@ -37,7 +37,9 @@ const writeReport = Boolean(args["write-report"]);
 const execute = Boolean(args.execute);
 const dispatchRepairs = Boolean(args["dispatch-repairs"] || args.dispatch || execute);
 const workflow = String(args.workflow ?? process.env.CLOWNFISH_FINALIZER_WORKFLOW ?? "cluster-worker.yml");
-const runner = String(args.runner ?? process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest");
+const runner = String(
+  args.runner ?? process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404",
+);
 const executionRunner = String(
   args["execution-runner"] ?? args.execution_runner ?? process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404",
 );

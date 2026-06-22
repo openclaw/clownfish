@@ -20,7 +20,7 @@ on:
       runner:
         description: "Runner label for cluster planning/review work"
         required: true
-        default: ubuntu-latest
+        default: blacksmith-4vcpu-ubuntu-2404
         type: string
       execution_runner:
         description: "Reserved for parity with cluster-worker dispatch"
@@ -35,7 +35,7 @@ on:
       max_parallel:
         description: "Maximum concurrent matrix workers"
         required: true
-        default: "50"
+        default: "8"
         type: string
       hydrate_comments:
         description: "Override CLOWNFISH_HYDRATE_COMMENTS for this run"
@@ -93,9 +93,9 @@ jobs:
           CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
           INPUT_JOBS_JSON: ${{ inputs.jobs_json || '[]' }}
           INPUT_MODE: ${{ inputs.mode || 'plan' }}
-          INPUT_RUNNER: ${{ inputs.runner || 'ubuntu-latest' }}
+          INPUT_RUNNER: ${{ inputs.runner || 'blacksmith-4vcpu-ubuntu-2404' }}
           INPUT_MODEL: ${{ inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
-          INPUT_MAX_PARALLEL: ${{ inputs.max_parallel || '50' }}
+          INPUT_MAX_PARALLEL: ${{ inputs.max_parallel || '8' }}
           INPUT_HYDRATE_COMMENTS: ${{ inputs.hydrate_comments || '0' }}
           INPUT_MAX_LINKED_REFS: ${{ inputs.max_linked_refs || '0' }}
           INPUT_MAX_COMMENTS_PER_ITEM: ${{ inputs.max_comments_per_item || '0' }}
@@ -110,9 +110,11 @@ jobs:
           const fromDispatch = process.env.EVENT_NAME === "repository_dispatch";
           const jobs = fromDispatch ? payload.jobs : JSON.parse(process.env.INPUT_JOBS_JSON || "[]");
           const mode = String(fromDispatch ? payload.mode ?? "plan" : process.env.INPUT_MODE ?? "plan");
-          const runner = String(fromDispatch ? payload.runner ?? "ubuntu-latest" : process.env.INPUT_RUNNER);
+          const runner = String(
+            fromDispatch ? payload.runner ?? "blacksmith-4vcpu-ubuntu-2404" : process.env.INPUT_RUNNER,
+          );
           const model = String(fromDispatch ? payload.model ?? "gpt-5.5" : process.env.INPUT_MODEL);
-          const maxParallel = Number(fromDispatch ? payload.max_parallel ?? 50 : process.env.INPUT_MAX_PARALLEL);
+          const maxParallel = Number(fromDispatch ? payload.max_parallel ?? 8 : process.env.INPUT_MAX_PARALLEL);
           const hydration = payload.hydration ?? {};
           const hydrateComments = String(
             fromDispatch ? hydration.hydrate_comments ?? payload.hydrate_comments ?? "0" : process.env.INPUT_HYDRATE_COMMENTS ?? "0",
@@ -134,8 +136,8 @@ jobs:
           if (mode !== "plan") throw new Error("cluster-batch only supports plan mode");
           if (!Array.isArray(jobs) || jobs.length === 0) throw new Error("jobs must be a non-empty JSON array");
           if (jobs.length > 256) throw new Error("jobs must fit GitHub's 256-cell matrix limit");
-          if (!Number.isInteger(maxParallel) || maxParallel < 1 || maxParallel > 200) {
-            throw new Error("max_parallel must be an integer from 1 to 200");
+          if (!Number.isInteger(maxParallel) || maxParallel < 1 || maxParallel > 32) {
+            throw new Error("max_parallel must be an integer from 1 to 32");
           }
           for (const value of [hydrateComments, maxLinkedRefs, maxCommentsPerItem, maxReviewCommentsPerPr]) {
             if (!/^\d+$/.test(value)) throw new Error(`invalid numeric override: ${value}`);

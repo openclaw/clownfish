@@ -449,7 +449,7 @@ if (args[0] === "workflow" && args[1] === "run") {
     for (const expected of [
       "jobs_json=[\\"jobs/openclaw/inbox/cluster-example.md\\",\\"jobs/openclaw/outbox/finalized/gitcrawl-1109-intake-20260621.md\\"]",
       "mode=plan",
-      "runner=ubuntu-latest",
+      "runner=blacksmith-4vcpu-ubuntu-2404",
       "execution_runner=blacksmith-16vcpu-ubuntu-2404",
       "model=gpt-5.5",
       "max_parallel=2",
@@ -472,7 +472,7 @@ if (args[0] === "workflow" && args[1] === "run") {
     for (const expected of [
       "job=jobs/openclaw/inbox/cluster-example.md",
       "mode=autonomous",
-      "runner=ubuntu-latest",
+      "runner=blacksmith-4vcpu-ubuntu-2404",
       "execution_runner=blacksmith-16vcpu-ubuntu-2404",
       "model=gpt-5.5",
       "dry_run=true",
@@ -514,7 +514,7 @@ if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
     const expected = [
       ["event_type", payload.event_type, "projectclownfish_batch"],
       ["mode", client.mode, "plan"],
-      ["runner", client.runner, "ubuntu-latest"],
+      ["runner", client.runner, "blacksmith-4vcpu-ubuntu-2404"],
       ["execution_runner", client.execution_runner, "blacksmith-16vcpu-ubuntu-2404"],
       ["model", client.model, "gpt-5.5"],
       ["max_parallel", String(client.max_parallel), "2"],
@@ -535,7 +535,7 @@ if (args[0] === "api" && args.includes("repos/openclaw/clownfish/dispatches")) {
       ["event_type", payload.event_type, "projectclownfish_worker"],
       ["job", client.job, "jobs/openclaw/inbox/cluster-example.md"],
       ["mode", client.mode, "autonomous"],
-      ["runner", client.runner, "ubuntu-latest"],
+      ["runner", client.runner, "blacksmith-4vcpu-ubuntu-2404"],
       ["execution_runner", client.execution_runner, "blacksmith-16vcpu-ubuntu-2404"],
       ["model", client.model, "gpt-5.5"],
       ["dry_run", String(client.dry_run), "true"],

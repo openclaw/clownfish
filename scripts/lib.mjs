@@ -10,7 +10,7 @@ const STRUCTURED_SECURITY_MARKER_PATTERN =
   /<!--\s*clawsweeper-(?:security|route|verdict)\s*:\s*(?:security|security-sensitive|sensitive|route-security|central-security)\b[^>]*-->/i;
 const PROMPT_ARTIFACT_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_ARTIFACT_MAX_CHARS ?? 320_000);
 const PROMPT_STRING_MAX_CHARS = Number(process.env.CLOWNFISH_PROMPT_STRING_MAX_CHARS ?? 700);
-const DEFAULT_MAX_LIVE_WORKERS = 50;
+const DEFAULT_MAX_LIVE_WORKERS = 32;
 const DEFAULT_CAPACITY_POLL_MS = 30_000;
 const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
 const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];

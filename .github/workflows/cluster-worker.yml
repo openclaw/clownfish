@@ -29,7 +29,7 @@ on:
       runner:
         description: "Runner label for cluster planning/review work"
         required: true
-        default: ubuntu-latest
+        default: blacksmith-4vcpu-ubuntu-2404
         type: string
       execution_runner:
         description: "Runner label for fix/apply execution work"
@@ -111,7 +111,7 @@ jobs:
           CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
           INPUT_JOB: ${{ github.event.inputs.job || '' }}
           INPUT_MODE: ${{ github.event.inputs.mode || 'plan' }}
-          INPUT_RUNNER: ${{ github.event.inputs.runner || 'ubuntu-latest' }}
+          INPUT_RUNNER: ${{ github.event.inputs.runner || 'blacksmith-4vcpu-ubuntu-2404' }}
           INPUT_EXECUTION_RUNNER: ${{ github.event.inputs.execution_runner || 'blacksmith-16vcpu-ubuntu-2404' }}
           INPUT_MODEL: ${{ github.event.inputs.model || vars.CLOWNFISH_MODEL || 'gpt-5.5' }}
           INPUT_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
@@ -136,7 +136,9 @@ jobs:
           const jobPath = String(fromDispatch ? payload.job ?? "" : process.env.INPUT_JOB ?? "");
           const mode = String(fromDispatch ? payload.mode ?? "plan" : process.env.INPUT_MODE ?? "plan");
           const runner = String(
-            fromDispatch ? payload.runner ?? "ubuntu-latest" : process.env.INPUT_RUNNER,
+            fromDispatch
+              ? payload.runner ?? "blacksmith-4vcpu-ubuntu-2404"
+              : process.env.INPUT_RUNNER,
           );
           const executionRunner = String(
             fromDispatch

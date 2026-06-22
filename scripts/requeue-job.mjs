@@ -17,7 +17,7 @@ import { restoreGateValue } from "./gate-restore.mjs";
 
 const DEFAULT_REPO = currentProjectRepo();
 const DEFAULT_WORKFLOW = "cluster-worker.yml";
-const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "ubuntu-latest";
+const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-ubuntu-2404";
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const DEFAULT_OBSERVE_TIMEOUT_MS = 5 * 60 * 1000;
 const DEFAULT_GATE_CAPTURE_TIMEOUT_MS = 5 * 60 * 1000;
