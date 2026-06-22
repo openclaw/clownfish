@@ -1,0 +1,211 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-91193",
+  "mode": "autonomous",
+  "run_id": "27953162655",
+  "workflow_run_id": "27953162655",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27953162655",
+  "head_sha": "cf022cccb3f7db38db17d2376c40d081d3270571",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T12:37:28Z",
+  "workflow_updated_at": "2026-06-22T12:52:00Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-91193.md",
+  "published_at": "2026-06-22T12:52:54.505Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/91193",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/83893",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/91193",
+  "summary": "Canonical path remains PR #91193, but it is not merge-ready for this worker: merge is disallowed, the hydrated PR is unstable with a failing additional-boundaries check, and the latest ClawSweeper review still says maintainer review is needed before merge. The branch is maintainer-editable, so the executable path is to repair/rebase the existing contributor PR rather than open a replacement. Overlapping PR #88085 is classified non-mutating only and is not part of the executable repair target because it has a blocked merge-risk label.",
+  "actions": [
+    {
+      "target": "#91193",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91193",
+      "candidate_fix": null,
+      "reason": "Maintainer-calibrated canonical PR is useful and maintainer-editable, but current review/check gates require a repair pass before any merge router can finalize it."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-91193",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#91193",
+      "candidate_fix": null,
+      "reason": "Emit one executable cluster-scoped repair artifact for the existing canonical PR branch only."
+    },
+    {
+      "target": "#83893",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#83893",
+      "candidate_fix": "#91193",
+      "reason": "The issue is covered by the canonical repair path, but no close action is allowed or safe before the fix lands."
+    },
+    {
+      "target": "#88085",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#91193",
+      "candidate_fix": null,
+      "reason": "Superseded by #91193, but this worker must not close it or include it in the executable repair target."
+    },
+    {
+      "target": "#86438",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#91193",
+      "candidate_fix": null,
+      "reason": "Already closed; no action needed."
+    },
+    {
+      "target": "#92103",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#92162",
+      "reason": "Already closed; no action needed."
+    },
+    {
+      "target": "#92162",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and merged; keep as related historical evidence only."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#91193",
+    "source_refs": [
+      "#91193",
+      "#83893",
+      "#92162",
+      "#86438",
+      "#88085",
+      "#92103"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing maintainer-editable #91193 branch in place: rebase/refresh it against current main, address any actionable ClawSweeper or required-review feedback, resolve the failing check-additional-boundaries-bcd gate if it is branch-caused, rerun focused validation plus pnpm check:changed, then request a fresh ClawSweeper/Codex review. Do not merge or close from this worker.",
+    "pr_title": "fix(cli): document Commander rawArgs dependency in action reparse",
+    "pr_body": "What Problem This Solves\n\nRepairs the existing automerge candidate for #83893 so the Commander rawArgs dependency in lazy action reparse remains documented and covered by focused tests.\n\nWhy This Change Was Made\n\n#91193 is maintainer-editable and already carries the contributor's narrow fix. The current hydrated state is not merge-ready because ClawSweeper still requires maintainer review and check-additional-boundaries-bcd is failing on the PR head.\n\nUser Impact\n\nNo intended user-facing behavior change. This keeps CLI lazy-command reparse maintenance safer by documenting the Commander runtime-only rawArgs dependency and preserving regression coverage.\n\nEvidence\n\nAfter repair, run `node scripts/run-vitest.mjs src/cli/program/action-reparse.test.ts` and `pnpm check:changed`, then request a fresh review for the exact repaired head. Source PR: https://github.com/openclaw/openclaw/pull/91193. Credit remains with @whiteyzy and the original PR thread.",
+    "likely_files": [
+      "src/cli/program/action-reparse.ts",
+      "src/cli/program/action-reparse.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cli/program/action-reparse.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Keep repair work on source PR https://github.com/openclaw/openclaw/pull/91193 so @whiteyzy keeps PR credit.",
+      "Preserve commit/PR attribution for the original contributor work; Clownfish repair commits should be framed as maintenance on the existing source PR, not a replacement.",
+      "Overlapping PR #88085 remains non-mutating context only because it has a blocked merge-risk compatibility label."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-91193.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/91193",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "a05c170345742158c5a60348b22462647a0966d5",
+      "checkpoint_commits": [
+        "460f374619418086dd8d4767e8428a9ee8224f6f",
+        "1766a7dc1bb3f8d3c1b2f21891aae032e14d244f",
+        "a05c170345742158c5a60348b22462647a0966d5"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#91193",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#91193",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
