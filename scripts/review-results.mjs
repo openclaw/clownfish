@@ -743,7 +743,8 @@ function findHighRiskMutationLabel(labels, { allowAutomergeRepair = false } = {}
     .map(String)
     .find(
       (label) =>
-        /^merge-risk:/i.test(label) || (label.toLowerCase() === "clawsweeper:automerge" && !allowAutomergeRepair),
+        (allowAutomergeRepair ? /^merge-risk:.*security/i.test(label) : /^merge-risk:/i.test(label)) ||
+        (label.toLowerCase() === "clawsweeper:automerge" && !allowAutomergeRepair),
     );
 }
 

@@ -1074,7 +1074,7 @@ test("review-results rejects executable repair paths bound to risk-labeled prefl
   }
 });
 
-test("review-results permits ClawSweeper automerge labels for adopted repair jobs only", () => {
+test("review-results permits non-security automerge risk labels for adopted repair jobs only", () => {
   const dir = makeResultDir(
     {
       mode: "autonomous",
@@ -1116,7 +1116,7 @@ test("review-results permits ClawSweeper automerge labels for adopted repair job
             kind: "pull_request",
             state: "open",
             title: "fix(cron): repair timer behavior",
-            labels: ["clawsweeper:automerge"],
+            labels: ["clawsweeper:automerge", "merge-risk: availability"],
             updated_at: "2026-06-15T10:00:00Z",
             security_sensitive: false,
           },
@@ -1152,6 +1152,64 @@ test("review-results permits ClawSweeper automerge labels for adopted repair job
 
   assert.notEqual(unhydrated.status, 0);
   assert.match(unhydrated.stdout, /#91286 adopted automerge repair source was not hydrated in preflight/);
+});
+
+test("review-results still blocks security merge-risk labels for adopted repair jobs", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:91286:adopted-automerge-security",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: ["#91286 is the bounded contributor repair target."],
+          reason: "Repair the contributor branch and preserve attribution.",
+        },
+      ],
+      fix_artifact: validFixArtifact({
+        repair_strategy: "repair_contributor_branch",
+        linked_refs: ["#91286"],
+        source_prs: ["https://github.com/openclaw/openclaw/pull/91286"],
+        credit_notes: ["Preserve the original contributor's credit on the repaired branch."],
+      }),
+    },
+    {
+      job: fixEnabledJob().replace("mode: autonomous", "mode: autonomous\nsource: pr_automerge"),
+      plan: {
+        source_job_permissions: {
+          source: "pr_automerge",
+          canonical: ["#91286"],
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+          maintainer_calibration: [],
+        },
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(cron): repair timer behavior",
+            labels: ["merge-risk: security-boundary"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#91286 executable repair target has blocked label: merge-risk: security-boundary/);
 });
 
 test("review-results rejects close actions targeting risk-labeled preflight PRs", () => {
