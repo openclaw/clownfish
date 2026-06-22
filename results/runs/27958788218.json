@@ -1,0 +1,216 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1889-autonomous-bulk-20260622a",
+  "mode": "autonomous",
+  "run_id": "27958788218",
+  "workflow_run_id": "27958788218",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27958788218",
+  "head_sha": "6df12705136a41273cee813d009a7bf18ef7423f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T14:07:37Z",
+  "workflow_updated_at": "2026-06-22T14:35:05Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1889-autonomous-bulk-20260622a.md",
+  "published_at": "2026-06-22T14:36:03.515Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "The job-listed open PR candidate #58648 is already closed, and closed context PRs #43732 and #52824 stay historical evidence only. One hydrated linked ref, #57697, is explicitly marked security-sensitive and is routed to central security handling. Current main still shows a narrow non-security cron failure-destination dedupe gap: primary delivery preserves `delivery.threadId`, but `isSameDeliveryTarget` ignores it, so a Telegram topic primary route can suppress or misclassify a failure destination for the same chat with different thread semantics. The executable fix artifact avoids targeting blocked-label PR #43808 while preserving contributor attribution in the credit notes and PR body.",
+  "actions": [
+    {
+      "target": "#57697",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated linked PR is explicitly security-sensitive in the preflight artifact."
+    },
+    {
+      "target": "#43732",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no action required."
+    },
+    {
+      "target": "#52824",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no action required."
+    },
+    {
+      "target": "#58648",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Candidate is already closed in hydrated state."
+    },
+    {
+      "target": "cluster:gitcrawl-1889-autonomous-bulk-20260622a",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "No open, mergeable canonical PR remains in this cluster; a narrow new fix PR is appropriate for the verified non-security cron dedupe gap and does not target the blocked-label prior PR."
+    },
+    {
+      "target": "cluster:gitcrawl-1889-autonomous-bulk-20260622a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Produce an executable cluster-scoped fix plan without mutating GitHub or targeting blocked-label PR #43808."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_closed": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#58648",
+    "source_refs": [
+      "#58648",
+      "#64708",
+      "#22485",
+      "#22982",
+      "#23836",
+      "#23839",
+      "#23843",
+      "#23913",
+      "#31059",
+      "#42764",
+      "#43732",
+      "#43808",
+      "#44325",
+      "#44351",
+      "#44412",
+      "#47549",
+      "#47977",
+      "#49704",
+      "#52824",
+      "#57697"
+    ],
+    "repair_strategy": "new_fix_pr",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Fix cron failure-destination dedupe so Telegram/topic primary delivery is only considered the same target when thread identity also matches. Current main preserves `delivery.threadId` in the primary cron plan, but the failure-destination dedupe helper ignores it and can suppress a valid failure route for the same chat with different topic/thread semantics.",
+    "pr_title": "fix(cron): compare thread IDs when deduping failure destinations",
+    "pr_body": "## What Problem This Solves\n\nCron failure notifications can be incorrectly suppressed when the primary announce delivery and failure destination share the same chat but differ by Telegram topic/thread semantics. Current main preserves `delivery.threadId` for cron delivery, but the failure-destination dedupe check compares only channel, recipient, and account.\n\n## Why This Change Was Made\n\nThe fix keeps the owner boundary in cron delivery planning: compare normalized thread identity when deciding whether a failure destination is the same route as the primary delivery. This avoids broad Telegram routing changes and keeps existing target normalization behavior intact.\n\nCredit: this carries forward the narrow issue identified in source PR https://github.com/openclaw/openclaw/pull/43808 by @Alex-Alaniz. Clownfish is preserving attribution while opening a separate narrow PR because the source PR is closed/excluded and is not a safe executable repair target for this cluster.\n\n## User Impact\n\nTelegram forum-topic cron jobs can keep a distinct failure notification route instead of losing the alert because the primary delivery happened to target the same chat.\n\n## Evidence\n\n- Current main `src/cron/delivery-plan.ts` preserves `delivery.threadId` in `resolveCronDeliveryPlan`.\n- Current main `isSameDeliveryTarget` ignores thread identity when deduping failure destinations.\n- Planned validation: `node scripts/run-vitest.mjs src/cron/delivery.test.ts` and `pnpm check:changed`.",
+    "likely_files": [
+      "src/cron/delivery-plan.ts",
+      "src/cron/delivery.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cron/delivery.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @Alex-Alaniz and source PR https://github.com/openclaw/openclaw/pull/43808 for the focused cron failure-destination thread dedupe analysis and prior implementation attempt.",
+      "Do not target or update source PR #43808 because it is closed, excluded by overlap policy, and carries blocked merge-risk labels; preserve attribution while carrying the narrow fix forward separately."
+    ],
+    "source_job": "jobs/openclaw/inbox/gitcrawl-1889-autonomous-bulk-20260622a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#57697"
+    ],
+    "needs_human": [],
+    "repair_status": "opened",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/95794",
+      "branch": "clownfish/gitcrawl-1889-autonomous-bulk-20260622a",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "b8a32f3098da8cdb9a1cc1610eb2662fa5d709ca",
+      "checkpoint_commits": [
+        "a9082c465defecf73cb712cc4492378a2c9204a9",
+        "d7b58c8aaa77f2a271fb39defcdcd73b6154394e"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/95794"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#95794",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cron): compare thread IDs when deduping failure destinations",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, checks-node-compact-small-whole-2: IN_PROGRESS",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#95794",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cron): compare thread IDs when deduping failure destinations",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, checks-node-compact-small-whole-2: IN_PROGRESS",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
