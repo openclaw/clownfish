@@ -784,14 +784,14 @@ function validateMergeablePullRequest({ pullRequest, view }) {
   if (pullRequest.draft || view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? pullRequest.base?.ref ?? "") !== "main") return "pull request base is not main";
   if (view.mergeable !== "MERGEABLE") return `mergeable state is ${view.mergeable || "unknown"}`;
-  if (!CLEAN_MERGE_STATES.has(String(view.mergeStateStatus ?? ""))) {
-    return `merge state status is ${view.mergeStateStatus || "unknown"}`;
-  }
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(view.reviewDecision ?? ""))) {
     return `review decision is ${view.reviewDecision}`;
   }
   const checkBlock = validateStatusChecks(view.statusCheckRollup ?? []);
   if (checkBlock) return checkBlock;
+  if (!isAcceptableMergeState(view)) {
+    return `merge state status is ${view.mergeStateStatus || "unknown"}`;
+  }
   return "";
 }
 
@@ -818,7 +818,7 @@ function validatePullRequestCurrentBase({ repo, pullRequest }) {
 function validateStatusChecks(checks) {
   if (!Array.isArray(checks) || checks.length === 0) return "no PR checks found";
   const blockers = [];
-  for (const check of checks) {
+  for (const check of latestStatusChecks(checks)) {
     const name = check.name ?? check.context ?? "unknown check";
     const status = String(check.status ?? check.state ?? "").toUpperCase();
     const conclusion = String(check.conclusion ?? "").toUpperCase();
@@ -832,6 +832,29 @@ function validateStatusChecks(checks) {
   }
   if (blockers.length > 0) return `checks are not clean: ${blockers.slice(0, 5).join(", ")}`;
   return "";
+}
+
+function isAcceptableMergeState(view) {
+  const state = String(view.mergeStateStatus ?? "");
+  if (CLEAN_MERGE_STATES.has(state)) return true;
+  return state === "UNSTABLE" && view.mergeable === "MERGEABLE" && !validateStatusChecks(view.statusCheckRollup ?? []);
+}
+
+function latestStatusChecks(checks) {
+  const latest = new Map();
+  for (const check of checks) {
+    const key = `${String(check.workflowName ?? "")}\0${check.name ?? check.context ?? "unknown check"}`;
+    const prior = latest.get(key);
+    if (!prior || checkTimestamp(check) >= checkTimestamp(prior)) {
+      latest.set(key, check);
+    }
+  }
+  return [...latest.values()];
+}
+
+function checkTimestamp(check) {
+  const value = Date.parse(String(check.completedAt ?? check.completed_at ?? check.startedAt ?? check.started_at ?? ""));
+  return Number.isFinite(value) ? value : 0;
 }
 
 function isApplicatorAction(action) {

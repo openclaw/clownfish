@@ -378,6 +378,40 @@ test("apply-result pins a clean merge to the reviewed PR head", () => {
   assert.deepEqual(mergeArgs.slice(-3), ["--squash", "--match-head-commit", EXPECTED_HEAD_SHA]);
 });
 
+test("apply-result allows unstable merge state when latest checks are clean", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    mergeStateStatus: "UNSTABLE",
+    statusCheckRollup: [
+      { name: "Real behavior proof", workflowName: "Real behavior proof", status: "COMPLETED", conclusion: "CANCELLED", completedAt: "2026-06-18T16:38:12Z" },
+      { name: "Real behavior proof", workflowName: "Real behavior proof", status: "COMPLETED", conclusion: "SUCCESS", completedAt: "2026-06-19T03:15:25Z" },
+    ],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+});
+
 function apply(jobPath, resultPath, reportPath, binDir, { dryRun = true, callLogPath, allowMerge = false, mergeStatePath } = {}) {
   const args = ["scripts/apply-result.mjs", jobPath, resultPath];
   if (dryRun) args.push("--dry-run");
@@ -505,7 +539,10 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   fs.chmodSync(ghPath, 0o755);
 }
 
-function writeReadyMergeGhStub(binDir, { headSha }) {
+function writeReadyMergeGhStub(
+  binDir,
+  { headSha, mergeStateStatus = "CLEAN", statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }] },
+) {
   const ghPath = path.join(binDir, "gh");
   fs.writeFileSync(
     ghPath,
@@ -550,9 +587,9 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     baseRefName: "main",
     isDraft: false,
     mergeable: "MERGEABLE",
-    mergeStateStatus: "CLEAN",
+    mergeStateStatus: ${JSON.stringify(mergeStateStatus)},
     reviewDecision: "APPROVED",
-    statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }]
+    statusCheckRollup: ${JSON.stringify(statusCheckRollup)}
   });
 } else if (args[0] === "pr" && args[1] === "merge" && args[2] === "60063") {
   fs.writeFileSync(process.env.MERGE_STATE, "merged");

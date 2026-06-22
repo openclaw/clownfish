@@ -326,14 +326,14 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
   if (!/^[0-9a-f]{40}$/i.test(String(pull.head?.sha ?? ""))) blockers.push("PR head SHA is unavailable");
   if (!/^[0-9a-f]{40}$/i.test(String(pull.base?.sha ?? ""))) blockers.push("PR base SHA is unavailable");
   if (view.mergeable !== "MERGEABLE") blockers.push(`PR mergeability is ${view.mergeable ?? "unknown"}`);
-  if (!CLEAN_MERGE_STATES.has(String(view.mergeStateStatus ?? ""))) {
-    blockers.push(`PR merge state is ${view.mergeStateStatus ?? "unknown"}`);
-  }
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(view.reviewDecision ?? ""))) {
     blockers.push(`PR review decision is ${view.reviewDecision}`);
   }
   const failingChecks = latestStatusChecks(view.statusCheckRollup ?? []).filter(isFailingCheck).map(checkName);
   if (failingChecks.length > 0) blockers.push(`PR has non-passing checks: ${failingChecks.slice(0, 4).join(", ")}`);
+  if (!isAcceptableMergeState(view)) {
+    blockers.push(`PR merge state is ${view.mergeStateStatus ?? "unknown"}`);
+  }
   if (threads.hasNextPage) blockers.push("PR has more than 100 review threads");
   const unresolved = threads.nodes.filter((thread) => !thread.isResolved);
   if (unresolved.length > 0) blockers.push(`PR has ${unresolved.length} unresolved review thread(s)`);
@@ -582,6 +582,12 @@ function isFailingCheck(check) {
   const status = String(check.status ?? check.state ?? "").toUpperCase();
   const conclusion = String(check.conclusion ?? "").toUpperCase();
   return (status && !["COMPLETED", "SUCCESS"].includes(status)) || (conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion));
+}
+
+function isAcceptableMergeState(view) {
+  const state = String(view.mergeStateStatus ?? "");
+  if (CLEAN_MERGE_STATES.has(state)) return true;
+  return state === "UNSTABLE" && view.mergeable === "MERGEABLE" && latestStatusChecks(view.statusCheckRollup ?? []).every((check) => !isFailingCheck(check));
 }
 
 function latestStatusChecks(checks) {
