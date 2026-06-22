@@ -1,0 +1,234 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-94687-repair",
+  "mode": "autonomous",
+  "run_id": "27932059656",
+  "workflow_run_id": "27932059656",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27932059656",
+  "head_sha": "a087378a544243b34bff08b4b61086ceb5375f14",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T05:41:02Z",
+  "workflow_updated_at": "2026-06-22T06:01:06Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687-repair.md",
+  "published_at": "2026-06-22T06:01:54.256Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/94687",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/79100",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/94687",
+  "summary": "Canonical path remains repair of open PR #94687. It is the right contributor-credit path and the branch is marked maintainer-editable, but merge is blocked because the hydrated artifact has unresolved automated-review/merge-preflight gaps and no fresh clean Codex /review for head b0a0c8f89c77242f75c45500537d4b0227060147. Current main at a9a75b2b773f5dc648431f7780eb1ccd544dd3ac still lacks the gateway health/probe --port behavior, so a narrow repair artifact is warranted. Blocked-label linked PRs remain non-executable historical context only and are not repair targets for this artifact.",
+  "actions": [
+    {
+      "target": "#94687",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94687",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch, then rerun focused validation, pnpm check:changed, and a fresh Codex /review before any merge recommendation."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-94687-repair",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94687",
+      "candidate_fix": null,
+      "reason": "Build a bounded repair plan for the existing PR branch rather than replacing or merging it now."
+    },
+    {
+      "target": "#79100",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Keep the issue open and tied to the canonical PR until the fix lands."
+    },
+    {
+      "target": "#95181",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Superseded by canonical PR #94687, but closure requires human/applicator policy outside this worker result."
+    },
+    {
+      "target": "#91907",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": "#94687",
+      "candidate_fix": null,
+      "reason": "Different root cause and surface; leave it out of the gateway --port repair cluster."
+    },
+    {
+      "target": "#89555",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Closed historical context only; no action."
+    },
+    {
+      "target": "#89623",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Closed historical context only; preserve credit through #94687 repair notes."
+    },
+    {
+      "target": "#94917",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94687",
+      "candidate_fix": "#94687",
+      "reason": "Closed historical context only; no closure action allowed or needed."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_independent": 1,
+    "keep_closed": 3
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#94687",
+    "source_refs": [
+      "#94687",
+      "#79100",
+      "#89555",
+      "#89623",
+      "#91907",
+      "#94917",
+      "#95181"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing maintainer-editable contributor PR #94687 in place. Rebase or refresh the branch as needed, keep only the gateway health/probe --port changes, ensure health --port overrides gateway env URL/port through localPortOverride including the reachable-auth diagnostic path, then run focused gateway regression tests and pnpm check:changed before merge consideration.",
+    "pr_title": "fix(gateway): accept port for health and probe",
+    "pr_body": "## What Problem This Solves\n\n`openclaw gateway run --port <port>` can start a gateway on a non-default port, but `gateway health --port <port>` and `gateway probe --port <port>` need to target that same local gateway consistently instead of rejecting or ignoring the option when gateway env overrides are present.\n\n## Why This Change Was Made\n\nThis continues PR #94687 in place to preserve @BryanTegomoh's contribution history and attribution. The repair should keep the implementation narrow: parse the shared gateway port option, route it through health/probe connection details as a local port override, and make the reachable-auth diagnostic use the same override.\n\n## User Impact\n\nScripts can use `gateway health --port <port>` and `gateway probe --port <port>` against a non-default local gateway without switching to `--url` or losing configured local auth fallback.\n\n## Evidence\n\nFocused validation to run before merge: `node scripts/run-vitest.mjs src/cli/gateway-cli/register.option-collisions.test.ts src/cli/gateway-port-option.test.ts src/commands/gateway-status.test.ts src/commands/gateway-status/helpers.test.ts src/gateway/call.test.ts`, then `pnpm check:changed`, followed by a fresh clean Codex /review on the final head.\n\nLinked: fixes #79100. Source PR: #94687.",
+    "likely_files": [
+      "src/cli/gateway-cli/register.ts",
+      "src/cli/gateway-cli/call.ts",
+      "src/cli/gateway-port-option.ts",
+      "src/commands/health.ts",
+      "src/commands/gateway-status.ts",
+      "src/commands/gateway-status/helpers.ts",
+      "src/gateway/call.ts",
+      "src/gateway/connection-details.ts",
+      "src/cli/gateway-cli/register.option-collisions.test.ts",
+      "src/cli/gateway-port-option.test.ts",
+      "src/commands/gateway-status.test.ts",
+      "src/commands/gateway-status/helpers.test.ts",
+      "src/gateway/call.test.ts",
+      "docs/cli/gateway.md"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/cli/gateway-cli/register.option-collisions.test.ts src/cli/gateway-port-option.test.ts src/commands/gateway-status.test.ts src/commands/gateway-status/helpers.test.ts src/gateway/call.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Keep the repair on PR #94687 so @BryanTegomoh remains the credited PR author and the original PR history carries attribution.",
+      "Do not edit CHANGELOG.md; release-note context should stay in the PR body or squash/merge message for the user-visible CLI behavior.",
+      "Blocked-label related PRs are intentionally not source PRs or executable repair targets in this artifact."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-94687-repair.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/94687",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "2c91dba836a72338b31c76db8b1109adf6597da7",
+      "checkpoint_commits": [
+        "f0cbaf4f996c72f30c39f007cd1ac881e9d11526",
+        "55f8d6f2b337ac2163f9fb6cee955437e24de9d8",
+        "2c91dba836a72338b31c76db8b1109adf6597da7"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#94687",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(gateway): accept port for health and probe",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-22T06:00:58Z",
+      "merge_commit_sha": "8e4213b1c418439b1e6a29160968b46ea46b954d",
+      "expected_head_sha": "2c91dba836a72338b31c76db8b1109adf6597da7",
+      "live_state": "merged",
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#94687",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(gateway): accept port for health and probe",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-22T06:00:58Z",
+      "merge_commit_sha": "8e4213b1c418439b1e6a29160968b46ea46b954d",
+      "expected_head_sha": "2c91dba836a72338b31c76db8b1109adf6597da7",
+      "live_state": "merged",
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
