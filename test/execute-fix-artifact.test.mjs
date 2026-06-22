@@ -7,6 +7,8 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
+process.env.CLOWNFISH_STREAM_VALIDATION_OUTPUT = "0";
+
 test("execute-fix-artifact gives every Codex subprocess an explicit stdout buffer", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const codexSpawnCount = source.match(/spawnSync\(\s*\n\s*"codex"/g)?.length ?? 0;
@@ -616,6 +618,20 @@ test("execute-fix-artifact writes a report before unknown executor failures esca
     source,
     /report\.status = "failed";[\s\S]*?report\.actions\.push\([\s\S]*?status: "failed",[\s\S]*?writeReport\(report, resultPath\);\s*throw error;/,
   );
+});
+
+test("execute-fix-artifact streams validation output and preserves reports on termination", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.match(source, /CLOWNFISH_STREAM_VALIDATION_OUTPUT/);
+  assert.match(source, /process\.env\.GITHUB_ACTIONS === "true"/);
+  assert.match(source, /CLOWNFISH_VALIDATION_OUTPUT_MAX_BUFFER_BYTES/);
+  assert.match(source, /stdio: shouldStreamOutput \? \["ignore", "inherit", "inherit"\] : \["ignore", "pipe", "pipe"\]/);
+  assert.match(source, /output_streamed: shouldStreamOutput/);
+  assert.match(source, /function installEmergencyFixReportHandlers/);
+  assert.match(source, /process\.once\(signal/);
+  assert.match(source, /writeReportWithOptions\(report, resultPath, \{ appendComment: false \}\)/);
+  assert.match(source, /function signalExitCode\(signal\)/);
 });
 
 test("execute-fix-artifact bounds and verifies contributor repair head fetches", () => {

@@ -84,6 +84,14 @@ const validationDebugOutputMaxChars = Math.max(
   16 * 1024,
   Number(process.env.CLOWNFISH_VALIDATION_DEBUG_OUTPUT_MAX_CHARS ?? 512 * 1024),
 );
+const validationOutputMaxBufferBytes = Math.max(
+  1024 * 1024,
+  Number(process.env.CLOWNFISH_VALIDATION_OUTPUT_MAX_BUFFER_BYTES ?? 64 * 1024 * 1024),
+);
+const streamValidationOutput = parseBooleanEnv(
+  process.env.CLOWNFISH_STREAM_VALIDATION_OUTPUT,
+  process.env.GITHUB_ACTIONS === "true",
+);
 const CLOWNFISH_LABEL = "clownfish";
 const CLOWNFISH_LABEL_COLOR = "F97316";
 const CLOWNFISH_LABEL_DESCRIPTION = "Tracked by Clownfish automation";
@@ -107,6 +115,8 @@ let targetDir = "";
 let activeFixProgress = null;
 let writePreflight = null;
 let validationDebugSequence = 0;
+let emergencyFixReportInstalled = false;
+let emergencyFixReportWriting = false;
 
 if (!jobPath) {
   console.error("usage: node scripts/execute-fix-artifact.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -211,6 +221,7 @@ if (NON_EXECUTABLE_REPAIR_STRATEGIES.has(repairStrategy)) {
 }
 
 const fixArtifact = validateFixArtifact(executableFixArtifact);
+installEmergencyFixReportHandlers({ report, resultPath, fixArtifact });
 const securityBlock = validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActions });
 if (securityBlock) {
   report.status = "skipped";
@@ -2748,11 +2759,14 @@ function runValidationCommand(parts, { cwd, env, rendered, fallback = false, pha
   const timeoutMs = remainingFixExecutionMs(rendered, { minMs: 10 * 1000 });
   const startedAt = new Date().toISOString();
   const startedAtMs = Date.now();
+  const shouldStreamOutput = streamValidationOutput && !allowFailure;
   const child = spawnSync(parts[0], parts.slice(1), {
     cwd,
     env,
     encoding: "utf8",
+    stdio: shouldStreamOutput ? ["ignore", "inherit", "inherit"] : ["ignore", "pipe", "pipe"],
     timeout: timeoutMs,
+    maxBuffer: validationOutputMaxBufferBytes,
   });
   const stdout = captureValidationDebugOutput(child.stdout);
   const stderr = captureValidationDebugOutput(child.stderr);
@@ -2770,6 +2784,7 @@ function runValidationCommand(parts, { cwd, env, rendered, fallback = false, pha
     started_at: startedAt,
     duration_ms: Date.now() - startedAtMs,
     timeout_ms: timeoutMs,
+    output_streamed: shouldStreamOutput,
     exit_code: child.status ?? null,
     signal: child.signal ?? null,
     timed_out: child.error?.code === "ETIMEDOUT",
@@ -3999,13 +4014,19 @@ function findLatestResultPath() {
 }
 
 function writeReport(report, resultPath) {
-  try {
-    appendAutomergeRepairOutcomeComment(report, resultPath);
-  } catch (error) {
-    report.report_warnings = [
-      ...(report.report_warnings ?? []),
-      `could not append automerge repair outcome comment: ${compactText(error?.message ?? error, 500)}`,
-    ];
+  writeReportWithOptions(report, resultPath);
+}
+
+function writeReportWithOptions(report, resultPath, { appendComment = true } = {}) {
+  if (appendComment) {
+    try {
+      appendAutomergeRepairOutcomeComment(report, resultPath);
+    } catch (error) {
+      report.report_warnings = [
+        ...(report.report_warnings ?? []),
+        `could not append automerge repair outcome comment: ${compactText(error?.message ?? error, 500)}`,
+      ];
+    }
   }
   const reportPath =
     typeof args.report === "string"
@@ -4017,6 +4038,43 @@ function writeReport(report, resultPath) {
   }
   fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(stdoutReportSummary(report, reportPath), null, 2));
+}
+
+function installEmergencyFixReportHandlers({ report, resultPath, fixArtifact }) {
+  if (emergencyFixReportInstalled) return;
+  emergencyFixReportInstalled = true;
+  for (const signal of ["SIGINT", "SIGTERM"]) {
+    process.once(signal, () => {
+      if (emergencyFixReportWriting) {
+        process.exit(signalExitCode(signal));
+      }
+      emergencyFixReportWriting = true;
+      try {
+        report.status = "failed";
+        report.reason = `fix executor received ${signal}`;
+        if (!report.actions.some((action) => action.status === "failed")) {
+          report.actions.push({
+            ...(activeFixProgress ?? {}),
+            action: activeFixProgress?.action ?? "execute_fix",
+            status: "failed",
+            repair_strategy: activeFixProgress?.repair_strategy ?? fixArtifact.repair_strategy,
+            reason: report.reason,
+          });
+        }
+        writeReportWithOptions(report, resultPath, { appendComment: false });
+      } catch (error) {
+        console.error(`could not write emergency fix report after ${signal}: ${compactText(error?.message ?? error, 500)}`);
+      } finally {
+        process.exit(signalExitCode(signal));
+      }
+    });
+  }
+}
+
+function signalExitCode(signal) {
+  if (signal === "SIGINT") return 130;
+  if (signal === "SIGTERM") return 143;
+  return 1;
 }
 
 function stdoutReportSummary(report, reportPath) {
