@@ -12,6 +12,7 @@ const CLOSE_ACTIONS = new Set([
   "close_superseded",
   "close_low_signal",
 ]);
+const FIXED_BY_CLOSE_SEED_ACTIONS = new Set(["keep_related", "keep_independent", "keep_canonical"]);
 const PROTECTED_AUTHOR_ASSOCIATIONS = new Set(["MEMBER", "OWNER", "COLLABORATOR"]);
 
 const args = parseArgs(process.argv.slice(2));
@@ -102,14 +103,16 @@ function collectPlannedCloseActions() {
     const actions = Array.isArray(result.actions) ? result.actions : [];
     for (const action of actions) {
       if (action?.status !== "planned") continue;
-      if (!CLOSE_ACTIONS.has(String(action.action ?? ""))) continue;
+      const plannedAction = closeCanaryAction(action);
+      if (!plannedAction) continue;
       const target = normalizeRef(action.target);
       const canonical = normalizeRef(action.candidate_fix ?? action.canonical ?? action.duplicate_of);
       if (!target || !canonical || target === canonical) continue;
       items.push({
         target,
         canonical,
-        action: String(action.action),
+        action: plannedAction,
+        sourceAction: String(action.action ?? ""),
         classification: String(action.classification ?? ""),
         reason: oneLine(action.reason),
         comment: oneLine(action.comment),
@@ -128,6 +131,19 @@ function collectPlannedCloseActions() {
     seen.add(key);
     return true;
   });
+}
+
+function closeCanaryAction(action) {
+  const name = String(action.action ?? "");
+  if (CLOSE_ACTIONS.has(name)) return name;
+  if (
+    FIXED_BY_CLOSE_SEED_ACTIONS.has(name) &&
+    String(action.classification ?? "") === "fixed_by_candidate" &&
+    normalizeRef(action.candidate_fix)
+  ) {
+    return "close_fixed_by_candidate";
+  }
+  return "";
 }
 
 function findExistingCloseTargets(root) {
@@ -434,6 +450,7 @@ function publicItem(item) {
     target: item.target,
     canonical: item.canonical,
     action: item.action,
+    source_action: item.sourceAction ?? item.action,
     run_id: item.runId,
     cluster_id: item.clusterId,
   };
