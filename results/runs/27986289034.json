@@ -1,0 +1,88 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T175816-003",
+  "mode": "autonomous",
+  "run_id": "27986289034",
+  "workflow_run_id": "27986289034",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27986289034",
+  "head_sha": "24098277c5d16717406c2a551edaf7a5714ed7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:48:09Z",
+  "workflow_updated_at": "2026-06-22T21:49:55Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T175816-003.md",
+  "published_at": "2026-06-22T21:51:29.198Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Cannot complete the structured classification from the compacted artifact without risking an invalid action: the relevant open PRs are all compatibility/auth-provider risk-labeled and lack the complete merge preflight required for merge, while executable repair artifacts are blocked by the high-risk mutation-label gate.",
+  "actions": [
+    {
+      "target": "#93994",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in the hydrated artifact."
+    },
+    {
+      "target": "#94086",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision or a separate high-risk-aware finalization path because the PR is compatibility-risk labeled and cannot be merged or repaired by this worker without the required merge preflight/security/review gates."
+    },
+    {
+      "target": "#93827",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer or high-risk-aware repair path because the PR has an unresolved bot-review blocker plus a compatibility risk label."
+    },
+    {
+      "target": "#94942",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed in the hydrated artifact."
+    },
+    {
+      "target": "#95436",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Needs maintainer decision because the current open candidate is auth-provider-risk labeled and a possibly competing unhydrated PR is mentioned in issue comments."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "needs_human": 3
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "blocked": 3
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#94086: compatibility-risk labeled PR cannot be merged without full merge_preflight or repaired via executable fix artifact under the high-risk mutation-label gate.",
+    "#93827: compatibility-risk labeled PR has an actionable bot-review blocker and no complete merge_preflight.",
+    "#95436: auth-provider-risk labeled PR lacks merge_preflight, and issue comments mention unhydrated PR #95455 as a possible competing fix."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

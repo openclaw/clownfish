@@ -1,0 +1,84 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T173935-006",
+  "mode": "autonomous",
+  "run_id": "27986285594",
+  "workflow_run_id": "27986285594",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27986285594",
+  "head_sha": "24098277c5d16717406c2a551edaf7a5714ed7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:48:06Z",
+  "workflow_updated_at": "2026-06-22T21:50:41Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T173935-006.md",
+  "published_at": "2026-06-22T21:51:29.162Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five seeded PRs only. No security-sensitive hydrated item was present. No merge recommendation is safe because none has the required complete merge preflight; #79811 also has an unresolved Codex review comment, #90450 has failing checks in the full artifact, and all open seeded PRs carry merge-risk labels that block executable Clownfish repair artifacts in this run. #95274 is already merged and closed on current main.",
+  "actions": [
+    {
+      "target": "#95218",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95218",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open PR for its narrow bug, but do not recommend merge or repair without a complete merge preflight and risk-label-cleared executor path."
+    },
+    {
+      "target": "#90450",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90450",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical PR for its reported Claude CLI behavior, but classify only; merge and repair require check triage plus full preflight."
+    },
+    {
+      "target": "#95274",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#95274",
+      "candidate_fix": "#95274",
+      "reason": "No action needed. The PR already landed and its linked issue #92302 is already closed in the hydrated artifact."
+    },
+    {
+      "target": "#94760",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94760",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open PR for the Feishu p2p DM reply regression, but do not recommend merge without complete merge preflight."
+    },
+    {
+      "target": "#79811",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#79811",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open PR for the outbound receipt bug, but it is not merge-ready and cannot be converted into an executable repair artifact under the current risk-label gate."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
