@@ -1,0 +1,89 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T171200-005",
+  "mode": "autonomous",
+  "run_id": "27985908095",
+  "workflow_run_id": "27985908095",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27985908095",
+  "head_sha": "c04f50348a81466bff25309ddae1df1b19b3e4c4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:40:50Z",
+  "workflow_updated_at": "2026-06-22T21:44:32Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T171200-005.md",
+  "published_at": "2026-06-22T21:45:30.586Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five PR inventory targets independently from the hydrated preflight artifact and current main d6111ff72c77ff16978ced1faa451546d9911e83. No merge recommendation is safe because no target has a complete merge preflight with a clean Codex /review. No executable cluster fix artifact is emitted because the viable repair lanes are unrelated and the high-risk/session-state or active-product-decision PRs are blocked for this shard.",
+  "actions": [
+    {
+      "target": "#86062",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer/adopted-automerge decision needed before repairing or merging this dirty session-state PR; this shard cannot emit a safe executable fix artifact for the high-risk automerge source."
+    },
+    {
+      "target": "#89409",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69700",
+      "candidate_fix": "#89409",
+      "reason": "Keep as the canonical narrow docs PR for #69700; merge is blocked only by missing final merge preflight/Codex review, not by scope."
+    },
+    {
+      "target": "#91049",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#91049",
+      "reason": "The inventory entry is already merged on current main; no Clownfish action is valid for this closed PR."
+    },
+    {
+      "target": "#91203",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": "#91203",
+      "reason": "Keep as the canonical Matrix compatibility PR for its own narrow behavior; merge requires branch refresh plus full merge preflight."
+    },
+    {
+      "target": "#93587",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93422",
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed on whether to accept the broader Control UI naming/command UX surface or split back to the narrow parent-session fallback fix before repair."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 2,
+    "keep_canonical": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "blocked": 2,
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#86062: high-risk dirty session-state automerge source needs maintainer/adopted-automerge decision before repair or merge.",
+    "#93587: active author follow-up asks for product direction on /label and /new <name> behavior, with failing checks and session-state merge risk."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
