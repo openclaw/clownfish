@@ -1,0 +1,136 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1126-autonomous-drip-20260622c",
+  "mode": "autonomous",
+  "run_id": "27982702447",
+  "workflow_run_id": "27982702447",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27982702447",
+  "head_sha": "5477de734c7a613040ae5b56517bc7ee37dd7f7a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T20:43:29Z",
+  "workflow_updated_at": "2026-06-22T20:45:50Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1126-autonomous-drip-20260622c.md",
+  "published_at": "2026-06-22T20:46:36.151Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/93831",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93831",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93977",
+  "summary": "Current main still creates the foreground reply fence at buffered-dispatch entry and still cancels on any newer visible generation. #93831 remains the canonical issue; #93858 is the same lazy-fence/root-cause follow-up and should not be closed until the canonical fix path lands. The previously selected contributor repair path is not safely executable from these artifacts because the hydrated candidate PRs carrying the lazy-fence repair path, #93977 and #91963, both have the blocked label `merge-risk: 🚨 message-delivery`; maintainer judgment is needed before Clownfish repairs or lands either branch.",
+  "actions": [
+    {
+      "target": "#93831",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "reason": "Best surviving issue for the foreground reply fence/lazy-fence root cause."
+    },
+    {
+      "target": "#93858",
+      "action": "close_duplicate",
+      "status": "blocked",
+      "classification": "duplicate",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "reason": "Duplicate closeout is clear, but fix-first policy blocks mutation until the canonical fix path lands."
+    },
+    {
+      "target": "cluster:gitcrawl-1126-autonomous-drip-20260622c",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "reason": "Executable fix planning is blocked by hydrated blocked labels on the viable lazy-fence repair PRs; maintainer judgment is needed before repair or replacement."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "close_duplicate": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 1,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [
+    "Decide whether Clownfish may repair #93977 despite the `merge-risk: 🚨 message-delivery` label, should instead repair/source-credit #91963, or should open an independent replacement fix PR that preserves attribution to @fsdwen and @xmoxmo."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [
+    {
+      "target": "#93858",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-1126-autonomous-drip-20260622c:#93858:close-duplicate-blocked-on-canonical-fix",
+      "source_status": "blocked",
+      "source_reason": "Duplicate closeout is clear, but fix-first policy blocks mutation until the canonical fix path lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-22T20:45:45.589Z",
+      "report_source": "apply"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#93858",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-1126-autonomous-drip-20260622c:#93858:close-duplicate-blocked-on-canonical-fix",
+      "source_status": "blocked",
+      "source_reason": "Duplicate closeout is clear, but fix-first policy blocks mutation until the canonical fix path lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-22T20:45:45.589Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#93858",
+      "action": "close_duplicate",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#93831",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "gitcrawl-1126-autonomous-drip-20260622c:#93858:close-duplicate-blocked-on-canonical-fix",
+      "source_status": "blocked",
+      "source_reason": "Duplicate closeout is clear, but fix-first policy blocks mutation until the canonical fix path lands.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 2,
+      "applied_at": "2026-06-22T20:45:45.945Z",
+      "report_source": "apply"
+    }
+  ]
+}
