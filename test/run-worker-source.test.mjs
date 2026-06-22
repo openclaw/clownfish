@@ -48,4 +48,5 @@ test("run-worker repair prompt preserves the cluster fix artifact contract", () 
 
   assert.match(source, /cluster-scoped fix action must target exactly `cluster:<cluster_id>`/);
   assert.match(source, /at most one `build_fix_artifact` action/);
+  assert.match(source, /never leave `fix_needed` by itself without a complete executable `fix_artifact`/);
 });

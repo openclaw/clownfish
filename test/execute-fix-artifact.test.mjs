@@ -926,6 +926,30 @@ test("execute-fix-artifact does not give deferred baseline diagnostics to the in
   assert.doesNotMatch(prompt, /Existing changed-gate baseline diagnostics:/);
 });
 
+test("execute-fix-artifact recaptures streamed changed-gate diagnostics before baseline comparison", () => {
+  const output = [
+    "src/config/sessions/session-accessor.ts(1545,46): error TS6133: 'sessionStore' is declared but its value is never read.",
+    "[ELIFECYCLE] Command failed with exit code 2.",
+    "[ELIFECYCLE] Command failed with exit code 2.",
+  ].join("\n");
+  const run = runBaselineChangedGateFixture({
+    clusterId: "streamed-baseline-diagnostic-cluster",
+    baselineOutput: output,
+    postOutput: output,
+    streamValidationOutput: true,
+    editedFile: "src/app.js",
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "planned");
+  assert.equal(fs.readFileSync(run.changedGateMarker, "utf8").trim(), "3");
+  const diagnosticCapture = JSON.parse(
+    fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", "validation-command-003.json"), "utf8"),
+  );
+  assert.equal(diagnosticCapture.phase, "diagnostic_capture");
+  assert.match(diagnosticCapture.stderr, /sessionStore/);
+});
+
 test("execute-fix-artifact skips the baseline when the final changed gate passes", () => {
   const run = runBaselineChangedGateFixture({
     clusterId: "clean-changed-gate-cluster",
@@ -1272,6 +1296,7 @@ function runBaselineChangedGateFixture({
   postExitCode = 1,
   dependencyManifestChange = false,
   maxEditAttempts = null,
+  streamValidationOutput = false,
 }) {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
@@ -1372,6 +1397,7 @@ process.exit(0);
         CLOWNFISH_INSTALL_TARGET_DEPS: "0",
         CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
         CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+        CLOWNFISH_STREAM_VALIDATION_OUTPUT: streamValidationOutput ? "1" : "0",
         ...(maxEditAttempts ? { CLOWNFISH_FIX_EDIT_ATTEMPTS: String(maxEditAttempts) } : {}),
         ...(strict ? { CLOWNFISH_TARGET_VALIDATION_MODE: "strict" } : {}),
       },

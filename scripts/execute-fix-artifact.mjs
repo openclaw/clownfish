@@ -2718,7 +2718,16 @@ function runAllowedValidationCommands(
           }
           onChangedGateBaseline?.(changedGateBaseline);
         }
-        const fallbackCommands = validationFallbackCommands({ parts, error, cwd, baseBranch, changedGateBaseline });
+        const validationError =
+          recaptureChangedGateDiagnostics({ parts, error, cwd, env: validationEnv, rendered, changedGateBaseline }) ??
+          error;
+        const fallbackCommands = validationFallbackCommands({
+          parts,
+          error: validationError,
+          cwd,
+          baseBranch,
+          changedGateBaseline,
+        });
         if (fallbackCommands.length > 0) {
           for (const fallbackParts of fallbackCommands) {
             const fallbackRendered = fallbackParts.join(" ");
@@ -2740,7 +2749,7 @@ function runAllowedValidationCommands(
           if (!executed.includes(rendered)) executed.push(rendered);
           continue;
         }
-        throw validationCommandFailure(error, rendered, changedGateBaseline);
+        throw validationCommandFailure(validationError, rendered, changedGateBaseline);
       }
     }
   }
@@ -2753,6 +2762,25 @@ function validationCommandFailure(error, rendered, changedGateBaseline = null) {
   wrapped.validation_command = rendered;
   wrapped.changed_gate_baseline = changedGateBaseline;
   return wrapped;
+}
+
+function recaptureChangedGateDiagnostics({ parts, error, cwd, env, rendered, changedGateBaseline }) {
+  if (strictTargetValidation) return null;
+  if (parts[0] !== "pnpm" || parts[1] !== "check:changed" || parts.length !== 2) return null;
+  if (changedGateBaseline?.status !== "failed") return null;
+  if (error?.validation_result?.kind !== "exit_failure") return null;
+  if (String(error.validation_result?.diagnostic_output ?? "").trim() !== "") return null;
+
+  const outcome = runValidationCommand(parts, {
+    cwd,
+    env,
+    rendered,
+    phase: "diagnostic_capture",
+    allowFailure: true,
+  });
+  if (!outcome.failure || outcome.failure.validation_result?.kind !== "exit_failure") return null;
+  if (String(outcome.failure.validation_result?.diagnostic_output ?? "").trim() === "") return null;
+  return outcome.failure;
 }
 
 function runValidationCommand(parts, { cwd, env, rendered, fallback = false, phase = "validation", allowFailure = false }) {
