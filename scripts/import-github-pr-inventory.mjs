@@ -306,7 +306,6 @@ function classifyLowSignalCandidate(base, { body }) {
   addSignal(signals, testsOnlySignal(base.title, files), "test_only");
   addSignal(signals, refactorOnlySignal(base.title, body, files), "refactor_or_cleanup");
   addSignal(signals, labels.includes("triage: refactor-only"), "refactor_or_cleanup");
-  addSignal(signals, thirdPartyCoreSignal(base.title, body, files), "third_party_or_external_capability");
   addSignal(signals, labels.includes("triage: external-plugin-candidate"), "third_party_or_external_capability");
   addSignal(signals, riskyInfraSignal(base.title, files), "risky_infra");
   addSignal(signals, dirtyBranchSignal(files), "dirty_branch");
@@ -831,14 +830,6 @@ function testsOnlySignal(title, files) {
 
 function refactorOnlySignal(title, body, files) {
   return /\b(refactor|cleanup|format|chore)\b/i.test(title) && !/#\d+\b/.test(`${title}\n${body}`) && files.length > 0;
-}
-
-function thirdPartyCoreSignal(title, body, files) {
-  const text = `${title}\n${body}`.toLowerCase();
-  return (
-    /\b(new|add|feat).*(plugin|provider|channel|skill|tool|app)\b/.test(text) ||
-    files.some((file) => /^apps\/linux\//.test(file))
-  );
 }
 
 function riskyInfraSignal(title, files) {
