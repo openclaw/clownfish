@@ -1,0 +1,154 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T181919-001",
+  "mode": "autonomous",
+  "run_id": "27986314457",
+  "workflow_run_id": "27986314457",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27986314457",
+  "head_sha": "24098277c5d16717406c2a551edaf7a5714ed7b5",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:48:39Z",
+  "workflow_updated_at": "2026-06-22T21:55:25Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T181919-001.md",
+  "published_at": "2026-06-22T21:56:10.281Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the shard as independent PR remediation lanes. No merge recommendation is safe from the compacted preflight because the remaining open useful PRs either have merge-risk labels, broad/code-delta blockers, unresolved maintainer-review gates, missing Codex /review merge preflight, or security-routed linked refs. Closed seed PRs are already landed/closed and require no mutation.",
+  "actions": [
+    {
+      "target": "#94697",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep as the canonical open process-kill repair lane, but do not merge or repair automatically without maintainer review and full merge preflight."
+    },
+    {
+      "target": "#94726",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed/merged; no closure or merge action is valid."
+    },
+    {
+      "target": "#95467",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation is valid in this shard."
+    },
+    {
+      "target": "#95481",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer judgment is required for the broad task-route lease direction and for how it relates to the security-routed stack."
+    },
+    {
+      "target": "#93919",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed/merged; no closure or merge action is valid."
+    },
+    {
+      "target": "#76259",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#94697",
+      "candidate_fix": null,
+      "reason": "Keep the issue open and related to the canonical PR lane until a fix lands."
+    },
+    {
+      "target": "#84545",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#94726",
+      "reason": "Do not close because closing is blocked by job frontmatter; keep it classified as superseded by the merged Google catalog PR."
+    },
+    {
+      "target": "#94170",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "superseded",
+      "canonical": null,
+      "candidate_fix": "#93919",
+      "reason": "Do not close because closing is blocked by job frontmatter; keep it classified as superseded by the merged plugin-scan fix."
+    },
+    {
+      "target": "#92460",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open pending maintainer decision on the broad task-route lease path."
+    },
+    {
+      "target": "#85341",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref; route only this exact item."
+    },
+    {
+      "target": "#95352",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref; route only this exact item."
+    },
+    {
+      "target": "#95362",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref; route only this exact item."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_closed": 3,
+    "needs_human": 1,
+    "keep_related": 4,
+    "route_security": 3
+  },
+  "action_status_counts": {
+    "planned": 8,
+    "skipped": 3,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#95481 requires maintainer judgment because it is an XL task-route lease feature with session-state/message-delivery merge-risk labels and security-routed lineage refs #95352/#95362.",
+    "#94697 remains the canonical process-kill PR lane, but merge or executor repair is blocked until maintainer review clears compatibility/availability risk and a full merge preflight exists."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
