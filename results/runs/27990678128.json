@@ -1,0 +1,92 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T231827-005",
+  "mode": "autonomous",
+  "run_id": "27990678128",
+  "workflow_run_id": "27990678128",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27990678128",
+  "head_sha": "e1ff434d2ef736c71ec0f92423d5f346317e4ac4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T23:19:23Z",
+  "workflow_updated_at": "2026-06-22T23:20:56Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T231827-005.md",
+  "published_at": "2026-06-22T23:21:36.930Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the shard without GitHub mutations. No merge recommendation is safe because none of the open PRs has a complete merge preflight with fresh Codex /review proof in the artifact, and several are blocked by merge-risk labels, dirty/unknown mergeability, broad scope, or failing relevant checks. No cluster fix artifact is emitted because the viable repair lanes are unrelated PR families rather than one narrow executable fix.",
+  "actions": [
+    {
+      "target": "#69824",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive and must be routed to central OpenClaw security handling without mutation."
+    },
+    {
+      "target": "#89101",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#64103",
+      "candidate_fix": null,
+      "reason": "Useful candidate for the #64103 session-status family, but not merge-ready in this autonomous shard because fresh Codex /review merge preflight is absent and the PR carries a session-state merge-risk label."
+    },
+    {
+      "target": "#89104",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69242",
+      "candidate_fix": null,
+      "reason": "Focused useful PR for the #69242 diagnostics issue, but merge is blocked by missing merge preflight rather than by an unresolved technical classification."
+    },
+    {
+      "target": "#89469",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#89522",
+      "candidate_fix": null,
+      "reason": "Potentially canonical for requester-model inheritance, but it is broad, dirty, and merge-risk-labeled; keep it open for maintainer/owner review instead of emitting an automated repair or merge path."
+    },
+    {
+      "target": "#95527",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Focused scripts PR can stay in maintainer review; merge_candidate is blocked only by missing merge preflight."
+    },
+    {
+      "target": "#95534",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful focused scripts PR, but merge is blocked by failing relevant checks and missing merge preflight."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "keep_related": 5
+  },
+  "action_status_counts": {
+    "planned": 6
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
