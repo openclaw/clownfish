@@ -67,7 +67,80 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
 });
 
-function makeFixture() {
+test("external merge preflight tolerates non-actionable automation comments", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Codex review: needs maintainer review before merge. Summary only; no findings.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        body: "/clownfish automerge",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+      {
+        author: { login: "openclaw-clownfish[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Clownfish is on the reef for this PR. I tagged `clownfish:automerge`.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed");
+});
+
+test("external merge preflight blocks actionable comment findings", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Codex review: found issues before merge. This changes the wrong source file.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+function makeFixture({ issueComments = [], reviewComments = [], reviews = [] } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
   const runDir = path.join(root, "run");
@@ -120,7 +193,7 @@ if (args[0] === "repo" && args[1] === "clone") {
   process.exit(0);
 }
 if (args[0] === "pr" && args[1] === "view") {
-  console.log(JSON.stringify({ comments: [], headRefOid: head, isDraft: false, mergeStateStatus: "CLEAN", mergeable: "MERGEABLE", reviewDecision: "APPROVED", reviews: [], statusCheckRollup: [], updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
+  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: "CLEAN", mergeable: "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: [], updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
@@ -128,7 +201,7 @@ if (args[0] === "api" && args[1] === "graphql") {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
-  console.log("[]");
+  console.log(${JSON.stringify(JSON.stringify(reviewComments))});
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {

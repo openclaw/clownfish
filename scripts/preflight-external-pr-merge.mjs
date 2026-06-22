@@ -337,16 +337,32 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
   if (threads.hasNextPage) blockers.push("PR has more than 100 review threads");
   const unresolved = threads.nodes.filter((thread) => !thread.isResolved);
   if (unresolved.length > 0) blockers.push(`PR has ${unresolved.length} unresolved review thread(s)`);
-  if (issueComments.length > 0) blockers.push(`PR has ${issueComments.length} top-level issue comment(s); manual resolution evidence required`);
-  if (reviewComments.length > 0) blockers.push(`PR has ${reviewComments.length} inline review comment(s); manual resolution evidence required`);
+  const actionableIssueComments = issueComments.filter((comment) => isActionableCommentEvidence(comment, { pull }));
+  if (actionableIssueComments.length > 0) {
+    blockers.push(
+      `PR has ${actionableIssueComments.length} actionable top-level issue comment(s): ${evidenceExamples(actionableIssueComments).join(", ")}`,
+    );
+  }
+  const actionableReviewComments = reviewComments.filter((comment) => isActionableCommentEvidence(comment, { pull }));
+  if (actionableReviewComments.length > 0) {
+    blockers.push(
+      `PR has ${actionableReviewComments.length} actionable inline review comment(s): ${evidenceExamples(actionableReviewComments).join(", ")}`,
+    );
+  }
   const nonApprovalReviewBodies = (view.reviews ?? []).filter(
-    (review) => String(review.body ?? "").trim() && !isReviewBot(review),
+    (review) => String(review.body ?? "").trim() && !isReviewBot(review) && isActionableCommentEvidence(review, { pull }),
   );
   if (nonApprovalReviewBodies.length > 0) {
-    blockers.push(`PR has ${nonApprovalReviewBodies.length} human review body comment(s); manual resolution evidence required`);
+    blockers.push(
+      `PR has ${nonApprovalReviewBodies.length} actionable human review body comment(s): ${evidenceExamples(nonApprovalReviewBodies).join(", ")}`,
+    );
   }
-  const botReviewBodies = (view.reviews ?? []).filter((review) => isReviewBot(review) && String(review.body ?? "").trim());
-  if (botReviewBodies.length > 0) blockers.push(`PR has ${botReviewBodies.length} review-bot finding(s); manual resolution evidence required`);
+  const botReviewBodies = (view.reviews ?? []).filter(
+    (review) => isReviewBot(review) && String(review.body ?? "").trim() && isActionableCommentEvidence(review, { pull }),
+  );
+  if (botReviewBodies.length > 0) {
+    blockers.push(`PR has ${botReviewBodies.length} actionable review-bot finding(s): ${evidenceExamples(botReviewBodies).join(", ")}`);
+  }
   return blockers;
 }
 
@@ -574,6 +590,51 @@ function checkName(check) {
 
 function isReviewBot(review) {
   return REVIEW_BOT_PATTERN.test(`${review.author?.login ?? ""}\n${review.body ?? ""}`);
+}
+
+function isActionableCommentEvidence(comment, { pull }) {
+  const body = String(comment.body ?? "").trim();
+  if (!body) return false;
+  const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const normalized = body.toLowerCase();
+
+  if (isBenignAutomationComment({ author, body: normalized })) return false;
+  if (isMaintainerCommandComment({ association, body: normalized })) return false;
+
+  if (isReviewBot({ author: { login: author }, body })) {
+    return /found issues|requested changes|changes requested|needs human|do not merge|duplicate|superseded|security/i.test(
+      body,
+    );
+  }
+
+  const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  if (author && pullAuthor && author === pullAuthor && isAuthorStatusComment(normalized)) return false;
+
+  return true;
+}
+
+function isBenignAutomationComment({ author, body }) {
+  if (!/\[bot\]$|bot$/.test(author)) return false;
+  return (
+    /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
+      body,
+    ) || /^<!--\s*(?:clawsweeper|clownfish)-command/.test(body)
+  );
+}
+
+function isMaintainerCommandComment({ association, body }) {
+  return ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) && /^\/(?:clownfish|clawsweeper)\b/.test(body);
+}
+
+function isAuthorStatusComment(body) {
+  return /\b(addressed|updated|added|fixed|ready for maintainer|marked `proof: sufficient`|please take a look|merge if)\b/.test(body);
+}
+
+function evidenceExamples(items) {
+  return items
+    .slice(0, 3)
+    .map((item) => item.html_url ?? item.url ?? item.author?.login ?? item.user?.login ?? "comment");
 }
 
 function isCleanCodexReview(review) {
