@@ -1074,6 +1074,86 @@ test("review-results rejects executable repair paths bound to risk-labeled prefl
   }
 });
 
+test("review-results permits ClawSweeper automerge labels for adopted repair jobs only", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:91286:adopted-automerge",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: ["#91286 is the bounded contributor repair target."],
+          reason: "Repair the contributor branch and preserve attribution.",
+        },
+      ],
+      fix_artifact: validFixArtifact({
+        repair_strategy: "repair_contributor_branch",
+        linked_refs: ["#91286"],
+        source_prs: ["https://github.com/openclaw/openclaw/pull/91286"],
+        credit_notes: ["Preserve the original contributor's credit on the repaired branch."],
+      }),
+    },
+    {
+      job: fixEnabledJob().replace("mode: autonomous", "mode: autonomous\nsource: pr_automerge"),
+      plan: {
+        source_job_permissions: {
+          source: "pr_automerge",
+          canonical: ["#91286"],
+          allowed_actions: ["comment", "label", "close", "fix", "raise_pr"],
+          blocked_actions: ["force_push"],
+          allow_fix_pr: true,
+          allow_merge: false,
+          maintainer_calibration: [],
+        },
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(cron): repair timer behavior",
+            labels: ["clawsweeper:automerge"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+  fs.rmSync(path.join(dir, "job.md"));
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+
+  const artifactPath = path.join(dir, "result.json");
+  const mismatchedArtifact = JSON.parse(fs.readFileSync(artifactPath, "utf8"));
+  mismatchedArtifact.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/91287"];
+  fs.writeFileSync(artifactPath, `${JSON.stringify(mismatchedArtifact, null, 2)}\n`);
+
+  const mismatch = review(dir);
+
+  assert.notEqual(mismatch.status, 0);
+  assert.match(mismatch.stdout, /adopted automerge repair source must be the canonical PR: #91286/);
+
+  mismatchedArtifact.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/91286"];
+  fs.writeFileSync(artifactPath, `${JSON.stringify(mismatchedArtifact, null, 2)}\n`);
+  const planPath = path.join(dir, "cluster-plan.json");
+  const unhydratedPlan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+  unhydratedPlan.items = [];
+  fs.writeFileSync(planPath, `${JSON.stringify(unhydratedPlan, null, 2)}\n`);
+
+  const unhydrated = review(dir);
+
+  assert.notEqual(unhydrated.status, 0);
+  assert.match(unhydrated.stdout, /#91286 adopted automerge repair source was not hydrated in preflight/);
+});
+
 test("review-results rejects close actions targeting risk-labeled preflight PRs", () => {
   for (const label of ["merge-risk: availability", "clawsweeper:automerge"]) {
     const dir = makeResultDir(

@@ -100,6 +100,8 @@ canonical:
   const plan = JSON.parse(fs.readFileSync(path.join(runDir, "cluster-plan.json"), "utf8"));
   const candidate = plan.items.find((item) => item.ref === "#2");
   assert.deepEqual(plan.source_job_permissions, {
+    source: null,
+    canonical: ["#1"],
     allowed_actions: ["comment"],
     blocked_actions: [],
     allow_fix_pr: false,

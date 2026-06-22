@@ -2445,6 +2445,7 @@ function mutableFixSourceRefs(fixArtifact) {
 
 function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
   if (job.frontmatter.mode !== "autonomous") return null;
+  const adoptedAutomergeTarget = adoptedAutomergeRepairTarget(job);
 
   const sources =
     fixArtifact.repair_strategy === "repair_contributor_branch"
@@ -2458,7 +2459,9 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
     const labels = (pull.labels ?? []).map((label) => String(label?.name ?? label)).filter(Boolean);
     const normalizedLabels = labels.map((label) => label.toLowerCase());
     const blockedSignals = [
-      ...(normalizedLabels.includes("clawsweeper:automerge") ? ["clawsweeper:automerge"] : []),
+      ...(normalizedLabels.includes("clawsweeper:automerge") && source.number !== adoptedAutomergeTarget
+        ? ["clawsweeper:automerge"]
+        : []),
       ...labels.filter((label) => /^merge-risk:/i.test(label)),
       ...(hasDeterministicSecuritySignal({ labels }) ? ["security-sensitive"] : []),
     ];
@@ -2472,6 +2475,12 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
   }
 
   return null;
+}
+
+function adoptedAutomergeRepairTarget(job) {
+  if (job.frontmatter.source !== "pr_automerge") return 0;
+  const canonicalRefs = [...new Set((job.frontmatter.canonical ?? []).map(normalizeLocalRef).filter(Boolean))];
+  return canonicalRefs.length === 1 ? Number(canonicalRefs[0].slice(1)) : 0;
 }
 
 function validateAutonomousFixScope({ job, fixArtifact }) {
