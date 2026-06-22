@@ -1,0 +1,298 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T225552-002",
+  "mode": "autonomous",
+  "run_id": "27989656910",
+  "workflow_run_id": "27989656910",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27989656910",
+  "head_sha": "54d2febc5e39755d84f80c11c906a1897c98c686",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T22:56:51Z",
+  "workflow_updated_at": "2026-06-22T23:16:23Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T225552-002.md",
+  "published_at": "2026-06-22T23:17:09.201Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the open inventory shard without GitHub mutation. No PR has the complete merge preflight required for merge recommendation. #93113 is the only narrow, non-high-risk repair lane suitable for an executable artifact; #94044 is the exact hydrated security-sensitive ref and is routed centrally.",
+  "actions": [
+    {
+      "target": "#94044",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated security-sensitive Matrix PR must be handled by central OpenClaw security triage."
+    },
+    {
+      "target": "#93113",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93113",
+      "candidate_fix": null,
+      "reason": "Repair the contributor branch, re-run review and changed checks, then let the executor decide merge after preflight."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260622T225552-002",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#93113",
+      "candidate_fix": null,
+      "reason": "One narrow repairable contributor PR exists in the shard."
+    },
+    {
+      "target": "#67868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#93113",
+      "candidate_fix": "#93113",
+      "reason": "Keep the issue open while #93113 is repaired and validated."
+    },
+    {
+      "target": "#93198",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93198",
+      "reason": "Useful candidate, but not eligible for merge or automated repair from this result."
+    },
+    {
+      "target": "#80933",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93198",
+      "reason": "Keep issue open pending #93198 maintainer handling."
+    },
+    {
+      "target": "#95080",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; no merge or executable fix path is safe in this shard."
+    },
+    {
+      "target": "#87330",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but not mergeable or repairable by this worker result."
+    },
+    {
+      "target": "#52249",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related session-delivery issue with no safe closeout or merge result from this shard."
+    },
+    {
+      "target": "#90178",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open pending a validated session-delivery fix path."
+    },
+    {
+      "target": "#93843",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep open for maintainer review; no executable fix path due compatibility merge-risk label."
+    },
+    {
+      "target": "#94326",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related memory-wiki follow-up candidate; leave for separate review."
+    },
+    {
+      "target": "#94416",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94416",
+      "reason": "Useful non-security candidate, but not eligible for merge or automated repair in this shard."
+    },
+    {
+      "target": "#93501",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#94416",
+      "reason": "Keep issue open while non-security and security-routed Matrix paths are handled separately."
+    },
+    {
+      "target": "#84593",
+      "action": "keep_independent",
+      "status": "planned",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Independent follow-up issue, not covered by this shard's candidate PR actions."
+    }
+  ],
+  "action_counts": {
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 11,
+    "keep_independent": 1
+  },
+  "action_status_counts": {
+    "planned": 15
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "executed": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#93113",
+    "source_refs": [
+      "#93113",
+      "#67868",
+      "#64742",
+      "#65992",
+      "#67882",
+      "#67910",
+      "#67923",
+      "#78239",
+      "#80937",
+      "#87330",
+      "#88315",
+      "#92979",
+      "#93198",
+      "#93843",
+      "#94044",
+      "#94326",
+      "#94416",
+      "#95080",
+      "#52249",
+      "#65965"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #93113 in place so memory-core status reports active light, REM, and deep dreaming phases without regressing existing deep dreaming details. The contributor branch is editable and narrow, but merge is blocked until the executor fixes the reported check failures, runs a fresh Codex /review, and passes changed checks.",
+    "pr_title": "fix(memory-core): repair active dreaming status phases",
+    "pr_body": "## What Problem This Solves\n\n`openclaw memory status` can report dreaming as off when only light or REM dreaming phases are active. This carries forward the narrow fix from #93113 for #67868.\n\n## Why This Change Was Made\n\nThe contributor branch is editable and already contains the focused memory-core implementation and regression tests. Clownfish should repair that branch rather than replace it so @AgentArcLab keeps authorship and review context.\n\n## User Impact\n\nOperators get accurate phase-aware memory dreaming status while preserving the existing deep dreaming details and limits.\n\n## Evidence\n\nSource PR: https://github.com/openclaw/openclaw/pull/93113\nLinked issue: #67868\nRequired validation: `pnpm test extensions/memory-core/src/cli.test.ts`, `pnpm check:changed`, then fresh Codex /review before merge.",
+    "likely_files": [
+      "extensions/memory-core/src/cli.runtime.ts",
+      "extensions/memory-core/src/cli.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/memory-core/src/cli.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @AgentArcLab via source PR https://github.com/openclaw/openclaw/pull/93113.",
+      "PR body or squash message should include release-note context for the user-visible memory status behavior; do not edit CHANGELOG.md for a normal PR."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T225552-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#94044"
+    ],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/93113",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e93c3c238fc9b78b1d35cc17d6f3ad0270c6d388",
+      "checkpoint_commits": [
+        "a8546439561922db5deae325556fd92ce1c8fdf2",
+        "fd4d7f1345b341559a9e62c905c24a857b94d41b",
+        "e93c3c238fc9b78b1d35cc17d6f3ad0270c6d388"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#93113",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(memory-core): report active dreaming phases in status",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-22T23:16:15Z",
+      "merge_commit_sha": "fc15c58715f4eafbd258abaeb0e90a715bd67f60",
+      "expected_head_sha": "e93c3c238fc9b78b1d35cc17d6f3ad0270c6d388",
+      "live_state": "merged",
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#93113",
+      "action": "merge_canonical",
+      "status": "executed",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(memory-core): report active dreaming phases in status",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merged by ProjectClownfish post-flight",
+      "merged_at": "2026-06-22T23:16:15Z",
+      "merge_commit_sha": "fc15c58715f4eafbd258abaeb0e90a715bd67f60",
+      "expected_head_sha": "e93c3c238fc9b78b1d35cc17d6f3ad0270c6d388",
+      "live_state": "merged",
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
