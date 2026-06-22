@@ -20,8 +20,14 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /unresolved review thread/);
   assert.match(script, /top-level issue comment/);
   assert.match(script, /inline review comment/);
-  assert.match(script, /--sandbox",\s*"read-only"/);
+  assert.match(
+    script,
+    /const defaultCodexReviewSandbox = process\.env\.GITHUB_ACTIONS === "true" \? "danger-full-access" : "read-only";/,
+  );
+  assert.match(script, /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \?\? defaultCodexReviewSandbox/);
+  assert.match(script, /--sandbox",\s*codexReviewSandbox/);
   assert.match(script, /delete env\[key\]/);
+  assert.match(script, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
   assert.match(script, /function validationEnv\(\)[\s\S]*?"CLOWNFISH_READ_GH_TOKEN"/);
   assert.doesNotMatch(script, /pr", "merge"/);
   assert.doesNotMatch(script, /resolveReviewThread/);
