@@ -1,0 +1,86 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T181919-004",
+  "mode": "autonomous",
+  "run_id": "27986671529",
+  "workflow_run_id": "27986671529",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27986671529",
+  "head_sha": "243a93534a2ff9afe7769318ca9eaff44d3ad531",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T21:55:33Z",
+  "workflow_updated_at": "2026-06-22T21:57:35Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T181919-004.md",
+  "published_at": "2026-06-22T21:58:18.835Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/22676",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/22676",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/71863",
+  "summary": "#22676 is the open canonical issue for the Signal daemon restart shutdown race, and #71863 is the narrow open PR candidate. Current main at 75b9e761b73949cbb85ff0b93fd38f0c1bc84eb8 still has synchronous fire-and-forget Signal daemon stop behavior, but #71863 cannot be recommended for merge from this worker result because the merge preflight is incomplete and the PR carries an availability merge-risk label that needs maintainer acceptance.",
+  "actions": [
+    {
+      "target": "#5421",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#22676",
+      "candidate_fix": "#71863",
+      "reason": "Already closed historical duplicate; keep as evidence only."
+    },
+    {
+      "target": "#10326",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#22676",
+      "candidate_fix": "#71863",
+      "reason": "Already closed duplicate context; keep closed."
+    },
+    {
+      "target": "#22676",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#22676",
+      "candidate_fix": "#71863",
+      "reason": "Keep open until #71863 or an equivalent focused Signal-owned fix lands."
+    },
+    {
+      "target": "#46357",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#71863",
+      "candidate_fix": "#71863",
+      "reason": "Closed unmerged broad prior attempt; superseded by narrower open PR #71863."
+    },
+    {
+      "target": "#71863",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#71863",
+      "candidate_fix": null,
+      "reason": "Canonical PR candidate, but merge requires maintainer acceptance of the availability-risk policy change and a fresh complete merge preflight."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "keep_canonical": 2
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#71863: maintainer should decide whether to accept the Signal daemon teardown policy change flagged by merge-risk: availability before the executor can run the final merge gates."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
