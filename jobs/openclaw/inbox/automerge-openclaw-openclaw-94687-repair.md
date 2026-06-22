@@ -19,6 +19,7 @@ allowed_fix_files:
   - src/cli/gateway-port-option.ts
   - src/commands/gateway-status.ts
   - src/commands/gateway-status/helpers.ts
+  - src/commands/health.ts
   - src/gateway/call.ts
   - src/gateway/connection-details.ts
   - src/cli/gateway-cli/register.option-collisions.test.ts
