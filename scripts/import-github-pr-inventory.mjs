@@ -5,6 +5,9 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 
+const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
+const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
+const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
 const [owner, name] = repo.split("/");
@@ -50,7 +53,7 @@ const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_
 
 if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) die("--repo must be owner/repo");
 if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomous");
-if (!["graphql", "search"].includes(inventorySource)) die("--inventory-source must be graphql or search");
+if (!["graphql", "search", "pr-list"].includes(inventorySource)) die("--inventory-source must be graphql, search, or pr-list");
 if (!["triage", "remediation", "low-signal"].includes(strategy)) die("--strategy must be triage, remediation, or low-signal");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-results-action-policy must be all or terminal");
@@ -125,6 +128,10 @@ function fetchOpenPullRequests() {
   if (fetchOpenPullRequests.cache) return fetchOpenPullRequests.cache;
   if (inventorySource === "search") {
     fetchOpenPullRequests.cache = fetchOpenPullRequestsFromSearch();
+    return fetchOpenPullRequests.cache;
+  }
+  if (inventorySource === "pr-list") {
+    fetchOpenPullRequests.cache = fetchOpenPullRequestsFromPrList();
     return fetchOpenPullRequests.cache;
   }
   const query = `query($endCursor:String){
@@ -206,6 +213,68 @@ function fetchOpenPullRequestsFromSearch() {
   return pulls.map(normalizeSearchPullRequest);
 }
 
+function fetchOpenPullRequestsFromPrList() {
+  const fields = [
+    "assignees",
+    "author",
+    "baseRefName",
+    "body",
+    "changedFiles",
+    "createdAt",
+    "deletions",
+    "additions",
+    "isDraft",
+    "labels",
+    "maintainerCanModify",
+    "mergeable",
+    "mergeStateStatus",
+    "number",
+    "reviewDecision",
+    "statusCheckRollup",
+    "title",
+    "updatedAt",
+    "url",
+  ].join(",");
+  const search = String(
+    args.search ??
+      args["pr-list-search"] ??
+      args.pr_list_search ??
+      remediationPrListSearchQuery(),
+  );
+  const pulls = ghJsonWithRetry(
+    [
+      "pr",
+      "list",
+      "--repo",
+      repo,
+      "--state",
+      "open",
+      "--search",
+      search,
+      "--limit",
+      String(searchLimit),
+      "--json",
+      fields,
+    ],
+    { operation: "list open pull request inventory" },
+  );
+  if (!Array.isArray(pulls)) throw new Error("GitHub PR list returned a non-array payload");
+  return pulls.map(normalizePrListPullRequest).filter((pull) => !prListMergeBlocker(pull));
+}
+
+function remediationPrListSearchQuery() {
+  if (strategy !== "remediation") return "state:open";
+  return [
+    'label:"status: 👀 ready for maintainer look"',
+    'label:"proof: sufficient"',
+    "base:main",
+    '-label:"status: ⏳ waiting on author"',
+    '-label:"status: 📣 needs proof"',
+    '-label:"triage: needs-real-behavior-proof"',
+    '-label:"triage: mock-only-proof"',
+  ].join(" ");
+}
+
 function normalizeSearchPullRequest(raw) {
   return {
     number: raw.number,
@@ -225,6 +294,78 @@ function normalizeSearchPullRequest(raw) {
     comments: { totalCount: Number(raw.commentsCount ?? raw.comments?.totalCount ?? 0) },
     reviews: { totalCount: Number(raw.reviewsCount ?? raw.reviews?.totalCount ?? 0) },
   };
+}
+
+function normalizePrListPullRequest(raw) {
+  return {
+    number: raw.number,
+    title: raw.title,
+    url: raw.url,
+    createdAt: raw.createdAt,
+    updatedAt: raw.updatedAt,
+    isDraft: raw.isDraft,
+    changedFiles: raw.changedFiles,
+    additions: raw.additions,
+    deletions: raw.deletions,
+    author: typeof raw.author === "string" ? { login: raw.author } : raw.author,
+    authorAssociation: raw.authorAssociation,
+    baseRefName: raw.baseRefName,
+    mergeable: raw.mergeable,
+    mergeStateStatus: raw.mergeStateStatus,
+    reviewDecision: raw.reviewDecision,
+    maintainerCanModify: raw.maintainerCanModify,
+    statusCheckRollup: raw.statusCheckRollup,
+    body: raw.body,
+    labels: { nodes: arrayNodes(raw.labels, "name") },
+    assignees: { nodes: arrayNodes(raw.assignees, "login") },
+    comments: { totalCount: Number(raw.commentsCount ?? raw.comments?.totalCount ?? 0) },
+    reviews: { totalCount: Number(raw.reviewsCount ?? raw.reviews?.totalCount ?? 0) },
+  };
+}
+
+function prListMergeBlocker(raw) {
+  if (strategy !== "remediation") return false;
+  const labels = labelNames(raw.labels);
+  if (hasExactSecuritySignal({ title: raw.title, labels }) || hasSecuritySensitiveText(raw.title, raw.body ?? "", labels)) return true;
+  if (raw.isDraft) return true;
+  if (raw.baseRefName && raw.baseRefName !== "main") return true;
+  if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(raw.reviewDecision ?? ""))) return true;
+  if (raw.mergeable && raw.mergeable !== "MERGEABLE") return true;
+  if (raw.mergeStateStatus && !isAcceptableMergeState(raw)) return true;
+  return latestStatusChecks(raw.statusCheckRollup ?? []).some(isFailingCheck);
+}
+
+function isFailingCheck(check) {
+  const name = checkName(check);
+  if (IGNORED_CHECKS.has(name) || IGNORED_CHECKS.has(String(check.workflowName ?? ""))) return false;
+  const status = String(check.status ?? check.state ?? "").toUpperCase();
+  const conclusion = String(check.conclusion ?? "").toUpperCase();
+  return ["COMPLETED", "SUCCESS"].includes(status) && conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion);
+}
+
+function isAcceptableMergeState(view) {
+  const state = String(view.mergeStateStatus ?? "");
+  if (CLEAN_MERGE_STATES.has(state)) return true;
+  return state === "UNSTABLE" && view.mergeable === "MERGEABLE" && latestStatusChecks(view.statusCheckRollup ?? []).every((check) => !isFailingCheck(check));
+}
+
+function latestStatusChecks(checks) {
+  const latest = new Map();
+  for (const check of checks) {
+    const key = `${String(check.workflowName ?? "")}\0${checkName(check)}`;
+    const prior = latest.get(key);
+    if (!prior || checkTimestamp(check) >= checkTimestamp(prior)) latest.set(key, check);
+  }
+  return [...latest.values()];
+}
+
+function checkTimestamp(check) {
+  const value = Date.parse(String(check.completedAt ?? check.completed_at ?? check.startedAt ?? check.started_at ?? ""));
+  return Number.isFinite(value) ? value : 0;
+}
+
+function checkName(check) {
+  return String(check.name ?? check.context ?? "unknown check");
 }
 
 function arrayNodes(value, key) {

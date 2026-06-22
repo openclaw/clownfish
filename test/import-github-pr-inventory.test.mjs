@@ -136,6 +136,30 @@ test("remediation inventory can use search source for faster ready PR intake", (
   assert.equal(payload.totals.fetched_open_prs, 4);
 });
 
+test("remediation inventory pr-list source filters obvious merge blockers", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+  writeExistingJob(path.join(fixture.existing, "active.md"), "#109");
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
+  assert.equal(payload.totals.fetched_open_prs, 2);
+});
+
 function runImport(fixture, ...extraArgs) {
   const write = extraArgs.includes("--write");
   const defaultExistingDir = extraArgs.includes("--default-existing-dir");
@@ -282,10 +306,53 @@ function writeFakeGh(filePath) {
     commentsCount: 0,
     body: "",
   });
+  const cleanPrListPull = {
+    number: 110,
+    title: "clean ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/110",
+    createdAt: "2026-01-01T00:00:00Z",
+    updatedAt: "2026-01-10T00:00:00Z",
+    isDraft: false,
+    author: { login: "contributor-110" },
+    baseRefName: "main",
+    mergeable: "MERGEABLE",
+    mergeStateStatus: "CLEAN",
+    reviewDecision: "APPROVED",
+    statusCheckRollup: [{ name: "test", status: "COMPLETED", conclusion: "SUCCESS", completedAt: "2026-01-10T00:00:00Z" }],
+    labels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    assignees: [],
+    commentsCount: 0,
+    body: "",
+  };
+  const dirtyPrListPull = {
+    ...cleanPrListPull,
+    number: 111,
+    title: "dirty ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/111",
+    updatedAt: "2026-01-11T00:00:00Z",
+    mergeable: "CONFLICTING",
+    mergeStateStatus: "DIRTY",
+  };
+  const existingPrListPull = {
+    ...cleanPrListPull,
+    number: 109,
+    title: "existing clean ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/109",
+    updatedAt: "2026-01-09T00:00:00Z",
+  };
+  const securityPrListPull = {
+    ...cleanPrListPull,
+    number: 112,
+    title: "security ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/112",
+    updatedAt: "2026-01-12T00:00:00Z",
+    labels: [{ name: "security" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+  };
+  const prListPulls = [existingPrListPull, dirtyPrListPull, securityPrListPull, cleanPrListPull];
   fs.writeFileSync(
     filePath,
     `#!/usr/bin/env node
-const payload = process.argv[2] === "search" ? ${JSON.stringify(searchPulls)} : ${JSON.stringify({
+const payload = process.argv[2] === "search" ? ${JSON.stringify(searchPulls)} : process.argv[2] === "pr" ? ${JSON.stringify(prListPulls)} : ${JSON.stringify({
   data: {
     repository: {
       pullRequests: {

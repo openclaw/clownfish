@@ -9,6 +9,8 @@ const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
+const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
+const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 10 * 60 * 1000);
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
@@ -60,20 +62,20 @@ let report = {
 };
 
 try {
-  pull = ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]);
-  view = fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest });
+  pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
+  view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
   plan = buildPlan({ sourceJob, virtualJob, pull, view, pullRequest, baseBranch });
 
-  const blockers = readOnlyBlockers({ sourceJob, pull, view, pullRequest });
+  const blockers = stage("read-only blockers", () => readOnlyBlockers({ sourceJob, pull, view, pullRequest }));
   if (blockers.length > 0) {
     writeBlockedArtifacts({ reason: blockers.join("; ") });
     process.exit(0);
   }
 
-  checkoutExactPullHead({ repo: sourceJob.frontmatter.repo, pullRequest, expectedHeadSha: pull.head.sha });
+  stage("checkout exact PR head", () => checkoutExactPullHead({ repo: sourceJob.frontmatter.repo, pullRequest, expectedHeadSha: pull.head.sha }));
   const currentMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim();
   const baseDriftAllowed = currentMainSha !== pull.base.sha && canTolerateBaseDrift(view);
   if (currentMainSha !== pull.base.sha && !baseDriftAllowed) {
@@ -84,15 +86,17 @@ try {
     process.exit(0);
   }
 
-  prepareTargetToolchain(targetDir);
-  const validationCommands = runValidation({ targetDir, baseBranch });
-  const codexReview = runCodexReview({
-    repo: sourceJob.frontmatter.repo,
-    pullRequest,
-    targetDir,
-    validationCommands,
-    sourceJob,
-  });
+  stage("prepare target toolchain", () => prepareTargetToolchain(targetDir));
+  const validationCommands = stage("target validation", () => runValidation({ targetDir, baseBranch }));
+  const codexReview = stage("Codex review", () =>
+    runCodexReview({
+      repo: sourceJob.frontmatter.repo,
+      pullRequest,
+      targetDir,
+      validationCommands,
+      sourceJob,
+    }),
+  );
   if (!isCleanCodexReview(codexReview)) {
     writeBlockedArtifacts({
       reason: `Codex /review did not pass: ${String(codexReview.summary ?? "unknown")}`,
@@ -446,20 +450,20 @@ function prepareTargetToolchain(cwd) {
     ],
     { cwd, env },
   );
-  run("corepack", ["enable"], { cwd, env });
-  run("corepack", ["prepare", packageManager, "--activate"], { cwd, env });
+  run("corepack", ["enable"], { cwd, env, timeout: INSTALL_TIMEOUT_MS });
+  run("corepack", ["prepare", packageManager, "--activate"], { cwd, env, timeout: INSTALL_TIMEOUT_MS });
   run(
     "pnpm",
     ["install", "--frozen-lockfile", "--prefer-offline", "--config.engine-strict=false", "--config.enable-pre-post-scripts=true"],
-    { cwd, env },
+    { cwd, env, timeout: INSTALL_TIMEOUT_MS },
   );
 }
 
 function runValidation({ targetDir, baseBranch }) {
   const env = validationEnv();
-  run("pnpm", ["check:changed"], { cwd: targetDir, env });
-  run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir, env });
-  run("git", ["diff", "--check"], { cwd: targetDir, env });
+  run("pnpm", ["check:changed"], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
+  run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
+  run("git", ["diff", "--check"], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
   return ["pnpm check:changed", `git diff --check origin/${baseBranch}...HEAD`, "git diff --check"];
 }
 
@@ -831,6 +835,17 @@ function run(command, commandArgs, options = {}) {
   if (child.error) throw child.error;
   if (child.status !== 0) throw new Error((child.stderr || child.stdout || `${command} exited ${child.status}`).trim());
   return child.stdout ?? "";
+}
+
+function stage(name, fn) {
+  console.log(`::group::external preflight: ${name}`);
+  const started = Date.now();
+  try {
+    return fn();
+  } finally {
+    console.log(`external preflight: ${name} finished in ${Date.now() - started}ms`);
+    console.log("::endgroup::");
+  }
 }
 
 function normalizeRef(value) {
