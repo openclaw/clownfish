@@ -1,0 +1,71 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1375-autonomous-bulk-20260622b",
+  "mode": "autonomous",
+  "run_id": "27961719096",
+  "workflow_run_id": "27961719096",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27961719096",
+  "head_sha": "cbf4207a7692d7b1b364a892069127245a796578",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T14:52:27Z",
+  "workflow_updated_at": "2026-06-22T14:55:30Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1375-autonomous-bulk-20260622b.md",
+  "published_at": "2026-06-22T14:56:41.082Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/94280",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/94280",
+  "canonical_pr": null,
+  "summary": "Current main already fixed the default screenshot delivery path through merged PR #93499: `screen.snapshot` is mapped to `screen_snapshot`, writes a file-backed result, and raw default invoke is blocked. The remaining open work is the explicit raw-media-invoke compatibility question in #94281, which has a failing real-behavior-proof check and a bot review asking for proof before merge, so this cluster should not close #94280 or merge/repair #94281 without maintainer direction.",
+  "actions": [
+    {
+      "target": "#94280",
+      "action": "keep_canonical",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#94280",
+      "candidate_fix": "#93499",
+      "reason": "Keep #94280 as the canonical open decision thread. Closure is blocked because the default behavior is fixed, but the remaining explicit raw `nodes.invoke` compatibility behavior is still unresolved and linked to #94281."
+    },
+    {
+      "target": "#94281",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94280",
+      "candidate_fix": null,
+      "reason": "#94281 is related same-root-cause context, but overlap policy excludes it from this cluster's actionable refs. It also is not merge-ready because the raw invoke compatibility decision and real behavior proof remain unresolved."
+    },
+    {
+      "target": "#94818",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive; route only this ref to central security handling."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "skipped": 1,
+    "planned": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for #94280/#94281: whether explicit `allowMediaInvokeCommands` raw `nodes.invoke screen.snapshot` should keep returning raw JSON for compatibility, or be changed to a file-backed/sanitized return path.",
+    "If maintainers approve changing the explicit raw invoke path, #94281 still needs real behavior proof and a fresh review/validation gate before any merge recommendation."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
