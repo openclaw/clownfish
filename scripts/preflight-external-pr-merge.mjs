@@ -713,7 +713,7 @@ function isClawSweeperReadyReviewComment({ author, body, pull }) {
   if (!/(review metrics:\*\*\s*none identified|review metrics:\s*none identified|result:\s*ready for maintainer review|no repair job is needed)/.test(body)) {
     return false;
   }
-  return !/found issues before merge|requested changes|changes requested|do not merge/.test(body);
+  return !/found issues before merge|requested changes|changes requested/.test(body);
 }
 
 function hasAutonomousMergeReadySignal(pull) {
