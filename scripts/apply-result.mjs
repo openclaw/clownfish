@@ -521,7 +521,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
-  const currentBaseBlock = validatePullRequestCurrentBase({ repo: result.repo, pullRequest });
+  const currentBaseBlock = validatePullRequestCurrentBase({ repo: result.repo, pullRequest, view });
   if (currentBaseBlock) {
     return {
       ...base,
@@ -795,7 +795,7 @@ function validateMergeablePullRequest({ pullRequest, view }) {
   return "";
 }
 
-function validatePullRequestCurrentBase({ repo, pullRequest }) {
+function validatePullRequestCurrentBase({ repo, pullRequest, view }) {
   const pullRequestBaseSha = String(pullRequest?.base?.sha ?? "");
   const currentMainSha = fetchBranchHeadSha(repo, "main");
   if (!pullRequestBaseSha || !currentMainSha) {
@@ -806,6 +806,9 @@ function validatePullRequestCurrentBase({ repo, pullRequest }) {
     };
   }
   if (pullRequestBaseSha !== currentMainSha) {
+    if (view?.mergeable === "MERGEABLE" && isAcceptableMergeState(view) && !validateStatusChecks(view.statusCheckRollup ?? [])) {
+      return null;
+    }
     return {
       reason: "pull request base is stale relative to current main; rebase and rerun validation",
       pull_request_base_sha: pullRequestBaseSha,

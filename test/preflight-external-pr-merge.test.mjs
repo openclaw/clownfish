@@ -70,6 +70,30 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
 });
 
+test("external merge preflight tolerates base drift when exact head remains clean", () => {
+  const fixture = makeFixture({ currentMainSha: "c".repeat(40) });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const result = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "result.json"), "utf8"));
+  assert.equal(result.actions.length, 1);
+  assert.match(result.actions[0].evidence.join("\n"), /drifted from origin\/main/);
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.base_drift_allowed, true);
+});
+
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
     mergeStateStatus: "UNSTABLE",
@@ -190,6 +214,7 @@ function makeFixture({
   pullLabels = [],
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
+  currentMainSha = null,
 } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
@@ -268,7 +293,8 @@ process.exit(1);
 const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
-if (args[0] === "rev-parse") console.log(args[1] === "origin/main" ? base : head);
+const currentMain = ${JSON.stringify(currentMainSha)} || base;
+if (args[0] === "rev-parse") console.log(args[1] === "origin/main" ? currentMain : head);
 if (args[0] === "merge-base") console.log(base);
 process.exit(0);
 `,

@@ -83,7 +83,8 @@ try {
 
   checkoutExactPullHead({ repo: sourceJob.frontmatter.repo, pullRequest, expectedHeadSha: pull.head.sha });
   const currentMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim();
-  if (currentMainSha !== pull.base.sha) {
+  const baseDriftAllowed = currentMainSha !== pull.base.sha && canTolerateBaseDrift(view);
+  if (currentMainSha !== pull.base.sha && !baseDriftAllowed) {
     writeBlockedArtifacts({
       reason: `base advanced before validation: reviewed base ${pull.base.sha}, current ${currentMainSha}`,
       currentMainSha,
@@ -119,6 +120,7 @@ try {
     validationCommands,
     codexReview,
     currentMainSha,
+    baseDriftAllowed,
   });
   report = {
     ...report,
@@ -126,6 +128,7 @@ try {
     reviewed_head_sha: pull.head.sha,
     reviewed_base_sha: pull.base.sha,
     current_main_sha: currentMainSha,
+    base_drift_allowed: baseDriftAllowed,
     validation_commands: validationCommands,
     codex_review: {
       status: codexReview.status,
@@ -502,10 +505,12 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
   return JSON.parse(fs.readFileSync(outputPath, "utf8"));
 }
 
-function buildMergeResult({ sourceJob, virtualJob, pull, view, pullRequest, validationCommands, codexReview, currentMainSha }) {
+function buildMergeResult({ sourceJob, virtualJob, pull, view, pullRequest, validationCommands, codexReview, currentMainSha, baseDriftAllowed }) {
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
-    `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
+    baseDriftAllowed
+      ? `PR base ${pull.base.sha} drifted from origin/main ${currentMainSha}; exact head remained mergeable with clean latest checks and validation ran against origin/main.`
+      : `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
     `GitHub merge state ${view.mergeStateStatus} and review decision ${view.reviewDecision ?? "none"} were clean.`,
   ];
   return {
@@ -602,6 +607,10 @@ function isAcceptableMergeState(view) {
   const state = String(view.mergeStateStatus ?? "");
   if (CLEAN_MERGE_STATES.has(state)) return true;
   return state === "UNSTABLE" && view.mergeable === "MERGEABLE" && latestStatusChecks(view.statusCheckRollup ?? []).every((check) => !isFailingCheck(check));
+}
+
+function canTolerateBaseDrift(view) {
+  return view?.mergeable === "MERGEABLE" && isAcceptableMergeState(view) && latestStatusChecks(view.statusCheckRollup ?? []).every((check) => !isFailingCheck(check));
 }
 
 function latestStatusChecks(checks) {

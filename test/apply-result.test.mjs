@@ -297,7 +297,7 @@ test("apply-result records primary GitHub rate limits as retryable blocks", () =
   assert.match(report.actions[0].reason, /GitHub rate limit/);
 });
 
-test("apply-result blocks a merge when the PR base is behind current main", () => {
+test("apply-result tolerates stale PR base when exact head remains mergeable with clean checks", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
   fs.mkdirSync(binDir, { recursive: true });
@@ -314,9 +314,27 @@ test("apply-result blocks a merge when the PR base is behind current main", () =
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
   assert.equal(report.actions[0].status, "blocked");
-  assert.match(report.actions[0].reason, /base is stale relative to current main/);
-  assert.equal(report.actions[0].pull_request_base_sha, "stale-base");
-  assert.equal(report.actions[0].current_main_sha, "current-main");
+  assert.match(report.actions[0].reason, /CLOWNFISH_ALLOW_MERGE=1/);
+});
+
+test("apply-result blocks a stale PR base when latest checks are not clean", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeStaleMergeGhStub(binDir, { statusCheckRollup: [{ name: "CI", status: "IN_PROGRESS", conclusion: "" }] });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /checks are not clean/);
 });
 
 test("apply-result blocks a merge when the PR head changed after worker review", () => {
@@ -486,7 +504,7 @@ process.exit(1);
   fs.chmodSync(ghPath, 0o755);
 }
 
-function writeStaleMergeGhStub(binDir) {
+function writeStaleMergeGhStub(binDir, { statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }] } = {}) {
   const ghPath = path.join(binDir, "gh");
   fs.writeFileSync(
     ghPath,
@@ -528,7 +546,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
     reviewDecision: "APPROVED",
-    statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }]
+    statusCheckRollup: ${JSON.stringify(statusCheckRollup)}
   });
 } else {
   process.stderr.write("unexpected gh call: " + args.join(" ") + "\\n");
