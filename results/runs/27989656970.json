@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T225552-001",
+  "mode": "autonomous",
+  "run_id": "27989656970",
+  "workflow_run_id": "27989656970",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27989656970",
+  "head_sha": "54d2febc5e39755d84f80c11c906a1897c98c686",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T22:56:51Z",
+  "workflow_updated_at": "2026-06-22T22:58:57Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T225552-001.md",
+  "published_at": "2026-06-22T22:59:33.578Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the autonomous PR inventory shard using the hydrated preflight artifact. No GitHub mutations are planned because close/comment actions are blocked, merge preflight is incomplete for all open PRs, two unrelated repair candidates lack a single complete executable fix artifact, and the only security-sensitive linked PR is quarantined to central security handling.",
+  "actions": [
+    {
+      "target": "#86279",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful PR, but merge is blocked by missing complete merge preflight; no narrow repair artifact is needed from this shard."
+    },
+    {
+      "target": "#87923",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related contributor PR, but it is currently dirty and failing Real behavior proof; classify non-mutatingly rather than emitting placeholder fix_needed without an executable fix artifact."
+    },
+    {
+      "target": "#90323",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only the exact security-sensitive linked PR to central OpenClaw security handling; do not mutate it in Clownfish."
+    },
+    {
+      "target": "#90648",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": "#93662",
+      "reason": "Already covered by merged hydrated replacement #93662, but closure is not allowed in this job."
+    },
+    {
+      "target": "#94991",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Useful related contributor PR, but it is currently dirty and lacks a complete current merge preflight; classify non-mutatingly rather than emitting placeholder fix_needed without an executable fix artifact."
+    },
+    {
+      "target": "#95070",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer compatibility decision is required before Clownfish can repair, replace, or merge this storage-format change."
+    }
+  ],
+  "action_counts": {
+    "keep_related": 3,
+    "route_security": 1,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#95070 requires maintainer judgment because it changes memory-core embedding-cache storage compatibility and carries merge-risk: compatibility; executable repair/fix artifact planning is blocked by policy."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

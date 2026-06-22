@@ -1,0 +1,98 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260622T225552-006",
+  "mode": "autonomous",
+  "run_id": "27989657307",
+  "workflow_run_id": "27989657307",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27989657307",
+  "head_sha": "54d2febc5e39755d84f80c11c906a1897c98c686",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-22T22:56:51Z",
+  "workflow_updated_at": "2026-06-22T22:58:47Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260622T225552-006.md",
+  "published_at": "2026-06-22T22:59:33.587Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the five ready-for-maintainer PRs from the hydrated preflight. No GitHub mutations are planned because close/comment/label are blocked, merge preflight is missing for all open PRs, and executable fix artifacts are blocked by either high-risk merge labels, active product-scope ambiguity, or a security-routed linked ref. Only exact hydrated security-sensitive issue #88111 is routed to security handling; non-security PR #88203 is kept related because its repair path depends on that quarantined issue.",
+  "actions": [
+    {
+      "target": "#88159",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#88159",
+      "candidate_fix": null,
+      "reason": "Best classification is keep as a viable canonical PR candidate; merge cannot be recommended without a complete merge_preflight and fresh Codex /review."
+    },
+    {
+      "target": "#88203",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Keep #88203 as a related non-security PR while exact issue #88111 is routed to security handling; the PR cannot be repaired or merged here because its approval-wait lineage depends on the quarantined issue and lacks merge preflight."
+    },
+    {
+      "target": "#88111",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact security-sensitive hydrated ref must be routed to central OpenClaw security handling."
+    },
+    {
+      "target": "#92040",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": "#92053",
+      "reason": "The remaining value of #92040 after #92053 and #93261 is a product/provider architecture decision with broad compatibility and auth-provider impact, not a narrow executable repair for this shard."
+    },
+    {
+      "target": "#95412",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95412",
+      "candidate_fix": null,
+      "reason": "Keep as the canonical narrow Discord PR candidate. Merge is blocked until the executor obtains a complete merge_preflight and resolves the unstable merge state."
+    },
+    {
+      "target": "#87891",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Requires maintainer product decision on whether to add the new Telegram spooled handler timeout config surface; current branch is dirty and proof failed, so it is not mergeable or repairable as a narrow automation task."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 2,
+    "keep_related": 1,
+    "route_security": 1,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#92040: decide whether any broader provider API-family thinking-policy work remains desirable after merged #92053 and #93261, given compatibility/auth-provider risk and maintainer rebase/drop-overlap request.",
+    "#87891: decide whether OpenClaw should publish the new Telegram spooled handler timeout config surface at all; proof and merge state are currently insufficient."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
