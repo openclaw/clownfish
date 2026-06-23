@@ -1,0 +1,225 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260623T011853-003",
+  "mode": "autonomous",
+  "run_id": "27996192694",
+  "workflow_run_id": "27996192694",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27996192694",
+  "head_sha": "10c419e0955335dd247cb8395e7a5859e76aa512",
+  "workflow_conclusion": "cancelled",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T01:38:38Z",
+  "workflow_updated_at": "2026-06-23T01:47:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260623T011853-003.md",
+  "published_at": "2026-06-23T01:48:02.322Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/66685",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/66685",
+  "summary": "Classified the fresh PR inventory shard from the hydrated preflight artifact. No merge is recommended because none of the open PRs has a complete merge preflight with a passed Codex /review. One security-sensitive open PR is routed centrally; one closed security-sensitive linked PR is quarantined as historical security context. Useful, focused open contributor PRs are kept as repair/merge candidates for normal maintainer finalization.",
+  "actions": [
+    {
+      "target": "#73649",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#73649",
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but no merge recommendation without a fresh passed Codex /review and complete merge preflight."
+    },
+    {
+      "target": "#94636",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94636",
+      "candidate_fix": null,
+      "reason": "Useful focused PR with passing checks, but merge requires fresh Codex /review preflight."
+    },
+    {
+      "target": "#89444",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94636",
+      "candidate_fix": "#94636",
+      "reason": "Covered by the focused open candidate PR, but keep the issue open until the canonical fix lands and post-merge closeout is allowed."
+    },
+    {
+      "target": "#66685",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#66685",
+      "candidate_fix": null,
+      "reason": "Repair the maintainer-editable contributor branch by rebasing/conflict-resolving, rerunning review and checks, then reconsidering merge."
+    },
+    {
+      "target": "#94452",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94452",
+      "candidate_fix": null,
+      "reason": "Keep as canonical for the nodes approve UX issue, but do not merge without resolving/checking unstable state and completing Codex /review preflight."
+    },
+    {
+      "target": "#94040",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94452",
+      "candidate_fix": "#94452",
+      "reason": "Covered by the focused open candidate PR, but keep the issue open until the canonical fix lands and post-merge closeout is allowed."
+    },
+    {
+      "target": "#59695",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#59695",
+      "candidate_fix": null,
+      "reason": "Useful focused PR, but merge requires fresh Codex /review preflight."
+    },
+    {
+      "target": "#94532",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exact ref must be quarantined to central OpenClaw security handling; no Clownfish mutation or fix path."
+    },
+    {
+      "target": "#94055",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive linked ref is quarantined as exact-ref security context."
+    },
+    {
+      "target": "#66675",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context item."
+    },
+    {
+      "target": "#76668",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed context item."
+    },
+    {
+      "target": "#94115",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94452",
+      "candidate_fix": "#94452",
+      "reason": "Already closed superseded context item."
+    },
+    {
+      "target": "#94337",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed independent context item."
+    },
+    {
+      "target": "#95001",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#94452",
+      "candidate_fix": "#94452",
+      "reason": "Already closed superseded context item."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260623T011853-003",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#66685",
+      "candidate_fix": null,
+      "reason": "#66685 is narrowly repairable by updating the existing contributor branch; no replacement PR is needed."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 4,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "route_security": 2,
+    "keep_closed": 5,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 10,
+    "skipped": 5
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#66685",
+    "source_refs": [
+      "#66685",
+      "#66675",
+      "#59695",
+      "#73649",
+      "#76668",
+      "#94055",
+      "#94115",
+      "#94337",
+      "#94452",
+      "#94532",
+      "#94636",
+      "#95001",
+      "#89444",
+      "#94040"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #66685 by rebasing/resolving the dirty branch for the expired exec approval followup warning suppression, then rerun review and changed-surface validation before any merge decision.",
+    "pr_title": "fix(agents): suppress expired approval followup warnings",
+    "pr_body": "## What Problem This Solves\n\nRepairs contributor PR #66685 so the focused expired exec approval followup warning suppression can be finalized on the original branch.\n\n## Why This Change Was Made\n\nThe hydrated preflight shows #66685 is narrow and useful, but currently dirty against `main`. The executor should rebase or resolve conflicts on the existing maintainer-editable branch, preserve @pfrederiksen's contribution trail, rerun review, and validate the changed surface before any merge action.\n\n## User Impact\n\nExpired or already-gone exec approval followup results should not create noisy warning logs when the existing approval-not-found classifier marks the error benign.\n\n## Evidence\n\nSource PR: https://github.com/openclaw/openclaw/pull/66685\nLinked context: https://github.com/openclaw/openclaw/issues/66675\nPlanned validation: `node scripts/run-vitest.mjs src/agents/bash-tools.exec-host-shared.test.ts`; `pnpm check:changed`",
+    "likely_files": [
+      "src/agents/bash-tools.exec-host-shared.ts",
+      "src/agents/bash-tools.exec-host-shared.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/agents/bash-tools.exec-host-shared.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @pfrederiksen on https://github.com/openclaw/openclaw/pull/66685.",
+      "Repair strategy updates the existing maintainer-editable branch instead of replacing it."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260623T011853-003.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#94532",
+      "#94055"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
