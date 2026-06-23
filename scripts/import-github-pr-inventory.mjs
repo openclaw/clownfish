@@ -22,16 +22,22 @@ const DEFAULT_LOW_SIGNAL_BLOCK_LABELS = [
   "merge-risk:*security*",
 ];
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", owner, "inbox")));
-const existingDir = path.resolve(String(args["existing-dir"] ?? args.existing_dir ?? outDir));
+const mode = String(args.mode ?? "autonomous");
+const strategy = String(args.strategy ?? "triage");
+const checksSuccessPreflight = Boolean(args["checks-success"] ?? args.checks_success);
+const defaultExistingDir = checksSuccessPreflight ? path.join(repoRoot(), "jobs", owner) : outDir;
+const existingDir = path.resolve(String(args["existing-dir"] ?? args.existing_dir ?? defaultExistingDir));
 const existingResultsDir = path.resolve(
   String(args["existing-results-dir"] ?? args.existing_results_dir ?? path.join(repoRoot(), "results", owner)),
 );
-const mode = String(args.mode ?? "autonomous");
 const existingResultsActionPolicy = String(
   args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "terminal",
 );
-const strategy = String(args.strategy ?? "triage");
-const defaultInventorySource = strategy === "remediation" && mode === "autonomous" ? "pr-list" : "graphql";
+const defaultInventorySource = checksSuccessPreflight
+  ? "pr-list"
+  : strategy === "remediation" && mode === "autonomous"
+    ? "pr-list"
+    : "graphql";
 const inventorySource = String(args["inventory-source"] ?? args.inventory_source ?? args.source ?? defaultInventorySource);
 const limit = limitArg("limit", 100);
 const batchSize = numberArg("batch-size", 5);
@@ -61,6 +67,7 @@ if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) die("--repo must be owner/
 if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomous");
 if (!["graphql", "search", "pr-list"].includes(inventorySource)) die("--inventory-source must be graphql, search, or pr-list");
 if (!["triage", "remediation", "low-signal"].includes(strategy)) die("--strategy must be triage, remediation, or low-signal");
+if (checksSuccessPreflight && strategy !== "remediation") die("--checks-success requires --strategy remediation");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-results-action-policy must be all or terminal");
 
@@ -106,6 +113,7 @@ const payload = sanitizeJsonValue({
     skip_existing: skipExisting,
     include_security_candidates: includeSecurity,
     include_merge_risk_candidates: strategy === "remediation" ? includeMergeRisk : null,
+    checks_success_preflight: strategy === "remediation" ? checksSuccessPreflight : null,
     search_limit: inventorySource === "search" ? searchLimit : null,
     include_refs_file: includeRefs
       ? path.relative(repoRoot(), path.resolve(String(args["include-refs-file"] ?? args.include_refs_file)))
@@ -213,7 +221,9 @@ function fetchOpenPullRequestsFromSearch() {
     "--json",
     fields,
   ];
-  if (strategy === "remediation") {
+  if (checksSuccessPreflight) {
+    ghArgs.push("--checks", "success");
+  } else if (strategy === "remediation") {
     ghArgs.push("--label", "status: 👀 ready for maintainer look", "--label", "proof: sufficient");
   }
   const pulls = ghJsonWithRetry(ghArgs, { operation: "search open pull request inventory" });
@@ -269,7 +279,14 @@ function fetchOpenPullRequestsFromPrListFallback() {
     .slice(0, prListFallbackSearchLimit);
   const pulls = [];
   for (const pull of searchCandidates) {
-    const hydrated = hydratePullRequestForPrListFallback(pull.number);
+    let hydrated;
+    try {
+      hydrated = hydratePullRequestForPrListFallback(pull.number);
+    } catch (error) {
+      if (!isRetryableGhError(error)) throw error;
+      console.error(`hydrate pull request #${pull.number} failed after retries; skipping candidate`);
+      continue;
+    }
     if (!hydrated) continue;
     const normalized = normalizePrListPullRequest(hydrated);
     if (prListMergeBlocker(normalized)) continue;
@@ -312,6 +329,7 @@ function prListFields() {
     "mergeable",
     "mergeStateStatus",
     "number",
+    "comments",
     "reviewDecision",
     "statusCheckRollup",
     "title",
@@ -322,6 +340,21 @@ function prListFields() {
 
 function remediationPrListSearchQuery() {
   if (strategy !== "remediation") return "state:open";
+  if (checksSuccessPreflight) {
+    return [
+      "state:open",
+      "base:main",
+      "status:success",
+      '-label:"maintainer"',
+      '-label:"status: ⏳ waiting on author"',
+      '-label:"status: 📣 needs proof"',
+      '-label:"status: 🔁 re-review loop"',
+      '-label:"status: 🛠️ actively grinding"',
+      '-label:"status: 🚀 automerge armed"',
+      '-label:"triage: needs-real-behavior-proof"',
+      '-label:"triage: mock-only-proof"',
+    ].join(" ");
+  }
   return [
     'label:"status: 👀 ready for maintainer look"',
     'label:"proof: sufficient"',
@@ -349,7 +382,7 @@ function normalizeSearchPullRequest(raw) {
     body: raw.body,
     labels: { nodes: arrayNodes(raw.labels, "name") },
     assignees: { nodes: arrayNodes(raw.assignees, "login") },
-    comments: { totalCount: Number(raw.commentsCount ?? raw.comments?.totalCount ?? 0) },
+    comments: { totalCount: commentCount(raw) },
     reviews: { totalCount: Number(raw.reviewsCount ?? raw.reviews?.totalCount ?? 0) },
   };
 }
@@ -376,7 +409,7 @@ function normalizePrListPullRequest(raw) {
     body: raw.body,
     labels: { nodes: arrayNodes(raw.labels, "name") },
     assignees: { nodes: arrayNodes(raw.assignees, "login") },
-    comments: { totalCount: Number(raw.commentsCount ?? raw.comments?.totalCount ?? 0) },
+    comments: { totalCount: commentCount(raw) },
     reviews: { totalCount: Number(raw.reviewsCount ?? raw.reviews?.totalCount ?? 0) },
   };
 }
@@ -387,6 +420,13 @@ function prListMergeBlocker(raw) {
   if (hasExactSecuritySignal({ title: raw.title, labels }) || hasSecuritySensitiveText(raw.title, raw.body ?? "", labels)) return true;
   if (!includeMergeRisk && hasMergeRiskLabel(labels)) return true;
   if (raw.isDraft) return true;
+  if (checksSuccessPreflight) {
+    const authorAssociation = asciiString(raw.authorAssociation ?? "");
+    const assignees = assigneeNames(raw.assignees);
+    if (isMaintainerAssociated(authorAssociation) || assignees.length > 0 || hasMaintainerLabel(labels)) return true;
+    if (commentCount(raw) > 0) return true;
+    if (hasStatusBlockedLabel(labels)) return true;
+  }
   if (raw.baseRefName && raw.baseRefName !== "main") return true;
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(raw.reviewDecision ?? ""))) return true;
   if (raw.mergeable && raw.mergeable !== "MERGEABLE") return true;
@@ -425,6 +465,19 @@ function checkTimestamp(check) {
 
 function checkName(check) {
   return String(check.name ?? check.context ?? "unknown check");
+}
+
+function commentCount(raw) {
+  if (Array.isArray(raw.comments)) return raw.comments.length;
+  return Number(raw.commentsCount ?? raw.comments?.totalCount ?? 0);
+}
+
+function hasMaintainerLabel(labels) {
+  return labels.some((label) => /^maintainer$/i.test(label));
+}
+
+function hasStatusBlockedLabel(labels) {
+  return labels.some((label) => /needs proof|re-review loop|actively grinding|waiting on author|automerge armed/i.test(label));
 }
 
 function arrayNodes(value, key) {
@@ -687,14 +740,18 @@ function writeJob(batch, index) {
     `allow_post_merge_close: false`,
     `require_fix_before_close: false`,
     `canonical_hint: ${quoteYaml(
-      remediation
+      checksSuccessPreflight
+        ? "This is a fresh PR external-preflight shard. Classify each PR independently. If the PR is otherwise merge-shaped but lacks deterministic exact-head validation and Codex review, emit a blocked merge_candidate with reason external_merge_preflight_required."
+        : remediation
         ? "This is a fresh PR remediation inventory shard. Classify each PR independently. A complete merge preflight is required only for a merge recommendation; a repair requires a complete executable fix artifact."
         : lowSignal
           ? "No canonical is needed; this is an opt-in low-signal PR cleanup sweep generated from live GitHub inventory."
         : "This is a live PR inventory shard, not a dedupe cluster. Classify each PR independently and do not invent a shared canonical.",
     )}`,
     `notes: ${quoteYaml(
-      remediation
+      checksSuccessPreflight
+        ? `Generated from live GitHub checks-success PR inventory on ${now.toISOString()}; bucket=${bucket}; filtered for external merge preflight candidates with no obvious maintainer, status, comment, security, merge-risk, check, or mergeability blockers.`
+        : remediation
         ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; ${
             autonomousRemediation
               ? "autonomous remediation assessment. Mutations are limited to deterministic merge/fix gates."
@@ -706,9 +763,11 @@ function writeJob(batch, index) {
     )}`,
     "---",
     "",
-    `# ${remediation ? "PR Remediation Inventory" : lowSignal ? "Low-Signal PR Sweep" : "Live PR Inventory"} ${index}`,
+    `# ${checksSuccessPreflight ? "Checks-Success PR External Preflight" : remediation ? "PR Remediation Inventory" : lowSignal ? "Low-Signal PR Sweep" : "Live PR Inventory"} ${index}`,
     "",
-    remediation
+    checksSuccessPreflight
+      ? "This is a high-volume autonomous external-preflight shard over fresh checks-success pull requests."
+      : remediation
       ? `This is a high-volume ${autonomousRemediation ? "autonomous" : "plan-only"} remediation shard over fresh maintainer-ready pull requests.`
       : lowSignal
         ? "This is an opt-in low-signal cleanup shard over stale open pull requests from live GitHub inventory."
@@ -716,7 +775,9 @@ function writeJob(batch, index) {
     "",
     "## Goal",
     "",
-    remediation
+    checksSuccessPreflight
+      ? `Hydrate live GitHub state for each listed PR and produce a current finalization path. Emit a planned merge only with complete merge preflight. If the only missing proof is deterministic exact-head validation and Codex \`/review\`, emit a blocked \`merge_candidate\` with reason \`external_merge_preflight_required\`, \`expected_head_sha\`, \`target_updated_at\`, and concrete evidence. The deterministic executor will run external merge preflight and guarded apply. Route security-sensitive PRs centrally and use \`needs_human\` only for unclear scope, active author follow-up, broad work, or another specific maintainer decision.`
+      : remediation
       ? `Hydrate live GitHub state for each listed PR and produce a current finalization path. Emit \`merge_candidate\` only with a complete merge preflight. If a PR is otherwise merge-shaped but lacks deterministic exact-head validation and Codex \`/review\`, emit a blocked \`merge_candidate\` with reason \`external_merge_preflight_required\`, \`expected_head_sha\`, \`target_updated_at\`, and concrete evidence so the executor can run the external merge preflight. Missing merge preflight alone is not a \`needs_human\` reason. Emit bounded \`fix_needed\` plus \`build_fix_artifact\` and \`open_fix_pr\` only for a concrete repair with a complete executable \`fix_artifact\`; otherwise classify the PR \`keep_related\` or \`keep_independent\`. Use \`needs_human\` only for unclear scope, active author follow-up, broad work, or another specific maintainer decision. Route security-sensitive PRs centrally. ${
           autonomousRemediation
             ? "In autonomous mode, the deterministic applicator/executor owns the actual merge or fix PR mutation after re-fetching live state and enforcing merge preflight."
@@ -743,6 +804,7 @@ function writeJob(batch, index) {
 }
 
 function defaultBucketFor({ mode, strategy }) {
+  if (checksSuccessPreflight) return "all";
   if (strategy === "remediation") return "ready_for_maintainer";
   if (strategy === "low-signal") return "low_signal_candidate";
   return mode === "autonomous" ? "stale_unassigned" : "all";

@@ -215,6 +215,40 @@ test("remediation inventory pr-list source filters merge-risk candidates by defa
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
 });
 
+test("checks-success remediation intake filters noisy preflight blockers", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true });
+
+  const result = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+    "--skip-existing",
+    "false",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.equal(payload.options.bucket, "all");
+  assert.equal(payload.options.checks_success_preflight, true);
+
+  const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
+  assert.equal(refs.has("#116"), true);
+  assert.equal(refs.has("#114"), false);
+  assert.equal(refs.has("#115"), false);
+  assert.equal(refs.has("#117"), false);
+
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+  assert.match(job, /Checks-Success PR External Preflight/);
+  assert.match(job, /external-preflight shard/);
+  assert.match(job, /external_merge_preflight_required/);
+});
+
 test("remediation inventory pr-list source falls back to per-PR hydration on GitHub 502s", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { failPrList: true });
@@ -238,6 +272,28 @@ test("remediation inventory pr-list source falls back to per-PR hydration on Git
   assert.equal(payload.options.inventory_source, "pr-list");
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
   assert.equal(payload.totals.fetched_open_prs, 1);
+});
+
+test("remediation fallback skips one PR when hydration keeps failing", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { failPrList: true, failHydrateNumber: 109 });
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+    "--skip-existing",
+    "false",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.match(result.stderr, /hydrate pull request #109 failed after retries; skipping candidate/);
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
 });
 
 function runImport(fixture, ...extraArgs) {
@@ -443,11 +499,47 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-13T00:00:00Z",
     labels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
   };
+  const checksSuccessPull = {
+    ...cleanPrListPull,
+    number: 116,
+    title: "checks success clean candidate",
+    url: "https://github.com/openclaw/openclaw/pull/116",
+    updatedAt: "2026-01-16T00:00:00Z",
+    labels: [{ name: "size: S" }],
+    commentsCount: 0,
+  };
+  const commentedChecksSuccessPull = {
+    ...checksSuccessPull,
+    number: 114,
+    title: "commented checks success candidate",
+    url: "https://github.com/openclaw/openclaw/pull/114",
+    updatedAt: "2026-01-14T00:00:00Z",
+    commentsCount: 2,
+  };
+  const statusBlockedChecksSuccessPull = {
+    ...checksSuccessPull,
+    number: 115,
+    title: "status blocked checks success candidate",
+    url: "https://github.com/openclaw/openclaw/pull/115",
+    updatedAt: "2026-01-15T00:00:00Z",
+    labels: [{ name: "status: needs proof" }],
+  };
+  const maintainerChecksSuccessPull = {
+    ...checksSuccessPull,
+    number: 117,
+    title: "maintainer checks success candidate",
+    url: "https://github.com/openclaw/openclaw/pull/117",
+    updatedAt: "2026-01-17T00:00:00Z",
+    labels: [{ name: "maintainer" }],
+  };
   const prListPulls = [
     existingPrListPull,
     dirtyPrListPull,
     securityPrListPull,
     ...(options.includeRiskPrList ? [riskPrListPull] : []),
+    ...(options.includeChecksSuccessPreflight
+      ? [commentedChecksSuccessPull, statusBlockedChecksSuccessPull, checksSuccessPull, maintainerChecksSuccessPull]
+      : []),
     cleanPrListPull,
   ];
   fs.writeFileSync(
@@ -455,6 +547,10 @@ function writeFakeGh(filePath, options = {}) {
     `#!/usr/bin/env node
 const prListPulls = ${JSON.stringify(prListPulls)};
 if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(Boolean(options.failPrList))}) {
+  console.error("HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)");
+  process.exit(1);
+}
+if (process.argv[2] === "pr" && process.argv[3] === "view" && String(process.argv[4]) === ${JSON.stringify(String(options.failHydrateNumber ?? ""))}) {
   console.error("HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)");
   process.exit(1);
 }
