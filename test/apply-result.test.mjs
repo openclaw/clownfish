@@ -470,6 +470,38 @@ test("apply-result allows unstable merge state when latest checks are clean", ()
   assert.equal(report.actions[0].status, "executed");
 });
 
+test("apply-result blocks merge targets with live merge-risk labels", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    labels: [{ name: "merge-risk: availability" }],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "target has blocked live label: merge-risk: availability");
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
 function apply(jobPath, resultPath, reportPath, binDir, { dryRun = true, callLogPath, allowMerge = false, mergeStatePath, env = {} } = {}) {
   const args = ["scripts/apply-result.mjs", jobPath, resultPath];
   if (dryRun) args.push("--dry-run");
@@ -605,6 +637,7 @@ function writeReadyMergeGhStub(
     mergeStateStatus = "CLEAN",
     mergeViews = null,
     statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }],
+    labels = [],
   },
 ) {
   const ghPath = path.join(binDir, "gh");
@@ -627,7 +660,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     state: "open",
     title: "streaming fix",
     updated_at: "2026-06-11T05:07:30Z",
-    labels: [],
+    labels: ${JSON.stringify(labels)},
     author_association: "NONE",
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
@@ -637,7 +670,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     state: "open",
     draft: false,
     updated_at: "2026-06-11T05:07:30Z",
-    labels: [],
+    labels: ${JSON.stringify(labels)},
     base: { ref: "main", sha: "current-main" },
     head: { sha: ${JSON.stringify(headSha)} },
     merged_at: merged ? "2026-06-11T05:09:00Z" : null,

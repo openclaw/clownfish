@@ -658,7 +658,13 @@ export function parseArgs(argv, { booleanKeys = [] } = {}) {
       args._.push(arg);
       continue;
     }
-    const key = arg.slice(2);
+    const rawKey = arg.slice(2);
+    const equalsIndex = rawKey.indexOf("=");
+    if (equalsIndex !== -1) {
+      args[rawKey.slice(0, equalsIndex)] = rawKey.slice(equalsIndex + 1);
+      continue;
+    }
+    const key = rawKey;
     const next = argv[i + 1];
     if (booleans.has(key) || !next || next.startsWith("--")) {
       args[key] = true;

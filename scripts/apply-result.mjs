@@ -441,6 +441,16 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_state: live.state,
     };
   }
+  const blockedLabel = findHighRiskMergeLabel(live.labels);
+  if (blockedLabel) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: `target has blocked live label: ${blockedLabel}`,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+    };
+  }
 
   const expectedUpdatedAt = action.target_updated_at ?? action.live_updated_at;
   if (!expectedUpdatedAt && !allowMissingUpdatedAt) {
@@ -585,6 +595,12 @@ function findHighRiskMutationLabel(labels) {
   return (labels ?? [])
     .map((label) => String(label?.name ?? label).trim())
     .find((label) => /^merge-risk:/i.test(label) || label.toLowerCase() === "clawsweeper:automerge");
+}
+
+function findHighRiskMergeLabel(labels) {
+  return (labels ?? [])
+    .map((label) => String(label?.name ?? label).trim())
+    .find((label) => /^merge-risk:/i.test(label));
 }
 
 function validateClosePolicy({ job, actionName }) {

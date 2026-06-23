@@ -111,6 +111,39 @@ test("remediation inventory enables plan and autonomous finalization recommendat
   assert.match(autonomousJob, /deterministic applicator\/executor owns the actual merge or fix PR mutation/);
 });
 
+test("autonomous remediation defaults to hydrated pr-list intake", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
+});
+
+test("live PR inventory accepts --key=value argument form", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+  writeExistingJob(path.join(fixture.existing, "active.md"), "#101");
+
+  const result = runImport(fixture, "--bucket", "all", "--skip-existing=false");
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.options.skip_existing, false);
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#101"), true);
+});
+
 test("remediation inventory can use search source for faster ready PR intake", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
@@ -158,6 +191,28 @@ test("remediation inventory pr-list source filters obvious merge blockers", () =
   assert.equal(payload.options.inventory_source, "pr-list");
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
   assert.equal(payload.totals.fetched_open_prs, 2);
+});
+
+test("remediation inventory pr-list source filters merge-risk candidates by default", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeRiskPrList: true });
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#113"), false);
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
 });
 
 test("remediation inventory pr-list source falls back to per-PR hydration on GitHub 502s", () => {
@@ -380,7 +435,21 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-12T00:00:00Z",
     labels: [{ name: "security" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
   };
-  const prListPulls = [existingPrListPull, dirtyPrListPull, securityPrListPull, cleanPrListPull];
+  const riskPrListPull = {
+    ...cleanPrListPull,
+    number: 113,
+    title: "risky ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/113",
+    updatedAt: "2026-01-13T00:00:00Z",
+    labels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+  };
+  const prListPulls = [
+    existingPrListPull,
+    dirtyPrListPull,
+    securityPrListPull,
+    ...(options.includeRiskPrList ? [riskPrListPull] : []),
+    cleanPrListPull,
+  ];
   fs.writeFileSync(
     filePath,
     `#!/usr/bin/env node

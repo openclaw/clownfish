@@ -323,6 +323,30 @@ test("external merge preflight blocks actionable comment findings", () => {
   assert.match(report.reason, /actionable top-level issue comment/);
 });
 
+test("external merge preflight blocks merge-risk labels", () => {
+  const fixture = makeFixture({
+    pullLabels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /blocked live label: merge-risk: availability/);
+});
+
 function makeFixture({
   issueComments = [],
   reviewComments = [],

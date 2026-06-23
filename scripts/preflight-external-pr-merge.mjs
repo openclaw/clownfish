@@ -345,6 +345,8 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
   ];
 
   if (hasSecuritySensitiveText(texts)) blockers.push("security-sensitive signal in hydrated PR metadata or comments");
+  const blockedLabel = findHighRiskMergeLabel(pull.labels);
+  if (blockedLabel) blockers.push(`PR has blocked live label: ${blockedLabel}`);
   if (String(pull.state ?? "").toLowerCase() !== "open") blockers.push(`PR is ${pull.state ?? "unknown"}`);
   if (pull.draft) blockers.push("PR is draft");
   if (pull.base?.ref !== "main") blockers.push(`PR base is ${pull.base?.ref ?? "unknown"}, not main`);
@@ -735,6 +737,12 @@ function hasAutonomousMergeReadySignal(pull) {
   const labels = (pull?.labels ?? []).map((label) => String(label?.name ?? "").toLowerCase());
   if (labels.includes("clownfish:automerge")) return true;
   return labels.some((label) => label.includes("ready for maintainer look")) && labels.includes("proof: sufficient");
+}
+
+function findHighRiskMergeLabel(labels) {
+  return (labels ?? [])
+    .map((label) => String(label?.name ?? label).trim())
+    .find((label) => /^merge-risk:/i.test(label));
 }
 
 function isAutomationAuthor(author) {

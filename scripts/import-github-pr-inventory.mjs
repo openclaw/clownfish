@@ -30,14 +30,16 @@ const mode = String(args.mode ?? "autonomous");
 const existingResultsActionPolicy = String(
   args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "terminal",
 );
-const inventorySource = String(args["inventory-source"] ?? args.inventory_source ?? args.source ?? "graphql");
 const strategy = String(args.strategy ?? "triage");
+const defaultInventorySource = strategy === "remediation" && mode === "autonomous" ? "pr-list" : "graphql";
+const inventorySource = String(args["inventory-source"] ?? args.inventory_source ?? args.source ?? defaultInventorySource);
 const limit = limitArg("limit", 100);
 const batchSize = numberArg("batch-size", 5);
 const sort = String(args.sort ?? "stale");
 const bucketFilter = String(args.bucket ?? defaultBucketFor({ mode, strategy }));
 const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
+const includeMergeRisk = Boolean(args["include-merge-risk-candidates"] ?? args.include_merge_risk_candidates);
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
 const minScore = numberArg("min-score", 2);
 const maxFiles = numberArg("max-files", 120);
@@ -103,6 +105,7 @@ const payload = sanitizeJsonValue({
       strategy === "low-signal" ? blockedLowSignalLabelPatterns.map((pattern) => pattern.source) : [],
     skip_existing: skipExisting,
     include_security_candidates: includeSecurity,
+    include_merge_risk_candidates: strategy === "remediation" ? includeMergeRisk : null,
     search_limit: inventorySource === "search" ? searchLimit : null,
     include_refs_file: includeRefs
       ? path.relative(repoRoot(), path.resolve(String(args["include-refs-file"] ?? args.include_refs_file)))
@@ -382,6 +385,7 @@ function prListMergeBlocker(raw) {
   if (strategy !== "remediation") return false;
   const labels = labelNames(raw.labels);
   if (hasExactSecuritySignal({ title: raw.title, labels }) || hasSecuritySensitiveText(raw.title, raw.body ?? "", labels)) return true;
+  if (!includeMergeRisk && hasMergeRiskLabel(labels)) return true;
   if (raw.isDraft) return true;
   if (raw.baseRefName && raw.baseRefName !== "main") return true;
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(raw.reviewDecision ?? ""))) return true;
@@ -608,6 +612,9 @@ function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
   if (Boolean(raw.isDraft)) return "draft";
   if (labels.some((label) => /needs-real-behavior-proof|needs proof|mock-only-proof|waiting on author/i.test(label))) {
     return "needs_proof";
+  }
+  if (strategy === "remediation" && !includeMergeRisk && hasMergeRiskLabel(labels)) {
+    return "needs_human";
   }
   if (labels.some((label) => /proof:\s*sufficient|ready for maintainer look/i.test(label))) {
     return "ready_for_maintainer";
@@ -926,6 +933,10 @@ function hasExactSecuritySignal({ title, labels }) {
     /^(?:security|security[-_: ]sensitive|security[:/].+|type:\s*security|kind:\s*security|impact:\s*security|clawsweeper:needs-security-review)$/i.test(label),
   );
   return exactSecurityLabel || hasSecuritySensitiveText(title, "", labels);
+}
+
+function hasMergeRiskLabel(labels) {
+  return labels.some((label) => /^merge-risk:/i.test(String(label ?? "").trim()));
 }
 
 function isMaintainerAssociated(value) {
