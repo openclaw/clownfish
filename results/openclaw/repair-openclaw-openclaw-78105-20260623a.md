@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "repair-openclaw-openclaw-78105-20260623a"
 mode: "autonomous"
-run_id: "27996540877"
-workflow_run_id: "27996540877"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27996540877"
-head_sha: "01a8ba38ad1f130f41158b2e061978d19164fe2c"
+run_id: "27998166536"
+workflow_run_id: "27998166536"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/27998166536"
+head_sha: "c362692c321f6f742abb73a7979c77365e90a975"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-23T02:29:38.391Z"
+published_at: "2026-06-23T03:14:41.349Z"
 canonical: "https://github.com/openclaw/openclaw/pull/78105"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/68780"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/78105"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27996540877](https://github.com/openclaw/clownfish/actions/runs/27996540877)
+Run: [https://github.com/openclaw/clownfish/actions/runs/27998166536](https://github.com/openclaw/clownfish/actions/runs/27998166536)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/78105
 
 ## Summary
 
-Open PR #78105 remains the canonical non-security repair target for actionable empty-allowlist plugin warning copy. Current main at def4b514857392cf1767114d04ace04848f2679d still has the generic warning text in src/plugins/loader-provenance.ts, and the hydrated artifact shows #78105 is open, editable by maintainers, narrow, but not merge-ready because it is dirty and still includes release-owned CHANGELOG.md churn. Plan a repair of the contributor branch, preserve @pahuchi-joe credit, route only the open security-sensitive linked issue #68780, and leave adjacent PR #68389 as related.
+Plan repair of open PR #78105 on its editable contributor branch. The hydrated artifact shows the PR is useful but dirty, has a failing lint check, and still needs ClawSweeper-requested cleanup around warning copy/docs/tests and any release-owned changelog churn. Security-sensitive linked issue #68780 is routed separately; closed linked refs are kept as historical context only.
 
 ## Impact
 
@@ -58,8 +58,8 @@ Open PR #78105 remains the canonical non-security repair target for actionable e
   "target": "#78105",
   "source_refs": [
     "#78105",
-    "#68780",
     "#68389",
+    "#68780",
     "#95056",
     "#68352"
   ],
@@ -68,31 +68,31 @@ Open PR #78105 remains the canonical non-security repair target for actionable e
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair existing contributor PR #78105 by refreshing it against current main, removing release-owned CHANGELOG.md churn, keeping plugin trust/allowlist semantics unchanged, and making the empty-allowlist plus untracked-provenance warning copy/docs/tests actionable for new users.",
+  "summary": "Repair PR #78105 on the existing maintainer-editable contributor branch so empty-allowlist and untracked-provenance plugin warnings include actionable remediation without changing plugin trust semantics.",
   "pr_title": "fix(plugins): make empty-allowlist warnings actionable",
-  "pr_body": "## What Problem This Solves\n\nRepairs #78105 so the first-run empty `plugins.allow` and untracked plugin provenance diagnostics remain trust-preserving but give users paste-ready, actionable remediation. Current `main` still emits the generic empty-allowlist and provenance warning strings from `src/plugins/loader-provenance.ts`.\n\n## Why This Change Was Made\n\nThe source PR from @pahuchi-joe is narrow and maintainer-editable, but it needs cleanup before it can be validated: refresh against current `main`, remove the release-owned `CHANGELOG.md` entry, keep the warning semantics unchanged, align docs with the warning copy, and keep tests focused on the canonical behavior.\n\n## User Impact\n\nUsers who discover non-bundled plugins with an empty allowlist should see exact plugin IDs and commands that help them decide what to trust, without changing auto-load policy, allowlist semantics, bundled plugin behavior, channel-to-plugin id resolution, or persisted registry behavior.\n\n## Evidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/78105 by @pahuchi-joe\n- Current main: def4b514857392cf1767114d04ace04848f2679d\n- Current source still has generic empty-allowlist text in `src/plugins/loader-provenance.ts` and generic provenance guidance in the same module.\n- Required validation: `pnpm test src/plugins/loader.test.ts`, `pnpm docs:list`, `pnpm check:changed`.\n\nClownfish repair note: this carries forward @pahuchi-joe's contribution from #78105 with attribution; no security-boundary or trust-policy change is intended.",
+  "pr_body": "## What Problem This Solves\n\nFresh installs or upgrades can still show generic plugin trust diagnostics such as `plugins.allow is empty` and `loaded without install/load-path provenance` without enough paste-ready remediation for users who do not know the plugin ids to trust.\n\n## Why This Change Was Made\n\nRepair the existing contributor PR #78105 by keeping the warning-copy/docs/test fix, refreshing it onto current `main`, and resolving ClawSweeper blockers. The repair should not change allowlist semantics, auto-load policy, channel-to-plugin id mapping, plugin trust boundaries, or persisted registry behavior. It should also avoid normal PR edits to `CHANGELOG.md`; release notes belong in this PR body or the squash message.\n\n## User Impact\n\nUsers keep the same plugin trust behavior, but the warnings should point at exact plugin ids and the supported `openclaw plugins list --enabled --verbose` / `openclaw plugins inspect <id>` workflows so the next step is clear.\n\n## Evidence\n\nSource PR: https://github.com/openclaw/openclaw/pull/78105 by @pahuchi-joe. Current main `b71ddbf1b4fd371f2bede0d3e7054048f77b100f` still has generic warning text in `src/plugins/loader-provenance.ts`. Hydrated PR evidence shows #78105 is open, maintainer-editable, dirty against main, and failing `check-lint`; repair should run `pnpm docs:list`, `pnpm test src/plugins/loader.test.ts`, and `pnpm check:changed` after the branch refresh.",
   "likely_files": [
     "src/plugins/loader-provenance.ts",
     "src/plugins/loader.test.ts",
     "docs/cli/plugins.md",
-    "docs/tools/plugin.md",
-    "CHANGELOG.md"
+    "docs/tools/plugin.md"
   ],
   "validation_commands": [
-    "pnpm test src/plugins/loader.test.ts",
     "pnpm docs:list",
+    "pnpm test src/plugins/loader.test.ts",
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Repair source PR: https://github.com/openclaw/openclaw/pull/78105 by @pahuchi-joe.",
-    "Preserve @pahuchi-joe attribution in the repaired PR body/commit message because the executable repair continues their narrow warning-copy/docs/tests contribution.",
-    "Do not edit CHANGELOG.md for this normal PR; carry release-note context in the PR body or squash/commit message instead."
+    "Preserve @pahuchi-joe as the source PR author for https://github.com/openclaw/openclaw/pull/78105.",
+    "Keep release-note context in the PR body or squash message; do not add a normal PR entry to CHANGELOG.md.",
+    "Treat #68780 as central-security-only context and do not mutate it from this repair lane.",
+    "Do not rework the already-merged #68389 mismatch-warning fix; only ensure #78105 composes cleanly with current main."
   ],
   "source_job": "jobs/openclaw/inbox/repair-openclaw-openclaw-78105-20260623a.md",
   "security_sensitive": false,
   "security_routed_refs": [
-    "#68780",
     "#68352",
+    "#68780",
     "#95056"
   ],
   "needs_human": [],
@@ -105,8 +105,8 @@ Open PR #78105 remains the canonical non-security repair target for actionable e
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| repair_contributor_branch | failed |  |  | Codex validation-fix worker timed out after 446871ms |
-| repair_contributor_branch | blocked | https://github.com/openclaw/openclaw/pull/78105 |  | Codex validation-fix worker timed out after 446871ms |
+| repair_contributor_branch | failed |  |  | Codex validation-fix worker timed out after 305150ms |
+| repair_contributor_branch | blocked | https://github.com/openclaw/openclaw/pull/78105 |  | Codex validation-fix worker timed out after 305150ms |
 
 ## Apply Actions
 
@@ -124,12 +124,12 @@ Open PR #78105 remains the canonical non-security repair target for actionable e
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #78105 | fix_needed | planned | canonical | Repair the existing editable contributor PR branch rather than replace it: the patch is narrow and useful, but it needs rebase/conflict cleanup, CHANGELOG.md removal, warning copy/test cleanup, docs alignment, and fresh validation. |
-| cluster:repair-openclaw-openclaw-78105-20260623a | build_fix_artifact | planned |  | Build a repair artifact for the existing contributor branch. |
-| #68389 | keep_related | planned | related | Related adjacent plugin allowlist diagnostic PR; not the canonical repair target for this cluster. |
-| #68780 | route_security | planned | security_sensitive | Central security routing only for the exact security-sensitive linked issue. |
-| #68352 | keep_closed | skipped | security_sensitive | Already closed security-sensitive context ref; no mutation planned. |
-| #95056 | keep_closed | skipped | security_sensitive | Already closed security-sensitive context PR; no mutation planned. |
+| #68352 | keep_closed | skipped | security_sensitive | Already closed security-sensitive context; keep as historical evidence only. |
+| #68389 | keep_closed | skipped | related | Already merged adjacent fix; no action in this cluster. |
+| #68780 | route_security | planned | security_sensitive | Central OpenClaw security handling owns this issue; Clownfish should not mutate it. |
+| #78105 | fix_needed | planned | canonical | Repair the editable contributor PR branch instead of replacing it; the patch is narrow, useful, and currently blocked by rebase/lint/review cleanup rather than product ambiguity. |
+| #95056 | keep_closed | skipped | security_sensitive | Already closed security-sensitive context outside the #78105 non-security repair lane. |
+| cluster:repair-openclaw-openclaw-78105-20260623a | build_fix_artifact | planned |  | A complete executable repair artifact is available for the Clownfish executor. |
 
 ## Needs Human
 
