@@ -2046,10 +2046,7 @@ function isRetryableValidationFixError(error) {
   }
   const baseline = error.changed_gate_baseline;
   if (baseline?.status !== "failed") return true;
-  return (
-    baseline.report?.eligible === true &&
-    !sameDiagnosticSet(baseline.diagnostics.items, currentDiagnostics.items)
-  );
+  return baseline.report?.eligible === true;
 }
 
 function runCodexValidationFix({ fixArtifact, targetDir, mode, validationError, attempt }) {

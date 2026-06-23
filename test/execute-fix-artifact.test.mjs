@@ -1205,7 +1205,7 @@ test("execute-fix-artifact rejects changed-gate failures with new diagnostics", 
   assert.equal(fs.existsSync(run.targetedTestMarker), false);
 });
 
-test("execute-fix-artifact rejects unchanged baseline diagnostics that touch changed files", () => {
+test("execute-fix-artifact tries validation repair for unchanged baseline diagnostics that touch changed files", () => {
   const output = "src/app.test.js(2,1): error TS2322: Type 'string' is not assignable to type 'number'.";
   const run = runBaselineChangedGateFixture({
     clusterId: "changed-file-diagnostic-cluster",
@@ -1216,6 +1216,7 @@ test("execute-fix-artifact rejects unchanged baseline diagnostics that touch cha
   assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
   assert.equal(run.report.status, "blocked");
   assert.equal(run.report.changed_gate_baseline.eligible, true);
+  assert.match(fs.readFileSync(run.validationPrompt, "utf8"), /src\/app\.test\.js\(2,1\): error TS2322/);
   assert.equal(fs.existsSync(run.targetedTestMarker), false);
 });
 
@@ -1307,6 +1308,7 @@ function runBaselineChangedGateFixture({
   const targetedTestMarker = path.join(fixture.root, "targeted-test-command");
   const changedGateMarker = path.join(fixture.root, "check-changed-calls");
   const initialPrompt = path.join(fixture.root, "initial-codex-prompt");
+  const validationPrompt = path.join(fixture.root, "validation-fix-prompt");
 
   fs.writeFileSync(fixture.jobPath, jobFile(clusterId));
   const result = resultFile(clusterId);
@@ -1332,6 +1334,8 @@ if (args.includes("--output-schema")) {
 }
 if (!fs.existsSync(${JSON.stringify(initialPrompt)})) {
   fs.writeFileSync(${JSON.stringify(initialPrompt)}, fs.readFileSync(0, "utf8"));
+} else {
+  fs.writeFileSync(${JSON.stringify(validationPrompt)}, fs.readFileSync(0, "utf8"));
 }
 fs.writeFileSync(path.join(cd, ${JSON.stringify(editedFile)}), "export const fixture = true;\\n");
 if (${JSON.stringify(dependencyManifestChange)}) {
@@ -1414,6 +1418,7 @@ process.exit(0);
     targetedTestMarker,
     changedGateMarker,
     initialPrompt,
+    validationPrompt,
   };
 }
 

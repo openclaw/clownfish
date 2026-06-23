@@ -239,11 +239,11 @@ function dropReasonFor(item, target, canonical) {
   if (!target) return "target not found";
   if (!canonical) return "canonical not found";
   if (target.state !== "OPEN") return `target is ${target.state}`;
+  const securityReason = securityDropReason(item, target, canonical);
+  if (securityReason) return securityReason;
   const protectionReason = targetProtectionDropReason(target);
   if (protectionReason) return protectionReason;
   if (!canCloseAgainstCanonical(item, canonical)) return canonicalDropReason(item, canonical);
-  const securityReason = securityDropReason(item, target, canonical);
-  if (securityReason) return securityReason;
   return "";
 }
 
