@@ -879,8 +879,8 @@ process.exit(0);
   assert.match(prompt, /Failed validation command: pnpm check:changed/);
   assert.match(prompt, /Expected \{ after 'if' condition/);
   assert.match(prompt, /use the diagnostics below as the primary failure source/);
-  assert.match(prompt, /do not run the full failed validation command before making the repair/);
-  assert.match(prompt, /run the broad validation command only after a concrete fix is in place/);
+  assert.match(prompt, /do not run the full failed validation command; the executor reruns it after you return/);
+  assert.doesNotMatch(prompt, /run the broad validation command only after a concrete fix is in place/);
 });
 
 test("execute-fix-artifact defers unchanged baseline changed-gate diagnostics until the final gate fails", () => {
