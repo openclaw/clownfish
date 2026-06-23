@@ -1,0 +1,171 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-457-autonomous-refresh-20260623a",
+  "mode": "autonomous",
+  "run_id": "28006637012",
+  "workflow_run_id": "28006637012",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28006637012",
+  "head_sha": "3cbc87350d79f0c564aa7ec663efbddaae8063c8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T06:22:20Z",
+  "workflow_updated_at": "2026-06-23T06:47:59Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-457-autonomous-refresh-20260623a.md",
+  "published_at": "2026-06-23T06:48:48.080Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/14861",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/14861",
+  "canonical_pr": null,
+  "summary": "#14861 remains the live canonical issue. Current main at 01abe0a33dd89ffae53e03e182ca6971b9d9f43e still suppresses the Gmail watcher missing-account reason and does not emit a structured startup sidecar outcome summary. No merge is ready; plan a narrow new fix PR for #14861.",
+  "actions": [
+    {
+      "target": "#14861",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "The reported Gateway startup observability gap is still present on current main and is narrow enough for a new focused fix PR."
+    },
+    {
+      "target": "cluster:gitcrawl-457-autonomous-refresh-20260623a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Build a narrow new fix artifact for #14861 without using the blocked closed overlap PR as executable lineage."
+    },
+    {
+      "target": "#12322",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#61704",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation."
+    },
+    {
+      "target": "#62661",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#63975",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#73187",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "#86710",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#14861",
+      "candidate_fix": null,
+      "reason": "Already closed and excluded as existing-overlap context."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 6
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 6
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#14861",
+    "source_refs": [
+      "#14861",
+      "#61704",
+      "#62661",
+      "#63975",
+      "#86710",
+      "#12322",
+      "#73187"
+    ],
+    "repair_strategy": "new_fix_pr",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Add a narrow, redacted Gateway startup sidecar outcome summary for #14861, including the hooks-enabled/no-Gmail-account case that current main silently skips.",
+    "pr_title": "fix(gateway): summarize startup sidecar outcomes",
+    "pr_body": "## What Problem This Solves\n\nFixes #14861 by making Gateway startup report a concise, redacted sidecar/hook outcome summary instead of silently skipping cases like hooks enabled without `hooks.gmail.account`.\n\n## Why This Change Was Made\n\nCurrent main returns `no gmail account configured` from the Gmail watcher, but startup never schedules that watcher without an account and the lifecycle logger also suppresses that reason. The fix should keep the summary fixed-vocabulary and avoid raw exceptions, accounts, tokens, command args, provider details, and local paths.\n\n## User Impact\n\nOperators get a clear started/skipped/failed startup summary for the relevant sidecars, including `gmail-watcher=skipped (no gmail account configured)` when applicable.\n\n## Evidence\n\nPlanned validation:\n- `pnpm test src/hooks/gmail-watcher-lifecycle.test.ts src/gateway/server-startup-post-attach.test.ts`\n- `pnpm check:changed`\n\nCredit: reported by @slucasmyer in #14861. Prior closed overlap PR #86710 by @ferminquant should be treated as context only unless maintainers explicitly clear its merge-risk lineage.",
+    "likely_files": [
+      "src/gateway/server-startup-post-attach.ts",
+      "src/gateway/server-startup-post-attach.test.ts",
+      "src/hooks/gmail-watcher-lifecycle.ts",
+      "src/hooks/gmail-watcher-lifecycle.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/hooks/gmail-watcher-lifecycle.test.ts src/gateway/server-startup-post-attach.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit #14861 reporter @slucasmyer for the reproducible Gateway startup observability gap.",
+      "Closed overlap PR #86710 by @ferminquant is useful context, but do not reuse it as executable source lineage because it is closed unmerged, broad, dirty, maintainer_can_modify=false, and labeled merge-risk: other. Preserve attribution in the PR body if any implementation idea is borrowed after maintainer review."
+    ],
+    "source_job": "jobs/openclaw/inbox/gitcrawl-457-autonomous-refresh-20260623a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "new_fix_pr",
+      "reason": "Codex validation-fix worker timed out after 1200000ms",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
