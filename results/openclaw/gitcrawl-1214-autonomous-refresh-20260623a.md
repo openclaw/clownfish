@@ -1,0 +1,148 @@
+---
+repo: "openclaw/openclaw"
+cluster_id: "gitcrawl-1214-autonomous-refresh-20260623a"
+mode: "autonomous"
+run_id: "28005085136"
+workflow_run_id: "28005085136"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28005085136"
+head_sha: "c3d4877276db1f97103fe56d12a5ddad91fc73e0"
+workflow_conclusion: "success"
+result_status: "planned"
+published_at: "2026-06-23T05:49:00.585Z"
+canonical: "https://github.com/openclaw/openclaw/issues/73676"
+canonical_issue: "https://github.com/openclaw/openclaw/issues/73676"
+canonical_pr: null
+actions_total: 5
+fix_executed: 0
+fix_failed: 0
+fix_blocked: 1
+apply_executed: 0
+apply_blocked: 0
+apply_skipped: 0
+needs_human_count: 0
+---
+
+# gitcrawl-1214-autonomous-refresh-20260623a
+
+Repo: openclaw/openclaw
+
+Run: [https://github.com/openclaw/clownfish/actions/runs/28005085136](https://github.com/openclaw/clownfish/actions/runs/28005085136)
+
+Workflow conclusion: success
+
+Worker result: planned
+
+Canonical: https://github.com/openclaw/openclaw/issues/73676
+
+## Summary
+
+Classified #73676 as the surviving non-security canonical issue. The overlapping startup-cwd PRs #93034 and #93636 are explicitly security-sensitive in the hydrated artifact and must route to central security handling, so the safe path is a narrow new fix artifact for #73676 that does not use those PRs as executable lineage.
+
+## Impact
+
+| Metric | Count |
+| --- | ---: |
+| Worker actions | 5 |
+| Fix executed | 0 |
+| Fix failed | 0 |
+| Fix blocked | 1 |
+| Applied executions | 0 |
+| Apply blocked | 0 |
+| Apply skipped | 0 |
+| Needs human | 0 |
+
+## Repair Candidate
+
+```json
+{
+  "target": "#93027",
+  "source_refs": [
+    "#93027",
+    "#93229",
+    "#73676",
+    "#68843",
+    "#74994",
+    "#83875",
+    "#93034",
+    "#93636",
+    "#3",
+    "#83808",
+    "#86308"
+  ],
+  "repair_strategy": "new_fix_pr",
+  "planned_actions": [
+    "fix_needed",
+    "build_fix_artifact"
+  ],
+  "summary": "Fix deleted current-working-directory startup crashes for #73676 without reusing the security-routed PR branches. Add a small cwd-resolution helper that only treats the deleted-cwd ENOENT/uv_cwd failure as absent cwd, then update CLI dotenv, gateway-dispatch dotenv, runtime dotenv, home fallback, PATH bootstrap, and TUI/local-shell call sites so they either skip project-local cwd behavior or fail closed with a clear local-shell message instead of substituting HOME/tmp as a trusted project cwd.",
+  "pr_title": "fix(cli): tolerate deleted startup cwd",
+  "pr_body": "## What Problem This Solves\n\nFixes #73676. OpenClaw can still call `process.cwd()` during CLI/TUI startup after the invoking directory has been deleted, which throws `ENOENT: no such file or directory, uv_cwd` before the command can continue.\n\n## Why This Change Was Made\n\nCurrent main still has unguarded cwd reads in CLI dotenv loading, gateway-dispatch dotenv loading, runtime dotenv loading, PATH/home fallback paths, and TUI/local-shell startup. The fix should add one narrow helper for deleted-cwd detection and update only those call sites to skip project-local cwd behavior or fail closed with a clear local-shell message. It must not map a missing cwd to HOME or tmp as a trusted project directory.\n\n## User Impact\n\nCLI and TUI startup should no longer crash just because the shell's previous working directory was removed. Global/state env loading should still work, while project-local `.env` and project-local PATH additions should be skipped when there is no real cwd.\n\n## Evidence\n\nCurrent main inspected at 28a5b0a212433e1f52119ce17c924f180f9b8293. Relevant current-main call sites include `src/cli/run-main.ts`, `src/cli/dotenv.ts`, `src/cli/gateway-dispatch-dotenv.ts`, `src/infra/dotenv.ts`, `src/infra/home-dir.ts`, `src/infra/path-env.ts`, `src/tui/tui.ts`, and `src/tui/tui-local-shell.ts`.\n\nPlanned validation: `node scripts/run-vitest.mjs src/infra/safe-cwd.test.ts src/infra/dotenv.test.ts src/infra/home-dir.test.ts src/infra/path-env.test.ts src/tui/tui.test.ts src/tui/tui-local-shell.test.ts` and `pnpm check:changed`.\n\nCredit: report from @oldsix-cell in #73676. Prior narrow non-security attempts by @liuhao1024 in https://github.com/openclaw/openclaw/pull/93027 and https://github.com/openclaw/openclaw/pull/93229 should be credited if their CLI-dotenv idea is reused.",
+  "likely_files": [
+    "src/infra/safe-cwd.ts",
+    "src/infra/safe-cwd.test.ts",
+    "src/cli/run-main.ts",
+    "src/cli/dotenv.ts",
+    "src/cli/gateway-dispatch-dotenv.ts",
+    "src/infra/dotenv.ts",
+    "src/infra/dotenv.test.ts",
+    "src/infra/home-dir.ts",
+    "src/infra/home-dir.test.ts",
+    "src/infra/path-env.ts",
+    "src/infra/path-env.test.ts",
+    "src/tui/tui.ts",
+    "src/tui/tui.test.ts",
+    "src/tui/tui-local-shell.ts",
+    "src/tui/tui-local-shell.test.ts"
+  ],
+  "validation_commands": [
+    "node scripts/run-vitest.mjs src/infra/safe-cwd.test.ts src/infra/dotenv.test.ts src/infra/home-dir.test.ts src/infra/path-env.test.ts src/tui/tui.test.ts src/tui/tui-local-shell.test.ts",
+    "pnpm check:changed"
+  ],
+  "credit_notes": [
+    "Credit the original report from @oldsix-cell in #73676.",
+    "If the implementation reuses the prior narrow CLI dotenv idea, credit @liuhao1024 and source PRs https://github.com/openclaw/openclaw/pull/93027 and https://github.com/openclaw/openclaw/pull/93229 in the PR body.",
+    "Do not include #93034, #93636, or #74994 as executable source PRs unless central security triage separately clears them; they are security-sensitive in the hydrated artifact."
+  ],
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1214-autonomous-refresh-20260623a.md",
+  "security_sensitive": false,
+  "security_routed_refs": [
+    "#93034",
+    "#93636"
+  ],
+  "needs_human": [],
+  "repair_status": null,
+  "terminal": null
+}
+```
+
+## Fix Execution Actions
+
+| Action | Status | Target | Branch | Reason |
+| --- | --- | --- | --- | --- |
+| execute_fix | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 |
+
+## Apply Actions
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |
+
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
+## Worker Action Matrix
+
+| Target | Action | Status | Classification | Reason |
+| --- | --- | --- | --- | --- |
+| #73676 | fix_needed | planned | canonical | Open issue still represents real current-main behavior and needs a non-security fix path. |
+| #68843 | keep_related | planned | related | Same deleted-cwd symptom family, different root cause and owner surface. |
+| #93034 | route_security | planned | security_sensitive | Exact hydrated security-sensitive ref; route only this PR to central OpenClaw security handling. |
+| #93636 | route_security | planned | security_sensitive | Exact hydrated security-sensitive ref; route only this PR to central OpenClaw security handling. |
+| cluster:gitcrawl-1214-autonomous-refresh-20260623a | build_fix_artifact | planned |  | No viable non-security canonical PR exists, and the bug remains real on current main. |
+
+## Needs Human
+
+- none
