@@ -1,0 +1,209 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-openclaw-openclaw-69199-20260623a",
+  "mode": "autonomous",
+  "run_id": "27996540854",
+  "workflow_run_id": "27996540854",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27996540854",
+  "head_sha": "01a8ba38ad1f130f41158b2e061978d19164fe2c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T01:48:09Z",
+  "workflow_updated_at": "2026-06-23T01:57:48Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-openclaw-openclaw-69199-20260623a.md",
+  "published_at": "2026-06-23T01:58:49.604Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/69199",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/69199",
+  "summary": "Plan a credited replacement PR for #69199. The source PR remains the narrow canonical implementation for the missing node:sqlite unavailable-message bug, but its branch is not maintainer-editable and Greptile left an actionable normalization concern. Current main still has only quota/generic unavailable-message handling, so a narrow two-file repair is still warranted.",
+  "actions": [
+    {
+      "target": "#59457",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69199",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; no closure action is valid for an already-closed issue."
+    },
+    {
+      "target": "#59637",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#69199",
+      "candidate_fix": null,
+      "reason": "Closed historical source PR; no mutation planned."
+    },
+    {
+      "target": "#69199",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69199",
+      "candidate_fix": null,
+      "reason": "Contributor branch cannot be safely updated by maintainers, so the executable path is a narrow credited replacement PR rather than repairing #69199 in place."
+    },
+    {
+      "target": "#75951",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69199",
+      "candidate_fix": null,
+      "reason": "Related memory-core UX work, separate root cause and broader surface."
+    },
+    {
+      "target": "#93150",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93150",
+      "candidate_fix": null,
+      "reason": "Related missing node:sqlite trigger, but it is a product-direction follow-up rather than this narrow repair."
+    },
+    {
+      "target": "#93260",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#93150",
+      "candidate_fix": null,
+      "reason": "Separate product fallback candidate; keep out of the replacement for #69199."
+    },
+    {
+      "target": "cluster:repair-openclaw-openclaw-69199-20260623a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#69199",
+      "candidate_fix": null,
+      "reason": "Allowed actions include fix and raise_pr; #69199 is useful but uneditable, so replacement is the deterministic repair path."
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 2,
+    "fix_needed": 1,
+    "keep_related": 3,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 2,
+    "planned": 5
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#69199",
+    "source_refs": [
+      "#69199",
+      "#59457",
+      "#59637",
+      "#75951",
+      "#93260",
+      "#93150"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Open a narrow credited replacement for #69199 that adds missing node:sqlite classification to memory_search unavailable payloads, normalizes the reason once for both quota and sqlite checks, preserves explicit warning/action overrides, and adds focused regression coverage.",
+    "pr_title": "fix(memory): improve node:sqlite unavailable guidance",
+    "pr_body": "## What Problem This Solves\n\n`memory_search` currently reports missing `node:sqlite` as a generic embedding/provider failure. That sends users toward provider configuration even though the actual remediation is to run OpenClaw on a Node runtime with SQLite support.\n\nThis replacement carries forward the narrow fix from @rrrrrredy's source PR https://github.com/openclaw/openclaw/pull/69199. Clownfish is replacing the branch because the source PR is not maintainer-editable, while preserving attribution for the original contribution.\n\n## Why This Change Was Made\n\nCurrent main still routes manager setup and search unavailable errors through `buildMemorySearchUnavailableResult`, which only distinguishes quota errors from the generic fallback. The replacement keeps that shape but adds a targeted missing-`node:sqlite` branch and normalizes the reason string once so the quota and sqlite checks use the same input.\n\n## User Impact\n\nWhen `node:sqlite` is unavailable, `memory_search` returns the existing unavailable result shape with a targeted warning/action that points to restoring SQLite-capable Node support, while quota, generic, and explicit override paths remain unchanged.\n\n## Evidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/69199 by @rrrrrredy.\n- Greptile's P2 normalization comment is addressed by using one normalized reason for both checks.\n- Focused validation: `pnpm test extensions/memory-core/src/tools.test.ts`.\n- Changed gate: `pnpm check:changed`.",
+    "likely_files": [
+      "extensions/memory-core/src/tools.shared.ts",
+      "extensions/memory-core/src/tools.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/memory-core/src/tools.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @rrrrrredy for the original fix and source PR https://github.com/openclaw/openclaw/pull/69199.",
+      "Mention that Clownfish is replacing the branch only because maintainers cannot safely update it; preserve attribution in the PR body and release-note context.",
+      "Do not edit CHANGELOG.md directly; OpenClaw release generation owns CHANGELOG.md."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-openclaw-openclaw-69199-20260623a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "opened",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/95916",
+      "branch": "clownfish/repair-openclaw-openclaw-69199-20260623a",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "3662b0765875d4f4499f98d8d9291e6b0a127a7b",
+      "checkpoint_commits": [
+        "4c9ef324ce64b8cfbbc220c578616fcec93d18c8"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/95916"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#95916",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#95916",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
