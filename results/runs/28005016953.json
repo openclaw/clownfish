@@ -1,0 +1,106 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-79-autonomous-refresh-20260623a",
+  "mode": "autonomous",
+  "run_id": "28005016953",
+  "workflow_run_id": "28005016953",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28005016953",
+  "head_sha": "c3d4877276db1f97103fe56d12a5ddad91fc73e0",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T05:43:34Z",
+  "workflow_updated_at": "2026-06-23T05:45:52Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-79-autonomous-refresh-20260623a.md",
+  "published_at": "2026-06-23T05:46:38.599Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/69242",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/69242",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/87681",
+  "summary": "Classified the non-security exec SIGKILL cluster without GitHub mutation. #69242 remains the canonical Linux issue, #87681 is the closest fix lane but is blocked for automation by merge-risk/failing-check gates, #72240 and #89104 remain related diagnostics work, and the exact security-sensitive refs are routed separately.",
+  "actions": [
+    {
+      "target": "#69242",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#69242",
+      "candidate_fix": "#87681",
+      "reason": "#69242 is still the best issue thread for the Linux broad find/grep SIGKILL diagnostic gap."
+    },
+    {
+      "target": "#72240",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#69242",
+      "candidate_fix": "#89104",
+      "reason": "Same symptom family, but unique platform and broader diagnostics scope; not safe to close as a duplicate before a canonical fix lands."
+    },
+    {
+      "target": "#71211",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact security-sensitive issue to central OpenClaw security handling."
+    },
+    {
+      "target": "#81185",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Route only this exact security-sensitive PR to central OpenClaw security handling."
+    },
+    {
+      "target": "#87681",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#69242",
+      "candidate_fix": "#87681",
+      "reason": "Maintainer decision is required before automation can repair or merge #87681 despite it being the best current fix lane for #69242."
+    },
+    {
+      "target": "#89104",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#72240",
+      "candidate_fix": "#89104",
+      "reason": "Useful related diagnostics PR, but not the canonical Linux OOM-score attribution fix for #69242."
+    },
+    {
+      "target": "cluster:gitcrawl-79-autonomous-refresh-20260623a",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#69242",
+      "candidate_fix": "#87681",
+      "reason": "Exact unresolved decision: whether maintainers want #87681 repaired/accepted despite the compatibility and check gates, or split into a new follow-up cluster."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "keep_related": 2,
+    "route_security": 2,
+    "needs_human": 2
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "blocked": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide the canonical fix path for #69242: #87681 is the best focused PR but is blocked for Clownfish automation by merge-risk: compatibility, a failing check in the hydrated artifact, unknown mergeability, and missing fresh clean Codex /review proof."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

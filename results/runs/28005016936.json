@@ -1,0 +1,87 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-157-autonomous-refresh-20260623a",
+  "mode": "autonomous",
+  "run_id": "28005016936",
+  "workflow_run_id": "28005016936",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28005016936",
+  "head_sha": "c3d4877276db1f97103fe56d12a5ddad91fc73e0",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T05:43:34Z",
+  "workflow_updated_at": "2026-06-23T05:45:45Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-157-autonomous-refresh-20260623a.md",
+  "published_at": "2026-06-23T05:46:38.595Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/93600",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/93600",
+  "summary": "Classified the only actionable non-security candidate, #93600. Current main still has the installed-skill verify gap, but #93600 is not safe for an executable Clownfish repair artifact because it carries high-risk merge labels and includes unrelated non-skill churn; exact open security-sensitive linked refs are routed separately.",
+  "actions": [
+    {
+      "target": "#18196",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive linked PR; quarantine this exact ref only."
+    },
+    {
+      "target": "#57535",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive context issue; quarantine this exact ref only."
+    },
+    {
+      "target": "#80142",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive overlapping PR; quarantine this exact ref only and leave ownership with the existing job."
+    },
+    {
+      "target": "#93600",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related and likely useful, but not merge-ready and not safe to turn into an automated fix artifact under this job's high-risk-label rule."
+    },
+    {
+      "target": "cluster:gitcrawl-157-autonomous-refresh-20260623a",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Maintainer decision needed: split/adopt the narrow installed-skill hash verification from #93600, or leave #93600 for the existing higher-risk review path."
+    }
+  ],
+  "action_counts": {
+    "route_security": 3,
+    "keep_related": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide whether Clownfish should split/adopt the narrow installed ClawHub skill hash verification from #93600 despite #93600's high-risk labels and unrelated script/web-search churn."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

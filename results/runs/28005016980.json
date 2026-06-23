@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1176-autonomous-refresh-20260623a",
+  "mode": "autonomous",
+  "run_id": "28005016980",
+  "workflow_run_id": "28005016980",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28005016980",
+  "head_sha": "c3d4877276db1f97103fe56d12a5ddad91fc73e0",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T05:43:34Z",
+  "workflow_updated_at": "2026-06-23T05:45:27Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1176-autonomous-refresh-20260623a.md",
+  "published_at": "2026-06-23T05:46:38.602Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/93568",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/93568",
+  "canonical_pr": null,
+  "summary": "Current main at 53f9b6a36b513839ebf720729715bfb05d3b11ab still has the reported behavior: explicit-selection allowlist auto-append is limited to ClickClack, while channel setup and onboarding route selected plugins through that helper. The non-security canonical issue #93568 should stay open. The active candidate PR #93603 and linked security-sensitive refs must route to central security handling; a new executable fix artifact is blocked because the repair changes the same plugin allowlist/trust boundary and depends on that quarantined decision.",
+  "actions": [
+    {
+      "target": "#93568",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "#93568 remains the best non-security canonical issue, but it should stay open until the trust-boundary decision and fix path are resolved."
+    },
+    {
+      "target": "#92084",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref is routed to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#93582",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref is routed to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "#93593",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "Already-closed context PR; no mutation planned."
+    },
+    {
+      "target": "#93603",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Open security-sensitive candidate must be quarantined to central OpenClaw security handling."
+    },
+    {
+      "target": "#93684",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated linked ref is routed to central OpenClaw security handling without mutating it."
+    },
+    {
+      "target": "cluster:gitcrawl-1176-autonomous-refresh-20260623a",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#93568",
+      "candidate_fix": null,
+      "reason": "Maintainer/security decision required: whether to generalize explicit channel/plugin selection as allowlist trust, keep ClickClack-only behavior, or require a narrower prompt/doctor design before a fix PR can be planned."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 4,
+    "keep_closed": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide the plugin allowlist trust policy for #93568 after central security handling of #93603 and linked security-sensitive refs: general auto-allowlist for explicit selections, narrower channel-only/prompted trust, or keep ClickClack-only behavior."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
