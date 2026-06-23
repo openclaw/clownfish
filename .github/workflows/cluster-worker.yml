@@ -575,6 +575,11 @@ jobs:
         timeout-minutes: 60
         run: npm run execute-fix -- "${{ needs.prepare.outputs.job }}" --latest
 
+      - name: Run external merge preflights
+        if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        timeout-minutes: 45
+        run: npm run run-external-merge-preflights -- "${{ needs.prepare.outputs.job }}" --latest --max-prs 2
+
       - name: Apply safe closure actions
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest

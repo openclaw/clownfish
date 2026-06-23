@@ -93,6 +93,7 @@ Merge and post-merge close:
 - Bot review comments count as required review comments. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar automated reviewer findings must be addressed, proven non-actionable, or escalated.
 - Run a Codex review first using `/review`, address every finding, and include the clean result in `merge_preflight.codex_review`. Do not recommend merge from a stale or missing Codex review.
 - For every merge action, include `merge_preflight` for that target proving `security_status: "cleared"`, `comments_status: "resolved"`, `bot_comments_status: "resolved"`, a passed `/review`, addressed findings, validation commands, and concrete evidence.
+- If a PR appears otherwise merge-shaped but the only missing proof is deterministic exact-head validation and Codex `/review`, emit a blocked `merge_candidate` or `merge_canonical` action for that PR with reason `external_merge_preflight_required`, `target_kind: "pull_request"`, `classification: "canonical"`, `expected_head_sha`, `target_updated_at`, and concrete evidence. Do not include `merge_preflight` for blocked preflight requests. The executor will run the external merge preflight and guarded applicator.
 - After a canonical PR lands, reclassify duplicate closeout against the landed PR or commit instead of assuming the pre-merge plan is still valid.
 - Recommend `post_merge_close` only after a canonical fix is merged or already present on current `main`.
 - Preserve contributor credit in all closeout comments.

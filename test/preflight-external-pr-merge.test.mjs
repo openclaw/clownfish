@@ -7,7 +7,11 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const script = fs.readFileSync(path.join(repoRoot, "scripts", "preflight-external-pr-merge.mjs"), "utf8");
+const runnerScript = fs.readFileSync(path.join(repoRoot, "scripts", "run-external-merge-preflights.mjs"), "utf8");
 const workflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "external-merge-preflight.yml"), "utf8");
+const clusterWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
+const autonomousPrompt = fs.readFileSync(path.join(repoRoot, "prompts", "autonomous.md"), "utf8");
+const githubInventoryImporter = fs.readFileSync(path.join(repoRoot, "scripts", "import-github-pr-inventory.mjs"), "utf8");
 
 test("external merge preflight is exact-head, read-only, and refuses unresolved review evidence", () => {
   assert.match(script, /source job does not explicitly contain/);
@@ -47,6 +51,21 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /external-merge-preflight\/preflight-report\.json/);
   assert.match(workflow, /npm run apply-result/);
   assert.match(workflow, /permission-pull-requests: write/);
+});
+
+test("cluster worker chains blocked merge candidates through external preflight", () => {
+  assert.match(autonomousPrompt, /external_merge_preflight_required/);
+  assert.match(githubInventoryImporter, /external_merge_preflight_required/);
+  assert.match(runnerScript, /const MERGE_ACTIONS = new Set\(\["merge_candidate", "merge_canonical"\]\)/);
+  assert.match(runnerScript, /action\.status !== "blocked"/);
+  assert.match(runnerScript, /external_merge_preflight_required/);
+  assert.match(runnerScript, /scripts\/preflight-external-pr-merge\.mjs/);
+  assert.match(runnerScript, /scripts\/review-results\.mjs/);
+  assert.match(runnerScript, /CLOWNFISH_ALLOW_MERGE !== "1"/);
+  assert.match(runnerScript, /scripts\/apply-result\.mjs/);
+  assert.match(clusterWorkflow, /- name: Run external merge preflights/);
+  assert.match(clusterWorkflow, /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}" --latest --max-prs 2/);
+  assert.match(clusterWorkflow, /- name: Run external merge preflights[\s\S]*?- name: Apply safe closure actions/);
 });
 
 test("external merge preflight emits an applicator-valid exact-head merge artifact", () => {
