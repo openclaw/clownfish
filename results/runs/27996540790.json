@@ -1,0 +1,215 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-openclaw-openclaw-68389-20260623a",
+  "mode": "autonomous",
+  "run_id": "27996540790",
+  "workflow_run_id": "27996540790",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/27996540790",
+  "head_sha": "01a8ba38ad1f130f41158b2e061978d19164fe2c",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-23T01:48:08Z",
+  "workflow_updated_at": "2026-06-23T01:56:46Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-openclaw-openclaw-68389-20260623a.md",
+  "published_at": "2026-06-23T01:57:29.112Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/68389",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/68389",
+  "summary": "Plan a narrow repair of editable contributor PR #68389. The PR remains the canonical repair path for the populated-but-unmatched plugins.allow warning, but merge is blocked by the job policy and missing final merge preflight. Security-sensitive linked refs are quarantined item-by-item and do not block this non-security diagnostic repair.",
+  "actions": [
+    {
+      "target": "#68352",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive under the job security policy."
+    },
+    {
+      "target": "#68389",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#68389",
+      "candidate_fix": null,
+      "reason": "Canonical contributor PR is useful and editable but still needs a fresh repair/validation preflight before any merge recommendation."
+    },
+    {
+      "target": "#68780",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Exact hydrated item is security-sensitive under the job security policy."
+    },
+    {
+      "target": "#76580",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no action allowed or needed."
+    },
+    {
+      "target": "#78105",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#68389",
+      "candidate_fix": null,
+      "reason": "Related broader remediation; keep open and out of this narrow contributor-branch repair."
+    },
+    {
+      "target": "#78332",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed; no action allowed or needed."
+    },
+    {
+      "target": "cluster:repair-openclaw-openclaw-68389-20260623a",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#68389",
+      "candidate_fix": null,
+      "reason": "One narrow executable repair artifact covers the cluster without touching security-routed refs or broad #78105 remediation."
+    }
+  ],
+  "action_counts": {
+    "route_security": 2,
+    "fix_needed": 1,
+    "keep_closed": 2,
+    "keep_related": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 5,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#68389",
+    "source_refs": [
+      "#68389",
+      "#78105",
+      "#68352",
+      "#68780",
+      "#76580",
+      "#78332"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #68389 in place so populated plugins.allow entries that match no discovered plugin ids get a targeted diagnostic, while valid bundled/plugin ids remain quiet and existing empty-allowlist warning behavior is preserved.",
+    "pr_title": "plugins: clarify allowlist warning when entries do not match plugin ids",
+    "pr_body": "What Problem This Solves\n\nWhen users configure plugins.allow with a channel-style id or package-style id that does not match any discovered plugin id, current main treats the allowlist as non-empty and returns before explaining the mismatch. That leaves users without the specific plugin-id remediation the warning needs.\n\nWhy This Change Was Made\n\nThis repairs the existing contributor PR #68389 in place. The fix should keep the legacy empty-allowlist warning stable, compare populated allow entries against the full discovered plugin id set, warn only when none of the configured entries match, and keep valid partial or bundled-id allowlists quiet.\n\nUser Impact\n\nUsers get a clearer diagnostic for mismatched plugins.allow entries without changing allow/deny semantics, plugin trust policy, auto-discovery, or channel-to-plugin resolution.\n\nEvidence\n\nCurrent main def4b514857392cf1767114d04ace04848f2679d still returns early for any non-empty plugins.allow in src/plugins/loader-provenance.ts. Hydrated review comments on #68389 identified and the contributor addressed the bundled-id false-warning risk. Validate with node scripts/run-vitest.mjs src/plugins/loader.test.ts and pnpm check:changed.\n\nCredit\n\nBased on the existing contributor work from @lyfuci in https://github.com/openclaw/openclaw/pull/68389.",
+    "likely_files": [
+      "src/plugins/loader-provenance.ts",
+      "src/plugins/loader.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs src/plugins/loader.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @lyfuci and source PR https://github.com/openclaw/openclaw/pull/68389.",
+      "Do not add CHANGELOG.md; OpenClaw release generation owns changelog entries.",
+      "Mention in the PR body or squash message that @lyfuci provided the original narrow diagnostic fix and bundled-id regression direction."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-openclaw-openclaw-68389-20260623a.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#68352",
+      "#68780"
+    ],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/68389",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "46b156823eef39e8fa1a7636fda1f77bee9e0543",
+      "checkpoint_commits": [
+        "ae76b14b007ca45ba6707a2dfe973487f96361dd",
+        "b63acb7997eea7b5fffeb3a87e93de6f71e18f30",
+        "46b156823eef39e8fa1a7636fda1f77bee9e0543"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#68389",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#68389",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
