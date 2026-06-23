@@ -275,7 +275,7 @@ test("import-close-canaries quarantines security-shaped candidates before genera
   );
   assert.deepEqual(
     payload.dropped.map((candidate) => [candidate.target, candidate.reason]),
-    [["#91286", "security signal in target"]],
+    [["#91286", "target has human-hold label merge-risk: security-boundary"]],
   );
   assert.equal(fs.existsSync(path.join(fixture.inbox, "pr-close-canary-91286-test.md")), false);
   assert.equal(fs.existsSync(path.join(fixture.inbox, "pr-close-canary-92164-test.md")), true);
