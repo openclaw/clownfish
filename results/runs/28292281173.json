@@ -1,0 +1,231 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260623T065553-007",
+  "mode": "autonomous",
+  "run_id": "28292281173",
+  "workflow_run_id": "28292281173",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28292281173",
+  "head_sha": "c8acc55ab6caf22f4e54b2b6a281317c51fa9ce7",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-27T14:38:50Z",
+  "workflow_updated_at": "2026-06-27T14:52:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260623T065553-007.md",
+  "published_at": "2026-06-27T14:52:58.012Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Two independent open PRs were classified from the hydrated artifact and current main. #90217 is useful but needs branch repair for unresolved Copilot review findings before any merge preflight. #90230 looks merge-shaped after its later commit addressed the stale Copilot suggestion, but merge remains blocked on external exact-head preflight because this run has no fresh Codex /review or guarded validation proof.",
+  "actions": [
+    {
+      "target": "#90217",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90217",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch_before_merge"
+    },
+    {
+      "target": "#90230",
+      "action": "merge_candidate",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#90230",
+      "candidate_fix": null,
+      "reason": "external_merge_preflight_required"
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260623T065553-007",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "complete_executable_repair_for_90217"
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "merge_candidate": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90217",
+    "source_refs": [
+      "#90217",
+      "#90230"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #90217 so the symlinked doctor state-integrity regression runs only when directory symlinks can actually be created, without module-import filesystem side effects.",
+    "pr_title": "test: make doctor state integrity symlink test robust on Windows",
+    "pr_body": "What Problem This Solves\n\nRepairs #90217 so the doctor state-integrity symlink regression can run on Windows when directory symlinks or junctions are available, while staying robust on environments where symlink creation is restricted.\n\nWhy This Change Was Made\n\nThe original contributor change correctly targets the Windows skip, but hydrated Copilot review found two blockers: the capability check only gated Windows, and the probe mutated the filesystem at module import time. This repair should move the capability check into the test lifecycle or test body and gate the regression on actual directory symlink capability for every platform.\n\nUser Impact\n\nTest-only change. It improves cross-platform regression coverage without changing runtime doctor behavior.\n\nEvidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/90217 by @aniruddhaadak80.\n- Current main still skips the symlink regression on win32.\n- Validation: pnpm test src/commands/doctor-state-integrity.test.ts; pnpm check:changed.",
+    "likely_files": [
+      "src/commands/doctor-state-integrity.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/commands/doctor-state-integrity.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/90217; keep @aniruddhaadak80 as the PR author and preserve their Windows proof context.",
+      "In the PR update summary, call out that Clownfish only repaired review findings on the contributor's narrow test coverage change."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260623T065553-007.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/90217",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "9a476357ad0616a69ed0a93f26f085e8dc8b7548",
+      "checkpoint_commits": [
+        "dd286fa0f2da3a1847aeaca295f129147f58cce6",
+        "9a476357ad0616a69ed0a93f26f085e8dc8b7548"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#90230",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#90230",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260623T065553-007:#90230:blocked-merge-preflight:a6085e77fdfa0ba447ea3c29d7586f57b91277d7",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-27T14:46:44.567Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#90217",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "test: make doctor state integrity symlink test robust on Windows",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: FAILURE, Real behavior proof: CANCELLED",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#90230",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#90230",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260623T065553-007:#90230:blocked-merge-preflight:a6085e77fdfa0ba447ea3c29d7586f57b91277d7",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-27T14:46:44.567Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#90230",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#90230",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260623T065553-007:#90230:blocked-merge-preflight:a6085e77fdfa0ba447ea3c29d7586f57b91277d7",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 2,
+      "applied_at": "2026-06-27T14:52:06.371Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#90217",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "test: make doctor state integrity symlink test robust on Windows",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: FAILURE, Real behavior proof: CANCELLED",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
