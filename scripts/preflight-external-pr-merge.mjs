@@ -761,7 +761,10 @@ function isClawSweeperReadyReviewComment({ author, body, pull }) {
 function hasAutonomousMergeReadySignal(pull) {
   const labels = (pull?.labels ?? []).map((label) => String(label?.name ?? "").toLowerCase());
   if (labels.includes("clownfish:automerge")) return true;
-  return labels.some((label) => label.includes("ready for maintainer look")) && labels.includes("proof: sufficient");
+  const readyForMaintainer = labels.some((label) => label.includes("ready for maintainer look"));
+  if (!readyForMaintainer) return false;
+  if (labels.includes("proof: sufficient")) return true;
+  return labels.includes("docs") && labels.some((label) => label.includes("low-signal-docs"));
 }
 
 function findHighRiskMergeLabel(labels) {
