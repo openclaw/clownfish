@@ -41,44 +41,47 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 28, 2026, 22:57 UTC
+Last dashboard update: Jun 28, 2026, 23:46 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 6606 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 6609 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 6606 | 100% |
+| Latest clusters reviewed | 6609 | 100% |
 | Policy-archived clusters | 4 | audit |
 | Clean completed clusters | 4039 | 61.1% |
-| Needs-human clusters | 2134 | 32.3% |
+| Needs-human clusters | 2136 | 32.3% |
 | Latest successful clusters | 6245 | 94.5% |
 | Latest failed clusters | 290 | 4.4% |
 | Latest cancelled clusters | 8 | 0.1% |
-| Run attempts archived | 8752 | audit |
-| Fix action attempts | 532 | audit |
+| Run attempts archived | 8755 | audit |
+| Fix action attempts | 534 | audit |
 | Fix actions executed | 11 | 2.1% |
-| Fix actions failed | 111 | 20.9% |
-| Fix actions blocked | 164 | 30.8% |
-| Latest clusters with fix failures | 102 | 1.5% |
-| Distinct PRs touched | 8578 | 100% |
-| Open PRs tracked | 2524 | 29.4% |
-| Closed unmerged PRs tracked | 4471 | 52.1% |
-| Completed close actions | 86 | 13.3% |
-| Completed merge actions | 58 | 9.0% |
+| Fix actions failed | 112 | 21.0% |
+| Fix actions blocked | 165 | 30.9% |
+| Latest clusters with fix failures | 103 | 1.6% |
+| Distinct PRs touched | 8541 | 100% |
+| Open PRs tracked | 2501 | 29.3% |
+| Closed unmerged PRs tracked | 4457 | 52.2% |
+| Completed close actions | 86 | 13.2% |
+| Completed merge actions | 58 | 8.9% |
 | Duplicate closes | 26 | 30.2% |
 | Superseded closes | 24 | 27.9% |
 | Fixed-by-candidate closes | 26 | 30.2% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 274 | 42.3% |
-| Skipped mutation attempts | 229 | 35.4% |
+| Blocked mutation attempts | 274 | 42.1% |
+| Skipped mutation attempts | 233 | 35.8% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [live-pr-inventory-20260628T225930-003](results/openclaw/live-pr-inventory-20260628t225930-003.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-003.md | #53467: choose the canonical Slack `ignoreOtherMentions` path across #53467, #89846, and #89625 after resolving bot-review findings and p... | [report](results/openclaw/live-pr-inventory-20260628t225930-003.md) | [28338928676](https://github.com/openclaw/clownfish/actions/runs/28338928676) |
+| [live-pr-inventory-20260628T225930-002](results/openclaw/live-pr-inventory-20260628t225930-002.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-002.md | #97340 requires maintainer judgment before automation because it is a broad Teams multi-account feature touching compatibility, auth-prov... | [report](results/openclaw/live-pr-inventory-20260628t225930-002.md) | [28338927794](https://github.com/openclaw/clownfish/actions/runs/28338927794) |
+| [live-pr-inventory-20260628T225930-001](results/openclaw/live-pr-inventory-20260628t225930-001.md) | fix failed | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-001.md | source PR #97581 head fetch failed after 2 attempt(s): source PR #97581 head fetch resolved 28d409161d94e965f5099c5e4faae0a9d306ed1e, exp... | [report](results/openclaw/live-pr-inventory-20260628t225930-001.md) | [28338926716](https://github.com/openclaw/clownfish/actions/runs/28338926716) |
 | [live-pr-inventory-20260628T224925-003](results/openclaw/live-pr-inventory-20260628t224925-003.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-003.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t224925-003.md) | [28338680976](https://github.com/openclaw/clownfish/actions/runs/28338680976) |
 | [live-pr-inventory-20260628T224925-002](results/openclaw/live-pr-inventory-20260628t224925-002.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-002.md | #87891: maintainer decision required on whether to accept the new Telegram spooled handler timeout config surface before any merge, repai... | [report](results/openclaw/live-pr-inventory-20260628t224925-002.md) | [28338680142](https://github.com/openclaw/clownfish/actions/runs/28338680142) |
 | [live-pr-inventory-20260628T224925-001](results/openclaw/live-pr-inventory-20260628t224925-001.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-001.md | #88098 requires maintainer product direction before merge or close because it adds a new public non-interactive onboard flag/config surfa... | [report](results/openclaw/live-pr-inventory-20260628t224925-001.md) | [28338679254](https://github.com/openclaw/clownfish/actions/runs/28338679254) |
@@ -101,14 +104,13 @@ Scope: 6606 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [live-pr-inventory-20260628T173641-014](results/openclaw/live-pr-inventory-20260628t173641-014.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-014.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-014.md) | [28330500595](https://github.com/openclaw/clownfish/actions/runs/28330500595) |
 | [live-pr-inventory-20260628T173641-011](results/openclaw/live-pr-inventory-20260628t173641-011.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-011.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-011.md) | [28330494801](https://github.com/openclaw/clownfish/actions/runs/28330494801) |
 | [live-pr-inventory-20260628T173641-010](results/openclaw/live-pr-inventory-20260628t173641-010.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-010.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-010.md) | [28330494779](https://github.com/openclaw/clownfish/actions/runs/28330494779) |
-| [live-pr-inventory-20260628T173641-009](results/openclaw/live-pr-inventory-20260628t173641-009.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-009.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-009.md) | [28330494738](https://github.com/openclaw/clownfish/actions/runs/28330494738) |
-| [live-pr-inventory-20260628T173641-006](results/openclaw/live-pr-inventory-20260628t173641-006.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-006.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-006.md) | [28330481979](https://github.com/openclaw/clownfish/actions/runs/28330481979) |
-| [live-pr-inventory-20260628T173641-008](results/openclaw/live-pr-inventory-20260628t173641-008.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-008.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-008.md) | [28330481971](https://github.com/openclaw/clownfish/actions/runs/28330481971) |
 
 ### Fix Failure Queue
 
 | Cluster | Status | Target | Branch/PR | Reason | Run |
 | --- | --- | --- | --- | --- | --- |
+| [live-pr-inventory-20260628T225930-001](results/openclaw/live-pr-inventory-20260628t225930-001.md) | failed |  |  | source PR #97581 head fetch failed after 2 attempt(s): source PR #97581 head fetch resolved 28d409161d94e965f5099c5e4faae0a9d306ed1e, exp... | [28338926716](https://github.com/openclaw/clownfish/actions/runs/28338926716) |
+| [live-pr-inventory-20260628T225930-001](results/openclaw/live-pr-inventory-20260628t225930-001.md) | blocked |  |  | source PR #97581 head fetch failed after 2 attempt(s): source PR #97581 head fetch resolved 28d409161d94e965f5099c5e4faae0a9d306ed1e, exp... | [28338926716](https://github.com/openclaw/clownfish/actions/runs/28338926716) |
 | [gitcrawl-1214-autonomous-refresh-20260623a](results/openclaw/gitcrawl-1214-autonomous-refresh-20260623a.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [28005085136](https://github.com/openclaw/clownfish/actions/runs/28005085136) |
 | [live-pr-inventory-20260622T175816-002](results/openclaw/live-pr-inventory-20260622t175816-002.md) | blocked |  |  | fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1 | [27986288546](https://github.com/openclaw/clownfish/actions/runs/27986288546) |
 | [gitcrawl-1348-autonomous-bulk-20260622b](results/openclaw/gitcrawl-1348-autonomous-bulk-20260622b.md) | blocked |  | clownfish/gitcrawl-1348-autonomous-bulk-20260622b | validation command failed (pnpm check:changed): pnpm check:changed exited 2 | [27961714444](https://github.com/openclaw/clownfish/actions/runs/27961714444) |
@@ -132,14 +134,12 @@ Scope: 6606 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [ghcrawl-156896-autonomous-smoke](results/openclaw/ghcrawl-156896-autonomous-smoke.md) | blocked |  | clownfish/ghcrawl-156896-autonomous-smoke | base branch advanced after validation and clownfish/ghcrawl-156896-autonomous-smoke needs a fresh rebase pass: Rebasing (1/2) error: coul... | [27598131954](https://github.com/openclaw/clownfish/actions/runs/27598131954) |
 | [ghcrawl-157027-autonomous-smoke](results/openclaw/ghcrawl-157027-autonomous-smoke.md) | blocked |  | clownfish/ghcrawl-157027-autonomous-smoke | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests [check:changed] sr... | [27598133399](https://github.com/openclaw/clownfish/actions/runs/27598133399) |
 | [ghcrawl-156790-autonomous-smoke](results/openclaw/ghcrawl-156790-autonomous-smoke.md) | blocked |  | clownfish/ghcrawl-156790-autonomous-smoke | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests [check:... | [27597851709](https://github.com/openclaw/clownfish/actions/runs/27597851709) |
-| [ghcrawl-156772-autonomous-smoke](results/openclaw/ghcrawl-156772-autonomous-smoke.md) | blocked |  | clownfish/ghcrawl-156772-autonomous-smoke | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests, docs [... | [27597851193](https://github.com/openclaw/clownfish/actions/runs/27597851193) |
-| [ghcrawl-156802-autonomous-smoke](results/openclaw/ghcrawl-156802-autonomous-smoke.md) | blocked |  | clownfish/ghcrawl-156802-autonomous-smoke | validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=core, coreTests, docs [check:chang... | [27597852112](https://github.com/openclaw/clownfish/actions/runs/27597852112) |
 
 ### Top Blocked Reasons
 
 | Reason | Latest count | Example cluster |
 | --- | ---: | --- |
-| blocked: external_merge_preflight_required | 67 | [live-pr-inventory-20260628T224925-003](results/openclaw/live-pr-inventory-20260628t224925-003.md) |
+| blocked: external_merge_preflight_required | 75 | [live-pr-inventory-20260628T225930-003](results/openclaw/live-pr-inventory-20260628t225930-003.md) |
 | job does not allow merge | 66 | [repair-openclaw-openclaw-78105-20260623a](results/openclaw/repair-openclaw-openclaw-78105-20260623a.md) |
 | target changed since worker review | 27 | [pr-close-canary-75213-20260615-bulk-a](results/openclaw/pr-close-canary-75213-20260615-bulk-a.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 19 | [ghcrawl-156686-autonomous-smoke](results/openclaw/ghcrawl-156686-autonomous-smoke.md) |
