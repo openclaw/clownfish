@@ -1,17 +1,17 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-97571-8a717e11d455"
+cluster_id: "external-merge-preflight-89045-c0b56f9ca65a"
 mode: "autonomous"
-run_id: "28338249288"
-workflow_run_id: "28338249288"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28338249288"
+run_id: "28338248592"
+workflow_run_id: "28338248592"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28338248592"
 head_sha: null
 workflow_conclusion: null
 result_status: "planned"
-published_at: "2026-06-28T22:37:00.552Z"
-canonical: "https://github.com/openclaw/openclaw/pull/97571"
+published_at: "2026-06-28T22:37:00.537Z"
+canonical: "https://github.com/openclaw/openclaw/pull/89045"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/97571"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/89045"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,21 +22,21 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-97571-8a717e11d455
+# external-merge-preflight-89045-c0b56f9ca65a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28338249288](https://github.com/openclaw/clownfish/actions/runs/28338249288)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28338248592](https://github.com/openclaw/clownfish/actions/runs/28338248592)
 
 Workflow conclusion: unknown
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/97571
+Canonical: https://github.com/openclaw/openclaw/pull/89045
 
 ## Summary
 
-External merge preflight blocked: PR has blocked live label: merge-risk: 🚨 compatibility
+External merge preflight blocked: PR has blocked live label: merge-risk: 🚨 session-state; PR has 9 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/89045#issuecomment-4599180551, https://github.com/openclaw/openclaw/pull/89045#issuecomment-4641149676, https://github.com/openclaw/openclaw/pull/89045#issuecomment-4641623026
 
 ## Impact
 

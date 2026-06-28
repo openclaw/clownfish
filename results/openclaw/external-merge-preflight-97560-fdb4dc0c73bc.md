@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-97571-8a717e11d455"
+cluster_id: "external-merge-preflight-97560-fdb4dc0c73bc"
 mode: "autonomous"
 run_id: "28338249288"
 workflow_run_id: "28338249288"
@@ -9,9 +9,9 @@ head_sha: null
 workflow_conclusion: null
 result_status: "planned"
 published_at: "2026-06-28T22:37:00.552Z"
-canonical: "https://github.com/openclaw/openclaw/pull/97571"
+canonical: "https://github.com/openclaw/openclaw/pull/97560"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/97571"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/97560"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,7 +22,7 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-97571-8a717e11d455
+# external-merge-preflight-97560-fdb4dc0c73bc
 
 Repo: openclaw/openclaw
 
@@ -32,7 +32,7 @@ Workflow conclusion: unknown
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/97571
+Canonical: https://github.com/openclaw/openclaw/pull/97560
 
 ## Summary
 
