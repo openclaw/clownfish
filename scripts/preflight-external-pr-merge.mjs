@@ -781,7 +781,9 @@ function isAutomationAuthor(author) {
 }
 
 function isAuthorStatusComment(body) {
-  return /\b(addressed|updated|added|fixed|ready for maintainer|marked `proof: sufficient`|please take a look|merge if)\b/.test(body);
+  return /\b(addressed|updated|added|fixed|ready for maintainer|marked `proof: sufficient`|please take a look|take a look when|would you mind taking a look|merge if)\b/.test(
+    body,
+  );
 }
 
 function isReviewRequestComment(body) {
