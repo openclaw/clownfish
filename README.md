@@ -41,44 +41,47 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 28, 2026, 22:40 UTC
+Last dashboard update: Jun 28, 2026, 22:57 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 6603 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 6606 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 6603 | 100% |
+| Latest clusters reviewed | 6606 | 100% |
 | Policy-archived clusters | 4 | audit |
-| Clean completed clusters | 4039 | 61.2% |
-| Needs-human clusters | 2132 | 32.3% |
-| Latest successful clusters | 6245 | 94.6% |
+| Clean completed clusters | 4039 | 61.1% |
+| Needs-human clusters | 2134 | 32.3% |
+| Latest successful clusters | 6245 | 94.5% |
 | Latest failed clusters | 290 | 4.4% |
 | Latest cancelled clusters | 8 | 0.1% |
-| Run attempts archived | 8749 | audit |
+| Run attempts archived | 8752 | audit |
 | Fix action attempts | 532 | audit |
 | Fix actions executed | 11 | 2.1% |
 | Fix actions failed | 111 | 20.9% |
 | Fix actions blocked | 164 | 30.8% |
 | Latest clusters with fix failures | 102 | 1.5% |
 | Distinct PRs touched | 8578 | 100% |
-| Open PRs tracked | 2529 | 29.5% |
+| Open PRs tracked | 2524 | 29.4% |
 | Closed unmerged PRs tracked | 4471 | 52.1% |
-| Completed close actions | 86 | 13.4% |
-| Completed merge actions | 58 | 9.1% |
+| Completed close actions | 86 | 13.3% |
+| Completed merge actions | 58 | 9.0% |
 | Duplicate closes | 26 | 30.2% |
 | Superseded closes | 24 | 27.9% |
 | Fixed-by-candidate closes | 26 | 30.2% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 274 | 42.8% |
-| Skipped mutation attempts | 222 | 34.7% |
+| Blocked mutation attempts | 274 | 42.3% |
+| Skipped mutation attempts | 229 | 35.4% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [live-pr-inventory-20260628T224925-003](results/openclaw/live-pr-inventory-20260628t224925-003.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-003.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t224925-003.md) | [28338680976](https://github.com/openclaw/clownfish/actions/runs/28338680976) |
+| [live-pr-inventory-20260628T224925-002](results/openclaw/live-pr-inventory-20260628t224925-002.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-002.md | #87891: maintainer decision required on whether to accept the new Telegram spooled handler timeout config surface before any merge, repai... | [report](results/openclaw/live-pr-inventory-20260628t224925-002.md) | [28338680142](https://github.com/openclaw/clownfish/actions/runs/28338680142) |
+| [live-pr-inventory-20260628T224925-001](results/openclaw/live-pr-inventory-20260628t224925-001.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T224925-001.md | #88098 requires maintainer product direction before merge or close because it adds a new public non-interactive onboard flag/config surfa... | [report](results/openclaw/live-pr-inventory-20260628t224925-001.md) | [28338679254](https://github.com/openclaw/clownfish/actions/runs/28338679254) |
 | [live-pr-inventory-20260628T223159-003](results/openclaw/live-pr-inventory-20260628t223159-003.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T223159-003.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t223159-003.md) | [28338250218](https://github.com/openclaw/clownfish/actions/runs/28338250218) |
 | [live-pr-inventory-20260628T223159-002](results/openclaw/live-pr-inventory-20260628t223159-002.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T223159-002.md | #97340: maintainer decision needed for broad Teams multi-account product/config/session-state change; branch is uneditable by maintainers... | [report](results/openclaw/live-pr-inventory-20260628t223159-002.md) | [28338249288](https://github.com/openclaw/clownfish/actions/runs/28338249288) |
 | [live-pr-inventory-20260628T223159-001](results/openclaw/live-pr-inventory-20260628t223159-001.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T223159-001.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t223159-001.md) | [28338248592](https://github.com/openclaw/clownfish/actions/runs/28338248592) |
@@ -101,9 +104,6 @@ Scope: 6603 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [live-pr-inventory-20260628T173641-009](results/openclaw/live-pr-inventory-20260628t173641-009.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-009.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-009.md) | [28330494738](https://github.com/openclaw/clownfish/actions/runs/28330494738) |
 | [live-pr-inventory-20260628T173641-006](results/openclaw/live-pr-inventory-20260628t173641-006.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-006.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-006.md) | [28330481979](https://github.com/openclaw/clownfish/actions/runs/28330481979) |
 | [live-pr-inventory-20260628T173641-008](results/openclaw/live-pr-inventory-20260628t173641-008.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-008.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-008.md) | [28330481971](https://github.com/openclaw/clownfish/actions/runs/28330481971) |
-| [live-pr-inventory-20260628T173641-004](results/openclaw/live-pr-inventory-20260628t173641-004.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-004.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-004.md) | [28330476338](https://github.com/openclaw/clownfish/actions/runs/28330476338) |
-| [live-pr-inventory-20260628T173641-007](results/openclaw/live-pr-inventory-20260628t173641-007.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-007.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-007.md) | [28330481987](https://github.com/openclaw/clownfish/actions/runs/28330481987) |
-| [live-pr-inventory-20260628T173641-005](results/openclaw/live-pr-inventory-20260628t173641-005.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-005.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-005.md) | [28330481970](https://github.com/openclaw/clownfish/actions/runs/28330481970) |
 
 ### Fix Failure Queue
 
@@ -139,8 +139,8 @@ Scope: 6603 active latest cluster reports. 4 policy-archived cluster(s) are excl
 
 | Reason | Latest count | Example cluster |
 | --- | ---: | --- |
+| blocked: external_merge_preflight_required | 67 | [live-pr-inventory-20260628T224925-003](results/openclaw/live-pr-inventory-20260628t224925-003.md) |
 | job does not allow merge | 66 | [repair-openclaw-openclaw-78105-20260623a](results/openclaw/repair-openclaw-openclaw-78105-20260623a.md) |
-| blocked: external_merge_preflight_required | 58 | [live-pr-inventory-20260628T223159-003](results/openclaw/live-pr-inventory-20260628t223159-003.md) |
 | target changed since worker review | 27 | [pr-close-canary-75213-20260615-bulk-a](results/openclaw/pr-close-canary-75213-20260615-bulk-a.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 19 | [ghcrawl-156686-autonomous-smoke](results/openclaw/ghcrawl-156686-autonomous-smoke.md) |
 | canonical is not listed in job refs | 14 | [gitcrawl-301-dedupe-cleanup-wave-3](results/openclaw/gitcrawl-301-dedupe-cleanup-wave-3.md) |

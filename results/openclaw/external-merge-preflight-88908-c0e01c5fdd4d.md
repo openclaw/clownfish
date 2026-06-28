@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-89817-993d49a9877e"
+cluster_id: "external-merge-preflight-88908-c0e01c5fdd4d"
 mode: "autonomous"
 run_id: "28338680976"
 workflow_run_id: "28338680976"
@@ -8,10 +8,10 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28338680976"
 head_sha: null
 workflow_conclusion: null
 result_status: "planned"
-published_at: "2026-06-28T22:53:57.110Z"
-canonical: "https://github.com/openclaw/openclaw/pull/89817"
+published_at: "2026-06-28T22:53:57.109Z"
+canonical: "https://github.com/openclaw/openclaw/pull/88908"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/89817"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/88908"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,7 +22,7 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-89817-993d49a9877e
+# external-merge-preflight-88908-c0e01c5fdd4d
 
 Repo: openclaw/openclaw
 
@@ -32,11 +32,11 @@ Workflow conclusion: unknown
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/89817
+Canonical: https://github.com/openclaw/openclaw/pull/88908
 
 ## Summary
 
-External merge preflight blocked: PR has non-passing checks: checks-node-core-tooling; PR merge state is UNSTABLE
+External merge preflight blocked: PR has blocked live label: merge-risk: 🚨 compatibility; PR mergeability is CONFLICTING; PR merge state is DIRTY; PR has 1 actionable inline review comment(s): https://github.com/openclaw/openclaw/pull/88908#discussion_r3331680872
 
 ## Impact
 
