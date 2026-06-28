@@ -342,6 +342,40 @@ test("external merge preflight tolerates ready ClawSweeper docs reviews without 
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight tolerates author take-a-look status comments", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "This one and #456 are the remaining two, both with regression tests and ClawSweeper approval.",
+          "Would you mind taking a look when you have a chance? Thanks!",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed");
+});
+
 test("external merge preflight blocks actionable human comments", () => {
   const fixture = makeFixture({
     issueComments: [
@@ -529,6 +563,7 @@ function makeFixture({
   reviewComments = [],
   reviews = [],
   pullLabels = [],
+  pullUser = { login: "contributor" },
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
   mergeViews = null,
@@ -610,7 +645,7 @@ if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
-  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: "2026-06-19T00:00:00Z", labels: ${JSON.stringify(pullLabels)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: "2026-06-19T00:00:00Z", labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
