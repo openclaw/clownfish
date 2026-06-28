@@ -151,10 +151,14 @@ function reviewResult(resultPath) {
     const unavailableNeedsHuman = isUnavailableNeedsHumanAction(action);
     const unavailableSecurityRoute = isUnavailableSecurityRouteAction(action, item);
     const unavailableNonMutatingPlanAction = isUnavailableNonMutatingPlanAction(action, item, result);
+    const htmlEntityLiteralKeepAction = isNumericHtmlEntityLiteralKeepAction(action, item);
 
     if (!target) failures.push("action missing target");
     if (target.includes(",")) failures.push(`${target} action target must be a single ref, not a comma-separated list`);
     if (!name) failures.push(`${target || "unknown target"} missing action`);
+    if (htmlEntityLiteralKeepAction) {
+      warnings.push(`${target} ignored as a non-mutating numeric HTML entity literal, not a hydrated GitHub ref`);
+    }
     const invalidClusterTarget = target.startsWith("cluster:") && target !== expectedClusterTarget;
     if (invalidClusterTarget) {
       failures.push(`${target} cluster-scoped target must be exactly ${expectedClusterTarget}`);
@@ -171,6 +175,7 @@ function reviewResult(resultPath) {
       !unavailableNeedsHuman &&
       !unavailableSecurityRoute &&
       !unavailableNonMutatingPlanAction &&
+      !htmlEntityLiteralKeepAction &&
       !action.target_kind
     ) {
       failures.push(`${target} missing target_kind`);
@@ -180,12 +185,13 @@ function reviewResult(resultPath) {
       !unavailableNeedsHuman &&
       !unavailableSecurityRoute &&
       !unavailableNonMutatingPlanAction &&
+      !htmlEntityLiteralKeepAction &&
       !action.target_updated_at
     ) {
       failures.push(`${target} missing target_updated_at`);
     }
     if (!clusterScopedAction && item && action.target_updated_at && item.updated_at !== action.target_updated_at) {
-      if (unavailableNonMutatingPlanAction && !item.updated_at) {
+      if ((unavailableNonMutatingPlanAction || htmlEntityLiteralKeepAction) && !item.updated_at) {
         warnings.push(`${target} target_updated_at ignored because preflight item was unavailable`);
       } else {
         failures.push(`${target} target_updated_at does not match preflight`);
@@ -513,6 +519,42 @@ function isUnavailableNonMutatingPlanAction(action, item, result) {
   const name = String(action.action ?? "");
   if (MUTATING_ACTIONS.has(name) || CLOSE_ACTIONS.has(name) || MERGE_ACTIONS.has(name)) return false;
   return true;
+}
+
+function isNumericHtmlEntityLiteralKeepAction(action, item) {
+  const name = String(action.action ?? "");
+  if (!NON_MUTATING_KEEP_ACTIONS.has(name)) return false;
+  if (!["planned", "skipped", "blocked"].includes(String(action.status ?? ""))) return false;
+  if (item && item.state !== "unavailable") return false;
+  const ref = normalizeRef(action.target);
+  if (!ref) return false;
+  const targetNumber = Number(ref.slice(1));
+  if (!Number.isSafeInteger(targetNumber)) return false;
+  return numericHtmlEntityValues(actionText(action)).has(targetNumber);
+}
+
+function actionText(action) {
+  const evidence = Array.isArray(action.evidence) ? action.evidence : [];
+  return [
+    action.reason,
+    action.comment,
+    action.idempotency_key,
+    ...evidence.map((entry) => (typeof entry === "string" ? entry : JSON.stringify(entry))),
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function numericHtmlEntityValues(text) {
+  const values = new Set();
+  for (const match of String(text ?? "").matchAll(/&#(x[0-9a-f]+|\d+);/gi)) {
+    const raw = match[1];
+    const value = raw.toLowerCase().startsWith("x")
+      ? Number.parseInt(raw.slice(1), 16)
+      : Number.parseInt(raw, 10);
+    if (Number.isSafeInteger(value)) values.add(value);
+  }
+  return values;
 }
 
 function isInfrastructureBlockedResult(result, actions) {

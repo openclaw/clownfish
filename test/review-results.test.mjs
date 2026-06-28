@@ -1875,6 +1875,95 @@ test("review-results enforces calibrated canonical finalization after source job
   assert.match(result.stdout, /#1 calibrated canonical PR requires either a planned merge action with merge_preflight or a planned fix action/);
 });
 
+test("review-results tolerates non-mutating keep actions for numeric HTML entity literals", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        blockedMergeCandidate("#96583"),
+        htmlEntityKeepAction("#99999999", "Regression fixture includes the code literal &#99999999;."),
+        htmlEntityKeepAction("#128512", "Regression fixture includes the valid code-point entity &#128512;."),
+      ],
+    },
+    {
+      plan: {
+        items: [
+          openPrItem("#96583", "2026-06-27T16:00:00Z"),
+          unavailableItem("#99999999"),
+          unavailableItem("#128512"),
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /numeric HTML entity literal/);
+});
+
+test("review-results still rejects ordinary unavailable refs in autonomous keep actions", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          ...htmlEntityKeepAction("#99999999", "This is just an unhydrated issue ref."),
+          idempotency_key: "cluster-test:ordinary-unavailable-ref:#99999999",
+          evidence: ["This is just an unhydrated issue ref."],
+          reason: "unhydrated ref",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [unavailableItem("#99999999")],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#99999999 target_updated_at does not match preflight/);
+});
+
+test("review-results still rejects mutating actions for numeric HTML entity literals", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#99999999",
+          action: "close_duplicate",
+          status: "planned",
+          idempotency_key: "cluster-test:close-html-entity-fake-ref:#99999999",
+          expected_head_sha: null,
+          classification: "duplicate",
+          target_kind: "issue",
+          target_updated_at: "2026-06-27T00:00:00Z",
+          canonical: "#96583",
+          duplicate_of: "#96583",
+          candidate_fix: null,
+          comment: "Closing as a duplicate.",
+          evidence: ["Regression fixture includes the code literal &#99999999;."],
+          reason: "numeric HTML entity literal should not be closeable",
+        },
+      ],
+    },
+    {
+      plan: {
+        items: [openPrItem("#96583", "2026-06-27T16:00:00Z"), unavailableItem("#99999999")],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#99999999 close action targets unavailable item/);
+});
+
 function makeResultDir(overrides, options = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-review-"));
   const result = {
@@ -2079,4 +2168,67 @@ allow_fix_pr: true
 
 # Calibrated fix-enabled job
 `;
+}
+
+function openPrItem(ref, updatedAt) {
+  return {
+    ref,
+    kind: "pull_request",
+    state: "open",
+    title: "fix(duckduckgo): guard out-of-range numeric HTML entities",
+    labels: [],
+    updated_at: updatedAt,
+    security_sensitive: false,
+  };
+}
+
+function unavailableItem(ref) {
+  return {
+    ref,
+    kind: "issue",
+    state: "unavailable",
+    title: "unavailable",
+    labels: [],
+    updated_at: null,
+    security_sensitive: false,
+    hydration_error: "not found",
+  };
+}
+
+function blockedMergeCandidate(target) {
+  return {
+    target,
+    action: "merge_candidate",
+    status: "blocked",
+    idempotency_key: "cluster-test:merge-candidate:#96583",
+    expected_head_sha: "7c44ffd84e7c6e5a68623b63a92707f0e27afb0c",
+    classification: "canonical",
+    target_kind: "pull_request",
+    target_updated_at: "2026-06-27T16:00:00Z",
+    canonical: target,
+    duplicate_of: null,
+    candidate_fix: target,
+    comment: null,
+    evidence: ["otherwise merge-shaped; external exact-head validation required"],
+    reason: "external_merge_preflight_required",
+  };
+}
+
+function htmlEntityKeepAction(target, evidence) {
+  return {
+    target,
+    action: "keep_independent",
+    status: "skipped",
+    idempotency_key: `cluster-test:html-entity-fake-ref:${target}`,
+    expected_head_sha: null,
+    classification: "independent",
+    target_kind: "issue",
+    target_updated_at: "2026-06-27T00:00:00Z",
+    canonical: null,
+    duplicate_of: null,
+    candidate_fix: null,
+    comment: null,
+    evidence: [evidence],
+    reason: "numeric HTML entity literal, not a GitHub issue",
+  };
 }

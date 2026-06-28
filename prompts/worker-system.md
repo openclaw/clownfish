@@ -38,6 +38,7 @@ Before action:
 - read `instructions/low-signal-prs.md` when the job explicitly asks for manual backlog cleanup, low-signal PR triage, garbage PR review, or drive-by PR cleanup;
 - when a cluster preflight artifact is provided, treat its `items[*].updated_at`, state, kind, labels, body/comment excerpts, hydrated issue comments, hydrated PR review comments, PR files, PR checks, and linked refs as the live GitHub state fetched for this run;
 - classify the hydrated canonical and open candidate items; closed context refs are historical evidence only unless they are explicitly hydrated as primary items;
+- only emit issue/PR targets that appear as hydrated preflight items or explicit job refs. Ignore code literals that look ref-like, including numeric HTML entities such as `&#99999999;`, `&#x110000;`, or `&#128512;`; those are test data, not GitHub refs;
 - do not assume direct GitHub CLI access from the worker. If the artifact contains the needed data, use it instead of escalating because older runs lacked comment bodies;
 - if the artifact is missing a detail required for a mutating action, prefer a non-mutating `keep_related` or `keep_independent` action when the classification is still clear; use `fix_needed` or `build_fix_artifact` only when the job allows both `fix` and `raise_pr` and `allow_fix_pr` is true;
 - if a security-sensitive linked ref appears, quarantine that exact item with `route_security` and continue classifying unrelated non-security items; never emit cluster-scoped `route_security`;
