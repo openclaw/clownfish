@@ -1,0 +1,236 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260629T032026-001",
+  "mode": "autonomous",
+  "run_id": "28346493769",
+  "workflow_run_id": "28346493769",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28346493769",
+  "head_sha": "ea564da5bc9e490a507eab90866387e92a369ab8",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-29T03:21:21Z",
+  "workflow_updated_at": "2026-06-29T03:39:24Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260629T032026-001.md",
+  "published_at": "2026-06-29T03:40:07.791Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified two independent open PR candidates. #97599 is a useful canonical contributor PR but needs branch repair before merge because hydrated CI has failing lint/bundled-extension checks. #97614 is narrow and merge-shaped, but should be blocked on deterministic exact-head validation plus Codex /review before any merge recommendation.",
+  "actions": [
+    {
+      "target": "#97599",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#97599",
+      "candidate_fix": "#97599",
+      "reason": "Useful contributor branch can be repaired by maintainers, but failed relevant checks block merge until the branch is fixed and external merge preflight passes."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260629T032026-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": "#97599",
+      "reason": "A complete executable repair path exists for #97599 on the contributor branch."
+    },
+    {
+      "target": "#97614",
+      "action": "merge_candidate",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#97614",
+      "candidate_fix": "#97614",
+      "reason": "external_merge_preflight_required"
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "merge_candidate": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "blocked": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "skipped": 1,
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#97599",
+    "source_refs": [
+      "#97599",
+      "#97614"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #97599 on the editable contributor branch so the Tlon approval preview UTF-16 truncation fix keeps the intended narrow behavior while resolving failed lint and bundled-extension checks.",
+    "pr_title": "fix(tlon): truncate approval message preview on UTF-16 boundary",
+    "pr_body": "What Problem This Solves\n\nTlon approval previews on current main can cut an emoji at the 100 UTF-16 code-unit cap, storing a lone surrogate in PendingApproval.messagePreview and carrying it into the owner approval notification.\n\nWhy This Change Was Made\n\nThis repairs @llagy009's contributor PR #97599 on its editable branch. Keep the narrow UTF-16-safe truncation in the channel mention path, DM path, and createPendingApproval guard, then resolve the failed lint and bundled-extension checks reported on the hydrated head.\n\nUser Impact\n\nOwners should receive valid approval preview text even when a Tlon DM or channel mention hits the preview cap at an emoji boundary.\n\nEvidence\n\nCurrent main still has raw rawText.slice(0, 100) and messageText.slice(0, 100) preview truncation in extensions/tlon/src/monitor/index.ts, and createPendingApproval stores messagePreview without a UTF-16 boundary guard. Validate with pnpm test extensions/tlon/src/monitor/approval.test.ts and pnpm check:changed after repairing the branch.",
+    "likely_files": [
+      "extensions/tlon/src/monitor/approval.ts",
+      "extensions/tlon/src/monitor/index.ts",
+      "extensions/tlon/src/monitor/approval.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/tlon/src/monitor/approval.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @llagy009 as the contributor for https://github.com/openclaw/openclaw/pull/97599.",
+      "Repair the existing editable contributor branch instead of replacing it.",
+      "Include release-note context in the PR body or commit message; do not edit CHANGELOG.md because OpenClaw release generation owns it."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260629T032026-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/97599",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "1beecefbc4e6a9f50f41696ca8587364ee0fffc3",
+      "checkpoint_commits": [
+        "9875e83ad09601d709c456e9b631e77a3e8ebc1b",
+        "bf011e361526a084439ef8afdd3b39520299d0ad",
+        "337ba62294b091e9458adb1e98fbca4b1f61fa49",
+        "1beecefbc4e6a9f50f41696ca8587364ee0fffc3"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#97614",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#97614",
+      "candidate_fix": "#97614",
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260629T032026-001:#97614:external-merge-preflight",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-29T03:30:25.998Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#97599",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(tlon): truncate approval message preview on UTF-16 boundary",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, Real behavior proof: CANCELLED",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#97614",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#97614",
+      "candidate_fix": "#97614",
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260629T032026-001:#97614:external-merge-preflight",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-06-29T03:30:25.998Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#97614",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#97614",
+      "candidate_fix": "#97614",
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260629T032026-001:#97614:external-merge-preflight",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 2,
+      "applied_at": "2026-06-29T03:39:15.725Z",
+      "report_source": "apply"
+    },
+    {
+      "target": "#97599",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(tlon): truncate approval message preview on UTF-16 boundary",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: Real behavior proof: CANCELLED, Real behavior proof: CANCELLED, Real behavior proof: CANCELLED",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
