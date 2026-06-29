@@ -1,17 +1,17 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-88400-8d575291a325"
+cluster_id: "external-merge-preflight-88887-05d3ac2ed06c"
 mode: "autonomous"
-run_id: "28340931517"
-workflow_run_id: "28340931517"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28340931517"
+run_id: "28340932464"
+workflow_run_id: "28340932464"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28340932464"
 head_sha: null
 workflow_conclusion: null
 result_status: "planned"
-published_at: "2026-06-29T00:41:08.758Z"
-canonical: "https://github.com/openclaw/openclaw/pull/88400"
+published_at: "2026-06-29T00:41:08.772Z"
+canonical: "https://github.com/openclaw/openclaw/pull/88887"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/88400"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/88887"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,21 +22,21 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-88400-8d575291a325
+# external-merge-preflight-88887-05d3ac2ed06c
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28340931517](https://github.com/openclaw/clownfish/actions/runs/28340931517)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28340932464](https://github.com/openclaw/clownfish/actions/runs/28340932464)
 
 Workflow conclusion: unknown
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/88400
+Canonical: https://github.com/openclaw/openclaw/pull/88887
 
 ## Summary
 
-External merge preflight blocked: PR has non-passing checks: checks-node-core-runtime-infra-network-node, checks-node-agentic-control-plane-http-plugin-ws, checks-node-agentic-control-plane-runtime; PR merge state is UNSTABLE
+External merge preflight blocked: PR has non-passing checks: checks-node-core-runtime-cron-service, check-additional-boundaries-a; PR merge state is UNSTABLE
 
 ## Impact
 
