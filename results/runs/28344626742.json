@@ -1,0 +1,107 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-risk-review-20260629T022000-001",
+  "mode": "plan",
+  "run_id": "28344626742",
+  "workflow_run_id": "28344626742",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28344626742",
+  "head_sha": "91a20461e64e87aef604cb9ab26f3b6bf4f9a76e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-06-29T02:21:17Z",
+  "workflow_updated_at": "2026-06-29T02:23:11Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-risk-review-20260629T022000-001.md",
+  "published_at": "2026-06-29T02:23:55.332Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Plan-only risk review over five open PR candidates. No merge, close, comment, label, or fix PR action is allowed by this job. The five candidate PRs all require single-PR human review because each touches a product-policy, approval lifecycle, OAuth/provider, active-memory, or SMS command authorization decision. Hydrated security-sensitive linked refs are quarantined separately.",
+  "actions": [
+    {
+      "target": "#90122",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Product behavior decision required: whether the UI should collapse these non-terminal internal tool errors after a successful assistant reply."
+    },
+    {
+      "target": "#66685",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Approval lifecycle behavior requires human validation before any merge lane."
+    },
+    {
+      "target": "#95888",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Active-memory prompt and recall semantics are product behavior, not a dedupe or safe automatic merge decision."
+    },
+    {
+      "target": "#96322",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "OAuth-adjacent provider behavior needs single-PR human review even though the hydrated artifact does not mark it security-sensitive."
+    },
+    {
+      "target": "#90998",
+      "action": "needs_human",
+      "status": "planned",
+      "classification": "needs_human",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "SMS command authorization behavior is policy-sensitive and requires human review before any merge lane."
+    },
+    {
+      "target": "#88476",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-boundary SMS channel context belongs to central OpenClaw security handling, not Clownfish backlog cleanup."
+    },
+    {
+      "target": "#92376",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Approval-id lifecycle and security-boundary labeled changes should be handled by central OpenClaw security review."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 5,
+    "route_security": 2
+  },
+  "action_status_counts": {
+    "planned": 7
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#90122: product decision on hiding/collapsing non-terminal internal tool errors after successful assistant replies.",
+    "#66685: approval-lifecycle decision on suppressing only expired/not-found approval followup warnings without hiding delivery or authorization failures.",
+    "#95888: active-memory product decision on freshness caveats and incomplete/truncated recall signaling.",
+    "#96322: OAuth-adjacent provider hardening decision before any single-PR merge lane.",
+    "#90998: SMS command authorization policy decision before any single-PR merge lane."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
