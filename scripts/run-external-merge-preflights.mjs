@@ -13,6 +13,7 @@ const latest = Boolean(args.latest);
 const dryRun = Boolean(args["dry-run"]);
 const maxPrs = positiveInteger(args["max-prs"] ?? args.limit, Infinity);
 const runRootArg = args["run-root"];
+const targetRootArg = args["target-root"];
 
 if (!jobPath) {
   console.error("usage: node scripts/run-external-merge-preflights.mjs <job.md> [result.json] [--latest] [--dry-run]");
@@ -38,6 +39,7 @@ if (result.cluster_id !== job.frontmatter.cluster_id) {
 }
 
 const runRoot = path.resolve(String(runRootArg ?? path.dirname(resultPath)));
+const targetRoot = path.resolve(String(targetRootArg ?? path.join(repoRoot(), ".projectclownfish", "target", "external-merge-preflight")));
 const requests = findPreflightRequests(result).slice(0, maxPrs);
 const report = {
   repo: result.repo,
@@ -94,83 +96,91 @@ function wantsExternalMergePreflight(action) {
 
 function runPreflightRequest(request) {
   const runDir = path.join(runRoot, `external-merge-preflight-${request.pull_request}`);
+  const targetDir = path.join(targetRoot, String(request.pull_request));
   fs.rmSync(runDir, { recursive: true, force: true });
+  fs.rmSync(targetDir, { recursive: true, force: true });
   fs.mkdirSync(runDir, { recursive: true });
 
-  const preflight = runNode([
-    "scripts/preflight-external-pr-merge.mjs",
-    job.relativePath,
-    "--pr",
-    String(request.pull_request),
-    "--run-dir",
-    runDir,
-  ]);
-  if (preflight.status !== 0) {
-    return {
-      ...request,
-      status: "blocked",
-      run_dir: path.relative(repoRoot(), runDir),
-      reason: `external merge preflight command failed: ${compact(preflight.stderr || preflight.stdout)}`,
-    };
-  }
+  try {
+    const preflight = runNode([
+      "scripts/preflight-external-pr-merge.mjs",
+      job.relativePath,
+      "--pr",
+      String(request.pull_request),
+      "--run-dir",
+      runDir,
+      "--target-dir",
+      targetDir,
+    ]);
+    if (preflight.status !== 0) {
+      return {
+        ...request,
+        status: "blocked",
+        run_dir: path.relative(repoRoot(), runDir),
+        reason: `external merge preflight command failed: ${compact(preflight.stderr || preflight.stdout)}`,
+      };
+    }
 
-  const review = runNode(["scripts/review-results.mjs", runDir]);
-  if (review.status !== 0) {
-    return {
-      ...request,
-      status: "blocked",
-      run_dir: path.relative(repoRoot(), runDir),
-      reason: `external merge preflight review failed: ${compact(review.stderr || review.stdout)}`,
-    };
-  }
+    const review = runNode(["scripts/review-results.mjs", runDir]);
+    if (review.status !== 0) {
+      return {
+        ...request,
+        status: "blocked",
+        run_dir: path.relative(repoRoot(), runDir),
+        reason: `external merge preflight review failed: ${compact(review.stderr || review.stdout)}`,
+      };
+    }
 
-  const preflightReport = readJsonIfExists(path.join(runDir, "preflight-report.json"));
-  if (preflightReport?.status !== "passed") {
-    return {
-      ...request,
-      status: "blocked",
-      run_dir: path.relative(repoRoot(), runDir),
-      reason: preflightReport?.reason ?? "external merge preflight did not pass",
-    };
-  }
+    const preflightReport = readJsonIfExists(path.join(runDir, "preflight-report.json"));
+    if (preflightReport?.status !== "passed") {
+      return {
+        ...request,
+        status: "blocked",
+        run_dir: path.relative(repoRoot(), runDir),
+        reason: preflightReport?.reason ?? "external merge preflight did not pass",
+      };
+    }
 
-  if (dryRun || process.env.CLOWNFISH_ALLOW_EXECUTE !== "1" || process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
+    if (dryRun || process.env.CLOWNFISH_ALLOW_EXECUTE !== "1" || process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
+      return {
+        ...request,
+        status: "passed",
+        run_dir: path.relative(repoRoot(), runDir),
+        reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
+        reason: dryRun ? "dry run; guarded applicator not invoked" : "merge gate disabled; guarded applicator not invoked",
+      };
+    }
+
+    const apply = runNode([
+      "scripts/apply-result.mjs",
+      path.join(runDir, "preflight-job.md"),
+      path.join(runDir, "result.json"),
+      "--report",
+      path.join(runDir, "apply-report.json"),
+    ]);
+    if (apply.status !== 0) {
+      return {
+        ...request,
+        status: "blocked",
+        run_dir: path.relative(repoRoot(), runDir),
+        reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
+        reason: `guarded merge apply failed: ${compact(apply.stderr || apply.stdout)}`,
+      };
+    }
+
+    const applyReport = readJsonIfExists(path.join(runDir, "apply-report.json"));
+    const executed = (applyReport?.actions ?? []).some((action) => action.status === "executed");
     return {
       ...request,
-      status: "passed",
+      status: executed ? "executed" : "blocked",
       run_dir: path.relative(repoRoot(), runDir),
       reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
-      reason: dryRun ? "dry run; guarded applicator not invoked" : "merge gate disabled; guarded applicator not invoked",
+      apply_actions: applyReport?.actions ?? [],
+      reason: executed ? "guarded external merge applied" : "guarded applicator did not execute a merge",
     };
+  } finally {
+    cleanupPreflightTargetDir(targetDir);
   }
-
-  const apply = runNode([
-    "scripts/apply-result.mjs",
-    path.join(runDir, "preflight-job.md"),
-    path.join(runDir, "result.json"),
-    "--report",
-    path.join(runDir, "apply-report.json"),
-  ]);
-  if (apply.status !== 0) {
-    return {
-      ...request,
-      status: "blocked",
-      run_dir: path.relative(repoRoot(), runDir),
-      reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
-      reason: `guarded merge apply failed: ${compact(apply.stderr || apply.stdout)}`,
-    };
-  }
-
-  const applyReport = readJsonIfExists(path.join(runDir, "apply-report.json"));
-  const executed = (applyReport?.actions ?? []).some((action) => action.status === "executed");
-  return {
-    ...request,
-    status: executed ? "executed" : "blocked",
-    run_dir: path.relative(repoRoot(), runDir),
-    reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
-    apply_actions: applyReport?.actions ?? [],
-    reason: executed ? "guarded external merge applied" : "guarded applicator did not execute a merge",
-  };
 }
 
 function runNode(commandArgs) {
@@ -204,6 +214,10 @@ function parseIssueNumber(ref) {
 function readJsonIfExists(filePath) {
   if (!fs.existsSync(filePath)) return null;
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function cleanupPreflightTargetDir(targetDir) {
+  fs.rmSync(targetDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
 }
 
 function positiveInteger(value, fallback) {

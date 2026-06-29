@@ -61,6 +61,10 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /action\.status !== "blocked"/);
   assert.match(runnerScript, /external_merge_preflight_required/);
   assert.match(runnerScript, /scripts\/preflight-external-pr-merge\.mjs/);
+  assert.match(runnerScript, /const targetRoot = path\.resolve/);
+  assert.match(runnerScript, /"\.projectclownfish", "target", "external-merge-preflight"/);
+  assert.match(runnerScript, /"--target-dir",\s*targetDir/);
+  assert.match(runnerScript, /cleanupPreflightTargetDir\(targetDir\)/);
   assert.match(runnerScript, /scripts\/review-results\.mjs/);
   assert.match(runnerScript, /CLOWNFISH_ALLOW_MERGE !== "1"/);
   assert.match(runnerScript, /scripts\/apply-result\.mjs/);
