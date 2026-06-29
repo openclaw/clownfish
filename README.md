@@ -41,44 +41,47 @@ The default workflow is proposal-first. It does not comment or close unless a jo
 
 ## Dashboard
 
-Last dashboard update: Jun 28, 2026, 23:46 UTC
+Last dashboard update: Jun 28, 2026, 23:59 UTC
 
 <!-- projectclownfish-dashboard:start -->
 State: Failed clusters need inspection
 
-Scope: 6609 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
+Scope: 6612 active latest cluster reports. 4 policy-archived cluster(s) are excluded from health stats; run attempts are tracked as audit history only.
 
 | Metric | Count | Rate |
 | --- | ---: | ---: |
-| Latest clusters reviewed | 6609 | 100% |
+| Latest clusters reviewed | 6612 | 100% |
 | Policy-archived clusters | 4 | audit |
 | Clean completed clusters | 4039 | 61.1% |
-| Needs-human clusters | 2136 | 32.3% |
-| Latest successful clusters | 6245 | 94.5% |
+| Needs-human clusters | 2137 | 32.3% |
+| Latest successful clusters | 6245 | 94.4% |
 | Latest failed clusters | 290 | 4.4% |
 | Latest cancelled clusters | 8 | 0.1% |
-| Run attempts archived | 8755 | audit |
+| Run attempts archived | 8758 | audit |
 | Fix action attempts | 534 | audit |
 | Fix actions executed | 11 | 2.1% |
 | Fix actions failed | 112 | 21.0% |
 | Fix actions blocked | 165 | 30.9% |
 | Latest clusters with fix failures | 103 | 1.6% |
-| Distinct PRs touched | 8541 | 100% |
-| Open PRs tracked | 2501 | 29.3% |
-| Closed unmerged PRs tracked | 4457 | 52.2% |
-| Completed close actions | 86 | 13.2% |
-| Completed merge actions | 58 | 8.9% |
+| Distinct PRs touched | 8595 | 100% |
+| Open PRs tracked | 2528 | 29.4% |
+| Closed unmerged PRs tracked | 4474 | 52.1% |
+| Completed close actions | 86 | 13.0% |
+| Completed merge actions | 58 | 8.8% |
 | Duplicate closes | 26 | 30.2% |
 | Superseded closes | 24 | 27.9% |
 | Fixed-by-candidate closes | 26 | 30.2% |
 | Low-signal PR closes | 0 | 0.0% |
-| Blocked mutation attempts | 274 | 42.1% |
-| Skipped mutation attempts | 233 | 35.8% |
+| Blocked mutation attempts | 274 | 41.5% |
+| Skipped mutation attempts | 242 | 36.7% |
 
 ### Clusters Needing Inspection
 
 | Cluster | State | Source job | Reason | Report | Run |
 | --- | --- | --- | --- | --- | --- |
+| [live-pr-inventory-20260628T234913-003](results/openclaw/live-pr-inventory-20260628t234913-003.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T234913-003.md | Decide whether #89040 is the owner-approved canonical fix shape for #87509 despite the broad bootstrap/session-state delta and merge-risk... | [report](results/openclaw/live-pr-inventory-20260628t234913-003.md) | [28340187626](https://github.com/openclaw/clownfish/actions/runs/28340187626) |
+| [live-pr-inventory-20260628T234913-002](results/openclaw/live-pr-inventory-20260628t234913-002.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T234913-002.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t234913-002.md) | [28340186932](https://github.com/openclaw/clownfish/actions/runs/28340186932) |
+| [live-pr-inventory-20260628T234913-001](results/openclaw/live-pr-inventory-20260628t234913-001.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T234913-001.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t234913-001.md) | [28340186203](https://github.com/openclaw/clownfish/actions/runs/28340186203) |
 | [live-pr-inventory-20260628T225930-003](results/openclaw/live-pr-inventory-20260628t225930-003.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-003.md | #53467: choose the canonical Slack `ignoreOtherMentions` path across #53467, #89846, and #89625 after resolving bot-review findings and p... | [report](results/openclaw/live-pr-inventory-20260628t225930-003.md) | [28338928676](https://github.com/openclaw/clownfish/actions/runs/28338928676) |
 | [live-pr-inventory-20260628T225930-002](results/openclaw/live-pr-inventory-20260628t225930-002.md) | needs human | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-002.md | #97340 requires maintainer judgment before automation because it is a broad Teams multi-account feature touching compatibility, auth-prov... | [report](results/openclaw/live-pr-inventory-20260628t225930-002.md) | [28338927794](https://github.com/openclaw/clownfish/actions/runs/28338927794) |
 | [live-pr-inventory-20260628T225930-001](results/openclaw/live-pr-inventory-20260628t225930-001.md) | fix failed | jobs/openclaw/inbox/live-pr-inventory-20260628T225930-001.md | source PR #97581 head fetch failed after 2 attempt(s): source PR #97581 head fetch resolved 28d409161d94e965f5099c5e4faae0a9d306ed1e, exp... | [report](results/openclaw/live-pr-inventory-20260628t225930-001.md) | [28338926716](https://github.com/openclaw/clownfish/actions/runs/28338926716) |
@@ -101,9 +104,6 @@ Scope: 6609 active latest cluster reports. 4 policy-archived cluster(s) are excl
 | [live-pr-inventory-20260628T173641-016](results/openclaw/live-pr-inventory-20260628t173641-016.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-016.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-016.md) | [28330500620](https://github.com/openclaw/clownfish/actions/runs/28330500620) |
 | [live-pr-inventory-20260628T173641-013](results/openclaw/live-pr-inventory-20260628t173641-013.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-013.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-013.md) | [28330500619](https://github.com/openclaw/clownfish/actions/runs/28330500619) |
 | [live-pr-inventory-20260628T173641-015](results/openclaw/live-pr-inventory-20260628t173641-015.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-015.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-015.md) | [28330500604](https://github.com/openclaw/clownfish/actions/runs/28330500604) |
-| [live-pr-inventory-20260628T173641-014](results/openclaw/live-pr-inventory-20260628t173641-014.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-014.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-014.md) | [28330500595](https://github.com/openclaw/clownfish/actions/runs/28330500595) |
-| [live-pr-inventory-20260628T173641-011](results/openclaw/live-pr-inventory-20260628t173641-011.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-011.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-011.md) | [28330494801](https://github.com/openclaw/clownfish/actions/runs/28330494801) |
-| [live-pr-inventory-20260628T173641-010](results/openclaw/live-pr-inventory-20260628t173641-010.md) | apply skipped | jobs/openclaw/inbox/live-pr-inventory-20260628T173641-010.md | blocked: external_merge_preflight_required | [report](results/openclaw/live-pr-inventory-20260628t173641-010.md) | [28330494779](https://github.com/openclaw/clownfish/actions/runs/28330494779) |
 
 ### Fix Failure Queue
 
@@ -139,7 +139,7 @@ Scope: 6609 active latest cluster reports. 4 policy-archived cluster(s) are excl
 
 | Reason | Latest count | Example cluster |
 | --- | ---: | --- |
-| blocked: external_merge_preflight_required | 75 | [live-pr-inventory-20260628T225930-003](results/openclaw/live-pr-inventory-20260628t225930-003.md) |
+| blocked: external_merge_preflight_required | 82 | [live-pr-inventory-20260628T234913-003](results/openclaw/live-pr-inventory-20260628t234913-003.md) |
 | job does not allow merge | 66 | [repair-openclaw-openclaw-78105-20260623a](results/openclaw/repair-openclaw-openclaw-78105-20260623a.md) |
 | target changed since worker review | 27 | [pr-close-canary-75213-20260615-bulk-a](results/openclaw/pr-close-canary-75213-20260615-bulk-a.md) |
 | merge requires CLOWNFISH_ALLOW_MERGE=1; labeled clownfish | 19 | [ghcrawl-156686-autonomous-smoke](results/openclaw/ghcrawl-156686-autonomous-smoke.md) |
