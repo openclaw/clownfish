@@ -115,7 +115,10 @@ function publishResult(resultPath) {
   const runId = String(args["run-id"] ?? identity?.run_id ?? "");
   const workflowRunId = String(args["workflow-run-id"] ?? identity?.workflow_run_id ?? runId);
   const metadata = (runId ? metadataByRunId.get(runId) : undefined) ?? (workflowRunId ? metadataByRunId.get(workflowRunId) : undefined);
-  const previousRecord = runId ? readExistingRunRecord(runId) : null;
+  const repo = String(result.repo ?? "unknown/unknown");
+  const owner = repo.split("/")[0] || "unknown";
+  const clusterId = String(result.cluster_id ?? path.basename(runDir));
+  const previousRecord = runId ? readExistingRunRecord(runId, clusterId) : null;
   const runUrl = noRunUrl
     ? null
     : String(args["run-url"] ?? metadata?.url ?? "") ||
@@ -124,9 +127,6 @@ function publishResult(resultPath) {
   const headSha = String(args["head-sha"] ?? metadata?.headSha ?? metadata?.head_sha ?? previousRecord?.head_sha ?? "");
   const workflowConclusion = String(args.conclusion ?? metadata?.conclusion ?? previousRecord?.workflow_conclusion ?? "");
   const workflowStatus = String(metadata?.status ?? previousRecord?.workflow_status ?? "");
-  const repo = String(result.repo ?? "unknown/unknown");
-  const owner = repo.split("/")[0] || "unknown";
-  const clusterId = String(result.cluster_id ?? path.basename(runDir));
   const applyAuditActions = [
     ...readApplyAuditActions(applyReport),
     ...(postFlightReport.actions ?? [])
@@ -182,7 +182,7 @@ function publishResult(resultPath) {
   const runDirOut = path.join(repoRoot(), "results", "runs");
   fs.mkdirSync(runDirOut, { recursive: true });
   if (runId) {
-    fs.writeFileSync(path.join(runDirOut, `${runId}.json`), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+    fs.writeFileSync(runRecordPath(runId, clusterId), `${JSON.stringify(report, null, 2)}\n`, "utf8");
   }
 
   for (const action of report.apply_actions.filter((action) => action.status === "executed")) {
@@ -556,10 +556,20 @@ function readRunRecords() {
     .sort((left, right) => String(left.run_id ?? "").localeCompare(String(right.run_id ?? "")));
 }
 
-function readExistingRunRecord(runId) {
-  const filePath = path.join(repoRoot(), "results", "runs", `${runId}.json`);
+function readExistingRunRecord(runId, clusterId = null) {
+  const filePath = runRecordPath(runId, clusterId);
   if (!fs.existsSync(filePath)) return null;
   return readJson(filePath);
+}
+
+function runRecordPath(runId, clusterId = null) {
+  const suffix = childRunRecordSuffix(clusterId);
+  return path.join(repoRoot(), "results", "runs", `${runId}${suffix}.json`);
+}
+
+function childRunRecordSuffix(clusterId) {
+  if (!String(clusterId ?? "").startsWith("external-merge-preflight-")) return "";
+  return `-${slug(clusterId)}`;
 }
 
 function readArchivedClusters() {

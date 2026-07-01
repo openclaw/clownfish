@@ -304,6 +304,115 @@ test("publish-result preserves executed apply actions across later apply attempt
   assert.match(fs.readFileSync(reportPath, "utf8"), /\| 2 \| apply \| #90876 \| close_low_signal \| blocked \| already closed \|/);
 });
 
+test("publish-result keeps external preflight child run records separate from parent run records", (t) => {
+  const fixture = makeFixture();
+  const runId = `publish-result-external-${process.pid}-${Date.now()}`;
+  const parentClusterId = `publish-result-parent-${process.pid}-${Date.now()}`;
+  const childClusterId = `external-merge-preflight-98354-${process.pid}`;
+  const parentDir = path.join(fixture.root, "parent");
+  const childDir = path.join(fixture.root, "external", "child");
+  fs.mkdirSync(parentDir, { recursive: true });
+  fs.mkdirSync(childDir, { recursive: true });
+
+  const parentRunRecordPath = path.join(repoRoot, "results", "runs", `${runId}.json`);
+  const childRunRecordPath = path.join(repoRoot, "results", "runs", `${runId}-${childClusterId}.json`);
+  const parentReportPath = path.join(repoRoot, "results", "openclaw", `${parentClusterId}.md`);
+  const childReportPath = path.join(repoRoot, "results", "openclaw", `${childClusterId}.md`);
+  const closedRecordPath = path.join(repoRoot, "jobs", "openclaw", "closed", "98354.md");
+  const previousParentRunRecord = readIfExists(parentRunRecordPath);
+  const previousChildRunRecord = readIfExists(childRunRecordPath);
+  const previousParentReport = readIfExists(parentReportPath);
+  const previousChildReport = readIfExists(childReportPath);
+  const previousClosedRecord = readIfExists(closedRecordPath);
+  t.after(() => {
+    restore(parentRunRecordPath, previousParentRunRecord);
+    restore(childRunRecordPath, previousChildRunRecord);
+    restore(parentReportPath, previousParentReport);
+    restore(childReportPath, previousChildReport);
+    restore(closedRecordPath, previousClosedRecord);
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  });
+
+  fs.writeFileSync(
+    path.join(parentDir, "result.json"),
+    `${JSON.stringify(
+      {
+        status: "planned",
+        repo: "openclaw/openclaw",
+        cluster_id: parentClusterId,
+        mode: "autonomous",
+        summary: "Parent worker result.",
+        actions: [
+          {
+            target: "#98354",
+            action: "merge_candidate",
+            status: "blocked",
+            reason: "external_merge_preflight_required",
+          },
+        ],
+        needs_human: [],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  fs.writeFileSync(
+    path.join(childDir, "result.json"),
+    `${JSON.stringify(
+      {
+        status: "planned",
+        repo: "openclaw/openclaw",
+        cluster_id: childClusterId,
+        mode: "autonomous",
+        summary: "External preflight result.",
+        actions: [
+          {
+            target: "#98354",
+            action: "merge_canonical",
+            status: "planned",
+            classification: "canonical",
+          },
+        ],
+        needs_human: [],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  fs.writeFileSync(
+    path.join(childDir, "apply-report.json"),
+    `${JSON.stringify(
+      {
+        actions: [
+          {
+            target: "#98354",
+            action: "merge_canonical",
+            status: "executed",
+            classification: "canonical",
+            reason: "merged by projectclownfish",
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/publish-result.mjs", fixture.root, "--run-id", runId, "--skip-aggregate", "--no-run-url"],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  assert.equal(JSON.parse(fs.readFileSync(parentRunRecordPath, "utf8")).cluster_id, parentClusterId);
+  const childRecord = JSON.parse(fs.readFileSync(childRunRecordPath, "utf8"));
+  assert.equal(childRecord.cluster_id, childClusterId);
+  assert.deepEqual(childRecord.apply_counts, { executed: 1 });
+  assert.equal(JSON.parse(fs.readFileSync(parentRunRecordPath, "utf8")).apply_counts.skipped, undefined);
+  assert.match(fs.readFileSync(closedRecordPath, "utf8"), new RegExp(`cluster_id: "${childClusterId}"`));
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-publish-result-"));
   const runDir = path.join(root, "run");
