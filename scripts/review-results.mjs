@@ -774,6 +774,11 @@ function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef,
     }
   }
 
+  const repairOnlyRiskRefs = executableRepairOnlyRiskRefs({
+    fixActions: plannedFixActions,
+    fixArtifact,
+    sourceJobPolicy,
+  });
   const refs = new Set(
     [
       ...plannedFixActions.flatMap((action) => [action.target, action.candidate_fix]),
@@ -788,11 +793,37 @@ function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef,
     const item = itemByRef.get(ref);
     const blockedLabel = findHighRiskMutationLabel(item?.labels, {
       allowAutomergeRepair: ref === adoptedAutomergeTarget,
+      allowRepairOnlyMergeRisk: repairOnlyRiskRefs.has(ref),
     });
     if (blockedLabel) {
       failures.push(`${ref} executable repair target has blocked label: ${blockedLabel}`);
     }
   }
+}
+
+function executableRepairOnlyRiskRefs({ fixActions, fixArtifact, sourceJobPolicy }) {
+  if (!isRepairOnlyRiskRemediationPolicy(sourceJobPolicy)) return new Set();
+  return new Set(
+    [
+      ...fixActions.flatMap((action) => [action.target, action.candidate_fix]),
+      ...(fixArtifact.source_prs ?? []),
+    ]
+      .map(normalizeRef)
+      .filter(Boolean),
+  );
+}
+
+function isRepairOnlyRiskRemediationPolicy(sourceJobPolicy) {
+  if (!sourceJobPolicy) return false;
+  const allowed = new Set(sourceJobPolicy.allowed_actions ?? []);
+  const blocked = new Set(sourceJobPolicy.blocked_actions ?? []);
+  return (
+    sourceJobPolicy.allow_fix_pr === true &&
+    sourceJobPolicy.allow_merge === false &&
+    allowed.has("fix") &&
+    allowed.has("raise_pr") &&
+    blocked.has("merge")
+  );
 }
 
 function adoptedAutomergeRepairTarget(sourceJobPolicy) {
@@ -801,12 +832,13 @@ function adoptedAutomergeRepairTarget(sourceJobPolicy) {
   return canonicalRefs.length === 1 ? canonicalRefs[0] : "";
 }
 
-function findHighRiskMutationLabel(labels, { allowAutomergeRepair = false } = {}) {
+function findHighRiskMutationLabel(labels, { allowAutomergeRepair = false, allowRepairOnlyMergeRisk = false } = {}) {
+  const allowNonSecurityMergeRisk = allowAutomergeRepair || allowRepairOnlyMergeRisk;
   return (labels ?? [])
     .map(String)
     .find(
       (label) =>
-        (allowAutomergeRepair ? /^merge-risk:.*security/i.test(label) : /^merge-risk:/i.test(label)) ||
+        (allowNonSecurityMergeRisk ? /^merge-risk:.*security/i.test(label) : /^merge-risk:/i.test(label)) ||
         (label.toLowerCase() === "clawsweeper:automerge" && !allowAutomergeRepair),
     );
 }

@@ -1096,6 +1096,111 @@ test("review-results rejects executable repair paths bound to risk-labeled prefl
   }
 });
 
+test("review-results permits non-security merge-risk labels for repair-only inventory jobs", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:91286:repair-only-risk",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: ["#91286 is hydrated as the contributor repair target."],
+          reason: "Repair the contributor branch and preserve attribution.",
+        },
+      ],
+      fix_artifact: validFixArtifact({
+        repair_strategy: "repair_contributor_branch",
+        linked_refs: ["#91286", "#91287"],
+        source_prs: ["https://github.com/openclaw/openclaw/pull/91286"],
+        credit_notes: ["Preserve the original contributor's credit on the repaired branch."],
+      }),
+    },
+    {
+      job: repairOnlyRiskRemediationJob(),
+      plan: {
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(cron): repair timer behavior",
+            labels: ["merge-risk: availability"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+          {
+            ref: "#91287",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(cron): related timer behavior",
+            labels: [],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /"status": "passed"/);
+});
+
+test("review-results still blocks security merge-risk labels for repair-only inventory jobs", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#91286",
+          action: "fix_needed",
+          status: "planned",
+          idempotency_key: "cluster-test:fix-needed:91286:repair-only-security",
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T10:00:00Z",
+          evidence: ["#91286 is hydrated as the contributor repair target."],
+          reason: "Repair the contributor branch and preserve attribution.",
+        },
+      ],
+      fix_artifact: validFixArtifact({
+        repair_strategy: "repair_contributor_branch",
+        linked_refs: ["#91286"],
+        source_prs: ["https://github.com/openclaw/openclaw/pull/91286"],
+        credit_notes: ["Preserve the original contributor's credit on the repaired branch."],
+      }),
+    },
+    {
+      job: repairOnlyRiskRemediationJob(),
+      plan: {
+        items: [
+          {
+            ref: "#91286",
+            kind: "pull_request",
+            state: "open",
+            title: "fix(cron): repair timer behavior",
+            labels: ["merge-risk: security-boundary"],
+            updated_at: "2026-06-15T10:00:00Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /#91286 executable repair target has blocked label: merge-risk: security-boundary/);
+});
+
 test("review-results permits non-security automerge risk labels for adopted repair jobs only", () => {
   const dir = makeResultDir(
     {
@@ -2143,6 +2248,31 @@ allow_fix_pr: true
 ---
 
 # Fix-enabled job
+`;
+}
+
+function repairOnlyRiskRemediationJob() {
+  return `---
+repo: openclaw/openclaw
+cluster_id: cluster-test
+mode: autonomous
+allowed_actions:
+  - fix
+  - raise_pr
+blocked_actions:
+  - comment
+  - label
+  - close
+  - merge
+  - force_push
+  - bypass_checks
+candidates:
+  - "#91286"
+allow_fix_pr: true
+allow_merge: false
+---
+
+# Repair-only risk remediation job
 `;
 }
 
