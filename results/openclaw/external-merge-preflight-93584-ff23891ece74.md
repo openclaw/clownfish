@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-93584-ff23891ece74"
 mode: "autonomous"
-run_id: "28511874151"
-workflow_run_id: "28511874151"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28511874151"
-head_sha: "8e9294000b8a09ba6b83cd145e65494ccfa9406a"
+run_id: "28520281018"
+workflow_run_id: "28520281018"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28520281018"
+head_sha: "633f3a7762abf13106ab137085973fec4c49ee32"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-01T10:49:05.035Z"
+published_at: "2026-07-01T13:18:31.818Z"
 canonical: "https://github.com/openclaw/openclaw/pull/93584"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/93584"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28511874151](https://github.com/openclaw/clownfish/actions/runs/28511874151)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28520281018](https://github.com/openclaw/clownfish/actions/runs/28520281018)
 
 Workflow conclusion: success
 
