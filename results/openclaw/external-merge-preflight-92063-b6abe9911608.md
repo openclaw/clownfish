@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-98280-4e9ef75fccdd"
+cluster_id: "external-merge-preflight-92063-b6abe9911608"
 mode: "autonomous"
 run_id: "28502301487"
 workflow_run_id: "28502301487"
@@ -8,21 +8,21 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28502301487"
 head_sha: "b865979f0857b03f8c6571bd8fa6ee7fac6251b8"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-01T08:06:53.925Z"
-canonical: "https://github.com/openclaw/openclaw/pull/98280"
+published_at: "2026-07-01T08:06:53.918Z"
+canonical: "https://github.com/openclaw/openclaw/pull/92063"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/98280"
-actions_total: 0
+canonical_pr: "https://github.com/openclaw/openclaw/pull/92063"
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
-apply_executed: 0
+apply_executed: 1
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-98280-4e9ef75fccdd
+# external-merge-preflight-92063-b6abe9911608
 
 Repo: openclaw/openclaw
 
@@ -32,21 +32,21 @@ Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/98280
+Canonical: https://github.com/openclaw/openclaw/pull/92063
 
 ## Summary
 
-External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/98280#issuecomment-4848216381
+External merge preflight passed for #92063 at b6abe9911608fd075ffaa3146676f80391865de7.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 0 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 0 |
+| Applied executions | 1 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -61,19 +61,19 @@ External merge preflight blocked: PR has 1 actionable top-level issue comment(s)
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #92063 | merge_canonical | executed | canonical | merged by projectclownfish |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+| 1 | apply | #92063 | merge_canonical | executed | merged by projectclownfish |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #92063 | merge_canonical | planned | canonical | Deterministic external merge preflight passed on the exact current head. |
 
 ## Needs Human
 

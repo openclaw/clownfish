@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-98280-4e9ef75fccdd"
+cluster_id: "external-merge-preflight-92165-9053c45f2883"
 mode: "autonomous"
 run_id: "28502301487"
 workflow_run_id: "28502301487"
@@ -8,10 +8,10 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28502301487"
 head_sha: "b865979f0857b03f8c6571bd8fa6ee7fac6251b8"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-01T08:06:53.925Z"
-canonical: "https://github.com/openclaw/openclaw/pull/98280"
+published_at: "2026-07-01T08:06:53.921Z"
+canonical: "https://github.com/openclaw/openclaw/pull/92165"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/98280"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/92165"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,7 +22,7 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-98280-4e9ef75fccdd
+# external-merge-preflight-92165-9053c45f2883
 
 Repo: openclaw/openclaw
 
@@ -32,11 +32,11 @@ Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/98280
+Canonical: https://github.com/openclaw/openclaw/pull/92165
 
 ## Summary
 
-External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/98280#issuecomment-4848216381
+External merge preflight blocked: security-sensitive signal in hydrated PR metadata or comments; PR mergeability is CONFLICTING; PR merge state is DIRTY
 
 ## Impact
 

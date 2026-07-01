@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-92236-95577f46ffac"
 mode: "autonomous"
-run_id: "28340933424"
-workflow_run_id: "28340933424"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28340933424"
-head_sha: "2b5963a1a83abf78ca918c74e645807029fe5d29"
+run_id: "28502301487"
+workflow_run_id: "28502301487"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28502301487"
+head_sha: "b865979f0857b03f8c6571bd8fa6ee7fac6251b8"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-29T00:36:31.567Z"
+published_at: "2026-07-01T08:06:53.922Z"
 canonical: "https://github.com/openclaw/openclaw/pull/92236"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/92236"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28340933424](https://github.com/openclaw/clownfish/actions/runs/28340933424)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28502301487](https://github.com/openclaw/clownfish/actions/runs/28502301487)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/92236
 
 ## Summary
 
-External merge preflight blocked: Codex /review did not pass: PR #92236 is a narrow UI change for transient Codex/app-server preamble progress, but it is not merge-ready. The `chatStreamKind` guard is only applied when materializing current stream text; history reconciliation can still reclassify progress text as assistant text after persisted tool results arrive. LOC: +80/-2 (10 files). Best-fix verdict: too narrow; preserve the progress-vs-assistant distinction through `visibleCurrentAssistantStreamTail`/history reconciliation instead of resetting it to `assistant` unconditionally.
+External merge preflight blocked: PR mergeability is CONFLICTING; PR merge state is DIRTY
 
 ## Impact
 
