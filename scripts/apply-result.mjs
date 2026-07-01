@@ -1116,7 +1116,8 @@ function ghWithRetry(ghArgs, attempts = 6) {
     } catch (error) {
       lastError = error;
       if (!shouldRetryGh(error) || attempt === attempts - 1) throw error;
-      sleepMs(Math.min(120_000, 10_000 * 2 ** attempt));
+      const baseDelayMs = positiveInteger(process.env.CLOWNFISH_GH_RETRY_BASE_MS, 10_000);
+      sleepMs(Math.min(120_000, baseDelayMs * 2 ** attempt));
     }
   }
   throw lastError;
@@ -1189,7 +1190,10 @@ function shouldRetryGh(error) {
     message.includes("was submitted too quickly") ||
     message.includes("secondary rate") ||
     message.includes("Base branch was modified") ||
-    message.includes("Head branch was modified")
+    message.includes("Head branch was modified") ||
+    /\bHTTP (?:502|503|504)\b/i.test(message) ||
+    /\b(?:bad gateway|service unavailable|gateway timeout)\b/i.test(message) ||
+    /error connecting to api\.github\.com/i.test(message)
   );
 }
 

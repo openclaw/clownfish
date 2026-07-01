@@ -402,6 +402,44 @@ test("apply-result pins a clean merge to the reviewed PR head", () => {
   assert.deepEqual(mergeArgs.slice(-3), ["--squash", "--match-head-commit", EXPECTED_HEAD_SHA]);
 });
 
+test("apply-result retries transient GitHub 5xx during merge preflight", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    transientViewFailures: 1,
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: { CLOWNFISH_GH_RETRY_BASE_MS: "1" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  const ghCalls = fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+  assert.equal(ghCalls.filter((args) => args[0] === "pr" && args[1] === "view").length >= 2, true);
+});
+
 test("apply-result polls transient unknown mergeability before merge", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -636,6 +674,7 @@ function writeReadyMergeGhStub(
     headSha,
     mergeStateStatus = "CLEAN",
     mergeViews = null,
+    transientViewFailures = 0,
     statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }],
     labels = [],
   },
@@ -685,6 +724,10 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
 } else if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
   const count = fs.existsSync(viewCountPath) ? Number(fs.readFileSync(viewCountPath, "utf8")) : 0;
   fs.writeFileSync(viewCountPath, String(count + 1));
+  if (count < ${JSON.stringify(transientViewFailures)}) {
+    process.stderr.write("HTTP 503: 503 Service Unavailable (https://api.github.com/graphql)\\n");
+    process.exit(1);
+  }
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
   write({
     baseRefName: "main",
