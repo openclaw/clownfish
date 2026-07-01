@@ -692,7 +692,10 @@ function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
   if (labels.some((label) => /needs-real-behavior-proof|needs proof|mock-only-proof|waiting on author/i.test(label))) {
     return "needs_proof";
   }
-  if (strategy === "remediation" && !includeMergeRisk && hasMergeRiskLabel(labels)) {
+  if (strategy === "remediation" && hasMergeRiskLabel(labels)) {
+    return includeMergeRisk ? "merge_risk_remediation" : "needs_human";
+  }
+  if (strategy === "remediation" && hasRemediationNoiseTitle(title)) {
     return "needs_human";
   }
   if (labels.some((label) => /proof:\s*sufficient|ready for maintainer look/i.test(label))) {
@@ -715,9 +718,16 @@ function writeJob(batch, index) {
   const refs = batch.map((candidate) => candidate.ref);
   const remediation = strategy === "remediation";
   const autonomousRemediation = remediation && mode === "autonomous";
-  const allowedActions = remediation ? ["merge", "fix", "raise_pr"] : lowSignal ? ["comment", "close"] : ["comment", "label", "close"];
+  const mergeRiskRemediation = remediation && batch.some((candidate) => hasMergeRiskLabel(candidate.labels));
+  const allowedActions = remediation
+    ? mergeRiskRemediation
+      ? ["fix", "raise_pr"]
+      : ["merge", "fix", "raise_pr"]
+    : lowSignal
+      ? ["comment", "close"]
+      : ["comment", "label", "close"];
   const blockedActions = remediation
-    ? ["comment", "label", "close", "force_push", "bypass_checks"]
+    ? ["comment", "label", "close", ...(mergeRiskRemediation ? ["merge"] : []), "force_push", "bypass_checks"]
     : lowSignal
       ? ["force_push", "bypass_checks", "merge", "fix", "raise_pr", "label"]
     : ["force_push", "bypass_checks", "merge", "fix", "raise_pr"];
@@ -762,7 +772,7 @@ function writeJob(batch, index) {
     `allow_instant_close: ${remediation || lowSignal ? "false" : "true"}`,
     ...(lowSignal ? ["allow_low_signal_pr_close: true"] : []),
     `allow_fix_pr: ${remediation ? "true" : "false"}`,
-    `allow_merge: ${remediation ? "true" : "false"}`,
+    `allow_merge: ${remediation && !mergeRiskRemediation ? "true" : "false"}`,
     `allow_post_merge_close: false`,
     `require_fix_before_close: false`,
     `canonical_hint: ${quoteYaml(
@@ -778,14 +788,14 @@ function writeJob(batch, index) {
       checksSuccessPreflight
         ? `Generated from live GitHub checks-success PR inventory on ${now.toISOString()}; bucket=${bucket}; filtered for external merge preflight candidates with no obvious maintainer, status, comment, security, merge-risk, check, or mergeability blockers.`
         : remediation
-        ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; ${
+          ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; ${
             autonomousRemediation
               ? "autonomous remediation assessment. Mutations are limited to deterministic merge/fix gates."
               : "plan-only remediation assessment. No GitHub mutation is permitted from this job."
-          }`
-        : lowSignal
-          ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; low-signal candidates were prefiltered for stale unassigned PRs. Maintainer comments and reviews are still rechecked by the worker and applicator before close.`
-          : `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; only safe close/comment/label actions are allowed.`,
+          }${mergeRiskRemediation ? " Merge-risk candidates are repair-only and must not be merged from this shard." : ""}`
+          : lowSignal
+            ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; low-signal candidates were prefiltered for stale unassigned PRs. Maintainer comments and reviews are still rechecked by the worker and applicator before close.`
+            : `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; only safe close/comment/label actions are allowed.`,
     )}`,
     "---",
     "",
@@ -794,10 +804,10 @@ function writeJob(batch, index) {
     checksSuccessPreflight
       ? "This is a high-volume autonomous external-preflight shard over fresh checks-success pull requests."
       : remediation
-      ? `This is a high-volume ${autonomousRemediation ? "autonomous" : "plan-only"} remediation shard over fresh maintainer-ready pull requests.`
-      : lowSignal
-        ? "This is an opt-in low-signal cleanup shard over stale open pull requests from live GitHub inventory."
-        : `This is a high-volume live inventory shard over ${inventoryScope}.`,
+        ? `This is a high-volume ${autonomousRemediation ? "autonomous" : "plan-only"} remediation shard over fresh ${mergeRiskRemediation ? "merge-risk repair" : "maintainer-ready"} pull requests.`
+        : lowSignal
+          ? "This is an opt-in low-signal cleanup shard over stale open pull requests from live GitHub inventory."
+          : `This is a high-volume live inventory shard over ${inventoryScope}.`,
     "",
     "## Goal",
     "",
@@ -1025,6 +1035,10 @@ function hasExactSecuritySignal({ title, labels }) {
 
 function hasMergeRiskLabel(labels) {
   return labels.some((label) => /^merge-risk:/i.test(String(label ?? "").trim()));
+}
+
+function hasRemediationNoiseTitle(title) {
+  return /^(?:test|tests|docs|doc|chore|refactor|style|lint|ci)(?:\(.+?\))?:/i.test(String(title ?? "").trim());
 }
 
 function isMaintainerAssociated(value) {

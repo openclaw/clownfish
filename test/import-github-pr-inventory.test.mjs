@@ -215,6 +215,58 @@ test("remediation inventory pr-list source filters merge-risk candidates by defa
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
 });
 
+test("remediation inventory filters title-only noise candidates", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeNoisePrList: true });
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#118"), false);
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
+});
+
+test("remediation inventory routes opted-in merge-risk candidates to repair-only jobs", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeRiskPrList: true });
+
+  const result = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--include-merge-risk-candidates",
+    "--bucket",
+    "merge_risk_remediation",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#113"]);
+  assert.equal(payload.generated[0].bucket, "merge_risk_remediation");
+
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+  assert.match(job, /allowed_actions:\n  - "fix"\n  - "raise_pr"/);
+  assert.match(job, /blocked_actions:[\s\S]*  - "merge"/);
+  assert.match(job, /allow_merge: false/);
+  assert.match(job, /Merge-risk candidates are repair-only and must not be merged from this shard/);
+});
+
 test("remediation inventory can hydrate only included refs", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { failPrList: true, includeRiskPrList: true });
@@ -530,6 +582,13 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-13T00:00:00Z",
     labels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
   };
+  const noisePrListPull = {
+    ...cleanPrListPull,
+    number: 118,
+    title: "test(shared): add helper coverage",
+    url: "https://github.com/openclaw/openclaw/pull/118",
+    updatedAt: "2026-01-18T00:00:00Z",
+  };
   const checksSuccessPull = {
     ...cleanPrListPull,
     number: 116,
@@ -568,6 +627,7 @@ function writeFakeGh(filePath, options = {}) {
     dirtyPrListPull,
     securityPrListPull,
     ...(options.includeRiskPrList ? [riskPrListPull] : []),
+    ...(options.includeNoisePrList ? [noisePrListPull] : []),
     ...(options.includeChecksSuccessPreflight
       ? [commentedChecksSuccessPull, statusBlockedChecksSuccessPull, checksSuccessPull, maintainerChecksSuccessPull]
       : []),
