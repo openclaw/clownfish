@@ -1,0 +1,122 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260701T122445-001",
+  "mode": "autonomous",
+  "run_id": "28517364188",
+  "workflow_run_id": "28517364188",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28517364188",
+  "head_sha": "2d8904ba351063f6e6f54115618e106524cacfec",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-01T12:25:57Z",
+  "workflow_updated_at": "2026-07-01T12:28:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+  "published_at": "2026-07-01T12:29:12.744Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77539",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77539",
+  "summary": "PR #77539 is the canonical repair path for the subagent restart redispatch bug. Current main still lacks the task override through replaceSubagentRunAfterSteer/reactivation, while the hydrated PR is open, mergeable, maintainer-editable, non-security, and already carries focused tests. Because this shard blocks merge and has a merge-risk label, route it as repair work on the existing contributor PR branch rather than a merge recommendation.",
+  "actions": [
+    {
+      "target": "#77539",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77539",
+      "candidate_fix": "#77539",
+      "reason": "Concrete narrow repair exists and should stay on the useful maintainer-editable contributor PR branch; merge is intentionally out of scope for this shard."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260701T122445-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77539",
+      "candidate_fix": "#77539",
+      "reason": "Executor should repair/refresh #77539, address any current bot/human review blockers after refetch, run the required changed gate, and leave final merge to a separate merge-allowed lane."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#77539",
+    "source_refs": [
+      "#77539"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing #77539 contributor PR branch so subagent restart redispatch persists the steered/follow-up task text instead of falling back to the stale original task. Keep the fix on the maintainer-editable source PR, refresh only as needed, and do not merge from this merge-risk remediation shard.",
+    "pr_title": "fix(subagent): preserve steered task text on restart redispatch",
+    "pr_body": "## What Problem This Solves\nWhen a subagent task is steered or a completed child session receives follow-up text, restart redispatch can otherwise resume with the stale original task instead of the text that was actually dispatched.\n\n## Why This Change Was Made\nCurrent main still has replaceSubagentRunAfterSteer without a task override, and completed-session reactivation only forwards sessionKey/runId. The repair should keep the narrow #77539 approach: thread the actual replacement task into the replacement run record and preserve old behavior when no override is supplied.\n\n## User Impact\nAfter a gateway restart, steered subagent work and completed-session follow-ups continue from the latest user instruction instead of reverting to the original prompt.\n\n## Evidence\nSource PR: https://github.com/openclaw/openclaw/pull/77539\nCurrent main checked at 5e4d71686a6a1745635a7e1ad6caf756ab8a94bf.\nRun focused subagent/gateway follow-up tests plus pnpm check:changed before handing back for a merge-allowed lane.",
+    "likely_files": [
+      "src/agents/subagent-registry-run-manager.ts",
+      "src/agents/subagent-registry.ts",
+      "src/agents/subagent-registry-steer-runtime.ts",
+      "src/agents/subagent-control.ts",
+      "src/agents/subagent-announce.ts",
+      "src/agents/subagent-orphan-recovery.ts",
+      "src/agents/subagent-registry.steer-restart.test.ts",
+      "src/agents/subagent-orphan-recovery.test.ts",
+      "src/agents/subagent-control.test.ts",
+      "src/gateway/session-subagent-reactivation.ts",
+      "src/gateway/session-subagent-reactivation.test.ts",
+      "src/gateway/server-methods/agent.ts",
+      "src/gateway/server-methods/agent.test.ts",
+      "src/gateway/server-methods/sessions.ts",
+      "src/gateway/server-methods/sessions.send-followup-status.test.ts",
+      "src/gateway/server-methods/subagent-followup.test-helpers.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/subagent-registry.steer-restart.test.ts src/agents/subagent-orphan-recovery.test.ts src/agents/subagent-control.test.ts src/gateway/session-subagent-reactivation.test.ts src/gateway/server-methods/agent.test.ts src/gateway/server-methods/sessions.send-followup-status.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve #77539 as the source PR and keep @amittell's authorship/attribution in the PR history.",
+      "No CHANGELOG.md edit; release generation owns changelog entries, and the PR body should retain release-note context for the user-visible session-state fix.",
+      "If the executor cannot update #77539 without a force push or unrelated churn, stop and produce a replacement PR plan that credits @amittell and https://github.com/openclaw/openclaw/pull/77539."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "live source PR #77539 has blocked labels: merge-risk: 🚨 session-state",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
