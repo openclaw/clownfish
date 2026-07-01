@@ -1,0 +1,120 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260701T122445-001",
+  "mode": "autonomous",
+  "run_id": "28517771581",
+  "workflow_run_id": "28517771581",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28517771581",
+  "head_sha": "a7068bbed0e246668fbcb0a0f9e415e236c7c420",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-01T12:33:00Z",
+  "workflow_updated_at": "2026-07-01T12:37:02Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+  "published_at": "2026-07-01T12:37:51.401Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77539",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77539",
+  "summary": "Repair-only classification for #77539: the PR is the canonical useful contributor branch for a real current-main session-state bug, but merge is blocked by this shard and remaining merge-risk/review-preflight work should run as branch repair, not replacement.",
+  "actions": [
+    {
+      "target": "#77539",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "Useful canonical contributor PR needs repair/preflight under merge-risk remediation; merge is blocked by job policy."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260701T122445-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "Complete executable repair plan exists for the canonical editable PR branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#77539",
+    "source_refs": [
+      "#77539"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #77539 in place: keep the narrow task override fix for subagent replacement runs, rebase/refresh against current main if needed, resolve or document stale Copilot comments, and rerun changed-surface validation. No replacement PR is needed because the branch is maintainer-editable and already carries contributor credit.",
+    "pr_title": "fix(subagent): preserve steered task text on restart redispatch",
+    "pr_body": "## What Problem This Solves\n\nWhen a subagent run is steered, woken, orphan-resumed, or reactivated from a completed child session, a gateway restart can redispatch from the persisted subagent run record. Current main keeps the old `task` on replacement runs, so restart recovery can rewrap and replay stale pre-steer text instead of the prompt that was actually dispatched.\n\n## Why This Change Was Made\n\nThis repairs the existing contributor PR #77539 in place. The branch should persist an optional replacement `task` through `replaceSubagentRunAfterSteer`, pass the dispatched prompt from steer/wake/completed-session paths, and keep orphan recovery using the stable original task rather than accumulating nested resume wrappers.\n\n## User Impact\n\nSubagent follow-up and steer behavior survives gateway restarts without losing the latest user instruction. Contributor credit remains with @amittell and the source PR history.\n\n## Evidence\n\n- Current main `5e4d71686a6a1745635a7e1ad6caf756ab8a94bf` lacks a replacement task override in `src/agents/subagent-registry-run-manager.ts` and related callers.\n- PR head `9889feca8454b28fdf9c15fb93f044eb3c0901eb` adds the task override and focused regression coverage.\n- Run focused subagent/gateway tests plus `pnpm check:changed` after any rebase or repair.\n- Rerun Codex `/review` separately and resolve any actionable bot/human findings before a merge-capable lane considers landing.",
+    "likely_files": [
+      "src/agents/subagent-registry-run-manager.ts",
+      "src/agents/subagent-registry-steer-runtime.ts",
+      "src/agents/subagent-registry.ts",
+      "src/agents/subagent-control.ts",
+      "src/agents/subagent-announce.ts",
+      "src/agents/subagent-orphan-recovery.ts",
+      "src/agents/subagent-registry.steer-restart.test.ts",
+      "src/agents/subagent-orphan-recovery.test.ts",
+      "src/agents/subagent-control.test.ts",
+      "src/agents/subagent-announce.format.e2e.test.ts",
+      "src/gateway/session-subagent-reactivation.ts",
+      "src/gateway/session-subagent-reactivation.test.ts",
+      "src/gateway/server-methods/agent.ts",
+      "src/gateway/server-methods/sessions.ts",
+      "src/gateway/server-methods/subagent-followup.test-helpers.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/subagent-registry.steer-restart.test.ts src/agents/subagent-orphan-recovery.test.ts src/agents/subagent-control.test.ts src/gateway/session-subagent-reactivation.test.ts src/gateway/server-methods/agent.test.ts src/gateway/server-methods/sessions.send-followup-status.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @amittell as the source contributor on https://github.com/openclaw/openclaw/pull/77539.",
+      "Keep repair work on the existing PR branch when possible; do not replace unless re-fetch shows maintainer_can_modify=false, broad unrelated churn, or a changed unsafe branch state."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
