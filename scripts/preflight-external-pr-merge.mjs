@@ -63,11 +63,12 @@ let report = {
 
 try {
   pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
+  const issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
   view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
-  plan = buildPlan({ sourceJob, virtualJob, pull, view, pullRequest, baseBranch });
+  plan = buildPlan({ sourceJob, virtualJob, pull, issue, view, pullRequest, baseBranch });
 
   const blockers = stage("read-only blockers", () => readOnlyBlockers({ sourceJob, pull, view, pullRequest }));
   if (blockers.length > 0) {
@@ -111,6 +112,7 @@ try {
     sourceJob,
     virtualJob,
     pull,
+    issue,
     view,
     pullRequest,
     validationCommands,
@@ -228,7 +230,7 @@ function writePreflightJob({ sourceJob, pull, pullRequest, runDir }) {
   return { path: filePath, clusterId };
 }
 
-function buildPlan({ sourceJob, virtualJob, pull, view, pullRequest, baseBranch }) {
+function buildPlan({ sourceJob, virtualJob, pull, issue, view, pullRequest, baseBranch }) {
   return {
     repo: sourceJob.frontmatter.repo,
     cluster_id: virtualJob.clusterId,
@@ -251,7 +253,7 @@ function buildPlan({ sourceJob, virtualJob, pull, view, pullRequest, baseBranch 
         state: normalizeState(pull?.state),
         title: pull?.title ?? `Pull request #${pullRequest}`,
         html_url: pull?.html_url ?? null,
-        updated_at: pull?.updated_at ?? null,
+        updated_at: issue?.updated_at ?? pull?.updated_at ?? null,
         labels: (pull?.labels ?? []).map((label) => label.name).filter(Boolean),
         comments_hydrated: Array.isArray(view?.comments) ? view.comments.length : 0,
         security_sensitive: false,
@@ -542,7 +544,7 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
   return JSON.parse(fs.readFileSync(outputPath, "utf8"));
 }
 
-function buildMergeResult({ sourceJob, virtualJob, pull, view, pullRequest, validationCommands, codexReview, currentMainSha, baseDriftAllowed }) {
+function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullRequest, validationCommands, codexReview, currentMainSha, baseDriftAllowed }) {
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
     baseDriftAllowed
@@ -565,7 +567,7 @@ function buildMergeResult({ sourceJob, virtualJob, pull, view, pullRequest, vali
         expected_head_sha: pull.head.sha,
         classification: "canonical",
         target_kind: "pull_request",
-        target_updated_at: pull.updated_at,
+        target_updated_at: issue?.updated_at ?? pull.updated_at,
         canonical: `#${pullRequest}`,
         duplicate_of: null,
         candidate_fix: null,

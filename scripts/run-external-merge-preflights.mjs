@@ -105,6 +105,7 @@ function runPreflightRequest(request) {
     "--run-dir",
     runDir,
   ]);
+  cleanupPreflightTarget(runDir);
   if (preflight.status !== 0) {
     return {
       ...request,
@@ -204,6 +205,10 @@ function parseIssueNumber(ref) {
 function readJsonIfExists(filePath) {
   if (!fs.existsSync(filePath)) return null;
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function cleanupPreflightTarget(runDir) {
+  fs.rmSync(path.join(runDir, "target"), { recursive: true, force: true });
 }
 
 function positiveInteger(value, fallback) {

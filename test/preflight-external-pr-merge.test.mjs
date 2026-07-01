@@ -65,7 +65,10 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /CLOWNFISH_ALLOW_MERGE !== "1"/);
   assert.match(runnerScript, /scripts\/apply-result\.mjs/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
-  assert.match(clusterWorkflow, /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}" --latest --max-prs 2/);
+  assert.match(
+    clusterWorkflow,
+    /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}" --latest --max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"/,
+  );
   assert.match(clusterWorkflow, /- name: Run external merge preflights[\s\S]*?- name: Apply safe closure actions/);
 });
 
@@ -83,7 +86,10 @@ test("daily checks-success intake feeds guarded external merge preflights", () =
 });
 
 test("external merge preflight emits an applicator-valid exact-head merge artifact", () => {
-  const fixture = makeFixture();
+  const fixture = makeFixture({
+    issueUpdatedAt: "2026-06-19T00:05:00Z",
+    pullUpdatedAt: "2026-06-19T00:00:00Z",
+  });
   const child = spawnSync(
     process.execPath,
     ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
@@ -103,6 +109,7 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.actions.length, 1);
   assert.equal(result.actions[0].action, "merge_canonical");
   assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
+  assert.equal(result.actions[0].target_updated_at, "2026-06-19T00:05:00Z");
   assert.equal(result.merge_preflight[0].codex_review.status, "clean");
 
   const reviewed = spawnSync(process.execPath, ["scripts/review-results.mjs", fixture.runDir], {
@@ -567,6 +574,8 @@ function makeFixture({
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
   mergeViews = null,
+  issueUpdatedAt = "2026-06-19T00:00:00Z",
+  pullUpdatedAt = "2026-06-19T00:00:00Z",
   currentMainSha = null,
   codexReview = {
     status: "clean",
@@ -644,8 +653,12 @@ if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
   console.log(${JSON.stringify(JSON.stringify(reviewComments))});
   process.exit(0);
 }
+if (args[0] === "api" && args[1].endsWith("/issues/123")) {
+  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
+  process.exit(0);
+}
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
-  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: "2026-06-19T00:00:00Z", labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
