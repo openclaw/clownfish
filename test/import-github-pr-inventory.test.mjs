@@ -580,6 +580,8 @@ function writeFakeGh(filePath, options = {}) {
     title: "risky ready candidate",
     url: "https://github.com/openclaw/openclaw/pull/113",
     updatedAt: "2026-01-13T00:00:00Z",
+    mergeable: "CONFLICTING",
+    mergeStateStatus: "DIRTY",
     labels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
   };
   const noisePrListPull = {

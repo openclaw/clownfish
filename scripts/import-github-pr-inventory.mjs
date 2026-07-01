@@ -443,8 +443,9 @@ function normalizePrListPullRequest(raw) {
 function prListMergeBlocker(raw) {
   if (strategy !== "remediation") return false;
   const labels = labelNames(raw.labels);
+  const mergeRisk = hasMergeRiskLabel(labels);
   if (hasExactSecuritySignal({ title: raw.title, labels }) || hasSecuritySensitiveText(raw.title, raw.body ?? "", labels)) return true;
-  if (!includeMergeRisk && hasMergeRiskLabel(labels)) return true;
+  if (!includeMergeRisk && mergeRisk) return true;
   if (raw.isDraft) return true;
   if (checksSuccessPreflight) {
     const authorAssociation = asciiString(raw.authorAssociation ?? "");
@@ -454,6 +455,7 @@ function prListMergeBlocker(raw) {
     if (hasStatusBlockedLabel(labels)) return true;
   }
   if (raw.baseRefName && raw.baseRefName !== "main") return true;
+  if (includeMergeRisk && mergeRisk) return false;
   if (["CHANGES_REQUESTED", "REVIEW_REQUIRED"].includes(String(raw.reviewDecision ?? ""))) return true;
   if (raw.mergeable && raw.mergeable !== "MERGEABLE") return true;
   if (raw.mergeStateStatus && !isAcceptableMergeState(raw)) return true;
