@@ -326,6 +326,107 @@ test("execute-fix-artifact permits non-security merge-risk labels for the adopte
   assert.notEqual(report.actions[0]?.code, "live_target_policy_block");
 });
 
+test("execute-fix-artifact permits non-security merge-risk labels for repair-only remediation jobs", () => {
+  const fixture = makeFixture();
+  const clusterId = "live-target-policy-repair-only-risk";
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const ghLog = path.join(fixture.root, "gh.log");
+
+  fs.writeFileSync(fixture.jobPath, repairOnlyRiskJobFile(clusterId));
+  const result = resultFile(clusterId);
+  result.actions = [
+    { action: "fix_needed", status: "planned", target: "#1" },
+    { action: "build_fix_artifact", status: "planned", target: `cluster:${clusterId}` },
+  ];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeLiveTargetPolicyGhStub({ binDir: fixture.binDir, ghLog, labels: ["merge-risk: session-state"] });
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.notEqual(report.code, "live_target_policy_block");
+  assert.notEqual(report.actions[0]?.code, "live_target_policy_block");
+});
+
+test("execute-fix-artifact still blocks security merge-risk labels for repair-only remediation jobs", () => {
+  const fixture = makeFixture();
+  const clusterId = "live-target-policy-repair-only-security";
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const ghLog = path.join(fixture.root, "gh.log");
+
+  fs.writeFileSync(fixture.jobPath, repairOnlyRiskJobFile(clusterId));
+  const result = resultFile(clusterId);
+  result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeLiveTargetPolicyGhStub({ binDir: fixture.binDir, ghLog, labels: ["merge-risk: security-boundary"] });
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.equal(report.no_target_mutations, true);
+  assert.equal(report.actions[0].code, "live_target_policy_block");
+  assert.match(report.reason, /merge-risk: security-boundary/);
+});
+
 test("execute-fix-artifact ignores security-routed lineage that is not a mutable repair source", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
@@ -1578,6 +1679,42 @@ security_sensitive: false
 ---
 
 # Deadline test job
+`;
+}
+
+function repairOnlyRiskJobFile(clusterId) {
+  return `---
+repo: openclaw/openclaw
+cluster_id: ${clusterId}
+mode: autonomous
+allowed_actions:
+  - fix
+  - raise_pr
+blocked_actions:
+  - comment
+  - label
+  - close
+  - merge
+  - force_push
+  - bypass_checks
+require_human_for:
+  - security_sensitive
+canonical: []
+candidates:
+  - "#1"
+cluster_refs:
+  - "#1"
+allow_instant_close: false
+allow_fix_pr: true
+allow_merge: false
+allow_unmerged_fix_close: false
+allow_post_merge_close: false
+require_fix_before_close: false
+security_policy: central_security_only
+security_sensitive: false
+---
+
+# Repair-only risk remediation job
 `;
 }
 

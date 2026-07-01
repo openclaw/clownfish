@@ -2470,11 +2470,13 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
     const labels = (pull.labels ?? []).map((label) => String(label?.name ?? label)).filter(Boolean);
     const normalizedLabels = labels.map((label) => label.toLowerCase());
     const isAdoptedAutomergeTarget = source.number === adoptedAutomergeTarget;
+    const allowRepairOnlyMergeRisk = isRepairOnlyMergeRiskRemediationJob(job);
+    const allowNonSecurityMergeRisk = isAdoptedAutomergeTarget || allowRepairOnlyMergeRisk;
     const blockedSignals = [
       ...(normalizedLabels.includes("clawsweeper:automerge") && !isAdoptedAutomergeTarget
         ? ["clawsweeper:automerge"]
         : []),
-      ...labels.filter((label) => /^merge-risk:/i.test(label) && (!isAdoptedAutomergeTarget || hasDeterministicSecuritySignal({ labels: [label] }))),
+      ...labels.filter((label) => /^merge-risk:/i.test(label) && (!allowNonSecurityMergeRisk || hasDeterministicSecuritySignal({ labels: [label] }))),
       ...(hasDeterministicSecuritySignal({ labels }) ? ["security-sensitive"] : []),
     ];
     if (blockedSignals.length === 0) continue;
@@ -2487,6 +2489,22 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
   }
 
   return null;
+}
+
+function isRepairOnlyMergeRiskRemediationJob(job) {
+  const allowed = new Set(job.frontmatter.allowed_actions ?? []);
+  const blocked = new Set(job.frontmatter.blocked_actions ?? []);
+  return (
+    job.frontmatter.allow_fix_pr === true &&
+    job.frontmatter.allow_merge === false &&
+    allowed.size === 2 &&
+    allowed.has("fix") &&
+    allowed.has("raise_pr") &&
+    blocked.has("comment") &&
+    blocked.has("label") &&
+    blocked.has("close") &&
+    blocked.has("merge")
+  );
 }
 
 function adoptedAutomergeRepairTarget(job) {
