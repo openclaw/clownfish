@@ -1084,7 +1084,7 @@ function ghJsonWithRetry(ghArgs, { operation }) {
 
 function isRetryableGhError(error) {
   const message = String(error?.stderr ?? error?.message ?? error);
-  return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate/i.test(
+  return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate|Something went wrong while executing your query/i.test(
     message,
   );
 }

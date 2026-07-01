@@ -276,7 +276,7 @@ test("remediation inventory pr-list source falls back to per-PR hydration on Git
 
 test("remediation fallback skips one PR when hydration keeps failing", () => {
   const fixture = makeFixture();
-  writeFakeGh(fixture.gh, { failPrList: true, failHydrateNumber: 109 });
+  writeFakeGh(fixture.gh, { failPrList: true, failHydrateNumber: 109, failHydrateIncident: true });
 
   const result = runImport(
     fixture,
@@ -551,7 +551,11 @@ if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(B
   process.exit(1);
 }
 if (process.argv[2] === "pr" && process.argv[3] === "view" && String(process.argv[4]) === ${JSON.stringify(String(options.failHydrateNumber ?? ""))}) {
-  console.error("HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)");
+  console.error(${JSON.stringify(
+    options.failHydrateIncident
+      ? "GraphQL: Something went wrong while executing your query on 2026-07-01T08:35:56Z. Please include `EFAC:390CD1:97CD82:99C543:6A44D16B` when reporting this issue."
+      : "HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)",
+  )});
   process.exit(1);
 }
 const payload = process.argv[2] === "search"
