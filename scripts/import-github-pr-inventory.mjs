@@ -47,6 +47,7 @@ const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeMergeRisk = Boolean(args["include-merge-risk-candidates"] ?? args.include_merge_risk_candidates);
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
+const hydrateIncludeRefs = Boolean(args["hydrate-include-refs"] ?? args.hydrate_include_refs);
 const minScore = numberArg("min-score", 2);
 const maxFiles = numberArg("max-files", 120);
 const limitForHydration = limit === "all" ? 500 : Number(limit);
@@ -68,6 +69,8 @@ if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomo
 if (!["graphql", "search", "pr-list"].includes(inventorySource)) die("--inventory-source must be graphql, search, or pr-list");
 if (!["triage", "remediation", "low-signal"].includes(strategy)) die("--strategy must be triage, remediation, or low-signal");
 if (checksSuccessPreflight && strategy !== "remediation") die("--checks-success requires --strategy remediation");
+if (hydrateIncludeRefs && inventorySource !== "pr-list") die("--hydrate-include-refs requires --inventory-source pr-list");
+if (hydrateIncludeRefs && !includeRefs) die("--hydrate-include-refs requires --include-refs-file");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-results-action-policy must be all or terminal");
 
@@ -118,6 +121,7 @@ const payload = sanitizeJsonValue({
     include_refs_file: includeRefs
       ? path.relative(repoRoot(), path.resolve(String(args["include-refs-file"] ?? args.include_refs_file)))
       : null,
+    hydrate_include_refs: hydrateIncludeRefs || null,
     inventory_source: inventorySource,
     pr_list_fallback_search_limit: inventorySource === "pr-list" ? prListFallbackSearchLimit : null,
     existing_results_action_policy: existingResultsActionPolicy,
@@ -232,6 +236,8 @@ function fetchOpenPullRequestsFromSearch() {
 }
 
 function fetchOpenPullRequestsFromPrList() {
+  if (hydrateIncludeRefs) return fetchOpenPullRequestsFromIncludedRefs();
+
   const search = String(
     args.search ??
       args["pr-list-search"] ??
@@ -264,6 +270,26 @@ function fetchOpenPullRequestsFromPrList() {
   }
   if (!Array.isArray(pulls)) throw new Error("GitHub PR list returned a non-array payload");
   return pulls.map(normalizePrListPullRequest).filter((pull) => !prListMergeBlocker(pull));
+}
+
+function fetchOpenPullRequestsFromIncludedRefs() {
+  const pulls = [];
+  for (const ref of includeRefs) {
+    let hydrated;
+    try {
+      hydrated = hydratePullRequestForPrListFallback(Number(ref.slice(1)));
+    } catch (error) {
+      if (!isRetryableGhError(error)) throw error;
+      console.error(`hydrate pull request ${ref} failed after retries; skipping candidate`);
+      continue;
+    }
+    if (!hydrated) continue;
+    const normalized = normalizePrListPullRequest(hydrated);
+    if (prListMergeBlocker(normalized)) continue;
+    pulls.push(normalized);
+    if (limit !== "all" && pulls.length >= limitForHydration) break;
+  }
+  return pulls;
 }
 
 function fetchOpenPullRequestsFromPrListFallback() {

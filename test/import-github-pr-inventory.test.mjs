@@ -215,6 +215,37 @@ test("remediation inventory pr-list source filters merge-risk candidates by defa
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#109", "#110"]);
 });
 
+test("remediation inventory can hydrate only included refs", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { failPrList: true, includeRiskPrList: true });
+  const includeRefs = path.join(fixture.root, "refs.txt");
+  fs.writeFileSync(includeRefs, ["#110", "#111", "#112", "#113"].join("\n"));
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--hydrate-include-refs",
+    "--include-refs-file",
+    includeRefs,
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.doesNotMatch(result.stderr, /falling back to search plus per-PR hydration/);
+  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.equal(payload.options.hydrate_include_refs, true);
+  assert.equal(payload.totals.include_refs, 4);
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
+  assert.equal(payload.totals.fetched_open_prs, 1);
+});
+
 test("checks-success remediation intake filters noisy preflight blockers", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true });
