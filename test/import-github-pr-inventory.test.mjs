@@ -239,7 +239,7 @@ test("remediation inventory filters title-only noise candidates", () => {
 
 test("remediation inventory routes opted-in merge-risk candidates to repair-only jobs", () => {
   const fixture = makeFixture();
-  writeFakeGh(fixture.gh, { includeRiskPrList: true });
+  writeFakeGh(fixture.gh, { includeRiskPrList: true, includeSecondRiskPrList: true });
 
   const result = runImport(
     fixture,
@@ -251,16 +251,21 @@ test("remediation inventory routes opted-in merge-risk candidates to repair-only
     "--include-merge-risk-candidates",
     "--bucket",
     "merge_risk_remediation",
+    "--batch-size",
+    "5",
     "--limit",
     "all",
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const payload = JSON.parse(result.stdout);
 
-  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#113"]);
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#113", "#119"]);
+  assert.equal(payload.options.batch_size, 1);
+  assert.equal(payload.generated.length, 2);
   assert.equal(payload.generated[0].bucket, "merge_risk_remediation");
 
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+  assert.match(job, /candidates:\n  - "#113"\ncluster_refs:\n  - "#113"/);
   assert.match(job, /allowed_actions:\n  - "fix"\n  - "raise_pr"/);
   assert.match(job, /blocked_actions:[\s\S]*  - "merge"/);
   assert.match(job, /allow_merge: false/);
@@ -585,6 +590,13 @@ function writeFakeGh(filePath, options = {}) {
     mergeStateStatus: "DIRTY",
     labels: [{ name: "merge-risk: availability" }, { name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
   };
+  const secondRiskPrListPull = {
+    ...riskPrListPull,
+    number: 119,
+    title: "second risky ready candidate",
+    url: "https://github.com/openclaw/openclaw/pull/119",
+    updatedAt: "2026-01-14T00:00:00Z",
+  };
   const noisePrListPull = {
     ...cleanPrListPull,
     number: 118,
@@ -630,6 +642,7 @@ function writeFakeGh(filePath, options = {}) {
     dirtyPrListPull,
     securityPrListPull,
     ...(options.includeRiskPrList ? [riskPrListPull] : []),
+    ...(options.includeSecondRiskPrList ? [secondRiskPrListPull] : []),
     ...(options.includeNoisePrList ? [noisePrListPull] : []),
     ...(options.includeChecksSuccessPreflight
       ? [commentedChecksSuccessPull, statusBlockedChecksSuccessPull, checksSuccessPull, maintainerChecksSuccessPull]

@@ -40,12 +40,15 @@ const defaultInventorySource = checksSuccessPreflight
     : "graphql";
 const inventorySource = String(args["inventory-source"] ?? args.inventory_source ?? args.source ?? defaultInventorySource);
 const limit = limitArg("limit", 100);
-const batchSize = numberArg("batch-size", 5);
+const requestedBatchSize = numberArg("batch-size", 5);
 const sort = String(args.sort ?? "stale");
 const bucketFilter = String(args.bucket ?? defaultBucketFor({ mode, strategy }));
 const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeMergeRisk = Boolean(args["include-merge-risk-candidates"] ?? args.include_merge_risk_candidates);
+const repairOnlyMergeRiskInventory =
+  strategy === "remediation" && includeMergeRisk && bucketFilter === "merge_risk_remediation";
+const batchSize = repairOnlyMergeRiskInventory ? 1 : requestedBatchSize;
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
 const hydrateIncludeRefs = Boolean(args["hydrate-include-refs"] ?? args.hydrate_include_refs);
 const minScore = numberArg("min-score", 2);
