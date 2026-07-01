@@ -265,6 +265,7 @@ test("remediation inventory routes opted-in merge-risk candidates to repair-only
   assert.match(job, /blocked_actions:[\s\S]*  - "merge"/);
   assert.match(job, /allow_merge: false/);
   assert.match(job, /Merge-risk candidates are repair-only and must not be merged from this shard/);
+  assert.match(job, /Do not emit `merge_candidate`/);
 });
 
 test("remediation inventory can hydrate only included refs", () => {
