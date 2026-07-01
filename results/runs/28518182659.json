@@ -1,0 +1,156 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260701T122445-001",
+  "mode": "autonomous",
+  "run_id": "28518182659",
+  "workflow_run_id": "28518182659",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28518182659",
+  "head_sha": "a9b83fe2ca566322833e54291c1961e16c06cfd4",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-01T12:40:09Z",
+  "workflow_updated_at": "2026-07-01T12:52:40Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+  "published_at": "2026-07-01T12:53:24.888Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77539",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77539",
+  "summary": "#77539 is the canonical repair target. The PR is open, maintainer-editable, non-security, and already has a bounded maintainer calibration: repair the existing branch by clearing two stale Copilot inline comments that refer to nonexistent redispatchSubagentRunAfterRestart. Merge and public comments are blocked in this shard, so the output is a repair artifact only.",
+  "actions": [
+    {
+      "target": "#77539",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "Repair existing maintainer-editable canonical PR branch; do not merge from this merge-risk remediation shard."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260701T122445-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77539",
+      "candidate_fix": null,
+      "reason": "Create an executable fix artifact for deterministic repair of #77539."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#77539",
+    "source_refs": [
+      "#77539"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #77539 in place by updating two stale inline explanatory comments that still refer to nonexistent redispatchSubagentRunAfterRestart. Keep the existing contributor branch and credit intact; no replacement PR is needed.",
+    "pr_title": "fix(subagent): preserve steered task text on restart redispatch",
+    "pr_body": "Repair plan for #77539:\n\nWhat Problem This Solves\n\nClears the remaining stale Copilot inline review comments by replacing references to nonexistent redispatchSubagentRunAfterRestart with wording that points at the actual subagent restart/resume recovery path.\n\nWhy This Change Was Made\n\nThe PR already implements the steered-task persistence behavior. The bounded remaining repair is comment accuracy in src/agents/subagent-registry-run-manager.ts and src/agents/subagent-registry.steer-restart.test.ts.\n\nUser Impact\n\nNo runtime behavior change from this repair. It keeps the existing PR landable review path focused and preserves @amittell's source contribution.\n\nEvidence\n\nValidate with pnpm test src/agents/subagent-registry.steer-restart.test.ts and pnpm check:changed.",
+    "likely_files": [
+      "src/agents/subagent-registry-run-manager.ts",
+      "src/agents/subagent-registry.steer-restart.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/agents/subagent-registry.steer-restart.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair source PR https://github.com/openclaw/openclaw/pull/77539 in place so @amittell's original contribution and PR history remain canonical.",
+      "Do not replace the PR branch unless a fresh executor refetch shows maintainer_can_modify=false or the branch became unsafe."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260701T122445-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/77539",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e93915ec5f0ff76c8383755989cfaffa202ab755",
+      "checkpoint_commits": [
+        "9090287bf47b4a1da305270c811ae39c1e719df3",
+        "e93915ec5f0ff76c8383755989cfaffa202ab755"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#77539",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#77539",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight"
+    }
+  ]
+}
