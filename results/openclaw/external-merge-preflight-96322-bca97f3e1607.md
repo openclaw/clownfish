@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-87986-965e69e717f3"
+cluster_id: "external-merge-preflight-96322-bca97f3e1607"
 mode: "autonomous"
 run_id: "28504959121"
 workflow_run_id: "28504959121"
@@ -8,21 +8,21 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28504959121"
 head_sha: "e0b180eb2dc76fddfd4a61fcb0e3976fc8010039"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-01T09:00:11.374Z"
-canonical: "https://github.com/openclaw/openclaw/pull/87986"
+published_at: "2026-07-01T09:00:11.376Z"
+canonical: "https://github.com/openclaw/openclaw/pull/96322"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/87986"
-actions_total: 0
+canonical_pr: "https://github.com/openclaw/openclaw/pull/96322"
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
-apply_executed: 0
+apply_executed: 1
 apply_blocked: 0
 apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-87986-965e69e717f3
+# external-merge-preflight-96322-bca97f3e1607
 
 Repo: openclaw/openclaw
 
@@ -32,21 +32,21 @@ Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/87986
+Canonical: https://github.com/openclaw/openclaw/pull/96322
 
 ## Summary
 
-External merge preflight blocked: PR has non-passing checks: Real behavior proof; PR merge state is UNSTABLE
+External merge preflight passed for #96322 at bca97f3e16076471045101b4b8c38dad62be2bd6.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 0 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
-| Applied executions | 0 |
+| Applied executions | 1 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
 | Needs human | 0 |
@@ -61,19 +61,19 @@ External merge preflight blocked: PR has non-passing checks: Real behavior proof
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #96322 | merge_canonical | executed | canonical | merged by projectclownfish |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+| 1 | apply | #96322 | merge_canonical | executed | merged by projectclownfish |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #96322 | merge_canonical | planned | canonical | Deterministic external merge preflight passed on the exact current head. |
 
 ## Needs Human
 
