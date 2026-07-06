@@ -1116,6 +1116,99 @@ test("external merge preflight does not accept dependency confirmation from anot
   assert.match(report.reason, /actionable top-level issue comment/);
 });
 
+test("external merge preflight accepts exact-head dependency guard authorization", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "<!-- openclaw:dependency-guard -->",
+          "This PR changes the dependency graph. A maintainer must authorize the change.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        body: "/allow-dependencies-change intentional parser dependency",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "<!-- openclaw:dependency-graph-guard -->",
+          "### Dependency graph change authorized",
+          "",
+          `Approved SHA: \`${headSha}\``,
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed", report.reason);
+  const result = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "result.json"), "utf8"));
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
+test("external merge preflight blocks stale dependency guard authorization", () => {
+  const fixture = makeFixture({
+    headSha: "a".repeat(40),
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "<!-- openclaw:dependency-graph-guard -->",
+          "### Dependency graph change authorized",
+          "",
+          `Approved SHA: \`${"c".repeat(40)}\``,
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
 test("external merge preflight blocks dependency notices with appended concerns", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
