@@ -311,7 +311,10 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
     includeNoisePrList: true,
     requireSearchBase: true,
   });
-  writeExistingJob(path.join(fixture.existing, "retry.md"), "#116");
+  writeChecksSuccessJob(path.join(fixture.existing, "retry.md"), "#116", {
+    generatedAt: new Date().toISOString(),
+    updatedAt: "2026-01-16T00:00:00Z",
+  });
 
   const result = runImport(
     fixture,
@@ -328,19 +331,114 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
   assert.equal(payload.options.inventory_source, "search");
   assert.equal(payload.options.bucket, "all");
   assert.equal(payload.options.checks_success_preflight, true);
+  assert.equal(payload.options.checks_success_retry_cooldown_hours, 72);
 
   const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
-  assert.equal(refs.has("#116"), true);
+  assert.equal(refs.has("#116"), false);
   assert.equal(refs.has("#114"), true);
   assert.equal(refs.has("#115"), false);
   assert.equal(refs.has("#117"), false);
   assert.equal(refs.has("#118"), false);
   assert.equal(refs.has("#120"), false);
+  assert.equal(refs.has("#121"), false);
 
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
   assert.match(job, /Checks-Success PR External Preflight/);
   assert.match(job, /external-preflight shard/);
   assert.match(job, /external_merge_preflight_required/);
+});
+
+test("checks-success remediation retries changed or cooled-down candidates", () => {
+  const changedFixture = makeFixture();
+  writeFakeGh(changedFixture.gh, { includeChecksSuccessPreflight: true });
+  writeChecksSuccessJob(path.join(changedFixture.existing, "changed.md"), "#116", {
+    generatedAt: new Date().toISOString(),
+    updatedAt: "2026-01-15T00:00:00Z",
+  });
+  const changedResult = runImport(
+    changedFixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(changedResult.status, 0, changedResult.stderr || changedResult.stdout);
+  assert.equal(JSON.parse(changedResult.stdout).candidates.some((candidate) => candidate.ref === "#116"), true);
+
+  const cooledFixture = makeFixture();
+  writeFakeGh(cooledFixture.gh, { includeChecksSuccessPreflight: true });
+  writeChecksSuccessJob(path.join(cooledFixture.existing, "cooled.md"), "#116", {
+    generatedAt: new Date(Date.now() - 73 * 60 * 60 * 1000).toISOString(),
+    updatedAt: "2026-01-16T00:00:00Z",
+  });
+  const cooledResult = runImport(
+    cooledFixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(cooledResult.status, 0, cooledResult.stderr || cooledResult.stdout);
+  assert.equal(JSON.parse(cooledResult.stdout).candidates.some((candidate) => candidate.ref === "#116"), true);
+
+  const crossRepoFixture = makeFixture();
+  writeFakeGh(crossRepoFixture.gh, { includeChecksSuccessPreflight: true });
+  writeChecksSuccessJob(path.join(crossRepoFixture.existing, "cross-repo.md"), "#116", {
+    repo: "openclaw/clownfish",
+    generatedAt: new Date().toISOString(),
+    updatedAt: "2026-01-16T00:00:00Z",
+  });
+  const crossRepoResult = runImport(
+    crossRepoFixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(crossRepoResult.status, 0, crossRepoResult.stderr || crossRepoResult.stdout);
+  assert.equal(JSON.parse(crossRepoResult.stdout).candidates.some((candidate) => candidate.ref === "#116"), true);
+});
+
+test("checks-success remediation skips stale search results that cannot hydrate", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    failHydrateNumber: 116,
+    failHydrateNotFound: true,
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /hydrate pull request #116 could not be hydrated; skipping candidate/);
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
+});
+
+test("checks-success remediation fails closed on hydration auth errors", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    failHydrateNumber: 116,
+    failHydrateAuth: true,
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /HTTP 401: Bad credentials/);
 });
 
 test("remediation inventory pr-list source falls back to per-PR hydration on GitHub 502s", () => {
@@ -658,6 +756,15 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-20T00:00:00Z",
     assignees: [{ login: "steipete" }],
   };
+  const conflictingChecksSuccessPull = {
+    ...checksSuccessPull,
+    number: 121,
+    title: "conflicting checks success candidate",
+    url: "https://github.com/openclaw/openclaw/pull/121",
+    updatedAt: "2026-01-21T00:00:00Z",
+    mergeable: "CONFLICTING",
+    mergeStateStatus: "DIRTY",
+  };
   if (options.includeChecksSuccessPreflight) {
     searchPulls.push(
       ...[
@@ -666,6 +773,7 @@ function writeFakeGh(filePath, options = {}) {
         checksSuccessPull,
         maintainerChecksSuccessPull,
         assignedChecksSuccessPull,
+        conflictingChecksSuccessPull,
       ].map((pull) => ({
         ...pull,
         labels: pull.labels,
@@ -688,6 +796,7 @@ function writeFakeGh(filePath, options = {}) {
           checksSuccessPull,
           maintainerChecksSuccessPull,
           assignedChecksSuccessPull,
+          conflictingChecksSuccessPull,
         ]
       : []),
     cleanPrListPull,
@@ -702,7 +811,11 @@ if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(B
 }
 if (process.argv[2] === "pr" && process.argv[3] === "view" && String(process.argv[4]) === ${JSON.stringify(String(options.failHydrateNumber ?? ""))}) {
   console.error(${JSON.stringify(
-    options.failHydrateIncident
+    options.failHydrateNotFound
+      ? "Could not resolve to a PullRequest with the number of 116."
+      : options.failHydrateAuth
+        ? "HTTP 401: Bad credentials"
+      : options.failHydrateIncident
       ? "GraphQL: Something went wrong while executing your query on 2026-07-01T08:35:56Z. Please include `EFAC:390CD1:97CD82:99C543:6A44D16B` when reporting this issue."
       : "HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)",
   )});
@@ -782,6 +895,33 @@ cluster_refs:
 ---
 
 ${notes}
+`,
+  );
+}
+
+function writeChecksSuccessJob(filePath, ref, { repo = "openclaw/openclaw", generatedAt, updatedAt }) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(
+    filePath,
+    `---
+repo: ${repo}
+cluster_id: checks-success-${ref.slice(1)}
+mode: autonomous
+candidates:
+  - "${ref}"
+cluster_refs:
+  - "${ref}"
+notes: "Generated from live GitHub checks-success PR inventory on ${generatedAt}; fixture"
+---
+
+# Checks-Success PR External Preflight 1
+
+## Inventory
+
+### ${ref} fixture candidate
+
+- live updated: ${updatedAt}
+- live url: https://github.com/openclaw/openclaw/pull/${ref.slice(1)}
 `,
   );
 }
