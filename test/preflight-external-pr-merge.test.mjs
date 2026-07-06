@@ -536,6 +536,289 @@ test("external merge preflight tolerates non-actionable automation comments", ()
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight accepts current guard clearance and structured author proof", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "<!-- openclaw:dependency-graph-guard -->",
+          "",
+          "### Dependency graph guard cleared",
+          "",
+          "This PR no longer has blocked dependency graph changes. A future dependency graph change requires a fresh `/allow-dependencies-change` comment after the guard blocks that new head SHA.",
+          "",
+          `- Current SHA: \`${headSha}\``,
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "## Real Behavior Proof",
+          "",
+          "### System Environment",
+          "- OS: Linux 4.19.112-2.el8.x86_64",
+          "- lsof version: available at /usr/bin/lsof",
+          "- Test date: 2026-07-01 18:35 UTC",
+          "",
+          "### Raw lsof Output (Sample)",
+          "```bash",
+          "$ lsof -nP -iTCP -sTCP:LISTEN -FpFcn | head -30",
+          "p5897",
+          "cwpscloudsvr",
+          "n127.0.0.1:58890",
+          "```",
+          "",
+          "### Behavior Verification",
+          "The fix ensures that only process records with valid positive PIDs are accepted.",
+          "",
+          "**Before this fix**: A malformed `p` record (e.g., `p-1` or `pabc`) followed by address lines would create listener entries with invalid or missing PIDs.",
+          "",
+          "**After this fix**: The parser at `src/infra/ports-inspect.ts:55-56` validates that parsed PIDs are positive integers before accepting them:",
+          "```typescript",
+          "const pid = Number.parseInt(line.slice(1), 10);",
+          "processFields = Number.isFinite(pid) && pid > 0 ? { pid } : {};",
+          "```",
+          "",
+          "This means subsequent address lines (`n...`) are only attached to valid process records, preventing phantom listeners in diagnostic output.",
+          "",
+          "### Test Coverage",
+          "Unit tests verify this behavior:",
+          "- Valid PIDs (positive integers) → accepted",
+          "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+          "- Address lines without valid PID context → ignored",
+          "",
+          "All 14 tests in `src/infra/ports.test.ts` pass, confirming the fix works correctly.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
+for (const [name, proofLines] of [
+  [
+    "ongoing failure hidden in historical line",
+    [
+      "### Behavior Verification",
+      "**Before this fix**: valid listeners were missing, and they are still missing.",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "mismatched parser snippets",
+    [
+      "### Behavior Verification",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "```typescript",
+      "const pid = Number.parseInt(line.slice(1), 10);",
+      "processFields = pid === undefined ? {} : { pid };",
+      "```",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "environment metadata with trailing prose",
+    [
+      "### System Environment",
+      "- OS: Linux wrong process",
+      "### Behavior Verification",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "accepted assertion with unrelated qualifier",
+    [
+      "### Behavior Verification",
+      "- Valid PIDs from the wrong process are accepted.",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "negative assertion with exception",
+    [
+      "### Behavior Verification",
+      "- No invalid records except malformed rows are accepted.",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "passing test claim with current failure",
+    [
+      "### Behavior Verification",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "### Test Coverage",
+      "All 14 tests pass, but the parser returns the wrong process.",
+    ],
+  ],
+  [
+    "invalid calendar timestamp",
+    [
+      "### System Environment",
+      "- Test date: 2026-99-99 99:99 UTC",
+      "### Behavior Verification",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "### Test Coverage",
+      "- All 14 focused tests passed.",
+    ],
+  ],
+  [
+    "zero passing tests",
+    [
+      "### Behavior Verification",
+      "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+      "### Test Coverage",
+      "- All 0 focused tests passed.",
+    ],
+  ],
+]) {
+  test(`external merge preflight rejects malformed structured proof: ${name}`, () => {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          body: ["## Real Behavior Proof", ...proofLines].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+test("external merge preflight accepts the objection-loop control proof", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "## Real Behavior Proof",
+          "### Behavior Verification",
+          "- Valid PIDs (positive integers) → accepted",
+          "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+          "### Test Coverage",
+          "- All 14 focused tests passed.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const objection of [
+  "Known failure: valid listeners are skipped on Alpine.",
+  "- Invalid listener records are accepted.",
+  "- The parser still accepts malformed PID rows.",
+  "- Known defect: malformed rows still create listeners.",
+  "- No valid listeners are accepted.",
+  "- Invalid PIDs are allowed.",
+  "- Malformed rows produce listener entries.",
+  "- Known issue fixed; current risk remains: valid listeners disappear.",
+  "### The parser loses listeners on Alpine",
+  "**After this fix**: The parser validates PIDs, but still loses valid listeners.",
+  "The fix ensures strict parsing, but still loses valid listeners.",
+  "This means only valid records attach, but the parser still loses listeners.",
+  "- OS: Linux; the parser still loses valid listeners.",
+  "```text\nThe parser still loses valid listeners.\n```",
+  "The parser validates PIDs, but returns the wrong process.",
+  "The fix ensures strict parsing, except listener ownership remains incorrect.",
+  "This means only valid records attach, but duplicate listeners remain.",
+  "```typescript\nThe parser returns the wrong process.\n```",
+  "- OS: Linux; the parser returns the wrong process",
+]) {
+  test(`external merge preflight blocks inverted author proof: ${objection}`, () => {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "## Real Behavior Proof",
+            "",
+            "### Behavior Verification",
+            "- Valid PIDs (positive integers) → accepted",
+            "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+            "",
+            objection,
+            "",
+            "### Test Coverage",
+            "- All 14 focused tests passed.",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+for (const resolvedEvidence of [
+  "- Known issue fixed.",
+  "- Remaining issue count: 0.",
+  "- No valid listeners are skipped.",
+  "- No invalid listeners are accepted.",
+  "**Before this fix**: valid listeners were still missing.",
+  "**Before this fix**: Known issue: valid listeners were missing.",
+]) {
+  test(`external merge preflight accepts resolved author proof: ${resolvedEvidence}`, () => {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "## Real Behavior Proof",
+            "",
+            "### Behavior Verification",
+            resolvedEvidence,
+            "- Invalid PIDs (negative, non-numeric, or missing) → skipped",
+            "",
+            "### Test Coverage",
+            "- All 14 focused tests passed.",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+      ],
+    });
+    const { report, result } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "passed", report.reason);
+    assert.equal(result.actions[0]?.action, "merge_canonical");
+  });
+}
+
 test("external merge preflight ignores #89997 positive review, maintainer status, and review command comments", () => {
   const fixture = makeFixture({
     pullUser: { login: "kenners22" },

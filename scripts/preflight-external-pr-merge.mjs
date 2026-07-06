@@ -1285,11 +1285,16 @@ function isBenignAutomationComment({ author, body, pull }) {
 function isDependencyGuardAutomationComment({ body, pull }) {
   if (/^<!--\s*openclaw:dependency-guard\s*-->/.test(body)) return true;
   if (!/^<!--\s*openclaw:dependency-graph-guard\s*-->/.test(body)) return false;
-  if (!/### dependency graph change authorized\b/.test(body)) return false;
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   if (!/^[0-9a-f]{40}$/.test(headSha)) return false;
-  const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
-  return approvedSha === headSha;
+  if (/### dependency graph change authorized\b/.test(body)) {
+    const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
+    return approvedSha === headSha;
+  }
+  const cleared = body.match(
+    /^<!--\s*openclaw:dependency-graph-guard\s*-->\s*### dependency graph guard cleared\s+this pr no longer has blocked dependency graph changes\.\s+a future dependency graph change requires a fresh `\/allow-dependencies-change` comment after the guard blocks that new head sha\.\s+- current sha:\s*`([0-9a-f]{40})`\s*$/i,
+  );
+  return cleared?.[1]?.toLowerCase() === headSha;
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {
@@ -1500,12 +1505,15 @@ function isAuthorProofOrStatusComment(body) {
     ].some((pattern) => pattern.test(line)),
   );
   const hasProofHeading = contentLines.some((line) =>
-    /^(?:proof|validation|verification|test results|current status|status):?$/.test(line),
+    /^(?:real behavior proof|proof|validation|verification|test results|current status|status):?$/.test(line),
   );
+  const hasRealBehaviorProofHeading = contentLines.some((line) => /^real behavior proof:?$/.test(line));
   const hasEvidenceDetail = lines.some(
     (line) =>
       /^[-*]\s+/.test(line) &&
-      /`[^`]+`|\b(?:passed|passing|green|clean|no failures|confirms?|shows?|proof)\b/.test(line),
+      /`[^`]+`|\b(?:accepted|confirms?|green|ignored|no failures|passed|passing|proof|shows?|skipped|verified)\b/.test(
+        line,
+      ),
   );
   const hasInlineEvidenceDetail = contentLines.some(
     (line) =>
@@ -1519,11 +1527,170 @@ function isAuthorProofOrStatusComment(body) {
       normalized,
     );
 
+  if (hasRealBehaviorProofHeading) return isSafeRealBehaviorProof(lines);
   return (
     hasInlineEvidenceDetail ||
     (hasProofHeading && hasEvidenceDetail) ||
     (hasStatusLead && (hasEvidenceDetail || hasProofSignal))
   );
+}
+
+function isSafeRealBehaviorProof(lines) {
+  let section = "";
+  let inFence = false;
+  let fenceLines = [];
+  const seenSections = new Set();
+  for (const line of lines) {
+    const fence = line.match(/^```([a-z0-9_-]*)$/);
+    if (fence) {
+      if (inFence) {
+        if (fence[1]) return false;
+        if (!isSafeRealBehaviorProofFence(section, fenceLines)) return false;
+        inFence = false;
+        fenceLines = [];
+        continue;
+      }
+      const expectedLanguage = section === "raw" ? "bash" : section === "behavior" ? "typescript" : "";
+      if (!expectedLanguage || fence[1] !== expectedLanguage) return false;
+      inFence = true;
+      fenceLines = [];
+      continue;
+    }
+    if (inFence) {
+      fenceLines.push(line);
+      continue;
+    }
+
+    const heading = line.match(/^(#{2,6})\s+(.+)$/);
+    if (heading) {
+      const title = heading[2].trim().toLowerCase();
+      if (heading[1] === "##" && title === "real behavior proof") {
+        if (section) return false;
+        section = "proof";
+        seenSections.add(section);
+        continue;
+      }
+      const knownSection = {
+        "system environment": "environment",
+        "raw lsof output (sample)": "raw",
+        "behavior verification": "behavior",
+        "test coverage": "tests",
+      }[title];
+      if (heading[1] === "###" && knownSection && seenSections.has("proof")) {
+        if (seenSections.has(knownSection)) return false;
+        section = knownSection;
+        seenSections.add(section);
+        continue;
+      }
+      return false;
+    }
+
+    if (section === "environment") {
+      if (
+        /^[-*]\s+os:\s+(?:linux|darwin|macos|windows)(?:\s+[0-9][a-z0-9._-]*)?$/.test(line) ||
+        /^[-*]\s+lsof version:\s+(?:available at \/[a-z0-9._/-]+|[0-9][a-z0-9._-]*)$/.test(line) ||
+        isValidProofUtcTimestamp(line)
+      ) {
+        continue;
+      }
+      return false;
+    }
+    if (section === "raw") return false;
+    if (section === "behavior") {
+      const content = line.replace(/^[-*]\s+/, "");
+      if (
+        isSafeBehaviorAssertion(content) ||
+        /^\*\*before this fix\*\*:\s+(?:a malformed `p` record(?: \(e\.g\., `p-1` or `pabc`\))? followed by address lines would create listener entries with invalid or missing pids|(?:known issue:\s+)?valid listeners were (?:still )?missing)\.$/.test(
+          content,
+        ) ||
+        /^\*\*after this fix\*\*:\s+the parser at `[^`]+` validates that parsed pids are positive integers before accepting them:$/.test(
+          content,
+        ) ||
+        /^the fix ensures that only process records with valid positive pids are accepted\.$/.test(content) ||
+        /^this means subsequent address lines \(`n\.\.\.`\) are only attached to valid process records, preventing phantom listeners in diagnostic output\.$/.test(
+          content,
+        )
+      ) {
+        continue;
+      }
+      return false;
+    }
+    if (section === "tests") {
+      const content = line.replace(/^[-*]\s+/, "");
+      if (
+        isSafeBehaviorAssertion(content) ||
+        /^unit tests verify this behavior:?$/.test(content) ||
+        /^all [1-9]\d* tests in `[a-z0-9_./-]+` pass, confirming the fix works correctly\.$/.test(
+          content,
+        ) ||
+        /^all [1-9]\d* focused tests passed\.$/.test(content) ||
+        /^`[^`]+`\s+(?:passed|passing|succeeded|successful)\b[.!]?$/.test(content)
+      ) {
+        continue;
+      }
+      return false;
+    }
+    return false;
+  }
+  return !inFence && seenSections.has("behavior") && seenSections.has("tests");
+}
+
+function isValidProofUtcTimestamp(line) {
+  const match = line.match(
+    /^[-*]\s+test date:\s+(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})\s+utc$/,
+  );
+  if (!match) return false;
+  const [, yearText, monthText, dayText, hourText, minuteText] = match;
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const day = Number(dayText);
+  const hour = Number(hourText);
+  const minute = Number(minuteText);
+  const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day &&
+    date.getUTCHours() === hour &&
+    date.getUTCMinutes() === minute
+  );
+}
+
+function isSafeRealBehaviorProofFence(section, lines) {
+  if (section === "raw") {
+    return (
+      lines.length >= 2 &&
+      /^\$ lsof -np -itcp -stcp:listen -fpfcn \| head -30$/.test(lines[0]) &&
+      lines.slice(1).every((line) => /^[pcn]\S+$/.test(line)) &&
+      lines.slice(1).some((line) => /^p[1-9]\d*$/.test(line))
+    );
+  }
+  if (section === "behavior") {
+    const snippet = lines.join("\n");
+    return [
+      [
+        "const pid = number.parseint(line.slice(1), 10);",
+        "processfields = number.isfinite(pid) && pid > 0 ? { pid } : {};",
+      ].join("\n"),
+      [
+        "const pid = parsestrictpositiveinteger(line.slice(1));",
+        "processfields = pid === undefined ? {} : { pid };",
+      ].join("\n"),
+    ].includes(snippet);
+  }
+  return false;
+}
+
+function isSafeBehaviorAssertion(content) {
+  return [
+    /^valid pids? \(positive integers\)\s*(?:→|=>)\s*accepted[.]?$/,
+    /^invalid pids? \(negative, non-numeric, or missing\)\s*(?:→|=>)\s*skipped[.]?$/,
+    /^address lines without valid pid context\s*(?:→|=>)\s*ignored[.]?$/,
+    /^no valid listeners are skipped[.]?$/,
+    /^no invalid listeners are accepted[.]?$/,
+    /^(?:known|remaining|current)\s+(?:bug|concern|defect|error|failure|issue|limitation|problem|regression|risk)\s+(?:(?:is|was|has been)\s+)?(?:addressed|closed|fixed|none|resolved)\b[.!]?$/,
+    /^remaining issue count:\s*0\b[.!]?$/,
+  ].some((pattern) => pattern.test(content));
 }
 
 function isSupersededAuthorUnrelatedCiFailureComment(body) {
@@ -1586,19 +1753,70 @@ function isSafeAuthorProgressLine(line) {
 function isAuthorObjectionComment(body) {
   if (hasSecuritySensitiveText(body)) return true;
   if (hasActionableApprovedReviewBody(body)) return true;
-  return [
+  const currentClaims = String(body)
+    .split(/\r?\n/)
+    .filter((line) => !/^\s*\*\*before this fix\*\*:/.test(line))
+    .join("\n");
+  return hasOpenIssueStatement(currentClaims) || hasInvertedProofEvidence(currentClaims) || [
     /\b(?:pause|wait|hold)(?:\s+off)?\b/,
     /\b(?:not|isn't|aren't)\s+(?:ready|complete|fixed|resolved)\b/,
     /\b(?:incomplete|unfinished|still investigating|need more time|one more thought|worried|concerns?|unclear)\b/,
     /\b(?:haven't|hasn't|nothing was)\s+fixed\b/,
     /\b(?:tests?|checks?|ci)\b.{0,40}\b(?:are |is )?(?:still )?(?:failing|failed|red|broken)\b/,
     /\b(?:found|noticed|observed|identified|detected)\b(?![^.\n]{0,20}\bno\b)[^.\n]{0,100}\b(?:bug|issue|problem|regression|failure|error|risk|concern)\b/,
+    /\b(?:but|however|still|yet)\b.{0,100}\b(?:broken|crashes?|fails?|failure|incorrect|loses?|missing|regression)\b/,
     /\b(?:rather|prefer)\b.{0,40}\bnot (?:merge|land|ship)\b/,
     /\b(?:withdraw|withdrawn|abandon|abandoned|cancel|cancelled|superseded|obsolete)\b/,
     /\b(?:close|stop)\s+(?:this|the)\s+(?:pr|pull request)\b/,
     /\bno longer (?:want|need|support)\b/,
     /\bwrong (?:approach|direction|fix)\b/,
-  ].some((pattern) => pattern.test(body));
+  ].some((pattern) => pattern.test(currentClaims));
+}
+
+function hasOpenIssueStatement(body) {
+  return String(body)
+    .split(/\r?\n/)
+    .some((rawLine) => {
+      const line = rawLine.trim().toLowerCase().replace(/^[-*]\s+/, "");
+      const pattern =
+        /\b(?:known|remaining|current)\s+(?:bug|concern|defect|error|failure|issue|limitation|problem|regression|risk)\b/g;
+      return [...line.matchAll(pattern)].some((match) => {
+        const suffix = line.slice((match.index ?? 0) + match[0].length);
+        return !/^\s*(?::\s*)?(?:count\s*[:=]\s*0\b|(?:is|was|has been)?\s*(?:addressed|closed|fixed|none|resolved)\b)/.test(
+          suffix,
+        );
+      });
+    });
+}
+
+function hasInvertedProofEvidence(body) {
+  return String(body)
+    .split(/\r?\n/)
+    .some((rawLine) => {
+      const line = rawLine.trim().toLowerCase().replace(/^[-*]\s+/, "");
+      if (/^\*\*before this fix\*\*:/.test(line)) return false;
+      if (/\bno\s+valid\b.{0,80}\b(?:accepted|processed|preserved)\b/.test(line)) return true;
+      if (
+        /\bno\s+(?:invalid|malformed|unsupported)\b.{0,80}\b(?:accepted|allowed|processed|preserved|produced)\b/.test(
+          line,
+        )
+      ) {
+        return false;
+      }
+      if (
+        /\b(?:no\s+valid|without (?:an? )?valid)\b.{0,80}\b(?:dropped|fails?|ignored|rejected|skipped)\b/.test(
+          line,
+        )
+      ) {
+        return false;
+      }
+      return [
+        /\b(?:expected|supported|valid)\b.{0,80}\b(?:disappears?|dropped|fails?|ignored|lost|missing|rejected|skipped)\b/,
+        /\b(?:disappears?|drops?|ignores?|loses?|rejects?|skips?)\b.{0,80}\b(?:expected|supported|valid)\b/,
+        /\b(?:invalid|malformed|unsupported)\b.{0,80}\b(?:accepted|allowed|creates?|processed|preserved|produces?)\b/,
+        /\b(?:accepts?|allows?|creates?|processes?|preserves?|produces?)\b.{0,80}\b(?:invalid|malformed|unsupported)\b/,
+      ].some((pattern) => pattern.test(line));
+    });
 }
 
 function commentTimestamp(comment) {
