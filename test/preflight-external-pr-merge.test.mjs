@@ -348,14 +348,150 @@ test("external merge preflight tolerates ready ClawSweeper docs reviews without 
 test("external merge preflight tolerates author take-a-look status comments", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
     issueComments: [
       {
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
         body: [
           "This one and #456 are the remaining two, both with regression tests and ClawSweeper approval.",
           "Would you mind taking a look when you have a chance? Thanks!",
         ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        updatedAt: "2026-06-19T01:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-18T02:00:00Z",
+        body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight tolerates author explanations and superseded dependency notices", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: "This fixes the installer signal handling bug and includes the exact reproduction steps.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:30:00Z",
+        body: "### Update: dashboard gating fix + existing-config doctor guard",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1a",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "<!-- dependency-guard-rebase-needed-backfill -->",
+          "Heads up: this PR needs to be updated against current `main` before the new required Dependency Guard check can pass.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T02:00:00Z",
+        body: "Rebased onto current `main`. The Dependency Guard check should pass now.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T03:00:00Z",
+        updatedAt: "2026-06-19T01:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-4",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-19T02:00:00Z",
+        body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-5",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight still blocks author-reported current concerns", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Do not merge yet; the latest head still has a failing regression test.",
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
     ],
@@ -376,7 +512,404 @@ test("external merge preflight tolerates author take-a-look status comments", ()
   assert.equal(child.status, 0, child.stderr || child.stdout);
 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
-  assert.equal(report.status, "passed");
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks author hesitation newer than a trusted exact-head approval", () => {
+  for (const body of [
+    "I am not convinced this is ready.",
+    "Could we pause before landing this?",
+    "I would rather not merge this yet.",
+    "We should pause before merging.",
+    "Let's pause before landing.",
+    "I would prefer we not merge.",
+    "I have concerns about merging this.",
+    "I don't want to merge this.",
+  ]) {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      issueComments: [
+        {
+          author: { login: "maintainer" },
+          authorAssociation: "MEMBER",
+          createdAt: "2026-06-17T23:00:00Z",
+          body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-0",
+        },
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T00:00:00Z",
+          body,
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T01:00:00Z",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Review metrics:** none identified.",
+            "Result: ready for maintainer review.",
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+        },
+      ],
+    });
+    const child = spawnSync(
+      process.execPath,
+      ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+          CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        },
+      },
+    );
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+
+    const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+    assert.equal(report.status, "blocked", body);
+    assert.match(report.reason, /actionable top-level issue comment/, body);
+  }
+});
+
+test("external merge preflight blocks author prose without a trusted exact-head approval", () => {
+  for (const body of [
+    "I have one more thought about this.",
+    "I haven't fixed everything in the migration.",
+    "Update: I am worried about the migration.",
+    "Update: the fix is incomplete.",
+    "Update: still investigating the fix.",
+    "Update: nothing was fixed in the migration.",
+    "Update: migration behavior is unclear + I need more time.",
+  ]) {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T00:00:00Z",
+          body,
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T01:00:00Z",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Review metrics:** none identified.",
+            "Result: ready for maintainer review.",
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+        },
+      ],
+    });
+    const child = spawnSync(
+      process.execPath,
+      ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+          CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        },
+      },
+    );
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+
+    const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+    assert.equal(report.status, "blocked", body);
+    assert.match(report.reason, /actionable top-level issue comment/, body);
+  }
+});
+
+test("external merge preflight rejects stale and untrusted author-evidence approval markers", () => {
+  for (const approval of [
+    {
+      author: { login: "maintainer" },
+      authorAssociation: "MEMBER",
+      body: `<!-- clownfish-author-evidence-approved sha=${"b".repeat(40)} -->`,
+    },
+    {
+      author: { login: "contributor" },
+      authorAssociation: "CONTRIBUTOR",
+      body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
+    },
+  ]) {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T00:00:00Z",
+          body: "This is old author context.",
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+        {
+          ...approval,
+          createdAt: "2026-06-18T01:00:00Z",
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+        },
+      ],
+    });
+    const child = spawnSync(
+      process.execPath,
+      ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+          CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        },
+      },
+    );
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+
+    const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  }
+});
+
+test("external merge preflight blocks author comments with ambiguous approval ordering", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: "This comment may be newer than the approval.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks objections appended to review requests", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "@clawsweeper review\nDo not merge; this is broken.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks unclassified pull-author objections", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Please wait; I found another issue.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks objections mixed into pull-author evidence", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "This fixes the installer signal handling bug. Please wait; I found another issue.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight does not accept dependency confirmation from another commenter", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        body: [
+          "<!-- dependency-guard-rebase-needed-backfill -->",
+          "Heads up: this PR needs to be updated against current `main` before the new required Dependency Guard check can pass.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        body: "Dependency Guard should pass now.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks dependency notices with appended concerns", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        body: [
+          "<!-- dependency-guard-rebase-needed-backfill -->",
+          "Heads up: this PR needs to be updated against current main before Dependency Guard can pass.",
+          "Do not merge; the credential handling is still unsafe.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: "Rebased onto current main. The Dependency Guard check should pass now.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /security-sensitive signal|actionable top-level issue comment/);
 });
 
 test("external merge preflight blocks actionable human comments", () => {
@@ -408,6 +941,35 @@ test("external merge preflight blocks actionable human comments", () => {
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
   assert.equal(report.status, "blocked");
   assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks potentially truncated issue comment history", () => {
+  const fixture = makeFixture({
+    issueComments: Array.from({ length: 100 }, (_, index) => ({
+      author: { login: "dependabot[bot]" },
+      authorAssociation: "NONE",
+      body: `automated status ${index + 1}`,
+      url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-${index + 1}`,
+    })),
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /comment history may be truncated/);
 });
 
 test("external merge preflight blocks non-keyword human objections", () => {
@@ -770,6 +1332,10 @@ if (args[0] === "api" && args[1] === "graphql") {
 }
 if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
   console.log(${JSON.stringify(JSON.stringify(reviewComments))});
+  process.exit(0);
+}
+if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
+  console.log(${JSON.stringify(JSON.stringify(issueComments))});
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/issues/123")) {
