@@ -1,15 +1,15 @@
 # OpenClaw Job Sweep
 
-Mode: applied
+Mode: dry_run
 
 | Metric | Count |
 | --- | ---: |
-| Jobs | 15 |
+| Jobs | 2 |
 | Delete test jobs | 0 |
-| Move to outbox | 2 |
+| Move to outbox | 0 |
 | Move to stuck queue | 0 |
-| Requeue candidates | 2 |
-| Active | 1 |
+| Requeue candidates | 0 |
+| Active | 0 |
 | Security hold | 0 |
 | Invalid | 0 |
 
@@ -23,8 +23,7 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/gitcrawl-1020-autonomous-drip-20260706.md | gitcrawl-1020-autonomous-drip-20260706 | opened Clownfish fix PR is merged in live GitHub state |
-| jobs/openclaw/inbox/gitcrawl-81-autonomous-drip-20260706.md | gitcrawl-81-autonomous-drip-20260706 | all target issue/PR refs are closed in live GitHub state |
+| _None_ |  |  |
 
 ## Move To Stuck Queue
 
@@ -36,14 +35,13 @@ Mode: applied
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/gitcrawl-21-autonomous-drip-20260706.md | gitcrawl-21-autonomous-drip-20260706 | latest workflow conclusion is failure |
-| jobs/openclaw/inbox/live-pr-inventory-20260706T085447-001.md | live-pr-inventory-20260706T085447-001 | latest workflow conclusion is failure |
+| _None_ |  |  |
 
 ## Active Jobs
 
 | Job | Cluster | Reason |
 | --- | --- | --- |
-| jobs/openclaw/inbox/gitcrawl-1325-autonomous-drip-20260706.md | gitcrawl-1325-autonomous-drip-20260706 | open clownfish PR exists for this cluster |
+| _None_ |  |  |
 
 ## Security Hold Jobs
 
