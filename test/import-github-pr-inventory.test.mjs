@@ -323,7 +323,7 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
     "remediation",
     "--checks-success",
     "--limit",
-    "all",
+    "30",
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const payload = JSON.parse(result.stdout);
@@ -332,6 +332,7 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
   assert.equal(payload.options.bucket, "all");
   assert.equal(payload.options.checks_success_preflight, true);
   assert.equal(payload.options.checks_success_retry_cooldown_hours, 72);
+  assert.equal(payload.options.search_limit, 1000);
 
   const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
   assert.equal(refs.has("#116"), false);
@@ -441,6 +442,94 @@ test("checks-success remediation fails closed on hydration auth errors", () => {
   assert.match(result.stderr, /HTTP 401: Bad credentials/);
 });
 
+test("checks-success remediation polls transient unknown mergeability", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    unknownHydrateNumber: 116,
+    unknownHydrateResponses: 2,
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /pull request #116 mergeability is UNKNOWN on attempt 1\/3; polling/);
+  assert.match(result.stderr, /pull request #116 mergeability is UNKNOWN on attempt 2\/3; polling/);
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), true);
+});
+
+test("checks-success remediation defers persistent unknown mergeability to external preflight", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    unknownHydrateNumber: 116,
+    unknownHydrateResponses: 3,
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(
+    result.stderr,
+    /pull request #116 mergeability remains UNKNOWN after polling; deferring exact decision to external preflight/,
+  );
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), true);
+});
+
+test("checks-success remediation still blocks known conflicts when another mergeability field is unknown", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    unknownHydrateNumber: 116,
+    unknownHydrateResponses: 3,
+    unknownMergeableValue: "CONFLICTING",
+    unknownMergeStateStatusValue: "UNKNOWN",
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /skip pull request #116 after hydration: mergeable=CONFLICTING merge_state=UNKNOWN/);
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
+});
+
+test("checks-success remediation still blocks known dirty state when mergeable is unknown", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    unknownHydrateNumber: 116,
+    unknownHydrateResponses: 3,
+    unknownMergeableValue: "UNKNOWN",
+    unknownMergeStateStatusValue: "DIRTY",
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /skip pull request #116 after hydration: mergeable=UNKNOWN merge_state=DIRTY/);
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
+});
+
 test("remediation inventory pr-list source falls back to per-PR hydration on GitHub 502s", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { failPrList: true });
@@ -515,7 +604,14 @@ function runImport(fixture, ...extraArgs) {
       "--json",
       ...args,
     ],
-    { cwd: repoRoot, encoding: "utf8" },
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_DELAY_MS: "0",
+      },
+    },
   );
 }
 
@@ -804,6 +900,7 @@ function writeFakeGh(filePath, options = {}) {
   fs.writeFileSync(
     filePath,
     `#!/usr/bin/env node
+import fs from "node:fs";
 const prListPulls = ${JSON.stringify(prListPulls)};
 if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(Boolean(options.failPrList))}) {
   console.error("HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)");
@@ -829,13 +926,27 @@ if (
   console.error("checks-success search must target base main");
   process.exit(1);
 }
-const payload = process.argv[2] === "search"
-  ? ${JSON.stringify(searchPulls)}
-  : process.argv[2] === "pr" && process.argv[3] === "view"
-    ? prListPulls.find((pull) => String(pull.number) === String(process.argv[4])) ?? null
-    : process.argv[2] === "pr"
-      ? prListPulls
-      : ${JSON.stringify({
+let payload;
+if (process.argv[2] === "search") {
+  payload = ${JSON.stringify(searchPulls)};
+} else if (process.argv[2] === "pr" && process.argv[3] === "view") {
+  payload = prListPulls.find((pull) => String(pull.number) === String(process.argv[4])) ?? null;
+  if (String(process.argv[4]) === ${JSON.stringify(String(options.unknownHydrateNumber ?? ""))} && payload) {
+    const countPath = ${JSON.stringify(path.join(path.dirname(filePath), "unknown-mergeability-count"))};
+    const count = fs.existsSync(countPath) ? Number(fs.readFileSync(countPath, "utf8")) : 0;
+    fs.writeFileSync(countPath, String(count + 1));
+    if (count < ${JSON.stringify(Number(options.unknownHydrateResponses ?? 0))}) {
+      payload = {
+        ...payload,
+        mergeable: ${JSON.stringify(String(options.unknownMergeableValue ?? "UNKNOWN"))},
+        mergeStateStatus: ${JSON.stringify(String(options.unknownMergeStateStatusValue ?? "UNKNOWN"))},
+      };
+    }
+  }
+} else if (process.argv[2] === "pr") {
+  payload = prListPulls;
+} else {
+  payload = ${JSON.stringify({
   data: {
     repository: {
       pullRequests: {
@@ -845,6 +956,7 @@ const payload = process.argv[2] === "search"
     },
   },
 })};
+}
 console.log(JSON.stringify(payload));
 `,
     { mode: 0o755 },
