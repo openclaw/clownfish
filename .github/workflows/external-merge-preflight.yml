@@ -108,6 +108,12 @@ jobs:
             .projectclownfish/external-merge-preflight/preflight-report.json
           if-no-files-found: warn
 
+      - name: Fail blocked preflight
+        if: ${{ always() && steps.outcome.outputs.preflight_passed != 'true' }}
+        run: |
+          echo "::error title=External merge preflight blocked::Preflight did not pass; inspect the uploaded artifact."
+          exit 1
+
   apply:
     name: Apply reviewed merge
     needs: preflight

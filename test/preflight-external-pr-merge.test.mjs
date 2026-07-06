@@ -50,6 +50,10 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /inputs\.apply && vars\.CLOWNFISH_ALLOW_EXECUTE == '1' && vars\.CLOWNFISH_ALLOW_MERGE == '1'/);
   assert.match(workflow, /runs-on: \$\{\{ inputs\.runner \}\}/);
   assert.match(workflow, /external-merge-preflight\/preflight-report\.json/);
+  assert.match(
+    workflow,
+    /- name: Upload preflight artifact[\s\S]*?if: always\(\)[\s\S]*?- name: Fail blocked preflight[\s\S]*?if: \$\{\{ always\(\) && steps\.outcome\.outputs\.preflight_passed != 'true' \}\}[\s\S]*?exit 1[\s\S]*?\n  apply:/,
+  );
   assert.match(workflow, /npm run apply-result/);
   assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?npm run assert-mutation-integrity/);
   assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?- name: Upload apply artifact/);
