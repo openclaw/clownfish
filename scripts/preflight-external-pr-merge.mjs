@@ -64,13 +64,18 @@ let report = {
 try {
   pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
   const issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
+  const issueComments = stage("hydrate issue comments", () =>
+    ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}/comments?per_page=100`]),
+  );
   view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
   plan = buildPlan({ sourceJob, virtualJob, pull, issue, view, pullRequest, baseBranch });
 
-  const blockers = stage("read-only blockers", () => readOnlyBlockers({ sourceJob, pull, view, pullRequest }));
+  const blockers = stage("read-only blockers", () =>
+    readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest }),
+  );
   if (blockers.length > 0) {
     writeBlockedArtifacts({ reason: blockers.join("; ") });
     process.exit(0);
@@ -332,16 +337,18 @@ function hasUnknownMergeability(view) {
   return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
 }
 
-function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
+function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest }) {
   const blockers = [];
-  const issueComments = Array.isArray(view.comments) ? view.comments : [];
+  const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const reviewComments = ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`]);
   const threads = fetchReviewThreads({ repo: sourceJob.frontmatter.repo, pullRequest });
   const texts = [
     pull.title,
     pull.body,
     ...(pull.labels ?? []).map((label) => label.name),
-    ...issueComments.filter((comment) => !isNonBlockingCommentEvidence(comment, { pull })).map((comment) => comment.body),
+    ...issueComments
+      .filter((comment) => !isNonBlockingCommentEvidence(comment, { pull, trustedAuthorEvidenceApprovalAt }))
+      .map((comment) => comment.body),
     ...(view.reviews ?? []).filter((review) => !isNonBlockingCommentEvidence(review, { pull })).map((review) => review.body),
     ...reviewComments.map((comment) => comment.body),
   ];
@@ -366,7 +373,12 @@ function readOnlyBlockers({ sourceJob, pull, view, pullRequest }) {
   if (threads.hasNextPage) blockers.push("PR has more than 100 review threads");
   const unresolved = threads.nodes.filter((thread) => !thread.isResolved);
   if (unresolved.length > 0) blockers.push(`PR has ${unresolved.length} unresolved review thread(s)`);
-  const actionableIssueComments = issueComments.filter((comment) => isActionableCommentEvidence(comment, { pull }));
+  if (issueComments.length >= 100) blockers.push("PR has at least 100 top-level issue comments; comment history may be truncated");
+  const actionableIssueComments = issueComments.filter(
+    (comment, index) =>
+      !isSupersededDependencyGuardNotice(comment, issueComments.slice(index + 1), { pull, view }) &&
+      isActionableCommentEvidence(comment, { pull, trustedAuthorEvidenceApprovalAt }),
+  );
   if (actionableIssueComments.length > 0) {
     blockers.push(
       `PR has ${actionableIssueComments.length} actionable top-level issue comment(s): ${evidenceExamples(actionableIssueComments).join(", ")}`,
@@ -679,8 +691,8 @@ function isReviewBot(review) {
   return REVIEW_BOT_PATTERN.test(`${review.author?.login ?? ""}\n${review.body ?? ""}`);
 }
 
-function isActionableCommentEvidence(comment, { pull }) {
-  if (isNonBlockingCommentEvidence(comment, { pull })) return false;
+function isActionableCommentEvidence(comment, { pull, trustedAuthorEvidenceApprovalAt = null }) {
+  if (isNonBlockingCommentEvidence(comment, { pull, trustedAuthorEvidenceApprovalAt })) return false;
 
   const body = String(comment.body ?? "").trim();
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
@@ -691,10 +703,15 @@ function isActionableCommentEvidence(comment, { pull }) {
     );
   }
 
+  const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  if (author && pullAuthor && author === pullAuthor) {
+    return !isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt);
+  }
+
   return Boolean(body);
 }
 
-function isNonBlockingCommentEvidence(comment, { pull }) {
+function isNonBlockingCommentEvidence(comment, { pull, trustedAuthorEvidenceApprovalAt = null }) {
   const body = String(comment.body ?? "").trim();
   if (!body) return true;
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
@@ -710,10 +727,18 @@ function isNonBlockingCommentEvidence(comment, { pull }) {
   }
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
+  if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
 
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
-  if (author && pullAuthor && author === pullAuthor && isAuthorStatusComment(normalized)) return true;
+  if (
+    author &&
+    pullAuthor &&
+    author === pullAuthor &&
+    isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt)
+  ) {
+    return true;
+  }
   return false;
 }
 
@@ -814,20 +839,73 @@ function isAutomationAuthor(author) {
   );
 }
 
-function isAuthorStatusComment(body) {
-  return /\b(addressed|updated|added|fixed|ready for maintainer|marked `proof: sufficient`|please take a look|take a look when|would you mind taking a look|merge if)\b/.test(
-    body,
+function trustedAuthorEvidenceApprovalTimestamp(comments, { pull }) {
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  if (!/^[0-9a-f]{40}$/.test(headSha)) return null;
+  const timestamps = comments
+    .filter((comment) => isMaintainerEvidenceApprovalComment(comment, { headSha }))
+    .map(commentTimestamp)
+    .filter(Number.isFinite);
+  return timestamps.length > 0 ? Math.max(...timestamps) : null;
+}
+
+function isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt) {
+  if (!Number.isFinite(trustedAuthorEvidenceApprovalAt)) return false;
+  const timestamp = commentTimestamp(comment);
+  return Number.isFinite(timestamp) && timestamp < trustedAuthorEvidenceApprovalAt;
+}
+
+function commentTimestamp(comment) {
+  const value = Date.parse(
+    String(comment.updated_at ?? comment.updatedAt ?? comment.created_at ?? comment.createdAt ?? ""),
   );
+  return Number.isFinite(value) ? value : Number.NaN;
+}
+
+function isMaintainerEvidenceApprovalComment(comment, { headSha = null } = {}) {
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
+  const match = String(comment.body ?? "")
+    .trim()
+    .match(/^<!--\s*clownfish-author-evidence-approved\s+sha=([0-9a-f]{40})\s*-->$/i);
+  if (!match) return false;
+  return !headSha || match[1].toLowerCase() === headSha;
+}
+
+function isSupersededDependencyGuardNotice(comment, laterComments, { pull, view }) {
+  const body = String(comment.body ?? "").trim();
+  const marker = /^<!--\s*dependency-guard-rebase-needed-backfill\s*-->\s*/i;
+  if (!marker.test(body)) return false;
+  if (
+    view?.mergeable !== "MERGEABLE" ||
+    !isAcceptableMergeState(view) ||
+    latestStatusChecks(view.statusCheckRollup ?? []).some(isFailingCheck)
+  ) {
+    return false;
+  }
+  const notice = body.replace(marker, "").trim();
+  if (
+    !/^heads up: this pr needs to be updated against current `?main`? before (?:the new required )?dependency guard check can pass\.?$/i.test(
+      notice,
+    )
+  ) {
+    return false;
+  }
+
+  const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  return laterComments.some((later) => {
+    const author = String(later.user?.login ?? later.author?.login ?? "").toLowerCase();
+    const laterBody = String(later.body ?? "");
+    return (
+      author === pullAuthor &&
+      (/\brebased onto (?:current )?(?:`main`|main)(?:\s|[.,]|$)/i.test(laterBody) ||
+        /\bdependency guard\b.{0,40}\bshould pass\b/i.test(laterBody))
+    );
+  });
 }
 
 function isReviewRequestComment(body) {
-  return /^@clawsweeper\s+(?:re-review|re-run|review)\b/.test(body);
-}
-
-function hasActionableCommentConcern(body) {
-  return /\b(?:requested changes|changes requested|needs changes?|needs fix|please fix|please add|please update|please address|must fix|must add|must update|blocking|blocker|regression|breaks?|broken|failing|failure|conflict|security|secret|credential|token|vulnerability|unsafe|do not merge|don't merge|hold off|not ready)\b/i.test(
-    body,
-  );
+  return /^@clawsweeper\s+(?:re-review|re-run|review)\s*$/.test(body);
 }
 
 function evidenceExamples(items) {
