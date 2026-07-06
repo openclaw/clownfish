@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "live-pr-inventory-20260706T132334-003"
+cluster_id: "external-merge-preflight-99607-da325e09d584"
 mode: "autonomous"
 run_id: "28801904658"
 workflow_run_id: "28801904658"
@@ -8,21 +8,21 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28801904658"
 head_sha: "bca60eaeaad18b4b979da91f611fb01b5bf1868c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-06T15:20:36.155Z"
+published_at: "2026-07-06T15:20:36.144Z"
 canonical: "https://github.com/openclaw/openclaw/pull/99607"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/99607"
-actions_total: 3
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 1
 apply_blocked: 0
-apply_skipped: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
-# live-pr-inventory-20260706T132334-003
+# external-merge-preflight-99607-da325e09d584
 
 Repo: openclaw/openclaw
 
@@ -36,19 +36,19 @@ Canonical: https://github.com/openclaw/openclaw/pull/99607
 
 ## Summary
 
-PR #99607 is a focused Bedrock live-smoke harness fix with clean merge state, passing hydrated checks, and addressed Codex review comments. It is merge-shaped but still needs deterministic external merge preflight: exact-head validation and a fresh clean Codex /review at head da325e09d58446597a7e43ecf842236a5eccaaab. Linked issue #87876 and companion PR #99608 are related core Bedrock fallback work, not closure or merge targets for this shard.
+External merge preflight passed for #99607 at da325e09d58446597a7e43ecf842236a5eccaaab.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 1 |
 | Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
@@ -61,24 +61,19 @@ PR #99607 is a focused Bedrock live-smoke harness fix with clean merge state, pa
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #99607 | merge_candidate | skipped | canonical | action status is blocked |
 | #99607 | merge_canonical | executed | canonical | merged by projectclownfish |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | apply | #99607 | merge_candidate | skipped | action status is blocked |
-| 2 | apply | #99607 | merge_candidate | skipped | action status is blocked |
-|  | external_merge_preflight | #99607 | merge_canonical | executed | merged by projectclownfish |
+| 1 | apply | #99607 | merge_canonical | executed | merged by projectclownfish |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #99607 | merge_candidate | blocked | canonical | external_merge_preflight_required |
-| #87876 | keep_related | planned | related | #99607 is a related live-smoke harness enabler, not the core fix for #87876. |
-| #99608 | keep_related | planned | related | related companion PR with separate session-state-sensitive merge gates. |
+| #99607 | merge_canonical | planned | canonical | Deterministic external merge preflight passed on the exact current head. |
 
 ## Needs Human
 
