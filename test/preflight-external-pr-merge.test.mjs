@@ -250,6 +250,45 @@ test("external merge preflight blocks tracked checkout mutation after review", (
   assert.match(report.reason, /synthetic review checkout changed tracked bytes/);
 });
 
+test("external merge preflight allows target setup to update local Git config", () => {
+  const fixture = makeFixture({
+    toolchainGitConfig: { key: "core.hooksPath", value: ".githooks" },
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
+test("external merge preflight blocks later Git config mutation with precise diagnostics", () => {
+  const sensitiveValue = "sensitive-review-helper-value";
+  const fixture = makeFixture({
+    toolchainGitConfig: { key: "core.hooksPath", value: ".githooks" },
+    codexGitConfigMutation: { key: "credential.helper", value: sensitiveValue },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /phase=Codex review/);
+  assert.match(report.reason, /mismatched_fields=config/);
+  assert.match(report.reason, new RegExp(`expected_head=${fixture.syntheticMergeSha}; actual_head=${fixture.syntheticMergeSha}`));
+  assert.match(report.reason, new RegExp(`expected_tree=${fixture.mergeTreeSha}; actual_tree=${fixture.mergeTreeSha}`));
+  assert.match(report.reason, new RegExp(`expected_parent=${fixture.baseSha}; actual_parent=${fixture.baseSha}`));
+  const expectedConfig = report.reason.match(/expected_config_sha256=([0-9a-f]{64})/)?.[1];
+  const actualConfig = report.reason.match(/actual_config_sha256=([0-9a-f]{64})/)?.[1];
+  assert.ok(expectedConfig);
+  assert.ok(actualConfig);
+  assert.notEqual(expectedConfig, actualConfig);
+  assert.match(report.reason, /changed_git_config_keys=credential\.helper/);
+  assert.doesNotMatch(report.reason, /\.githooks|sensitive-review-helper-value/);
+  assert.deepEqual(report.validation_commands, [
+    `pnpm check:changed --base ${fixture.baseSha} --head ${fixture.syntheticMergeSha}`,
+    `git diff --check ${fixture.baseSha}...${fixture.syntheticMergeSha}`,
+    "git diff --check",
+  ]);
+  assert.deepEqual(report.codex_review, { status: "clean", findings: 0 });
+});
+
 test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
   const fixture = makeFixture({
     issueUpdatedAt: "2026-07-06T13:38:20Z",
@@ -2758,6 +2797,8 @@ function makeFixture({
   validationFailure = null,
   syntheticMergeFailure = null,
   codexMutatesCheckout = false,
+  toolchainGitConfig = null,
+  codexGitConfigMutation = null,
   codexReview = {
     status: "clean",
     summary: "clean fixture review",
@@ -2792,6 +2833,7 @@ function makeFixture({
   const gitCommandsPath = path.join(root, "git-commands.log");
   const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
   const codexPromptPath = path.join(root, "codex-prompt.txt");
+  const gitConfigStatePath = path.join(root, "git-config-state");
   const finalIssueComments = rehydratedIssueComments ?? issueComments;
   const finalReviewComments = rehydratedReviewComments ?? reviewComments;
   const finalReviewThreads = rehydratedReviewThreads ?? [];
@@ -2924,6 +2966,12 @@ const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count"
 const commandLog = ${JSON.stringify(gitCommandsPath)};
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
+if (args[0] === "config" && args[1] === "--local" && args[2] === "--list" && args[3] === "--null") {
+  if (fs.existsSync(${JSON.stringify(gitConfigStatePath)})) {
+    process.stdout.write(fs.readFileSync(${JSON.stringify(gitConfigStatePath)}));
+  }
+  process.exit(0);
+}
 if (args[0] === "rev-parse") {
   if (args[1] === "origin/main") {
     console.log(fs.existsSync(refreshedMainPath) ? refreshedMain : currentMain);
@@ -2984,6 +3032,13 @@ process.exit(0);
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 fs.appendFileSync(${JSON.stringify(pnpmCommandsPath)}, args.join(" ") + "\\n");
+const toolchainGitConfig = ${JSON.stringify(toolchainGitConfig)};
+if (toolchainGitConfig && args[0] === "install") {
+  fs.writeFileSync(
+    ${JSON.stringify(gitConfigStatePath)},
+    toolchainGitConfig.key + "\\n" + toolchainGitConfig.value + "\\0",
+  );
+}
 const failure = ${JSON.stringify(validationFailure)};
 if (failure && args[0] === "check:changed") {
   process.stdout.write(String(failure.stdout ?? ""));
@@ -3001,6 +3056,18 @@ const index = args.indexOf("--output-last-message");
 fs.writeFileSync(${JSON.stringify(codexPromptPath)}, fs.readFileSync(0, "utf8"));
 if (${JSON.stringify(codexMutatesCheckout)}) {
   fs.writeFileSync("src/effective.ts", "mutated by fixture review\\n");
+}
+const codexGitConfigMutation = ${JSON.stringify(codexGitConfigMutation)};
+if (codexGitConfigMutation) {
+  const configPath = ${JSON.stringify(gitConfigStatePath)};
+  const currentConfig = fs.existsSync(configPath) ? fs.readFileSync(configPath) : Buffer.alloc(0);
+  fs.writeFileSync(
+    configPath,
+    Buffer.concat([
+      currentConfig,
+      Buffer.from(codexGitConfigMutation.key + "\\n" + codexGitConfigMutation.value + "\\0"),
+    ]),
+  );
 }
 fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 `,

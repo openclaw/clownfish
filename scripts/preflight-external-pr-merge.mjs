@@ -55,6 +55,8 @@ let view = null;
 let plan = null;
 let preflightJobPath = null;
 let reviewContext = null;
+let validationCommands = [];
+let codexReview = null;
 let report = {
   repo: sourceJob.frontmatter.repo,
   source_job: sourceJob.relativePath,
@@ -110,10 +112,27 @@ try {
     }),
   );
   stage("prepare target toolchain", () => prepareTargetToolchain(targetDir));
-  const validationCommands = stage("target validation", () =>
+  reviewContext.integrityBaseline = stage("verify synthetic review checkout after toolchain", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.preToolchainSnapshot,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "target toolchain preparation",
+      allowGitConfigChanges: true,
+    }),
+  );
+  validationCommands = stage("target validation", () =>
     runValidation({ targetDir, reviewContext }),
   );
-  const codexReview = stage("Codex review", () =>
+  stage("verify synthetic review checkout after validation", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.integrityBaseline,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "target validation",
+    }),
+  );
+  codexReview = stage("Codex review", () =>
     runCodexReview({
       repo: sourceJob.frontmatter.repo,
       pullRequest,
@@ -121,6 +140,14 @@ try {
       validationCommands,
       sourceJob,
       reviewContext,
+    }),
+  );
+  stage("verify synthetic review checkout after Codex review", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.integrityBaseline,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "Codex review",
     }),
   );
   if (!isCleanCodexReview(codexReview)) {
@@ -132,9 +159,6 @@ try {
     });
     process.exit(0);
   }
-  stage("verify synthetic review checkout", () =>
-    verifySyntheticReviewCheckout({ targetDir, reviewContext }),
-  );
 
   const reviewedHeadSha = pull.head.sha;
   const reviewedState = String(pull.state ?? "").toLowerCase();
@@ -268,7 +292,7 @@ try {
     preflightJobPath = writePreflightJob({ sourceJob, pull, pullRequest, runDir }).path;
     plan.source_job = path.relative(repoRoot(), preflightJobPath);
   }
-  writeBlockedArtifacts({ reason });
+  writeBlockedArtifacts({ reason, validationCommands, codexReview });
   process.exitCode = 0;
 }
 
@@ -585,7 +609,6 @@ function ensureMergeBase({ cwd, baseBranch, pullRequest, ref }) {
 
 function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, exactHeadSha }) {
   const baseRef = `origin/${baseBranch}`;
-  const gitConfigSha256 = localGitConfigFingerprint(targetDir);
   const rawDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: exactHeadSha });
   const mergeContext = computeEffectiveMergeContext({
     targetDir,
@@ -626,11 +649,15 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
     throw new Error(`synthetic merge returned invalid commit SHA: ${syntheticMergeSha || "empty"}`);
   }
   run("git", ["checkout", "--detach", syntheticMergeSha], { cwd: targetDir });
-  const checkedOutTree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir }).trim();
-  const syntheticParent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir }).trim();
-  if (checkedOutTree !== mergeTreeSha || syntheticParent !== currentMainSha) {
+  const preToolchainSnapshot = syntheticReviewCheckoutSnapshot(targetDir);
+  if (
+    preToolchainSnapshot.head !== syntheticMergeSha ||
+    preToolchainSnapshot.tree !== mergeTreeSha ||
+    preToolchainSnapshot.parent !== currentMainSha
+  ) {
     throw new Error(
-      `synthetic merge binding mismatch: expected tree ${mergeTreeSha} on base ${currentMainSha}, got tree ${checkedOutTree} on base ${syntheticParent}`,
+      `synthetic merge binding mismatch: expected head ${syntheticMergeSha}, tree ${mergeTreeSha}, parent ${currentMainSha}; ` +
+        `actual head ${preToolchainSnapshot.head}, tree ${preToolchainSnapshot.tree}, parent ${preToolchainSnapshot.parent}`,
     );
   }
   return {
@@ -642,7 +669,7 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
     reviewedBaseSha: currentMainSha,
     expectedTreeEntries: resultEntries,
     changedFiles,
-    gitConfigSha256,
+    preToolchainSnapshot,
   };
 }
 
@@ -715,26 +742,45 @@ function fingerprintTreeEntries(baseEntries, resultEntries) {
   };
 }
 
-function verifySyntheticReviewCheckout({ targetDir, reviewContext }) {
-  const env = gitIntegrityEnv();
-  const head = run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim();
-  const tree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir, env }).trim();
-  const parent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir, env }).trim();
-  if (
-    head !== reviewContext.syntheticMergeSha ||
-    tree !== reviewContext.mergeTreeSha ||
-    parent !== reviewContext.reviewedBaseSha ||
-    localGitConfigFingerprint(targetDir) !== reviewContext.gitConfigSha256
-  ) {
+function verifySyntheticReviewCheckout({
+  targetDir,
+  expectedSnapshot,
+  expectedEntries,
+  phase,
+  allowGitConfigChanges = false,
+}) {
+  const actualSnapshot = syntheticReviewCheckoutSnapshot(targetDir);
+  const mismatchedFields = [
+    ["head", expectedSnapshot.head, actualSnapshot.head],
+    ["tree", expectedSnapshot.tree, actualSnapshot.tree],
+    ["parent", expectedSnapshot.parent, actualSnapshot.parent],
+    ["config", expectedSnapshot.gitConfig.sha256, actualSnapshot.gitConfig.sha256],
+  ]
+    .filter(([field, expected, actual]) => expected !== actual && !(field === "config" && allowGitConfigChanges))
+    .map(([field]) => field);
+  if (mismatchedFields.length > 0) {
+    const changedKeys = changedGitConfigKeys(expectedSnapshot.gitConfig, actualSnapshot.gitConfig);
     throw new Error(
-      `synthetic review checkout changed during validation: expected ${reviewContext.syntheticMergeSha} ` +
-        `on ${reviewContext.reviewedBaseSha} with tree ${reviewContext.mergeTreeSha}`,
+      `synthetic review checkout integrity mismatch: phase=${phase}; mismatched_fields=${mismatchedFields.join(",")}; ` +
+        `expected_head=${expectedSnapshot.head}; actual_head=${actualSnapshot.head}; ` +
+        `expected_tree=${expectedSnapshot.tree}; actual_tree=${actualSnapshot.tree}; ` +
+        `expected_parent=${expectedSnapshot.parent}; actual_parent=${actualSnapshot.parent}; ` +
+        `expected_config_sha256=${expectedSnapshot.gitConfig.sha256}; actual_config_sha256=${actualSnapshot.gitConfig.sha256}; ` +
+        `changed_git_config_keys=${formatChangedGitConfigKeys(changedKeys)}`,
     );
   }
-  verifyTrackedFilesystem({
-    targetDir,
-    expectedEntries: reviewContext.expectedTreeEntries,
-  });
+  verifyTrackedFilesystem({ targetDir, expectedEntries });
+  return actualSnapshot;
+}
+
+function syntheticReviewCheckoutSnapshot(targetDir) {
+  const env = gitIntegrityEnv();
+  return {
+    head: run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim(),
+    tree: run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir, env }).trim(),
+    parent: run("git", ["rev-parse", "HEAD^"], { cwd: targetDir, env }).trim(),
+    gitConfig: localGitConfigSnapshot(targetDir),
+  };
 }
 
 function refreshTargetMain({ targetDir, baseBranch }) {
@@ -808,13 +854,54 @@ function gitIntegrityEnv() {
   };
 }
 
-function localGitConfigFingerprint(cwd) {
+function localGitConfigSnapshot(cwd) {
   const config = run("git", ["config", "--local", "--list", "--null"], {
     cwd,
     env: gitIntegrityEnv(),
     maxBuffer: 1024 * 1024,
   });
-  return createHash("sha256").update(config).digest("hex");
+  const keyValues = new Map();
+  for (const entry of config.split("\0").filter(Boolean)) {
+    const separator = entry.indexOf("\n");
+    const key = (separator === -1 ? entry : entry.slice(0, separator)).trim().toLowerCase();
+    if (!key) continue;
+    const value = separator === -1 ? "" : entry.slice(separator + 1);
+    const valueHashes = keyValues.get(key) ?? [];
+    valueHashes.push(createHash("sha256").update(value).digest("hex"));
+    keyValues.set(key, valueHashes);
+  }
+  return {
+    sha256: createHash("sha256").update(config).digest("hex"),
+    keyFingerprints: new Map(
+      [...keyValues].map(([key, valueHashes]) => [
+        key,
+        createHash("sha256").update(valueHashes.join("\0")).digest("hex"),
+      ]),
+    ),
+  };
+}
+
+function changedGitConfigKeys(expected, actual) {
+  const keys = new Set([...expected.keyFingerprints.keys(), ...actual.keyFingerprints.keys()]);
+  return [...keys]
+    .filter((key) => expected.keyFingerprints.get(key) !== actual.keyFingerprints.get(key))
+    .map(safeGitConfigKey)
+    .sort();
+}
+
+function safeGitConfigKey(key) {
+  const parts = key.split(".");
+  const safePart = /^[a-z][a-z0-9-]{0,63}$/;
+  if (parts.length === 2 && parts.every((part) => safePart.test(part))) return key;
+  const section = safePart.test(parts[0] ?? "") ? parts[0] : "config";
+  const name = safePart.test(parts.at(-1) ?? "") ? parts.at(-1) : "key";
+  return `${section}.[redacted].${name}`;
+}
+
+function formatChangedGitConfigKeys(keys) {
+  if (keys.length === 0) return "unavailable";
+  const shown = keys.slice(0, 20);
+  return keys.length === shown.length ? shown.join(",") : `${shown.join(",")},...(+${keys.length - shown.length})`;
 }
 
 function isShallowRepository(cwd) {
