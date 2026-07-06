@@ -658,13 +658,15 @@ test("execute-fix-artifact makes rebase-only repair a no-generated-edit path", (
   assert.match(source, /recovery_note: "recoverable branch was pushed before fix execution blocked; requeue can resume it"/);
 });
 
-test("execute-fix-artifact preserves review budget across one rebase-only base refresh", () => {
+test("execute-fix-artifact requires one full refresh before bounded validation reuse", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
   assert.match(source, /let reviewAttempts = 0;/);
   assert.match(source, /let baseRefreshes = 0;/);
+  assert.match(source, /allowValidationReuse: baseRefreshes > 0,/);
   assert.match(source, /baseRefreshes \+= 1;/);
-  assert.match(source, /if \(baseRefreshes > 1\) \{\s*throw new Error\("base branch advanced again during validation; requeue before review"\)/);
+  assert.match(source, /if \(refresh\.status === "reused"\) \{/);
+  assert.match(source, /base branch advanced again during validation; reuse blocked:/);
   assert.match(source, /reviewAttempts \+= 1;\s*noteFixStage\("codex_review_start"/);
   assert.match(source, /Codex \/review did not pass after \$\{reviewAttempts\} attempt\(s\):/);
 });
@@ -677,6 +679,43 @@ test("execute-fix-artifact revalidates late base refreshes and binds merge proof
   assert.match(source, /merge_preflight: buildMergePreflight\(\{[\s\S]*?headSha: commit,[\s\S]*?baseSha:/);
   assert.match(source, /function buildMergePreflight\(\{ fixArtifact, codexReview, headSha, baseSha \}\)/);
   assert.match(source, /head_sha: headSha,\s*base_sha: baseSha,/);
+  assert.match(source, /validation_base_drift: codexReview\.validation_base_drift/);
+  assert.match(source, /acceptedValidation: acceptedValidationForPrep\(prep\)/);
+});
+
+test("execute-fix-artifact rebases the first base advance then reuses disjoint changed-gate validation", () => {
+  const run = runValidationBaseDriftReuseFixture();
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(fs.readFileSync(run.validationMarker, "utf8"), "2");
+  assert.equal(run.report.status, "planned");
+
+  const action = run.report.actions[0];
+  const drift = action.merge_preflight.validation_base_drift;
+  assert.equal(drift.status, "reused");
+  assert.equal(drift.validation_command, "pnpm check:changed");
+  assert.equal(drift.validated_head_sha, action.commit);
+  assert.equal(drift.validated_base_sha, run.firstDriftSha);
+  assert.equal(drift.reviewed_base_sha, run.secondDriftSha);
+  assert.deepEqual(drift.branch_changed_files, ["src/app.js"]);
+  assert.deepEqual(drift.base_drift_files, ["docs/drift-2.md"]);
+  assert.deepEqual(drift.branch_areas, ["src/app.js"]);
+  assert.deepEqual(drift.base_drift_areas, ["docs"]);
+  assert.equal(drift.git_diff_check.status, "passed");
+  assert.equal(action.merge_preflight.base_sha, run.secondDriftSha);
+
+  assert.equal(
+    spawnSync("git", ["merge-base", "--is-ancestor", run.firstDriftSha, "HEAD"], {
+      cwd: run.fixture.targetDir,
+    }).status,
+    0,
+  );
+  assert.equal(
+    spawnSync("git", ["merge-base", "--is-ancestor", run.secondDriftSha, "HEAD"], {
+      cwd: run.fixture.targetDir,
+    }).status,
+    1,
+  );
 });
 
 test("execute-fix-artifact bounds and traces rebase-only repair execution", () => {
@@ -695,7 +734,7 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
   assert.match(source, /codex_review_start/);
   assert.match(source, /refreshBaseBeforeReview: true/);
   assert.match(source, /noteFixStage\("base_refresh_before_review"/);
-  assert.match(source, /refreshBaseBeforeReview && branch && refreshValidatedBranchBase/);
+  assert.match(source, /if \(refreshBaseBeforeReview && branch\) \{/);
   assert.match(source, /do not rerun pnpm, npm, corepack, test, lint, build, or other validation commands/);
   assert.match(source, /may run the minimum read-only `gh pr view` or `gh api` query needed to satisfy them/);
   assert.match(source, /do not mutate GitHub: do not push, comment, review, label, close, merge, assign, or change any remote state/);
@@ -1399,6 +1438,124 @@ test("execute-fix-artifact keeps changed-gate failures strict when strict valida
     .map((file) => JSON.parse(fs.readFileSync(path.join(run.fixture.runDir, "fix-executor-debug", file), "utf8")).phase);
   assert.equal(phases.includes("baseline"), false);
 });
+
+function runValidationBaseDriftReuseFixture() {
+  const fixture = makeFixture();
+  const clusterId = "validation-base-drift-reuse";
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const validationMarker = path.join(fixture.root, "check-changed-calls");
+  const writerDir = path.join(fixture.root, "main-writer");
+
+  git(["clone", fixture.originDir, writerDir], { cwd: fixture.root });
+  git(["checkout", "main"], { cwd: writerDir });
+  git(["config", "user.name", "Main Writer"], { cwd: writerDir });
+  git(["config", "user.email", "main-writer@example.com"], { cwd: writerDir });
+
+  fs.writeFileSync(fixture.jobPath, jobFile(clusterId));
+  const result = resultFile(clusterId);
+  result.fix_artifact.validation_commands = ["pnpm check:changed"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : "";
+if (args.includes("--output-schema")) {
+  fs.writeFileSync(output, JSON.stringify({
+    status: "passed",
+    summary: "clean",
+    findings: [],
+    findings_addressed: true,
+    evidence: ["fixture review passed against refreshed main"],
+  }));
+  process.exit(0);
+}
+const cd = args[args.indexOf("--cd") + 1];
+fs.appendFileSync(path.join(cd, "src", "app.js"), "\\n// bounded drift reuse fixture\\n");
+if (output) fs.writeFileSync(output, "edited\\n");
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "pnpm"),
+    `#!/usr/bin/env node
+const { spawnSync } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+if (args[0] !== "check:changed") process.exit(0);
+const marker = ${JSON.stringify(validationMarker)};
+const count = fs.existsSync(marker) ? Number(fs.readFileSync(marker, "utf8")) : 0;
+if (count < 2) {
+  const next = count + 1;
+  const cwd = ${JSON.stringify(writerDir)};
+  fs.mkdirSync(path.join(cwd, "docs"), { recursive: true });
+  fs.writeFileSync(path.join(cwd, "docs", "drift-" + next + ".md"), "main drift " + next + "\\n");
+  for (const gitArgs of [
+    ["add", "."],
+    ["commit", "-m", "docs: main drift " + next],
+    ["push", "origin", "HEAD:main"],
+  ]) {
+    const child = spawnSync("git", gitArgs, { cwd, encoding: "utf8" });
+    if (child.status !== 0) {
+      console.error(child.stderr || child.stdout);
+      process.exit(child.status || 1);
+    }
+  }
+}
+fs.writeFileSync(marker, String(count + 1));
+process.exit(0);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+      "--dry-run",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_FIX_STEP_TIMEOUT_MS: "120000",
+        CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: "0",
+        CLOWNFISH_FIX_REPORT_RESERVE_MS: "0",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
+        CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+        CLOWNFISH_STREAM_VALIDATION_OUTPUT: "0",
+      },
+    },
+  );
+
+  const secondDriftSha = git(["rev-parse", "HEAD"], { cwd: writerDir });
+  const firstDriftSha = git(["rev-parse", "HEAD^"], { cwd: writerDir });
+  return {
+    fixture,
+    child,
+    report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
+    validationMarker,
+    firstDriftSha,
+    secondDriftSha,
+  };
+}
 
 function runBaselineChangedGateFixture({
   clusterId,

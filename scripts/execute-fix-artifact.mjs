@@ -19,6 +19,7 @@ import {
   replacementSourceCloseComment,
   replacementSourceLinkComment,
 } from "./external-messages.mjs";
+import { evaluateValidationBaseDrift } from "./base-drift-validation.mjs";
 
 const FIX_ACTIONS = new Set(["fix_needed", "build_fix_artifact", "open_fix_pr"]);
 const REPAIR_STRATEGIES = new Set(["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"]);
@@ -826,7 +827,13 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     allowedFixFiles,
     pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
   });
-  if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+  let finalBaseRefresh = refreshValidatedBranchBase({
+    targetDir,
+    branch,
+    baseBranch,
+    acceptedValidation: acceptedValidationForPrep(prep),
+  });
+  if (finalBaseRefresh.status === "rebased") {
     rebased = true;
     const priorCheckpointCommits = prep.checkpoint_commits;
     prep = editValidatePrepareMerge({
@@ -842,7 +849,13 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
       pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
     });
     prep.checkpoint_commits = uniqueStrings([...priorCheckpointCommits, ...prep.checkpoint_commits]);
-    if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+    finalBaseRefresh = refreshValidatedBranchBase({
+      targetDir,
+      branch,
+      baseBranch,
+      acceptedValidation: acceptedValidationForPrep(prep),
+    });
+    if (finalBaseRefresh.status === "rebased") {
       throw new Error("base branch advanced again after validation; requeue before pushing");
     }
   }
@@ -996,7 +1009,13 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     refreshBaseBeforeReview: true,
     pushCheckpoint: pushReplacementCheckpoint,
   });
-  if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+  let finalBaseRefresh = refreshValidatedBranchBase({
+    targetDir,
+    branch,
+    baseBranch,
+    acceptedValidation: acceptedValidationForPrep(prep),
+  });
+  if (finalBaseRefresh.status === "rebased") {
     const priorCheckpointCommits = prep.checkpoint_commits;
     prep = editValidatePrepareMerge({
       fixArtifact,
@@ -1011,7 +1030,13 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
       pushCheckpoint: pushReplacementCheckpoint,
     });
     prep.checkpoint_commits = uniqueStrings([...priorCheckpointCommits, ...prep.checkpoint_commits]);
-    if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+    finalBaseRefresh = refreshValidatedBranchBase({
+      targetDir,
+      branch,
+      baseBranch,
+      acceptedValidation: acceptedValidationForPrep(prep),
+    });
+    if (finalBaseRefresh.status === "rebased") {
       throw new Error("base branch advanced again after validation; requeue before pushing");
     }
   }
@@ -1410,6 +1435,18 @@ function editValidatePrepareMerge({
   };
 }
 
+function acceptedValidationForPrep(prep) {
+  const validationBaseDrift = prep.merge_preflight?.validation_base_drift;
+  if (validationBaseDrift?.status !== "reused") return null;
+  if (validationBaseDrift.validated_head_sha !== prep.commit) return null;
+  if (validationBaseDrift.reviewed_base_sha !== prep.merge_preflight.base_sha) return null;
+  return {
+    headSha: prep.commit,
+    baseSha: prep.merge_preflight.base_sha,
+    validationBaseDrift,
+  };
+}
+
 function buildFixPrompt({
   fixArtifact,
   branch,
@@ -1779,6 +1816,7 @@ function validateAndReviewLoop({
   let validationCommands = [];
   let reviewAttempts = 0;
   let baseRefreshes = 0;
+  let validationBaseDrift = null;
   while (reviewAttempts < maxReviewAttempts) {
     const attempt = reviewAttempts + 1;
     noteFixStage("validation_start", { mode, attempt, base_refreshes: baseRefreshes });
@@ -1797,25 +1835,63 @@ function validateAndReviewLoop({
       });
       onChangedGateBaseline?.(changedGateBaseline);
     }
-    runDiffCheck({ targetDir, baseBranch });
+    const validatedHeadSha = currentHead(targetDir);
+    const validatedBaseSha = run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim();
+    runDiffCheck({ targetDir, baseBranch, baseRef: validatedBaseSha });
     noteFixStage("validation_complete", { mode, attempt, command_count: validationCommands.length, base_refreshes: baseRefreshes });
-    if (refreshBaseBeforeReview && branch && refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
-      baseRefreshes += 1;
-      noteFixStage("base_refresh_before_review", { mode, attempt, base_refreshes: baseRefreshes });
-      if (baseRefreshes > 1) {
-        throw new Error("base branch advanced again during validation; requeue before review");
+    if (refreshBaseBeforeReview && branch) {
+      const refresh = refreshValidatedBranchBase({
+        targetDir,
+        branch,
+        baseBranch,
+        allowValidationReuse: baseRefreshes > 0,
+        validationState: {
+          validationCommands,
+          validatedHeadSha,
+          validatedBaseSha,
+        },
+      });
+      if (refresh.status === "rebased") {
+        baseRefreshes += 1;
+        validationBaseDrift = null;
+        noteFixStage("base_refresh_before_review", { mode, attempt, base_refreshes: baseRefreshes });
+        continue;
       }
-      continue;
+      if (refresh.status === "rejected") {
+        throw new Error(`base branch advanced again during validation; reuse blocked: ${refresh.reason}`);
+      }
+      if (refresh.status === "reused") {
+        validationBaseDrift = refresh.validation_base_drift;
+        noteFixStage("validation_base_drift_reused", {
+          mode,
+          attempt,
+          base_refreshes: baseRefreshes,
+          validated_base_sha: validationBaseDrift.validated_base_sha,
+          reviewed_base_sha: validationBaseDrift.reviewed_base_sha,
+          drift_commit_count: validationBaseDrift.drift_commit_count,
+        });
+      } else {
+        validationBaseDrift = null;
+      }
     }
     reviewAttempts += 1;
     noteFixStage("codex_review_start", { mode, attempt });
     lastReview = runCodexReview({ fixArtifact, targetDir, mode, attempt, baseBranch, validationCommands });
     noteFixStage("codex_review_complete", { mode, attempt, status: lastReview.status ?? "unknown" });
     lastReview.validation_commands_run = validationCommands;
+    if (validationBaseDrift) lastReview.validation_base_drift = validationBaseDrift;
     if (isCleanCodexReview(lastReview)) return lastReview;
     if (!allowReviewFixes || reviewAttempts === maxReviewAttempts) break;
     const reviewFix = runCodexReviewFix({ fixArtifact, targetDir, mode, review: lastReview, attempt });
     onReviewFix?.(attempt, reviewFix);
+    if (validationBaseDrift) {
+      const refresh = refreshValidatedBranchBase({ targetDir, branch, baseBranch });
+      if (refresh.status === "rebased") {
+        noteFixStage("base_refresh_after_reused_review_fix", { mode, attempt });
+      }
+      validationBaseDrift = null;
+      baseRefreshes = 0;
+    }
   }
   const summary =
     lastReview?.summary ??
@@ -1823,9 +1899,10 @@ function validateAndReviewLoop({
   throw new Error(`Codex /review did not pass after ${reviewAttempts} attempt(s): ${summary}`);
 }
 
-function runDiffCheck({ targetDir, baseBranch }) {
-  ensureMergeBaseAvailable({ targetDir, baseBranch });
-  run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir });
+function runDiffCheck({ targetDir, baseBranch, baseRef = null }) {
+  const resolvedBaseRef = baseRef ?? `origin/${baseBranch}`;
+  if (!baseRef) ensureMergeBaseAvailable({ targetDir, baseBranch });
+  run("git", ["diff", "--check", `${resolvedBaseRef}...HEAD`], { cwd: targetDir });
   run("git", ["diff", "--check"], { cwd: targetDir });
 }
 
@@ -2189,6 +2266,9 @@ function buildMergePreflight({ fixArtifact, codexReview, headSha, baseSha }) {
         : [`Codex /review passed after agentic fix loop: ${codexReview.summary ?? "clean"}`],
     },
     validation_commands: validationCommands,
+    ...(codexReview.validation_base_drift
+      ? { validation_base_drift: codexReview.validation_base_drift }
+      : {}),
   };
 }
 
@@ -3754,19 +3834,122 @@ function rebaseRecoverableReplacementBranch({ targetDir, branch, baseBranch, fix
   }
 }
 
-function refreshValidatedBranchBase({ targetDir, branch, baseBranch }) {
+function refreshValidatedBranchBase({
+  targetDir,
+  branch,
+  baseBranch,
+  allowValidationReuse = false,
+  validationState = null,
+  acceptedValidation = null,
+}) {
   run("git", ["fetch", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
   const baseRef = `origin/${baseBranch}`;
-  if (isAncestor({ targetDir, ancestor: baseRef, descendant: "HEAD" })) return false;
+  const currentBaseSha = run("git", ["rev-parse", baseRef], { cwd: targetDir }).trim();
+  const headSha = currentHead(targetDir);
+  if (isAncestor({ targetDir, ancestor: baseRef, descendant: "HEAD" })) {
+    return { status: "unchanged", base_sha: currentBaseSha, head_sha: headSha };
+  }
+  if (
+    acceptedValidation?.validationBaseDrift?.status === "reused" &&
+    acceptedValidation.headSha === headSha &&
+    acceptedValidation.baseSha === currentBaseSha
+  ) {
+    return {
+      status: "validated",
+      base_sha: currentBaseSha,
+      head_sha: headSha,
+      validation_base_drift: acceptedValidation.validationBaseDrift,
+    };
+  }
+  if (allowValidationReuse && validationState) {
+    const decision = reusableValidationBaseDrift({
+      targetDir,
+      currentBaseSha,
+      currentHeadSha: headSha,
+      ...validationState,
+    });
+    if (decision.status === "reused") {
+      runDiffCheck({ targetDir, baseBranch, baseRef: currentBaseSha });
+      return {
+        status: "reused",
+        base_sha: currentBaseSha,
+        head_sha: headSha,
+        validation_base_drift: {
+          ...decision.proof,
+          git_diff_check: {
+            status: "passed",
+            base_sha: currentBaseSha,
+            commands: [`git diff --check ${currentBaseSha}...HEAD`, "git diff --check"],
+          },
+        },
+      };
+    }
+    noteFixStage("validation_base_drift_rejected", {
+      branch,
+      reason: decision.reason,
+      details: decision.details ?? {},
+    });
+    return { status: "rejected", reason: decision.reason, details: decision.details ?? {} };
+  }
   try {
     run("git", ["rebase", baseRef], { cwd: targetDir });
-    return true;
+    return { status: "rebased", base_sha: currentBaseSha, head_sha: currentHead(targetDir) };
   } catch (error) {
     abortRebase(targetDir);
     throw new Error(
       `base branch advanced after validation and ${branch} needs a fresh rebase pass: ${compactText(error.message, 1200)}`,
     );
   }
+}
+
+function reusableValidationBaseDrift({
+  targetDir,
+  validationCommands,
+  validatedHeadSha,
+  currentHeadSha,
+  validatedBaseSha,
+  currentBaseSha,
+}) {
+  const branchFiles = gitDiffPathEvidence(targetDir, `${validatedBaseSha}...${validatedHeadSha}`);
+  const baseDriftFiles = gitDiffPathEvidence(targetDir, `${validatedBaseSha}..${currentBaseSha}`);
+  const driftCommitCount = Number(
+    run("git", ["rev-list", "--count", `${validatedBaseSha}..${currentBaseSha}`], {
+      cwd: targetDir,
+      maxBuffer: 1024 * 1024,
+    }).trim(),
+  );
+  return evaluateValidationBaseDrift({
+    validationCommands,
+    validatedHeadSha,
+    currentHeadSha,
+    validatedBaseSha,
+    currentBaseSha,
+    validatedBaseIsAncestorOfHead: isAncestor({
+      targetDir,
+      ancestor: validatedBaseSha,
+      descendant: validatedHeadSha,
+    }),
+    validatedBaseIsAncestorOfCurrentBase: isAncestor({
+      targetDir,
+      ancestor: validatedBaseSha,
+      descendant: currentBaseSha,
+    }),
+    driftCommitCount,
+    branchFiles,
+    baseDriftFiles,
+    branchAreas: affectedAreasForFiles(branchFiles),
+    baseDriftAreas: affectedAreasForFiles(baseDriftFiles),
+    evidenceComplete: true,
+  });
+}
+
+function gitDiffPathEvidence(targetDir, range) {
+  return run("git", ["diff", "--name-only", "--no-renames", "-z", range, "--"], {
+    cwd: targetDir,
+    maxBuffer: 1024 * 1024,
+  })
+    .split("\0")
+    .filter(Boolean);
 }
 
 function resolveRecoverableRebaseConflicts({ targetDir, branch, baseRef, fixArtifact, initialError }) {
