@@ -144,6 +144,27 @@ test("live PR inventory accepts --key=value argument form", () => {
   assert.equal(payload.candidates.some((candidate) => candidate.ref === "#101"), true);
 });
 
+test("live low-signal inventory blocks proof, merge-risk, maintainer, and focused fix candidates", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeLowSignal: true });
+
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "low-signal",
+    "--inventory-source",
+    "search",
+    "--min-score",
+    "1",
+    "--skip-existing",
+    "false",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#123"]);
+});
+
 test("remediation inventory can use search source for faster ready PR intake", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
@@ -747,7 +768,54 @@ function writeFakeGh(filePath, options = {}) {
     assignees: searchOnlyPull.assignees.nodes,
     commentsCount: 0,
     body: "",
-  }).concat(options.failPrList ? [{
+  }).concat(options.includeLowSignal ? [
+    {
+      number: 122,
+      title: "feat: add blocked external plugin",
+      url: "https://github.com/openclaw/openclaw/pull/122",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-22T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-122" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: [
+        { name: "triage: external-plugin-candidate" },
+        { name: "status: needs proof" },
+        { name: "merge-risk: automation" },
+      ],
+      assignees: [],
+      commentsCount: 0,
+      body: "External plugin proposal.",
+    },
+    {
+      number: 123,
+      title: "feat: add clean external plugin",
+      url: "https://github.com/openclaw/openclaw/pull/123",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-23T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-123" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: [{ name: "triage: external-plugin-candidate" }],
+      assignees: [],
+      commentsCount: 0,
+      body: "External plugin proposal.",
+    },
+    {
+      number: 124,
+      title: "fix: repair external plugin",
+      url: "https://github.com/openclaw/openclaw/pull/124",
+      createdAt: "2026-01-01T00:00:00Z",
+      updatedAt: "2026-01-24T00:00:00Z",
+      isDraft: false,
+      author: { login: "contributor-124" },
+      authorAssociation: "CONTRIBUTOR",
+      labels: [{ name: "triage: external-plugin-candidate" }],
+      assignees: [],
+      commentsCount: 0,
+      body: "Repairs a broken integration.",
+    },
+  ] : []).concat(options.failPrList ? [{
     ...cleanPrListPull,
     baseRefName: undefined,
     mergeable: undefined,
