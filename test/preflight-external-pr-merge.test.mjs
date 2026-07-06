@@ -52,8 +52,8 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /delete env\[key\]/);
   assert.match(script, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
   assert.match(script, /function validationEnv\(\)[\s\S]*?"CLOWNFISH_READ_GH_TOKEN"/);
-  assert.match(script, /function validationEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
-  assert.match(script, /function codexEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
+  assert.match(script, /function validationEnv\(\)[\s\S]*?\.\.\.gitIntegrityEnv\(\)/);
+  assert.match(script, /function codexEnv\(\)[\s\S]*?gitIntegrityEnv\(\)/);
   assert.doesNotMatch(script, /pr", "merge"/);
   assert.doesNotMatch(script, /resolveReviewThread/);
 });
@@ -3023,6 +3023,16 @@ const refreshedMainPath = path.join(${JSON.stringify(root)}, "main-refreshed");
 const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count");
 const commandLog = ${JSON.stringify(gitCommandsPath)};
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
+if (
+  process.env.GIT_ALLOW_PROTOCOL !== "https:ssh" ||
+  process.env.GIT_CONFIG_KEY_0 !== "core.hooksPath" ||
+  process.env.GIT_CONFIG_VALUE_0 !== "/dev/null" ||
+  process.env.GIT_CONFIG_KEY_1 !== "protocol.ext.allow" ||
+  process.env.GIT_CONFIG_VALUE_1 !== "never"
+) {
+  process.stderr.write("missing Git hardening");
+  process.exit(97);
+}
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
 if (args[0] === "config" && args.includes("--local") && args.includes("--list") && args.includes("--null")) {
   if (fs.existsSync(${JSON.stringify(gitConfigStatePath)})) {
