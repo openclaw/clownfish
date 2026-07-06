@@ -1,17 +1,17 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "external-merge-preflight-89997-bfa3bf4caa80"
+cluster_id: "external-merge-preflight-89897-42eaa5ed2983"
 mode: "autonomous"
-run_id: "28791839190"
-workflow_run_id: "28791839190"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28791839190"
+run_id: "28791839173"
+workflow_run_id: "28791839173"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28791839173"
 head_sha: "4fc25067cd8858a4bd0288c902b111d83f38835f"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-06T12:37:42.853Z"
-canonical: "https://github.com/openclaw/openclaw/pull/89997"
+published_at: "2026-07-06T12:37:42.840Z"
+canonical: "https://github.com/openclaw/openclaw/pull/89897"
 canonical_issue: null
-canonical_pr: "https://github.com/openclaw/openclaw/pull/89997"
+canonical_pr: "https://github.com/openclaw/openclaw/pull/89897"
 actions_total: 0
 fix_executed: 0
 fix_failed: 0
@@ -22,21 +22,21 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# external-merge-preflight-89997-bfa3bf4caa80
+# external-merge-preflight-89897-42eaa5ed2983
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28791839190](https://github.com/openclaw/clownfish/actions/runs/28791839190)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28791839173](https://github.com/openclaw/clownfish/actions/runs/28791839173)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: https://github.com/openclaw/openclaw/pull/89997
+Canonical: https://github.com/openclaw/openclaw/pull/89897
 
 ## Summary
 
-External merge preflight blocked: PR has non-passing checks: checks-node-compact-small-whole-2, check-prod-types, check-lint; PR merge state is UNSTABLE; PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/89997#issuecomment-4744721460, https://github.com/openclaw/openclaw/pull/89997#issuecomment-4891313909
+External merge preflight blocked: PR has non-passing checks: checks-node-compact-small-whole-2, check-prod-types, check-lint; PR merge state is UNSTABLE; PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/89897#issuecomment-4670065965, https://github.com/openclaw/openclaw/pull/89897#issuecomment-4671129143
 
 ## Impact
 
