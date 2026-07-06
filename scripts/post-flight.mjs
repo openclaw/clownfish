@@ -4,7 +4,12 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
-import { shouldRequirePrChecks, shouldWaitForMergeReadiness, validateStatusChecks } from "./post-flight-checks.mjs";
+import {
+  shouldRequirePrChecks,
+  shouldWaitForMergeReadiness,
+  validateMergePreflightBinding,
+  validateStatusChecks,
+} from "./post-flight-checks.mjs";
 
 const CLEAN_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS"]);
 const FIX_PR_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS", "UNSTABLE"]);
@@ -350,7 +355,10 @@ function validateMergeableFixPr({ pull, view, preflight }) {
     return `review decision is ${view.reviewDecision}`;
   }
 
-  const preflightBlock = validateMergePreflight(preflight);
+  const preflightBlock = validateMergePreflight(preflight, {
+    headSha: pull.head?.sha,
+    baseSha: pull.base?.sha,
+  });
   if (preflightBlock) return preflightBlock;
 
   const threadBlock = validateResolvedReviewThreads(result.repo, pull.number);
@@ -362,8 +370,10 @@ function validateMergeableFixPr({ pull, view, preflight }) {
   return "";
 }
 
-function validateMergePreflight(preflight) {
+function validateMergePreflight(preflight, binding) {
   if (!preflight || typeof preflight !== "object") return "merge_preflight is missing";
+  const bindingBlock = validateMergePreflightBinding({ preflight, ...binding });
+  if (bindingBlock) return bindingBlock;
   if (preflight.security_status !== "cleared") return "security preflight is not cleared";
   if (!Array.isArray(preflight.security_evidence) || preflight.security_evidence.length === 0) {
     return "security preflight evidence is missing";

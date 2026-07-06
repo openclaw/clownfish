@@ -664,9 +664,19 @@ test("execute-fix-artifact preserves review budget across one rebase-only base r
   assert.match(source, /let reviewAttempts = 0;/);
   assert.match(source, /let baseRefreshes = 0;/);
   assert.match(source, /baseRefreshes \+= 1;/);
-  assert.match(source, /if \(baseRefreshes > 1\) \{\s*throw new Error\("base branch advanced again during rebase-only validation; requeue before review"\)/);
+  assert.match(source, /if \(baseRefreshes > 1\) \{\s*throw new Error\("base branch advanced again during validation; requeue before review"\)/);
   assert.match(source, /reviewAttempts \+= 1;\s*noteFixStage\("codex_review_start"/);
   assert.match(source, /Codex \/review did not pass after \$\{reviewAttempts\} attempt\(s\):/);
+});
+
+test("execute-fix-artifact revalidates late base refreshes and binds merge proof", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
+
+  assert.equal(source.match(/refreshBaseBeforeReview: true,/g)?.length >= 4, true);
+  assert.equal(source.match(/base branch advanced again after validation; requeue before pushing/g)?.length, 2);
+  assert.match(source, /merge_preflight: buildMergePreflight\(\{[\s\S]*?headSha: commit,[\s\S]*?baseSha:/);
+  assert.match(source, /function buildMergePreflight\(\{ fixArtifact, codexReview, headSha, baseSha \}\)/);
+  assert.match(source, /head_sha: headSha,\s*base_sha: baseSha,/);
 });
 
 test("execute-fix-artifact bounds and traces rebase-only repair execution", () => {
@@ -683,7 +693,7 @@ test("execute-fix-artifact bounds and traces rebase-only repair execution", () =
   assert.match(source, /ensureCodexWritePreflight\?\.\(\);/);
   assert.match(source, /validation_command_start/);
   assert.match(source, /codex_review_start/);
-  assert.match(source, /refreshBaseBeforeReview: rebaseOnly/);
+  assert.match(source, /refreshBaseBeforeReview: true/);
   assert.match(source, /noteFixStage\("base_refresh_before_review"/);
   assert.match(source, /refreshBaseBeforeReview && branch && refreshValidatedBranchBase/);
   assert.match(source, /do not rerun pnpm, npm, corepack, test, lint, build, or other validation commands/);

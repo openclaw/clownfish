@@ -4,8 +4,12 @@ import test from "node:test";
 import {
   shouldRequirePrChecks,
   shouldWaitForMergeReadiness,
+  validateMergePreflightBinding,
   validateStatusChecks,
 } from "../scripts/post-flight-checks.mjs";
+
+const HEAD_SHA = "a".repeat(40);
+const BASE_SHA = "b".repeat(40);
 
 test("post-flight requires PR checks unless explicitly disabled", () => {
   assert.equal(shouldRequirePrChecks(undefined), true);
@@ -43,4 +47,42 @@ test("post-flight waits for pending checks and blocks terminal failures", () => 
 test("post-flight accepts completed passing checks", () => {
   const passing = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }];
   assert.equal(validateStatusChecks(passing), "");
+});
+
+test("post-flight binds merge preflight to the reviewed head and base", () => {
+  assert.equal(
+    validateMergePreflightBinding({
+      preflight: { head_sha: HEAD_SHA, base_sha: BASE_SHA },
+      headSha: HEAD_SHA,
+      baseSha: BASE_SHA,
+    }),
+    "",
+  );
+  assert.match(
+    validateMergePreflightBinding({
+      preflight: { head_sha: "c".repeat(40), base_sha: BASE_SHA },
+      headSha: HEAD_SHA,
+      baseSha: BASE_SHA,
+    }),
+    /head_sha does not match/,
+  );
+  assert.match(
+    validateMergePreflightBinding({
+      preflight: { head_sha: HEAD_SHA, base_sha: "c".repeat(40) },
+      headSha: HEAD_SHA,
+      baseSha: BASE_SHA,
+    }),
+    /base_sha does not match/,
+  );
+});
+
+test("post-flight rejects unbound merge preflight evidence", () => {
+  assert.match(
+    validateMergePreflightBinding({
+      preflight: {},
+      headSha: HEAD_SHA,
+      baseSha: BASE_SHA,
+    }),
+    /head_sha is missing or invalid/,
+  );
 });
