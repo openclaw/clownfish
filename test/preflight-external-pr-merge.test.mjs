@@ -1436,6 +1436,33 @@ test("external merge preflight never lets a ready review suppress an author secu
   assert.match(report.reason, /security-sensitive signal/);
 });
 
+test("external merge preflight ignores approval security modes inside fenced runtime proof", () => {
+  const fixture = makeFixture({
+    pullBody: [
+      "Real behavior proof:",
+      "",
+      "```text",
+      "Exec approval required",
+      "Session: agent:main:telegram:direct:424242",
+      "Security: allowlist",
+      "```",
+    ].join("\n"),
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, pullBody] of [
+  ["prose security heading", "Security: authorization boundary needs review."],
+  ["fenced security concern", "```text\nSecurity: possible token exposure\n```"],
+]) {
+  test(`external merge preflight keeps ${name} blocking`, () => {
+    const { report } = runPreflightFixture(makeFixture({ pullBody }));
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /security-sensitive signal/);
+  });
+}
+
 test("external merge preflight never lets a ready review suppress author withdrawal", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
@@ -2324,6 +2351,8 @@ function makeFixture({
   issueComments = [],
   reviewComments = [],
   reviews = [],
+  pullTitle = "fix: fixture",
+  pullBody = "",
   pullLabels = [],
   pullUser = { login: "contributor" },
   statusCheckRollup = [],
@@ -2451,7 +2480,7 @@ if (args[0] === "api" && args[1].endsWith("/issues/123")) {
     { state: "open", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)} },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalIssueUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)} },
   );
-  console.log(JSON.stringify({ ...issue, draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
+  console.log(JSON.stringify({ ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
@@ -2460,7 +2489,7 @@ if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
     { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
   );
-  console.log(JSON.stringify({ number: 123, ...pull, draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  console.log(JSON.stringify({ number: 123, ...pull, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
