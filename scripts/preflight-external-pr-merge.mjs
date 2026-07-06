@@ -963,8 +963,9 @@ function isClawSweeperReadyReviewComment({ author, body, pull }) {
 }
 
 function hasClawSweeperReadyReviewSignal(body) {
+  const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
   return (
-    /^codex review:\s*needs maintainer review before merge\./.test(body) &&
+    isClawSweeperMaintainerReviewHeader(firstLine) &&
     /result:\s*ready for maintainer review\./.test(body) &&
     /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job)? is needed|no concrete contributor-facing blocker left|remaining action is normal maintainer review)/.test(
       body,
@@ -979,7 +980,7 @@ function isClawSweeperAuthor(author) {
 function hasActionableClawSweeperReviewSignal(body) {
   const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
   if (
-    firstLine !== "codex review: needs maintainer review before merge." &&
+    !isClawSweeperMaintainerReviewHeader(firstLine) &&
     /\b(?:needs?|requires?|blocked|changes?)\b.*\bbefore merge\./.test(firstLine)
   ) {
     return true;
@@ -990,6 +991,12 @@ function hasActionableClawSweeperReviewSignal(body) {
     /\*\*risk before merge\*\*[\s\S]{0,1600}\b(?:blocker|must|needs?|required|missing)\b/,
     /\*\*next step before merge\*\*[\s\S]{0,1200}\bremaining (?:merge )?blocker\b/,
   ].some((pattern) => pattern.test(body));
+}
+
+function isClawSweeperMaintainerReviewHeader(line) {
+  return /^codex review:\s*needs maintainer review before merge\.(?:\s+_reviewed [^_\r\n]+_)?$/i.test(
+    String(line ?? "").trim(),
+  );
 }
 
 function findHighRiskMergeLabel(labels) {

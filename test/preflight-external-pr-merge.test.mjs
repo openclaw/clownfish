@@ -466,6 +466,48 @@ test("external merge preflight ignores #98052 pull-author proof updates", () => 
   assert.equal(report.status, "passed", report.reason);
 });
 
+test("external merge preflight accepts #99607 timestamped exact-head live review shape", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "brian-bell" },
+    pullLabels: [
+      { name: "gateway" },
+      { name: "size: L" },
+      { name: "proof: sufficient" },
+      { name: "P2" },
+      { name: "rating: diamond lobster" },
+      { name: "status: ready for maintainer look" },
+    ],
+    issueComments: [
+      {
+        author: { login: "clawsweeper" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-07-03T17:41:31Z",
+        updatedAt: "2026-07-06T14:00:25Z",
+        isMinimized: false,
+        minimizedReason: null,
+        body: [
+          "Codex review: needs maintainer review before merge. _Reviewed July 6, 2026, 9:59 AM ET / 13:59 UTC._",
+          "",
+          "**Review metrics:** none identified.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No repair job is needed; there are no blocking review findings and the remaining step is normal maintainer review plus required merge gates.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high updated_at=2026-07-06T13:46:47Z reviewed_at=2026-07-06T13:59:22.489Z -->`,
+          "",
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/99607#issuecomment-4878396209",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
 test("external merge preflight ignores #98821 stale QA and refresh comments after a newer exact-head ready review", () => {
   const fixture = makeFixture({
     pullUser: { login: "harjothkhara" },
@@ -477,7 +519,7 @@ test("external merge preflight ignores #98821 stale QA and refresh comments afte
         createdAt: "2026-07-02T01:21:02Z",
         updatedAt: "2026-07-06T14:33:20Z",
         body: [
-          "Codex review: needs maintainer review before merge.",
+          "Codex review: needs maintainer review before merge. _Reviewed July 6, 2026, 10:32 AM ET / 14:32 UTC._",
           "",
           "**Summary**",
           "The PR adds process-local, tool-qualified warning deduplication plus focused regression tests.",
@@ -577,7 +619,7 @@ test("external merge preflight blocks a #98821-shaped QA failure note newer than
         createdAt: "2026-07-06T14:32:03Z",
         updatedAt: "2026-07-06T14:33:20Z",
         body: [
-          "Codex review: needs maintainer review before merge.",
+          "Codex review: needs maintainer review before merge. _Reviewed July 6, 2026, 10:32 AM ET / 14:32 UTC._",
           "",
           "**Review metrics:** none identified.",
           "Result: ready for maintainer review.",
