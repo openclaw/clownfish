@@ -22,6 +22,11 @@ const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const CLOWNFISH_LABEL = "clownfish";
 const CLOWNFISH_LABEL_COLOR = "F97316";
 const CLOWNFISH_LABEL_DESCRIPTION = "Tracked by Clownfish automation";
+const EXACT_MERGE_CHECK_NAME = "clownfish/exact-merge";
+let activeExactMergeAuthorization = null;
+let exactMergeCleanupRunning = false;
+
+installExactMergeExitCleanup();
 
 const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
@@ -467,18 +472,6 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   const pullRequest = fetchPullRequest(result.repo, target);
   const view = fetchSettledPullRequestView(result.repo, target);
   const mergedAt = pullRequest.merged_at ?? view.mergedAt ?? null;
-  if (mergedAt) {
-    return {
-      ...base,
-      status: "executed",
-      reason: "already merged",
-      live_state: "merged",
-      live_updated_at: live.updated_at,
-      merged_at: mergedAt,
-      merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
-    };
-  }
-
   const expectedHeadSha = String(action.expected_head_sha ?? "");
   if (!/^[0-9a-f]{40}$/i.test(expectedHeadSha)) {
     return {
@@ -501,6 +494,57 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
+  if (mergedAt) {
+    const mergePreflightBlock = validateMergePreflight({
+      result,
+      action,
+      target,
+      expectedHeadSha,
+    });
+    if (mergePreflightBlock) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: mergePreflightBlock,
+        live_state: "merged",
+        live_updated_at: live.updated_at,
+        merged_at: mergedAt,
+        merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+      };
+    }
+    const mergedProof = verifyActualMergedCommit({
+      result,
+      action,
+      target,
+      expectedHeadSha,
+      pullRequest,
+    });
+    if (mergedProof?.reason) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: mergedProof.reason,
+        live_state: "merged",
+        live_updated_at: live.updated_at,
+        merged_at: mergedAt,
+        merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+        reviewed_effective_diff_sha256: mergedProof.reviewed_effective_diff_sha256 ?? null,
+        merged_effective_diff_sha256: mergedProof.merged_effective_diff_sha256 ?? null,
+      };
+    }
+    return {
+      ...base,
+      status: "executed",
+      reason: "already merged",
+      live_state: "merged",
+      live_updated_at: live.updated_at,
+      merged_at: mergedAt,
+      merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+      effective_diff_sha256: mergedProof?.merged_effective_diff_sha256 ?? null,
+      verified_main_sha: mergedProof?.verified_parent_sha ?? null,
+    };
+  }
+
   if (
     metadataDrifted &&
     !isBenignExactHeadClawSweeperUpdate({
@@ -530,7 +574,12 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
-  const mergePreflightBlock = validateMergePreflight({ result, target });
+  const mergePreflightBlock = validateMergePreflight({
+    result,
+    action,
+    target,
+    expectedHeadSha,
+  });
   if (mergePreflightBlock) {
     return {
       ...base,
@@ -538,6 +587,25 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       reason: mergePreflightBlock,
       live_state: live.state,
       live_updated_at: live.updated_at,
+    };
+  }
+  const effectiveDiffBinding = verifyExternalMergeBinding({
+    result,
+    action,
+    target,
+    expectedHeadSha,
+  });
+  if (effectiveDiffBinding?.reason) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: effectiveDiffBinding.reason,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      reviewed_effective_diff_sha256: effectiveDiffBinding.reviewed_effective_diff_sha256 ?? null,
+      live_effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256 ?? null,
+      verified_main_sha: effectiveDiffBinding.verified_main_sha ?? null,
+      base_drift_proof: effectiveDiffBinding.base_drift_proof ?? null,
     };
   }
   const currentBaseBlock = validatePullRequestCurrentBase({ repo: result.repo, pullRequest, view });
@@ -552,6 +620,20 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       current_main_sha: currentBaseBlock.current_main_sha,
     };
   }
+  if (effectiveDiffBinding) {
+    const mergeMainSha = fetchBranchHeadSha(result.repo, "main");
+    if (mergeMainSha !== effectiveDiffBinding.verified_main_sha) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: "main changed after effective merge diff verification",
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        current_main_sha: mergeMainSha,
+      };
+    }
+  }
 
   if (process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
     if (!dryRun) labelForClownfishReview(result.repo, target);
@@ -562,6 +644,9 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_state: live.state,
       live_updated_at: live.updated_at,
       merge_method: "squash",
+      effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
+      verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
+      base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
     };
   }
 
@@ -573,30 +658,259 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_state: live.state,
       live_updated_at: live.updated_at,
       merge_method: "squash",
+      effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
+      verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
+      base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
     };
   }
 
-  ghWithRetry([
-    "pr",
-    "merge",
-    String(target),
-    "--repo",
-    result.repo,
-    "--squash",
-    "--match-head-commit",
+  let exactMergeCheck = null;
+  if (effectiveDiffBinding) {
+    const ruleBlock = validateExactMergeRule(result.repo);
+    if (ruleBlock) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: ruleBlock,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+      };
+    }
+    let checkedIssue;
+    let checkedPull;
+    let checkedView;
+    let checkedMainSha;
+    try {
+      checkedIssue = fetchIssue(result.repo, target);
+      checkedPull = fetchPullRequest(result.repo, target);
+      checkedView = fetchSettledPullRequestView(result.repo, target);
+      checkedMainSha = fetchBranchHeadSha(result.repo, "main");
+    } catch (error) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: `could not complete final exact-merge recheck: ${compactErrorText(commandErrorText(error), 500)}`,
+        retry_recommended: true,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+      };
+    }
+    const checkedMergeBlock = validateMergeablePullRequest({
+      pullRequest: checkedPull,
+      view: checkedView,
+    });
+    const checkedPreflightBlock = validateMergePreflight({
+      result,
+      action,
+      target,
+      expectedHeadSha,
+    });
+    if (
+      String(checkedPull.head?.sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase() ||
+      String(checkedPull.merge_commit_sha ?? "").toLowerCase() !==
+        effectiveDiffBinding.merge_commit_sha.toLowerCase() ||
+      checkedMainSha !== effectiveDiffBinding.verified_main_sha ||
+      checkedIssue.updated_at !== live.updated_at ||
+      hasSecuritySignal(checkedIssue) ||
+      findHighRiskMergeLabel(checkedIssue.labels) ||
+      checkedMergeBlock ||
+      checkedPreflightBlock
+    ) {
+      return {
+        ...base,
+        status: "blocked",
+        reason:
+          checkedPreflightBlock ||
+          checkedMergeBlock ||
+          "head, test merge, main, metadata, or risk state changed before exact-merge authorization",
+        retry_recommended: true,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        current_main_sha: checkedMainSha,
+      };
+    }
+    try {
+      exactMergeCheck = publishExactMergeCheck({
+        repo: result.repo,
+        action,
+        target,
+        expectedHeadSha,
+        effectiveDiffBinding,
+      });
+    } catch (error) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: `could not publish exact-merge check: ${compactErrorText(commandErrorText(error), 500)}`,
+        retry_recommended: true,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+      };
+    }
+  }
+
+  try {
+    ghOnce([
+      "pr",
+      "merge",
+      String(target),
+      "--repo",
+      result.repo,
+      "--squash",
+      "--match-head-commit",
+      expectedHeadSha,
+    ]);
+  } catch (error) {
+    const mergedAfterError = fetchPullRequestAfterMergeAttempt(result.repo, target);
+    if (mergedAfterError?.merged_at) {
+      return buildMergedActionResult({
+        base,
+        live,
+        result,
+        action,
+        target,
+        expectedHeadSha,
+        merged: mergedAfterError,
+        effectiveDiffBinding,
+        exactMergeCheck,
+        reason: "merge command failed after GitHub accepted the merge",
+      });
+    }
+    const blockedResult = {
+        ...base,
+        status: "blocked",
+        reason: isMergeRefMovementError(error)
+          ? "pull request base or head changed during merge; rerun preflight"
+          : `merge command failed without retry: ${compactErrorText(commandErrorText(error), 500)}`,
+        retry_recommended: true,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
+        verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
+        base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
+        exact_merge_check: exactMergeCheck,
+      };
+    return exactMergeCheck
+      ? withExactMergeRevocation({
+          repo: result.repo,
+          target,
+          exactMergeCheck,
+          result: blockedResult,
+        })
+      : blockedResult;
+  }
+  const merged = fetchPullRequestAfterMergeAttempt(result.repo, target);
+  return buildMergedActionResult({
+    base,
+    live,
+    result,
+    action,
+    target,
     expectedHeadSha,
-  ]);
-  const merged = fetchPullRequest(result.repo, target);
+    merged,
+    effectiveDiffBinding,
+    exactMergeCheck,
+    reason: "merged by projectclownfish",
+  });
+}
+
+function fetchPullRequestAfterMergeAttempt(repo, target) {
+  try {
+    return fetchPullRequest(repo, target);
+  } catch {
+    return null;
+  }
+}
+
+function buildMergedActionResult({
+  base,
+  live,
+  result,
+  action,
+  target,
+  expectedHeadSha,
+  merged,
+  effectiveDiffBinding,
+  exactMergeCheck,
+  reason,
+}) {
+  if (!merged?.merged_at || !/^[0-9a-f]{40}$/i.test(String(merged?.merge_commit_sha ?? ""))) {
+    const blockedResult = {
+      ...base,
+      status: "blocked",
+      reason: "merge command returned without a verified merged pull request",
+      retry_recommended: true,
+      live_state: merged?.state ?? live.state,
+      live_updated_at: merged?.updated_at ?? live.updated_at,
+      expected_head_sha: expectedHeadSha,
+      effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
+      verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
+      exact_merge_check: exactMergeCheck,
+    };
+    return exactMergeCheck
+      ? withExactMergeRevocation({
+          repo: result.repo,
+          exactMergeCheck,
+          result: blockedResult,
+        })
+      : blockedResult;
+  }
+  clearActiveExactMergeAuthorization(exactMergeCheck);
+  const mergedProof = verifyActualMergedCommit({
+    result,
+    action,
+    target,
+    expectedHeadSha,
+    pullRequest: merged,
+  });
+  if (mergedProof?.reason) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: mergedProof.reason,
+      retry_recommended: true,
+      live_state: "merged",
+      live_updated_at: merged.updated_at ?? live.updated_at,
+      merged_at: merged.merged_at,
+      merge_commit_sha: merged.merge_commit_sha,
+      expected_head_sha: expectedHeadSha,
+      reviewed_effective_diff_sha256: mergedProof.reviewed_effective_diff_sha256 ?? null,
+      merged_effective_diff_sha256: mergedProof.merged_effective_diff_sha256 ?? null,
+      verified_main_sha: mergedProof.verified_parent_sha ?? effectiveDiffBinding?.verified_main_sha ?? null,
+      exact_merge_check: exactMergeCheck,
+    };
+  }
   return {
     ...base,
     status: "executed",
-    reason: "merged by projectclownfish",
+    reason,
     live_state: "merged",
-    live_updated_at: live.updated_at,
-    merged_at: merged.merged_at ?? null,
-    merge_commit_sha: merged.merge_commit_sha ?? null,
+    live_updated_at: merged.updated_at ?? live.updated_at,
+    merged_at: merged.merged_at,
+    merge_commit_sha: merged.merge_commit_sha,
     merge_method: "squash",
     expected_head_sha: expectedHeadSha,
+    effective_diff_sha256:
+      mergedProof?.merged_effective_diff_sha256 ??
+      effectiveDiffBinding?.live_effective_diff_sha256 ??
+      null,
+    verified_main_sha:
+      mergedProof?.verified_parent_sha ??
+      effectiveDiffBinding?.verified_main_sha ??
+      null,
+    exact_merge_check: exactMergeCheck,
   };
 }
 
@@ -701,9 +1015,15 @@ function ensureLabel(repo, name, color, description) {
   }
 }
 
-function validateMergePreflight({ result, target }) {
+function validateMergePreflight({ result, action, target, expectedHeadSha }) {
   const preflight = findMergePreflight(result, target);
   if (!preflight) return "merge requires merge_preflight entry";
+  const externalBindingBlock = validateExternalMergeBindingFields({
+    action,
+    preflight,
+    expectedHeadSha,
+  });
+  if (externalBindingBlock) return externalBindingBlock;
   if (preflight.security_status !== "cleared") return "security preflight is not cleared";
   if (!Array.isArray(preflight.security_evidence) || preflight.security_evidence.length === 0) {
     return "security preflight evidence is missing";
@@ -729,6 +1049,482 @@ function validateMergePreflight({ result, target }) {
   const unresolvedThreadBlock = validateResolvedReviewThreads(result.repo, target);
   if (unresolvedThreadBlock) return unresolvedThreadBlock;
   return "";
+}
+
+function validateExternalMergeBindingFields({ action, preflight, expectedHeadSha }) {
+  if (!isExternalMergeAction(action)) return "";
+  if (!preflight) return "external merge requires merge_preflight entry";
+  if (!/^[0-9a-f]{40}$/i.test(String(preflight.reviewed_base_sha ?? ""))) {
+    return "external merge preflight reviewed_base_sha is missing or invalid";
+  }
+  if (String(preflight.reviewed_head_sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase()) {
+    return "external merge preflight reviewed_head_sha does not match expected head";
+  }
+  if (!/^[0-9a-f]{64}$/i.test(String(preflight.effective_diff_sha256 ?? ""))) {
+    return "external merge preflight effective_diff_sha256 is missing or invalid";
+  }
+  if (!Number.isInteger(preflight.effective_diff_files) || preflight.effective_diff_files < 0) {
+    return "external merge preflight effective_diff_files is missing or invalid";
+  }
+  return "";
+}
+
+function isExternalMergeAction(action) {
+  return String(action?.idempotency_key ?? "").startsWith("external-merge-preflight:");
+}
+
+function verifyExternalMergeBinding({ result, action, target, expectedHeadSha }) {
+  if (!isExternalMergeAction(action)) return null;
+  const preflight = findMergePreflight(result, target);
+  const reviewedFingerprint = String(preflight.effective_diff_sha256).toLowerCase();
+  const reviewedBaseSha = String(preflight.reviewed_base_sha).toLowerCase();
+  const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS, 6);
+  const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS, 2000);
+  let lastReason = "GitHub test merge ref was unavailable";
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const verifiedMainSha = fetchBranchHeadSha(result.repo, "main");
+      if (verifiedMainSha !== reviewedBaseSha) {
+        return {
+          reason: "main changed since external validation and Codex review",
+          reviewed_effective_diff_sha256: reviewedFingerprint,
+          verified_main_sha: verifiedMainSha,
+        };
+      }
+      const pull = fetchPullRequest(result.repo, target);
+      if (String(pull.head?.sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase()) {
+        return {
+          reason: "pull request head changed during effective merge diff verification",
+          reviewed_effective_diff_sha256: reviewedFingerprint,
+          verified_main_sha: verifiedMainSha,
+        };
+      }
+      const mergeCommitSha = String(pull.merge_commit_sha ?? "");
+      if (!/^[0-9a-f]{40}$/i.test(mergeCommitSha)) {
+        lastReason = "GitHub test merge commit SHA is unavailable";
+      } else {
+        const mergeCommit = ghJson(["api", `repos/${result.repo}/git/commits/${mergeCommitSha}`]);
+        const parents = mergeCommit.parents ?? [];
+        const mergeBaseSha = String(parents[0]?.sha ?? "");
+        const mergeHeadSha = String(parents[1]?.sha ?? "");
+        if (mergeBaseSha.toLowerCase() !== reviewedBaseSha) {
+          lastReason = "GitHub test merge commit is not based on the reviewed main SHA";
+        } else if (mergeHeadSha.toLowerCase() !== expectedHeadSha.toLowerCase()) {
+          lastReason = "GitHub test merge commit does not contain the reviewed PR head";
+        } else {
+          const baseCommit = ghJson(["api", `repos/${result.repo}/git/commits/${mergeBaseSha}`]);
+          const baseEntries = fetchGitTreeEntries(result.repo, baseCommit.tree?.sha);
+          const mergeEntries = fetchGitTreeEntries(result.repo, mergeCommit.tree?.sha);
+          const liveFingerprint = fingerprintTreeEntries(baseEntries, mergeEntries);
+          if (liveFingerprint.files !== preflight.effective_diff_files) {
+            return {
+              reason:
+                `effective merge file count changed since review: reviewed ${preflight.effective_diff_files}, ` +
+                `current ${liveFingerprint.files}`,
+              reviewed_effective_diff_sha256: reviewedFingerprint,
+              live_effective_diff_sha256: liveFingerprint.sha256,
+              verified_main_sha: verifiedMainSha,
+            };
+          }
+          if (liveFingerprint.sha256 !== reviewedFingerprint) {
+            return {
+              reason: "effective merge diff changed since Codex review",
+              reviewed_effective_diff_sha256: reviewedFingerprint,
+              live_effective_diff_sha256: liveFingerprint.sha256,
+              verified_main_sha: verifiedMainSha,
+            };
+          }
+          return {
+            reviewed_effective_diff_sha256: reviewedFingerprint,
+            live_effective_diff_sha256: liveFingerprint.sha256,
+            effective_diff_files: liveFingerprint.files,
+            verified_main_sha: verifiedMainSha,
+            merge_commit_sha: mergeCommitSha,
+          };
+        }
+      }
+    } catch (error) {
+      lastReason = `could not verify GitHub test merge commit: ${String(error?.message ?? error)}`;
+    }
+    if (attempt < attempts && delayMs > 0) sleepMs(delayMs);
+  }
+
+  return {
+    reason: lastReason,
+    reviewed_effective_diff_sha256: reviewedFingerprint,
+  };
+}
+
+function validateExactMergeRule(repo) {
+  const appId = positiveInteger(process.env.CLOWNFISH_APP_ID, 0);
+  if (!appId) return "external merge requires CLOWNFISH_APP_ID for exact-merge rule verification";
+  const rules = ghJson(["api", `repos/${repo}/rules/branches/main`]);
+  const statusRule = (rules ?? []).find((rule) => {
+    if (rule?.type !== "required_status_checks") return false;
+    const parameters = rule.parameters ?? {};
+    if (parameters.strict_required_status_checks_policy !== true) return false;
+    return (parameters.required_status_checks ?? []).some(
+      (check) =>
+        check?.context === EXACT_MERGE_CHECK_NAME &&
+        Number(check?.integration_id) === appId,
+    );
+  });
+  return statusRule
+    ? ""
+    : `main must strictly require ${EXACT_MERGE_CHECK_NAME} from GitHub App ${appId}`;
+}
+
+function publishExactMergeCheck({ repo, action, target, expectedHeadSha, effectiveDiffBinding }) {
+  const appId = positiveInteger(process.env.CLOWNFISH_APP_ID, 0);
+  const mergeCommitSha = effectiveDiffBinding.merge_commit_sha.toLowerCase();
+  const externalId = String(action.idempotency_key);
+  const detailsUrl =
+    process.env.GITHUB_RUN_ID && process.env.GITHUB_REPOSITORY
+      ? `${process.env.GITHUB_SERVER_URL ?? "https://github.com"}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+      : undefined;
+  let pending = findExactMergeCheckCandidate({ repo, mergeCommitSha, externalId, appId });
+  if (pending?.status === "completed" && pending?.conclusion === "success") {
+    const exactMergeCheck = exactMergeCheckRecord(pending, mergeCommitSha, externalId);
+    setActiveExactMergeAuthorization(repo, exactMergeCheck);
+    return exactMergeCheck;
+  }
+  if (!pending) {
+    const pendingPayloadPath = writePayload(`pending-exact-merge-check-${target}`, {
+      name: EXACT_MERGE_CHECK_NAME,
+      head_sha: mergeCommitSha,
+      status: "in_progress",
+      external_id: externalId,
+      ...(detailsUrl ? { details_url: detailsUrl } : {}),
+      output: {
+        title: `Exact merge pending for #${target}`,
+        summary: "Final policy checks passed; merge authorization has not been granted yet.",
+      },
+    });
+    try {
+      pending = ghJson([
+        "api",
+        `repos/${repo}/check-runs`,
+        "--method",
+        "POST",
+        "--input",
+        pendingPayloadPath,
+      ]);
+    } catch (error) {
+      pending = findExactMergeCheckCandidate({ repo, mergeCommitSha, externalId, appId });
+      if (!pending) throw error;
+    }
+  }
+  if (pending?.status === "completed" && pending?.conclusion === "success") {
+    const exactMergeCheck = exactMergeCheckRecord(pending, mergeCommitSha, externalId);
+    setActiveExactMergeAuthorization(repo, exactMergeCheck);
+    return exactMergeCheck;
+  }
+  if (
+    !pending ||
+    pending.name !== EXACT_MERGE_CHECK_NAME ||
+    pending.head_sha?.toLowerCase() !== mergeCommitSha ||
+    pending.external_id !== externalId ||
+    pending.status !== "in_progress" ||
+    pending.conclusion != null ||
+    Number(pending.app?.id) !== appId
+  ) {
+    throw new Error("GitHub returned an invalid pending exact-merge check run");
+  }
+
+  const pendingRecord = exactMergeCheckRecord(pending, mergeCommitSha, externalId);
+  const successPayloadPath = writePayload(`authorize-exact-merge-check-${target}`, {
+    name: EXACT_MERGE_CHECK_NAME,
+    status: "completed",
+    conclusion: "success",
+    ...(detailsUrl ? { details_url: detailsUrl } : {}),
+    output: {
+      title: `Exact merge verified for #${target}`,
+      summary:
+        `Reviewed base ${effectiveDiffBinding.verified_main_sha}, head ${expectedHeadSha}, ` +
+        `test merge ${mergeCommitSha}, effective diff ${effectiveDiffBinding.live_effective_diff_sha256}.`,
+    },
+  });
+  let authorized;
+  try {
+    authorized = ghJson([
+      "api",
+      `repos/${repo}/check-runs/${pending.id}`,
+      "--method",
+      "PATCH",
+      "--input",
+      successPayloadPath,
+    ]);
+  } catch (error) {
+    const recovered = findExactMergeCheck({ repo, mergeCommitSha, externalId, appId });
+    if (recovered) {
+      const exactMergeCheck = exactMergeCheckRecord(recovered, mergeCommitSha, externalId);
+      setActiveExactMergeAuthorization(repo, exactMergeCheck);
+      return exactMergeCheck;
+    }
+    setActiveExactMergeAuthorization(repo, pendingRecord);
+    try {
+      revokeExactMergeCheck({ repo, exactMergeCheck: pendingRecord });
+      clearActiveExactMergeAuthorization(pendingRecord);
+    } catch {
+      // The exit guard retries in case GitHub accepted the authorization update.
+    }
+    throw error;
+  }
+  if (
+    !authorized ||
+    authorized.id !== pending.id ||
+    authorized.name !== EXACT_MERGE_CHECK_NAME ||
+    authorized.head_sha?.toLowerCase() !== mergeCommitSha ||
+    authorized.status !== "completed" ||
+    authorized.conclusion !== "success" ||
+    authorized.external_id !== externalId ||
+    Number(authorized.app?.id) !== appId
+  ) {
+    setActiveExactMergeAuthorization(repo, pendingRecord);
+    try {
+      revokeExactMergeCheck({ repo, exactMergeCheck: pendingRecord });
+      clearActiveExactMergeAuthorization(pendingRecord);
+    } catch {
+      // The exit guard retries cleanup if GitHub accepted the authorization update.
+    }
+    throw new Error("GitHub returned an invalid exact-merge authorization");
+  }
+  const exactMergeCheck = exactMergeCheckRecord(authorized, mergeCommitSha, externalId);
+  setActiveExactMergeAuthorization(repo, exactMergeCheck);
+  return exactMergeCheck;
+}
+
+function findExactMergeCheck({ repo, mergeCommitSha, externalId, appId }) {
+  const candidate = findExactMergeCheckCandidate({ repo, mergeCommitSha, externalId, appId });
+  return candidate?.status === "completed" && candidate?.conclusion === "success"
+    ? candidate
+    : null;
+}
+
+function findExactMergeCheckCandidate({ repo, mergeCommitSha, externalId, appId }) {
+  const response = ghJson([
+    "api",
+    `repos/${repo}/commits/${mergeCommitSha}/check-runs?check_name=${encodeURIComponent(EXACT_MERGE_CHECK_NAME)}&filter=all`,
+  ]);
+  const matching = (response?.check_runs ?? [])
+    .filter(
+      (check) =>
+        check?.name === EXACT_MERGE_CHECK_NAME &&
+        check?.head_sha?.toLowerCase() === mergeCommitSha &&
+        check?.external_id === externalId &&
+        Number(check?.app?.id) === appId,
+    )
+    .sort((left, right) => Number(right?.id ?? 0) - Number(left?.id ?? 0));
+  const latest = matching[0];
+  return latest?.status === "in_progress" ||
+    (latest?.status === "completed" && latest?.conclusion === "success")
+    ? latest
+    : null;
+}
+
+function exactMergeCheckRecord(check, mergeCommitSha, externalId) {
+  return {
+    id: check.id,
+    name: EXACT_MERGE_CHECK_NAME,
+    head_sha: mergeCommitSha,
+    external_id: externalId,
+    app_id: Number(check.app?.id),
+    status: check.status,
+    conclusion: check.conclusion,
+  };
+}
+
+function withExactMergeRevocation({ repo, exactMergeCheck, result }) {
+  try {
+    const revocation = revokeExactMergeCheck({ repo, exactMergeCheck });
+    clearActiveExactMergeAuthorization(exactMergeCheck);
+    return { ...result, exact_merge_revocation: revocation };
+  } catch (error) {
+    const reason = compactErrorText(commandErrorText(error), 500);
+    return {
+      ...result,
+      reason: `${result.reason}; exact-merge revocation failed: ${reason}`,
+      exact_merge_revocation: { status: "failed", reason },
+    };
+  }
+}
+
+function revokeExactMergeCheck({ repo, exactMergeCheck }) {
+  const payloadPath = writePayload(`revoke-exact-merge-check-${exactMergeCheck.id}`, {
+    name: EXACT_MERGE_CHECK_NAME,
+    status: "completed",
+    conclusion: "failure",
+    output: {
+      title: "Exact-merge authorization revoked",
+      summary: "The authorization was not consumed by a verified merge.",
+    },
+  });
+  const revoked = ghJson([
+    "api",
+    `repos/${repo}/check-runs/${exactMergeCheck.id}`,
+    "--method",
+    "PATCH",
+    "--input",
+    payloadPath,
+  ]);
+  if (
+    revoked?.id !== exactMergeCheck.id ||
+    revoked?.name !== EXACT_MERGE_CHECK_NAME ||
+    revoked?.status !== "completed" ||
+    revoked?.conclusion !== "failure" ||
+    Number(revoked?.app?.id) !== exactMergeCheck.app_id
+  ) {
+    throw new Error("GitHub returned an invalid exact-merge revocation");
+  }
+  return {
+    status: "revoked",
+    check_id: revoked.id,
+    head_sha: exactMergeCheck.head_sha,
+    external_id: exactMergeCheck.external_id,
+    app_id: exactMergeCheck.app_id,
+  };
+}
+
+function setActiveExactMergeAuthorization(repo, exactMergeCheck) {
+  activeExactMergeAuthorization = { repo, exactMergeCheck };
+}
+
+function clearActiveExactMergeAuthorization(exactMergeCheck) {
+  if (!activeExactMergeAuthorization) return;
+  if (
+    exactMergeCheck &&
+    Number(activeExactMergeAuthorization.exactMergeCheck?.id) !== Number(exactMergeCheck.id)
+  ) {
+    return;
+  }
+  activeExactMergeAuthorization = null;
+}
+
+function installExactMergeExitCleanup() {
+  const cleanup = () => {
+    if (!activeExactMergeAuthorization || exactMergeCleanupRunning) return;
+    exactMergeCleanupRunning = true;
+    try {
+      revokeExactMergeCheck(activeExactMergeAuthorization);
+      activeExactMergeAuthorization = null;
+    } catch (error) {
+      console.error(
+        `failed to revoke active exact-merge authorization: ${compactErrorText(commandErrorText(error), 500)}`,
+      );
+    } finally {
+      exactMergeCleanupRunning = false;
+    }
+  };
+
+  process.once("exit", cleanup);
+  for (const [signal, exitCode] of [
+    ["SIGINT", 130],
+    ["SIGTERM", 143],
+    ["SIGHUP", 129],
+  ]) {
+    process.once(signal, () => {
+      cleanup();
+      process.exit(exitCode);
+    });
+  }
+}
+
+function verifyActualMergedCommit({ result, action, target, expectedHeadSha, pullRequest }) {
+  if (!isExternalMergeAction(action)) return null;
+  const preflight = findMergePreflight(result, target);
+  const bindingBlock = validateExternalMergeBindingFields({
+    action,
+    preflight,
+    expectedHeadSha,
+  });
+  if (bindingBlock) return { reason: bindingBlock };
+  if (String(pullRequest?.head?.sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase()) {
+    return { reason: "merged pull request head does not match the reviewed head" };
+  }
+  const reviewedFingerprint = String(preflight.effective_diff_sha256).toLowerCase();
+  const reviewedBaseSha = String(preflight.reviewed_base_sha).toLowerCase();
+  const mergeCommitSha = String(pullRequest?.merge_commit_sha ?? "").toLowerCase();
+  if (!/^[0-9a-f]{40}$/.test(mergeCommitSha)) {
+    return {
+      reason: "merged pull request does not expose a valid squash commit SHA",
+      reviewed_effective_diff_sha256: reviewedFingerprint,
+    };
+  }
+  try {
+    const mergeCommit = ghJson(["api", `repos/${result.repo}/git/commits/${mergeCommitSha}`]);
+    const parents = mergeCommit.parents ?? [];
+    if (parents.length !== 1 || String(parents[0]?.sha ?? "").toLowerCase() !== reviewedBaseSha) {
+      return {
+        reason: "actual squash commit is not based on the reviewed main SHA",
+        reviewed_effective_diff_sha256: reviewedFingerprint,
+        verified_parent_sha: String(parents[0]?.sha ?? "").toLowerCase() || null,
+      };
+    }
+    const parentCommit = ghJson(["api", `repos/${result.repo}/git/commits/${reviewedBaseSha}`]);
+    const parentEntries = fetchGitTreeEntries(result.repo, parentCommit.tree?.sha);
+    const mergedEntries = fetchGitTreeEntries(result.repo, mergeCommit.tree?.sha);
+    const mergedFingerprint = fingerprintTreeEntries(parentEntries, mergedEntries);
+    if (
+      mergedFingerprint.files !== preflight.effective_diff_files ||
+      mergedFingerprint.sha256 !== reviewedFingerprint
+    ) {
+      return {
+        reason: "actual squash commit diff does not match the reviewed effective diff",
+        reviewed_effective_diff_sha256: reviewedFingerprint,
+        merged_effective_diff_sha256: mergedFingerprint.sha256,
+        verified_parent_sha: reviewedBaseSha,
+      };
+    }
+    return {
+      reviewed_effective_diff_sha256: reviewedFingerprint,
+      merged_effective_diff_sha256: mergedFingerprint.sha256,
+      verified_parent_sha: reviewedBaseSha,
+    };
+  } catch (error) {
+    return {
+      reason: `could not verify actual squash commit: ${compactErrorText(String(error?.message ?? error), 500)}`,
+      reviewed_effective_diff_sha256: reviewedFingerprint,
+    };
+  }
+}
+
+function fetchGitTreeEntries(repo, treeSha) {
+  if (!/^[0-9a-f]{40}$/i.test(String(treeSha ?? ""))) {
+    throw new Error("GitHub commit tree SHA is missing or invalid");
+  }
+  const response = ghJson(["api", `repos/${repo}/git/trees/${treeSha}?recursive=1`]);
+  if (response.truncated) throw new Error("GitHub recursive tree response was truncated");
+  const entries = new Map();
+  for (const entry of response.tree ?? []) {
+    if (entry.type === "tree") continue;
+    const filePath = String(entry.path ?? "");
+    const mode = String(entry.mode ?? "");
+    const type = String(entry.type ?? "");
+    const sha = String(entry.sha ?? "").toLowerCase();
+    if (!filePath || !mode || !type || !/^[0-9a-f]{40}$/i.test(sha)) {
+      throw new Error("GitHub tree contains an invalid entry");
+    }
+    entries.set(filePath, `${mode}:${type}:${sha}`);
+  }
+  return entries;
+}
+
+function fingerprintTreeEntries(baseEntries, resultEntries) {
+  const changes = [];
+  const paths = [...new Set([...baseEntries.keys(), ...resultEntries.keys()])].sort();
+  for (const filePath of paths) {
+    const before = baseEntries.get(filePath) ?? null;
+    const after = resultEntries.get(filePath) ?? null;
+    if (before === after) continue;
+    changes.push([filePath, before, after]);
+  }
+  const serialized = `${changes.map((entry) => JSON.stringify(entry)).join("\n")}\n`;
+  return {
+    files: changes.length,
+    sha256: sha256(serialized),
+    changes,
+  };
 }
 
 function findMergePreflight(result, target) {
@@ -1158,13 +1954,7 @@ function ghWithRetry(ghArgs, attempts = 6) {
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     try {
-      return execFileSync("gh", ghArgs, {
-        cwd: repoRoot(),
-        encoding: "utf8",
-        env: githubCliEnv(),
-        maxBuffer: 64 * 1024 * 1024,
-        stdio: ["ignore", "pipe", "pipe"],
-      }).trim();
+      return ghOnce(ghArgs);
     } catch (error) {
       lastError = error;
       if (!shouldRetryGh(error) || attempt === attempts - 1) throw error;
@@ -1173,6 +1963,16 @@ function ghWithRetry(ghArgs, attempts = 6) {
     }
   }
   throw lastError;
+}
+
+function ghOnce(ghArgs) {
+  return execFileSync("gh", ghArgs, {
+    cwd: repoRoot(),
+    encoding: "utf8",
+    env: githubCliEnv(),
+    maxBuffer: 64 * 1024 * 1024,
+    stdio: ["ignore", "pipe", "pipe"],
+  }).trim();
 }
 
 function githubCliEnv() {
@@ -1241,12 +2041,15 @@ function shouldRetryGh(error) {
   return (
     message.includes("was submitted too quickly") ||
     message.includes("secondary rate") ||
-    message.includes("Base branch was modified") ||
-    message.includes("Head branch was modified") ||
     /\bHTTP (?:502|503|504)\b/i.test(message) ||
     /\b(?:bad gateway|service unavailable|gateway timeout)\b/i.test(message) ||
     /error connecting to api\.github\.com/i.test(message)
   );
+}
+
+function isMergeRefMovementError(error) {
+  const text = commandErrorText(error);
+  return text.includes("Base branch was modified") || text.includes("Head branch was modified");
 }
 
 function sleepMs(milliseconds) {

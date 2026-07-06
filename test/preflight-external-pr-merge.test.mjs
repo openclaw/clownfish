@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -20,7 +21,7 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /PR head changed during checkout/);
   assert.match(script, /function ensureMergeBase/);
   assert.match(script, /function prepareSyntheticMergeReview/);
-  assert.match(script, /"merge-tree", "--write-tree", currentMainSha, exactHeadSha/);
+  assert.match(script, /"merge-tree", "--write-tree", baseSha, exactHeadSha/);
   assert.match(script, /"commit-tree",\s*mergeTreeSha,\s*"-p",\s*currentMainSha/);
   assert.match(script, /"rev-parse", "HEAD\^\{tree\}"/);
   assert.match(script, /"rev-parse", "HEAD\^"/);
@@ -33,13 +34,21 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /inline review comment/);
   assert.match(
     script,
-    /const defaultCodexReviewSandbox = process\.env\.GITHUB_ACTIONS === "true" \? "danger-full-access" : "read-only";/,
+    /const defaultCodexReviewSandbox = "read-only";/,
   );
   assert.match(script, /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \?\? defaultCodexReviewSandbox/);
   assert.match(script, /--sandbox",\s*codexReviewSandbox/);
+  assert.match(script, /--config\.enable-pre-post-scripts=false/);
+  assert.match(script, /GIT_NO_REPLACE_OBJECTS: "1"/);
+  assert.match(script, /function verifyTrackedFilesystem/);
+  assert.match(script, /function gitBlobSha/);
+  assert.match(script, /"check:changed", "--base", baseSha, "--head", headSha/);
+  assert.match(script, /do not use mutable branch refs/);
   assert.match(script, /delete env\[key\]/);
   assert.match(script, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
   assert.match(script, /function validationEnv\(\)[\s\S]*?"CLOWNFISH_READ_GH_TOKEN"/);
+  assert.match(script, /function validationEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
+  assert.match(script, /function codexEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
   assert.doesNotMatch(script, /pr", "merge"/);
   assert.doesNotMatch(script, /resolveReviewThread/);
 });
@@ -63,6 +72,8 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?npm run assert-mutation-integrity/);
   assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?- name: Upload apply artifact/);
   assert.match(workflow, /permission-pull-requests: write/);
+  assert.match(workflow, /permission-checks: write/);
+  assert.match(workflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
 });
 
 test("cluster worker chains blocked merge candidates through external preflight", () => {
@@ -85,6 +96,8 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /still running after/);
   assert.match(runnerScript, /clearInterval\(heartbeat\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
+  assert.match(clusterWorkflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
+  assert.equal((clusterWorkflow.match(/permission-checks: write/g) ?? []).length >= 2, true);
   assert.match(
     clusterWorkflow,
     /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}"[\s\S]*?--max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"[\s\S]*?--concurrency "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY \|\| '3' \}\}"/,
@@ -137,6 +150,10 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
   assert.equal(result.actions[0].target_updated_at, "2026-06-19T00:05:00Z");
   assert.equal(result.merge_preflight[0].codex_review.status, "clean");
+  assert.equal(result.merge_preflight[0].reviewed_base_sha, fixture.baseSha);
+  assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
+  assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
+  assert.equal(result.merge_preflight[0].effective_diff_files, 1);
   assert.match(result.actions[0].evidence.join("\n"), /synthetic squash-result commit/);
 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
@@ -144,10 +161,27 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(report.synthetic_merge_tree_sha, fixture.mergeTreeSha);
   assert.equal(report.raw_diff_files, 2);
   assert.equal(report.effective_diff_files, 1);
+  assert.equal(report.effective_diff_sha256, fixture.effectiveDiffSha256);
   const gitCommands = fs.readFileSync(fixture.gitCommandsPath, "utf8");
   assert.match(gitCommands, new RegExp(`merge-tree --write-tree ${fixture.baseSha} ${fixture.headSha}`));
   assert.match(gitCommands, new RegExp(`commit-tree ${fixture.mergeTreeSha} -p ${fixture.baseSha}`));
   assert.match(gitCommands, new RegExp(`checkout --detach ${fixture.syntheticMergeSha}`));
+  assert.match(
+    gitCommands,
+    new RegExp(`diff --check ${fixture.baseSha}\\.\\.\\.${fixture.syntheticMergeSha}`),
+  );
+  assert.doesNotMatch(gitCommands, /diff --check origin\/main\.\.\.HEAD/);
+  const pnpmCommands = fs.readFileSync(fixture.pnpmCommandsPath, "utf8");
+  assert.match(
+    pnpmCommands,
+    new RegExp(`check:changed --base ${fixture.baseSha} --head ${fixture.syntheticMergeSha}`),
+  );
+  const codexPrompt = fs.readFileSync(fixture.codexPromptPath, "utf8");
+  assert.match(
+    codexPrompt,
+    new RegExp(`${fixture.baseSha}\\.\\.\\.${fixture.syntheticMergeSha}`),
+  );
+  assert.doesNotMatch(codexPrompt, /origin\/main\.\.\.HEAD/);
 
   const reviewed = spawnSync(process.execPath, ["scripts/review-results.mjs", fixture.runDir], {
     cwd: repoRoot,
@@ -203,6 +237,14 @@ test("external merge preflight blocks synthetic merge conflicts", () => {
   assert.equal(report.status, "blocked");
   assert.match(report.reason, /git merge-tree --write-tree/);
   assert.match(report.reason, /fixture merge conflict/);
+});
+
+test("external merge preflight blocks tracked checkout mutation after review", () => {
+  const fixture = makeFixture({ codexMutatesCheckout: true });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /synthetic review checkout changed tracked bytes/);
 });
 
 test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
@@ -286,7 +328,7 @@ for (const guardedDrift of [
 }
 
 test("external merge preflight tolerates base drift when exact head remains clean", () => {
-  const fixture = makeFixture({ currentMainSha: "c".repeat(40) });
+  const fixture = makeFixture({ currentMainSha: "9".repeat(40) });
   const child = spawnSync(
     process.execPath,
     ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
@@ -307,6 +349,15 @@ test("external merge preflight tolerates base drift when exact head remains clea
   assert.match(result.actions[0].evidence.join("\n"), /drifted from origin\/main/);
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
   assert.equal(report.base_drift_allowed, true);
+});
+
+test("external merge preflight blocks when main moves during validation or review", () => {
+  const fixture = makeFixture({ refreshedMainSha: "9".repeat(40) });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /changed while validation or review was running/);
+  assert.match(report.reason, new RegExp(`${fixture.baseSha}, current ${"9".repeat(40)}`));
 });
 
 test("external merge preflight treats zero-finding clean reviews as clean", () => {
@@ -2396,8 +2447,10 @@ function makeFixture({
   rehydratedHeadSha = null,
   rehydratedState = null,
   currentMainSha = null,
+  refreshedMainSha = null,
   validationFailure = null,
   syntheticMergeFailure = null,
+  codexMutatesCheckout = false,
   codexReview = {
     status: "clean",
     summary: "clean fixture review",
@@ -2414,7 +2467,24 @@ function makeFixture({
   const baseSha = "b".repeat(40);
   const mergeTreeSha = "c".repeat(40);
   const syntheticMergeSha = "d".repeat(40);
+  const baseBlobSha = "e".repeat(40);
+  const effectiveContent = "fixture effective content\n";
+  const mergeBlobSha = createHash("sha1")
+    .update(`blob ${Buffer.byteLength(effectiveContent)}\0`)
+    .update(effectiveContent)
+    .digest("hex");
+  const effectiveDiffSha256 = createHash("sha256")
+    .update(
+      `${JSON.stringify([
+        "src/effective.ts",
+        `100644:blob:${baseBlobSha}`,
+        `100644:blob:${mergeBlobSha}`,
+      ])}\n`,
+    )
+    .digest("hex");
   const gitCommandsPath = path.join(root, "git-commands.log");
+  const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
+  const codexPromptPath = path.join(root, "codex-prompt.txt");
   const finalIssueComments = rehydratedIssueComments ?? issueComments;
   const finalReviewComments = rehydratedReviewComments ?? reviewComments;
   const finalReviewThreads = rehydratedReviewThreads ?? [];
@@ -2473,7 +2543,9 @@ function nextValue(name, initial, refreshed) {
 if (args[0] === "repo" && args[1] === "clone") {
   const target = args[3];
   fs.mkdirSync(path.join(target, ".git"), { recursive: true });
+  fs.mkdirSync(path.join(target, "src"), { recursive: true });
   fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ packageManager: "pnpm@10.33.0" }));
+  fs.writeFileSync(path.join(target, "src", "effective.ts"), ${JSON.stringify(effectiveContent)});
   process.exit(0);
 }
 if (args[0] === "pr" && args[1] === "view") {
@@ -2534,17 +2606,31 @@ const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const currentMain = ${JSON.stringify(currentMainSha)} || base;
+const refreshedMain = ${JSON.stringify(refreshedMainSha)} || currentMain;
 const mergeTree = ${JSON.stringify(mergeTreeSha)};
 const synthetic = ${JSON.stringify(syntheticMergeSha)};
+const baseBlob = ${JSON.stringify(baseBlobSha)};
+const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const statePath = path.join(${JSON.stringify(root)}, "git-state");
+const refreshedMainPath = path.join(${JSON.stringify(root)}, "main-refreshed");
+const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count");
 const commandLog = ${JSON.stringify(gitCommandsPath)};
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
 if (args[0] === "rev-parse") {
-  if (args[1] === "origin/main" || args[1] === "HEAD^") console.log(currentMain);
+  if (args[1] === "origin/main") {
+    console.log(fs.existsSync(refreshedMainPath) ? refreshedMain : currentMain);
+  }
+  else if (args[1] === "HEAD^") console.log(currentMain);
   else if (args[1] === "HEAD^{tree}") console.log(mergeTree);
   else if (args[1] === "--is-shallow-repository") console.log("false");
   else console.log(state === "synthetic" ? synthetic : state === "main" ? currentMain : head);
+  process.exit(0);
+}
+if (args[0] === "fetch" && args.some((arg) => arg === "main:refs/remotes/origin/main")) {
+  const count = fs.existsSync(mainFetchCountPath) ? Number(fs.readFileSync(mainFetchCountPath, "utf8")) : 0;
+  fs.writeFileSync(mainFetchCountPath, String(count + 1));
+  if (count >= 1) fs.writeFileSync(refreshedMainPath, "refreshed");
   process.exit(0);
 }
 if (args[0] === "merge-base") {
@@ -2568,6 +2654,12 @@ if (args[0] === "commit-tree") {
   console.log(synthetic);
   process.exit(0);
 }
+if (args[0] === "ls-tree") {
+  const treeish = args.at(-1);
+  const blob = treeish === mergeTree ? mergeBlob : baseBlob;
+  process.stdout.write("100644 blob " + blob + "\\tsrc/effective.ts\\0");
+  process.exit(0);
+}
 if (args[0] === "diff" && args[1] === "--name-only") {
   if (args.includes("--diff-filter=U")) process.exit(0);
   const target = args.at(-1);
@@ -2582,8 +2674,11 @@ process.exit(0);
   writeExecutable(
     path.join(binDir, "pnpm"),
     `#!/usr/bin/env node
+const fs = require("node:fs");
+const args = process.argv.slice(2);
+fs.appendFileSync(${JSON.stringify(pnpmCommandsPath)}, args.join(" ") + "\\n");
 const failure = ${JSON.stringify(validationFailure)};
-if (failure && process.argv.slice(2).join(" ") === "check:changed") {
+if (failure && args[0] === "check:changed") {
   process.stdout.write(String(failure.stdout ?? ""));
   process.stderr.write(String(failure.stderr ?? ""));
   process.exit(Number(failure.status ?? 1));
@@ -2596,10 +2691,26 @@ if (failure && process.argv.slice(2).join(" ") === "check:changed") {
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 const index = args.indexOf("--output-last-message");
+fs.writeFileSync(${JSON.stringify(codexPromptPath)}, fs.readFileSync(0, "utf8"));
+if (${JSON.stringify(codexMutatesCheckout)}) {
+  fs.writeFileSync("src/effective.ts", "mutated by fixture review\\n");
+}
 fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 `,
   );
-  return { baseSha, binDir, gitCommandsPath, headSha, jobPath, mergeTreeSha, runDir, syntheticMergeSha };
+  return {
+    baseSha,
+    binDir,
+    effectiveDiffSha256,
+    codexPromptPath,
+    gitCommandsPath,
+    headSha,
+    jobPath,
+    mergeTreeSha,
+    pnpmCommandsPath,
+    runDir,
+    syntheticMergeSha,
+  };
 }
 
 function writeExecutable(filePath, content) {
