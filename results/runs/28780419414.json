@@ -1,0 +1,164 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260706T090631-001",
+  "mode": "autonomous",
+  "run_id": "28780419414",
+  "workflow_run_id": "28780419414",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28780419414",
+  "head_sha": "748e384c376ac0c0d6c37c3de4472f319d127326",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T09:07:40Z",
+  "workflow_updated_at": "2026-07-06T09:37:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T090631-001.md",
+  "published_at": "2026-07-06T09:37:47.710Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/77904",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/77904",
+  "summary": "PR #77904 is the canonical repair target, but it is not merge-ready: the hydrated artifact shows `check-lint` failed, comments were not hydrated despite 7 issue comments, mergeability is unknown, and Codex /review plus exact-head validation are missing. The PR is small, focused, maintainer-editable, and has successful behavior proof plus broad passing CI, so the correct path is to repair the contributor branch in place and then rerun external merge preflight.",
+  "actions": [
+    {
+      "target": "#77904",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#77904",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch_required"
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260706T090631-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#77904",
+      "candidate_fix": null,
+      "reason": "complete_executable_repair_artifact_for_editable_canonical_pr"
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#77904",
+    "source_refs": [
+      "#77904"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair contributor PR #77904 in place so `openclaw models list` and `openclaw models status` terminate after successful one-shot output without breaking embedded/custom runtimes or tests.",
+    "pr_title": "fix(cli): exit after model inspection output",
+    "pr_body": "## What Problem This Solves\n`openclaw models list` and `openclaw models status` can print complete non-interactive output but keep the process alive through the route-first command path.\n\n## Why This Change Was Made\nThe repair should preserve #77904's focused one-shot default-runtime exit behavior, clear the current lint failure, and keep embedded/custom runtime callers in control of their own exits.\n\n## User Impact\nScripts and SSH diagnostics can rely on successful model inspection commands terminating after output is flushed.\n\n## Evidence\nSource PR: https://github.com/openclaw/openclaw/pull/77904 by @dorukardahan. Required validation: focused CLI exit/model command tests plus `pnpm check:changed`, followed by Codex /review and exact-head merge preflight before merge.",
+    "likely_files": [
+      "src/cli/one-shot-exit.ts",
+      "src/cli/one-shot-exit.test.ts",
+      "src/commands/models/list.list-command.ts",
+      "src/commands/models/list.status-command.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/cli/one-shot-exit.test.ts src/commands/models/list.list-command.forward-compat.test.ts src/commands/models/list.status.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @dorukardahan as the source contributor for https://github.com/openclaw/openclaw/pull/77904.",
+      "Keep the repair on the existing PR branch because maintainer_can_modify=true; if an executor later discovers the branch cannot be updated safely, replacement must carry explicit source PR credit."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T090631-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/77904",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "7ee95958120a583da6bc784c26eeb8d4649cd391",
+      "checkpoint_commits": [
+        "895b09d311933a63f2c8aad499b7abc465767b39",
+        "76e15ffa83622e35d67c0fe753f6182063899ace",
+        "dce5dbdfbc1dbd25d8ebc110f72f30853a30ca9e",
+        "7ee95958120a583da6bc784c26eeb8d4649cd391"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#77904",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): exit after model inspection output",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: QA Smoke CI: IN_PROGRESS, checks-node-compact-small-whole-2: FAILURE, check-prod-types: FAILURE, check-lint: FAILURE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#77904",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): exit after model inspection output",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: QA Smoke CI: IN_PROGRESS, checks-node-compact-small-whole-2: FAILURE, check-prod-types: FAILURE, check-lint: FAILURE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
