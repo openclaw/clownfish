@@ -596,6 +596,10 @@ jobs:
         if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' && needs.prepare.outputs.allow_labels == '1' }}
         run: npm run tag-clownfish -- .projectclownfish/runs --apply --live --open-branches false --report .projectclownfish/runs/clownfish-label-report.json
 
+      - name: Verify mutation integrity
+        if: ${{ always() && env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        run: npm run assert-mutation-integrity -- .projectclownfish/runs
+
       - name: Upload final worker artifacts
         if: always()
         uses: actions/upload-artifact@v7

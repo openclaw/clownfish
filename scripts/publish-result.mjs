@@ -107,6 +107,9 @@ function publishResult(resultPath) {
   const runDir = path.dirname(resultPath);
   const result = readJson(resultPath);
   const applyReport = readSiblingJson(runDir, "apply-report.json") ?? { actions: [] };
+  const externalPreflightReport = readSiblingJson(runDir, "external-merge-preflight-report.json") ?? {
+    actions: [],
+  };
   const postFlightReport = readSiblingJson(runDir, "post-flight-report.json") ?? { actions: [] };
   const fixReport = readSiblingJson(runDir, "fix-execution-report.json") ?? { actions: [] };
   const clusterPlan = readSiblingJson(runDir, "cluster-plan.json");
@@ -129,6 +132,7 @@ function publishResult(resultPath) {
   const workflowStatus = String(metadata?.status ?? previousRecord?.workflow_status ?? "");
   const applyAuditActions = [
     ...readApplyAuditActions(applyReport),
+    ...readExternalPreflightApplyActions(externalPreflightReport),
     ...(postFlightReport.actions ?? [])
       .filter(isPostFlightApplyAction)
       .map(postFlightToApplyAction)
@@ -816,7 +820,20 @@ function sanitizeApplyAction(action) {
     apply_attempt: action.apply_attempt ?? null,
     applied_at: action.applied_at ?? null,
     report_source: action.report_source ?? null,
+    retry_recommended: action.retry_recommended ?? null,
+    transient_error: action.transient_error ?? null,
   };
+}
+
+function readExternalPreflightApplyActions(report) {
+  return (report?.actions ?? []).flatMap((preflight) =>
+    (preflight?.apply_actions ?? []).map((action) => ({
+      ...action,
+      target: action.target ?? preflight.target ?? null,
+      expected_head_sha: action.expected_head_sha ?? preflight.expected_head_sha ?? null,
+      report_source: "external_merge_preflight",
+    })),
+  );
 }
 
 function readApplyAuditActions(report) {

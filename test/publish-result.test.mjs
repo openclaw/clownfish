@@ -397,6 +397,43 @@ test("publish-result keeps external preflight child run records separate from pa
       2,
     )}\n`,
   );
+  fs.writeFileSync(
+    path.join(parentDir, "cluster-plan.json"),
+    `${JSON.stringify(
+      {
+        cluster_id: parentClusterId,
+        source_job: "jobs/openclaw/inbox/external-preflight-parent.md",
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  fs.writeFileSync(
+    path.join(parentDir, "external-merge-preflight-report.json"),
+    `${JSON.stringify(
+      {
+        actions: [
+          {
+            target: "#98354",
+            expected_head_sha: "abc123",
+            status: "blocked",
+            apply_actions: [
+              {
+                target: "#98354",
+                action: "merge_canonical",
+                status: "blocked",
+                retry_recommended: true,
+                transient_error: "github_rate_limit",
+                reason: "GitHub rate limit while applying action",
+              },
+            ],
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
 
   const child = spawnSync(
     process.execPath,
@@ -405,7 +442,13 @@ test("publish-result keeps external preflight child run records separate from pa
   );
 
   assert.equal(child.status, 0, child.stderr || child.stdout);
-  assert.equal(JSON.parse(fs.readFileSync(parentRunRecordPath, "utf8")).cluster_id, parentClusterId);
+  const parentRecord = JSON.parse(fs.readFileSync(parentRunRecordPath, "utf8"));
+  assert.equal(parentRecord.cluster_id, parentClusterId);
+  assert.equal(parentRecord.source_job, "jobs/openclaw/inbox/external-preflight-parent.md");
+  assert.equal(parentRecord.apply_actions[0].status, "blocked");
+  assert.equal(parentRecord.apply_actions[0].retry_recommended, true);
+  assert.equal(parentRecord.apply_actions[0].transient_error, "github_rate_limit");
+  assert.equal(parentRecord.apply_actions[0].report_source, "external_merge_preflight");
   const childRecord = JSON.parse(fs.readFileSync(childRunRecordPath, "utf8"));
   assert.equal(childRecord.cluster_id, childClusterId);
   assert.deepEqual(childRecord.apply_counts, { executed: 1 });
