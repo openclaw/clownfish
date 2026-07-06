@@ -462,16 +462,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
-  if (expectedUpdatedAt && expectedUpdatedAt !== live.updated_at) {
-    return {
-      ...base,
-      status: "blocked",
-      reason: "target changed since worker review",
-      expected_updated_at: expectedUpdatedAt,
-      live_updated_at: live.updated_at,
-      live_state: live.state,
-    };
-  }
+  const metadataDrifted = Boolean(expectedUpdatedAt && expectedUpdatedAt !== live.updated_at);
 
   const pullRequest = fetchPullRequest(result.repo, target);
   const view = fetchSettledPullRequestView(result.repo, target);
@@ -508,6 +499,24 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_head_sha: liveHeadSha || null,
       live_state: live.state,
       live_updated_at: live.updated_at,
+    };
+  }
+  if (
+    metadataDrifted &&
+    !isBenignExactHeadClawSweeperUpdate({
+      repo: result.repo,
+      target,
+      live,
+      expectedHeadSha,
+    })
+  ) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "target changed since worker review",
+      expected_updated_at: expectedUpdatedAt,
+      live_updated_at: live.updated_at,
+      live_state: live.state,
     };
   }
 
@@ -1056,6 +1065,49 @@ function findExistingComment(repo, number, marker, body) {
 function commentMatchesLiveUpdatedAt(comment, live) {
   const liveUpdatedAt = String(live?.updated_at ?? "");
   return Boolean(liveUpdatedAt && [comment?.updated_at, comment?.created_at].includes(liveUpdatedAt));
+}
+
+function isBenignExactHeadClawSweeperUpdate({ repo, target, live, expectedHeadSha }) {
+  const comments = ghPaged(`repos/${repo}/issues/${target}/comments?per_page=100`).filter((comment) =>
+    commentMatchesLiveUpdatedAt(comment, live),
+  );
+  if (comments.length === 0) return false;
+  return comments.every((comment) => {
+    const author = String(comment.user?.login ?? "").toLowerCase();
+    const body = String(comment.body ?? "");
+    if (!["clawsweeper", "clawsweeper[bot]"].includes(author)) return false;
+    const verdicts = parseClawSweeperMarkers(body, "verdict");
+    const actions = parseClawSweeperMarkers(body, "action");
+    const results = [...body.matchAll(/^Result:\s*(.+?)\s*$/gim)].map((match) =>
+      String(match[1] ?? "").toLowerCase(),
+    );
+    if (verdicts.length !== 1 || actions.length !== 0 || results.length !== 1) return false;
+    const [verdict] = verdicts;
+    return (
+      verdict.valid &&
+      verdict.action === "needs-human" &&
+      verdict.attrs.item === String(target) &&
+      verdict.attrs.sha?.toLowerCase() === expectedHeadSha.toLowerCase() &&
+      verdict.attrs.confidence === "high" &&
+      results[0] === "ready for maintainer review."
+    );
+  });
+}
+
+function parseClawSweeperMarkers(body, kind) {
+  const markers = [];
+  const pattern = new RegExp(`<!--\\s*clawsweeper-${kind}:\\s*([a-z0-9_-]+)([^>]*)-->`, "gi");
+  for (const match of String(body ?? "").matchAll(pattern)) {
+    const attrs = {};
+    let valid = true;
+    for (const attr of String(match[2] ?? "").matchAll(/([a-z0-9_-]+)=("[^"]*"|'[^']*'|[^\s>]+)/gi)) {
+      const key = attr[1].toLowerCase();
+      if (Object.hasOwn(attrs, key)) valid = false;
+      attrs[key] = String(attr[2] ?? "").replace(/^["']|["']$/g, "");
+    }
+    markers.push({ action: match[1].toLowerCase(), attrs, valid });
+  }
+  return markers;
 }
 
 function postIssueComment(repo, number, body) {
