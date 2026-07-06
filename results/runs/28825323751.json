@@ -1,0 +1,215 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-openclaw-83630-20260706",
+  "mode": "autonomous",
+  "run_id": "28825323751",
+  "workflow_run_id": "28825323751",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28825323751",
+  "head_sha": "c4e7a86d828cfb59fceacfdc6e46d68b7ef87d54",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T21:43:59Z",
+  "workflow_updated_at": "2026-07-06T21:54:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-openclaw-83630-20260706.md",
+  "published_at": "2026-07-06T21:55:28.435Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/83630",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/54877",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/83630",
+  "summary": "Plan repair of editable contributor PR #83630 as the canonical fix path for the doctor missing-transcript cleanup preview mismatch. Current main e80e8a2b67307c4e83e7192f234c31522b3464b2 still prints the preview without --fix-missing, while the live PR head 539b1b8b40f7f0d0e161bd0aca70c8e32cf4487e contains the narrow intended two-file correction but is behind main and needs branch repair plus current proof refresh. No GitHub mutations, comments, closes, labels, pushes, or merges were performed.",
+  "actions": [
+    {
+      "target": "#83630",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83630",
+      "candidate_fix": null,
+      "reason": "Repair the existing editable contributor branch instead of opening a replacement; merge is blocked by job permissions and by missing current repair proof."
+    },
+    {
+      "target": "#54877",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#54877",
+      "candidate_fix": "#83630",
+      "reason": "Open canonical issue remains the issue thread for validation and follow-up while #83630 is repaired."
+    },
+    {
+      "target": "#27422",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "duplicate",
+      "canonical": "#54877",
+      "candidate_fix": "#83630",
+      "reason": "Already closed duplicate/context item."
+    },
+    {
+      "target": "#54896",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#83630",
+      "candidate_fix": "#83630",
+      "reason": "Closed unmerged same-fix PR is superseded by the open editable canonical PR."
+    },
+    {
+      "target": "#54925",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#83630",
+      "candidate_fix": "#83630",
+      "reason": "Closed unmerged same-fix PR is superseded by #83630."
+    },
+    {
+      "target": "#55157",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#83630",
+      "candidate_fix": "#83630",
+      "reason": "Closed unmerged same-fix PR is superseded by #83630."
+    },
+    {
+      "target": "cluster:repair-openclaw-83630-20260706",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#83630",
+      "candidate_fix": null,
+      "reason": "Fix-enabled job with allow_fix_pr=true and allow_merge=false; executor should repair the existing contributor PR branch, not open a replacement."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_canonical": 1,
+    "keep_closed": 4,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#83630",
+    "source_refs": [
+      "#83630",
+      "#54877",
+      "#54896",
+      "#54925",
+      "#55157",
+      "#27422"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair existing contributor PR #83630 on branch fix/doctor-missing-transcript-preview. Rebase it onto current main, keep the intended doctor dry-run preview change so missing-transcript cleanup preview includes --fix-missing, tighten focused state-integrity coverage, and refresh the PR body with current real CLI proof. Do not broaden cleanup behavior and do not merge.",
+    "pr_title": "fix(doctor): preview missing transcript cleanup",
+    "pr_body": "## What Problem This Solves\n\n`openclaw doctor` reports recent sessions with missing transcript files, but its preview command currently omits `--fix-missing`. Running the suggested dry-run can therefore report zero missing transcript prunes even though the enforce command would prune them.\n\nFixes https://github.com/openclaw/openclaw/issues/54877.\n\n## Why This Change Was Made\n\nThe cleanup command only counts missing transcript pruning in the preview when `fixMissing` is enabled. The doctor warning should preview the same operation that the repair command performs, so the dry-run guidance needs to include `--fix-missing` while leaving cleanup behavior itself unchanged.\n\nThis repairs the existing contributor PR https://github.com/openclaw/openclaw/pull/83630 and preserves @YuanHanzhong's authorship/credit.\n\n## User Impact\n\nUsers who follow doctor guidance for missing recent session transcripts will see an accurate dry-run preview before applying cleanup. The change is limited to doctor guidance text and focused regression coverage.\n\n## Evidence\n\n- Current main e80e8a2b67307c4e83e7192f234c31522b3464b2 still prints the preview without `--fix-missing` at `src/commands/doctor-state-integrity.ts:1301`.\n- `sessions cleanup` forwards `fixMissing` into the cleanup request at `src/commands/sessions-cleanup.ts:249`, and existing cleanup coverage shows missing transcripts are counted in dry-run when `--fix-missing` is set.\n- After repair, run:\n  - `pnpm test src/commands/doctor-state-integrity.test.ts`\n  - `pnpm test src/commands/sessions-cleanup.test.ts`\n  - `pnpm check:changed`\n\nAdd the exact current CLI proof output from the repaired branch before requesting merge review.",
+    "likely_files": [
+      "src/commands/doctor-state-integrity.ts",
+      "src/commands/doctor-state-integrity.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/commands/doctor-state-integrity.test.ts",
+      "pnpm test src/commands/sessions-cleanup.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @YuanHanzhong as the contributor author of #83630; repair the existing editable branch instead of replacing it.",
+      "PR body should keep the issue link to #54877 and credit #83630 as the source PR for the fix.",
+      "This is user-visible CLI guidance, so include release-note context in the PR body rather than adding broad changelog churn unless the repo release process requires it."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-openclaw-83630-20260706.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/83630",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "1abe5c637212f3e002b0c4d44aaf97c3d0cbbaad",
+      "checkpoint_commits": [
+        "ac2540d33ed25e8a16b57ca6780ab86c8dd3b3d7",
+        "1abe5c637212f3e002b0c4d44aaf97c3d0cbbaad"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#83630",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#83630",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
