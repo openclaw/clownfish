@@ -125,6 +125,8 @@ function finalizeFixPr(action) {
   for (;;) {
     pull = fetchPullRequest(result.repo, parsed.number);
     view = fetchPullRequestView(result.repo, parsed.number);
+    const baseRef = String(view.baseRefName ?? pull.base?.ref ?? "");
+    const liveBaseSha = baseRef === "main" ? fetchBranchHeadSha(result.repo, baseRef) : "";
     prBase = { ...base, pr: `#${parsed.number}`, title: view.title ?? pull.title ?? null };
     const mergedAt = pull.merged_at ?? view.mergedAt ?? null;
     if (mergedAt) {
@@ -138,7 +140,7 @@ function finalizeFixPr(action) {
       };
     }
 
-    mergeBlock = validateMergeableFixPr({ pull, view, preflight: action.merge_preflight });
+    mergeBlock = validateMergeableFixPr({ pull, view, preflight: action.merge_preflight, liveBaseSha });
     if (!mergeBlock) break;
     if (dryRun || !shouldWaitForMergeReadiness({ mergeBlock, view }) || Date.now() >= deadline) {
       return {
@@ -340,7 +342,7 @@ function hasLiveSecuritySignal(number, labels) {
   return hasDeterministicSecuritySignal({ comments: [bodies] });
 }
 
-function validateMergeableFixPr({ pull, view, preflight }) {
+function validateMergeableFixPr({ pull, view, preflight, liveBaseSha }) {
   if (pull.state !== "open") return `pull request is ${pull.state}`;
   if (pull.draft || view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? pull.base?.ref ?? "") !== "main") return "pull request base is not main";
@@ -357,7 +359,7 @@ function validateMergeableFixPr({ pull, view, preflight }) {
 
   const preflightBlock = validateMergePreflight(preflight, {
     headSha: pull.head?.sha,
-    baseSha: pull.base?.sha,
+    baseSha: liveBaseSha,
   });
   if (preflightBlock) return preflightBlock;
 
@@ -452,6 +454,11 @@ function fetchPullRequest(repo, number) {
 
 function fetchIssue(repo, number) {
   return ghJson(["api", `repos/${repo}/issues/${number}`]);
+}
+
+function fetchBranchHeadSha(repo, branch) {
+  const ref = ghJson(["api", `repos/${repo}/git/ref/heads/${branch}`]);
+  return String(ref?.object?.sha ?? "");
 }
 
 function fetchPullRequestView(repo, number) {

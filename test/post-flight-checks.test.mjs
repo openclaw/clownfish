@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import test from "node:test";
 
 import {
@@ -10,6 +12,7 @@ import {
 
 const HEAD_SHA = "a".repeat(40);
 const BASE_SHA = "b".repeat(40);
+const repoRoot = path.resolve(import.meta.dirname, "..");
 
 test("post-flight requires PR checks unless explicitly disabled", () => {
   assert.equal(shouldRequirePrChecks(undefined), true);
@@ -85,4 +88,12 @@ test("post-flight rejects unbound merge preflight evidence", () => {
     }),
     /head_sha is missing or invalid/,
   );
+});
+
+test("post-flight compares reviewed base proof with the live base ref head", () => {
+  const source = fs.readFileSync(path.join(repoRoot, "scripts", "post-flight.mjs"), "utf8");
+
+  assert.match(source, /const liveBaseSha = baseRef === "main" \? fetchBranchHeadSha\(result\.repo, baseRef\) : "";/);
+  assert.match(source, /baseSha: liveBaseSha,/);
+  assert.doesNotMatch(source, /baseSha: pull\.base\?\.sha/);
 });
