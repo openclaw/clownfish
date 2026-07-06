@@ -255,6 +255,15 @@ test("external merge preflight blocks tracked checkout mutation after review", (
   assert.match(report.reason, /synthetic review checkout changed tracked bytes/);
 });
 
+test("external merge preflight refuses a reused target before running Git", () => {
+  const fixture = makeFixture({ preexistingTargetCheckout: true });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /target checkout path already exists; refusing reused target/);
+  assert.equal(fs.existsSync(fixture.gitCommandsPath), false);
+});
+
 test("external merge preflight allows target setup to update local Git config", () => {
   const fixture = makeFixture({
     toolchainGitConfig: { key: "core.hooksPath", value: "git-hooks" },
@@ -2841,6 +2850,7 @@ function makeFixture({
   codexMutatesCheckout = false,
   initialGitConfig = null,
   initialIncludedGitConfig = null,
+  preexistingTargetCheckout = false,
   toolchainGitConfig = null,
   codexGitConfigMutation = null,
   codexIncludedGitConfigMutation = null,
@@ -2890,6 +2900,9 @@ function makeFixture({
   const finalHeadSha = rehydratedHeadSha ?? headSha;
   const finalState = rehydratedState ?? "open";
   fs.mkdirSync(binDir, { recursive: true });
+  if (preexistingTargetCheckout) {
+    fs.mkdirSync(path.join(runDir, "target", ".git"), { recursive: true });
+  }
   if (initialGitConfig) {
     fs.writeFileSync(
       gitConfigStatePath,

@@ -569,9 +569,15 @@ function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest })
 
 function checkoutExactPullHead({ repo, pullRequest, expectedHeadSha }) {
   const env = gitIntegrityEnv();
+  if (fs.existsSync(targetDir)) {
+    throw new Error("target checkout path already exists; refusing reused target");
+  }
+  fs.mkdirSync(path.dirname(targetDir), { recursive: true });
+  run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], {
+    env: ghReadEnv(),
+  });
   if (!fs.existsSync(path.join(targetDir, ".git"))) {
-    fs.mkdirSync(path.dirname(targetDir), { recursive: true });
-    run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], { env: ghReadEnv() });
+    throw new Error("fresh target clone did not create a Git checkout");
   }
   if (run("git", ["status", "--porcelain"], { cwd: targetDir, env }).trim()) {
     throw new Error("target checkout has uncommitted changes");
