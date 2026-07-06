@@ -845,6 +845,15 @@ function isNonBlockingCommentEvidence(
   }
 
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  if (
+    author &&
+    pullAuthor &&
+    author === pullAuthor &&
+    isSupersededAuthorUnrelatedCiFailureComment(body) &&
+    isCommentCoveredByTrustedApproval(comment, trustedAuthorProgressApprovalAt)
+  ) {
+    return true;
+  }
   if (author && pullAuthor && author === pullAuthor && isAuthorProofOrStatusComment(body)) {
     return true;
   }
@@ -1110,6 +1119,31 @@ function isAuthorProofOrStatusComment(body) {
     );
 
   return (hasProofHeading && hasEvidenceDetail) || (hasStatusLead && (hasEvidenceDetail || hasProofSignal));
+}
+
+function isSupersededAuthorUnrelatedCiFailureComment(body) {
+  const normalized = String(body ?? "").trim().toLowerCase();
+  if (!normalized || hasSecuritySensitiveText(normalized) || hasActionableApprovedReviewBody(normalized)) {
+    return false;
+  }
+
+  const objectionProbe = normalized.replace(/\b`?qa smoke ci`?\s+is the only red check\b/g, "");
+  if (isAuthorObjectionComment(objectionProbe)) return false;
+
+  const claimsUnrelatedFailure =
+    /\b(?:ci|check|job|smoke)\b.{0,50}\bfailure\b.{0,100}\bunrelated to (?:this|the) (?:change|patch|pr)\b/.test(
+      normalized,
+    );
+  const claimsCurrentSurfaceGreen =
+    /\b(?:own|pr-relevant|relevant)\b.{0,80}\b(?:surface|ci lanes?|checks?)\b.{0,80}\b(?:green|pass(?:es|ed|ing)?)\b/.test(
+      normalized,
+    );
+  const identifiesExternalFlake =
+    /\b(?:identical|same) failure\b.{0,160}\bother (?:open )?prs?\b/.test(normalized) ||
+    /\bknown\b.{0,80}\b(?:ci|qa|harness)\b.{0,50}\bflake\b.{0,100}\bmain\b/.test(normalized);
+  const requestsRerun = /\b(?:re-?run|retrigger)\b.{0,100}\b(?:ci|check|job)\b/.test(normalized);
+
+  return claimsUnrelatedFailure && claimsCurrentSurfaceGreen && identifiesExternalFlake && requestsRerun;
 }
 
 function isSafeAuthorProgressLine(line) {
