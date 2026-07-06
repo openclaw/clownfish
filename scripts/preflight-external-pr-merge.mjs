@@ -8,7 +8,7 @@ import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
-const PRE_AUTHORIZATION_MERGE_STATES = new Set(["UNSTABLE", "BLOCKED"]);
+const PRE_AUTHORIZATION_MERGE_STATES = new Set(["UNSTABLE", "BLOCKED", "BEHIND"]);
 const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
 const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
@@ -1097,8 +1097,8 @@ function isFailingCheck(check) {
 function isAcceptableMergeState(view) {
   const state = String(view.mergeStateStatus ?? "");
   if (CLEAN_MERGE_STATES.has(state)) return true;
-  // A required clownfish/exact-merge check makes GitHub report BLOCKED until
-  // the applicator publishes the exact-head authorization.
+  // External preflight can safely review BLOCKED or BEHIND heads because it
+  // binds a synthetic merge against current main before authorization.
   return (
     PRE_AUTHORIZATION_MERGE_STATES.has(state) &&
     view.mergeable === "MERGEABLE" &&

@@ -46,6 +46,17 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Prepare Codex Linux sandbox
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y bubblewrap apparmor-profiles apparmor-utils
+          profile_source="/usr/share/apparmor/extra-profiles/bwrap-userns-restrict"
+          test -f "$profile_source"
+          sudo install -m 0644 "$profile_source" /etc/apparmor.d/bwrap-userns-restrict
+          sudo apparmor_parser -r /etc/apparmor.d/bwrap-userns-restrict
+
       - name: Cache Codex CLI and npm downloads
         uses: actions/cache@v5
         with:
