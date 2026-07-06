@@ -65,7 +65,7 @@ try {
   pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
   const issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
   const issueComments = stage("hydrate issue comments", () =>
-    ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}/comments?per_page=100`]),
+    fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
   );
   view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
@@ -660,6 +660,32 @@ function fetchReviewThreads({ repo, pullRequest }) {
   };
 }
 
+function fetchIssueComments({ repo, pullRequest }) {
+  const [owner, name] = repo.split("/");
+  const query = `
+    query($owner: String!, $name: String!, $number: Int!) {
+      repository(owner: $owner, name: $name) {
+        pullRequest(number: $number) {
+          comments(first: 100) {
+            nodes {
+              author { login }
+              authorAssociation
+              body
+              createdAt
+              updatedAt
+              isMinimized
+              minimizedReason
+              url
+            }
+          }
+        }
+      }
+    }
+  `;
+  const data = ghJson(["api", "graphql", "-f", `owner=${owner}`, "-f", `name=${name}`, "-F", `number=${pullRequest}`, "-f", `query=${query}`]);
+  return data?.data?.repository?.pullRequest?.comments?.nodes ?? [];
+}
+
 function isFailingCheck(check) {
   const name = checkName(check);
   if (IGNORED_CHECKS.has(name) || IGNORED_CHECKS.has(String(check.workflowName ?? ""))) return false;
@@ -738,6 +764,7 @@ function isNonBlockingCommentEvidence(
   comment,
   { pull, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null },
 ) {
+  if (comment.isMinimized === true || comment.is_minimized === true) return true;
   const body = String(comment.body ?? "").trim();
   if (!body) return true;
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
@@ -755,6 +782,12 @@ function isNonBlockingCommentEvidence(
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
   if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
+  if (
+    isMaintainerReviewRefreshRequestComment({ association, body: normalized }) &&
+    isCommentCoveredByTrustedApproval(comment, trustedAuthorProgressApprovalAt)
+  ) {
+    return true;
+  }
 
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
   if (
@@ -952,17 +985,35 @@ function isAuthorProgressEvidenceComment(body) {
 }
 
 function isSafeAuthorProgressLine(line) {
+  const content = line.replace(/^[-*]\s+/, "");
   return [
-    /^@clawsweeper\s+(?:re-review|re-run|review)$/,
+    /^@clawsweeper\s+(?:re-review|re-run|review)(?:\s+please)?$/,
     /^rebased onto (?:current )?(?:`main`|main)[.!]?$/,
+    /^rebased (?:this pr|the branch|the patch) onto (?:current )?(?:`?upstream\/main`?|`?main`?).*$/,
+    /^resolved (?:the |a )?.*conflict.*$/,
     /^the dependency guard check should pass now[.!]?$/,
     /^changes made[.!]?$/,
     /^(?:tests?|checks?) (?:are )?(?:green|passing|passed)[.!]?$/,
+    /^all github checks are (?:passing|green)(?: or skipped)?[.!]?$/,
+    /^merge state is clean[.!]?$/,
+    /^real behavior proof (?:has been |is )?(?:added|passing|passed).*$/,
+    /^github real behavior proof is passing.*$/,
+    /^addressed (?:the )?.*$/,
+    /^rebuilt (?:the )?.*$/,
+    /^preserved (?:the )?.*$/,
+    /^removed (?:the )?.*$/,
+    /^updated (?:the )?.*$/,
+    /^the conflict resolution (?:keeps|preserves) .*$/,
+    /^current (?:local validation|status)(?: after the rebase| on head `?[0-9a-f]+`?)?:$/,
+    /^local validation after the rebase:$/,
+    /^requested after the clawsweeper .*fix.*$/,
+    /^the latest review comment .*ready for maintainer review.*$/,
+    /^`[^`]+`(?:\s+from\s+`[^`]+`)?$/,
     /^(?:verified|verification complete)[.!]?$/,
     /^(?:would you mind (?:taking|to take)|please (?:take|have)) a look[.!?]?$/,
     /^ready for (?:another )?(?:look|review)[.!]?$/,
     /^thanks?[.!]?$/,
-  ].some((pattern) => pattern.test(line));
+  ].some((pattern) => pattern.test(content));
 }
 
 function isAuthorObjectionComment(body) {
@@ -1031,7 +1082,16 @@ function isSupersededDependencyGuardNotice(comment, laterComments, { pull, view 
 }
 
 function isReviewRequestComment(body) {
-  return /^@clawsweeper\s+(?:re-review|re-run|review)\s*$/.test(body);
+  return /^@clawsweeper\s+(?:re-review|re-run|review)(?:\s+please)?\s*$/.test(body);
+}
+
+function isMaintainerReviewRefreshRequestComment({ association, body }) {
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
+  if (isAuthorObjectionComment(body)) return false;
+  return (
+    /\bclawsweeper\b.{0,100}\b(?:label|comment) sync bug\b/.test(body) &&
+    /\b(?:post|add)\b.{0,80}\bclawsweeper\b.{0,40}\bre-review\b/.test(body)
+  );
 }
 
 function evidenceExamples(items) {
