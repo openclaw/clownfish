@@ -39,6 +39,11 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \?\? defaultCodexReviewSandbox/);
   assert.match(script, /--sandbox",\s*codexReviewSandbox/);
   assert.match(script, /--config\.enable-pre-post-scripts=false/);
+  assert.match(script, /GIT_ALLOW_PROTOCOL: "https:ssh"/);
+  assert.match(script, /GIT_CONFIG_KEY_0: "core\.hooksPath"/);
+  assert.match(script, /GIT_CONFIG_VALUE_0: "\/dev\/null"/);
+  assert.match(script, /GIT_CONFIG_KEY_1: "protocol\.ext\.allow"/);
+  assert.match(script, /GIT_CONFIG_VALUE_1: "never"/);
   assert.match(script, /GIT_NO_REPLACE_OBJECTS: "1"/);
   assert.match(script, /function verifyTrackedFilesystem/);
   assert.match(script, /function gitBlobSha/);
@@ -47,8 +52,8 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /delete env\[key\]/);
   assert.match(script, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
   assert.match(script, /function validationEnv\(\)[\s\S]*?"CLOWNFISH_READ_GH_TOKEN"/);
-  assert.match(script, /function validationEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
-  assert.match(script, /function codexEnv\(\)[\s\S]*?GIT_NO_REPLACE_OBJECTS: "1"/);
+  assert.match(script, /function validationEnv\(\)[\s\S]*?\.\.\.gitIntegrityEnv\(\)/);
+  assert.match(script, /function codexEnv\(\)[\s\S]*?gitIntegrityEnv\(\)/);
   assert.doesNotMatch(script, /pr", "merge"/);
   assert.doesNotMatch(script, /resolveReviewThread/);
 });
@@ -248,6 +253,91 @@ test("external merge preflight blocks tracked checkout mutation after review", (
 
   assert.equal(report.status, "blocked");
   assert.match(report.reason, /synthetic review checkout changed tracked bytes/);
+});
+
+test("external merge preflight refuses a reused target before running Git", () => {
+  const fixture = makeFixture({ preexistingTargetCheckout: true });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /target checkout path already exists; refusing reused target/);
+  assert.equal(fs.existsSync(fixture.gitCommandsPath), false);
+});
+
+test("external merge preflight allows target setup to update local Git config", () => {
+  const fixture = makeFixture({
+    toolchainGitConfig: { key: "core.hooksPath", value: "git-hooks" },
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+  assert.match(
+    fs.readFileSync(fixture.gitCommandsPath, "utf8"),
+    /config --local --includes --list --null/,
+  );
+});
+
+test("external merge preflight rejects unrecognized target setup Git config", () => {
+  const sensitiveValue = "ext::malicious-review-helper";
+  const fixture = makeFixture({
+    toolchainGitConfig: { key: "remote.origin.url", value: sensitiveValue },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /phase=target toolchain preparation/);
+  assert.match(report.reason, /mismatched_fields=config/);
+  assert.match(report.reason, /changed_git_config_keys=remote\.\[redacted\]\.url/);
+  assert.doesNotMatch(report.reason, new RegExp(sensitiveValue));
+  assert.deepEqual(report.validation_commands, []);
+  assert.equal(report.codex_review, null);
+});
+
+test("external merge preflight blocks later Git config mutation with precise diagnostics", () => {
+  const sensitiveValue = "sensitive-review-helper-value";
+  const fixture = makeFixture({
+    toolchainGitConfig: { key: "core.hooksPath", value: "git-hooks" },
+    codexGitConfigMutation: { key: "credential.helper", value: sensitiveValue },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /phase=Codex review/);
+  assert.match(report.reason, /mismatched_fields=config/);
+  assert.match(report.reason, new RegExp(`expected_head=${fixture.syntheticMergeSha}; actual_head=${fixture.syntheticMergeSha}`));
+  assert.match(report.reason, new RegExp(`expected_tree=${fixture.mergeTreeSha}; actual_tree=${fixture.mergeTreeSha}`));
+  assert.match(report.reason, new RegExp(`expected_parent=${fixture.baseSha}; actual_parent=${fixture.baseSha}`));
+  const expectedConfig = report.reason.match(/expected_config_sha256=([0-9a-f]{64})/)?.[1];
+  const actualConfig = report.reason.match(/actual_config_sha256=([0-9a-f]{64})/)?.[1];
+  assert.ok(expectedConfig);
+  assert.ok(actualConfig);
+  assert.notEqual(expectedConfig, actualConfig);
+  assert.match(report.reason, /changed_git_config_keys=credential\.helper/);
+  assert.doesNotMatch(report.reason, /git-hooks|sensitive-review-helper-value/);
+  assert.deepEqual(report.validation_commands, [
+    `pnpm check:changed --base ${fixture.baseSha} --head ${fixture.syntheticMergeSha}`,
+    `git diff --check ${fixture.baseSha}...${fixture.syntheticMergeSha}`,
+    "git diff --check",
+  ]);
+  assert.deepEqual(report.codex_review, { status: "clean", findings: 0 });
+});
+
+test("external merge preflight fingerprints included Git config values", () => {
+  const initialValue = "initial-credential-helper";
+  const sensitiveValue = "mutated-credential-helper";
+  const fixture = makeFixture({
+    initialGitConfig: { key: "include.path", value: "../review-config" },
+    initialIncludedGitConfig: { key: "credential.helper", value: initialValue },
+    codexIncludedGitConfigMutation: { key: "credential.helper", value: sensitiveValue },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /phase=Codex review/);
+  assert.match(report.reason, /mismatched_fields=config/);
+  assert.match(report.reason, /changed_git_config_keys=credential\.helper/);
+  assert.doesNotMatch(report.reason, new RegExp(`${initialValue}|${sensitiveValue}`));
 });
 
 test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
@@ -2758,6 +2848,12 @@ function makeFixture({
   validationFailure = null,
   syntheticMergeFailure = null,
   codexMutatesCheckout = false,
+  initialGitConfig = null,
+  initialIncludedGitConfig = null,
+  preexistingTargetCheckout = false,
+  toolchainGitConfig = null,
+  codexGitConfigMutation = null,
+  codexIncludedGitConfigMutation = null,
   codexReview = {
     status: "clean",
     summary: "clean fixture review",
@@ -2792,6 +2888,8 @@ function makeFixture({
   const gitCommandsPath = path.join(root, "git-commands.log");
   const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
   const codexPromptPath = path.join(root, "codex-prompt.txt");
+  const gitConfigStatePath = path.join(root, "git-config-state");
+  const gitIncludedConfigStatePath = path.join(root, "git-included-config-state");
   const finalIssueComments = rehydratedIssueComments ?? issueComments;
   const finalReviewComments = rehydratedReviewComments ?? reviewComments;
   const finalReviewThreads = rehydratedReviewThreads ?? [];
@@ -2802,6 +2900,21 @@ function makeFixture({
   const finalHeadSha = rehydratedHeadSha ?? headSha;
   const finalState = rehydratedState ?? "open";
   fs.mkdirSync(binDir, { recursive: true });
+  if (preexistingTargetCheckout) {
+    fs.mkdirSync(path.join(runDir, "target", ".git"), { recursive: true });
+  }
+  if (initialGitConfig) {
+    fs.writeFileSync(
+      gitConfigStatePath,
+      `${initialGitConfig.key}\n${initialGitConfig.value}\0`,
+    );
+  }
+  if (initialIncludedGitConfig) {
+    fs.writeFileSync(
+      gitIncludedConfigStatePath,
+      `${initialIncludedGitConfig.key}\n${initialIncludedGitConfig.value}\0`,
+    );
+  }
   fs.writeFileSync(
     jobPath,
     `---
@@ -2923,7 +3036,26 @@ const refreshedMainPath = path.join(${JSON.stringify(root)}, "main-refreshed");
 const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count");
 const commandLog = ${JSON.stringify(gitCommandsPath)};
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
+if (
+  process.env.GIT_ALLOW_PROTOCOL !== "https:ssh" ||
+  process.env.GIT_CONFIG_KEY_0 !== "core.hooksPath" ||
+  process.env.GIT_CONFIG_VALUE_0 !== "/dev/null" ||
+  process.env.GIT_CONFIG_KEY_1 !== "protocol.ext.allow" ||
+  process.env.GIT_CONFIG_VALUE_1 !== "never"
+) {
+  process.stderr.write("missing Git hardening");
+  process.exit(97);
+}
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
+if (args[0] === "config" && args.includes("--local") && args.includes("--list") && args.includes("--null")) {
+  if (fs.existsSync(${JSON.stringify(gitConfigStatePath)})) {
+    process.stdout.write(fs.readFileSync(${JSON.stringify(gitConfigStatePath)}));
+  }
+  if (args.includes("--includes") && fs.existsSync(${JSON.stringify(gitIncludedConfigStatePath)})) {
+    process.stdout.write(fs.readFileSync(${JSON.stringify(gitIncludedConfigStatePath)}));
+  }
+  process.exit(0);
+}
 if (args[0] === "rev-parse") {
   if (args[1] === "origin/main") {
     console.log(fs.existsSync(refreshedMainPath) ? refreshedMain : currentMain);
@@ -2984,6 +3116,13 @@ process.exit(0);
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 fs.appendFileSync(${JSON.stringify(pnpmCommandsPath)}, args.join(" ") + "\\n");
+const toolchainGitConfig = ${JSON.stringify(toolchainGitConfig)};
+if (toolchainGitConfig && args[0] === "install") {
+  fs.writeFileSync(
+    ${JSON.stringify(gitConfigStatePath)},
+    toolchainGitConfig.key + "\\n" + toolchainGitConfig.value + "\\0",
+  );
+}
 const failure = ${JSON.stringify(validationFailure)};
 if (failure && args[0] === "check:changed") {
   process.stdout.write(String(failure.stdout ?? ""));
@@ -3001,6 +3140,25 @@ const index = args.indexOf("--output-last-message");
 fs.writeFileSync(${JSON.stringify(codexPromptPath)}, fs.readFileSync(0, "utf8"));
 if (${JSON.stringify(codexMutatesCheckout)}) {
   fs.writeFileSync("src/effective.ts", "mutated by fixture review\\n");
+}
+const codexGitConfigMutation = ${JSON.stringify(codexGitConfigMutation)};
+if (codexGitConfigMutation) {
+  const configPath = ${JSON.stringify(gitConfigStatePath)};
+  const currentConfig = fs.existsSync(configPath) ? fs.readFileSync(configPath) : Buffer.alloc(0);
+  fs.writeFileSync(
+    configPath,
+    Buffer.concat([
+      currentConfig,
+      Buffer.from(codexGitConfigMutation.key + "\\n" + codexGitConfigMutation.value + "\\0"),
+    ]),
+  );
+}
+const codexIncludedGitConfigMutation = ${JSON.stringify(codexIncludedGitConfigMutation)};
+if (codexIncludedGitConfigMutation) {
+  fs.writeFileSync(
+    ${JSON.stringify(gitIncludedConfigStatePath)},
+    codexIncludedGitConfigMutation.key + "\\n" + codexIncludedGitConfigMutation.value + "\\0",
+  );
 }
 fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 `,

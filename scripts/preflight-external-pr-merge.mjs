@@ -55,6 +55,8 @@ let view = null;
 let plan = null;
 let preflightJobPath = null;
 let reviewContext = null;
+let validationCommands = [];
+let codexReview = null;
 let report = {
   repo: sourceJob.frontmatter.repo,
   source_job: sourceJob.relativePath,
@@ -110,10 +112,27 @@ try {
     }),
   );
   stage("prepare target toolchain", () => prepareTargetToolchain(targetDir));
-  const validationCommands = stage("target validation", () =>
+  reviewContext.integrityBaseline = stage("verify synthetic review checkout after toolchain", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.preToolchainSnapshot,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "target toolchain preparation",
+      allowToolchainGitConfigChange: true,
+    }),
+  );
+  validationCommands = stage("target validation", () =>
     runValidation({ targetDir, reviewContext }),
   );
-  const codexReview = stage("Codex review", () =>
+  stage("verify synthetic review checkout after validation", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.integrityBaseline,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "target validation",
+    }),
+  );
+  codexReview = stage("Codex review", () =>
     runCodexReview({
       repo: sourceJob.frontmatter.repo,
       pullRequest,
@@ -121,6 +140,14 @@ try {
       validationCommands,
       sourceJob,
       reviewContext,
+    }),
+  );
+  stage("verify synthetic review checkout after Codex review", () =>
+    verifySyntheticReviewCheckout({
+      targetDir,
+      expectedSnapshot: reviewContext.integrityBaseline,
+      expectedEntries: reviewContext.expectedTreeEntries,
+      phase: "Codex review",
     }),
   );
   if (!isCleanCodexReview(codexReview)) {
@@ -132,9 +159,6 @@ try {
     });
     process.exit(0);
   }
-  stage("verify synthetic review checkout", () =>
-    verifySyntheticReviewCheckout({ targetDir, reviewContext }),
-  );
 
   const reviewedHeadSha = pull.head.sha;
   const reviewedState = String(pull.state ?? "").toLowerCase();
@@ -268,7 +292,7 @@ try {
     preflightJobPath = writePreflightJob({ sourceJob, pull, pullRequest, runDir }).path;
     plan.source_job = path.relative(repoRoot(), preflightJobPath);
   }
-  writeBlockedArtifacts({ reason });
+  writeBlockedArtifacts({ reason, validationCommands, codexReview });
   process.exitCode = 0;
 }
 
@@ -544,18 +568,31 @@ function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest })
 }
 
 function checkoutExactPullHead({ repo, pullRequest, expectedHeadSha }) {
-  if (!fs.existsSync(path.join(targetDir, ".git"))) {
-    fs.mkdirSync(path.dirname(targetDir), { recursive: true });
-    run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], { env: ghReadEnv() });
+  const env = gitIntegrityEnv();
+  if (fs.existsSync(targetDir)) {
+    throw new Error("target checkout path already exists; refusing reused target");
   }
-  if (run("git", ["status", "--porcelain"], { cwd: targetDir }).trim()) {
+  fs.mkdirSync(path.dirname(targetDir), { recursive: true });
+  run("gh", ["repo", "clone", repo, targetDir, "--", "--depth=1", "--filter=blob:none"], {
+    env: ghReadEnv(),
+  });
+  if (!fs.existsSync(path.join(targetDir, ".git"))) {
+    throw new Error("fresh target clone did not create a Git checkout");
+  }
+  if (run("git", ["status", "--porcelain"], { cwd: targetDir, env }).trim()) {
     throw new Error("target checkout has uncommitted changes");
   }
-  run("git", ["fetch", "--no-tags", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd: targetDir });
+  run("git", ["fetch", "--no-tags", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], {
+    cwd: targetDir,
+    env,
+  });
   const ref = `refs/remotes/origin/clownfish-preflight-${pullRequest}`;
-  run("git", ["fetch", "--no-tags", "origin", `pull/${pullRequest}/head:${ref}`], { cwd: targetDir });
-  run("git", ["checkout", "--detach", ref], { cwd: targetDir });
-  const actualHeadSha = run("git", ["rev-parse", "HEAD"], { cwd: targetDir }).trim();
+  run("git", ["fetch", "--no-tags", "origin", `pull/${pullRequest}/head:${ref}`], {
+    cwd: targetDir,
+    env,
+  });
+  run("git", ["checkout", "--detach", ref], { cwd: targetDir, env });
+  const actualHeadSha = run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim();
   if (actualHeadSha !== expectedHeadSha) {
     throw new Error(`PR head changed during checkout: expected ${expectedHeadSha}, got ${actualHeadSha}`);
   }
@@ -563,29 +600,45 @@ function checkoutExactPullHead({ repo, pullRequest, expectedHeadSha }) {
 }
 
 function ensureMergeBase({ cwd, baseBranch, pullRequest, ref }) {
+  const env = gitIntegrityEnv();
   for (const depth of [50, 200, 1000]) {
     const probe = spawnSync("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], {
       cwd,
+      env,
       encoding: "utf8",
       maxBuffer: 1024 * 1024,
     });
     if (probe.status === 0 && String(probe.stdout ?? "").trim()) return;
-    run("git", ["fetch", "--no-tags", "--deepen", String(depth), "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], { cwd });
-    run("git", ["fetch", "--no-tags", "--deepen", String(depth), "origin", `pull/${pullRequest}/head:${ref}`], { cwd });
+    run(
+      "git",
+      [
+        "fetch",
+        "--no-tags",
+        "--deepen",
+        String(depth),
+        "origin",
+        `${baseBranch}:refs/remotes/origin/${baseBranch}`,
+      ],
+      { cwd, env },
+    );
+    run(
+      "git",
+      ["fetch", "--no-tags", "--deepen", String(depth), "origin", `pull/${pullRequest}/head:${ref}`],
+      { cwd, env },
+    );
   }
   if (isShallowRepository(cwd)) {
     run(
       "git",
       ["fetch", "--no-tags", "--unshallow", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`, `pull/${pullRequest}/head:${ref}`],
-      { cwd },
+      { cwd, env },
     );
   }
-  run("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], { cwd });
+  run("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], { cwd, env });
 }
 
 function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, exactHeadSha }) {
   const baseRef = `origin/${baseBranch}`;
-  const gitConfigSha256 = localGitConfigFingerprint(targetDir);
   const rawDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: exactHeadSha });
   const mergeContext = computeEffectiveMergeContext({
     targetDir,
@@ -610,7 +663,7 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
     {
       cwd: targetDir,
       env: {
-        ...process.env,
+        ...gitIntegrityEnv(),
         GIT_AUTHOR_NAME: "ProjectClownfish",
         GIT_AUTHOR_EMAIL: "projectclownfish@users.noreply.github.com",
         GIT_AUTHOR_DATE: "2000-01-01T00:00:00Z",
@@ -625,12 +678,19 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
   if (!/^[0-9a-f]{40}$/i.test(syntheticMergeSha)) {
     throw new Error(`synthetic merge returned invalid commit SHA: ${syntheticMergeSha || "empty"}`);
   }
-  run("git", ["checkout", "--detach", syntheticMergeSha], { cwd: targetDir });
-  const checkedOutTree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir }).trim();
-  const syntheticParent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir }).trim();
-  if (checkedOutTree !== mergeTreeSha || syntheticParent !== currentMainSha) {
+  run("git", ["checkout", "--detach", syntheticMergeSha], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+  });
+  const preToolchainSnapshot = syntheticReviewCheckoutSnapshot(targetDir);
+  if (
+    preToolchainSnapshot.head !== syntheticMergeSha ||
+    preToolchainSnapshot.tree !== mergeTreeSha ||
+    preToolchainSnapshot.parent !== currentMainSha
+  ) {
     throw new Error(
-      `synthetic merge binding mismatch: expected tree ${mergeTreeSha} on base ${currentMainSha}, got tree ${checkedOutTree} on base ${syntheticParent}`,
+      `synthetic merge binding mismatch: expected head ${syntheticMergeSha}, tree ${mergeTreeSha}, parent ${currentMainSha}; ` +
+        `actual head ${preToolchainSnapshot.head}, tree ${preToolchainSnapshot.tree}, parent ${preToolchainSnapshot.parent}`,
     );
   }
   return {
@@ -642,12 +702,15 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
     reviewedBaseSha: currentMainSha,
     expectedTreeEntries: resultEntries,
     changedFiles,
-    gitConfigSha256,
+    preToolchainSnapshot,
   };
 }
 
 function changedFileCount({ cwd, baseRef, targetRef }) {
-  const output = run("git", ["diff", "--name-only", `${baseRef}...${targetRef}`], { cwd }).trim();
+  const output = run("git", ["diff", "--name-only", `${baseRef}...${targetRef}`], {
+    cwd,
+    env: gitIntegrityEnv(),
+  }).trim();
   return output ? output.split(/\r?\n/).length : 0;
 }
 
@@ -715,26 +778,51 @@ function fingerprintTreeEntries(baseEntries, resultEntries) {
   };
 }
 
-function verifySyntheticReviewCheckout({ targetDir, reviewContext }) {
-  const env = gitIntegrityEnv();
-  const head = run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim();
-  const tree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir, env }).trim();
-  const parent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir, env }).trim();
-  if (
-    head !== reviewContext.syntheticMergeSha ||
-    tree !== reviewContext.mergeTreeSha ||
-    parent !== reviewContext.reviewedBaseSha ||
-    localGitConfigFingerprint(targetDir) !== reviewContext.gitConfigSha256
-  ) {
+function verifySyntheticReviewCheckout({
+  targetDir,
+  expectedSnapshot,
+  expectedEntries,
+  phase,
+  allowToolchainGitConfigChange = false,
+}) {
+  const actualSnapshot = syntheticReviewCheckoutSnapshot(targetDir);
+  const toolchainConfigChangeAllowed =
+    allowToolchainGitConfigChange &&
+    isAllowedToolchainGitConfigChange(expectedSnapshot.gitConfig, actualSnapshot.gitConfig);
+  const mismatchedFields = [
+    ["head", expectedSnapshot.head, actualSnapshot.head],
+    ["tree", expectedSnapshot.tree, actualSnapshot.tree],
+    ["parent", expectedSnapshot.parent, actualSnapshot.parent],
+    ["config", expectedSnapshot.gitConfig.sha256, actualSnapshot.gitConfig.sha256],
+  ]
+    .filter(
+      ([field, expected, actual]) =>
+        expected !== actual && !(field === "config" && toolchainConfigChangeAllowed),
+    )
+    .map(([field]) => field);
+  if (mismatchedFields.length > 0) {
+    const changedKeys = changedGitConfigKeys(expectedSnapshot.gitConfig, actualSnapshot.gitConfig);
     throw new Error(
-      `synthetic review checkout changed during validation: expected ${reviewContext.syntheticMergeSha} ` +
-        `on ${reviewContext.reviewedBaseSha} with tree ${reviewContext.mergeTreeSha}`,
+      `synthetic review checkout integrity mismatch: phase=${phase}; mismatched_fields=${mismatchedFields.join(",")}; ` +
+        `expected_head=${expectedSnapshot.head}; actual_head=${actualSnapshot.head}; ` +
+        `expected_tree=${expectedSnapshot.tree}; actual_tree=${actualSnapshot.tree}; ` +
+        `expected_parent=${expectedSnapshot.parent}; actual_parent=${actualSnapshot.parent}; ` +
+        `expected_config_sha256=${expectedSnapshot.gitConfig.sha256}; actual_config_sha256=${actualSnapshot.gitConfig.sha256}; ` +
+        `changed_git_config_keys=${formatChangedGitConfigKeys(changedKeys)}`,
     );
   }
-  verifyTrackedFilesystem({
-    targetDir,
-    expectedEntries: reviewContext.expectedTreeEntries,
-  });
+  verifyTrackedFilesystem({ targetDir, expectedEntries });
+  return actualSnapshot;
+}
+
+function syntheticReviewCheckoutSnapshot(targetDir) {
+  const env = gitIntegrityEnv();
+  return {
+    head: run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim(),
+    tree: run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir, env }).trim(),
+    parent: run("git", ["rev-parse", "HEAD^"], { cwd: targetDir, env }).trim(),
+    gitConfig: localGitConfigSnapshot(targetDir),
+  };
 }
 
 function refreshTargetMain({ targetDir, baseBranch }) {
@@ -799,26 +887,96 @@ function gitBlobSha(bytes) {
     .digest("hex");
 }
 
-function gitIntegrityEnv() {
+function gitIntegrityEnv(baseEnv = process.env) {
   return {
-    ...process.env,
+    ...baseEnv,
+    GIT_ALLOW_PROTOCOL: "https:ssh",
+    GIT_CONFIG_COUNT: "2",
     GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_KEY_0: "core.hooksPath",
+    GIT_CONFIG_KEY_1: "protocol.ext.allow",
     GIT_CONFIG_NOSYSTEM: "1",
+    GIT_CONFIG_VALUE_0: "/dev/null",
+    GIT_CONFIG_VALUE_1: "never",
     GIT_NO_REPLACE_OBJECTS: "1",
   };
 }
 
-function localGitConfigFingerprint(cwd) {
-  const config = run("git", ["config", "--local", "--list", "--null"], {
+function localGitConfigSnapshot(cwd) {
+  const config = run("git", ["config", "--local", "--includes", "--list", "--null"], {
     cwd,
     env: gitIntegrityEnv(),
     maxBuffer: 1024 * 1024,
   });
-  return createHash("sha256").update(config).digest("hex");
+  const keyValues = new Map();
+  for (const entry of config.split("\0").filter(Boolean)) {
+    const separator = entry.indexOf("\n");
+    const key = (separator === -1 ? entry : entry.slice(0, separator)).trim().toLowerCase();
+    if (!key) continue;
+    const value = separator === -1 ? "" : entry.slice(separator + 1);
+    const valueHashes = keyValues.get(key) ?? [];
+    valueHashes.push(createHash("sha256").update(value).digest("hex"));
+    keyValues.set(key, valueHashes);
+  }
+  return {
+    sha256: createHash("sha256").update(config).digest("hex"),
+    valueFingerprints: keyValues,
+    keyFingerprints: new Map(
+      [...keyValues].map(([key, valueHashes]) => [
+        key,
+        createHash("sha256").update(valueHashes.join("\0")).digest("hex"),
+      ]),
+    ),
+  };
+}
+
+function changedGitConfigRawKeys(expected, actual) {
+  const keys = new Set([...expected.keyFingerprints.keys(), ...actual.keyFingerprints.keys()]);
+  return [...keys]
+    .filter((key) => expected.keyFingerprints.get(key) !== actual.keyFingerprints.get(key))
+    .sort();
+}
+
+function changedGitConfigKeys(expected, actual) {
+  return changedGitConfigRawKeys(expected, actual)
+    .map(safeGitConfigKey)
+    .sort();
+}
+
+function isAllowedToolchainGitConfigChange(expected, actual) {
+  const changedKeys = changedGitConfigRawKeys(expected, actual);
+  if (changedKeys.length !== 1 || changedKeys[0] !== "core.hookspath") {
+    return false;
+  }
+  const values = actual.valueFingerprints.get("core.hookspath") ?? [];
+  return (
+    values.length === 1 &&
+    values[0] === createHash("sha256").update("git-hooks").digest("hex")
+  );
+}
+
+function safeGitConfigKey(key) {
+  const parts = key.split(".");
+  const safePart = /^[a-z][a-z0-9-]{0,63}$/;
+  if (parts.length === 2 && parts.every((part) => safePart.test(part))) return key;
+  const section = safePart.test(parts[0] ?? "") ? parts[0] : "config";
+  const name = safePart.test(parts.at(-1) ?? "") ? parts.at(-1) : "key";
+  return `${section}.[redacted].${name}`;
+}
+
+function formatChangedGitConfigKeys(keys) {
+  if (keys.length === 0) return "unavailable";
+  const shown = keys.slice(0, 20);
+  return keys.length === shown.length ? shown.join(",") : `${shown.join(",")},...(+${keys.length - shown.length})`;
 }
 
 function isShallowRepository(cwd) {
-  return run("git", ["rev-parse", "--is-shallow-repository"], { cwd }).trim() === "true";
+  return (
+    run("git", ["rev-parse", "--is-shallow-repository"], {
+      cwd,
+      env: gitIntegrityEnv(),
+    }).trim() === "true"
+  );
 }
 
 function prepareTargetToolchain(cwd) {
@@ -1910,15 +2068,15 @@ function ghJson(commandArgs) {
 }
 
 function ghReadEnv() {
-  return { ...process.env, GH_TOKEN: process.env.CLOWNFISH_READ_GH_TOKEN || process.env.GH_TOKEN || process.env.GITHUB_TOKEN };
+  return {
+    ...gitIntegrityEnv(),
+    GH_TOKEN: process.env.CLOWNFISH_READ_GH_TOKEN || process.env.GH_TOKEN || process.env.GITHUB_TOKEN,
+  };
 }
 
 function validationEnv() {
   const env = {
-    ...process.env,
-    GIT_CONFIG_GLOBAL: "/dev/null",
-    GIT_CONFIG_NOSYSTEM: "1",
-    GIT_NO_REPLACE_OBJECTS: "1",
+    ...gitIntegrityEnv(),
     OPENCLAW_LOCAL_CHECK: "0",
   };
   for (const key of [
@@ -1935,12 +2093,7 @@ function validationEnv() {
 }
 
 function codexEnv() {
-  const env = {
-    ...process.env,
-    GIT_CONFIG_GLOBAL: "/dev/null",
-    GIT_CONFIG_NOSYSTEM: "1",
-    GIT_NO_REPLACE_OBJECTS: "1",
-  };
+  const env = gitIntegrityEnv();
   for (const key of [
     "GH_TOKEN",
     "GITHUB_TOKEN",
