@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-94732-442187271db9"
 mode: "autonomous"
-run_id: "28504964723"
-workflow_run_id: "28504964723"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28504964723"
-head_sha: "e0b180eb2dc76fddfd4a61fcb0e3976fc8010039"
-workflow_conclusion: "success"
+run_id: "28779759951"
+workflow_run_id: "28779759951"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28779759951"
+head_sha: "62af8c79e22b0b62d36aedd69524904f5d62c56f"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-07-01T08:57:49.076Z"
+published_at: "2026-07-06T09:34:38.319Z"
 canonical: "https://github.com/openclaw/openclaw/pull/94732"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/94732"
@@ -26,9 +26,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28504964723](https://github.com/openclaw/clownfish/actions/runs/28504964723)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28779759951](https://github.com/openclaw/clownfish/actions/runs/28779759951)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/94732
 
 ## Summary
 
-External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/94732#issuecomment-4761000459
+External merge preflight blocked: PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/94732#issuecomment-4761000459, https://github.com/openclaw/openclaw/pull/94732#issuecomment-4788620421
 
 ## Impact
 

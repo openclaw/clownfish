@@ -1,0 +1,217 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260706T085447-001",
+  "mode": "autonomous",
+  "run_id": "28779759951",
+  "workflow_run_id": "28779759951",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28779759951",
+  "head_sha": "62af8c79e22b0b62d36aedd69524904f5d62c56f",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T08:55:44Z",
+  "workflow_updated_at": "2026-07-06T09:33:53Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T085447-001.md",
+  "published_at": "2026-07-06T09:34:38.330Z",
+  "canonical": null,
+  "canonical_issue": null,
+  "canonical_pr": null,
+  "summary": "Classified the two open PRs independently. #94732 is a narrow, non-security, cleanly-applying merge candidate, but it lacks the required exact-head external merge preflight and Codex /review. #90867 is useful and maintainer-editable, but its patch no longer applies cleanly to current main, so it needs a contributor-branch repair artifact rather than a merge recommendation.",
+  "actions": [
+    {
+      "target": "#94732",
+      "action": "merge_candidate",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#94732",
+      "candidate_fix": null,
+      "reason": "external_merge_preflight_required: the PR is otherwise merge-shaped from available evidence, but merge requires fresh exact-head validation, comment/review-thread re-fetch, and Codex /review."
+    },
+    {
+      "target": "#90867",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90867",
+      "candidate_fix": null,
+      "reason": "The PR is useful but not merge-ready because the patch no longer applies to current main; maintainer_can_modify=true makes a narrow contributor-branch repair executable."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260706T085447-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Repair #90867 on the existing contributor branch, then rerun validation and merge preflight separately."
+    }
+  ],
+  "action_counts": {
+    "merge_candidate": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "blocked": 1
+  },
+  "apply_counts": {
+    "skipped": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90867",
+    "source_refs": [
+      "#90867",
+      "#90844",
+      "#94732"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #90867 so the backend-delegated `/export-session` warning applies cleanly to current main while preserving @xydigit-sj's contributor branch and attribution.",
+    "pr_title": "fix(auto-reply): warn on backend-delegated session exports",
+    "pr_body": "What Problem This Solves\n\n`/export-session` can currently produce a successful HTML export for backend-delegated sessions that only contains OpenClaw-side user messages, which makes the export look complete even though assistant/tool/usage data lives in the backend transcript. This carries forward #90867 by @xydigit-sj and the linked #90844 behavior report.\n\nWhy This Change Was Made\n\nThe existing contributor PR is the right narrow path, but its patch no longer applies cleanly to current `main`. Repair the contributor branch against current `main`, add a small typed helper that detects non-empty transcripts whose message entries are all `role: \"user\"`, pass a warning through `SessionData`, render it escaped in the exported HTML header area, and include the same warning in the command reply.\n\nUser Impact\n\nUsers exporting CLI/ACP backend-delegated sessions get an explicit warning that assistant replies, tool calls, and usage data are not included in the OpenClaw export. Normal mixed transcripts remain unchanged.\n\nEvidence\n\n- Current main lacks the warning path in `src/auto-reply/reply/commands-export-session.ts` and `src/auto-reply/reply/export-html/template.js`.\n- The #90867 patch no longer applies cleanly to current main, so the contributor branch needs a rebase/repair before merge.\n- Run `pnpm test src/auto-reply/reply/commands-export-session.test.ts` and `pnpm check:changed` after repair.\n\nCredit\n\nBased on and credited to @xydigit-sj's source PR: https://github.com/openclaw/openclaw/pull/90867.",
+    "likely_files": [
+      "src/auto-reply/reply/commands-export-session.ts",
+      "src/auto-reply/reply/export-html/template.js",
+      "src/auto-reply/reply/export-html/template.css",
+      "src/auto-reply/reply/commands-export-session.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/auto-reply/reply/commands-export-session.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor PR rather than replacing it: https://github.com/openclaw/openclaw/pull/90867 by @xydigit-sj.",
+      "Keep @xydigit-sj as the credited author/source in the PR body or repair note; the fix idea and tests come from #90867."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T085447-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "Codex /review did not pass after 2 attempt(s): Code changes are narrow and security handling looks correct, but the branch is not merge-ready because it conflicts with current origin/main in CHANGELOG.md. Validation was not rerun per instruction; supplied successful pnpm check:changed is sufficient for the changed surface once the branch is rebased/conflict-resolved.",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": "https://github.com/openclaw/openclaw/pull/90867",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "Codex /review did not pass after 2 attempt(s): Code changes are narrow and security handling looks correct, but the branch is not merge-ready because it conflicts with current origin/main in CHANGELOG.md. Validation was not rerun per instruction; supplied successful pnpm check:changed is sufficient for the changed surface once the branch is rebased/conflict-resolved.",
+      "commit": "8ddee4f1b128cb7e46747d3150d16bb2d27b8051",
+      "checkpoint_commits": [
+        "2363ea53b33a7846978ed2241932d6f2c0451c75",
+        "173ae9768dffd5f9750e26e321c5bf4db7bc5643",
+        "8ddee4f1b128cb7e46747d3150d16bb2d27b8051"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#94732",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#94732",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260706T085447-001:#94732:merge-preflight:442187271db9827539e6ed04d1108e5f3af92503",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required: the PR is otherwise merge-shaped from available evidence, but merge requires fresh exact-head validation, comment/review-thread re-fetch, and Codex /review.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-07-06T09:33:48.320Z",
+      "report_source": "apply",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#94732",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#94732",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260706T085447-001:#94732:merge-preflight:442187271db9827539e6ed04d1108e5f3af92503",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required: the PR is otherwise merge-shaped from available evidence, but merge requires fresh exact-head validation, comment/review-thread re-fetch, and Codex /review.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 1,
+      "applied_at": "2026-07-06T09:33:48.320Z",
+      "report_source": "apply",
+      "retry_recommended": null,
+      "transient_error": null
+    },
+    {
+      "target": "#94732",
+      "action": "merge_candidate",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#94732",
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": "live-pr-inventory-20260706T085447-001:#94732:merge-preflight:442187271db9827539e6ed04d1108e5f3af92503",
+      "source_status": "blocked",
+      "source_reason": "external_merge_preflight_required: the PR is otherwise merge-shaped from available evidence, but merge requires fresh exact-head validation, comment/review-thread re-fetch, and Codex /review.",
+      "reason": "action status is blocked",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": 2,
+      "applied_at": "2026-07-06T09:33:48.647Z",
+      "report_source": "apply",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
