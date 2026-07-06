@@ -1517,7 +1517,7 @@ function hasClawSweeperReadyReviewSignal(body) {
   return (
     isClawSweeperMaintainerReviewHeader(firstLine) &&
     /result:\s*ready for maintainer review\./.test(body) &&
-    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job)? is needed|no concrete contributor-facing blocker left|remaining action is normal maintainer review)/.test(
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is needed|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
       body,
     )
   );
@@ -1535,12 +1535,57 @@ function hasActionableClawSweeperReviewSignal(body) {
   ) {
     return true;
   }
-  return [
+  return hasExplicitMergeObjection(withoutAdvisoryReviewSections(body)) || [
     /\*\*merge readiness\*\*[\s\S]{0,1200}\bresult:\s*blocked until\b/,
     /\*\*proof guidance\*\*[\s\S]{0,1600}\b(?:needs?|requires?) (?:stronger )?real behavior proof before merge\b/,
     /\*\*risk before merge\*\*[\s\S]{0,1600}\b(?:blocker|must|needs?|required|missing)\b/,
     /\*\*next step before merge\*\*[\s\S]{0,1200}\bremaining (?:merge )?blocker\b/,
   ].some((pattern) => pattern.test(body));
+}
+
+function withoutAdvisoryReviewSections(body) {
+  return String(body).replace(
+    /\*\*maintainer options:\*\*[\s\S]*?(?=\n\*\*[^*\n]+\*\*\s*(?:\n|$)|$)/gi,
+    "",
+  );
+}
+
+function hasExplicitMergeObjection(body) {
+  return String(body)
+    .split(/\r?\n/)
+    .map((line) => line.trim().replace(/^[-*]\s+/, "").replace(/^#{1,6}\s*/, ""))
+    .filter(Boolean)
+    .some((line) => {
+      if (isNegatedOrResolvedMergeObjection(line)) return false;
+      return [
+        /\b(?:maintainers?\s+)?(?:do not|don't|must not|mustn't|should not|shouldn't|cannot|can't)\s+(?:merge|land|ship)\b/,
+        /\b(?:this|the)?\s*(?:pr|patch|change)\s+(?:must not|mustn't|should not|shouldn't|cannot|can't)\s+be\s+(?:merged|landed|shipped)\b/,
+        /\b(?:do not|don't|must not|mustn't)\s+proceed with (?:the )?(?:merge|landing|shipping)\b/,
+        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+not safe to\s+(?:merge|land|ship)\b/,
+        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+unsafe to\s+(?:merge|land|ship)\b/,
+        /\bnot ready to\s+(?:merge|land|ship)\b/,
+        /\bhold (?:the )?(?:merge|landing|shipping)\s+until\b/,
+        /\b(?:the )?(?:pr|patch|change)\s+remains\s+blocked\b/,
+        /\b(?:merge|merging|landing|shipping)\s+(?:is\s+)?(?:still\s+)?(?:blocked|not allowed)\b/,
+        /\b(?:merge|merging|landing|shipping)\s+remains\s+blocked\b/,
+        /\b(?:merge|merging|landing|shipping)\s+(?:cannot|can't|must not|mustn't|should not|shouldn't)\s+(?:proceed|continue)\b/,
+        /\b(?:merge|merging|landing|shipping)\s+(?:must|should)\s+(?:wait|be delayed|remain blocked)\b/,
+        /\b(?:pending|awaiting)\s+(?:(?:maintainer|policy|risk)\s+){1,2}(?:decision|approval|acceptance)\b/,
+        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?(?:still\s+)?(?:pending|unresolved)\b/,
+        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?required before (?:merge|merging|landing|shipping)\b/,
+      ].some((pattern) => pattern.test(line));
+    });
+}
+
+function isNegatedOrResolvedMergeObjection(line) {
+  return [
+    /^no\s+(?:pending|unresolved)\s+(?:(?:maintainer|policy|risk)\s+){1,2}(?:decision|approval|acceptance)\s+(?:remains?|exists?)\.?$/,
+    /^no\s+(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+is\s+(?:pending|unresolved)\.?$/,
+    /^(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+is\s+(?:not|no longer)\s+(?:pending|unresolved)\.?$/,
+    /^(?:the\s+)?(?:previously|previous|earlier|formerly|prior)\b.*\b(?:resolved|addressed|cleared|granted|accepted|no longer applies)\.?$/,
+    /^there is no reason (?:the )?(?:merge|landing|shipping) is blocked\.?$/,
+    /^(?:merge|landing|shipping) is not allowed to remain blocked\.?$/,
+  ].some((pattern) => pattern.test(line));
 }
 
 function isClawSweeperMaintainerReviewHeader(line) {
@@ -1558,7 +1603,14 @@ function findHighRiskMergeLabel(labels) {
 function isAutomationAuthor(author) {
   return (
     /\[bot\]$|bot$/.test(author) ||
-    ["clawsweeper", "openclaw-clownfish", "openclaw-barnacle", "barnacle-openclaw", "greptile-apps"].includes(author)
+    [
+      "clawsweeper",
+      "github-actions",
+      "openclaw-clownfish",
+      "openclaw-barnacle",
+      "barnacle-openclaw",
+      "greptile-apps",
+    ].includes(author)
   );
 }
 

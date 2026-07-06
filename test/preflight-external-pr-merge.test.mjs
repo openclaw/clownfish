@@ -1119,6 +1119,122 @@ test("external merge preflight accepts #99607 timestamped exact-head live review
   assert.equal(report.status, "passed", report.reason);
 });
 
+test("external merge preflight accepts #98505 current-head ready review phrasing", () => {
+  const fixture = makeFixture({
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "clawsweeper" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Codex review: needs maintainer review before merge. _Reviewed July 6, 2026, 5:44 PM ET / 21:44 UTC._",
+          "",
+          "**Review metrics:** 1 noteworthy metric.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No ClawSweeper repair lane is needed; the latest head has no concrete code finding, and the remaining action is maintainer review, CI completion, and risk acceptance.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "",
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98505#issuecomment-4852565769",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight blocks explicit objections appended to positive ready-review phrasing", () => {
+  for (const objection of [
+    "No concrete code finding, but maintainers must not merge this.",
+    "No concrete code finding, but maintainers mustn't merge this.",
+    "No ClawSweeper repair lane is needed, but merge remains blocked.",
+    "No concrete code finding, but merge is still blocked.",
+    "No concrete code finding, but merging remains blocked.",
+    "No concrete code finding, but this is not safe to merge.",
+    "No concrete code finding, but this PR must not be merged.",
+    "No concrete code finding, but merge cannot proceed.",
+    "No concrete code finding, but merge should wait.",
+    "No concrete code finding; do not proceed with the merge.",
+    "No concrete code finding; this is not ready to merge.",
+    "Hold merge until the compatibility concern is resolved.",
+    "The PR remains blocked pending compatibility proof.",
+    "It is unsafe to merge until the availability risk is accepted.",
+    "No concrete code finding; merge must wait for maintainer approval.",
+    "No concrete code finding; maintainer approval is required before merge.",
+    "No concrete code finding; awaiting maintainer risk acceptance.",
+    "No pending maintainer decision remains, but merge is still blocked.",
+    "The earlier concern is resolved, but maintainers must not merge.",
+    "Prior objection addressed; merge must wait for policy approval.",
+  ]) {
+    const fixture = makeFixture({
+      pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      issueComments: [
+        {
+          author: { login: "clawsweeper" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Merge readiness**",
+            "Result: ready for maintainer review.",
+            "",
+            objection,
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", objection);
+    assert.match(report.reason, /actionable top-level issue comment/, objection);
+  }
+});
+
+test("external merge preflight accepts negated or resolved historical objection wording", () => {
+  for (const resolved of [
+    "No pending maintainer decision remains.",
+    "No maintainer approval is pending.",
+    "Previously pending maintainer risk acceptance is now granted.",
+    'The earlier review said "must not merge", but that concern is resolved.',
+    "There is no reason the merge is blocked.",
+    "Merge is not allowed to remain blocked.",
+  ]) {
+    const fixture = makeFixture({
+      pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      issueComments: [
+        {
+          author: { login: "clawsweeper" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Merge readiness**",
+            "Result: ready for maintainer review.",
+            "",
+            "No concrete code finding.",
+            resolved,
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "passed", resolved);
+  }
+});
+
 test("external merge preflight ignores #98821 stale QA and refresh comments after a newer exact-head ready review", () => {
   const fixture = makeFixture({
     pullUser: { login: "harjothkhara" },
@@ -2382,6 +2498,31 @@ test("external merge preflight accepts exact-head dependency guard authorization
   assert.equal(report.status, "passed", report.reason);
   const result = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "result.json"), "utf8"));
   assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
+test("external merge preflight accepts GraphQL github-actions cleared dependency guard", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "github-actions" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "<!-- openclaw:dependency-graph-guard -->",
+          "",
+          "### Dependency graph guard cleared",
+          "",
+          "This PR no longer has blocked dependency graph changes. A future dependency graph change requires a fresh `/allow-dependencies-change` comment after the guard blocks that new head SHA.",
+          "",
+          `- Current SHA: \`${headSha}\``,
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98505#issuecomment-4853327954",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
 });
 
 test("external merge preflight blocks stale dependency guard authorization", () => {
