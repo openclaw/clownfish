@@ -50,7 +50,7 @@ env:
 
 jobs:
   intake:
-    if: ${{ github.event_name != 'schedule' || vars.CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED != '0' }}
+    if: ${{ github.event_name != 'schedule' || vars.CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED == '' || vars.CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED != '0' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -94,6 +94,7 @@ jobs:
             --mode autonomous \
             --strategy remediation \
             --checks-success \
+            --sort recent \
             --limit "$LIMIT" \
             --batch-size "$BATCH_SIZE" \
             --json > "$IMPORT_JSON"

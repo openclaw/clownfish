@@ -74,10 +74,12 @@ test("cluster worker chains blocked merge candidates through external preflight"
 
 test("daily checks-success intake feeds guarded external merge preflights", () => {
   assert.match(intakeWorkflow, /cron: "17 7 \* \* \*"/);
+  assert.match(intakeWorkflow, /CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED == ''/);
   assert.match(intakeWorkflow, /CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED != '0'/);
   assert.match(intakeWorkflow, /scripts\/import-github-pr-inventory\.mjs/);
   assert.match(intakeWorkflow, /--strategy remediation/);
   assert.match(intakeWorkflow, /--checks-success/);
+  assert.match(intakeWorkflow, /--sort recent/);
   assert.match(intakeWorkflow, /default: "30"/);
   assert.match(intakeWorkflow, /default: ubuntu-latest/);
   assert.match(intakeWorkflow, /git commit -m "chore: add daily checks-success preflight jobs"/);

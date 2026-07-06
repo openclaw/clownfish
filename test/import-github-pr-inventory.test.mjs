@@ -306,7 +306,7 @@ test("remediation inventory can hydrate only included refs", () => {
 
 test("checks-success remediation intake filters noisy preflight blockers", () => {
   const fixture = makeFixture();
-  writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true });
+  writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true, includeNoisePrList: true });
 
   const result = runImport(
     fixture,
@@ -322,15 +322,16 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const payload = JSON.parse(result.stdout);
 
-  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.equal(payload.options.inventory_source, "search");
   assert.equal(payload.options.bucket, "all");
   assert.equal(payload.options.checks_success_preflight, true);
 
   const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
   assert.equal(refs.has("#116"), true);
-  assert.equal(refs.has("#114"), false);
+  assert.equal(refs.has("#114"), true);
   assert.equal(refs.has("#115"), false);
   assert.equal(refs.has("#117"), false);
+  assert.equal(refs.has("#118"), false);
 
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
   assert.match(job, /Checks-Success PR External Preflight/);
@@ -604,6 +605,14 @@ function writeFakeGh(filePath, options = {}) {
     url: "https://github.com/openclaw/openclaw/pull/118",
     updatedAt: "2026-01-18T00:00:00Z",
   };
+  if (options.includeNoisePrList) {
+    searchPulls.push({
+      ...noisePrListPull,
+      labels: noisePrListPull.labels,
+      assignees: noisePrListPull.assignees,
+      commentsCount: noisePrListPull.commentsCount,
+    });
+  }
   const checksSuccessPull = {
     ...cleanPrListPull,
     number: 116,
@@ -637,6 +646,16 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-17T00:00:00Z",
     labels: [{ name: "maintainer" }],
   };
+  if (options.includeChecksSuccessPreflight) {
+    searchPulls.push(
+      ...[commentedChecksSuccessPull, statusBlockedChecksSuccessPull, checksSuccessPull, maintainerChecksSuccessPull].map((pull) => ({
+        ...pull,
+        labels: pull.labels,
+        assignees: pull.assignees,
+        commentsCount: pull.commentsCount,
+      })),
+    );
+  }
   const prListPulls = [
     existingPrListPull,
     dirtyPrListPull,
