@@ -30,7 +30,7 @@ allow_merge: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #98505 after the deterministic external preflight binds validation and review to its exact live head."
-notes: "Batch head at dispatch preparation: 299b262b7aa5fb3e1ab6ba371b01ce856c1c49f1. Re-fetch live state and stop if the head or merge policy changes."
+notes: "Batch head at dispatch preparation: d70b907331cf4bae4f2b160a5660059715e93826. Re-fetch live state and stop if the head or merge policy changes."
 ---
 
 # Exact Merge Batch: #98505
