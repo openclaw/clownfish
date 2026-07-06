@@ -80,6 +80,9 @@ if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomo
 if (!["graphql", "search", "pr-list"].includes(inventorySource)) die("--inventory-source must be graphql, search, or pr-list");
 if (!["triage", "remediation", "low-signal"].includes(strategy)) die("--strategy must be triage, remediation, or low-signal");
 if (checksSuccessPreflight && strategy !== "remediation") die("--checks-success requires --strategy remediation");
+if (checksSuccessPreflight && inventorySource === "graphql") {
+  die("--checks-success does not support --inventory-source graphql; use search or pr-list");
+}
 if (hydrateIncludeRefs && inventorySource !== "pr-list") die("--hydrate-include-refs requires --inventory-source pr-list");
 if (hydrateIncludeRefs && !includeRefs) die("--hydrate-include-refs requires --include-refs-file");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
@@ -250,7 +253,7 @@ function fetchOpenPullRequestsFromSearch() {
   if (!checksSuccessPreflight) return normalized;
   return hydrateChecksSuccessPullRequests(
     normalized
-      .filter((pull) => !prListMergeBlocker(pull))
+      .filter((pull) => !prListMergeBlocker(pull, { requireExactHead: false }))
       .filter((pull) => shouldRetryChecksSuccessPullRequest(pull)),
   );
 }
@@ -271,6 +274,10 @@ function hydrateChecksSuccessPullRequests(pulls) {
     }
     if (!hydrated) continue;
     const normalized = normalizePrListPullRequest(hydrated);
+    if (!/^[0-9a-f]{40}$/i.test(String(normalized.headRefOid ?? ""))) {
+      console.error(`skip pull request #${pull.number} after hydration: head SHA unavailable`);
+      continue;
+    }
     const hasUnsettledMergeability = hasUnknownMergeability(normalized);
     const blockerView = hasUnsettledMergeability ? omitUnknownMergeability(normalized) : normalized;
     if (prListMergeBlocker(blockerView)) {
@@ -447,6 +454,7 @@ function prListFields() {
     "createdAt",
     "deletions",
     "additions",
+    "headRefOid",
     "isDraft",
     "labels",
     "maintainerCanModify",
@@ -525,6 +533,7 @@ function normalizePrListPullRequest(raw) {
     author: typeof raw.author === "string" ? { login: raw.author } : raw.author,
     authorAssociation: raw.authorAssociation,
     baseRefName: raw.baseRefName,
+    headRefOid: raw.headRefOid,
     mergeable: raw.mergeable,
     mergeStateStatus: raw.mergeStateStatus,
     reviewDecision: raw.reviewDecision,
@@ -538,7 +547,7 @@ function normalizePrListPullRequest(raw) {
   };
 }
 
-function prListMergeBlocker(raw) {
+function prListMergeBlocker(raw, { requireExactHead = checksSuccessPreflight } = {}) {
   if (strategy !== "remediation") return false;
   const labels = labelNames(raw.labels);
   const mergeRisk = hasMergeRiskLabel(labels);
@@ -548,6 +557,7 @@ function prListMergeBlocker(raw) {
   if (checksSuccessPreflight) {
     const authorAssociation = asciiString(raw.authorAssociation ?? "");
     const unexpectedAssignee = assigneeNames(raw.assignees).some((login) => login.toLowerCase() !== "vincentkoc");
+    if (requireExactHead && !/^[0-9a-f]{40}$/i.test(String(raw.headRefOid ?? ""))) return true;
     if (isMaintainerAssociated(authorAssociation) || hasMaintainerLabel(labels)) return true;
     if (unexpectedAssignee) return true;
     if (hasStatusBlockedLabel(labels)) return true;
@@ -632,6 +642,7 @@ function classifyCandidate(raw) {
     title,
     author: asciiString(raw.author?.login ?? ""),
     author_association: authorAssociation || null,
+    head_sha: nullableAscii(raw.headRefOid),
     labels,
     assignees,
     is_draft: Boolean(raw.isDraft),
@@ -858,6 +869,9 @@ function writeJob(batch, index) {
     `repo: ${repo}`,
     `cluster_id: ${clusterId}`,
     `mode: ${mode}`,
+    ...(checksSuccessPreflight
+      ? ["expected_head_shas:", ...yamlList(batch.map((candidate) => `${candidate.ref}=${candidate.head_sha}`))]
+      : []),
     ...(lowSignal ? ["triage_policy: low_signal_prs"] : []),
     "allowed_actions:",
     ...yamlList(allowedActions),
