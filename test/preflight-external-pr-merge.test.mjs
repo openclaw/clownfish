@@ -136,6 +136,46 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
 });
 
+test("external merge preflight preserves the decisive tail of long validation stdout", () => {
+  const fixture = makeFixture({
+    validationFailure: {
+      stdout: [
+        "$ node scripts/check-changed.mjs",
+        "[check:changed] lanes=core, coreTests, extensions, extensionTests",
+        "x".repeat(5000),
+        "src/plugins/memory-state.ts(42,7): error TS2322: decisive stdout tail",
+      ].join("\n"),
+    },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /^command failed with exit 1: pnpm check:changed/);
+  assert.match(report.reason, /stdout:\n\$ node scripts\/check-changed\.mjs/);
+  assert.match(report.reason, /\[truncated; showing head and tail\]/);
+  assert.match(report.reason, /error TS2322: decisive stdout tail$/);
+  assert.ok(report.reason.length <= 4000, `reason was ${report.reason.length} chars`);
+});
+
+test("external merge preflight reports both output tails without leaking secrets", () => {
+  const secret = `github_pat_${"s".repeat(32)}`;
+  const fixture = makeFixture({
+    validationFailure: {
+      stdout: `stdout prefix token=${secret}\n${"o".repeat(5000)}\ndecisive stdout tail`,
+      stderr: `stderr prefix Authorization: Bearer ${secret}\n${"e".repeat(5000)}\ndecisive stderr tail`,
+    },
+  });
+  const { report } = runPreflightFixture(fixture, { GH_TOKEN: secret });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /stderr:\nstderr prefix Authorization: Bearer \[redacted\]/);
+  assert.match(report.reason, /decisive stderr tail/);
+  assert.match(report.reason, /stdout:\nstdout prefix token=\[redacted\]/);
+  assert.match(report.reason, /decisive stdout tail$/);
+  assert.doesNotMatch(report.reason, new RegExp(secret));
+  assert.ok(report.reason.length <= 4000, `reason was ${report.reason.length} chars`);
+});
+
 test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
   const fixture = makeFixture({
     issueUpdatedAt: "2026-07-06T13:38:20Z",
@@ -2160,7 +2200,7 @@ test("external merge preflight blocks merge-risk labels", () => {
   assert.match(report.reason, /blocked live label: merge-risk: availability/);
 });
 
-function runPreflightFixture(fixture) {
+function runPreflightFixture(fixture, extraEnv = {}) {
   const child = spawnSync(
     process.execPath,
     ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
@@ -2169,6 +2209,7 @@ function runPreflightFixture(fixture) {
       encoding: "utf8",
       env: {
         ...process.env,
+        ...extraEnv,
         PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
         CLOWNFISH_ALLOWED_OWNER: "openclaw",
       },
@@ -2203,6 +2244,7 @@ function makeFixture({
   rehydratedHeadSha = null,
   rehydratedState = null,
   currentMainSha = null,
+  validationFailure = null,
   codexReview = {
     status: "clean",
     summary: "clean fixture review",
@@ -2339,9 +2381,18 @@ if (args[0] === "merge-base") console.log(base);
 process.exit(0);
 `,
   );
-  for (const command of ["corepack", "pnpm"]) {
-    writeExecutable(path.join(binDir, command), "#!/bin/sh\nexit 0\n");
-  }
+  writeExecutable(path.join(binDir, "corepack"), "#!/bin/sh\nexit 0\n");
+  writeExecutable(
+    path.join(binDir, "pnpm"),
+    `#!/usr/bin/env node
+const failure = ${JSON.stringify(validationFailure)};
+if (failure && process.argv.slice(2).join(" ") === "check:changed") {
+  process.stdout.write(String(failure.stdout ?? ""));
+  process.stderr.write(String(failure.stderr ?? ""));
+  process.exit(Number(failure.status ?? 1));
+}
+`,
+  );
   writeExecutable(
     path.join(binDir, "codex"),
     `#!/usr/bin/env node

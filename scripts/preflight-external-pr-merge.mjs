@@ -11,6 +11,8 @@ const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
 const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
 const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 20 * 60 * 1000);
+const FAILURE_REASON_MAX_CHARS = 4000;
+const FAILURE_STREAM_MAX_CHARS = 1800;
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
@@ -1339,10 +1341,52 @@ function run(command, commandArgs, options = {}) {
     timeout: options.timeout,
     maxBuffer: options.maxBuffer,
   });
-  if (child.error?.code === "ETIMEDOUT") throw new Error(`${command} ${commandArgs.join(" ")} timed out`);
-  if (child.error) throw child.error;
-  if (child.status !== 0) throw new Error((child.stderr || child.stdout || `${command} exited ${child.status}`).trim());
+  if (child.error?.code === "ETIMEDOUT") {
+    const timeout = options.timeout ? `${options.timeout}ms` : "the configured deadline";
+    throw new Error(
+      formatCommandFailure(command, commandArgs, child, `timed out after ${timeout}`),
+    );
+  }
+  if (child.error) {
+    throw new Error(formatCommandFailure(command, commandArgs, child, `failed to start: ${child.error.message}`));
+  }
+  if (child.signal) {
+    throw new Error(formatCommandFailure(command, commandArgs, child, `terminated by ${child.signal}`));
+  }
+  if (child.status !== 0) {
+    throw new Error(formatCommandFailure(command, commandArgs, child, `failed with exit ${child.status}`));
+  }
   return child.stdout ?? "";
+}
+
+function formatCommandFailure(command, commandArgs, child, outcome) {
+  const sections = [`command ${outcome}: ${renderCommand(command, commandArgs)}`];
+  for (const [label, value] of [
+    ["stderr", child.stderr],
+    ["stdout", child.stdout],
+  ]) {
+    const stream = redactSecrets(stripAnsi(value)).trim();
+    if (stream) sections.push(`${label}:\n${boundDiagnostic(stream, FAILURE_STREAM_MAX_CHARS)}`);
+  }
+  return boundDiagnostic(redactSecrets(sections.join("\n")), FAILURE_REASON_MAX_CHARS);
+}
+
+function renderCommand(command, commandArgs) {
+  return [command, ...commandArgs]
+    .map((part) => {
+      const value = String(part);
+      return /^[A-Za-z0-9_./:@%+=,-]+$/.test(value) ? value : JSON.stringify(value);
+    })
+    .join(" ");
+}
+
+function boundDiagnostic(value, maxChars) {
+  const text = String(value ?? "");
+  if (text.length <= maxChars) return text;
+  const marker = "\n... [truncated; showing head and tail] ...\n";
+  const contentChars = maxChars - marker.length;
+  const headChars = Math.min(400, Math.floor(contentChars / 4));
+  return `${text.slice(0, headChars)}${marker}${text.slice(-(contentChars - headChars))}`;
 }
 
 function stage(name, fn) {
@@ -1366,11 +1410,41 @@ function normalizeState(value) {
 }
 
 function redact(value) {
-  let redacted = value;
-  for (const secret of [process.env.GH_TOKEN, process.env.GITHUB_TOKEN, process.env.CLOWNFISH_READ_GH_TOKEN]) {
+  return boundDiagnostic(redactSecrets(stripAnsi(value)), FAILURE_REASON_MAX_CHARS);
+}
+
+function redactSecrets(value) {
+  let redacted = String(value ?? "")
+    .replace(
+      /\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b/g,
+      "[redacted]",
+    )
+    .replace(
+      /\b(authorization)\b(\s*:\s*)(bearer\s+)?([^\s]+)/gi,
+      "$1$2$3[redacted]",
+    )
+    .replace(
+      /\b(bearer)\b(\s+)([^\s]+)/gi,
+      "$1$2[redacted]",
+    )
+    .replace(
+      /\b(token|api[_-]?key|password|secret)\b(\s*[:=]\s*)([^\s]+)/gi,
+      "$1$2[redacted]",
+    );
+  const secrets = new Set(
+    Object.entries(process.env)
+      .filter(([key, secret]) => secret && /(token|secret|password|api[_-]?key|private[_-]?key)/i.test(key))
+      .map(([, secret]) => secret)
+      .filter((secret) => secret.length >= 4),
+  );
+  for (const secret of [...secrets].sort((left, right) => right.length - left.length)) {
     if (secret) redacted = redacted.replaceAll(secret, "[redacted]");
   }
-  return redacted.slice(0, 1200);
+  return redacted;
+}
+
+function stripAnsi(value) {
+  return String(value ?? "").replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, "");
 }
 
 function writeJson(filePath, value) {
