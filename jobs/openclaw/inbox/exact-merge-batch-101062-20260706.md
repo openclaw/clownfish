@@ -1,0 +1,40 @@
+---
+repo: openclaw/openclaw
+cluster_id: exact-merge-batch-101062-20260706
+mode: autonomous
+allowed_actions:
+  - "merge"
+blocked_actions:
+  - "comment"
+  - "label"
+  - "close"
+  - "fix"
+  - "raise_pr"
+  - "force_push"
+  - "bypass_checks"
+require_human_for:
+  - "security_sensitive"
+  - "unresolved_review"
+  - "unclear_canonical"
+canonical:
+  - "#101062"
+candidates:
+  - "#101062"
+cluster_refs:
+  - "#101062"
+security_policy: central_security_only
+security_sensitive: false
+allow_instant_close: false
+allow_fix_pr: false
+allow_merge: true
+allow_post_merge_close: false
+require_fix_before_close: false
+canonical_hint: "Merge only PR #101062 after the deterministic external preflight binds validation and review to its exact live head."
+notes: "Batch head at dispatch preparation: 79b03b5c41824cdb8406dfc8c04f502fe6770a41. Re-fetch live state and stop if the head or merge policy changes."
+---
+
+# Exact Merge Batch: #101062
+
+Run the deterministic external merge preflight for
+https://github.com/openclaw/openclaw/pull/101062 and apply only the resulting
+exact-head merge action. No comments, labels, fixes, or adjacent cluster work.
