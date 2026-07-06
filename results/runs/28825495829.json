@@ -1,0 +1,198 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-openclaw-87205-20260706",
+  "mode": "autonomous",
+  "run_id": "28825495829",
+  "workflow_run_id": "28825495829",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28825495829",
+  "head_sha": "3a6e00cfceaa5ca43e18222b907930e2b0fce687",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T21:47:14Z",
+  "workflow_updated_at": "2026-07-06T22:00:01Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-openclaw-87205-20260706.md",
+  "published_at": "2026-07-06T22:40:46.585Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/87205",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/87205",
+  "summary": "Plan repair of editable contributor PR #87205 on branch fix/doctor-repair-stale-gateway-service. Current main at e80e8a2b67307c4e83e7192f234c31522b3464b2 still lacks a typed protocol-mismatch path from checkGatewayHealth into the daemon repair flow, while #87205 is open, editable, dirty against main, and contains an obsolete stale-service-definition repair commit that should be dropped.",
+  "actions": [
+    {
+      "target": "#87205",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87205",
+      "candidate_fix": null,
+      "reason": "Repair the existing editable contributor branch rather than opening a replacement; the job explicitly asks to drop the obsolete service-definition commit and keep only the still-missing protocol-mismatch guard."
+    },
+    {
+      "target": "cluster:repair-openclaw-87205-20260706",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#87205",
+      "candidate_fix": null,
+      "reason": "Fix PRs are allowed, merge/close/comment/label are blocked, and the artifact covers one narrow executable repair."
+    },
+    {
+      "target": "#87156",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related but not fully covered by the narrow #87205 repair."
+    },
+    {
+      "target": "#88311",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Related broader Windows migration work, outside the narrow protocol-mismatch daemon-repair guard."
+    },
+    {
+      "target": "#82908",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed refs must not receive close actions."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#87205",
+    "source_refs": [
+      "#87205",
+      "#82908",
+      "#88311",
+      "#87156"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #87205 in place by rebasing its editable contributor branch onto current main, dropping the stale service-definition repair commit, and keeping a narrow protocol-mismatch daemon-repair guard. The implementation should preserve checkGatewayHealth authenticated semantics, expose a typed protocolMismatch signal only for GatewayTransportError(kind=closed, reason=\"protocol mismatch\"), carry that through DoctorHealthFlowContext, and make maybeRepairGatewayDaemon run diagnostics before skipping service bootstrap/install/start/restart mutations for that mismatch state.",
+    "pr_title": "fix: avoid gateway daemon repair on protocol mismatch",
+    "pr_body": "## What Problem This Solves\n\nRepairs the existing #87205 branch so `openclaw doctor` does not treat a running but protocol-incompatible Gateway as dead and then mutate the daemon/service state.\n\n## Why This Change Was Made\n\nCurrent main still turns a Gateway close with reason `protocol mismatch` into `healthOk=false`, and the daemon repair flow only sees `healthOk`/`healthSkipped`. The repaired branch should add a typed `protocolMismatch` signal for `GatewayTransportError` with `kind: \"closed\"` and reason `protocol mismatch`, propagate it through `DoctorHealthFlowContext`, run diagnostics first, then skip launchd bootstrap/install/start/restart mutations for that mismatch state.\n\nThe stale service-definition repair commit from the original PR should be dropped; broader Windows fallback migration remains separate in #87156/#88311.\n\n## User Impact\n\nUsers with an older/newer running Gateway get protocol-mismatch diagnostics without doctor attempting daemon repair, reinstall, start, or restart actions against a live incompatible Gateway.\n\n## Evidence\n\n- Focused tests: `pnpm test src/commands/doctor-gateway-health.test.ts src/flows/doctor-health-contributions.test.ts src/commands/doctor-gateway-daemon-flow.test.ts -- --run`\n- Gate: `pnpm check:changed`\n- Manual proof plan: N-1 Gateway protocol mismatch shows diagnostics and no daemon mutation; unreachable-gateway negative control still follows the normal repair/diagnostic path.\n\nCredit: repaired in place from @rifachnia's source PR https://github.com/openclaw/openclaw/pull/87205.",
+    "likely_files": [
+      "src/commands/doctor-gateway-health.ts",
+      "src/flows/doctor-health-contributions.ts",
+      "src/commands/doctor-gateway-daemon-flow.ts",
+      "src/commands/doctor-gateway-health.test.ts",
+      "src/flows/doctor-health-contributions.test.ts",
+      "src/commands/doctor-gateway-daemon-flow.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/commands/doctor-gateway-health.test.ts src/flows/doctor-health-contributions.test.ts src/commands/doctor-gateway-daemon-flow.test.ts -- --run",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor authorship for @rifachnia on PR #87205 and keep the repaired work on the existing editable contributor branch.",
+      "PR body should state that Clownfish repaired the original contributor branch in place and removed the obsolete stale-service-definition portion while retaining the credited protocol-mismatch fix idea from https://github.com/openclaw/openclaw/pull/87205.",
+      "Do not claim #87156 is fully fixed by this narrow repair; keep it scoped to the protocol-mismatch daemon-repair subcase."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-openclaw-87205-20260706.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/87205",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "eca36f1cf8f4b35d3ca8689aa05691ce95a7e46b",
+      "checkpoint_commits": [
+        "06c698b632cf95237131c9c079bacf990d337c03",
+        "eca36f1cf8f4b35d3ca8689aa05691ce95a7e46b"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#87205",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#87205",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}

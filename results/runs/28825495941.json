@@ -1,0 +1,196 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-openclaw-85238-20260706",
+  "mode": "autonomous",
+  "run_id": "28825495941",
+  "workflow_run_id": "28825495941",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28825495941",
+  "head_sha": "3a6e00cfceaa5ca43e18222b907930e2b0fce687",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T21:47:15Z",
+  "workflow_updated_at": "2026-07-06T21:58:33Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-openclaw-85238-20260706.md",
+  "published_at": "2026-07-06T22:40:46.587Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/85238",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/80206",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/85238",
+  "summary": "The repair lane is clear: #85238 is the editable canonical PR, but it is dirty against current main and its ClawSweeper review requires the path-env conflict to be resolved before merge. Current main still lacks the bounded pnpm 11 bin-child candidates on both service PATH and runtime bootstrap PATH surfaces, while it now contains the #87556 service identity fix and the newer path-env hardening that the repair must preserve. #87556 is retained only as closed historical conflict context and is not executable repair lineage.",
+  "actions": [
+    {
+      "target": "#80206",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#80206",
+      "candidate_fix": "#85238",
+      "reason": "Keep the canonical issue open until the canonical PR repair is pushed and validated; closure is blocked by require_fix_before_close and post-merge close is disabled."
+    },
+    {
+      "target": "#85238",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85238",
+      "candidate_fix": "#85238",
+      "reason": "Repair the editable contributor PR branch against current main, preserving contributor authorship and the newer path/service trust behavior. Merge remains blocked by job policy."
+    },
+    {
+      "target": "cluster:repair-openclaw-85238-20260706",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#85238",
+      "candidate_fix": "#85238",
+      "reason": "Build a repair-contributor-branch artifact so the executor can update #85238, run review/validation, and push the same contributor branch without mutating GitHub from this worker."
+    },
+    {
+      "target": "#80233",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#85238",
+      "candidate_fix": "#85238",
+      "reason": "Historical evidence only; no mutation is allowed or needed."
+    },
+    {
+      "target": "#87556",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#85238",
+      "candidate_fix": null,
+      "reason": "Historical merged context only; keep as non-mutating conflict evidence and exclude from candidate_fix, fix_artifact.linked_refs, and fix_artifact.source_prs."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 2
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#85238",
+    "source_refs": [
+      "#85238",
+      "#80206",
+      "#80233",
+      "#87556"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair editable contributor PR #85238 against current main by resolving the service-env/path-env conflict and adding bounded pnpm 11 package-manager bin candidates without weakening current PATH ordering, existence/current-PATH filtering, deleted-cwd hardening, or merged #87556 service identity behavior.",
+    "pr_title": "fix: include pnpm 11 bins in gateway PATH",
+    "pr_body": "What Problem This Solves\n\nRepairs #85238 for #80206. Gateway-managed service PATH generation and runtime PATH bootstrap can still miss pnpm 11 global shim directories, so Skills status may report required binaries such as clawhub or mcporter as missing even when pnpm installed them under PNPM_HOME/bin or ~/.local/share/pnpm/bin.\n\nWhy This Change Was Made\n\nCurrent main includes the #87556 service identity fix and newer path-env hardening. Keep those behaviors intact, then add only the bounded package-manager bin candidates after trusted system paths and behind existing existence/current-PATH filtering where that surface already requires it: PNPM_HOME/bin, ~/Library/pnpm/bin, ~/.local/share/pnpm/bin, NPM_CONFIG_PREFIX/bin, and ~/.npm-global/bin. Retain legacy pnpm locations so existing pnpm 10-style layouts keep working.\n\nUser Impact\n\nUsers running the gateway from sparse systemd/launchd service environments should see skill requirement checks find pnpm/npm-installed CLIs consistently with their package-manager global bin layout, without letting user-writable paths shadow trusted system paths.\n\nEvidence\n\n- Source PR: https://github.com/openclaw/openclaw/pull/85238 by @shbernal; preserve contributor authorship and credit.\n- Current main e80e8a2b67307c4e83e7192f234c31522b3464b2 still lacks pnpm 11 bin-child candidates in src/daemon/service-env.ts and src/infra/path-env.ts.\n- Preserve current resolvePathBootstrapBrewDirs, existingPathParts filtering, deleted-cwd hardening, and #87556 service identity behavior.\n- Validate with pnpm test src/daemon/service-env.test.ts src/infra/path-env.test.ts -- --reporter=verbose and pnpm check:changed. Include a small PATH ordering proof in the PR update showing trusted system dirs remain before user-writable package-manager candidates.",
+    "likely_files": [
+      "src/daemon/service-env.ts",
+      "src/daemon/service-env.test.ts",
+      "src/infra/path-env.ts",
+      "src/infra/path-env.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/daemon/service-env.test.ts src/infra/path-env.test.ts -- --reporter=verbose",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor authorship by repairing shbernal/openclaw:tung/pnpm11-service-path directly; source PR: https://github.com/openclaw/openclaw/pull/85238 by @shbernal.",
+      "PR body or squash message should retain release-note context for #80206 and credit @shbernal for the pnpm 11 PATH fix idea and real behavior proof.",
+      "Do not edit CHANGELOG.md for this normal PR; release generation owns changelog entries."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-openclaw-85238-20260706.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/85238",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "0a5629a8387bba7ed4ba874136c7d5d71906dd26",
+      "checkpoint_commits": [
+        "cc21e30967fa2a7c5c0c8404c9d8310e0042ed8b",
+        "0a5629a8387bba7ed4ba874136c7d5d71906dd26"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#85238",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#85238",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
