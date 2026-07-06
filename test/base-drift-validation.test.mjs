@@ -100,7 +100,13 @@ test("rejects validation commands other than one normalized changed gate", () =>
 });
 
 test("rejects package-manager, TypeScript config, and changed-gate control drift", () => {
-  for (const file of ["package.json", "pnpm-lock.yaml", "configs/tsconfig.build.json", "scripts/check-changed.mjs"]) {
+  for (const file of [
+    "package.json",
+    "pnpm-lock.yaml",
+    "configs/tsconfig.build.json",
+    "scripts/check-changed.mjs",
+    `scripts/changed-gate${"-".repeat(10_000)}.mjs`,
+  ]) {
     assert.equal(isValidationDriftControlFile(file), true);
     const decision = reusableDrift({ baseDriftFiles: [file] });
     assert.equal(decision.status, "rejected");

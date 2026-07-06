@@ -17,6 +17,7 @@ const PACKAGE_MANAGER_FILES = new Set([
   "pnpm-workspace.yaml",
   "yarn.lock",
 ]);
+const VALIDATION_SCRIPT_EXTENSIONS = new Set(["cjs", "cts", "js", "mjs", "mts", "sh", "ts"]);
 
 export function evaluateValidationBaseDrift({
   validationCommands,
@@ -117,7 +118,14 @@ export function isValidationDriftControlFile(file) {
   const basename = normalized.split("/").at(-1);
   if (PACKAGE_MANAGER_FILES.has(basename)) return true;
   if (/^tsconfig(?:\.[A-Za-z0-9_-]+)*\.jsonc?$/i.test(basename)) return true;
-  return /(^|\/)(?:check-changed|changed-gate)(?:[.-][A-Za-z0-9_-]+)*\.(?:[cm]?[jt]s|sh)$/i.test(normalized);
+  const extensionSeparator = basename.lastIndexOf(".");
+  if (extensionSeparator <= 0) return false;
+  const extension = basename.slice(extensionSeparator + 1).toLowerCase();
+  if (!VALIDATION_SCRIPT_EXTENSIONS.has(extension)) return false;
+  const stem = basename.slice(0, extensionSeparator).toLowerCase();
+  return ["check-changed", "changed-gate"].some(
+    (prefix) => stem === prefix || stem.startsWith(`${prefix}.`) || stem.startsWith(`${prefix}-`),
+  );
 }
 
 function normalizePathEvidence(values) {
