@@ -441,6 +441,98 @@ test("external merge preflight blocks non-keyword human objections", () => {
   assert.match(report.reason, /actionable top-level issue comment/);
 });
 
+test("external merge preflight blocks objections inside approved review bodies", () => {
+  const fixture = makeFixture({
+    reviews: [
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        state: "APPROVED",
+        body: "Do not merge this yet; the security boundary is still unclear.",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable human review body comment/);
+});
+
+test("external merge preflight allows descriptive approved review bodies", () => {
+  const fixture = makeFixture({
+    reviews: [
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        state: "APPROVED",
+        body: "No blocking concerns; tested locally. Security review passed.",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed");
+});
+
+test("external merge preflight blocks contradictory approved review bodies", () => {
+  const fixture = makeFixture({
+    reviews: [
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        state: "APPROVED",
+        body: "This breaks Windows; don't land it yet.",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable human review body comment/);
+});
+
 test("external merge preflight blocks actionable comment findings", () => {
   const fixture = makeFixture({
     issueComments: [

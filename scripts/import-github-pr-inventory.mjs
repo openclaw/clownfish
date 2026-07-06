@@ -60,6 +60,7 @@ const prListFallbackSearchLimit = numberArg(
   Math.min(searchLimit, Math.max(limitForHydration * 12, 120)),
 );
 const lowSignalHydrateLimit = numberArg("low-signal-hydrate-limit", Math.max(limitForHydration * 12, 300));
+const checksSuccessRetryCooldownHours = numberArg("checks-success-retry-cooldown-hours", 72);
 const blockedLowSignalLabelPatterns = compileLabelPatterns(
   argValues(process.argv.slice(2), ["block-label", "block_label"], args["block-label"] ?? args.block_label ?? DEFAULT_LOW_SIGNAL_BLOCK_LABELS),
 );
@@ -79,6 +80,8 @@ if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-
 
 const existingRefs = skipExisting ? existingRefsForStrategy() : new Set();
 if (skipExisting) mergeRefs(existingRefs, existingPublishedResultRefs(existingResultsDir, repo, existingResultsActionPolicy));
+const checksSuccessAttempts =
+  skipExisting && checksSuccessPreflight ? existingChecksSuccessAttempts(existingDir) : new Map();
 const rawOpenPullRequests = fetchOpenPullRequests();
 if (strategy === "low-signal") hydrateLowSignalPullRequestFiles(rawOpenPullRequests);
 const candidates = dedupeCandidates(
@@ -120,6 +123,7 @@ const payload = sanitizeJsonValue({
     include_security_candidates: includeSecurity,
     include_merge_risk_candidates: strategy === "remediation" ? includeMergeRisk : null,
     checks_success_preflight: strategy === "remediation" ? checksSuccessPreflight : null,
+    checks_success_retry_cooldown_hours: checksSuccessPreflight ? checksSuccessRetryCooldownHours : null,
     search_limit: inventorySource === "search" ? searchLimit : null,
     include_refs_file: includeRefs
       ? path.relative(repoRoot(), path.resolve(String(args["include-refs-file"] ?? args.include_refs_file)))
@@ -236,7 +240,35 @@ function fetchOpenPullRequestsFromSearch() {
   const pulls = ghJsonWithRetry(ghArgs, { operation: "search open pull request inventory" });
   if (!Array.isArray(pulls)) throw new Error("GitHub PR search returned a non-array payload");
   const normalized = pulls.map(normalizeSearchPullRequest);
-  return checksSuccessPreflight ? normalized.filter((pull) => !prListMergeBlocker(pull)) : normalized;
+  if (!checksSuccessPreflight) return normalized;
+  return hydrateChecksSuccessPullRequests(
+    normalized
+      .filter((pull) => !prListMergeBlocker(pull))
+      .filter((pull) => shouldRetryChecksSuccessPullRequest(pull)),
+  );
+}
+
+function hydrateChecksSuccessPullRequests(pulls) {
+  const hydratedPulls = [];
+  for (const pull of pulls) {
+    let hydrated;
+    try {
+      hydrated = hydratePullRequestForPrListFallback(pull.number);
+    } catch (error) {
+      const retryable = isRetryableGhError(error);
+      const missing = isMissingPullRequestError(error);
+      if (!retryable && !missing) throw error;
+      const failure = retryable ? "failed after retries" : "could not be hydrated";
+      console.error(`hydrate pull request #${pull.number} ${failure}; skipping candidate`);
+      continue;
+    }
+    if (!hydrated) continue;
+    const normalized = normalizePrListPullRequest(hydrated);
+    if (prListMergeBlocker(normalized)) continue;
+    hydratedPulls.push(normalized);
+    if (limit !== "all" && hydratedPulls.length >= limitForHydration) break;
+  }
+  return hydratedPulls;
 }
 
 function fetchOpenPullRequestsFromPrList() {
@@ -892,6 +924,43 @@ function existingRefsForStrategy() {
   return existingMentionedRefs([existingDir]);
 }
 
+function existingChecksSuccessAttempts(root) {
+  const attempts = new Map();
+  if (!fs.existsSync(root)) return attempts;
+  for (const file of markdownJobFiles(root)) {
+    const text = fs.readFileSync(file, "utf8");
+    if (!text.includes("# Checks-Success PR External Preflight")) continue;
+    try {
+      if (String(parseJob(file).frontmatter.repo ?? "") !== repo) continue;
+    } catch {
+      continue;
+    }
+    const generatedAt = Date.parse(
+      text.match(/Generated from live GitHub checks-success PR inventory on ([^;"]+)/)?.[1] ?? "",
+    );
+    if (!Number.isFinite(generatedAt)) continue;
+    for (const section of text.split(/^### /m).slice(1)) {
+      const ref = section.match(/^(#\d+)\b/)?.[1];
+      const updatedAt = section.match(/^- live updated:\s*(.+)$/m)?.[1]?.trim();
+      if (!ref || !updatedAt) continue;
+      const prior = attempts.get(ref);
+      if (!prior || generatedAt > prior.generatedAt) attempts.set(ref, { generatedAt, updatedAt });
+    }
+  }
+  return attempts;
+}
+
+function shouldRetryChecksSuccessPullRequest(pull) {
+  const ref = `#${pull.number}`;
+  if (existingRefs.has(ref)) return false;
+  const attempt = checksSuccessAttempts.get(ref);
+  if (!attempt) return true;
+  const updatedAt = String(pull.updatedAt ?? "");
+  if (!updatedAt || updatedAt !== attempt.updatedAt) return true;
+  const cooldownMs = checksSuccessRetryCooldownHours * 60 * 60 * 1000;
+  return Date.now() - attempt.generatedAt >= cooldownMs;
+}
+
 function existingLowSignalRefs() {
   const jobsDir = path.join(repoRoot(), "jobs");
   const refs = new Set();
@@ -1149,6 +1218,11 @@ function isRetryableGhError(error) {
   return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate|Something went wrong while executing your query/i.test(
     message,
   );
+}
+
+function isMissingPullRequestError(error) {
+  const message = String(error?.stderr ?? error?.message ?? error);
+  return /Could not resolve to a PullRequest with the number of \d+\.|HTTP 404: Not Found/i.test(message);
 }
 
 function numberFromEnv(name, fallback) {

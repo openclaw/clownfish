@@ -702,7 +702,12 @@ function isNonBlockingCommentEvidence(comment, { pull }) {
   const normalized = body.toLowerCase();
 
   if (isBenignAutomationComment({ author, body: normalized, pull })) return true;
-  if (String(comment.state ?? "").toUpperCase() === "APPROVED") return true;
+  if (
+    String(comment.state ?? "").toUpperCase() === "APPROVED" &&
+    !hasActionableApprovedReviewBody(normalized)
+  ) {
+    return true;
+  }
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
   if (isReviewRequestComment(normalized)) return true;
@@ -710,6 +715,22 @@ function isNonBlockingCommentEvidence(comment, { pull }) {
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
   if (author && pullAuthor && author === pullAuthor && isAuthorStatusComment(normalized)) return true;
   return false;
+}
+
+function hasActionableApprovedReviewBody(body) {
+  const unresolved = body
+    .replace(/\b(?:no|without)\s+(?:blocking\s+)?(?:concerns?|issues?|findings?|blockers?)\b/gi, "")
+    .replace(/\bsecurity (?:checks?|review) (?:passed|cleared)\b/gi, "")
+    .replace(/\bsecurity (?:concerns?|issues?|risks?) (?:are )?(?:resolved|addressed|cleared)\b/gi, "");
+  return [
+    /\b(?:do not|don't|should not|shouldn't|cannot|can't)\s+(?:merge|land|ship)\b/i,
+    /\b(?:hold off|not ready|not convinced|changes? requested)\b/i,
+    /\b(?:this|it|the (?:pr|patch|change))\s+(?:breaks?|fails?|regresses?|leaks?|exposes?)\b/i,
+    /\b(?:needs?|requires?)\s+(?:changes?|fix(?:es)?|work|tests?|follow-?up)\b/i,
+    /\b(?:must|please)\s+(?:fix|address|change|add|remove|resolve)\b/i,
+    /\b(?:still blocking|blocker (?:remains|is unresolved))\b/i,
+    /\bsecurity\b.{0,60}\b(?:unclear|concern|issue|risk|blocker)\b/i,
+  ].some((pattern) => pattern.test(unresolved));
 }
 
 function isBenignAutomationComment({ author, body, pull }) {
