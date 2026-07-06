@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-631-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27526139303"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526139303"
-head_sha: "e7afb37030cc6d436522c8e9ca7202262840e10b"
+run_id: "28824732940-1-3"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:34:46.316Z"
+published_at: "2026-07-06T21:38:08.376Z"
 canonical: "#77012"
 canonical_issue: "#77012"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526139303](https://github.com/openclaw/clownfish/actions/runs/27526139303)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #77012
 
 ## Summary
 
-Plan-only classification: keep #77012 as the open canonical issue for the remaining WebChat transcript-loss investigation, and keep #77076 closed because live hydrated state shows it was already closed as a mixed-scope superseded PR.
+Plan-mode classification only. #77012 remains the live canonical issue for the WebChat transcript overwrite regression. #77076 is already closed, unmerged, and had broad unrelated changes plus a failed behavior-proof check, so no closure, merge, or fixed-by-candidate action is planned.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan-only classification: keep #77012 as the open canonical issue for the remain
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #77012 | keep_canonical | planned | canonical | This is the best live canonical for the unresolved transcript-loss family; the only listed PR candidate is already closed and superseded. |
-| #77076 | keep_closed | skipped | superseded | Already closed in live hydrated state; preserve it as historical superseded context and keep remaining work on #77012. |
+| #77012 | keep_canonical | planned | canonical | #77012 is the only open hydrated issue in the cluster and directly tracks the reported regression, so it remains the canonical thread. |
+| #77076 | keep_closed | skipped | related | The PR is historical related context for #77012, but it is already closed, unmerged, broad, dirty, and blocked by failed proof; closed refs must not receive closure actions. |
 
 ## Needs Human
 

@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-846-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526175733"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526175733"
-head_sha: "32e9de066550832a904e28c62eae1c4e36721a2b"
+run_id: "28824732940-1-16"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:35:54.332Z"
-canonical: null
+published_at: "2026-07-06T21:38:08.369Z"
+canonical: "#75066"
 canonical_issue: null
-canonical_pr: null
-actions_total: 4
+canonical_pr: "#75066"
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,23 +26,23 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526175733](https://github.com/openclaw/clownfish/actions/runs/27526175733)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #75066
 
 ## Summary
 
-Read-only plan only. The representative #75037 is already closed, so no closure action is valid for it and there is no live non-security canonical in the listed candidate set. The only open listed candidate, #75066, is explicitly marked by the job as a security-signal ref requiring route_security, so it is quarantined rather than deduped, merged, or closed. Linked #78059 is related session-reset work but has a distinct inbound-message-loss root cause and should remain separate.
+Plan-only classification for cluster gitcrawl-846-bulk-plan-20260615-a. The hinted canonical issue #75037 is already closed, so no closure action is valid. The only open item, PR #75066, tracks the same session freshness root cause and is the live candidate/canonical path, but merge and fixed-by-candidate closeout are blocked by job permissions and the failing Real behavior proof check. The hydrated preflight marks #75066 security_sensitive=false, so it is not routed solely from the imported security-signal note.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,14 +63,18 @@ Read-only plan only. The representative #75037 is already closed, so no closure 
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #49515 | keep_closed | skipped | related | Closed historical context only. |
-| #75037 | keep_closed | skipped | canonical | Former representative remains the best historical canonical for the root cause, but it is not a live canonical because it is closed. |
-| #75066 | route_security | planned | security_sensitive | Explicit security-signal quarantine from the job; do not close, merge, or use as canonical in this ProjectClownfish cluster. |
-| #78059 | keep_related | planned | related | Related session-reset family, not a duplicate of the closed representative or the quarantined PR. |
+| #75037 | keep_closed | skipped | canonical | The canonical issue is already closed, so the only valid plan entry is non-mutating keep_closed. |
+| #75066 | keep_canonical | planned | canonical | With #75037 closed, #75066 is the only open hydrated item carrying the same root-cause work, but this plan cannot merge or close anything against it. |
 
 ## Needs Human
 

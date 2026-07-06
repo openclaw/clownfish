@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-980-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526249471"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526249471"
-head_sha: "df0ecb937a5f73036ef8def5c1f076a5c228a0d6"
+run_id: "28824732940-1-21"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:37:32.195Z"
+published_at: "2026-07-06T21:38:08.374Z"
 canonical: "#83342"
 canonical_issue: "#83342"
 canonical_pr: null
@@ -18,14 +19,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # gitcrawl-980-bulk-plan-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526249471](https://github.com/openclaw/clownfish/actions/runs/27526249471)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #83342
 
 ## Summary
 
-Plan mode only. Keep #83342 as the live canonical issue for the /models CLI-runtime alias duplicate-provider UX problem. Route #85982 to central security handling because the job explicitly lists it as a security-signal ref, despite the hydrated item being already closed and unmerged.
+Plan-only classification complete. #83342 remains the live canonical issue for the /models duplicate CLI runtime alias provider rows. #85982 overlaps the same model-alias dedupe area but is already closed and unmerged, so no closure, merge, route, or fix action is planned.
 
 ## Impact
 
@@ -48,7 +49,7 @@ Plan mode only. Keep #83342 as the live canonical issue for the /models CLI-runt
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -62,13 +63,19 @@ Plan mode only. Keep #83342 as the live canonical issue for the /models CLI-runt
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83342 | keep_canonical | planned | canonical | #83342 remains the clearest open canonical item for this root cause; no closure, merge, or fix action is allowed in this plan job. |
-| #85982 | route_security | planned | security_sensitive | The job explicitly marks #85982 as the security-signal ref for central routing. This quarantine is scoped to #85982 and does not change #83342's canonical issue classification. |
+| #83342 | keep_canonical | planned | canonical | #83342 is the only open hydrated item and directly describes the root user-visible failure for this cluster. |
+| #85982 | keep_closed | skipped | related | #85982 is relevant historical implementation context for #83342 but is already closed and cannot receive a close, merge, fixed-by-candidate, or route_security action in this plan. |
 
 ## Needs Human
 
-- #83342 still needs a maintainer product decision on the shared /models display contract for canonical provider rows versus CLI runtime alias rows before a new fix lane changes behavior.
+- none

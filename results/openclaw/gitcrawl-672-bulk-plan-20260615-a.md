@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-672-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526147430"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526147430"
-head_sha: "e7afb37030cc6d436522c8e9ca7202262840e10b"
+run_id: "28824732940-1-7"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:34:46.319Z"
+published_at: "2026-07-06T21:38:08.379Z"
 canonical: "#89853"
-canonical_issue: "#67136"
+canonical_issue: null
 canonical_pr: "#89853"
-actions_total: 2
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526147430](https://github.com/openclaw/clownfish/actions/runs/27526147430)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #89853
 
 ## Summary
 
-Plan-mode classification only. PR #89853 is the best live canonical from the actionable refs and directly owns the #67136 false-success write verification bug, but merge/fix actions are blocked by job policy and the PR still has an unresolved ClawSweeper review risk before merge.
+Plan mode classification only. The excluded existing-overlap issue #67136 remains context for the existing owning job, and the only actionable open candidate in this cluster is PR #89853. PR #89853 is the best live canonical among remaining open refs because it directly claims to fix #67136 and its diff is focused on delegated write-result verification with passing relevant checks. No merge, close, fix, label, or comment mutation is planned because the job blocks merge, fix, and raise_pr and asks to classify only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,12 +63,17 @@ Plan-mode classification only. PR #89853 is the best live canonical from the act
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #89853 | keep_canonical | planned | canonical | Best surviving actionable fix path, but not mergeable in this plan-mode job. |
-| #67136 | keep_related | skipped | related | Context-only existing-overlap issue; keep open for the owning job and eventual landed-fix closeout. |
+| #89853 | keep_canonical | planned | canonical |  |
 
 ## Needs Human
 

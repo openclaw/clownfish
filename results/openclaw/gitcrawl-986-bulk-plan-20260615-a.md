@@ -2,15 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-986-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526250914"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526250914"
-head_sha: "df0ecb937a5f73036ef8def5c1f076a5c228a0d6"
+run_id: "28824732940-1-22"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:38:15.282Z"
-canonical: "#82908"
-canonical_issue: "#82841"
-canonical_pr: "#82908"
+published_at: "2026-07-06T21:38:08.375Z"
+canonical: "#87205"
+canonical_issue: null
+canonical_pr: "#87205"
 actions_total: 2
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526250914](https://github.com/openclaw/clownfish/actions/runs/27526250914)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #82908
+Canonical: #87205
 
 ## Summary
 
-Plan only. Representative #82876 is already closed and is explicitly listed by the job as a security-signal ref, so it is routed without any close/comment/label mutation. No open item should replace #82876 as the live canonical for the macOS stale rollback reconnect-loop family; the hydrated historical resolution is merged PR #82908. Open PR #87205 is related but not a duplicate: it targets Windows doctor protocol-mismatch repair behavior tied to #87156, has useful proof, and still has review/check blockers.
+Plan mode only. Hydrated preflight shows the hinted canonical #82876 is already closed and not merged, so no close/merge action is valid. The only live candidate, #87205, is the best current canonical path for the remaining protocol-mismatch doctor repair issue, but merge/fix actions are blocked by job permissions and its build-artifacts check is failing.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan only. Representative #82876 is already closed and is explicitly listed by t
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #82876 | route_security | planned | security_sensitive | The job explicitly scopes #82876 as a security-signal item for central handling; route only this item and do not let it block unrelated non-security classification. |
-| #87205 | keep_related | planned | related | #87205 is a related Windows doctor/protocol-mismatch repair path, not a true duplicate of the closed macOS rollback reconnect-loop PR. It is not merge-ready and this plan-mode job blocks merge, fix, and raise_pr actions. |
+| #82876 | keep_closed | skipped | superseded | Already closed; keep as historical context and move live canonical consideration to #87205. |
+| #87205 | keep_canonical | planned | canonical | Best live canonical path after the representative #82876 closed; keep open for author/check repair outside this read-only plan. |
 
 ## Needs Human
 

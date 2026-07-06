@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-783-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526161829"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526161829"
-head_sha: "32e9de066550832a904e28c62eae1c4e36721a2b"
+run_id: "28824732940-1-12"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:35:54.326Z"
+published_at: "2026-07-06T21:38:08.367Z"
 canonical: "#51628"
 canonical_issue: "#51628"
 canonical_pr: null
-actions_total: 1
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526161829](https://github.com/openclaw/clownfish/actions/runs/27526161829)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #51628
 
 ## Summary
 
-Plan-mode classification only. #51628 remains the open existing-overlap issue for the Telegram delivery-queue recovery bug and is already owned by another job. The only actionable candidate here, #66150, is a related narrow transcript-mirror hardening PR for backup/git operational-alert text, not a duplicate fix for #51628 and not merge-ready under this job.
+Plan-only classification: #51628 remains the live canonical context for the Telegram delivery queue replay and duplicate delivery-mirror transcript issue. #66150 is a small related PR for filtering stale operational alert text from transcript mirroring, but it is narrower than the canonical issue and is not eligible for merge/fix planning in this job.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,11 +63,18 @@ Plan-mode classification only. #51628 remains the open existing-overlap issue fo
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #66150 | keep_related | planned | related | Related but not the canonical fix for the delivery-queue recovery replay issue. Keep it open for maintainer review instead of closing, merging, or treating it as fixed-by-candidate. |
+| #51628 | keep_canonical | skipped | canonical | Representative #51628 is still open and remains the clearest canonical context, but it is an existing-overlap read-only ref for this worker, so no mutation is planned. |
+| #66150 | keep_related | planned | related | #66150 is related to delivery-mirror transcript contamination but does not cover the full Telegram queue replay/duplicate-delivery root cause in #51628, so it should not be closed as duplicate or treated as a merge/fixed-by-candidate path in this plan job. |
 
 ## Needs Human
 

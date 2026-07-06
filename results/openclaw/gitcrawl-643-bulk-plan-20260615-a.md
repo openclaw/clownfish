@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-643-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526142145"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526142145"
-head_sha: "e7afb37030cc6d436522c8e9ca7202262840e10b"
+run_id: "28824732940-1-5"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:48.112Z"
+published_at: "2026-07-06T21:38:08.377Z"
 canonical: "#62514"
 canonical_issue: "#62514"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526142145](https://github.com/openclaw/clownfish/actions/runs/27526142145)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #62514
 
 ## Summary
 
-Plan mode only. #62514 is open and remains the best live canonical for the non-security mixed-image WebUI bug. The linked PR #63710 is explicitly security-sensitive in the hydrated preflight artifact and should be routed to central security handling rather than closed, merged, or used for fixed-by-candidate closeout.
+Read-only plan result. #62514 remains the open non-security canonical issue for the WebUI image-input/tool-calling behavior report. #63710 is a hydrated open PR but is explicitly marked security_sensitive in the preflight artifact, so it is quarantined to central OpenClaw security handling and is not used for merge, closeout, or fixed-by-candidate planning.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan mode only. #62514 is open and remains the best live canonical for the non-s
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #62514 | keep_canonical | planned | canonical | The canonical issue is open, hydrated, and still tracks unresolved non-security product/bug follow-up. |
-| #63710 | route_security | planned | security_sensitive | The PR touches remote URL image fetching and is explicitly marked security-sensitive in live preflight data, so it belongs with central security handling only. |
+| #62514 | keep_canonical | planned | canonical | #62514 is the only hydrated open non-security actionable candidate and remains the best canonical issue for this cluster. |
+| #63710 | route_security | planned | security_sensitive | The artifact explicitly marks #63710 security_sensitive=true, so the correct scoped action is non-mutating route_security for that exact PR. |
 
 ## Needs Human
 

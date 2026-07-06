@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-778-plan-wave-20260615-b"
 mode: "plan"
-run_id: "27526160215"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526160215"
-head_sha: "32e9de066550832a904e28c62eae1c4e36721a2b"
+run_id: "28824732940-1-11"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:34:46.323Z"
+published_at: "2026-07-06T21:38:08.366Z"
 canonical: "#88868"
 canonical_issue: "#88868"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526160215](https://github.com/openclaw/clownfish/actions/runs/27526160215)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #88868
 
 ## Summary
 
-#88868 remains the live canonical issue for the MiniMax M3 pricing and PDF extraction defaults follow-up. #88869 is already closed, unmerged, and blocked by dirty merge state plus failing checks, so no closure, merge, or fix action is planned in this read-only run.
+Read-only plan classification: #88868 remains the open canonical issue for the MiniMax M3 pricing/PDF defaults follow-up. #88869 is the same follow-up work but is already closed, unmerged, dirty, and had failing checks, so no close, merge, or fixed-by-candidate action is appropriate.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Canonical: #88868
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #88868 | keep_canonical | planned | canonical | The issue is open, hydrated, non-security-sensitive, and remains the best surviving thread for the unresolved MiniMax M3 follow-up work. |
-| #88869 | keep_closed | skipped | related | Already closed PRs must not receive close actions, and this unmerged PR cannot be treated as a candidate fix for closing #88868. |
+| #88868 | keep_canonical | planned | canonical | #88868 is the only open hydrated issue in the cluster and remains the best canonical tracker for the requested MiniMax follow-up work. |
+| #88869 | keep_closed | skipped | related | Already-closed refs must not receive closure actions. The PR is relevant historical work for #88868, but it is closed, unmerged, conflicted, and not a valid merge or fixed-by-candidate path in this plan run. |
 
 ## Needs Human
 

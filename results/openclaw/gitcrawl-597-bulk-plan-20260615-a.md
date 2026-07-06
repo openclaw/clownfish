@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-597-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526091659"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526091659"
-head_sha: "7c0d763bbddbff1e92b14814010fc1ad12cf245a"
+run_id: "28824732940-1-0"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:03.556Z"
+published_at: "2026-07-06T21:38:08.363Z"
 canonical: "#68065"
 canonical_issue: "#68065"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526091659](https://github.com/openclaw/clownfish/actions/runs/27526091659)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #68065
 
 ## Summary
 
-Plan mode only. #68065 remains the live canonical issue for the sessions_send timeout-compensation bug. #68196 is a hydrated related same-author implementation PR for the same root cause, but it is excluded as existing-overlap context and is not merge-ready in this job because merge/fix actions are blocked, checks include failures, and review-bot findings remain unresolved in the hydrated artifact.
+Plan-mode classification only. #68065 remains the live canonical issue for the sessions_send first-wait-timeout misclassification. #68196 is a hydrated open PR that directly targets #68065, but it was listed as existing-overlap context and this job blocks merge, fix, and raise_pr; its failing checks and unresolved bot-review evidence also block any merge or fixed-by-candidate closeout recommendation here.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan mode only. #68065 remains the live canonical issue for the sessions_send ti
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #68065 | keep_canonical | planned | canonical | #68065 is the surviving issue thread for the root cause and should stay open while #68196 remains unresolved. |
-| #68196 | keep_related | planned | related | #68196 is the same-root-cause implementation path for #68065, but it is excluded overlap context and blocked from merge/repair planning in this read-only job. |
+| #68065 | keep_canonical | planned | canonical | #68065 is open, hydrated, non-security-sensitive, and remains the best canonical thread for this root cause. |
+| #68196 | keep_related | planned | related | #68196 is the related open fix path for #68065, but this plan job cannot merge or repair it, and available preflight evidence is insufficient for merge or fixed-by-candidate closeout. |
 
 ## Needs Human
 

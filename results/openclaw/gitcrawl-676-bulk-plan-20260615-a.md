@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-676-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526148844"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526148844"
-head_sha: "e7afb37030cc6d436522c8e9ca7202262840e10b"
+run_id: "28824732940-1-8"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:34:46.319Z"
+published_at: "2026-07-06T21:38:08.380Z"
 canonical: "#65983"
 canonical_issue: "#65983"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526148844](https://github.com/openclaw/clownfish/actions/runs/27526148844)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #65983
 
 ## Summary
 
-Plan mode only. The hydrated representative #65983 is open but excluded as existing-overlap context owned by another job. The only actionable candidate, #66001, is a focused partial PR for the same process-supervisor orphan family, but it is not merge-ready and should remain open/related rather than be closed, merged, or treated as the full canonical path.
+Read-only plan result for one hydrated open candidate. #66001 is a related contributor PR for the #65983 orphaned PTY/background exec issue, but it is not merge-ready and cannot be treated as a fixed-by-candidate closeout path because checks/proof gates are failing and merge/fix actions are blocked for this job.
 
 ## Impact
 
@@ -62,11 +63,17 @@ Plan mode only. The hydrated representative #65983 is open but excluded as exist
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #66001 | keep_related | planned | related | Same issue family as #65983, but it is a partial and currently blocked PR. Keep it open as related work; do not close or merge in this cluster. |
+| #66001 | keep_related | planned | related | Keep #66001 open as related candidate work rather than closing or merging it. It addresses part of the canonical #65983 issue, but proof/check failures and the narrower stated scope prevent treating it as the canonical completed fix in this plan-mode job. |
 
 ## Needs Human
 

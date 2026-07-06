@@ -2,14 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-863-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526240294"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526240294"
-head_sha: "df0ecb937a5f73036ef8def5c1f076a5c228a0d6"
+run_id: "28824732940-1-18"
+workflow_run_id: "28824732940"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824732940"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:36:40.335Z"
-canonical: null
-canonical_issue: null
+published_at: "2026-07-06T21:38:08.370Z"
+canonical: "#73328"
+canonical_issue: "#73328"
 canonical_pr: null
 actions_total: 2
 fix_executed: 0
@@ -25,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526240294](https://github.com/openclaw/clownfish/actions/runs/27526240294)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824732940](https://github.com/openclaw/clownfish/actions/runs/28824732940)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: unknown
+Canonical: #73328
 
 ## Summary
 
-Plan-mode classification completed from the hydrated cluster preflight artifact. The hinted canonical issue #73328 is already closed, so no close action is valid and there is no live non-security canonical to promote. The only open candidate, #73382, is explicitly listed by the job as a security-signal ref requiring central routing, so it is quarantined with a non-mutating route_security action.
+Plan-mode classification only. The hinted canonical issue #73328 is already closed in hydrated preflight state, so no closure action is valid for it. The only open candidate, #73382, is a same-root-cause contributor PR touching the Bedrock discovery context-window implementation and tests, but merge/fix actions are blocked by job permissions and failing checks/proof requirements. Although the job metadata calls #73382 a security-signal ref, the hydrated preflight item is explicitly security_sensitive:false and the run security boundary reports no security-sensitive hydrated refs, so route_security is not emitted under the run rules.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan-mode classification completed from the hydrated cluster preflight artifact.
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #73328 | keep_closed | skipped | canonical | Already closed in live hydrated state; retain as historical canonical evidence only. |
-| #73382 | route_security | planned | security_sensitive | The job explicitly marks this exact open PR as a security-signal ref requiring central security routing, so Clownfish should not close, merge, label, comment, or repair it in this cluster. |
+| #73328 | keep_closed | skipped | canonical | Already closed in hydrated live state; retain it as historical canonical evidence only. |
+| #73382 | keep_related | planned | related | Same root-cause family as the closed canonical issue, but the open PR cannot be merged, fixed, or used for fixed-by-candidate closeout in this plan because checks/proof are failing and merge/fix actions are blocked. |
 
 ## Needs Human
 
