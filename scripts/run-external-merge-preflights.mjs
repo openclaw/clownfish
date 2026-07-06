@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
 const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
+const execFileAsync = promisify(execFile);
 
 const args = parseArgs(process.argv.slice(2));
 const jobPath = args._[0];
@@ -12,6 +14,10 @@ const resultPathArg = args._[1];
 const latest = Boolean(args.latest);
 const dryRun = Boolean(args["dry-run"]);
 const maxPrs = positiveInteger(args["max-prs"] ?? args.limit, Infinity);
+const concurrency = positiveInteger(
+  args.concurrency ?? process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY,
+  3,
+);
 const runRootArg = args["run-root"];
 
 if (!jobPath) {
@@ -44,13 +50,15 @@ const report = {
   cluster_id: result.cluster_id,
   result_path: path.relative(repoRoot(), resultPath),
   dry_run: dryRun,
+  preflight_concurrency: concurrency,
   generated_at: new Date().toISOString(),
   status: requests.length > 0 ? "planned" : "skipped",
   actions: [],
 };
 
-for (const request of requests) {
-  report.actions.push(runPreflightRequest(request));
+const reviewedActions = await mapLimit(requests, concurrency, runPreflightReview);
+for (const action of reviewedActions) {
+  report.actions.push(await applyReviewedPreflight(action));
 }
 
 if (report.actions.some((action) => action.status === "executed")) {
@@ -92,12 +100,12 @@ function wantsExternalMergePreflight(action) {
   return /\bexternal_merge_preflight_required\b/i.test(text);
 }
 
-function runPreflightRequest(request) {
+async function runPreflightReview(request) {
   const runDir = path.join(runRoot, `external-merge-preflight-${request.pull_request}`);
   fs.rmSync(runDir, { recursive: true, force: true });
   fs.mkdirSync(runDir, { recursive: true });
 
-  const preflight = runNode([
+  const preflight = await runNode([
     "scripts/preflight-external-pr-merge.mjs",
     job.relativePath,
     "--pr",
@@ -115,7 +123,7 @@ function runPreflightRequest(request) {
     };
   }
 
-  const review = runNode(["scripts/review-results.mjs", runDir]);
+  const review = await runNode(["scripts/review-results.mjs", runDir]);
   if (review.status !== 0) {
     return {
       ...request,
@@ -135,17 +143,28 @@ function runPreflightRequest(request) {
     };
   }
 
+  return {
+    ...request,
+    status: "passed",
+    run_dir: path.relative(repoRoot(), runDir),
+    reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
+    reason: "external merge preflight passed",
+  };
+}
+
+async function applyReviewedPreflight(action) {
+  if (action.status !== "passed") return action;
+
   if (dryRun || process.env.CLOWNFISH_ALLOW_EXECUTE !== "1" || process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
     return {
-      ...request,
+      ...action,
       status: "passed",
-      run_dir: path.relative(repoRoot(), runDir),
-      reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
       reason: dryRun ? "dry run; guarded applicator not invoked" : "merge gate disabled; guarded applicator not invoked",
     };
   }
 
-  const apply = runNode([
+  const runDir = path.resolve(repoRoot(), action.run_dir);
+  const apply = await runNode([
     "scripts/apply-result.mjs",
     path.join(runDir, "preflight-job.md"),
     path.join(runDir, "result.json"),
@@ -154,10 +173,8 @@ function runPreflightRequest(request) {
   ]);
   if (apply.status !== 0) {
     return {
-      ...request,
+      ...action,
       status: "blocked",
-      run_dir: path.relative(repoRoot(), runDir),
-      reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
       reason: `guarded merge apply failed: ${compact(apply.stderr || apply.stdout)}`,
     };
   }
@@ -165,22 +182,29 @@ function runPreflightRequest(request) {
   const applyReport = readJsonIfExists(path.join(runDir, "apply-report.json"));
   const executed = (applyReport?.actions ?? []).some((action) => action.status === "executed");
   return {
-    ...request,
+    ...action,
     status: executed ? "executed" : "blocked",
-    run_dir: path.relative(repoRoot(), runDir),
-    reviewed_head_sha: preflightReport.reviewed_head_sha ?? null,
     apply_actions: applyReport?.actions ?? [],
     reason: executed ? "guarded external merge applied" : "guarded applicator did not execute a merge",
   };
 }
 
-function runNode(commandArgs) {
-  return spawnSync(process.execPath, commandArgs, {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    env: process.env,
-    maxBuffer: 64 * 1024 * 1024,
-  });
+async function runNode(commandArgs) {
+  try {
+    const { stdout = "", stderr = "" } = await execFileAsync(process.execPath, commandArgs, {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      env: process.env,
+      maxBuffer: 64 * 1024 * 1024,
+    });
+    return { status: 0, stdout, stderr };
+  } catch (error) {
+    return {
+      status: Number.isInteger(error?.code) ? error.code : 1,
+      stdout: String(error?.stdout ?? ""),
+      stderr: String(error?.stderr ?? error?.message ?? error),
+    };
+  }
 }
 
 function findLatestResultPath() {
@@ -216,6 +240,20 @@ function positiveInteger(value, fallback) {
   const number = Number(value);
   if (!Number.isInteger(number) || number < 1) throw new Error("--max-prs must be a positive integer");
   return number;
+}
+
+async function mapLimit(values, limit, mapper) {
+  const results = new Array(values.length);
+  let nextIndex = 0;
+  const workers = Array.from({ length: Math.min(limit, values.length) }, async () => {
+    while (nextIndex < values.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await mapper(values[index], index);
+    }
+  });
+  await Promise.all(workers);
+  return results;
 }
 
 function compact(value) {

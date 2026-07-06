@@ -66,10 +66,16 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /scripts\/review-results\.mjs/);
   assert.match(runnerScript, /CLOWNFISH_ALLOW_MERGE !== "1"/);
   assert.match(runnerScript, /scripts\/apply-result\.mjs/);
+  assert.match(runnerScript, /const reviewedActions = await mapLimit\(requests, concurrency, runPreflightReview\)/);
+  assert.match(
+    runnerScript,
+    /for \(const action of reviewedActions\) \{\s*report\.actions\.push\(await applyReviewedPreflight\(action\)\);\s*\}/,
+  );
+  assert.match(runnerScript, /const execFileAsync = promisify\(execFile\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
   assert.match(
     clusterWorkflow,
-    /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}" --latest --max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"/,
+    /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}"[\s\S]*?--max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"[\s\S]*?--concurrency "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY \|\| '3' \}\}"/,
   );
   assert.match(clusterWorkflow, /- name: Run external merge preflights[\s\S]*?- name: Apply safe closure actions/);
   assert.match(
