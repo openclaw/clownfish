@@ -2,6 +2,7 @@
 repo: openclaw/openclaw
 cluster_id: exact-merge-wave-85238-20260706
 mode: autonomous
+expected_head_sha: abd4e903c5f38c550aa7b9d1ab6c40bb9965f0c6
 allowed_actions:
   - "merge"
 blocked_actions:

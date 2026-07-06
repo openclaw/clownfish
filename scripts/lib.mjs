@@ -222,19 +222,48 @@ export function readText(relativePath) {
   return fs.readFileSync(path.join(repoRoot(), relativePath), "utf8");
 }
 
-export function resolveJobPath(filePath) {
-  const absolute = path.resolve(filePath);
-  if (fs.existsSync(absolute)) return absolute;
+export function resolveJobPath(filePath, options = {}) {
+  const root = path.resolve(options.root ?? repoRoot());
+  const absolute = path.isAbsolute(filePath) ? path.resolve(filePath) : path.resolve(root, filePath);
+  const relativeToRoot = path.relative(root, absolute);
+  const isWithinRoot =
+    relativeToRoot === "" ||
+    (!path.isAbsolute(relativeToRoot) &&
+      relativeToRoot !== ".." &&
+      !relativeToRoot.startsWith(`..${path.sep}`));
+  if (path.isAbsolute(filePath) && !isWithinRoot) return absolute;
 
   const normalized = String(filePath).replace(/\\/g, "/");
+  const lifecycle = normalized.match(
+    /(?:^|\/)jobs\/([^/]+)\/(?:inbox|outbox\/(?:finalized|stuck))\/([^/]+\.md)$/,
+  );
+  if (lifecycle) {
+    const existing = [
+      path.join(root, "jobs", lifecycle[1], "inbox", lifecycle[2]),
+      path.join(root, "jobs", lifecycle[1], "outbox", "finalized", lifecycle[2]),
+      path.join(root, "jobs", lifecycle[1], "outbox", "stuck", lifecycle[2]),
+    ].filter((candidate) => fs.existsSync(candidate));
+    if (existing.length === 1) return existing[0];
+    if (existing.length > 1) {
+      throw new Error(`ambiguous job lifecycle copies: ${existing.map((candidate) => path.relative(root, candidate)).join(", ")}`);
+    }
+  }
+  if (fs.existsSync(absolute)) return absolute;
+
   const legacy = normalized.match(/(?:^|\/)jobs\/([^/]+)\/([^/]+\.md)$/);
   if (legacy && !["inbox", "outbox"].includes(legacy[2])) {
-    for (const candidate of [
-      path.join(repoRoot(), "jobs", legacy[1], "inbox", legacy[2]),
-      path.join(repoRoot(), "jobs", legacy[1], "outbox", "finalized", legacy[2]),
-      path.join(repoRoot(), "jobs", legacy[1], "outbox", "stuck", legacy[2]),
-    ]) {
-      if (fs.existsSync(candidate)) return candidate;
+    const existing = [
+      path.join(root, "jobs", legacy[1], "inbox", legacy[2]),
+      path.join(root, "jobs", legacy[1], "outbox", "finalized", legacy[2]),
+      path.join(root, "jobs", legacy[1], "outbox", "stuck", legacy[2]),
+    ].filter((candidate) => fs.existsSync(candidate));
+    if (existing.length === 1) return existing[0];
+    if (existing.length > 1) {
+      throw new Error(
+        `ambiguous job lifecycle copies: ${existing
+          .map((candidate) => path.relative(root, candidate))
+          .join(", ")}`,
+      );
     }
   }
 
@@ -333,6 +362,7 @@ export function validateJob(job) {
     "security_signal_refs",
     "maintainer_close_refs",
     "allowed_fix_files",
+    "expected_head_shas",
   ]) {
     if (fm[key] !== undefined && !Array.isArray(fm[key])) {
       errors.push(`${key} must be a list`);
@@ -407,6 +437,7 @@ export function validateJob(job) {
     "security_policy",
     "source",
     "commit_sha",
+    "expected_head_sha",
     "clawsweeper_report_repo",
     "clawsweeper_report_path",
   ]) {
@@ -416,6 +447,39 @@ export function validateJob(job) {
   }
   if (commitFindingJob && !/^[0-9a-f]{40}$/i.test(String(fm.commit_sha ?? ""))) {
     errors.push("commit finding jobs require commit_sha");
+  }
+  if (fm.expected_head_sha !== undefined && !/^[0-9a-f]{40}$/i.test(fm.expected_head_sha)) {
+    errors.push("expected_head_sha must be a 40-character Git SHA");
+  }
+  if (fm.expected_head_sha !== undefined && fm.expected_head_shas !== undefined) {
+    errors.push("expected_head_sha and expected_head_shas cannot both be set");
+  }
+  if (fm.expected_head_shas !== undefined) {
+    const seenRefs = new Set();
+    for (const entry of fm.expected_head_shas) {
+      const match = String(entry).match(/^(#[0-9]+)=([0-9a-f]{40})$/i);
+      if (!match) {
+        errors.push(`expected_head_shas entries must look like #123=<40-character Git SHA>: ${entry}`);
+        continue;
+      }
+      if (seenRefs.has(match[1])) {
+        errors.push(`expected_head_shas must not contain duplicate refs: ${match[1]}`);
+        continue;
+      }
+      seenRefs.add(match[1]);
+    }
+    const candidateRefs = new Set(
+      (fm.candidates ?? [])
+        .map((ref) => String(ref).match(/^#?([0-9]+)$/)?.[1])
+        .filter(Boolean)
+        .map((number) => `#${number}`),
+    );
+    for (const ref of candidateRefs) {
+      if (!seenRefs.has(ref)) errors.push(`expected_head_shas must include candidate ref: ${ref}`);
+    }
+    for (const ref of seenRefs) {
+      if (!candidateRefs.has(ref)) errors.push(`expected_head_shas contains non-candidate ref: ${ref}`);
+    }
   }
   if (fm.security_sensitive === true) {
     errors.push("security_sensitive jobs are out of scope for ProjectClownfish; route them to central security triage");

@@ -363,11 +363,29 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
   assert.equal(refs.has("#118"), false);
   assert.equal(refs.has("#120"), false);
   assert.equal(refs.has("#121"), false);
+  assert.match(payload.candidates.find((candidate) => candidate.ref === "#114")?.head_sha ?? "", /^[0-9a-f]{40}$/);
 
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
   assert.match(job, /Checks-Success PR External Preflight/);
   assert.match(job, /external-preflight shard/);
   assert.match(job, /external_merge_preflight_required/);
+  assert.match(job, /expected_head_shas:\n  - "#114=[0-9a-f]{40}"/);
+});
+
+test("checks-success remediation rejects the unhydrated graphql source", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--inventory-source",
+    "graphql",
+  );
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /--checks-success does not support --inventory-source graphql; use search or pr-list/);
 });
 
 test("checks-success remediation retries changed or cooled-down candidates", () => {
@@ -441,6 +459,25 @@ test("checks-success remediation skips stale search results that cannot hydrate"
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.match(result.stderr, /hydrate pull request #116 could not be hydrated; skipping candidate/);
+  assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
+});
+
+test("checks-success remediation skips hydrated candidates without an exact head SHA", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    missingHeadNumber: 116,
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /skip pull request #116 after hydration: head SHA unavailable/);
   assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
 });
 
@@ -744,6 +781,7 @@ function writeFakeGh(filePath, options = {}) {
     isDraft: false,
     author: { login: "contributor-110" },
     baseRefName: "main",
+    headRefOid: "a".repeat(40),
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
     reviewDecision: "APPROVED",
@@ -999,6 +1037,9 @@ if (process.argv[2] === "search") {
   payload = ${JSON.stringify(searchPulls)};
 } else if (process.argv[2] === "pr" && process.argv[3] === "view") {
   payload = prListPulls.find((pull) => String(pull.number) === String(process.argv[4])) ?? null;
+  if (String(process.argv[4]) === ${JSON.stringify(String(options.missingHeadNumber ?? ""))} && payload) {
+    payload = { ...payload, headRefOid: undefined };
+  }
   if (String(process.argv[4]) === ${JSON.stringify(String(options.unknownHydrateNumber ?? ""))} && payload) {
     const countPath = ${JSON.stringify(path.join(path.dirname(filePath), "unknown-mergeability-count"))};
     const count = fs.existsSync(countPath) ? Number(fs.readFileSync(countPath, "utf8")) : 0;

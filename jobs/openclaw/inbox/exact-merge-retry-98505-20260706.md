@@ -2,6 +2,7 @@
 repo: openclaw/openclaw
 cluster_id: exact-merge-retry-98505-20260706
 mode: autonomous
+expected_head_sha: d70b907331cf4bae4f2b160a5660059715e93826
 allowed_actions:
   - "merge"
 blocked_actions:
