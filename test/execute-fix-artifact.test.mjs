@@ -1448,6 +1448,7 @@ function runValidationBaseDriftReuseFixture() {
   const writerDir = path.join(fixture.root, "main-writer");
 
   git(["clone", fixture.originDir, writerDir], { cwd: fixture.root });
+  git(["checkout", "main"], { cwd: writerDir });
   git(["config", "user.name", "Main Writer"], { cwd: writerDir });
   git(["config", "user.email", "main-writer@example.com"], { cwd: writerDir });
 
