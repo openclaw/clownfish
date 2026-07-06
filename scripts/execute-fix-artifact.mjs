@@ -822,30 +822,28 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     // already been edited, so a requeue should validate and review it instead.
     allowExistingChanges: !forceFreshRepair && ((rebaseOnly && rebased) || resumedRepairCheckpoint),
     allowReviewFixes: !rebaseOnly,
-    refreshBaseBeforeReview: rebaseOnly,
+    refreshBaseBeforeReview: true,
     allowedFixFiles,
     pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
     rebased = true;
-    if (rebaseOnly) {
-      prep = editValidatePrepareMerge({
-        fixArtifact,
-        targetDir,
-        branch,
-        mode: "repair",
-        baseBranch,
-        allowExistingChanges: true,
-        allowReviewFixes: false,
-        refreshBaseBeforeReview: true,
-        allowedFixFiles,
-        pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
-      });
-      if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
-        throw new Error("base branch advanced again during rebase-only validation; requeue before pushing");
-      }
-    } else {
-      prep.commit = currentHead(targetDir);
+    const priorCheckpointCommits = prep.checkpoint_commits;
+    prep = editValidatePrepareMerge({
+      fixArtifact,
+      targetDir,
+      branch,
+      mode: "repair",
+      baseBranch,
+      allowExistingChanges: true,
+      allowReviewFixes: !rebaseOnly,
+      refreshBaseBeforeReview: true,
+      allowedFixFiles,
+      pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
+    });
+    prep.checkpoint_commits = uniqueStrings([...priorCheckpointCommits, ...prep.checkpoint_commits]);
+    if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+      throw new Error("base branch advanced again after validation; requeue before pushing");
     }
   }
   prep.merge_preflight.target = `#${sourcePr.number}`;
@@ -973,7 +971,20 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
 
   if (!dryRun) ghAuthSetupGit(targetDir);
   const pushedCheckpointCommits = [];
-  const prep = editValidatePrepareMerge({
+  const pushReplacementCheckpoint = dryRun
+    ? null
+    : () => {
+        pushRecoverableBranch({ targetDir, branch });
+        const commit = currentHead(targetDir);
+        pushedCheckpointCommits.push(commit);
+        noteFixProgress({
+          ...branchProgress,
+          commit,
+          checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
+          recoverable_branch_pushed: true,
+        });
+      };
+  let prep = editValidatePrepareMerge({
     fixArtifact,
     targetDir,
     branch,
@@ -982,22 +993,27 @@ function executeReplacementBranch({ fixArtifact, targetDir, supersedeSources, fa
     baseBranch,
     contributorCredits,
     allowExistingChanges: branchState.resumed && branchHasBaseDiff({ targetDir, baseBranch }),
-    pushCheckpoint: dryRun
-      ? null
-      : () => {
-          pushRecoverableBranch({ targetDir, branch });
-          const commit = currentHead(targetDir);
-          pushedCheckpointCommits.push(commit);
-          noteFixProgress({
-            ...branchProgress,
-            commit,
-            checkpoint_commits: uniqueStrings(pushedCheckpointCommits),
-            recoverable_branch_pushed: true,
-          });
-        },
+    refreshBaseBeforeReview: true,
+    pushCheckpoint: pushReplacementCheckpoint,
   });
   if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
-    prep.commit = currentHead(targetDir);
+    const priorCheckpointCommits = prep.checkpoint_commits;
+    prep = editValidatePrepareMerge({
+      fixArtifact,
+      targetDir,
+      branch,
+      mode: "replacement",
+      fallbackReason,
+      baseBranch,
+      contributorCredits,
+      allowExistingChanges: true,
+      refreshBaseBeforeReview: true,
+      pushCheckpoint: pushReplacementCheckpoint,
+    });
+    prep.checkpoint_commits = uniqueStrings([...priorCheckpointCommits, ...prep.checkpoint_commits]);
+    if (refreshValidatedBranchBase({ targetDir, branch, baseBranch })) {
+      throw new Error("base branch advanced again after validation; requeue before pushing");
+    }
   }
   const provenance = externalMessageProvenance({
     model,
@@ -1385,7 +1401,12 @@ function editValidatePrepareMerge({
   return {
     commit,
     checkpoint_commits: checkpointCommits,
-    merge_preflight: buildMergePreflight({ fixArtifact, codexReview }),
+    merge_preflight: buildMergePreflight({
+      fixArtifact,
+      codexReview,
+      headSha: commit,
+      baseSha: run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim(),
+    }),
   };
 }
 
@@ -1782,7 +1803,7 @@ function validateAndReviewLoop({
       baseRefreshes += 1;
       noteFixStage("base_refresh_before_review", { mode, attempt, base_refreshes: baseRefreshes });
       if (baseRefreshes > 1) {
-        throw new Error("base branch advanced again during rebase-only validation; requeue before review");
+        throw new Error("base branch advanced again during validation; requeue before review");
       }
       continue;
     }
@@ -2145,12 +2166,14 @@ function isCleanCodexReview(review) {
   return ["passed", "clean"].includes(status) && findings.length === 0 && review?.findings_addressed === true;
 }
 
-function buildMergePreflight({ fixArtifact, codexReview }) {
+function buildMergePreflight({ fixArtifact, codexReview, headSha, baseSha }) {
   const validationCommands = codexReview.validation_commands_run?.length
     ? codexReview.validation_commands_run
     : fixArtifact.validation_commands;
   return {
     target: null,
+    head_sha: headSha,
+    base_sha: baseSha,
     security_status: "cleared",
     security_evidence: ["ProjectClownfish scoped security scan found no security-sensitive fix target, source PR, or fix artifact scope."],
     comments_status: "resolved",

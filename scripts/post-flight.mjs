@@ -4,7 +4,12 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
-import { shouldRequirePrChecks, shouldWaitForMergeReadiness, validateStatusChecks } from "./post-flight-checks.mjs";
+import {
+  shouldRequirePrChecks,
+  shouldWaitForMergeReadiness,
+  validateMergePreflightBinding,
+  validateStatusChecks,
+} from "./post-flight-checks.mjs";
 
 const CLEAN_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS"]);
 const FIX_PR_MERGE_STATES = new Set(["CLEAN", "HAS_HOOKS", "UNSTABLE"]);
@@ -120,6 +125,8 @@ function finalizeFixPr(action) {
   for (;;) {
     pull = fetchPullRequest(result.repo, parsed.number);
     view = fetchPullRequestView(result.repo, parsed.number);
+    const baseRef = String(view.baseRefName ?? pull.base?.ref ?? "");
+    const liveBaseSha = baseRef === "main" ? fetchBranchHeadSha(result.repo, baseRef) : "";
     prBase = { ...base, pr: `#${parsed.number}`, title: view.title ?? pull.title ?? null };
     const mergedAt = pull.merged_at ?? view.mergedAt ?? null;
     if (mergedAt) {
@@ -133,7 +140,7 @@ function finalizeFixPr(action) {
       };
     }
 
-    mergeBlock = validateMergeableFixPr({ pull, view, preflight: action.merge_preflight });
+    mergeBlock = validateMergeableFixPr({ pull, view, preflight: action.merge_preflight, liveBaseSha });
     if (!mergeBlock) break;
     if (dryRun || !shouldWaitForMergeReadiness({ mergeBlock, view }) || Date.now() >= deadline) {
       return {
@@ -335,7 +342,7 @@ function hasLiveSecuritySignal(number, labels) {
   return hasDeterministicSecuritySignal({ comments: [bodies] });
 }
 
-function validateMergeableFixPr({ pull, view, preflight }) {
+function validateMergeableFixPr({ pull, view, preflight, liveBaseSha }) {
   if (pull.state !== "open") return `pull request is ${pull.state}`;
   if (pull.draft || view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? pull.base?.ref ?? "") !== "main") return "pull request base is not main";
@@ -350,7 +357,10 @@ function validateMergeableFixPr({ pull, view, preflight }) {
     return `review decision is ${view.reviewDecision}`;
   }
 
-  const preflightBlock = validateMergePreflight(preflight);
+  const preflightBlock = validateMergePreflight(preflight, {
+    headSha: pull.head?.sha,
+    baseSha: liveBaseSha,
+  });
   if (preflightBlock) return preflightBlock;
 
   const threadBlock = validateResolvedReviewThreads(result.repo, pull.number);
@@ -362,8 +372,10 @@ function validateMergeableFixPr({ pull, view, preflight }) {
   return "";
 }
 
-function validateMergePreflight(preflight) {
+function validateMergePreflight(preflight, binding) {
   if (!preflight || typeof preflight !== "object") return "merge_preflight is missing";
+  const bindingBlock = validateMergePreflightBinding({ preflight, ...binding });
+  if (bindingBlock) return bindingBlock;
   if (preflight.security_status !== "cleared") return "security preflight is not cleared";
   if (!Array.isArray(preflight.security_evidence) || preflight.security_evidence.length === 0) {
     return "security preflight evidence is missing";
@@ -442,6 +454,11 @@ function fetchPullRequest(repo, number) {
 
 function fetchIssue(repo, number) {
   return ghJson(["api", `repos/${repo}/issues/${number}`]);
+}
+
+function fetchBranchHeadSha(repo, branch) {
+  const ref = ghJson(["api", `repos/${repo}/git/ref/heads/${branch}`]);
+  return String(ref?.object?.sha ?? "");
 }
 
 function fetchPullRequestView(repo, number) {

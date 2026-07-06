@@ -1,5 +1,6 @@
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const DEFAULT_IGNORED_CHECKS = ["auto-response", "Labeler", "Stale"];
+const FULL_GIT_SHA = /^[0-9a-f]{40}$/i;
 
 export function shouldRequirePrChecks(value = process.env.CLOWNFISH_POST_FLIGHT_REQUIRE_PR_CHECKS) {
   return value !== "0";
@@ -36,6 +37,24 @@ export function shouldWaitForMergeReadiness({ mergeBlock, view, ignored = ignore
   if (message.includes("merge state status is unstable")) return hasPendingChecks(view.statusCheckRollup ?? [], ignored);
   if (message.includes("checks are not clean")) return hasPendingChecks(view.statusCheckRollup ?? [], ignored);
   return false;
+}
+
+export function validateMergePreflightBinding({ preflight, headSha, baseSha }) {
+  const reviewedHeadSha = String(preflight?.head_sha ?? "");
+  const reviewedBaseSha = String(preflight?.base_sha ?? "");
+  const liveHeadSha = String(headSha ?? "");
+  const liveBaseSha = String(baseSha ?? "");
+  if (!FULL_GIT_SHA.test(reviewedHeadSha)) return "merge_preflight head_sha is missing or invalid";
+  if (!FULL_GIT_SHA.test(reviewedBaseSha)) return "merge_preflight base_sha is missing or invalid";
+  if (!FULL_GIT_SHA.test(liveHeadSha)) return "live pull request head SHA is unavailable";
+  if (!FULL_GIT_SHA.test(liveBaseSha)) return "live pull request base SHA is unavailable";
+  if (reviewedHeadSha.toLowerCase() !== liveHeadSha.toLowerCase()) {
+    return "merge_preflight head_sha does not match live pull request head";
+  }
+  if (reviewedBaseSha.toLowerCase() !== liveBaseSha.toLowerCase()) {
+    return "merge_preflight base_sha does not match live pull request base";
+  }
+  return "";
 }
 
 export function ignoredCheckNames(value = process.env.CLOWNFISH_POST_FLIGHT_IGNORE_CHECKS) {
