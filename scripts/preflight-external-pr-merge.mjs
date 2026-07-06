@@ -837,6 +837,7 @@ function isNonBlockingCommentEvidence(
   }
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
+  if (isMaintainerProofOrStatusComment({ association, body })) return true;
   if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
   if (
@@ -951,6 +952,13 @@ function isMaintainerApprovalComment({ association, body }) {
   return (
     ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
     /^(?:lgtm|looks good(?: to me)?|approved|ship it|:\+1:|👍)[.! ]*$/.test(body)
+  );
+}
+
+function isMaintainerProofOrStatusComment({ association, body }) {
+  return (
+    ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
+    isAuthorProofOrStatusComment(body)
   );
 }
 
@@ -1122,12 +1130,23 @@ function isAuthorProofOrStatusComment(body) {
       /^[-*]\s+/.test(line) &&
       /`[^`]+`|\b(?:passed|passing|green|clean|no failures|confirms?|shows?|proof)\b/.test(line),
   );
+  const hasInlineEvidenceDetail = contentLines.some(
+    (line) =>
+      /^(?:proof|validation|verification|test results|current status|status):\s+\S/.test(line) &&
+      /`[^`]+`|\b(?:git|node|pnpm|npm|yarn|bun)\s+\S+|\b(?:passed|passing|green|clean|successful)\b/.test(
+        line,
+      ),
+  );
   const hasProofSignal =
     /\b(?:proof|validation|verification|tests?|checks?|ci\/status|repro(?:duction|ducible)?|autoreview)\b/.test(
       normalized,
     );
 
-  return (hasProofHeading && hasEvidenceDetail) || (hasStatusLead && (hasEvidenceDetail || hasProofSignal));
+  return (
+    hasInlineEvidenceDetail ||
+    (hasProofHeading && hasEvidenceDetail) ||
+    (hasStatusLead && (hasEvidenceDetail || hasProofSignal))
+  );
 }
 
 function isSupersededAuthorUnrelatedCiFailureComment(body) {
@@ -1196,6 +1215,7 @@ function isAuthorObjectionComment(body) {
     /\b(?:incomplete|unfinished|still investigating|need more time|one more thought|worried|concerns?|unclear)\b/,
     /\b(?:haven't|hasn't|nothing was)\s+fixed\b/,
     /\b(?:tests?|checks?|ci)\b.{0,40}\b(?:are |is )?(?:still )?(?:failing|failed|red|broken)\b/,
+    /\b(?:found|noticed|observed|identified|detected)\b(?![^.\n]{0,20}\bno\b)[^.\n]{0,100}\b(?:bug|issue|problem|regression|failure|error|risk|concern)\b/,
     /\b(?:rather|prefer)\b.{0,40}\bnot (?:merge|land|ship)\b/,
     /\b(?:withdraw|withdrawn|abandon|abandoned|cancel|cancelled|superseded|obsolete)\b/,
     /\b(?:close|stop)\s+(?:this|the)\s+(?:pr|pull request)\b/,
