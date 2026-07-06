@@ -1,0 +1,48 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260706T135633-006",
+  "mode": "autonomous",
+  "run_id": "28797230007",
+  "workflow_run_id": "28797230007",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28797230007",
+  "head_sha": "57e5962c03f06c1439465cdf88cc6c5519f0c870",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T14:00:56Z",
+  "workflow_updated_at": "2026-07-06T14:03:57Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T135633-006.md",
+  "published_at": "2026-07-06T14:04:42.922Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/97285",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/97178",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/97285",
+  "summary": "#97285 is a small, maintainer-editable candidate fix for #97178, but it intentionally changes macOS gateway install behavior from permissive duplicate LaunchAgent creation to fail-closed when a same-label system LaunchDaemon exists. ClawSweeper's hydrated review has no code findings and marks proof sufficient, but explicitly leaves a maintainer compatibility/product decision before merge: accept the narrow fail-closed guard now, or pause for broader system LaunchDaemon lifecycle work such as #97296.",
+  "actions": [
+    {
+      "target": "#97285",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "canonical",
+      "canonical": "#97285",
+      "candidate_fix": null,
+      "reason": "compatibility_acceptance_required: the PR is likely the narrow best candidate for #97178, but merging it intentionally changes macOS gateway install/setup behavior for operators with same-label system LaunchDaemons. ClawSweeper explicitly asks for maintainer acceptance of that fail-closed behavior and whether to land this narrow guard versus broader lifecycle work. Because this is more than missing exact-head validation/Codex review, do not emit merge_candidate yet."
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Maintainer decision needed for #97285: accept the intentional fail-closed macOS LaunchAgent install guard as the canonical narrow fix for #97178, or pause/supersede it in favor of broader system LaunchDaemon lifecycle work such as #97296."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
