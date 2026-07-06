@@ -459,6 +459,7 @@ jobs:
       CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_PRS: ${{ vars.CLOWNFISH_CLOSE_SUPERSEDED_SOURCE_PRS || '0' }}
       CLOWNFISH_GIT_USER_NAME: ${{ vars.CLOWNFISH_GIT_USER_NAME || 'projectclownfish' }}
       CLOWNFISH_GIT_USER_EMAIL: ${{ vars.CLOWNFISH_GIT_USER_EMAIL || 'projectclownfish@users.noreply.github.com' }}
+      CLOWNFISH_APP_ID: ${{ vars.CLOWNFISH_APP_ID }}
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
       OPENCLAW_LOCAL_CHECK: "0"
       CLOWNFISH_READ_GH_TOKEN: ${{ github.token }}
@@ -473,6 +474,7 @@ jobs:
           app-id: ${{ vars.CLOWNFISH_APP_ID }}
           private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
           owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-checks: write
           permission-contents: write
           permission-issues: write
           permission-pull-requests: write
@@ -485,6 +487,7 @@ jobs:
           app-id: ${{ vars.CLOWNFISH_APP_ID }}
           private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
           owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-checks: write
           permission-contents: write
           permission-issues: write
           permission-pull-requests: write

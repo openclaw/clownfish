@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 
@@ -86,7 +87,10 @@ try {
   }
 
   stage("checkout exact PR head", () => checkoutExactPullHead({ repo: sourceJob.frontmatter.repo, pullRequest, expectedHeadSha: pull.head.sha }));
-  const currentMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim();
+  const currentMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+  }).trim();
   const baseDriftAllowed = currentMainSha !== pull.base.sha && canTolerateBaseDrift(view);
   if (currentMainSha !== pull.base.sha && !baseDriftAllowed) {
     writeBlockedArtifacts({
@@ -105,7 +109,9 @@ try {
     }),
   );
   stage("prepare target toolchain", () => prepareTargetToolchain(targetDir));
-  const validationCommands = stage("target validation", () => runValidation({ targetDir, baseBranch }));
+  const validationCommands = stage("target validation", () =>
+    runValidation({ targetDir, reviewContext }),
+  );
   const codexReview = stage("Codex review", () =>
     runCodexReview({
       repo: sourceJob.frontmatter.repo,
@@ -125,6 +131,9 @@ try {
     });
     process.exit(0);
   }
+  stage("verify synthetic review checkout", () =>
+    verifySyntheticReviewCheckout({ targetDir, reviewContext }),
+  );
 
   const reviewedHeadSha = pull.head.sha;
   const reviewedState = String(pull.state ?? "").toLowerCase();
@@ -165,10 +174,50 @@ try {
     process.exit(0);
   }
 
+  const verifiedMainSha = stage("refresh target main after review", () =>
+    refreshTargetMain({ targetDir, baseBranch }),
+  );
+  if (verifiedMainSha !== reviewContext.reviewedBaseSha) {
+    writeBlockedArtifacts({
+      reason:
+        `origin/${baseBranch} changed while validation or review was running: reviewed ` +
+        `${reviewContext.reviewedBaseSha}, current ${verifiedMainSha}`,
+      validationCommands,
+      codexReview,
+      currentMainSha: verifiedMainSha,
+    });
+    process.exit(0);
+  }
+  const verifiedMergeContext = stage("verify effective diff against latest main", () =>
+    computeEffectiveMergeContext({
+      targetDir,
+      baseSha: verifiedMainSha,
+      exactHeadSha: reviewedHeadSha,
+    }),
+  );
+  if (verifiedMergeContext.effectiveDiffSha256 !== reviewContext.effectiveDiffSha256) {
+    writeBlockedArtifacts({
+      reason:
+        `effective merge diff changed while review was running: reviewed ${reviewContext.effectiveDiffSha256}, ` +
+        `current ${verifiedMergeContext.effectiveDiffSha256}`,
+      validationCommands,
+      codexReview,
+      currentMainSha: verifiedMainSha,
+    });
+    process.exit(0);
+  }
+  reviewContext.verifiedMainSha = verifiedMainSha;
+  reviewContext.verifiedMergeTreeSha = verifiedMergeContext.mergeTreeSha;
+  reviewContext.baseDriftProof = {
+    status: "unchanged",
+    reviewed_base_sha: reviewContext.reviewedBaseSha,
+    current_base_sha: verifiedMainSha,
+  };
+
   pull = refreshedPull;
   issue = refreshedIssue;
   view = refreshedView;
-  const finalBaseDriftAllowed = currentMainSha !== pull.base.sha && canTolerateBaseDrift(view);
+  const finalBaseDriftAllowed = verifiedMainSha !== pull.base.sha && canTolerateBaseDrift(view);
   const rehydratedAt = new Date().toISOString();
   const result = buildMergeResult({
     sourceJob,
@@ -179,7 +228,7 @@ try {
     pullRequest,
     validationCommands,
     codexReview,
-    currentMainSha,
+    currentMainSha: verifiedMainSha,
     baseDriftAllowed: finalBaseDriftAllowed,
     reviewContext,
   });
@@ -189,13 +238,16 @@ try {
     reviewed_at: rehydratedAt,
     rehydrated_at: rehydratedAt,
     reviewed_head_sha: pull.head.sha,
-    reviewed_base_sha: pull.base.sha,
-    current_main_sha: currentMainSha,
+    reviewed_base_sha: reviewContext.reviewedBaseSha,
+    current_main_sha: verifiedMainSha,
+    pull_request_base_sha: pull.base.sha,
     base_drift_allowed: finalBaseDriftAllowed,
     synthetic_merge_sha: reviewContext.syntheticMergeSha,
     synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
     raw_diff_files: reviewContext.rawDiffFiles,
     effective_diff_files: reviewContext.effectiveDiffFiles,
+    effective_diff_sha256: reviewContext.effectiveDiffSha256,
+    base_drift_proof: reviewContext.baseDriftProof,
     validation_commands: validationCommands,
     codex_review: {
       status: codexReview.status,
@@ -246,6 +298,7 @@ function writeBlockedArtifacts({ reason, validationCommands = [], codexReview = 
     synthetic_merge_tree_sha: reviewContext?.mergeTreeSha ?? null,
     raw_diff_files: reviewContext?.rawDiffFiles ?? null,
     effective_diff_files: reviewContext?.effectiveDiffFiles ?? null,
+    effective_diff_sha256: reviewContext?.effectiveDiffSha256 ?? null,
     validation_commands: validationCommands,
     codex_review: codexReview
       ? { status: codexReview.status ?? "unknown", findings: Array.isArray(codexReview.findings) ? codexReview.findings.length : null }
@@ -531,14 +584,20 @@ function ensureMergeBase({ cwd, baseBranch, pullRequest, ref }) {
 
 function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, exactHeadSha }) {
   const baseRef = `origin/${baseBranch}`;
+  const gitConfigSha256 = localGitConfigFingerprint(targetDir);
   const rawDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: exactHeadSha });
-  const mergeTreeSha = run("git", ["merge-tree", "--write-tree", currentMainSha, exactHeadSha], {
-    cwd: targetDir,
-    timeout: VALIDATION_TIMEOUT_MS,
-  }).trim();
-  if (!/^[0-9a-f]{40}$/i.test(mergeTreeSha)) {
-    throw new Error(`synthetic merge returned invalid tree SHA: ${mergeTreeSha || "empty"}`);
-  }
+  const mergeContext = computeEffectiveMergeContext({
+    targetDir,
+    baseSha: currentMainSha,
+    exactHeadSha,
+  });
+  const {
+    mergeTreeSha,
+    effectiveDiffFiles,
+    effectiveDiffSha256,
+    resultEntries,
+    changedFiles,
+  } = mergeContext;
   const syntheticMergeSha = run(
     "git",
     [
@@ -573,13 +632,188 @@ function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, ex
       `synthetic merge binding mismatch: expected tree ${mergeTreeSha} on base ${currentMainSha}, got tree ${checkedOutTree} on base ${syntheticParent}`,
     );
   }
-  const effectiveDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: "HEAD" });
-  return { syntheticMergeSha, mergeTreeSha, rawDiffFiles, effectiveDiffFiles };
+  return {
+    syntheticMergeSha,
+    mergeTreeSha,
+    rawDiffFiles,
+    effectiveDiffFiles,
+    effectiveDiffSha256,
+    reviewedBaseSha: currentMainSha,
+    expectedTreeEntries: resultEntries,
+    changedFiles,
+    gitConfigSha256,
+  };
 }
 
 function changedFileCount({ cwd, baseRef, targetRef }) {
   const output = run("git", ["diff", "--name-only", `${baseRef}...${targetRef}`], { cwd }).trim();
   return output ? output.split(/\r?\n/).length : 0;
+}
+
+function computeEffectiveMergeContext({ targetDir, baseSha, exactHeadSha }) {
+  const mergeTreeSha = run("git", ["merge-tree", "--write-tree", baseSha, exactHeadSha], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+    timeout: VALIDATION_TIMEOUT_MS,
+  }).trim();
+  if (!/^[0-9a-f]{40}$/i.test(mergeTreeSha)) {
+    throw new Error(`synthetic merge returned invalid tree SHA: ${mergeTreeSha || "empty"}`);
+  }
+  const fingerprint = effectiveTreeFingerprint({
+    cwd: targetDir,
+    baseTreeish: baseSha,
+    resultTreeish: mergeTreeSha,
+  });
+  return {
+    mergeTreeSha,
+    effectiveDiffFiles: fingerprint.files,
+    effectiveDiffSha256: fingerprint.sha256,
+    changedFiles: fingerprint.changes.map(([filePath]) => filePath),
+    resultEntries: fingerprint.resultEntries,
+  };
+}
+
+function effectiveTreeFingerprint({ cwd, baseTreeish, resultTreeish }) {
+  return fingerprintTreeEntries(
+    readGitTreeEntries({ cwd, treeish: baseTreeish }),
+    readGitTreeEntries({ cwd, treeish: resultTreeish }),
+  );
+}
+
+function readGitTreeEntries({ cwd, treeish }) {
+  const output = run("git", ["ls-tree", "-r", "-z", treeish], {
+    cwd,
+    env: gitIntegrityEnv(),
+    timeout: VALIDATION_TIMEOUT_MS,
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  const entries = new Map();
+  for (const record of output.split("\0").filter(Boolean)) {
+    const match = record.match(/^([0-7]{6}) ([a-z]+) ([0-9a-f]{40})\t([\s\S]+)$/i);
+    if (!match) throw new Error(`could not parse git tree entry for ${treeish}`);
+    entries.set(match[4], `${match[1]}:${match[2]}:${match[3].toLowerCase()}`);
+  }
+  return entries;
+}
+
+function fingerprintTreeEntries(baseEntries, resultEntries) {
+  const changes = [];
+  const paths = [...new Set([...baseEntries.keys(), ...resultEntries.keys()])].sort();
+  for (const filePath of paths) {
+    const before = baseEntries.get(filePath) ?? null;
+    const after = resultEntries.get(filePath) ?? null;
+    if (before === after) continue;
+    changes.push([filePath, before, after]);
+  }
+  const serialized = `${changes.map((entry) => JSON.stringify(entry)).join("\n")}\n`;
+  return {
+    files: changes.length,
+    sha256: createHash("sha256").update(serialized).digest("hex"),
+    changes,
+    resultEntries,
+  };
+}
+
+function verifySyntheticReviewCheckout({ targetDir, reviewContext }) {
+  const env = gitIntegrityEnv();
+  const head = run("git", ["rev-parse", "HEAD"], { cwd: targetDir, env }).trim();
+  const tree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir, env }).trim();
+  const parent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir, env }).trim();
+  if (
+    head !== reviewContext.syntheticMergeSha ||
+    tree !== reviewContext.mergeTreeSha ||
+    parent !== reviewContext.reviewedBaseSha ||
+    localGitConfigFingerprint(targetDir) !== reviewContext.gitConfigSha256
+  ) {
+    throw new Error(
+      `synthetic review checkout changed during validation: expected ${reviewContext.syntheticMergeSha} ` +
+        `on ${reviewContext.reviewedBaseSha} with tree ${reviewContext.mergeTreeSha}`,
+    );
+  }
+  verifyTrackedFilesystem({
+    targetDir,
+    expectedEntries: reviewContext.expectedTreeEntries,
+  });
+}
+
+function refreshTargetMain({ targetDir, baseBranch }) {
+  run("git", ["fetch", "--no-tags", "origin", `${baseBranch}:refs/remotes/origin/${baseBranch}`], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+    timeout: VALIDATION_TIMEOUT_MS,
+  });
+  const sha = run("git", ["rev-parse", `origin/${baseBranch}`], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+  }).trim();
+  if (!/^[0-9a-f]{40}$/i.test(sha)) {
+    throw new Error(`refreshed origin/${baseBranch} returned invalid SHA: ${sha || "empty"}`);
+  }
+  return sha;
+}
+
+function verifyTrackedFilesystem({ targetDir, expectedEntries }) {
+  if (!(expectedEntries instanceof Map) || expectedEntries.size === 0) {
+    throw new Error("synthetic review tree entries are unavailable");
+  }
+  const root = `${path.resolve(targetDir)}${path.sep}`;
+  for (const [filePath, entry] of expectedEntries) {
+    const fullPath = path.resolve(targetDir, filePath);
+    if (!fullPath.startsWith(root)) throw new Error(`synthetic review tree contains unsafe path ${filePath}`);
+    const [mode, type, expectedSha] = String(entry).split(":");
+    if (type !== "blob" || !["100644", "100755", "120000"].includes(mode)) {
+      throw new Error(`synthetic review tree contains unsupported entry ${mode}:${type} at ${filePath}`);
+    }
+    let stats;
+    try {
+      stats = fs.lstatSync(fullPath);
+    } catch {
+      throw new Error(`synthetic review checkout is missing tracked path ${filePath}`);
+    }
+    let bytes;
+    if (mode === "120000") {
+      if (!stats.isSymbolicLink()) throw new Error(`synthetic review checkout changed tracked type at ${filePath}`);
+      bytes = fs.readlinkSync(fullPath, { encoding: "buffer" });
+    } else {
+      if (!stats.isFile() || stats.isSymbolicLink()) {
+        throw new Error(`synthetic review checkout changed tracked type at ${filePath}`);
+      }
+      const executable = (stats.mode & 0o111) !== 0;
+      if ((mode === "100755") !== executable) {
+        throw new Error(`synthetic review checkout changed executable mode at ${filePath}`);
+      }
+      bytes = fs.readFileSync(fullPath);
+    }
+    const actualSha = gitBlobSha(bytes);
+    if (actualSha !== expectedSha) {
+      throw new Error(`synthetic review checkout changed tracked bytes at ${filePath}`);
+    }
+  }
+}
+
+function gitBlobSha(bytes) {
+  return createHash("sha1")
+    .update(`blob ${bytes.length}\0`)
+    .update(bytes)
+    .digest("hex");
+}
+
+function gitIntegrityEnv() {
+  return {
+    ...process.env,
+    GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_NO_REPLACE_OBJECTS: "1",
+  };
+}
+
+function localGitConfigFingerprint(cwd) {
+  const config = run("git", ["config", "--local", "--list", "--null"], {
+    cwd,
+    env: gitIntegrityEnv(),
+    maxBuffer: 1024 * 1024,
+  });
+  return createHash("sha256").update(config).digest("hex");
 }
 
 function isShallowRepository(cwd) {
@@ -605,23 +839,37 @@ function prepareTargetToolchain(cwd) {
   run("corepack", ["prepare", packageManager, "--activate"], { cwd, env, timeout: INSTALL_TIMEOUT_MS });
   run(
     "pnpm",
-    ["install", "--frozen-lockfile", "--prefer-offline", "--config.engine-strict=false", "--config.enable-pre-post-scripts=true"],
+    ["install", "--frozen-lockfile", "--prefer-offline", "--config.engine-strict=false", "--config.enable-pre-post-scripts=false"],
     { cwd, env, timeout: INSTALL_TIMEOUT_MS },
   );
 }
 
-function runValidation({ targetDir, baseBranch }) {
+function runValidation({ targetDir, reviewContext }) {
   const env = validationEnv();
-  run("pnpm", ["check:changed"], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
-  run("git", ["diff", "--check", `origin/${baseBranch}...HEAD`], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
+  const baseSha = reviewContext.reviewedBaseSha;
+  const headSha = reviewContext.syntheticMergeSha;
+  run("pnpm", ["check:changed", "--base", baseSha, "--head", headSha], {
+    cwd: targetDir,
+    env,
+    timeout: VALIDATION_TIMEOUT_MS,
+  });
+  run("git", ["diff", "--check", `${baseSha}...${headSha}`], {
+    cwd: targetDir,
+    env,
+    timeout: VALIDATION_TIMEOUT_MS,
+  });
   run("git", ["diff", "--check"], { cwd: targetDir, env, timeout: VALIDATION_TIMEOUT_MS });
-  return ["pnpm check:changed", `git diff --check origin/${baseBranch}...HEAD`, "git diff --check"];
+  return [
+    `pnpm check:changed --base ${baseSha} --head ${headSha}`,
+    `git diff --check ${baseSha}...${headSha}`,
+    "git diff --check",
+  ];
 }
 
 function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob, reviewContext }) {
   const schemaPath = path.join(runDir, "codex-review.schema.json");
   const outputPath = path.join(runDir, "codex-review.json");
-  const defaultCodexReviewSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "read-only";
+  const defaultCodexReviewSandbox = "read-only";
   const codexReviewSandbox = process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX ?? defaultCodexReviewSandbox;
   writeJson(schemaPath, {
     $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -652,9 +900,10 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     "/review",
     "",
     `Review openclaw PR #${pullRequest} in ${repo}. This is a read-only external merge preflight.`,
-    `HEAD is an ephemeral one-parent squash-result commit built from the exact PR head and current origin/${baseBranch}.`,
-    `Review only the effective diff origin/${baseBranch}...HEAD; the exact GitHub PR head is bound through merge tree ${reviewContext.mergeTreeSha}.`,
+    `The checkout is an ephemeral one-parent squash-result commit built from the exact PR head and reviewed base ${reviewContext.reviewedBaseSha}.`,
+    `Review only the immutable effective diff ${reviewContext.reviewedBaseSha}...${reviewContext.syntheticMergeSha}; do not use mutable branch refs.`,
     `Synthetic commit: ${reviewContext.syntheticMergeSha}; raw PR diff files: ${reviewContext.rawDiffFiles}; effective merge diff files: ${reviewContext.effectiveDiffFiles}.`,
+    `Effective diff fingerprint: ${reviewContext.effectiveDiffSha256}.`,
     "",
     "The preflight already verified that the PR has no top-level or inline review comments, no unresolved review threads, no review-bot findings, no security signal, and passing GitHub checks.",
     "Do not mutate GitHub or the checkout. Do not run validation commands.",
@@ -708,8 +957,12 @@ function buildMergeResult({
 }) {
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
-    `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${currentMainSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`,
+    `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${reviewContext.reviewedBaseSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`,
     `Review surface narrowed from ${reviewContext.rawDiffFiles} raw PR file(s) to ${reviewContext.effectiveDiffFiles} effective merge file(s).`,
+    `Effective blob delta ${reviewContext.effectiveDiffSha256} was unchanged after refreshing origin/main to ${reviewContext.verifiedMainSha}.`,
+    reviewContext.baseDriftProof.drift_commit_count > 0
+      ? `Review-base reuse accepted ${reviewContext.baseDriftProof.drift_commit_count} bounded disjoint main commit(s).`
+      : "Review base still matched current origin/main after review.",
     baseDriftAllowed
       ? `PR base ${pull.base.sha} drifted from origin/main ${currentMainSha}; exact head remained mergeable with clean latest checks and validation ran against origin/main.`
       : `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
@@ -727,7 +980,7 @@ function buildMergeResult({
         target: `#${pullRequest}`,
         action: "merge_canonical",
         status: "planned",
-        idempotency_key: `external-merge-preflight:${sourceJob.frontmatter.repo}#${pullRequest}:${pull.head.sha}:${currentMainSha}:${reviewContext.mergeTreeSha}`,
+        idempotency_key: `external-merge-preflight:${sourceJob.frontmatter.repo}#${pullRequest}:${pull.head.sha}:${reviewContext.effectiveDiffSha256}`,
         expected_head_sha: pull.head.sha,
         classification: "canonical",
         target_kind: "pull_request",
@@ -747,6 +1000,10 @@ function buildMergeResult({
     merge_preflight: [
       {
         target: `#${pullRequest}`,
+        reviewed_base_sha: reviewContext.reviewedBaseSha,
+        reviewed_head_sha: pull.head.sha,
+        effective_diff_sha256: reviewContext.effectiveDiffSha256,
+        effective_diff_files: reviewContext.effectiveDiffFiles,
         security_status: "cleared",
         security_evidence: [
           "Final deterministic security scan after validation and Codex review found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
@@ -1432,7 +1689,13 @@ function ghReadEnv() {
 }
 
 function validationEnv() {
-  const env = { ...process.env, OPENCLAW_LOCAL_CHECK: "0" };
+  const env = {
+    ...process.env,
+    GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_NO_REPLACE_OBJECTS: "1",
+    OPENCLAW_LOCAL_CHECK: "0",
+  };
   for (const key of [
     "GH_TOKEN",
     "GITHUB_TOKEN",
@@ -1447,7 +1710,12 @@ function validationEnv() {
 }
 
 function codexEnv() {
-  const env = { ...process.env };
+  const env = {
+    ...process.env,
+    GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_NO_REPLACE_OBJECTS: "1",
+  };
   for (const key of [
     "GH_TOKEN",
     "GITHUB_TOKEN",

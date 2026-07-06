@@ -633,6 +633,20 @@ function validateMergePreflight(mergePreflight, mergeActions, failures) {
       failures.push(`${target} merge action missing merge_preflight entry`);
       continue;
     }
+    if (String(action.idempotency_key ?? "").startsWith("external-merge-preflight:")) {
+      if (!/^[0-9a-f]{40}$/i.test(String(preflight.reviewed_base_sha ?? ""))) {
+        failures.push(`${target} external merge_preflight.reviewed_base_sha must be a 40-character Git SHA`);
+      }
+      if (String(preflight.reviewed_head_sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase()) {
+        failures.push(`${target} external merge_preflight.reviewed_head_sha must match expected_head_sha`);
+      }
+      if (!/^[0-9a-f]{64}$/i.test(String(preflight.effective_diff_sha256 ?? ""))) {
+        failures.push(`${target} external merge_preflight.effective_diff_sha256 must be a SHA-256 digest`);
+      }
+      if (!Number.isInteger(preflight.effective_diff_files) || preflight.effective_diff_files < 0) {
+        failures.push(`${target} external merge_preflight.effective_diff_files must be a non-negative integer`);
+      }
+    }
     if (preflight.security_status !== "cleared") {
       failures.push(`${target} merge_preflight.security_status must be cleared`);
     }

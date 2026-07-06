@@ -136,6 +136,7 @@ jobs:
           app-id: ${{ vars.CLOWNFISH_APP_ID }}
           private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
           owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-checks: write
           permission-contents: write
           permission-issues: write
           permission-pull-requests: write
@@ -145,6 +146,7 @@ jobs:
           CLOWNFISH_ALLOWED_OWNER: ${{ vars.CLOWNFISH_ALLOWED_OWNER || 'openclaw' }}
           CLOWNFISH_ALLOW_EXECUTE: "1"
           CLOWNFISH_ALLOW_MERGE: "1"
+          CLOWNFISH_APP_ID: ${{ vars.CLOWNFISH_APP_ID }}
           CLOWNFISH_GH_TOKEN: ${{ steps.app_token.outputs.token }}
         run: |
           set -euo pipefail
