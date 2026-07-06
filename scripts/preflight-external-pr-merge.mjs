@@ -838,7 +838,7 @@ function isNonBlockingCommentEvidence(
   if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
   if (
-    isMaintainerReviewRefreshRequestComment({ association, body: normalized }) &&
+    isClawSweeperReviewRefreshRequestComment(normalized) &&
     isCommentCoveredByTrustedApproval(comment, trustedAuthorProgressApprovalAt)
   ) {
     return true;
@@ -1255,8 +1255,7 @@ function isReviewRequestComment(body) {
   return /^@clawsweeper\s+(?:re-review|re-run|review)(?:\s+please)?\s*$/.test(body);
 }
 
-function isMaintainerReviewRefreshRequestComment({ association, body }) {
-  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
+function isClawSweeperReviewRefreshRequestComment(body) {
   if (isAuthorObjectionComment(body)) return false;
   return (
     /\bclawsweeper\b.{0,100}\b(?:label|comment) sync bug\b/.test(body) &&

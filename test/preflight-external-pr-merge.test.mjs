@@ -583,15 +583,19 @@ test("external merge preflight ignores #98821 stale QA and refresh comments afte
       },
       {
         author: { login: "brokemac79" },
-        authorAssociation: "MEMBER",
+        authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-07-05T19:58:24Z",
         updatedAt: "2026-07-05T19:58:24Z",
+        isMinimized: false,
+        minimizedReason: null,
         body: [
           "Hi! Small heads-up: ClawSweeper had a short-lived label/comment sync bug that may have affected this PR.",
           "",
           "Your latest ClawSweeper review comment appears to be for the current PR head and says this is ready for maintainer review, but the ready/proof/rating labels were later removed by stale local review state. The ClawSweeper fix has merged, but this PR needs a fresh author-triggered review so the labels and comment are reconciled again.",
           "",
           "Could you please post a new comment asking ClawSweeper to re-review? Use the bot mention followed by `re-review`.",
+          "",
+          "Thanks, and sorry for the noise.",
         ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4887405035",
       },
@@ -849,7 +853,7 @@ test("external merge preflight blocks unresolved maintainer review-refresh reque
       },
       {
         author: { login: "maintainer" },
-        authorAssociation: "MEMBER",
+        authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-06-18T01:00:00Z",
         body: [
           "ClawSweeper had a label/comment sync bug.",
@@ -875,6 +879,44 @@ test("external merge preflight blocks unresolved maintainer review-refresh reque
   assert.equal(child.status, 0, child.stderr || child.stdout);
 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight keeps real concerns in older refresh-shaped comments blocking", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T02:00:00Z",
+        updatedAt: "2026-06-18T02:05:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "ClawSweeper had a label/comment sync bug.",
+          "Please post a new comment asking ClawSweeper to re-review.",
+          "",
+          "The branch still fails CI and is not ready to merge.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
   assert.equal(report.status, "blocked");
   assert.match(report.reason, /actionable top-level issue comment/);
 });
