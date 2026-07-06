@@ -35,7 +35,7 @@ for (const entry of parsedJobs) {
   const openCandidates = candidates.filter((ref) => isOpenRef(statuses[ref]));
   const closedCandidates = candidates.filter((ref) => statuses[ref] && !isOpenRef(statuses[ref]));
   const closedCanonical = canonical.filter((ref) => statuses[ref] && !isOpenRef(statuses[ref]));
-  const action = classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical });
+  const action = classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical, live });
   const destination = destinationFor(job, action);
   rows.push({
     job: job.relativePath,
@@ -81,10 +81,10 @@ if (json) {
   }
 }
 
-function classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical }) {
+function classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical, live }) {
   if (isExampleJobId(fm.cluster_id)) return "example";
   if (exactResultExists) return "already_resulted";
-  if (candidates.length > 0 && openCandidates.length === 0) return "all_candidates_closed";
+  if (live && candidates.length > 0 && openCandidates.length === 0) return "all_candidates_closed";
   if (fm.mode === "plan" && openCandidates.length === 1) return "single_open_candidate";
   if (closedCanonical.length > 0 && openCandidates.length > 1) return "needs_recanonicalize";
   return "dispatchable";
