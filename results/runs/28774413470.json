@@ -1,0 +1,70 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-4663-autonomous-drip",
+  "mode": "autonomous",
+  "run_id": "28774413470",
+  "workflow_run_id": "28774413470",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28774413470",
+  "head_sha": "b6a894f1e28cb7e5e202bc0f7d0ec21c764d9bc3",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T07:13:45Z",
+  "workflow_updated_at": "2026-07-06T07:16:07Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-4663-autonomous-drip.md",
+  "published_at": "2026-07-06T07:16:34.642Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/56227",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/56227",
+  "canonical_pr": null,
+  "summary": "#40759 is already closed and remains historical context for a state-dir migration warning that current main confines to doctor/preflight migration code. #56227 is the current live canonical issue for the broader old-listener-preserving gateway restart behavior, but the requested atomic handoff crosses supervisor, lock, port-binding, channel-duplication, rollback, and notification semantics, so it needs maintainer product direction before any narrow fix PR is safe.",
+  "actions": [
+    {
+      "target": "#40759",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#56227",
+      "candidate_fix": null,
+      "reason": "Closed context only; same gateway restart area, but not the same remaining root cause as #56227."
+    },
+    {
+      "target": "#56227",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#56227",
+      "candidate_fix": null,
+      "reason": "Keep open as the live canonical issue. It is not a duplicate of the closed state-dir migration report and is not safe for an executable fix artifact until maintainers choose the supported restart scope."
+    },
+    {
+      "target": "cluster:gitcrawl-4663-autonomous-drip",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#56227",
+      "candidate_fix": null,
+      "reason": "Implementation is blocked on maintainer decision: should OpenClaw support old-listener-preserving gateway restarts, and what supervisor/platform scope should be guaranteed first?"
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "keep_canonical": 1,
+    "needs_human": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 1,
+    "blocked": 1
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "Decide the product contract for #56227: whether OpenClaw should support old-listener-preserving gateway restarts, and the first supported scope across systemd, launchd, schtasks, unmanaged processes, locks, port binding, channel duplication, rollback, and user notification."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
