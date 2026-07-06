@@ -150,6 +150,10 @@ test("publisher defaults to successful runs and exits before reviewing an empty 
     /filter-reviewed-artifacts[\s\S]*No review-passing cluster results or terminal rejections to publish/,
   );
   assert.match(workflow, /Publishing terminal review rejections without normal result artifacts/);
+  assert.match(
+    workflow,
+    /npm run publish-result[\s\S]*node scripts\/prune-inbox-jobs\.mjs --write --json[\s\S]*jobs\/openclaw\/inbox[\s\S]*jobs\/openclaw\/outbox/,
+  );
 });
 
 function makeFixture() {
