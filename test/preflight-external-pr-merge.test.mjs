@@ -136,6 +136,86 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
 });
 
+test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
+  const fixture = makeFixture({
+    issueUpdatedAt: "2026-07-06T13:38:20Z",
+    pullUpdatedAt: "2026-07-06T13:38:20Z",
+    rehydratedIssueUpdatedAt: "2026-07-06T14:11:07Z",
+    rehydratedPullUpdatedAt: "2026-07-06T14:11:07Z",
+    rehydratedPullAssignees: [{ login: "maintainer" }],
+    rehydratedPullLabels: [{ name: "P2" }],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
+  assert.equal(result.actions[0].target_updated_at, "2026-07-06T14:11:07Z");
+  assert.match(result.actions[0].evidence.join("\n"), /Final GitHub recheck after validation and Codex review/);
+});
+
+for (const drift of [
+  {
+    name: "head",
+    options: { rehydratedHeadSha: "c".repeat(40) },
+    reason: /PR head changed after validation/,
+  },
+  {
+    name: "state",
+    options: { rehydratedState: "closed" },
+    reason: /PR state changed after validation/,
+  },
+]) {
+  test(`external merge preflight blocks real ${drift.name} drift during final recheck`, () => {
+    const { report } = runPreflightFixture(makeFixture(drift.options));
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, drift.reason);
+  });
+}
+
+for (const guardedDrift of [
+  {
+    name: "security",
+    options: { rehydratedPullLabels: [{ name: "merge-risk: security-boundary" }] },
+    reason: /security-sensitive signal|blocked live label/,
+  },
+  {
+    name: "review",
+    options: { mergeViews: [{}, { reviewDecision: "CHANGES_REQUESTED" }] },
+    reason: /review decision is CHANGES_REQUESTED/,
+  },
+  {
+    name: "checks",
+    options: {
+      mergeViews: [
+        {},
+        {
+          statusCheckRollup: [
+            {
+              name: "CI",
+              workflowName: "CI",
+              status: "COMPLETED",
+              conclusion: "FAILURE",
+              completedAt: "2026-07-06T14:11:07Z",
+            },
+          ],
+        },
+      ],
+    },
+    reason: /non-passing checks: CI/,
+  },
+  {
+    name: "mergeability",
+    options: { mergeViews: [{}, { mergeable: "CONFLICTING", mergeStateStatus: "DIRTY" }] },
+    reason: /mergeability is CONFLICTING|merge state is DIRTY/,
+  },
+]) {
+  test(`external merge preflight blocks ${guardedDrift.name} drift during final recheck`, () => {
+    const { report } = runPreflightFixture(makeFixture(guardedDrift.options));
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, guardedDrift.reason);
+  });
+}
+
 test("external merge preflight tolerates base drift when exact head remains clean", () => {
   const fixture = makeFixture({ currentMainSha: "c".repeat(40) });
   const child = spawnSync(
@@ -359,6 +439,140 @@ test("external merge preflight tolerates ready ClawSweeper docs reviews without 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
   assert.equal(report.status, "passed");
 });
+
+test("external merge preflight ignores #98052 pull-author proof updates", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "ly-wang19" },
+    issueComments: [
+      {
+        author: { login: "ly-wang19" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Rebased this PR onto current `origin/main` and re-ran focused proof on the pushed head `aaaaaaaa`.",
+          "",
+          "Proof:",
+          "- `node scripts/run-vitest.mjs src/runtime.test.ts` - passed",
+          "- `rg -n 'createNonExitingRuntime|ExitError|RuntimeExit' src/runtime.ts src/plugin-sdk src/runtime.test.ts` - confirms the typed exit is limited to the non-exiting runtime helper/test surface",
+          "- `.agents/skills/autoreview/scripts/autoreview --mode branch --base origin/main` - clean, no accepted/actionable findings",
+          "- GitHub checks on `aaaaaaaa` - no failures; CI/status rollup is green aside from skipped/neutral jobs",
+          "",
+          "The change preserves the existing `Error` message text while adding `ExitError` so callers can distinguish simulated exits without string matching.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98052#issuecomment-4881919898",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight ignores #98821 exact-head ClawSweeper ready verdict without synchronized labels", () => {
+  const fixture = makeFixture({
+    pullLabels: [{ name: "gateway" }, { name: "size: S" }, { name: "P2" }],
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Summary**",
+          "The PR adds process-local, tool-qualified warning deduplication plus focused regression tests.",
+          "",
+          "**Review metrics:** 1 noteworthy metric.",
+          "- **Warning branches deduped:** 3 warning branches routed through 1 helper.",
+          "",
+          "**Stored data model**",
+          "Persistent data-model change detected. Confirm migration or upgrade compatibility proof before merge.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No ClawSweeper repair is needed because the patch has no blocking code finding and sufficient contributor proof; the remaining action is normal maintainer review.",
+          "",
+          "<details>",
+          "<summary>Review history (2 earlier review cycles)</summary>",
+          "",
+          "<!-- clawsweeper-review-history v=1 total=2 -->",
+          "- reviewed 2026-07-04T02:20:55Z :: needs real behavior proof before merge.",
+          "</details>",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high updated_at=2026-07-04T20:18:20Z -->`,
+          "",
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4861354589",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const liveShape of [
+  {
+    number: 100900,
+    url: "https://github.com/openclaw/openclaw/pull/100900#issuecomment-4893455348",
+    body: [
+      "Codex review: needs real behavior proof before merge.",
+      "",
+      "**Merge readiness**",
+      "Result: blocked until stronger real behavior proof is added.",
+      "",
+      "**Proof guidance**",
+      "- [P1] Needs stronger real behavior proof before merge: add redacted after-fix Docker or gateway output.",
+      "",
+      "**Risk before merge**",
+      "- [P1] The remaining merge blocker is proof quality.",
+      "",
+      "**Next step before merge**",
+      "- [P1] The remaining action is contributor-supplied after-fix real behavior proof before maintainer merge review.",
+    ],
+  },
+  {
+    number: 100902,
+    url: "https://github.com/openclaw/openclaw/pull/100902#issuecomment-4893494572",
+    body: [
+      "Codex review: needs real behavior proof before merge.",
+      "",
+      "**Merge readiness**",
+      "Result: blocked until real behavior proof from a real setup is added.",
+      "",
+      "**Proof guidance**",
+      "- [P1] Needs real behavior proof before merge: add a redacted patched-branch Docker or CLI transcript.",
+      "",
+      "**Risk before merge**",
+      "- [P1] After-fix real behavior proof is still missing.",
+      "",
+      "**Next step before merge**",
+      "- [P1] The remaining merge blocker is contributor-supplied after-fix real behavior proof.",
+    ],
+  },
+]) {
+  test(`external merge preflight keeps #${liveShape.number} ClawSweeper proof requirements blocking`, () => {
+    const fixture = makeFixture({
+      pullLabels: [{ name: "status: needs proof" }],
+      issueComments: [
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            ...liveShape.body,
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+            "",
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: liveShape.url,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
 
 test("external merge preflight ignores resolved review-refresh noise covered by an exact-head ready review", () => {
   const fixture = makeFixture({
@@ -653,7 +867,7 @@ test("external merge preflight still blocks author-reported current concerns", (
       {
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
-        body: "Do not merge yet; the latest head still has a failing regression test.",
+        body: "Tests are still failing after the rebase.",
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
     ],
@@ -804,7 +1018,7 @@ test("external merge preflight blocks author prose without a trusted exact-head 
   }
 });
 
-test("external merge preflight blocks author progress newer than the exact-head ready review", () => {
+test("external merge preflight ignores objection-free author proof updates newer than the exact-head ready review", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
     pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
@@ -849,8 +1063,7 @@ test("external merge preflight blocks author progress newer than the exact-head 
   assert.equal(child.status, 0, child.stderr || child.stdout);
 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
-  assert.equal(report.status, "blocked");
-  assert.match(report.reason, /actionable top-level issue comment/);
+  assert.equal(report.status, "passed", report.reason);
 });
 
 test("external merge preflight never lets a ready review suppress an author security concern", () => {
@@ -1764,6 +1977,27 @@ test("external merge preflight blocks merge-risk labels", () => {
   assert.match(report.reason, /blocked live label: merge-risk: availability/);
 });
 
+function runPreflightFixture(fixture) {
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  return {
+    report: JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8")),
+    result: JSON.parse(fs.readFileSync(path.join(fixture.runDir, "result.json"), "utf8")),
+  };
+}
+
 function makeFixture({
   issueComments = [],
   reviewComments = [],
@@ -1775,6 +2009,16 @@ function makeFixture({
   mergeViews = null,
   issueUpdatedAt = "2026-06-19T00:00:00Z",
   pullUpdatedAt = "2026-06-19T00:00:00Z",
+  pullAssignees = [],
+  rehydratedIssueComments = null,
+  rehydratedReviewComments = null,
+  rehydratedReviewThreads = null,
+  rehydratedPullLabels = null,
+  rehydratedIssueUpdatedAt = null,
+  rehydratedPullUpdatedAt = null,
+  rehydratedPullAssignees = null,
+  rehydratedHeadSha = null,
+  rehydratedState = null,
   currentMainSha = null,
   codexReview = {
     status: "clean",
@@ -1790,6 +2034,15 @@ function makeFixture({
   const jobPath = path.join(root, "source-job.md");
   const headSha = "a".repeat(40);
   const baseSha = "b".repeat(40);
+  const finalIssueComments = rehydratedIssueComments ?? issueComments;
+  const finalReviewComments = rehydratedReviewComments ?? reviewComments;
+  const finalReviewThreads = rehydratedReviewThreads ?? [];
+  const finalPullLabels = rehydratedPullLabels ?? pullLabels;
+  const finalIssueUpdatedAt = rehydratedIssueUpdatedAt ?? issueUpdatedAt;
+  const finalPullUpdatedAt = rehydratedPullUpdatedAt ?? pullUpdatedAt;
+  const finalPullAssignees = rehydratedPullAssignees ?? pullAssignees;
+  const finalHeadSha = rehydratedHeadSha ?? headSha;
+  const finalState = rehydratedState ?? "open";
   fs.mkdirSync(binDir, { recursive: true });
   fs.writeFileSync(
     jobPath,
@@ -1830,6 +2083,12 @@ const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const mergeViews = ${JSON.stringify(mergeViews)};
+function nextValue(name, initial, refreshed) {
+  const counterPath = path.join(${JSON.stringify(root)}, name);
+  const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
+  fs.writeFileSync(counterPath, String(count + 1));
+  return count === 0 ? initial : refreshed;
+}
 if (args[0] === "repo" && args[1] === "clone") {
   const target = args[3];
   fs.mkdirSync(path.join(target, ".git"), { recursive: true });
@@ -1841,20 +2100,22 @@ if (args[0] === "pr" && args[1] === "view") {
   const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
   fs.writeFileSync(counterPath, String(count + 1));
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
-  console.log(JSON.stringify({ comments: ${JSON.stringify(issueComments)}, headRefOid: head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", reviewDecision: "APPROVED", reviews: ${JSON.stringify(reviews)}, statusCheckRollup: ${JSON.stringify(statusCheckRollup)}, updatedAt: "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
+  console.log(JSON.stringify({ comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
   const query = args.find((value) => value.startsWith("query=")) || "";
   if (query.includes("comments(first: 100)")) {
-    console.log(JSON.stringify({ data: { repository: { pullRequest: { comments: { nodes: ${JSON.stringify(issueComments)} } } } } }));
+    const comments = nextValue("issue-comments-count", ${JSON.stringify(issueComments)}, ${JSON.stringify(finalIssueComments)});
+    console.log(JSON.stringify({ data: { repository: { pullRequest: { comments: { nodes: comments } } } } }));
     process.exit(0);
   }
-  console.log(JSON.stringify({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: [] } } } } }));
+  const threads = nextValue("review-threads-count", [], ${JSON.stringify(finalReviewThreads)});
+  console.log(JSON.stringify({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: threads } } } } }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
-  console.log(${JSON.stringify(JSON.stringify(reviewComments))});
+  console.log(JSON.stringify(nextValue("review-comments-count", ${JSON.stringify(reviewComments)}, ${JSON.stringify(finalReviewComments)})));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
@@ -1862,11 +2123,21 @@ if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/issues/123")) {
-  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
+  const issue = nextValue(
+    "issue-state-count",
+    { state: "open", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)} },
+    { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalIssueUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)} },
+  );
+  console.log(JSON.stringify({ ...issue, draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
-  console.log(JSON.stringify({ number: 123, state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  const pull = nextValue(
+    "pull-state-count",
+    { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
+    { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
+  );
+  console.log(JSON.stringify({ number: 123, ...pull, draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
