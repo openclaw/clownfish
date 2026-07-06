@@ -366,6 +366,147 @@ test("apply-result blocks a merge when the PR head changed after worker review",
   assert.equal(report.actions[0].live_head_sha, CHANGED_HEAD_SHA);
 });
 
+test("apply-result tolerates trusted exact-head automation metadata drift", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    issueUpdatedAt: "2026-06-11T06:11:25Z",
+    issueComments: [
+      {
+        user: { login: "clawsweeper[bot]" },
+        created_at: "2026-06-11T05:00:00Z",
+        updated_at: "2026-06-11T06:11:25Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Security**",
+          "Cleared: no security-sensitive surface.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=60063 sha=${EXPECTED_HEAD_SHA} confidence=high reviewed_at=2026-06-11T06:10:16.679Z -->`,
+        ].join("\n"),
+      },
+    ],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  assert.equal(report.actions[0].reason, "merged by projectclownfish");
+});
+
+test("apply-result blocks untrusted metadata drift even when the head is unchanged", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    issueUpdatedAt: "2026-06-11T06:11:25Z",
+    issueComments: [
+      {
+        user: { login: "reviewer" },
+        created_at: "2026-06-11T06:11:25Z",
+        updated_at: "2026-06-11T06:11:25Z",
+        body: "Please take another look before merging.",
+      },
+    ],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "target changed since worker review");
+});
+
+for (const [name, body] of [
+  [
+    "without an exact ready verdict",
+    [
+      "Result: changes requested.",
+      `<!-- clawsweeper-verdict:needs-human item=60063 sha=${EXPECTED_HEAD_SHA} confidence=high -->`,
+    ].join("\n"),
+  ],
+  [
+    "with contradictory durable evidence",
+    [
+      "Result: ready for maintainer review.",
+      "Result: changes requested.",
+      `<!-- clawsweeper-verdict:needs-human item=60063 sha=${EXPECTED_HEAD_SHA} confidence=high -->`,
+      `<!-- clawsweeper-action:fix-required item=60063 sha=${EXPECTED_HEAD_SHA} confidence=high -->`,
+    ].join("\n"),
+  ],
+  [
+    "with malformed confidence",
+    [
+      "Result: ready for maintainer review.",
+      `<!-- clawsweeper-verdict:needs-human item=60063 sha=${EXPECTED_HEAD_SHA} confidence=high-risk -->`,
+    ].join("\n"),
+  ],
+  [
+    "with duplicate marker attributes",
+    [
+      "Result: ready for maintainer review.",
+      `<!-- clawsweeper-verdict:needs-human item=60063 sha=${EXPECTED_HEAD_SHA} confidence=low confidence=high -->`,
+    ].join("\n"),
+  ],
+]) {
+  test(`apply-result blocks ClawSweeper metadata drift ${name}`, () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    fs.mkdirSync(binDir, { recursive: true });
+    writeReadyMergeGhStub(binDir, {
+      headSha: EXPECTED_HEAD_SHA,
+      issueUpdatedAt: "2026-06-11T06:11:25Z",
+      issueComments: [
+        {
+          user: { login: "clawsweeper[bot]" },
+          created_at: "2026-06-11T05:00:00Z",
+          updated_at: "2026-06-11T06:11:25Z",
+          body,
+        },
+      ],
+    });
+
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    fs.writeFileSync(jobPath, mergeJobMarkdown());
+    fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir);
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(report.actions[0].reason, "target changed since worker review");
+  });
+}
+
 test("apply-result pins a clean merge to the reviewed PR head", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -677,6 +818,8 @@ function writeReadyMergeGhStub(
     transientViewFailures = 0,
     statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }],
     labels = [],
+    issueUpdatedAt = "2026-06-11T05:07:30Z",
+    issueComments = [],
   },
 ) {
   const ghPath = path.join(binDir, "gh");
@@ -698,7 +841,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     number: 60063,
     state: "open",
     title: "streaming fix",
-    updated_at: "2026-06-11T05:07:30Z",
+    updated_at: ${JSON.stringify(issueUpdatedAt)},
     labels: ${JSON.stringify(labels)},
     author_association: "NONE",
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
@@ -716,7 +859,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     merge_commit_sha: merged ? "c".repeat(40) : null
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
-  write([]);
+  write([${JSON.stringify(issueComments)}]);
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
   write({ object: { sha: "current-main" } });
 } else if (args[0] === "api" && args[1] === "graphql") {
