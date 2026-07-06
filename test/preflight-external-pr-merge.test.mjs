@@ -466,13 +466,16 @@ test("external merge preflight ignores #98052 pull-author proof updates", () => 
   assert.equal(report.status, "passed", report.reason);
 });
 
-test("external merge preflight ignores #98821 exact-head ClawSweeper ready verdict without synchronized labels", () => {
+test("external merge preflight ignores #98821 stale QA and refresh comments after a newer exact-head ready review", () => {
   const fixture = makeFixture({
+    pullUser: { login: "harjothkhara" },
     pullLabels: [{ name: "gateway" }, { name: "size: S" }, { name: "P2" }],
     issueComments: [
       {
         author: { login: "clawsweeper[bot]" },
         authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-07-02T01:21:02Z",
+        updatedAt: "2026-07-06T14:33:20Z",
         body: [
           "Codex review: needs maintainer review before merge.",
           "",
@@ -486,28 +489,124 @@ test("external merge preflight ignores #98821 exact-head ClawSweeper ready verdi
           "Persistent data-model change detected. Confirm migration or upgrade compatibility proof before merge.",
           "",
           "**Merge readiness**",
+          "Overall: platinum hermit",
+          "Proof: diamond lobster",
+          "Patch quality: platinum hermit",
           "Result: ready for maintainer review.",
           "",
+          "Overall follows the weaker of proof and patch quality, so missing proof can cap an otherwise strong patch.",
+          "",
+          "**Risk before merge**",
+          "- [P1] The linked canonical issue also discusses logger-prefix double-write and structural-equality false positives; this PR reduces repeated rebuild floods but may not close every residual operator-log complaint.",
+          "",
+          "**Maintainer options:**",
+          "1. **Decide the mitigation before merge**",
+          "   Land this diagnostic-preserving dedupe if maintainers choose it as the candidate path.",
+          "2. **Pause or close**",
+          "   Do not merge this PR until maintainers decide whether the risk is worth taking.",
+          "",
           "**Next step before merge**",
-          "- No ClawSweeper repair is needed because the patch has no blocking code finding and sufficient contributor proof; the remaining action is normal maintainer review.",
+          "- No ClawSweeper repair is needed because the patch has sufficient proof and no blocking code finding; the remaining action is normal maintainer review of the candidate fix.",
           "",
           "<details>",
-          "<summary>Review history (2 earlier review cycles)</summary>",
+          "<summary>Review history (3 earlier review cycles)</summary>",
           "",
-          "<!-- clawsweeper-review-history v=1 total=2 -->",
-          "- reviewed 2026-07-04T02:20:55Z :: needs real behavior proof before merge.",
+          "<!-- clawsweeper-review-history v=1 total=3 -->",
+          "- reviewed 2026-07-04T02:20:55.571Z sha 663d1bb8eaa53939167724d455d540577aa483a8 :: needs real behavior proof before merge. :: none",
+          `- reviewed 2026-07-04T20:17:08.322Z sha ${"a".repeat(40)} :: needs real behavior proof before merge. :: none`,
+          `- reviewed 2026-07-04T20:21:39.322Z sha ${"a".repeat(40)} :: needs maintainer review before merge. :: none`,
           "</details>",
           "",
-          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high updated_at=2026-07-04T20:18:20Z -->`,
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high updated_at=2026-07-06T14:06:54Z reviewed_at=2026-07-06T14:32:03.361Z source_revision=70f8e22996ef475c126a2781ae12ed8a15538c814a1257d58e9a6836cc6f17b6 -->`,
           "",
           "<!-- clawsweeper-review item=123 -->",
         ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4861354589",
       },
+      {
+        author: { login: "harjothkhara" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-07-04T03:40:04Z",
+        updatedAt: "2026-07-04T03:40:04Z",
+        body: [
+          "**QA Smoke CI failure is unrelated to this change.**",
+          "",
+          "On the current head, the QA smoke run completes every scenario successfully - `[qa-suite] run complete: passed=25 failed=0 total=25` - and writes its report/evidence/scorecard, then the wrapper process exits 1 in a post-run step. The identical failure reproduces on other open PRs whose diffs don't touch this code path, and the repo has an active `qa-smoke-flake` branch, so this looks like a known QA-harness flake on `main` rather than something introduced here.",
+          "",
+          "This PR is rebased onto latest `main` and its own surface is green: `src/gateway/mcp-http.test.ts` passes 232/232 locally, and the PR-relevant CI lanes pass - **Real behavior proof**, **Select Critical Quality shards**, and all **Security High** boundaries. `QA Smoke CI` is the only red check.",
+          "",
+          "Could a maintainer re-run the `QA Smoke CI` job? I don't have permission to retrigger workflows on a fork PR.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4880518218",
+      },
+      {
+        author: { login: "brokemac79" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-07-05T19:58:24Z",
+        updatedAt: "2026-07-05T19:58:24Z",
+        body: [
+          "Hi! Small heads-up: ClawSweeper had a short-lived label/comment sync bug that may have affected this PR.",
+          "",
+          "Your latest ClawSweeper review comment appears to be for the current PR head and says this is ready for maintainer review, but the ready/proof/rating labels were later removed by stale local review state. The ClawSweeper fix has merged, but this PR needs a fresh author-triggered review so the labels and comment are reconciled again.",
+          "",
+          "Could you please post a new comment asking ClawSweeper to re-review? Use the bot mention followed by `re-review`.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4887405035",
+      },
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-07-06T14:05:25Z",
+        updatedAt: "2026-07-06T14:05:25Z",
+        body: "@clawsweeper re-review",
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4893721028",
+      },
     ],
   });
   const { report } = runPreflightFixture(fixture);
   assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight blocks a #98821-shaped QA failure note newer than the ready review", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "harjothkhara" },
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-07-06T14:32:03Z",
+        updatedAt: "2026-07-06T14:33:20Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-4861354589",
+      },
+      {
+        author: { login: "harjothkhara" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-07-06T14:34:00Z",
+        body: [
+          "**QA Smoke CI failure is unrelated to this change.**",
+          "",
+          "The identical failure reproduces on other open PRs, so this looks like a known QA-harness flake on `main` rather than something introduced here.",
+          "",
+          "This PR's own surface is green, and the PR-relevant CI lanes pass. `QA Smoke CI` is the only red check.",
+          "",
+          "Could a maintainer re-run the `QA Smoke CI` job?",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/98821#issuecomment-newer",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
 });
 
 for (const liveShape of [
