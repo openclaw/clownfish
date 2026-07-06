@@ -360,6 +360,170 @@ test("external merge preflight tolerates ready ClawSweeper docs reviews without 
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight ignores resolved review-refresh noise covered by an exact-head ready review", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: [
+          "@clawsweeper re-review",
+          "",
+          "Real behavior proof has been added to the PR body, and the Real behavior proof check is passing.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "untrusted-user" },
+        authorAssociation: "NONE",
+        createdAt: "2026-06-18T00:15:00Z",
+        isMinimized: true,
+        minimizedReason: "SPAM",
+        body: "<!-- codegraph-conflict -->\n### Cross-PR Conflict Detected\nCoordinate before merging.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:30:00Z",
+        body: [
+          "@ClawSweeper re-review please",
+          "",
+          "Addressed the review follow-up in `7d5fcc95ef4f`:",
+          "- Rebuilt the PR on current `upstream/main`, which resolved the GitHub merge conflict.",
+          "- Preserved `markCommandReplyForDelivery` for every handled fast-path reply path.",
+          "- Removed the unrelated CI heap change from this PR scope.",
+          "- Updated the PR body to reflect the current narrow diff and current-head validation.",
+          "",
+          "Current local validation:",
+          "- `npm run format:check -- changed-files`",
+          "- `npm run check:test-types`",
+          "",
+          "GitHub Real behavior proof is passing on the new head.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "Hi! Small heads-up: ClawSweeper had a short-lived label/comment sync bug that may have affected this PR.",
+          "",
+          "Could you please post a new comment asking ClawSweeper to re-review?",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-4",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:30:00Z",
+        body: [
+          "@clawsweeper re-review",
+          "",
+          "Rebased this PR onto current `main` and resolved the conflict.",
+          "",
+          "Current status on head `aaaaaaaaaaaa`:",
+          "- Merge state is clean.",
+          "- All GitHub checks are passing or skipped.",
+          "- Real behavior proof is passing.",
+          "",
+          "Local validation after the rebase:",
+          "- `npm run check:test-types`",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-5",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T02:00:00Z",
+        updatedAt: "2026-06-18T02:05:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-6",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight blocks unresolved maintainer review-refresh requests newer than the ready review", () => {
+  const fixture = makeFixture({
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "ClawSweeper had a label/comment sync bug.",
+          "Please post a new comment asking ClawSweeper to re-review.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
 test("external merge preflight lets an exact-head ready review cover earlier author status comments", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
@@ -1681,6 +1845,11 @@ if (args[0] === "pr" && args[1] === "view") {
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
+  const query = args.find((value) => value.startsWith("query=")) || "";
+  if (query.includes("comments(first: 100)")) {
+    console.log(JSON.stringify({ data: { repository: { pullRequest: { comments: { nodes: ${JSON.stringify(issueComments)} } } } } }));
+    process.exit(0);
+  }
   console.log(JSON.stringify({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: [] } } } } }));
   process.exit(0);
 }
