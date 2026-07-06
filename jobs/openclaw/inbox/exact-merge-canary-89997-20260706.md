@@ -30,7 +30,7 @@ allow_merge: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #89997 after the deterministic external preflight binds validation and review to its exact live head."
-notes: "Canary head at dispatch preparation: 478b1f4e15d2bd8b43fae98fa1dc0042dc90b0ad. Re-fetch live state and stop if the head or merge policy changes."
+notes: "Canary head at dispatch preparation: 8b0a69186e625521d1c72f1938bb80c5b538f092. Re-fetch live state and stop if the head or merge policy changes."
 ---
 
 # Exact Merge Canary: #89997
