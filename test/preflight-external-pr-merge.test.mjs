@@ -51,6 +51,8 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /runs-on: \$\{\{ inputs\.runner \}\}/);
   assert.match(workflow, /external-merge-preflight\/preflight-report\.json/);
   assert.match(workflow, /npm run apply-result/);
+  assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?npm run assert-mutation-integrity/);
+  assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?- name: Upload apply artifact/);
   assert.match(workflow, /permission-pull-requests: write/);
 });
 
@@ -70,6 +72,10 @@ test("cluster worker chains blocked merge candidates through external preflight"
     /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}" --latest --max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"/,
   );
   assert.match(clusterWorkflow, /- name: Run external merge preflights[\s\S]*?- name: Apply safe closure actions/);
+  assert.match(
+    clusterWorkflow,
+    /- name: Tag Clownfish targets[\s\S]*?- name: Verify mutation integrity[\s\S]*?- name: Upload final worker artifacts/,
+  );
 });
 
 test("daily checks-success intake feeds guarded external merge preflights", () => {

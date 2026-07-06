@@ -68,11 +68,23 @@ test("self-heal retries only explicit recoverable executor failures", () => {
         },
       ],
     }),
+    record(10, {
+      apply_actions: [
+        {
+          action: "merge_canonical",
+          status: "blocked",
+          retry_recommended: true,
+          transient_error: "github_rate_limit",
+        },
+        { action: "merge_canonical", status: "executed" },
+      ],
+    }),
   ]);
 
   assert.deepEqual(
     candidates.map((candidate) => [candidate.run_id, candidate.self_heal_reason]),
     [
+      ["10", "retryable mutation apply failed"],
       ["9", "retryable source PR head fetch failed"],
       ["5", "recoverable fix execution failed"],
     ],

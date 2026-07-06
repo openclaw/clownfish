@@ -7,6 +7,12 @@ function runSortKey(record) {
 const PRE_BRANCH_RETRY_CODES = new Set(["source_pr_head_fetch_failed"]);
 
 export function failedChildReason(record) {
+  const retryableApplyActions = (record.apply_actions ?? []).filter(
+    (action) => ["failed", "blocked"].includes(action.status) && action.retry_recommended === true,
+  );
+  if (retryableApplyActions.length > 0) {
+    return "retryable mutation apply failed";
+  }
   if (hasTerminalRecovery(record)) return null;
   const retryableActions = (record.fix_actions ?? []).filter(
     (action) => ["failed", "blocked"].includes(action.status) && action.retry_recommended === true,
