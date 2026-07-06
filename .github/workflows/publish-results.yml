@@ -158,7 +158,14 @@ jobs:
             npm run finalize-open-prs -- --write-report
             npm run publish-result
           fi
-          git add README.md results jobs/openclaw/closed apply-report.json
+          node scripts/prune-inbox-jobs.mjs --write --json > artifacts/prune-inbox.json
+          git add \
+            README.md \
+            results \
+            jobs/openclaw/inbox \
+            jobs/openclaw/outbox \
+            jobs/openclaw/closed \
+            apply-report.json
           if git diff --cached --quiet; then
             echo "No result changes"
             exit 0
