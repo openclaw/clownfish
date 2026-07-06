@@ -189,6 +189,7 @@ if (writeMode && maxLiveWorkers > writeLiveWorkerCap && !allowHighVolumeWrite) {
 }
 
 let failed = false;
+let capacityReservations = null;
 const jobs = [];
 const targetRepos = new Set();
 for (const file of files) {
@@ -240,6 +241,9 @@ if (!failed) {
       : jobsToDispatch.length;
   const capacityOptions = { repo, workflow: dispatchWorkflow, requested, maxLiveWorkers, ghCommand };
   const capacity = throttledDispatch ? waitForLiveWorkerCapacity(capacityOptions) : assertLiveWorkerCapacity(capacityOptions);
+  if (throttledDispatch && !repositoryBatchDispatch) {
+    capacityReservations = createCapacityReservations(capacity.active_runs);
+  }
   if (repositoryBatchDispatch && capacity.active > 0) {
     throw new Error(
       `refusing repository-batch dispatch: ${capacity.active} active ${batchWorkflow} run(s) already occupy unknown matrix capacity; retry after they finish`,
@@ -376,29 +380,24 @@ while (!failed && index < jobsToDispatch.length) {
     if (!skipPublishBacklogCheck) assertPublishBacklog();
     if (failed) break;
 
-    const capacity = waitForLiveWorkerCapacity({
-      repo,
-      workflow,
-      requested: 1,
-      maxLiveWorkers,
-      ghCommand,
-    });
-    const refreshed = liveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers, ghCommand });
+    const capacity = waitForReservedLiveWorkerCapacity(capacityReservations);
     batchSize = Math.min(
       batchSize,
-      Math.max(1, refreshed.available || capacity.available || 1),
+      capacity.available,
       dispatchBatchSize > 0 ? dispatchBatchSize : Number.POSITIVE_INFINITY,
     );
     console.log(
-      `live worker capacity: ${refreshed.active}/${refreshed.max_live_workers} active; dispatching next ${batchSize} run(s)`,
+      `live worker capacity: ${capacity.active}/${capacity.max_live_workers} active + ${capacity.reserved} reserved; dispatching next ${batchSize} run(s)`,
     );
   }
 
   const batch = jobsToDispatch.slice(index, index + batchSize);
   const results = await dispatchBatch(batch, dispatchConcurrency);
+  const acceptedResults = [];
   for (const result of results) {
     dispatched += 1;
     if (result.status === 0) {
+      acceptedResults.push(result);
       dispatchAttempts.push(dispatchAttempt(result, "accepted"));
       console.log(
         `dispatched ${result.position}/${jobsToDispatch.length} ${result.relative} (${mode}) on ${runner}; execution on ${executionRunner}`,
@@ -409,6 +408,7 @@ while (!failed && index < jobsToDispatch.length) {
       console.error(result.stderr || result.stdout || `failed to dispatch ${result.relative}`);
     }
   }
+  capacityReservations?.reserve(acceptedResults);
   if (writeDispatchLedger && dispatchAttempts.length > 0) appendDispatchLedger(dispatchAttempts);
   index += batchSize;
   if (throttledDispatch && !failed && index < jobsToDispatch.length) {
@@ -546,20 +546,23 @@ function dispatchBatch(batch, concurrency) {
 
 function dispatchJob(relative, position) {
   if (repositoryWorkerDispatch) return dispatchRepositoryWorker(relative, position);
+  const dispatchId = workflow === "cluster-worker.yml" ? workerDispatchId(position) : null;
   return runCommand(
     ghCommand,
-    workflowDispatchArgs(relative),
+    workflowDispatchArgs(relative, dispatchId),
     relative,
     position,
+    null,
+    dispatchId,
   );
 }
 
 function dispatchRepositoryWorker(relative, position) {
-  const workerDispatchId = `${dispatchBatchId}-${String(position).padStart(4, "0")}`;
+  const dispatchId = workerDispatchId(position);
   const payload = {
     event_type: workerEventType,
     client_payload: {
-      dispatch_id: workerDispatchId,
+      dispatch_id: dispatchId,
       job: relative,
       mode,
       runner,
@@ -582,7 +585,7 @@ function dispatchRepositoryWorker(relative, position) {
     relative,
     position,
     `${JSON.stringify(payload)}\n`,
-    workerDispatchId,
+    dispatchId,
   ).then((result) => {
     if (!isRepositoryDispatchSchemaBug(result)) return result;
 
@@ -591,17 +594,21 @@ function dispatchRepositoryWorker(relative, position) {
     );
     return runCommand(
       ghCommand,
-      workflowDispatchArgs(relative, workerDispatchId),
+      workflowDispatchArgs(relative, dispatchId),
       relative,
       position,
       null,
-      workerDispatchId,
+      dispatchId,
     ).then((fallback) => ({
       ...fallback,
       dispatch_event: "workflow",
       dispatch_fallback_reason: "repository_dispatch_422_links_schema",
     }));
   });
+}
+
+function workerDispatchId(position) {
+  return `${dispatchBatchId}-${String(position).padStart(4, "0")}`;
 }
 
 function workflowDispatchArgs(relative, dispatchId = null) {
@@ -817,6 +824,91 @@ function stripAnsi(text) {
 
 function sleepMs(milliseconds) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
+}
+
+function createCapacityReservations(activeRuns = []) {
+  const observedRunIds = new Set(activeRuns.map(activeRunId).filter(Boolean));
+  const pendingDispatchIds = new Set();
+  let anonymousReservations = 0;
+
+  return {
+    reserve(results) {
+      for (const result of results) {
+        if (result.batch_dispatch_id) pendingDispatchIds.add(result.batch_dispatch_id);
+        else anonymousReservations += 1;
+      }
+    },
+    reconcile(activeRuns) {
+      const matchedRunIds = new Set();
+      for (const run of activeRuns) {
+        for (const dispatchId of pendingDispatchIds) {
+          if (String(run.displayTitle ?? "") !== `cluster worker ${dispatchId}`) continue;
+          pendingDispatchIds.delete(dispatchId);
+          const runId = activeRunId(run);
+          if (runId) matchedRunIds.add(runId);
+          break;
+        }
+      }
+
+      let newlyVisibleAnonymous = 0;
+      for (const run of activeRuns) {
+        const runId = activeRunId(run);
+        if (!runId || observedRunIds.has(runId)) continue;
+        observedRunIds.add(runId);
+        if (!matchedRunIds.has(runId)) newlyVisibleAnonymous += 1;
+      }
+      anonymousReservations = Math.max(0, anonymousReservations - newlyVisibleAnonymous);
+    },
+    get pending() {
+      return pendingDispatchIds.size + anonymousReservations;
+    },
+  };
+}
+
+function activeRunId(run) {
+  const value = run?.databaseId ?? run?.id ?? run?.url;
+  return value === undefined || value === null ? "" : String(value);
+}
+
+function waitForReservedLiveWorkerCapacity(reservations) {
+  if (!reservations) throw new Error("dispatch capacity reservations were not initialized");
+  const pollMs = positiveCapacitySetting(
+    process.env.CLOWNFISH_LIVE_WORKER_CAPACITY_POLL_MS ?? 30_000,
+    "capacity poll ms",
+  );
+  const timeoutMs = positiveCapacitySetting(
+    process.env.CLOWNFISH_LIVE_WORKER_CAPACITY_TIMEOUT_MS ?? 30 * 60 * 1000,
+    "capacity timeout ms",
+  );
+  const deadline = Date.now() + timeoutMs;
+  let latest = null;
+
+  while (Date.now() <= deadline) {
+    latest = liveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers, ghCommand });
+    reservations.reconcile(latest.active_runs);
+    const reserved = reservations.pending;
+    const available = Math.max(0, latest.max_live_workers - latest.active - reserved);
+    if (available > 0) {
+      return {
+        ...latest,
+        available,
+        reserved,
+      };
+    }
+    sleepMs(Math.min(pollMs, Math.max(1, deadline - Date.now())));
+  }
+
+  throw new Error(
+    `timed out waiting for ${workflow} capacity: ${latest?.active ?? "unknown"} active + ${reservations.pending} reserved + 1 requested exceeds max-live-workers=${maxLiveWorkers}`,
+  );
+}
+
+function positiveCapacitySetting(value, name) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 1) {
+    throw new Error(`${name} must be a positive integer`);
+  }
+  return number;
 }
 
 if (failed) process.exit(1);
