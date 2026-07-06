@@ -1,0 +1,225 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260706T092749-001",
+  "mode": "autonomous",
+  "run_id": "28781729095",
+  "workflow_run_id": "28781729095",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28781729095",
+  "head_sha": "cb1802dec9e34edb56382e2158d06eff3f5ae31f",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T09:29:23Z",
+  "workflow_updated_at": "2026-07-06T09:46:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T092749-001.md",
+  "published_at": "2026-07-06T09:46:57.603Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/89897",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/83902",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/89897",
+  "summary": "PR #89897 is the viable canonical repair path for issue #83902, but it is not merge-ready from the hydrated artifact: the branch is stale/unknown-mergeable with failing checks and no deterministic exact-head Codex /review merge preflight. Current main still has the reported hardcoded terminator comparison, so the narrow next action is to repair the maintainer-modifiable contributor branch, preserve credit, and rerun the supported validation gate.",
+  "actions": [
+    {
+      "target": "#89897",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Repair the editable contributor PR branch before any merge recommendation; missing/failing exact-head validation and missing Codex /review block merge."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260706T092749-001",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "A complete executable repair artifact is available for the editable canonical PR branch."
+    },
+    {
+      "target": "#83902",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#83902",
+      "candidate_fix": "#89897",
+      "reason": "Open canonical issue remains valid and should be resolved by the repaired #89897 path."
+    },
+    {
+      "target": "#84066",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Already closed historical duplicate/superseded PR; no closure action is valid."
+    },
+    {
+      "target": "#84438",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Already closed superseded PR; no closure action is valid."
+    },
+    {
+      "target": "#85710",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate/superseded PR; no closure action is valid."
+    },
+    {
+      "target": "#90906",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Already closed duplicate/superseded PR; no closure action is valid."
+    },
+    {
+      "target": "#1195",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89897",
+      "candidate_fix": null,
+      "reason": "Closed historical context only; not a live target for this shard."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_canonical": 1,
+    "keep_closed": 5
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 5
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#89897",
+    "source_refs": [
+      "#89897",
+      "#83902",
+      "#1195",
+      "#84066",
+      "#84438",
+      "#85710",
+      "#90906"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the editable canonical contributor PR #89897 by rebasing/refeshing it against current main, keeping the one-line source fix that makes getCommandPathInternal use FLAG_TERMINATOR, retaining focused argv regression coverage, then rerunning the supported changed gate before external merge preflight.",
+    "pr_title": "fix(cli): replace hardcoded flag terminator in command path parsing",
+    "pr_body": "What Problem This Solves\n\nFixes #83902 by keeping CLI command-path parsing on the same FLAG_TERMINATOR contract used by the sibling argv helpers.\n\nWhy This Change Was Made\n\nCurrent main still has getCommandPathInternal comparing directly against the literal \"--\" while the rest of argv.ts uses FLAG_TERMINATOR. The repair should keep the one-line source change from #89897, refresh the branch against current main, and keep focused argv coverage for the invariant.\n\nUser Impact\n\nNo intended behavior change while FLAG_TERMINATOR remains \"--\"; this prevents future parser divergence if the shared terminator contract changes.\n\nEvidence\n\n- Current main still shows the hardcoded comparison in src/cli/argv.ts.\n- #89897 is open, narrow, and maintainer-modifiable.\n- Required validation after repair: pnpm test src/cli/argv.test.ts and pnpm check:changed.\n\nCredit\n\nThis repair continues #89897 and preserves credit for @whiteyzy, with attribution retained for @secooond's prior branch commits.",
+    "likely_files": [
+      "src/cli/argv.ts",
+      "src/cli/argv.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/cli/argv.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve #89897 as the contributor branch and keep @whiteyzy credited as the PR author.",
+      "Retain attribution for prior commits from @secooond on the branch; Clownfish bot updates should be limited to repair/rebase and validation cleanup.",
+      "Do not close or replace #89897 unless a later executor proves the branch cannot be safely updated."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260706T092749-001.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/89897",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "42eaa5ed29831de6b4e22abfc9e0aae78cd94c57",
+      "checkpoint_commits": [
+        "afab0f2b47ad4f8b21552f5567c85507b013bac6",
+        "4592de9aa7449bd24f8d5453e133451abb977b49",
+        "42eaa5ed29831de6b4e22abfc9e0aae78cd94c57"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#89897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): replace hardcoded \"--\" with FLAG_TERMINATOR constant in getCommandPathInternal",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: QA Smoke CI: IN_PROGRESS, checks-node-compact-small-whole-2: FAILURE, check-prod-types: FAILURE, check-lint: FAILURE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#89897",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(cli): replace hardcoded \"--\" with FLAG_TERMINATOR constant in getCommandPathInternal",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "checks are not clean: QA Smoke CI: IN_PROGRESS, checks-node-compact-small-whole-2: FAILURE, check-prod-types: FAILURE, check-lint: FAILURE",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
