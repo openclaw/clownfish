@@ -436,6 +436,100 @@ test("external merge preflight tolerates non-actionable automation comments", ()
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight ignores #89997 positive review, maintainer status, and review command comments", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "kenners22" },
+    issueComments: [
+      {
+        author: { login: "clawsweeper" },
+        authorAssociation: "CONTRIBUTOR",
+        isMinimized: false,
+        body: [
+          "Codex review: needs maintainer review before merge. _Reviewed July 6, 2026, 11:18 AM ET / 15:18 UTC._",
+          "",
+          "**Review metrics:** 1 noteworthy metric.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No automated repair is needed; the patch looks correct and the remaining action is maintainer landing review for the clean exact head.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/89997#issuecomment-review",
+      },
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        body: [
+          "Clownfish reef update",
+          "",
+          "Thanks for the contribution here. Clownfish kept this PR as the main lane.",
+          "",
+          "Source PR: https://github.com/openclaw/openclaw/pull/89997",
+          "Validation: git diff --check; node scripts/run-vitest.mjs src/cli/command-startup-policy.test.ts; pnpm check:changed",
+          "Contributor credit stays on this marker, with the PR history doing the receipts.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/89997#issuecomment-status",
+      },
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        body: "@clawsweeper re-review",
+        url: "https://github.com/openclaw/openclaw/pull/89997#issuecomment-command",
+      },
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "CONTRIBUTOR",
+        isMinimized: true,
+        minimizedReason: "OUTDATED",
+        body: "Please fix the startup stdout regression before merge.",
+        url: "https://github.com/openclaw/openclaw/pull/89997#issuecomment-minimized",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [kind, body] of [
+  [
+    "ask",
+    [
+      "Validation: git diff --check passed.",
+      "Please add a focused ACP regression test before merge.",
+    ].join("\n"),
+  ],
+  [
+    "finding",
+    [
+      "Validation: git diff --check passed.",
+      "I found a regression: bare ACP startup still writes diagnostics to stdout.",
+    ].join("\n"),
+  ],
+]) {
+  test(`external merge preflight keeps unresolved maintainer ${kind} comments blocking`, () => {
+    const fixture = makeFixture({
+      issueComments: [
+        {
+          author: { login: "maintainer" },
+          authorAssociation: "MEMBER",
+          isMinimized: false,
+          body,
+          url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-${kind}`,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
 test("external merge preflight tolerates ready ClawSweeper docs reviews without proof labels", () => {
   const fixture = makeFixture({
     pullLabels: [
