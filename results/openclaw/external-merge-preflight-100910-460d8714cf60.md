@@ -1,28 +1,28 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "live-pr-inventory-20260706T135633-005"
+cluster_id: "external-merge-preflight-100910-460d8714cf60"
 mode: "autonomous"
 run_id: "28803783532"
 workflow_run_id: "28803783532"
 run_url: "https://github.com/openclaw/clownfish/actions/runs/28803783532"
 head_sha: "f660496359ac49e84d5b60bf44ddcf601ea2367f"
 workflow_conclusion: "success"
-result_status: "blocked"
-published_at: "2026-07-06T15:43:23.936Z"
+result_status: "planned"
+published_at: "2026-07-06T15:43:23.927Z"
 canonical: "https://github.com/openclaw/openclaw/pull/100910"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/100910"
-actions_total: 1
+actions_total: 0
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
-apply_skipped: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
-# live-pr-inventory-20260706T135633-005
+# external-merge-preflight-100910-460d8714cf60
 
 Repo: openclaw/openclaw
 
@@ -30,51 +30,50 @@ Run: [https://github.com/openclaw/clownfish/actions/runs/28803783532](https://gi
 
 Workflow conclusion: success
 
-Worker result: blocked
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/100910
 
 ## Summary
 
-#100910 is the canonical open PR for this shard. It is narrow, mergeable, maintainer-editable, security-cleared by the hydrated artifact, and all listed CI checks are passing, but it still lacks a complete merge preflight with clean Codex /review and resolved bot-review proof state, so the safe action is a blocked merge_candidate for the executor preflight.
+External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/100910#issuecomment-4894117425
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 0 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | skipped |  |  | worker result status blocked is not executable |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #100910 | merge_candidate | skipped | canonical | action status is blocked |
+| _None_ |  |  |  |  |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | apply | #100910 | merge_candidate | skipped | action status is blocked |
-| 2 | apply | #100910 | merge_candidate | skipped | action status is blocked |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #100910 | merge_candidate | blocked | canonical | external_merge_preflight_required |
+| _None_ |  |  |  |  |
 
 ## Needs Human
 
