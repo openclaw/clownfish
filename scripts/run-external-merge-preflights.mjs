@@ -13,10 +13,16 @@ const jobPath = args._[0];
 const resultPathArg = args._[1];
 const latest = Boolean(args.latest);
 const dryRun = Boolean(args["dry-run"]);
-const maxPrs = positiveInteger(args["max-prs"] ?? args.limit, Infinity);
+const maxPrs = positiveInteger(args["max-prs"] ?? args.limit, Infinity, "--max-prs");
 const concurrency = positiveInteger(
   args.concurrency ?? process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY,
   3,
+  "--concurrency",
+);
+const childHeartbeatMs = positiveInteger(
+  process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS,
+  60_000,
+  "CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS",
 );
 const runRootArg = args["run-root"];
 
@@ -190,6 +196,13 @@ async function applyReviewedPreflight(action) {
 }
 
 async function runNode(commandArgs) {
+  const label = nodeCommandLabel(commandArgs);
+  const started = Date.now();
+  console.error(`${label}: started`);
+  const heartbeat = setInterval(() => {
+    console.error(`${label}: still running after ${Math.round((Date.now() - started) / 1000)}s`);
+  }, childHeartbeatMs);
+  heartbeat.unref();
   try {
     const { stdout = "", stderr = "" } = await execFileAsync(process.execPath, commandArgs, {
       cwd: repoRoot(),
@@ -204,6 +217,9 @@ async function runNode(commandArgs) {
       stdout: String(error?.stdout ?? ""),
       stderr: String(error?.stderr ?? error?.message ?? error),
     };
+  } finally {
+    clearInterval(heartbeat);
+    console.error(`${label}: finished after ${Math.round((Date.now() - started) / 1000)}s`);
   }
 }
 
@@ -235,11 +251,21 @@ function cleanupPreflightTarget(runDir) {
   fs.rmSync(path.join(runDir, "target"), { recursive: true, force: true });
 }
 
-function positiveInteger(value, fallback) {
+function positiveInteger(value, fallback, label) {
   if (value === undefined || value === null || value === "") return fallback;
   const number = Number(value);
-  if (!Number.isInteger(number) || number < 1) throw new Error("--max-prs must be a positive integer");
+  if (!Number.isInteger(number) || number < 1) throw new Error(`${label} must be a positive integer`);
   return number;
+}
+
+function nodeCommandLabel(commandArgs) {
+  const script = path.basename(String(commandArgs[0] ?? "node child"));
+  const pullRequestIndex = commandArgs.indexOf("--pr");
+  const pullRequest =
+    pullRequestIndex >= 0 && /^[1-9][0-9]*$/.test(String(commandArgs[pullRequestIndex + 1] ?? ""))
+      ? ` PR #${commandArgs[pullRequestIndex + 1]}`
+      : "";
+  return `${script}${pullRequest}`;
 }
 
 async function mapLimit(values, limit, mapper) {
