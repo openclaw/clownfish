@@ -564,7 +564,7 @@ test("apply-result pins a clean merge to the reviewed PR head", () => {
   assert.deepEqual(mergeArgs.slice(-3), ["--squash", "--match-head-commit", EXPECTED_HEAD_SHA]);
 });
 
-test("apply-result verifies an external preflight effective diff before merge", () => {
+test("apply-result allows blocked state for an exact-bound external merge", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
   const callLogPath = path.join(tmp, "gh-calls.jsonl");
@@ -574,6 +574,7 @@ test("apply-result verifies an external preflight effective diff before merge", 
   writeReadyMergeGhStub(binDir, {
     headSha: EXPECTED_HEAD_SHA,
     externalBinding: true,
+    mergeStateStatus: "BLOCKED",
   });
 
   const jobPath = path.join(tmp, "job.md");
@@ -1186,6 +1187,44 @@ test("apply-result allows unstable merge state when latest checks are clean", ()
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
   assert.equal(report.actions[0].status, "executed");
+});
+
+test("apply-result blocks generic merges in blocked state", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    mergeStateStatus: "BLOCKED",
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "merge state status is BLOCKED");
+  const ghCalls = fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+  assert.equal(ghCalls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
 });
 
 test("apply-result blocks merge targets with live merge-risk labels", () => {
