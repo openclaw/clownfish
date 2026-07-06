@@ -15,11 +15,15 @@ const DEFAULT_LOW_SIGNAL_BLOCK_LABELS = [
   "proof:*",
   "status:*ready for maintainer look",
   "status:*waiting on author",
+  "status:*needs proof",
+  "triage: needs-real-behavior-proof",
+  "triage: mock-only-proof",
   "rating:*platinum",
   "rating:*gold",
   "rating:*diamond",
   "clawsweeper:needs-*",
-  "merge-risk:*security*",
+  "maintainer",
+  "merge-risk:*",
 ];
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", owner, "inbox")));
 const mode = String(args.mode ?? "autonomous");
@@ -766,7 +770,7 @@ function classifyLowSignalCandidate(base, { body }) {
   addSignal(signals, dirtyBranchSignal(files), "dirty_branch");
   addSignal(signals, labels.includes("triage: dirty-candidate"), "dirty_branch");
 
-  const hasConcreteFix = /\b(fixes|fixes?|root cause|repro|regression|bug|problem)\b/i.test(`${base.title}\n${body}`);
+  const hasConcreteFix = /\b(fix(?:es)?|root cause|repro|regression|bug|problem)\b/i.test(`${base.title}\n${body}`);
   if (hasConcreteFix && signals.length === 1 && !signals.includes("blank_template")) {
     blockers.push("possible focused fix needs human review");
   }

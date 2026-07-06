@@ -36,6 +36,42 @@ test("low-signal import preserves repeated exclude-signal flags", { skip: hasSql
   assert.deepEqual(payload.options.excluded_signals, ["docs_only", "test_only"]);
 });
 
+test("low-signal import supports portable thread snapshots", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableLowSignalDb(fixture.db);
+
+  const result = runImport(fixture, "--require-signal", "docs_only");
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+
+  const payload = JSON.parse(result.stdout);
+  assert.deepEqual(
+    payload.candidates.map((candidate) => candidate.ref),
+    ["#990009"],
+  );
+  assert.equal(payload.candidates[0].author_association, null);
+  assert.match(payload.candidates[0].body_excerpt, /wording update/);
+});
+
+test("low-signal import live filter drops stale open rows", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableLowSignalDb(fixture.db);
+  const fakeGh = makeFakeGh(fixture, "CLOSED");
+
+  const result = runImport(
+    fixture,
+    "--require-signal",
+    "docs_only",
+    "--live-state-filter",
+    "--gh-bin",
+    fakeGh,
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+
+  const payload = JSON.parse(result.stdout);
+  assert.deepEqual(payload.candidates, []);
+  assert.equal(payload.options.live_state_filter, true);
+});
+
 test("low-signal import help does not read the candidate database", () => {
   const result = spawnSync(process.execPath, ["scripts/import-gitcrawl-low-signal-prs.mjs", "--help"], {
     cwd: repoRoot,
@@ -77,6 +113,31 @@ function makeFixture() {
   const out = path.join(root, "out");
   fs.mkdirSync(out, { recursive: true });
   return { root, db, out };
+}
+
+function makeFakeGh(fixture, state) {
+  const file = path.join(fixture.root, "gh");
+  fs.writeFileSync(
+    file,
+    `#!/usr/bin/env node
+console.log(JSON.stringify({
+  data: {
+    repository: {
+      pr990009: {
+        state: ${JSON.stringify(state)},
+        isDraft: false,
+        authorAssociation: "CONTRIBUTOR",
+        updatedAt: "2025-01-10T00:00:00Z",
+        labels: { nodes: [] },
+        assignees: { totalCount: 0 }
+      }
+    }
+  }
+}));
+`,
+  );
+  fs.chmodSync(file, 0o755);
+  return file;
 }
 
 function seedLowSignalDb(dbPath) {
@@ -169,9 +230,85 @@ ${[
     file: "docs/maintainer.md",
     authorAssociation: "MEMBER",
   },
+  {
+    id: 9,
+    number: 990009,
+    title: "docs: draft wording update",
+    labels: ["triage: low-signal-docs"],
+    file: "docs/draft.md",
+    isDraft: true,
+  },
+  {
+    id: 10,
+    number: 990010,
+    title: "docs: maintainer-labeled wording update",
+    labels: ["triage: low-signal-docs", "maintainer"],
+    file: "docs/maintainer-label.md",
+  },
+  {
+    id: 11,
+    number: 990011,
+    title: "fix: correct docs behavior",
+    labels: ["triage: low-signal-docs"],
+    file: "docs/fix.md",
+  },
 ]
   .map((row) => renderThreadInsert(row))
   .join("\n")}
+`,
+  });
+}
+
+function seedPortableLowSignalDb(dbPath) {
+  execFileSync("sqlite3", [dbPath], {
+    input: `
+create table repositories (
+  id integer primary key,
+  owner text,
+  name text
+);
+create table threads (
+  id integer primary key,
+  repo_id integer,
+  number integer,
+  kind text,
+  state text,
+  title text,
+  body_excerpt text,
+  author_login text,
+  author_type text,
+  labels_json text,
+  assignees_json text,
+  is_draft integer,
+  created_at_gh text,
+  updated_at_gh text,
+  last_pulled_at text,
+  closed_at_local text
+);
+create table pull_request_files (
+  thread_id integer,
+  path text
+);
+insert into repositories values (1, 'openclaw', 'openclaw');
+insert into threads values (
+  1,
+  1,
+  990009,
+  'pull_request',
+  'open',
+  'docs: polish portable snapshot wording',
+  'A small wording update from a portable snapshot.',
+  'contributor',
+  'User',
+  '[]',
+  '[]',
+  0,
+  '2025-01-01T00:00:00Z',
+  '2025-01-09T00:00:00Z',
+  '2025-01-09T00:00:00Z',
+  null
+);
+insert into pull_request_files values (1, 'docs/portable.md');
 `,
   });
 }
@@ -194,7 +331,7 @@ insert into threads values (
   ${sqlString(labelsJson)},
   '[]',
   ${sqlString(rawJson)},
-  0,
+  ${row.isDraft ? 1 : 0},
   '2025-01-01T00:00:00Z',
   '2025-01-0${row.id}T00:00:00Z',
   '2025-01-0${row.id}T00:00:00Z',

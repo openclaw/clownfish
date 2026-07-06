@@ -32,6 +32,8 @@ const suffix = optionalSlug(args.suffix ?? "");
 const skipExisting = args["skip-existing"] !== "false";
 const hydrateFilesLive = Boolean(args["hydrate-files-live"] ?? args.hydrate_files_live);
 const liveFileCandidateLimit = numberArg("live-file-candidate-limit", Math.max(limit * 10, 300));
+const liveStateFilter = Boolean(args["live-state-filter"] ?? args.live_state_filter);
+const liveStateCandidateLimit = numberArg("live-state-candidate-limit", Math.max(limit * 20, 200));
 const requiredSignals = signalSet(argValues(rawArgv, ["require-signal", "require_signal"], args["require-signal"] ?? args.require_signal ?? ""));
 const excludedSignals = signalSet(argValues(rawArgv, ["exclude-signal", "exclude_signal"], args["exclude-signal"] ?? args.exclude_signal ?? ""));
 const requiredLabels = labelSet(argValues(rawArgv, ["require-label", "require_label"], args["require-label"] ?? args.require_label ?? ""));
@@ -45,7 +47,7 @@ const jsonOutput = Boolean(args.json);
 
 if (args.help || args.h) {
   console.log(
-    "usage: node scripts/import-gitcrawl-low-signal-prs.mjs [--repo owner/name] [--db path] [--out dir] [--mode plan|execute|autonomous] [--limit N] [--batch-size N] [--min-score N] [--max-files N] [--sort stale|recent|score] [--suffix slug] [--dry-run] [--json]",
+    "usage: node scripts/import-gitcrawl-low-signal-prs.mjs [--repo owner/name] [--db path] [--out dir] [--mode plan|execute|autonomous] [--limit N] [--batch-size N] [--min-score N] [--max-files N] [--sort stale|recent|score] [--suffix slug] [--live-state-filter] [--live-state-candidate-limit N] [--dry-run] [--json]",
   );
   process.exit(0);
 }
@@ -59,6 +61,8 @@ if (!["stale", "recent", "score"].includes(sort)) {
   process.exit(2);
 }
 
+const threadBodyColumn = tableHasColumn("threads", "body_excerpt") ? "body_excerpt" : "body";
+const threadRawJsonColumn = tableHasColumn("threads", "raw_json") ? "raw_json" : null;
 const changedFilesSourceSql = changedFilesSource();
 const candidates = selectCandidates();
 const batches = [];
@@ -81,6 +85,8 @@ if (jsonOutput) {
           min_score: minScore,
           max_files: maxFiles,
           sort,
+          live_state_filter: liveStateFilter,
+          live_state_candidate_limit: liveStateFilter ? liveStateCandidateLimit : null,
           required_signals: [...requiredSignals],
           excluded_signals: [...excludedSignals],
           required_labels: [...requiredLabels],
@@ -106,12 +112,12 @@ function selectCandidates() {
       t.number,
       t.state,
       t.title,
-      t.body,
+      t.${threadBodyColumn} as body,
       t.author_login,
       t.author_type,
       t.labels_json,
       t.assignees_json,
-      json_extract(t.raw_json, '$.author_association') as author_association,
+      ${threadRawJsonColumn ? `json_extract(t.${threadRawJsonColumn}, '$.author_association')` : "null"} as author_association,
       t.is_draft,
       t.created_at_gh,
       t.updated_at_gh,
@@ -129,7 +135,7 @@ function selectCandidates() {
   `);
   hydrateRowsWithLiveFiles(rows);
 
-  return rows
+  const ranked = rows
     .map((row) => scoreCandidate(row))
     .filter((candidate) => !existing.has(candidate.ref))
     .filter((candidate) => candidate.score >= minScore)
@@ -138,8 +144,11 @@ function selectCandidates() {
     .filter((candidate) => requiredLabels.size === 0 || candidate.labels_normalized.some((label) => requiredLabels.has(label)))
     .filter((candidate) => !candidate.labels_normalized.some((label) => excludedLabels.has(label)))
     .filter((candidate) => candidate.files.length <= maxFiles)
-    .sort(compareCandidates)
-    .slice(0, limit);
+    .sort(compareCandidates);
+  const filtered = liveStateFilter
+    ? filterCandidatesByLiveState(ranked.slice(0, liveStateCandidateLimit))
+    : ranked;
+  return filtered.slice(0, limit);
 }
 
 function hydrateRowsWithLiveFiles(rows) {
@@ -200,6 +209,53 @@ function fetchLivePullRequestFiles(numbers) {
   return out;
 }
 
+function filterCandidatesByLiveState(candidates) {
+  const liveByNumber = fetchLivePullRequestStates(candidates.map((candidate) => candidate.number));
+  return candidates.filter((candidate) => {
+    const live = liveByNumber.get(candidate.number);
+    if (!live || live.state !== "OPEN" || live.isDraft) return false;
+    if (isMaintainerAssociated(live.authorAssociation) || live.assigneeCount > 0) return false;
+    const liveLabels = live.labels.map((label) => normalizeLabel(label));
+    if (liveLabels.includes("maintainer")) return false;
+    if (liveLabels.some((label) => blockedLabelPatterns.some((pattern) => pattern.test(label)))) return false;
+    if (hasSecuritySignalText(candidate.title, candidate.body_excerpt, live.labels)) return false;
+
+    candidate.author_association = live.authorAssociation || null;
+    candidate.updated_at = live.updatedAt || candidate.updated_at;
+    candidate.labels = live.labels;
+    candidate.labels_normalized = liveLabels;
+    return true;
+  });
+}
+
+function fetchLivePullRequestStates(numbers) {
+  const out = new Map();
+  const uniqueNumbers = unique(numbers.filter(Number.isInteger));
+  for (let index = 0; index < uniqueNumbers.length; index += 25) {
+    const batch = uniqueNumbers.slice(index, index + 25);
+    const payload = ghJson(["api", "graphql", "-f", `query=${renderPullRequestStatesQuery(batch)}`]);
+    const fatalErrors = (payload.errors ?? []).filter(
+      (error) => !/^Could not resolve to a PullRequest with the number of \d+\.$/.test(String(error.message ?? "")),
+    );
+    if (fatalErrors.length > 0) {
+      throw new Error(`GitHub GraphQL failed while filtering PR state: ${fatalErrors.map((error) => error.message).join("; ")}`);
+    }
+    for (const number of batch) {
+      const node = payload.data?.repository?.[`pr${number}`];
+      if (!node) continue;
+      out.set(number, {
+        state: String(node.state ?? "").toUpperCase(),
+        isDraft: Boolean(node.isDraft),
+        authorAssociation: String(node.authorAssociation ?? "").toUpperCase(),
+        updatedAt: node.updatedAt ?? null,
+        labels: (node.labels?.nodes ?? []).map((label) => String(label.name ?? "")).filter(Boolean),
+        assigneeCount: Number(node.assignees?.totalCount ?? 0),
+      });
+    }
+  }
+  return out;
+}
+
 function renderPullRequestFilesQuery(numbers) {
   const [owner, name] = repo.split("/");
   return `query {
@@ -218,6 +274,26 @@ ${numbers
 }`;
 }
 
+function renderPullRequestStatesQuery(numbers) {
+  const [owner, name] = repo.split("/");
+  return `query {
+  repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(name)}) {
+${numbers
+  .map(
+    (number) => `    pr${number}: pullRequest(number: ${number}) {
+      state
+      isDraft
+      authorAssociation
+      updatedAt
+      labels(first: 30) { nodes { name } }
+      assignees(first: 10) { totalCount }
+    }`,
+  )
+  .join("\n")}
+  }
+}`;
+}
+
 function scoreCandidate(row) {
   const labels = safeJson(row.labels_json);
   const assignees = safeJson(row.assignees_json);
@@ -229,10 +305,12 @@ function scoreCandidate(row) {
 
   if (isMaintainerAssociated(row.author_association))
     blockers.push(`author association is ${row.author_association}`);
+  if (Boolean(row.is_draft)) blockers.push("draft PR");
   if (assignees.length > 0) blockers.push("assigned PR");
   if (hasSecuritySignalText(title, body, labels)) blockers.push("security-sensitive text or labels");
   for (const label of labelNames(labels)) {
     const normalized = normalizeLabel(label);
+    if (normalized === "maintainer") blockers.push("maintainer-labeled PR");
     const blockedBy = blockedLabelPatterns.find((pattern) => pattern.test(normalized));
     if (blockedBy) blockers.push(`close-blocking label: ${label}`);
   }
@@ -245,7 +323,7 @@ function scoreCandidate(row) {
   addSignal(signals, riskyInfraSignal(title, files), "risky_infra");
   addSignal(signals, dirtyBranchSignal(files), "dirty_branch");
 
-  const hasConcreteFix = /\b(fixes|fixes?|root cause|repro|regression|bug|problem)\b/i.test(`${title}\n${body}`);
+  const hasConcreteFix = /\b(fix(?:es)?|root cause|repro|regression|bug|problem)\b/i.test(`${title}\n${body}`);
   if (hasConcreteFix && signals.length === 1 && !signals.includes("blank_template")) {
     blockers.push("possible focused fix needs human review");
   }
@@ -551,6 +629,14 @@ function changedFilesSource() {
 
 function tableExists(table) {
   return Number(sqliteScalar(`select count(*) from sqlite_master where type = 'table' and name = ${sqlString(table)};`)) > 0;
+}
+
+function tableHasColumn(table, column) {
+  return Number(
+    sqliteScalar(
+      `select count(*) from pragma_table_info(${sqlString(table)}) where name = ${sqlString(column)};`,
+    ),
+  ) > 0;
 }
 
 function numberArg(name, fallback) {
