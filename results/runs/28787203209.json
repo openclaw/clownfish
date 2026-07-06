@@ -1,0 +1,245 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-1020-autonomous-drip-20260706",
+  "mode": "autonomous",
+  "run_id": "28787203209",
+  "workflow_run_id": "28787203209",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28787203209",
+  "head_sha": "dbd4be48464810075ab27c5b56a5e7e1fc4353c9",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T11:09:23Z",
+  "workflow_updated_at": "2026-07-06T11:20:38Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/gitcrawl-1020-autonomous-drip-20260706.md",
+  "published_at": "2026-07-06T11:21:18.547Z",
+  "canonical": "https://github.com/openclaw/openclaw/issues/87314",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/87314",
+  "canonical_pr": null,
+  "summary": "Classified the hydrated open candidates as an over-broad gateway stability cluster with separate surviving canonical lanes. #87314 remains the closest remaining memory-growth canonical after excluded #54155, #75852 and #89785 remain separate Telegram/channel reliability canonicals, #94476 has a narrow executable replacement-fix path using #94488 only as credited non-security prior art, blocked-lineage PRs #95511 and #95517 are kept related and excluded from executable repair lineage, and security-sensitive #94492 is routed only to central security handling.",
+  "actions": [
+    {
+      "target": "#87314",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#87314",
+      "candidate_fix": null,
+      "reason": "Keep open as the remaining memory-growth canonical; exact repair ownership still needs maintainer decision rather than a narrow automated fix."
+    },
+    {
+      "target": "#75852",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#75852",
+      "candidate_fix": null,
+      "reason": "Keep open as a separate Telegram polling self-conflict canonical, not a duplicate of the memory-growth/file-read lane."
+    },
+    {
+      "target": "#89785",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#89785",
+      "candidate_fix": null,
+      "reason": "Keep open as the canonical health-monitor restart-cascade lane; no mergeable candidate or narrow automated closure exists in this cluster."
+    },
+    {
+      "target": "#95511",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94476",
+      "candidate_fix": null,
+      "reason": "Blocked repair-lineage ref; keep related for audit evidence only."
+    },
+    {
+      "target": "#95517",
+      "action": "keep_related",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#94476",
+      "candidate_fix": null,
+      "reason": "Blocked repair-lineage ref; keep related for audit evidence only."
+    },
+    {
+      "target": "#94476",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#94476",
+      "candidate_fix": null,
+      "reason": "A narrow replacement fix PR is appropriate because the bug has source-level proof and no open viable non-security PR remains."
+    },
+    {
+      "target": "cluster:gitcrawl-1020-autonomous-drip-20260706",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#94476",
+      "candidate_fix": null,
+      "reason": "One narrow executable artifact covers the PortGuardian launchd Node gateway matcher gap without broadening the cluster."
+    },
+    {
+      "target": "#94492",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive exact ref must be quarantined without poisoning unrelated non-security classification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 3,
+    "keep_related": 2,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 6,
+    "skipped": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [
+    "#87314: decide whether the remaining bug should be owned by the scheduled memory/CORE.md producer, generic read-tool directory behavior, or the broader gateway memory-leak investigation before a narrow fix PR is safe.",
+    "#89785: decide the desired health-monitor restart-cascade fix shape after the prior global event-loop gate in #92767 was closed as too broad."
+  ],
+  "repair_candidate": {
+    "target": "#94488",
+    "source_refs": [
+      "#94488",
+      "#94476",
+      "#87314",
+      "#1",
+      "#28375",
+      "#46347",
+      "#48425",
+      "#79892",
+      "#84823",
+      "#85788",
+      "#86564",
+      "#88514",
+      "#89816",
+      "#91997",
+      "#92767",
+      "#93378",
+      "#93948",
+      "#94016",
+      "#94492",
+      "#95511"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Open a narrow replacement PR for #94476 so macOS PortGuardian preserves a valid launchd-managed Node gateway command line containing the OpenClaw dist entrypoint and `gateway` subcommand, with focused Swift regression coverage and contributor credit from safe prior non-security attempt #94488.",
+    "pr_title": "fix(macos): preserve launchd Node gateway in PortGuardian",
+    "pr_body": "## What Problem This Solves\n\nFixes #94476. On macOS, PortGuardian can terminate a valid launchd-managed local Gateway when `ps` reports the runtime command line, for example `node .../openclaw/dist/index.js gateway --port 18789`, instead of the expected process title.\n\n## Why This Change Was Made\n\nThe fix should add a conservative local-mode matcher for OpenClaw gateway entrypoint command lines and keep the older process-title checks intact. This replaces the closed, uneditable non-security attempt #94488 while carrying attribution forward: #94488 by @lsr911 is credited as the source PR for the earlier Homebrew Node/git checkout gateway allowlist approach.\n\n## User Impact\n\nA valid macOS launchd Gateway should no longer be killed mid-turn solely because it is shown as a Homebrew Node or git-checkout `dist/index.js gateway` process.\n\n## Evidence\n\nPlanned validation: `pnpm check:changed`, focused Swift matcher coverage for the Node dist Gateway command, and macOS launchd/PortGuardian behavior proof if available before merge. Security-sensitive #94492 is intentionally excluded from this replacement lineage and routed separately. Blocked-lineage PRs #95511 and #95517 are also intentionally excluded from this replacement lineage because deterministic validation reports blocked `merge-risk: 🚨 availability` labels for both refs.",
+    "likely_files": [
+      "apps/macos/Sources/OpenClaw/PortGuardian.swift",
+      "apps/macos/Tests/OpenClawIPCTests/PortGuardianIsExpectedTests.swift",
+      "CHANGELOG.md"
+    ],
+    "validation_commands": [
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @lsr911 for https://github.com/openclaw/openclaw/pull/94488 as an earlier Homebrew Node/git checkout gateway allowlist attempt.",
+      "Do not use #94492 as a source PR in the replacement lineage because the hydrated preflight marks it security-sensitive and routes it separately.",
+      "Do not use #95511 or #95517 as source PRs in the replacement lineage because deterministic validation reports blocked `merge-risk: 🚨 availability` labels for both refs."
+    ],
+    "source_job": "jobs/openclaw/inbox/gitcrawl-1020-autonomous-drip-20260706.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#94492"
+    ],
+    "needs_human": [
+      "#87314: decide whether the remaining bug should be owned by the scheduled memory/CORE.md producer, generic read-tool directory behavior, or the broader gateway memory-leak investigation before a narrow fix PR is safe.",
+      "#89785: decide the desired health-monitor restart-cascade fix shape after the prior global event-loop gate in #92767 was closed as too broad."
+    ],
+    "repair_status": "opened",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/100867",
+      "branch": "clownfish/gitcrawl-1020-autonomous-drip-20260706",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "55a6d2da1f5d92ffef65c3728d852b3d86890236",
+      "checkpoint_commits": [
+        "b53ce0637a0804a03cc7ac448658cbe79a38c275"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/100867"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#100867",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(macos): preserve launchd Node gateway in PortGuardian",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge_preflight base_sha does not match live pull request base",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#100867",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": "fix(macos): preserve launchd Node gateway in PortGuardian",
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "merge_preflight base_sha does not match live pull request base",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
