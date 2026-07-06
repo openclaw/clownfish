@@ -250,6 +250,67 @@ test("prune-inbox offline mode preserves unresolved jobs", () => {
   assert.equal(fs.existsSync(unresolvedPath), true);
 });
 
+test("prune-inbox finds publisher-normalized results without breaking exact-case results", (t) => {
+  const fixtureOwner = `queue-prune-case-${process.pid}-${Date.now()}`;
+  const fixtureRoot = path.join(repoRoot, "jobs", fixtureOwner);
+  const inbox = path.join(fixtureRoot, "inbox");
+  const finalized = path.join(fixtureRoot, "outbox", "finalized");
+  const resultDir = path.join(repoRoot, "results", fixtureOwner);
+  const mixedClusterId = "live-pr-inventory-20260706T132334-004";
+  const exactClusterId = "existing-Exact-Case-result";
+  const mixedJob = path.join(inbox, "mixed-case.md");
+  const exactJob = path.join(inbox, "exact-case.md");
+  fs.mkdirSync(inbox, { recursive: true });
+  fs.mkdirSync(resultDir, { recursive: true });
+  t.after(() => {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
+    fs.rmSync(resultDir, { recursive: true, force: true });
+  });
+  writeJob(mixedJob, {
+    clusterId: mixedClusterId,
+    mode: "autonomous",
+    refs: ["#1", "#2"],
+  });
+  writeJob(exactJob, {
+    clusterId: exactClusterId,
+    mode: "autonomous",
+    refs: ["#3", "#4"],
+  });
+  fs.writeFileSync(path.join(resultDir, "live-pr-inventory-20260706t132334-004.md"), "# mixed-case result\n");
+  fs.writeFileSync(path.join(resultDir, `${exactClusterId}.md`), "# exact-case result\n");
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      "scripts/prune-inbox-jobs.mjs",
+      "--inbox",
+      inbox,
+      "--owner",
+      fixtureOwner,
+      "--live",
+      "false",
+      "--write",
+      "--json",
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.summary.already_resulted, 2);
+  assert.equal(payload.summary.movable, 2);
+  const rowsByCluster = new Map(payload.rows.map((row) => [row.cluster_id, row]));
+  assert.equal(
+    rowsByCluster.get(mixedClusterId).result,
+    `results/${fixtureOwner}/live-pr-inventory-20260706t132334-004.md`,
+  );
+  assert.equal(rowsByCluster.get(exactClusterId).result, `results/${fixtureOwner}/${exactClusterId}.md`);
+  assert.equal(fs.existsSync(mixedJob), false);
+  assert.equal(fs.existsSync(exactJob), false);
+  assert.equal(fs.existsSync(path.join(finalized, "mixed-case.md")), true);
+  assert.equal(fs.existsSync(path.join(finalized, "exact-case.md")), true);
+});
+
 test("prune-inbox keeps a positional job path after --write", () => {
   const fixture = makeFixture();
   const targetPath = path.join(fixture.inbox, "target-example.md");

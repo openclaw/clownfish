@@ -13,6 +13,8 @@ const live = args.live !== false && args.live !== "false";
 const limit = numberArg("limit", 0);
 const files = args._.length > 0 ? args._.map((file) => path.resolve(file)) : listJobFiles(inboxDir);
 const selectedFiles = limit > 0 ? files.slice(0, limit) : files;
+const resultDir = path.join(repoRoot(), "results", owner);
+const resultNames = new Set(fs.existsSync(resultDir) ? fs.readdirSync(resultDir) : []);
 const parsedJobs = selectedFiles.map((file) => {
   const job = parseJob(file);
   const fm = job.frontmatter;
@@ -30,12 +32,12 @@ const rows = [];
 
 for (const entry of parsedJobs) {
   const { job, fm, candidates, canonical, resultPath } = entry;
-  const exactResultExists = fs.existsSync(resultPath);
-  const statuses = exactResultExists ? {} : (statusesByRepo.get(fm.repo) ?? {});
+  const resultExists = Boolean(resultPath);
+  const statuses = resultExists ? {} : (statusesByRepo.get(fm.repo) ?? {});
   const openCandidates = candidates.filter((ref) => isOpenRef(statuses[ref]));
   const closedCandidates = candidates.filter((ref) => statuses[ref] && !isOpenRef(statuses[ref]));
   const closedCanonical = canonical.filter((ref) => statuses[ref] && !isOpenRef(statuses[ref]));
-  const action = classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical, live });
+  const action = classify({ fm, resultExists, candidates, openCandidates, closedCanonical, live });
   const destination = destinationFor(job, action);
   rows.push({
     job: job.relativePath,
@@ -44,7 +46,7 @@ for (const entry of parsedJobs) {
     mode: fm.mode,
     action,
     destination,
-    result: exactResultExists ? path.relative(repoRoot(), resultPath) : null,
+    result: resultExists ? path.relative(repoRoot(), resultPath) : null,
     candidates,
     open_candidates: openCandidates,
     closed_candidates: closedCandidates,
@@ -81,9 +83,9 @@ if (json) {
   }
 }
 
-function classify({ fm, exactResultExists, candidates, openCandidates, closedCanonical, live }) {
+function classify({ fm, resultExists, candidates, openCandidates, closedCanonical, live }) {
   if (isExampleJobId(fm.cluster_id)) return "example";
-  if (exactResultExists) return "already_resulted";
+  if (resultExists) return "already_resulted";
   if (live && candidates.length > 0 && openCandidates.length === 0) return "all_candidates_closed";
   if (fm.mode === "plan" && openCandidates.length === 1) return "single_open_candidate";
   if (closedCanonical.length > 0 && openCandidates.length > 1) return "needs_recanonicalize";
@@ -117,13 +119,24 @@ function listJobFiles(directory) {
 }
 
 function resultFilePath(clusterId) {
-  return path.join(repoRoot(), "results", owner, `${clusterId}.md`);
+  const exactName = `${clusterId}.md`;
+  if (resultNames.has(exactName)) return path.join(resultDir, exactName);
+  const publishedName = `${publishedResultSlug(clusterId)}.md`;
+  return resultNames.has(publishedName) ? path.join(resultDir, publishedName) : null;
+}
+
+function publishedResultSlug(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9_.-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 120) || "unknown";
 }
 
 function fetchAllStatuses(entries) {
   const refsByRepo = new Map();
   for (const entry of entries) {
-    if (fs.existsSync(entry.resultPath)) continue;
+    if (entry.resultPath) continue;
     const refs = refsByRepo.get(entry.fm.repo) ?? new Set();
     for (const ref of [...entry.candidates, ...entry.clusterRefs]) refs.add(ref);
     refsByRepo.set(entry.fm.repo, refs);
