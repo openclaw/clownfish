@@ -61,6 +61,27 @@ test("sweep-openclaw-jobs finalizes jobs whose target refs are all closed", () =
   assert.equal(fs.existsSync(path.join(fixture.inbox, "mixed.md")), true);
 });
 
+test("sweep-openclaw-jobs finalizes security-sensitive jobs whose target refs are all closed", () => {
+  const fixture = makeFixture();
+  writeJob(path.join(fixture.inbox, "closed-security.md"), {
+    clusterId: "closed-security-cluster",
+    canonical: ["#5"],
+    candidates: ["#5"],
+    clusterRefs: ["#5"],
+    body: "# Test Job\n\nSecurity review required.",
+  });
+
+  const liveRefReport = path.join(fixture.root, "live-refs.json");
+  fs.writeFileSync(liveRefReport, `${JSON.stringify({ refs: [liveRef(5, "CLOSED")] }, null, 2)}\n`);
+
+  const applied = sweep(fixture, liveRefReport, "--apply-outbox");
+  assert.equal(applied.status, 0, applied.stderr || applied.stdout);
+  const report = JSON.parse(fs.readFileSync(fixture.report, "utf8"));
+  assert.equal(report.totals.move_to_outbox, 1);
+  assert.equal(report.totals.security_hold ?? 0, 0);
+  assert.equal(fs.existsSync(path.join(fixture.outbox, "closed-security.md")), true);
+});
+
 test("sweep-openclaw-jobs uses newest run id when published_at is absent", () => {
   const fixture = makeFixture();
   writeJob(path.join(fixture.inbox, "blocked.md"), {
@@ -252,7 +273,7 @@ function makeFixture() {
   return { root, inbox, outbox, stuck, runs, report };
 }
 
-function writeJob(filePath, { clusterId, canonical, candidates, clusterRefs }) {
+function writeJob(filePath, { clusterId, canonical, candidates, clusterRefs, body = "# Test Job" }) {
   fs.writeFileSync(
     filePath,
     `---
@@ -279,7 +300,7 @@ allow_merge: false
 security_sensitive: false
 ---
 
-# Test Job
+${body}
 `,
   );
 }
