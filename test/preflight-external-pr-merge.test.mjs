@@ -72,6 +72,9 @@ test("cluster worker chains blocked merge candidates through external preflight"
     /for \(const action of reviewedActions\) \{\s*report\.actions\.push\(await applyReviewedPreflight\(action\)\);\s*\}/,
   );
   assert.match(runnerScript, /const execFileAsync = promisify\(execFile\)/);
+  assert.match(runnerScript, /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS/);
+  assert.match(runnerScript, /still running after/);
+  assert.match(runnerScript, /clearInterval\(heartbeat\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
   assert.match(
     clusterWorkflow,
