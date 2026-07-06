@@ -345,7 +345,7 @@ test("external merge preflight tolerates ready ClawSweeper docs reviews without 
   assert.equal(report.status, "passed");
 });
 
-test("external merge preflight tolerates author take-a-look status comments", () => {
+test("external merge preflight lets an exact-head ready review cover earlier author status comments", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
     pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
@@ -354,10 +354,7 @@ test("external merge preflight tolerates author take-a-look status comments", ()
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-06-18T00:00:00Z",
-        body: [
-          "This one and #456 are the remaining two, both with regression tests and ClawSweeper approval.",
-          "Would you mind taking a look when you have a chance? Thanks!",
-        ].join("\n"),
+        body: ["Ready for review.", "Thanks!"].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
       {
@@ -375,13 +372,6 @@ test("external merge preflight tolerates author take-a-look status comments", ()
           "<!-- clawsweeper-review item=123 -->",
         ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
-      },
-      {
-        author: { login: "maintainer" },
-        authorAssociation: "MEMBER",
-        createdAt: "2026-06-18T02:00:00Z",
-        body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
-        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
       },
     ],
   });
@@ -404,7 +394,7 @@ test("external merge preflight tolerates author take-a-look status comments", ()
   assert.equal(report.status, "passed", report.reason);
 });
 
-test("external merge preflight tolerates author explanations and superseded dependency notices", () => {
+test("external merge preflight lets an exact-head ready review cover earlier author progress evidence", () => {
   const fixture = makeFixture({
     pullUser: { login: "contributor" },
     pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
@@ -413,14 +403,14 @@ test("external merge preflight tolerates author explanations and superseded depe
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-06-18T00:00:00Z",
-        body: "This fixes the installer signal handling bug and includes the exact reproduction steps.",
+        body: "Changes made.",
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
       {
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-06-18T00:30:00Z",
-        body: "### Update: dashboard gating fix + existing-config doctor guard",
+        body: "Tests are passing.",
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1a",
       },
       {
@@ -437,7 +427,7 @@ test("external merge preflight tolerates author explanations and superseded depe
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
         createdAt: "2026-06-18T02:00:00Z",
-        body: "Rebased onto current `main`. The Dependency Guard check should pass now.",
+        body: ["Rebased onto current `main`.", "The Dependency Guard check should pass now."].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
       },
       {
@@ -455,13 +445,6 @@ test("external merge preflight tolerates author explanations and superseded depe
           "<!-- clawsweeper-review item=123 -->",
         ].join("\n"),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-4",
-      },
-      {
-        author: { login: "maintainer" },
-        authorAssociation: "MEMBER",
-        createdAt: "2026-06-19T02:00:00Z",
-        body: `<!-- clownfish-author-evidence-approved sha=${"a".repeat(40)} -->`,
-        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-5",
       },
     ],
   });
@@ -639,6 +622,269 @@ test("external merge preflight blocks author prose without a trusted exact-head 
     const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
     assert.equal(report.status, "blocked", body);
     assert.match(report.reason, /actionable top-level issue comment/, body);
+  }
+});
+
+test("external merge preflight blocks author progress newer than the exact-head ready review", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: "Updated the proof and tests after the review.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight never lets a ready review suppress an author security concern", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: "Updated the patch, but this may expose an API token.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /security-sensitive signal/);
+});
+
+test("external merge preflight never lets a ready review suppress author withdrawal", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: "Updated the patch, but I withdraw this PR for now.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks unknown prose appended to a review request", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T00:00:00Z",
+        body: "@clawsweeper re-review\nUpdate: I retract this submission.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        createdAt: "2026-06-18T01:00:00Z",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight rejects malformed exact-head ready review approvals", () => {
+  for (const marker of [
+    `<!-- clawsweeper-verdict:needs-human item=123 sha=${"b".repeat(40)} confidence=high -->`,
+    `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=medium -->`,
+    `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high confidence =low -->`,
+    [
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+    ].join("\n"),
+    [
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high`,
+    ].join("\n"),
+    [
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+      `<!-- clawsweeper-action:fix-required item=123 sha=${"a".repeat(40)} confidence=high -->`,
+    ].join("\n"),
+  ]) {
+    const fixture = makeFixture({
+      pullUser: { login: "contributor" },
+      pullLabels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      issueComments: [
+        {
+          author: { login: "contributor" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T00:00:00Z",
+          body: "Updated the proof and tests.",
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+        },
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          createdAt: "2026-06-18T01:00:00Z",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Review metrics:** none identified.",
+            "Result: ready for maintainer review.",
+            "",
+            marker,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+        },
+      ],
+    });
+    const child = spawnSync(
+      process.execPath,
+      ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+          CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        },
+      },
+    );
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+
+    const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+    assert.equal(report.status, "blocked", marker);
+    assert.match(report.reason, /actionable top-level issue comment/, marker);
   }
 });
 
@@ -1343,7 +1589,7 @@ if (args[0] === "api" && args[1].endsWith("/issues/123")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
-  console.log(JSON.stringify({ state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  console.log(JSON.stringify({ number: 123, state: "open", draft: false, title: "fix: fixture", body: "", html_url: "https://github.com/openclaw/openclaw/pull/123", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, user: ${JSON.stringify(pullUser)}, head: { sha: head, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
