@@ -105,6 +105,15 @@ function classifyJob(jobPath) {
   if (isExampleJob(job)) {
     return { ...row, status: "keep", reason: "example job is referenced by local run docs" };
   }
+  if (
+    openPrs.length === 0 &&
+    verifyTargetRefsLive &&
+    row.live_target_refs_total > 0 &&
+    row.live_target_refs_missing === 0 &&
+    row.live_target_refs_open === 0
+  ) {
+    return { ...row, status: "move_to_outbox", reason: "all target issue/PR refs are closed in live GitHub state" };
+  }
   if (job.frontmatter.security_sensitive === true || hasSecuritySignalText(job.raw)) {
     return { ...row, status: "security_hold", reason: "security-sensitive job stays out of automation cleanup" };
   }
@@ -116,11 +125,6 @@ function classifyJob(jobPath) {
   }
   if (latest && latestOpenedFixPrsAreMerged(latest, liveFixPrs)) {
     return { ...row, status: "move_to_outbox", reason: "opened Clownfish fix PR is merged in live GitHub state" };
-  }
-  if (verifyTargetRefsLive && row.live_target_refs_total > 0 && row.live_target_refs_missing === 0) {
-    if (row.live_target_refs_open === 0) {
-      return { ...row, status: "move_to_outbox", reason: "all target issue/PR refs are closed in live GitHub state" };
-    }
   }
   if (isTestJob(job) && latest) {
     return { ...row, status: "delete_test_job", reason: "old smoke/test job has a published result and no open clownfish PR" };
