@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-98821-d7b750250273"
 mode: "autonomous"
-run_id: "28800020113"
-workflow_run_id: "28800020113"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28800020113"
-head_sha: "8bf4b449ed7751aa48b309c6cc266a49b145e0b3"
+run_id: "28801953452"
+workflow_run_id: "28801953452"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28801953452"
+head_sha: "bca60eaeaad18b4b979da91f611fb01b5bf1868c"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-06T14:45:24.646Z"
+published_at: "2026-07-06T15:14:43.910Z"
 canonical: "https://github.com/openclaw/openclaw/pull/98821"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/98821"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28800020113](https://github.com/openclaw/clownfish/actions/runs/28800020113)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28801953452](https://github.com/openclaw/clownfish/actions/runs/28801953452)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/98821
 
 ## Summary
 
-External merge preflight blocked: PR has 3 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/98821#issuecomment-4861354589, https://github.com/openclaw/openclaw/pull/98821#issuecomment-4880518218, https://github.com/openclaw/openclaw/pull/98821#issuecomment-4887405035
+External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/98821#issuecomment-4887405035
 
 ## Impact
 
