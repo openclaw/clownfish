@@ -7,16 +7,90 @@ import test from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
-test("codex result schema requires every action property for strict response formatting", () => {
+test("codex result schema requires every object property for strict response formatting", () => {
   const schema = JSON.parse(fs.readFileSync(path.join(repoRoot, "schemas/codex-result.schema.json"), "utf8"));
-  const actionSchema = schema.properties.actions.items;
+  const failures = [];
 
-  assert.deepEqual(
-    [...actionSchema.required].sort(),
-    Object.keys(actionSchema.properties).sort(),
-    "OpenAI strict response schemas require every action property to be listed in required",
-  );
+  visitStrictObjects(schema, "$", failures);
+
+  assert.deepEqual(failures, []);
 });
+
+test("strict schema guard covers definitions, nullable objects, and exact required keys", () => {
+  const failures = [];
+
+  visitStrictObjects(
+    {
+      $defs: {
+        nested: {
+          type: ["object", "null"],
+          properties: {
+            value: { type: "string" },
+          },
+          required: ["stale", "value"],
+          additionalProperties: true,
+        },
+      },
+    },
+    "$",
+    failures,
+  );
+
+  assert.deepEqual(failures, [
+    "$.$defs.nested: additionalProperties must be false",
+    '$.$defs.nested: required properties ["stale","value"] do not match ["value"]',
+  ]);
+});
+
+function visitStrictObjects(schema, schemaPath, failures) {
+  if (!schema || typeof schema !== "object") return;
+
+  const types = Array.isArray(schema.type) ? schema.type : [schema.type];
+  if (types.includes("object") || Object.hasOwn(schema, "properties")) {
+    if (schema.additionalProperties !== false) {
+      failures.push(`${schemaPath}: additionalProperties must be false`);
+    }
+    const properties = Object.keys(schema.properties ?? {}).sort();
+    const required = [...(schema.required ?? [])].sort();
+    if (!Array.isArray(schema.required) || JSON.stringify(required) !== JSON.stringify(properties)) {
+      failures.push(
+        `${schemaPath}: required properties ${JSON.stringify(required)} do not match ${JSON.stringify(properties)}`,
+      );
+    }
+  }
+
+  for (const key of ["properties", "$defs", "definitions", "patternProperties", "dependentSchemas"]) {
+    const value = schema[key];
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      for (const [property, propertySchema] of Object.entries(value)) {
+        visitStrictObjects(propertySchema, `${schemaPath}.${key}.${property}`, failures);
+      }
+    }
+  }
+  for (const key of [
+    "items",
+    "contains",
+    "not",
+    "if",
+    "then",
+    "else",
+    "propertyNames",
+    "unevaluatedProperties",
+  ]) {
+    const value = schema[key];
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      visitStrictObjects(value, `${schemaPath}.${key}`, failures);
+    }
+  }
+  for (const key of ["allOf", "anyOf", "oneOf", "prefixItems"]) {
+    const value = schema[key];
+    if (Array.isArray(value)) {
+      value.forEach((nestedSchema, index) => {
+        visitStrictObjects(nestedSchema, `${schemaPath}.${key}[${index}]`, failures);
+      });
+    }
+  }
+}
 
 test("review-results fails worker infrastructure auth blocks", () => {
   const dir = makeResultDir({
