@@ -118,7 +118,7 @@ try {
       expectedSnapshot: reviewContext.preToolchainSnapshot,
       expectedEntries: reviewContext.expectedTreeEntries,
       phase: "target toolchain preparation",
-      allowGitConfigChanges: true,
+      allowToolchainGitConfigChange: true,
     }),
   );
   validationCommands = stage("target validation", () =>
@@ -747,16 +747,22 @@ function verifySyntheticReviewCheckout({
   expectedSnapshot,
   expectedEntries,
   phase,
-  allowGitConfigChanges = false,
+  allowToolchainGitConfigChange = false,
 }) {
   const actualSnapshot = syntheticReviewCheckoutSnapshot(targetDir);
+  const toolchainConfigChangeAllowed =
+    allowToolchainGitConfigChange &&
+    isAllowedToolchainGitConfigChange(expectedSnapshot.gitConfig, actualSnapshot.gitConfig);
   const mismatchedFields = [
     ["head", expectedSnapshot.head, actualSnapshot.head],
     ["tree", expectedSnapshot.tree, actualSnapshot.tree],
     ["parent", expectedSnapshot.parent, actualSnapshot.parent],
     ["config", expectedSnapshot.gitConfig.sha256, actualSnapshot.gitConfig.sha256],
   ]
-    .filter(([field, expected, actual]) => expected !== actual && !(field === "config" && allowGitConfigChanges))
+    .filter(
+      ([field, expected, actual]) =>
+        expected !== actual && !(field === "config" && toolchainConfigChangeAllowed),
+    )
     .map(([field]) => field);
   if (mismatchedFields.length > 0) {
     const changedKeys = changedGitConfigKeys(expectedSnapshot.gitConfig, actualSnapshot.gitConfig);
@@ -848,14 +854,20 @@ function gitBlobSha(bytes) {
 function gitIntegrityEnv() {
   return {
     ...process.env,
+    GIT_ALLOW_PROTOCOL: "https:ssh",
+    GIT_CONFIG_COUNT: "2",
     GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_KEY_0: "core.hooksPath",
+    GIT_CONFIG_KEY_1: "protocol.ext.allow",
     GIT_CONFIG_NOSYSTEM: "1",
+    GIT_CONFIG_VALUE_0: "/dev/null",
+    GIT_CONFIG_VALUE_1: "never",
     GIT_NO_REPLACE_OBJECTS: "1",
   };
 }
 
 function localGitConfigSnapshot(cwd) {
-  const config = run("git", ["config", "--local", "--list", "--null"], {
+  const config = run("git", ["config", "--local", "--includes", "--list", "--null"], {
     cwd,
     env: gitIntegrityEnv(),
     maxBuffer: 1024 * 1024,
@@ -872,6 +884,7 @@ function localGitConfigSnapshot(cwd) {
   }
   return {
     sha256: createHash("sha256").update(config).digest("hex"),
+    valueFingerprints: keyValues,
     keyFingerprints: new Map(
       [...keyValues].map(([key, valueHashes]) => [
         key,
@@ -881,12 +894,29 @@ function localGitConfigSnapshot(cwd) {
   };
 }
 
-function changedGitConfigKeys(expected, actual) {
+function changedGitConfigRawKeys(expected, actual) {
   const keys = new Set([...expected.keyFingerprints.keys(), ...actual.keyFingerprints.keys()]);
   return [...keys]
     .filter((key) => expected.keyFingerprints.get(key) !== actual.keyFingerprints.get(key))
+    .sort();
+}
+
+function changedGitConfigKeys(expected, actual) {
+  return changedGitConfigRawKeys(expected, actual)
     .map(safeGitConfigKey)
     .sort();
+}
+
+function isAllowedToolchainGitConfigChange(expected, actual) {
+  const changedKeys = changedGitConfigRawKeys(expected, actual);
+  if (changedKeys.length !== 1 || changedKeys[0] !== "core.hookspath") {
+    return false;
+  }
+  const values = actual.valueFingerprints.get("core.hookspath") ?? [];
+  return (
+    values.length === 1 &&
+    values[0] === createHash("sha256").update("git-hooks").digest("hex")
+  );
 }
 
 function safeGitConfigKey(key) {
