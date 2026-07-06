@@ -564,7 +564,12 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     };
   }
 
-  const mergeBlock = validateMergeablePullRequest({ pullRequest, view });
+  const externalMergeAction = isExternalMergeAction(action);
+  const mergeBlock = validateMergeablePullRequest({
+    pullRequest,
+    view,
+    allowBlocked: externalMergeAction,
+  });
   if (mergeBlock) {
     return {
       ...base,
@@ -608,7 +613,12 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       base_drift_proof: effectiveDiffBinding.base_drift_proof ?? null,
     };
   }
-  const currentBaseBlock = validatePullRequestCurrentBase({ repo: result.repo, pullRequest, view });
+  const currentBaseBlock = validatePullRequestCurrentBase({
+    repo: result.repo,
+    pullRequest,
+    view,
+    allowBlocked: externalMergeAction,
+  });
   if (currentBaseBlock) {
     return {
       ...base,
@@ -704,6 +714,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     const checkedMergeBlock = validateMergeablePullRequest({
       pullRequest: checkedPull,
       view: checkedView,
+      allowBlocked: externalMergeAction,
     });
     const checkedPreflightBlock = validateMergePreflight({
       result,
@@ -1600,7 +1611,7 @@ function validateReplacementCloseout({ result, actionName, target }) {
   return "replacement PR closeout is handled by execute-fix after the replacement branch is pushed";
 }
 
-function validateMergeablePullRequest({ pullRequest, view }) {
+function validateMergeablePullRequest({ pullRequest, view, allowBlocked = false }) {
   if (pullRequest.state !== "open") return `pull request is ${pullRequest.state}`;
   if (pullRequest.draft || view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? pullRequest.base?.ref ?? "") !== "main") return "pull request base is not main";
@@ -1610,13 +1621,13 @@ function validateMergeablePullRequest({ pullRequest, view }) {
   }
   const checkBlock = validateStatusChecks(view.statusCheckRollup ?? []);
   if (checkBlock) return checkBlock;
-  if (!isAcceptableMergeState(view)) {
+  if (!isAcceptableMergeState(view, { allowBlocked })) {
     return `merge state status is ${view.mergeStateStatus || "unknown"}`;
   }
   return "";
 }
 
-function validatePullRequestCurrentBase({ repo, pullRequest, view }) {
+function validatePullRequestCurrentBase({ repo, pullRequest, view, allowBlocked = false }) {
   const pullRequestBaseSha = String(pullRequest?.base?.sha ?? "");
   const currentMainSha = fetchBranchHeadSha(repo, "main");
   if (!pullRequestBaseSha || !currentMainSha) {
@@ -1627,7 +1638,11 @@ function validatePullRequestCurrentBase({ repo, pullRequest, view }) {
     };
   }
   if (pullRequestBaseSha !== currentMainSha) {
-    if (view?.mergeable === "MERGEABLE" && isAcceptableMergeState(view) && !validateStatusChecks(view.statusCheckRollup ?? [])) {
+    if (
+      view?.mergeable === "MERGEABLE" &&
+      isAcceptableMergeState(view, { allowBlocked }) &&
+      !validateStatusChecks(view.statusCheckRollup ?? [])
+    ) {
       return null;
     }
     return {
@@ -1654,10 +1669,13 @@ function validateStatusChecks(checks) {
   return "";
 }
 
-function isAcceptableMergeState(view) {
+function isAcceptableMergeState(view, { allowBlocked = false } = {}) {
   const state = String(view.mergeStateStatus ?? "");
   if (CLEAN_MERGE_STATES.has(state)) return true;
-  return state === "UNSTABLE" && view.mergeable === "MERGEABLE" && !validateStatusChecks(view.statusCheckRollup ?? []);
+  if (state !== "UNSTABLE" && !(allowBlocked && state === "BLOCKED")) return false;
+  // A required clownfish/exact-merge check makes GitHub report BLOCKED until
+  // an external applicator publishes the exact-head authorization.
+  return view.mergeable === "MERGEABLE" && !validateStatusChecks(view.statusCheckRollup ?? []);
 }
 
 function latestStatusChecks(checks) {

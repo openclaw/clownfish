@@ -418,6 +418,25 @@ test("external merge preflight polls transient unknown mergeability", () => {
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight accepts blocked state before exact-check authorization", () => {
+  const fixture = makeFixture({
+    mergeStateStatus: "BLOCKED",
+    statusCheckRollup: [
+      {
+        name: "CI",
+        workflowName: "CI",
+        status: "COMPLETED",
+        conclusion: "SUCCESS",
+        completedAt: "2026-07-06T20:25:00Z",
+      },
+    ],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
+});
+
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
     mergeStateStatus: "UNSTABLE",
