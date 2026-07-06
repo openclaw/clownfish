@@ -588,7 +588,9 @@ function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullReques
           "Fresh deterministic security scan found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
         ],
         comments_status: "resolved",
-        comments_evidence: ["Fresh GitHub hydration found zero top-level issue comments, zero inline review comments, and zero unresolved review threads."],
+        comments_evidence: [
+          "Fresh GitHub hydration found no actionable top-level or inline comments and no unresolved review threads.",
+        ],
         bot_comments_status: "resolved",
         bot_comments_evidence: ["Fresh GitHub hydration found zero review-bot comments or review bodies requiring follow-up."],
         codex_review: {
@@ -689,7 +691,7 @@ function isActionableCommentEvidence(comment, { pull }) {
     );
   }
 
-  return hasActionableCommentConcern(body);
+  return Boolean(body);
 }
 
 function isNonBlockingCommentEvidence(comment, { pull }) {
@@ -700,7 +702,9 @@ function isNonBlockingCommentEvidence(comment, { pull }) {
   const normalized = body.toLowerCase();
 
   if (isBenignAutomationComment({ author, body: normalized, pull })) return true;
+  if (String(comment.state ?? "").toUpperCase() === "APPROVED") return true;
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
+  if (isMaintainerApprovalComment({ association, body: normalized })) return true;
   if (isReviewRequestComment(normalized)) return true;
 
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
@@ -747,6 +751,13 @@ function isMaintainerCommandComment({ association, body }) {
   return (
     ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
     (/^\/(?:clownfish|clawsweeper)\b/.test(body) || /^<!--\s*(?:clownfish|clawsweeper)-command:/.test(body))
+  );
+}
+
+function isMaintainerApprovalComment({ association, body }) {
+  return (
+    ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
+    /^(?:lgtm|looks good(?: to me)?|approved|ship it|:\+1:|👍)[.! ]*$/.test(body)
   );
 }
 

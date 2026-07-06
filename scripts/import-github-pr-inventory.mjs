@@ -34,7 +34,7 @@ const existingResultsActionPolicy = String(
   args["existing-results-action-policy"] ?? args.existing_results_action_policy ?? "terminal",
 );
 const defaultInventorySource = checksSuccessPreflight
-  ? "pr-list"
+  ? "search"
   : strategy === "remediation" && mode === "autonomous"
     ? "pr-list"
     : "graphql";
@@ -229,13 +229,14 @@ function fetchOpenPullRequestsFromSearch() {
     fields,
   ];
   if (checksSuccessPreflight) {
-    ghArgs.push("--checks", "success");
+    ghArgs.push("--base", "main", "--checks", "success");
   } else if (strategy === "remediation") {
     ghArgs.push("--label", "status: 👀 ready for maintainer look", "--label", "proof: sufficient");
   }
   const pulls = ghJsonWithRetry(ghArgs, { operation: "search open pull request inventory" });
   if (!Array.isArray(pulls)) throw new Error("GitHub PR search returned a non-array payload");
-  return pulls.map(normalizeSearchPullRequest);
+  const normalized = pulls.map(normalizeSearchPullRequest);
+  return checksSuccessPreflight ? normalized.filter((pull) => !prListMergeBlocker(pull)) : normalized;
 }
 
 function fetchOpenPullRequestsFromPrList() {
@@ -452,10 +453,11 @@ function prListMergeBlocker(raw) {
   if (raw.isDraft) return true;
   if (checksSuccessPreflight) {
     const authorAssociation = asciiString(raw.authorAssociation ?? "");
-    const assignees = assigneeNames(raw.assignees);
-    if (isMaintainerAssociated(authorAssociation) || assignees.length > 0 || hasMaintainerLabel(labels)) return true;
-    if (commentCount(raw) > 0) return true;
+    const unexpectedAssignee = assigneeNames(raw.assignees).some((login) => login.toLowerCase() !== "vincentkoc");
+    if (isMaintainerAssociated(authorAssociation) || hasMaintainerLabel(labels)) return true;
+    if (unexpectedAssignee) return true;
     if (hasStatusBlockedLabel(labels)) return true;
+    if (hasChecksSuccessScopeBlocker(raw.title, labels)) return true;
   }
   if (raw.baseRefName && raw.baseRefName !== "main") return true;
   if (includeMergeRisk && mergeRisk) return false;
@@ -692,7 +694,9 @@ function classifyLowSignalCandidate(base, { body }) {
 function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
   if (strategy === "low-signal") return "low_signal_candidate";
   if (hasExactSecuritySignal({ title, labels })) return "security_route_candidate";
-  if (isMaintainerAssociated(authorAssociation) || assignees.length > 0) return "maintainer_owned";
+  if (isMaintainerAssociated(authorAssociation) || (!checksSuccessPreflight && assignees.length > 0)) {
+    return "maintainer_owned";
+  }
   if (Boolean(raw.isDraft)) return "draft";
   if (labels.some((label) => /needs-real-behavior-proof|needs proof|mock-only-proof|waiting on author/i.test(label))) {
     return "needs_proof";
@@ -793,7 +797,7 @@ function writeJob(batch, index) {
     )}`,
     `notes: ${quoteYaml(
       checksSuccessPreflight
-        ? `Generated from live GitHub checks-success PR inventory on ${now.toISOString()}; bucket=${bucket}; filtered for external merge preflight candidates with no obvious maintainer, status, comment, security, merge-risk, check, or mergeability blockers.`
+        ? `Generated from live GitHub checks-success PR inventory on ${now.toISOString()}; bucket=${bucket}; filtered for external merge preflight candidates with no obvious maintainer-author, status, security, merge-risk, check, or mergeability blockers.`
         : remediation
           ? `Generated from live GitHub open PR inventory on ${now.toISOString()}; bucket=${bucket}; ${
             autonomousRemediation
@@ -883,6 +887,7 @@ function existingMentionedRefs(roots) {
 }
 
 function existingRefsForStrategy() {
+  if (checksSuccessPreflight) return new Set();
   if (strategy === "low-signal") return existingLowSignalRefs();
   return existingMentionedRefs([existingDir]);
 }
@@ -1048,6 +1053,14 @@ function hasMergeRiskLabel(labels) {
 
 function hasRemediationNoiseTitle(title) {
   return /^(?:test|tests|docs|doc|chore|refactor|style|lint|ci)(?:\(.+?\))?:/i.test(String(title ?? "").trim());
+}
+
+function hasChecksSuccessScopeBlocker(title, labels) {
+  if (hasRemediationNoiseTitle(title) || /^feat(?:\(.+?\))?:/i.test(String(title ?? "").trim())) return true;
+  if (!labels.some((label) => /^rating:\s*(?:platinum|diamond)\b/i.test(String(label ?? "").trim()))) return true;
+  return labels.some((label) =>
+    /^(?:app:\s*web-ui|docs|size:\s*XL|feature:|P(?:[3-9]|[1-9]\d+)\b)/i.test(String(label ?? "").trim()),
+  );
 }
 
 function isMaintainerAssociated(value) {

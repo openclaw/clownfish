@@ -306,7 +306,12 @@ test("remediation inventory can hydrate only included refs", () => {
 
 test("checks-success remediation intake filters noisy preflight blockers", () => {
   const fixture = makeFixture();
-  writeFakeGh(fixture.gh, { includeChecksSuccessPreflight: true });
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    includeNoisePrList: true,
+    requireSearchBase: true,
+  });
+  writeExistingJob(path.join(fixture.existing, "retry.md"), "#116");
 
   const result = runImport(
     fixture,
@@ -316,21 +321,21 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
     "--checks-success",
     "--limit",
     "all",
-    "--skip-existing",
-    "false",
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const payload = JSON.parse(result.stdout);
 
-  assert.equal(payload.options.inventory_source, "pr-list");
+  assert.equal(payload.options.inventory_source, "search");
   assert.equal(payload.options.bucket, "all");
   assert.equal(payload.options.checks_success_preflight, true);
 
   const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
   assert.equal(refs.has("#116"), true);
-  assert.equal(refs.has("#114"), false);
+  assert.equal(refs.has("#114"), true);
   assert.equal(refs.has("#115"), false);
   assert.equal(refs.has("#117"), false);
+  assert.equal(refs.has("#118"), false);
+  assert.equal(refs.has("#120"), false);
 
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
   assert.match(job, /Checks-Success PR External Preflight/);
@@ -604,13 +609,21 @@ function writeFakeGh(filePath, options = {}) {
     url: "https://github.com/openclaw/openclaw/pull/118",
     updatedAt: "2026-01-18T00:00:00Z",
   };
+  if (options.includeNoisePrList) {
+    searchPulls.push({
+      ...noisePrListPull,
+      labels: noisePrListPull.labels,
+      assignees: noisePrListPull.assignees,
+      commentsCount: noisePrListPull.commentsCount,
+    });
+  }
   const checksSuccessPull = {
     ...cleanPrListPull,
     number: 116,
     title: "checks success clean candidate",
     url: "https://github.com/openclaw/openclaw/pull/116",
     updatedAt: "2026-01-16T00:00:00Z",
-    labels: [{ name: "size: S" }],
+    labels: [{ name: "size: S" }, { name: "P2" }, { name: "rating: platinum hermit" }],
     commentsCount: 0,
   };
   const commentedChecksSuccessPull = {
@@ -637,6 +650,30 @@ function writeFakeGh(filePath, options = {}) {
     updatedAt: "2026-01-17T00:00:00Z",
     labels: [{ name: "maintainer" }],
   };
+  const assignedChecksSuccessPull = {
+    ...checksSuccessPull,
+    number: 120,
+    title: "assigned checks success candidate",
+    url: "https://github.com/openclaw/openclaw/pull/120",
+    updatedAt: "2026-01-20T00:00:00Z",
+    assignees: [{ login: "steipete" }],
+  };
+  if (options.includeChecksSuccessPreflight) {
+    searchPulls.push(
+      ...[
+        commentedChecksSuccessPull,
+        statusBlockedChecksSuccessPull,
+        checksSuccessPull,
+        maintainerChecksSuccessPull,
+        assignedChecksSuccessPull,
+      ].map((pull) => ({
+        ...pull,
+        labels: pull.labels,
+        assignees: pull.assignees,
+        commentsCount: pull.commentsCount,
+      })),
+    );
+  }
   const prListPulls = [
     existingPrListPull,
     dirtyPrListPull,
@@ -645,7 +682,13 @@ function writeFakeGh(filePath, options = {}) {
     ...(options.includeSecondRiskPrList ? [secondRiskPrListPull] : []),
     ...(options.includeNoisePrList ? [noisePrListPull] : []),
     ...(options.includeChecksSuccessPreflight
-      ? [commentedChecksSuccessPull, statusBlockedChecksSuccessPull, checksSuccessPull, maintainerChecksSuccessPull]
+      ? [
+          commentedChecksSuccessPull,
+          statusBlockedChecksSuccessPull,
+          checksSuccessPull,
+          maintainerChecksSuccessPull,
+          assignedChecksSuccessPull,
+        ]
       : []),
     cleanPrListPull,
   ];
@@ -663,6 +706,14 @@ if (process.argv[2] === "pr" && process.argv[3] === "view" && String(process.arg
       ? "GraphQL: Something went wrong while executing your query on 2026-07-01T08:35:56Z. Please include `EFAC:390CD1:97CD82:99C543:6A44D16B` when reporting this issue."
       : "HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)",
   )});
+  process.exit(1);
+}
+if (
+  process.argv[2] === "search" &&
+  ${JSON.stringify(Boolean(options.requireSearchBase))} &&
+  process.argv[process.argv.indexOf("--base") + 1] !== "main"
+) {
+  console.error("checks-success search must target base main");
   process.exit(1);
 }
 const payload = process.argv[2] === "search"
