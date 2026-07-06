@@ -226,6 +226,30 @@ test("prune-inbox preserves example jobs even when writing", () => {
   assert.equal(fs.existsSync(examplePath), true);
 });
 
+test("prune-inbox offline mode preserves unresolved jobs", () => {
+  const fixture = makeFixture();
+  const unresolvedPath = path.join(fixture.inbox, "offline-unresolved.md");
+  writeJob(unresolvedPath, {
+    clusterId: "test-offline-unresolved-prune",
+    mode: "autonomous",
+    refs: ["#1", "#2"],
+  });
+
+  const result = spawnSync(
+    process.execPath,
+    ["scripts/prune-inbox-jobs.mjs", "--inbox", fixture.inbox, "--live", "false", "--write", "--json"],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.summary.dispatchable, 1);
+  assert.equal(payload.summary.movable, 0);
+  assert.equal(payload.rows[0].action, "dispatchable");
+  assert.equal(payload.rows[0].destination, null);
+  assert.equal(fs.existsSync(unresolvedPath), true);
+});
+
 test("prune-inbox keeps a positional job path after --write", () => {
   const fixture = makeFixture();
   const targetPath = path.join(fixture.inbox, "target-example.md");
