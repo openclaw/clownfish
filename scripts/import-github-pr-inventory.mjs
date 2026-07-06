@@ -229,7 +229,7 @@ function fetchOpenPullRequestsFromSearch() {
     fields,
   ];
   if (checksSuccessPreflight) {
-    ghArgs.push("--checks", "success");
+    ghArgs.push("--base", "main", "--checks", "success");
   } else if (strategy === "remediation") {
     ghArgs.push("--label", "status: 👀 ready for maintainer look", "--label", "proof: sufficient");
   }
@@ -453,7 +453,9 @@ function prListMergeBlocker(raw) {
   if (raw.isDraft) return true;
   if (checksSuccessPreflight) {
     const authorAssociation = asciiString(raw.authorAssociation ?? "");
+    const unexpectedAssignee = assigneeNames(raw.assignees).some((login) => login.toLowerCase() !== "vincentkoc");
     if (isMaintainerAssociated(authorAssociation) || hasMaintainerLabel(labels)) return true;
+    if (unexpectedAssignee) return true;
     if (hasStatusBlockedLabel(labels)) return true;
     if (hasChecksSuccessScopeBlocker(raw.title, labels)) return true;
   }
@@ -885,6 +887,7 @@ function existingMentionedRefs(roots) {
 }
 
 function existingRefsForStrategy() {
+  if (checksSuccessPreflight) return new Set();
   if (strategy === "low-signal") return existingLowSignalRefs();
   return existingMentionedRefs([existingDir]);
 }
@@ -1054,7 +1057,10 @@ function hasRemediationNoiseTitle(title) {
 
 function hasChecksSuccessScopeBlocker(title, labels) {
   if (hasRemediationNoiseTitle(title) || /^feat(?:\(.+?\))?:/i.test(String(title ?? "").trim())) return true;
-  return labels.some((label) => /^(?:app:\s*web-ui|docs|size:\s*XL|feature:)/i.test(String(label ?? "").trim()));
+  if (!labels.some((label) => /^rating:\s*(?:platinum|diamond)\b/i.test(String(label ?? "").trim()))) return true;
+  return labels.some((label) =>
+    /^(?:app:\s*web-ui|docs|size:\s*XL|feature:|P(?:[3-9]|[1-9]\d+)\b)/i.test(String(label ?? "").trim()),
+  );
 }
 
 function isMaintainerAssociated(value) {

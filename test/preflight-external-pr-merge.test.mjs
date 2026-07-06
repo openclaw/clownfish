@@ -271,12 +271,6 @@ test("external merge preflight tolerates non-actionable automation comments", ()
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-3",
       },
       {
-        author: { login: "external-reviewer" },
-        authorAssociation: "NONE",
-        body: "This seems like the right fix boundary and matches the reported behavior.",
-        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-4",
-      },
-      {
         author: { login: "contributor" },
         authorAssociation: "CONTRIBUTOR",
         body: "@clawsweeper re-review",
@@ -392,6 +386,37 @@ test("external merge preflight blocks actionable human comments", () => {
         author: { login: "reviewer" },
         authorAssociation: "NONE",
         body: "Please add a regression test before merge.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const child = spawnSync(
+    process.execPath,
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight blocks non-keyword human objections", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        body: "I am not convinced by this approach.",
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
       },
     ],
