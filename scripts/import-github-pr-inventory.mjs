@@ -54,7 +54,10 @@ const hydrateIncludeRefs = Boolean(args["hydrate-include-refs"] ?? args.hydrate_
 const minScore = numberArg("min-score", 2);
 const maxFiles = numberArg("max-files", 120);
 const limitForHydration = limit === "all" ? 500 : Number(limit);
-const searchLimit = numberArg("search-limit", Math.min(Math.max(limitForHydration * 20, 200), 1000));
+const defaultSearchLimit = checksSuccessPreflight
+  ? 1000
+  : Math.min(Math.max(limitForHydration * 20, 200), 1000);
+const searchLimit = numberArg("search-limit", defaultSearchLimit);
 const prListFallbackSearchLimit = numberArg(
   "pr-list-fallback-search-limit",
   Math.min(searchLimit, Math.max(limitForHydration * 12, 120)),
@@ -253,7 +256,7 @@ function hydrateChecksSuccessPullRequests(pulls) {
   for (const pull of pulls) {
     let hydrated;
     try {
-      hydrated = hydratePullRequestForPrListFallback(pull.number);
+      hydrated = hydrateChecksSuccessPullRequest(pull.number);
     } catch (error) {
       const retryable = isRetryableGhError(error);
       const missing = isMissingPullRequestError(error);
@@ -264,11 +267,66 @@ function hydrateChecksSuccessPullRequests(pulls) {
     }
     if (!hydrated) continue;
     const normalized = normalizePrListPullRequest(hydrated);
-    if (prListMergeBlocker(normalized)) continue;
+    const hasUnsettledMergeability = hasUnknownMergeability(normalized);
+    const blockerView = hasUnsettledMergeability ? omitUnknownMergeability(normalized) : normalized;
+    if (prListMergeBlocker(blockerView)) {
+      console.error(`skip pull request #${pull.number} after hydration: ${hydratedPullRequestSummary(normalized)}`);
+      continue;
+    }
+    if (hasUnsettledMergeability) {
+      console.error(
+        `pull request #${pull.number} mergeability remains UNKNOWN after polling; deferring exact decision to external preflight`,
+      );
+    }
     hydratedPulls.push(normalized);
     if (limit !== "all" && hydratedPulls.length >= limitForHydration) break;
   }
   return hydratedPulls;
+}
+
+function hydrateChecksSuccessPullRequest(number) {
+  const attempts = numberFromEnv("CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_ATTEMPTS", 3);
+  const delayMs = nonNegativeNumberFromEnv("CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_DELAY_MS", 1_000);
+  let hydrated = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    hydrated = hydratePullRequestForPrListFallback(number);
+    if (!hasUnknownMergeability(hydrated)) return hydrated;
+    if (attempt < attempts) {
+      console.error(`pull request #${number} mergeability is UNKNOWN on attempt ${attempt}/${attempts}; polling`);
+      if (delayMs > 0) sleepMs(delayMs);
+    }
+  }
+  return hydrated;
+}
+
+function hasUnknownMergeability(pull) {
+  return [pull?.mergeable, pull?.mergeStateStatus].some(isUnknownMergeabilityValue);
+}
+
+function omitUnknownMergeability(pull) {
+  return {
+    ...pull,
+    mergeable: isUnknownMergeabilityValue(pull.mergeable) ? null : pull.mergeable,
+    mergeStateStatus: isUnknownMergeabilityValue(pull.mergeStateStatus) ? null : pull.mergeStateStatus,
+  };
+}
+
+function isUnknownMergeabilityValue(value) {
+  return String(value ?? "").toUpperCase() === "UNKNOWN";
+}
+
+function hydratedPullRequestSummary(pull) {
+  const failingChecks = latestStatusChecks(pull.statusCheckRollup ?? [])
+    .filter(isFailingCheck)
+    .map(checkName);
+  return [
+    `mergeable=${String(pull.mergeable ?? "missing")}`,
+    `merge_state=${String(pull.mergeStateStatus ?? "missing")}`,
+    `review=${String(pull.reviewDecision ?? "missing")}`,
+    `base=${String(pull.baseRefName ?? "missing")}`,
+    `draft=${Boolean(pull.isDraft)}`,
+    `failing_checks=${failingChecks.join(",") || "none"}`,
+  ].join(" ");
 }
 
 function fetchOpenPullRequestsFromPrList() {
@@ -1228,6 +1286,12 @@ function isMissingPullRequestError(error) {
 function numberFromEnv(name, fallback) {
   const value = Number(process.env[name] ?? fallback);
   if (!Number.isInteger(value) || value < 1) return fallback;
+  return value;
+}
+
+function nonNegativeNumberFromEnv(name, fallback) {
+  const value = Number(process.env[name] ?? fallback);
+  if (!Number.isInteger(value) || value < 0) return fallback;
   return value;
 }
 
