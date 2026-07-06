@@ -54,6 +54,9 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
 });
 
 test("external merge workflow validates before guarded apply", () => {
+  assert.match(workflow, /- name: Prepare Codex Linux sandbox/);
+  assert.match(workflow, /apt-get install -y bubblewrap apparmor-profiles apparmor-utils/);
+  assert.match(workflow, /apparmor_parser -r \/etc\/apparmor\.d\/bwrap-userns-restrict/);
   assert.match(workflow, /npm run preflight-external-merge/);
   assert.match(workflow, /"\$SOURCE_JOB" --pr "\$PULL_REQUEST"/);
   assert.match(workflow, /npm run review-results/);
@@ -418,24 +421,26 @@ test("external merge preflight polls transient unknown mergeability", () => {
   assert.equal(report.status, "passed");
 });
 
-test("external merge preflight accepts blocked state before exact-check authorization", () => {
-  const fixture = makeFixture({
-    mergeStateStatus: "BLOCKED",
-    statusCheckRollup: [
-      {
-        name: "CI",
-        workflowName: "CI",
-        status: "COMPLETED",
-        conclusion: "SUCCESS",
-        completedAt: "2026-07-06T20:25:00Z",
-      },
-    ],
-  });
-  const { report, result } = runPreflightFixture(fixture);
+for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
+  test(`external merge preflight accepts ${mergeStateStatus.toLowerCase()} state for exact review`, () => {
+    const fixture = makeFixture({
+      mergeStateStatus,
+      statusCheckRollup: [
+        {
+          name: "CI",
+          workflowName: "CI",
+          status: "COMPLETED",
+          conclusion: "SUCCESS",
+          completedAt: "2026-07-06T20:25:00Z",
+        },
+      ],
+    });
+    const { report, result } = runPreflightFixture(fixture);
 
-  assert.equal(report.status, "passed", report.reason);
-  assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
-});
+    assert.equal(report.status, "passed", report.reason);
+    assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
+  });
+}
 
 test("external merge preflight tolerates non-actionable automation comments", () => {
   const fixture = makeFixture({
