@@ -789,12 +789,23 @@ function hasActionableApprovedReviewBody(body) {
 function isBenignAutomationComment({ author, body, pull }) {
   if (isStaleAutomationReviewComment({ author, body, pull })) return true;
   if (!isAutomationAuthor(author)) return false;
+  if (isDependencyGuardAutomationComment({ body, pull })) return true;
   if (isClawSweeperReadyReviewComment({ author, body, pull })) return true;
   return (
     /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
       body,
     ) || /^<!--\s*(?:clawsweeper|clownfish)-command/.test(body)
   );
+}
+
+function isDependencyGuardAutomationComment({ body, pull }) {
+  if (/^<!--\s*openclaw:dependency-guard\s*-->/.test(body)) return true;
+  if (!/^<!--\s*openclaw:dependency-graph-guard\s*-->/.test(body)) return false;
+  if (!/### dependency graph change authorized\b/.test(body)) return false;
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  if (!/^[0-9a-f]{40}$/.test(headSha)) return false;
+  const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
+  return approvedSha === headSha;
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {
@@ -824,7 +835,9 @@ function commentReviewShas(body) {
 function isMaintainerCommandComment({ association, body }) {
   return (
     ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
-    (/^\/(?:clownfish|clawsweeper)\b/.test(body) || /^<!--\s*(?:clownfish|clawsweeper)-command:/.test(body))
+    (/^\/(?:clownfish|clawsweeper)\b/.test(body) ||
+      /^\/allow-dependencies-change(?:\s|$)/.test(body) ||
+      /^<!--\s*(?:clownfish|clawsweeper)-command:/.test(body))
   );
 }
 
