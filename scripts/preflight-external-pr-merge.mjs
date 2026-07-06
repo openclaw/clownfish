@@ -46,6 +46,7 @@ if (!sourceRefs.has(targetRef)) {
 fs.mkdirSync(runDir, { recursive: true });
 
 let pull = null;
+let issue = null;
 let view = null;
 let plan = null;
 let preflightJobPath = null;
@@ -63,7 +64,7 @@ let report = {
 
 try {
   pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
-  const issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
+  issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
   const issueComments = stage("hydrate issue comments", () =>
     fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
   );
@@ -113,6 +114,50 @@ try {
     process.exit(0);
   }
 
+  const reviewedHeadSha = pull.head.sha;
+  const reviewedState = String(pull.state ?? "").toLowerCase();
+  const refreshedPull = stage("rehydrate GitHub state after review", () =>
+    ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]),
+  );
+  const refreshedIssue = stage("rehydrate issue state after review", () =>
+    ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]),
+  );
+  const refreshedIssueComments = stage("rehydrate issue comments after review", () =>
+    fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
+  );
+  const refreshedView = stage("poll mergeability after review", () =>
+    fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }),
+  );
+  const finalBlockers = stage("final read-only blockers", () => [
+    ...(refreshedPull.head?.sha !== reviewedHeadSha
+      ? [`PR head changed after validation: reviewed ${reviewedHeadSha}, current ${refreshedPull.head?.sha ?? "unknown"}`]
+      : []),
+    ...(String(refreshedPull.state ?? "").toLowerCase() !== reviewedState
+      ? [`PR state changed after validation: reviewed ${reviewedState || "unknown"}, current ${refreshedPull.state ?? "unknown"}`]
+      : []),
+    ...readOnlyBlockers({
+      sourceJob,
+      pull: refreshedPull,
+      view: refreshedView,
+      issueComments: refreshedIssueComments,
+      pullRequest,
+    }),
+  ]);
+  if (finalBlockers.length > 0) {
+    writeBlockedArtifacts({
+      reason: finalBlockers.join("; "),
+      validationCommands,
+      codexReview,
+      currentMainSha,
+    });
+    process.exit(0);
+  }
+
+  pull = refreshedPull;
+  issue = refreshedIssue;
+  view = refreshedView;
+  const finalBaseDriftAllowed = currentMainSha !== pull.base.sha && canTolerateBaseDrift(view);
+  const rehydratedAt = new Date().toISOString();
   const result = buildMergeResult({
     sourceJob,
     virtualJob,
@@ -123,15 +168,17 @@ try {
     validationCommands,
     codexReview,
     currentMainSha,
-    baseDriftAllowed,
+    baseDriftAllowed: finalBaseDriftAllowed,
   });
   report = {
     ...report,
     status: "passed",
+    reviewed_at: rehydratedAt,
+    rehydrated_at: rehydratedAt,
     reviewed_head_sha: pull.head.sha,
     reviewed_base_sha: pull.base.sha,
     current_main_sha: currentMainSha,
-    base_drift_allowed: baseDriftAllowed,
+    base_drift_allowed: finalBaseDriftAllowed,
     validation_commands: validationCommands,
     codex_review: {
       status: codexReview.status,
@@ -575,6 +622,7 @@ function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullReques
       ? `PR base ${pull.base.sha} drifted from origin/main ${currentMainSha}; exact head remained mergeable with clean latest checks and validation ran against origin/main.`
       : `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
     `GitHub merge state ${view.mergeStateStatus} and review decision ${view.reviewDecision ?? "none"} were clean.`,
+    `Final GitHub recheck after validation and Codex review kept PR #${pullRequest} open at exact head ${pull.head.sha}.`,
   ];
   return {
     status: "planned",
@@ -609,14 +657,16 @@ function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullReques
         target: `#${pullRequest}`,
         security_status: "cleared",
         security_evidence: [
-          "Fresh deterministic security scan found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
+          "Final deterministic security scan after validation and Codex review found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
         ],
         comments_status: "resolved",
         comments_evidence: [
-          "Fresh GitHub hydration found no actionable top-level or inline comments and no unresolved review threads.",
+          "Final GitHub hydration after validation and Codex review found no actionable top-level or inline comments and no unresolved review threads.",
         ],
         bot_comments_status: "resolved",
-        bot_comments_evidence: ["Fresh GitHub hydration found zero review-bot comments or review bodies requiring follow-up."],
+        bot_comments_evidence: [
+          "Final GitHub hydration after validation and Codex review found zero review-bot comments or review bodies requiring follow-up.",
+        ],
         codex_review: {
           command: "/review",
           status: codexReview.status === "clean" ? "clean" : "passed",
@@ -746,6 +796,11 @@ function isActionableCommentEvidence(
   const body = String(comment.body ?? "").trim();
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
 
+  if (isClawSweeperAuthor(author)) {
+    const currentReview = body.toLowerCase().split(/<details>/, 1)[0];
+    if (hasActionableClawSweeperReviewSignal(currentReview)) return true;
+    if (hasClawSweeperReadyReviewSignal(currentReview)) return true;
+  }
   if (isReviewBot({ author: { login: author }, body })) {
     return /found issues|requested changes|changes requested|needs changes?|needs human|do not merge|duplicate|superseded|security/i.test(
       body,
@@ -790,6 +845,9 @@ function isNonBlockingCommentEvidence(
   }
 
   const pullAuthor = String(pull?.user?.login ?? "").toLowerCase();
+  if (author && pullAuthor && author === pullAuthor && isAuthorProofOrStatusComment(body)) {
+    return true;
+  }
   if (
     author &&
     pullAuthor &&
@@ -820,6 +878,10 @@ function hasActionableApprovedReviewBody(body) {
 }
 
 function isBenignAutomationComment({ author, body, pull }) {
+  const currentReview = String(body).split(/<details>/, 1)[0];
+  if (isClawSweeperAuthor(author) && hasClawSweeperReadyReviewSignal(currentReview)) {
+    return isClawSweeperReadyReviewComment({ author, body, pull });
+  }
   if (isStaleAutomationReviewComment({ author, body, pull })) return true;
   if (!isAutomationAuthor(author)) return false;
   if (isDependencyGuardAutomationComment({ body, pull })) return true;
@@ -882,22 +944,43 @@ function isMaintainerApprovalComment({ association, body }) {
 }
 
 function isClawSweeperReadyReviewComment({ author, body, pull }) {
-  if (!["clawsweeper", "clawsweeper[bot]"].includes(author)) return false;
-  if (!hasAutonomousMergeReadySignal(pull)) return false;
-  if (!/^codex review:\s*needs maintainer review before merge\./.test(body)) return false;
-  if (!/(review metrics:\*\*\s*none identified|review metrics:\s*none identified|result:\s*ready for maintainer review|no repair job is needed)/.test(body)) {
-    return false;
-  }
-  return !/found issues before merge|requested changes|changes requested/.test(body);
+  if (!isClawSweeperAuthor(author)) return false;
+  const normalized = String(body ?? "").trim().toLowerCase();
+  const hasExactMarker = hasExactHeadClawSweeperReadyMarker({ body: normalized, pull });
+  if (!hasExactMarker) return false;
+
+  const currentReview = normalized.split(/<details>/, 1)[0];
+  return !hasActionableClawSweeperReviewSignal(currentReview) && hasClawSweeperReadyReviewSignal(currentReview);
 }
 
-function hasAutonomousMergeReadySignal(pull) {
-  const labels = (pull?.labels ?? []).map((label) => String(label?.name ?? "").toLowerCase());
-  if (labels.includes("clownfish:automerge")) return true;
-  const readyForMaintainer = labels.some((label) => label.includes("ready for maintainer look"));
-  if (!readyForMaintainer) return false;
-  if (labels.includes("proof: sufficient")) return true;
-  return labels.includes("docs") && labels.some((label) => label.includes("low-signal-docs"));
+function hasClawSweeperReadyReviewSignal(body) {
+  return (
+    /^codex review:\s*needs maintainer review before merge\./.test(body) &&
+    /result:\s*ready for maintainer review\./.test(body) &&
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job)? is needed|no concrete contributor-facing blocker left|remaining action is normal maintainer review)/.test(
+      body,
+    )
+  );
+}
+
+function isClawSweeperAuthor(author) {
+  return ["clawsweeper", "clawsweeper[bot]"].includes(author);
+}
+
+function hasActionableClawSweeperReviewSignal(body) {
+  const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
+  if (
+    firstLine !== "codex review: needs maintainer review before merge." &&
+    /\b(?:needs?|requires?|blocked|changes?)\b.*\bbefore merge\./.test(firstLine)
+  ) {
+    return true;
+  }
+  return [
+    /\*\*merge readiness\*\*[\s\S]{0,1200}\bresult:\s*blocked until\b/,
+    /\*\*proof guidance\*\*[\s\S]{0,1600}\b(?:needs?|requires?) (?:stronger )?real behavior proof before merge\b/,
+    /\*\*risk before merge\*\*[\s\S]{0,1600}\b(?:blocker|must|needs?|required|missing)\b/,
+    /\*\*next step before merge\*\*[\s\S]{0,1200}\bremaining (?:merge )?blocker\b/,
+  ].some((pattern) => pattern.test(body));
 }
 
 function findHighRiskMergeLabel(labels) {
@@ -940,7 +1023,10 @@ function isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprova
 function isTrustedExactHeadReadyReviewComment(comment, { pull }) {
   const body = String(comment.body ?? "").trim();
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
-  if (!isClawSweeperReadyReviewComment({ author, body: body.toLowerCase(), pull })) return false;
+  return isClawSweeperReadyReviewComment({ author, body, pull });
+}
+
+function hasExactHeadClawSweeperReadyMarker({ body, pull }) {
   if (/<!--\s*clawsweeper-action:/i.test(body)) return false;
 
   const verdictOpeners = body.match(/<!--\s*clawsweeper-verdict:/gi) ?? [];
@@ -950,13 +1036,21 @@ function isTrustedExactHeadReadyReviewComment(comment, { pull }) {
 
   const attributes = parseMarkerAttributes(verdicts[0][2]);
   if (!attributes) return false;
+  const reviewOpeners = body.match(/<!--\s*clawsweeper-review(?=\s)/gi) ?? [];
+  if (reviewOpeners.length !== 1) return false;
+  const reviews = [...body.matchAll(/<!--\s*clawsweeper-review\s+([^>]*)-->/gi)];
+  if (reviews.length !== 1) return false;
+  const reviewAttributes = parseMarkerAttributes(reviews[0][1]);
+  if (!reviewAttributes) return false;
+
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   const pullNumber = String(pull?.number ?? "");
   return (
     /^[0-9a-f]{40}$/.test(headSha) &&
     attributes.sha?.toLowerCase() === headSha &&
     attributes.item === pullNumber &&
-    attributes.confidence === "high"
+    attributes.confidence === "high" &&
+    reviewAttributes.item === pullNumber
   );
 }
 
@@ -982,6 +1076,40 @@ function isAuthorProgressEvidenceComment(body) {
     .map((line) => line.trim())
     .filter(Boolean);
   return lines.length > 0 && lines.every(isSafeAuthorProgressLine);
+}
+
+function isAuthorProofOrStatusComment(body) {
+  const normalized = String(body ?? "").trim().toLowerCase();
+  if (!normalized || isAuthorObjectionComment(normalized)) return false;
+
+  const lines = normalized
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return false;
+  if (lines.every(isSafeAuthorProgressLine)) return true;
+
+  const contentLines = lines.map((line) => line.replace(/^[-*]\s+/, "").replace(/^#{1,6}\s*/, ""));
+  const hasStatusLead = contentLines.some((line) =>
+    [
+      /^(?:rebas(?:ed|ing)|re-ran|reran|ran|verified|validated|updated|added|addressed|resolved|fixed|tested)\b/,
+      /^(?:this|the (?:change|patch|pr))\s+(?:fixes|adds|updates|preserves|addresses)\b/,
+    ].some((pattern) => pattern.test(line)),
+  );
+  const hasProofHeading = contentLines.some((line) =>
+    /^(?:proof|validation|verification|test results|current status|status):?$/.test(line),
+  );
+  const hasEvidenceDetail = lines.some(
+    (line) =>
+      /^[-*]\s+/.test(line) &&
+      /`[^`]+`|\b(?:passed|passing|green|clean|no failures|confirms?|shows?|proof)\b/.test(line),
+  );
+  const hasProofSignal =
+    /\b(?:proof|validation|verification|tests?|checks?|ci\/status|repro(?:duction|ducible)?|autoreview)\b/.test(
+      normalized,
+    );
+
+  return (hasProofHeading && hasEvidenceDetail) || (hasStatusLead && (hasEvidenceDetail || hasProofSignal));
 }
 
 function isSafeAuthorProgressLine(line) {
@@ -1024,6 +1152,7 @@ function isAuthorObjectionComment(body) {
     /\b(?:not|isn't|aren't)\s+(?:ready|complete|fixed|resolved)\b/,
     /\b(?:incomplete|unfinished|still investigating|need more time|one more thought|worried|concerns?|unclear)\b/,
     /\b(?:haven't|hasn't|nothing was)\s+fixed\b/,
+    /\b(?:tests?|checks?|ci)\b.{0,40}\b(?:are |is )?(?:still )?(?:failing|failed|red|broken)\b/,
     /\b(?:rather|prefer)\b.{0,40}\bnot (?:merge|land|ship)\b/,
     /\b(?:withdraw|withdrawn|abandon|abandoned|cancel|cancelled|superseded|obsolete)\b/,
     /\b(?:close|stop)\s+(?:this|the)\s+(?:pr|pull request)\b/,
