@@ -19,6 +19,11 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /pull\/\$\{pullRequest\}\/head:\$\{ref\}/);
   assert.match(script, /PR head changed during checkout/);
   assert.match(script, /function ensureMergeBase/);
+  assert.match(script, /function prepareSyntheticMergeReview/);
+  assert.match(script, /"merge-tree", "--write-tree", currentMainSha, exactHeadSha/);
+  assert.match(script, /"commit-tree",\s*mergeTreeSha,\s*"-p",\s*currentMainSha/);
+  assert.match(script, /"rev-parse", "HEAD\^\{tree\}"/);
+  assert.match(script, /"rev-parse", "HEAD\^"/);
   assert.match(script, /--deepen/);
   assert.match(script, /--unshallow/);
   assert.match(script, /if \(secret\) redacted = redacted\.replaceAll/);
@@ -132,6 +137,17 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
   assert.equal(result.actions[0].target_updated_at, "2026-06-19T00:05:00Z");
   assert.equal(result.merge_preflight[0].codex_review.status, "clean");
+  assert.match(result.actions[0].evidence.join("\n"), /synthetic squash-result commit/);
+
+  const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
+  assert.equal(report.synthetic_merge_sha, fixture.syntheticMergeSha);
+  assert.equal(report.synthetic_merge_tree_sha, fixture.mergeTreeSha);
+  assert.equal(report.raw_diff_files, 2);
+  assert.equal(report.effective_diff_files, 1);
+  const gitCommands = fs.readFileSync(fixture.gitCommandsPath, "utf8");
+  assert.match(gitCommands, new RegExp(`merge-tree --write-tree ${fixture.baseSha} ${fixture.headSha}`));
+  assert.match(gitCommands, new RegExp(`commit-tree ${fixture.mergeTreeSha} -p ${fixture.baseSha}`));
+  assert.match(gitCommands, new RegExp(`checkout --detach ${fixture.syntheticMergeSha}`));
 
   const reviewed = spawnSync(process.execPath, ["scripts/review-results.mjs", fixture.runDir], {
     cwd: repoRoot,
@@ -178,6 +194,15 @@ test("external merge preflight reports both output tails without leaking secrets
   assert.match(report.reason, /decisive stdout tail$/);
   assert.doesNotMatch(report.reason, new RegExp(secret));
   assert.ok(report.reason.length <= 4000, `reason was ${report.reason.length} chars`);
+});
+
+test("external merge preflight blocks synthetic merge conflicts", () => {
+  const fixture = makeFixture({ syntheticMergeFailure: "fixture merge conflict" });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /git merge-tree --write-tree/);
+  assert.match(report.reason, /fixture merge conflict/);
 });
 
 test("external merge preflight accepts #100910 assignee and harmless label drift after final recheck", () => {
@@ -2372,6 +2397,7 @@ function makeFixture({
   rehydratedState = null,
   currentMainSha = null,
   validationFailure = null,
+  syntheticMergeFailure = null,
   codexReview = {
     status: "clean",
     summary: "clean fixture review",
@@ -2386,6 +2412,9 @@ function makeFixture({
   const jobPath = path.join(root, "source-job.md");
   const headSha = "a".repeat(40);
   const baseSha = "b".repeat(40);
+  const mergeTreeSha = "c".repeat(40);
+  const syntheticMergeSha = "d".repeat(40);
+  const gitCommandsPath = path.join(root, "git-commands.log");
   const finalIssueComments = rehydratedIssueComments ?? issueComments;
   const finalReviewComments = rehydratedReviewComments ?? reviewComments;
   const finalReviewThreads = rehydratedReviewThreads ?? [];
@@ -2499,12 +2528,53 @@ process.exit(1);
   writeExecutable(
     path.join(binDir, "git"),
     `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
 const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const currentMain = ${JSON.stringify(currentMainSha)} || base;
-if (args[0] === "rev-parse") console.log(args[1] === "origin/main" ? currentMain : head);
-if (args[0] === "merge-base") console.log(base);
+const mergeTree = ${JSON.stringify(mergeTreeSha)};
+const synthetic = ${JSON.stringify(syntheticMergeSha)};
+const statePath = path.join(${JSON.stringify(root)}, "git-state");
+const commandLog = ${JSON.stringify(gitCommandsPath)};
+fs.appendFileSync(commandLog, args.join(" ") + "\\n");
+const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
+if (args[0] === "rev-parse") {
+  if (args[1] === "origin/main" || args[1] === "HEAD^") console.log(currentMain);
+  else if (args[1] === "HEAD^{tree}") console.log(mergeTree);
+  else if (args[1] === "--is-shallow-repository") console.log("false");
+  else console.log(state === "synthetic" ? synthetic : state === "main" ? currentMain : head);
+  process.exit(0);
+}
+if (args[0] === "merge-base") {
+  console.log(base);
+  process.exit(0);
+}
+if (args[0] === "checkout") {
+  fs.writeFileSync(statePath, args.at(-1) === synthetic ? "synthetic" : args.at(-1) === "origin/main" ? "main" : "pr");
+  process.exit(0);
+}
+if (args[0] === "merge-tree" && args[1] === "--write-tree") {
+  const failure = ${JSON.stringify(syntheticMergeFailure)};
+  if (failure) {
+    process.stderr.write(failure);
+    process.exit(1);
+  }
+  console.log(mergeTree);
+  process.exit(0);
+}
+if (args[0] === "commit-tree") {
+  console.log(synthetic);
+  process.exit(0);
+}
+if (args[0] === "diff" && args[1] === "--name-only") {
+  if (args.includes("--diff-filter=U")) process.exit(0);
+  const target = args.at(-1);
+  const files = target.endsWith("...HEAD") ? ["src/effective.ts"] : ["src/raw.ts", "src/already-on-main.ts"];
+  process.stdout.write(files.join("\\n") + "\\n");
+  process.exit(0);
+}
 process.exit(0);
 `,
   );
@@ -2529,7 +2599,7 @@ const index = args.indexOf("--output-last-message");
 fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 `,
   );
-  return { binDir, headSha, jobPath, runDir };
+  return { baseSha, binDir, gitCommandsPath, headSha, jobPath, mergeTreeSha, runDir, syntheticMergeSha };
 }
 
 function writeExecutable(filePath, content) {

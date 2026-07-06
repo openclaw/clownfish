@@ -52,6 +52,7 @@ let issue = null;
 let view = null;
 let plan = null;
 let preflightJobPath = null;
+let reviewContext = null;
 let report = {
   repo: sourceJob.frontmatter.repo,
   source_job: sourceJob.relativePath,
@@ -95,6 +96,14 @@ try {
     process.exit(0);
   }
 
+  reviewContext = stage("prepare synthetic merge review", () =>
+    prepareSyntheticMergeReview({
+      targetDir,
+      baseBranch,
+      currentMainSha,
+      exactHeadSha: pull.head.sha,
+    }),
+  );
   stage("prepare target toolchain", () => prepareTargetToolchain(targetDir));
   const validationCommands = stage("target validation", () => runValidation({ targetDir, baseBranch }));
   const codexReview = stage("Codex review", () =>
@@ -104,6 +113,7 @@ try {
       targetDir,
       validationCommands,
       sourceJob,
+      reviewContext,
     }),
   );
   if (!isCleanCodexReview(codexReview)) {
@@ -171,6 +181,7 @@ try {
     codexReview,
     currentMainSha,
     baseDriftAllowed: finalBaseDriftAllowed,
+    reviewContext,
   });
   report = {
     ...report,
@@ -181,6 +192,10 @@ try {
     reviewed_base_sha: pull.base.sha,
     current_main_sha: currentMainSha,
     base_drift_allowed: finalBaseDriftAllowed,
+    synthetic_merge_sha: reviewContext.syntheticMergeSha,
+    synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
+    raw_diff_files: reviewContext.rawDiffFiles,
+    effective_diff_files: reviewContext.effectiveDiffFiles,
     validation_commands: validationCommands,
     codex_review: {
       status: codexReview.status,
@@ -227,6 +242,10 @@ function writeBlockedArtifacts({ reason, validationCommands = [], codexReview = 
     reviewed_head_sha: pull?.head?.sha ?? null,
     reviewed_base_sha: pull?.base?.sha ?? null,
     current_main_sha: currentMainSha,
+    synthetic_merge_sha: reviewContext?.syntheticMergeSha ?? null,
+    synthetic_merge_tree_sha: reviewContext?.mergeTreeSha ?? null,
+    raw_diff_files: reviewContext?.rawDiffFiles ?? null,
+    effective_diff_files: reviewContext?.effectiveDiffFiles ?? null,
     validation_commands: validationCommands,
     codex_review: codexReview
       ? { status: codexReview.status ?? "unknown", findings: Array.isArray(codexReview.findings) ? codexReview.findings.length : null }
@@ -510,6 +529,59 @@ function ensureMergeBase({ cwd, baseBranch, pullRequest, ref }) {
   run("git", ["merge-base", `origin/${baseBranch}`, "HEAD"], { cwd });
 }
 
+function prepareSyntheticMergeReview({ targetDir, baseBranch, currentMainSha, exactHeadSha }) {
+  const baseRef = `origin/${baseBranch}`;
+  const rawDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: exactHeadSha });
+  const mergeTreeSha = run("git", ["merge-tree", "--write-tree", currentMainSha, exactHeadSha], {
+    cwd: targetDir,
+    timeout: VALIDATION_TIMEOUT_MS,
+  }).trim();
+  if (!/^[0-9a-f]{40}$/i.test(mergeTreeSha)) {
+    throw new Error(`synthetic merge returned invalid tree SHA: ${mergeTreeSha || "empty"}`);
+  }
+  const syntheticMergeSha = run(
+    "git",
+    [
+      "commit-tree",
+      mergeTreeSha,
+      "-p",
+      currentMainSha,
+    ],
+    {
+      cwd: targetDir,
+      env: {
+        ...process.env,
+        GIT_AUTHOR_NAME: "ProjectClownfish",
+        GIT_AUTHOR_EMAIL: "projectclownfish@users.noreply.github.com",
+        GIT_AUTHOR_DATE: "2000-01-01T00:00:00Z",
+        GIT_COMMITTER_NAME: "ProjectClownfish",
+        GIT_COMMITTER_EMAIL: "projectclownfish@users.noreply.github.com",
+        GIT_COMMITTER_DATE: "2000-01-01T00:00:00Z",
+      },
+      input: `projectclownfish synthetic squash review for ${exactHeadSha}\n`,
+      timeout: VALIDATION_TIMEOUT_MS,
+    },
+  ).trim();
+  if (!/^[0-9a-f]{40}$/i.test(syntheticMergeSha)) {
+    throw new Error(`synthetic merge returned invalid commit SHA: ${syntheticMergeSha || "empty"}`);
+  }
+  run("git", ["checkout", "--detach", syntheticMergeSha], { cwd: targetDir });
+  const checkedOutTree = run("git", ["rev-parse", "HEAD^{tree}"], { cwd: targetDir }).trim();
+  const syntheticParent = run("git", ["rev-parse", "HEAD^"], { cwd: targetDir }).trim();
+  if (checkedOutTree !== mergeTreeSha || syntheticParent !== currentMainSha) {
+    throw new Error(
+      `synthetic merge binding mismatch: expected tree ${mergeTreeSha} on base ${currentMainSha}, got tree ${checkedOutTree} on base ${syntheticParent}`,
+    );
+  }
+  const effectiveDiffFiles = changedFileCount({ cwd: targetDir, baseRef, targetRef: "HEAD" });
+  return { syntheticMergeSha, mergeTreeSha, rawDiffFiles, effectiveDiffFiles };
+}
+
+function changedFileCount({ cwd, baseRef, targetRef }) {
+  const output = run("git", ["diff", "--name-only", `${baseRef}...${targetRef}`], { cwd }).trim();
+  return output ? output.split(/\r?\n/).length : 0;
+}
+
 function isShallowRepository(cwd) {
   return run("git", ["rev-parse", "--is-shallow-repository"], { cwd }).trim() === "true";
 }
@@ -546,7 +618,7 @@ function runValidation({ targetDir, baseBranch }) {
   return ["pnpm check:changed", `git diff --check origin/${baseBranch}...HEAD`, "git diff --check"];
 }
 
-function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob }) {
+function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob, reviewContext }) {
   const schemaPath = path.join(runDir, "codex-review.schema.json");
   const outputPath = path.join(runDir, "codex-review.json");
   const defaultCodexReviewSandbox = process.env.GITHUB_ACTIONS === "true" ? "danger-full-access" : "read-only";
@@ -580,7 +652,9 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     "/review",
     "",
     `Review openclaw PR #${pullRequest} in ${repo}. This is a read-only external merge preflight.`,
-    `Review the exact checked-out PR head against origin/${baseBranch}.`,
+    `HEAD is an ephemeral one-parent squash-result commit built from the exact PR head and current origin/${baseBranch}.`,
+    `Review only the effective diff origin/${baseBranch}...HEAD; the exact GitHub PR head is bound through merge tree ${reviewContext.mergeTreeSha}.`,
+    `Synthetic commit: ${reviewContext.syntheticMergeSha}; raw PR diff files: ${reviewContext.rawDiffFiles}; effective merge diff files: ${reviewContext.effectiveDiffFiles}.`,
     "",
     "The preflight already verified that the PR has no top-level or inline review comments, no unresolved review threads, no review-bot findings, no security signal, and passing GitHub checks.",
     "Do not mutate GitHub or the checkout. Do not run validation commands.",
@@ -619,9 +693,23 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
   return JSON.parse(fs.readFileSync(outputPath, "utf8"));
 }
 
-function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullRequest, validationCommands, codexReview, currentMainSha, baseDriftAllowed }) {
+function buildMergeResult({
+  sourceJob,
+  virtualJob,
+  pull,
+  issue,
+  view,
+  pullRequest,
+  validationCommands,
+  codexReview,
+  currentMainSha,
+  baseDriftAllowed,
+  reviewContext,
+}) {
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
+    `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${currentMainSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`,
+    `Review surface narrowed from ${reviewContext.rawDiffFiles} raw PR file(s) to ${reviewContext.effectiveDiffFiles} effective merge file(s).`,
     baseDriftAllowed
       ? `PR base ${pull.base.sha} drifted from origin/main ${currentMainSha}; exact head remained mergeable with clean latest checks and validation ran against origin/main.`
       : `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
@@ -639,7 +727,7 @@ function buildMergeResult({ sourceJob, virtualJob, pull, issue, view, pullReques
         target: `#${pullRequest}`,
         action: "merge_canonical",
         status: "planned",
-        idempotency_key: `external-merge-preflight:${sourceJob.frontmatter.repo}#${pullRequest}:${pull.head.sha}`,
+        idempotency_key: `external-merge-preflight:${sourceJob.frontmatter.repo}#${pullRequest}:${pull.head.sha}:${currentMainSha}:${reviewContext.mergeTreeSha}`,
         expected_head_sha: pull.head.sha,
         classification: "canonical",
         target_kind: "pull_request",
