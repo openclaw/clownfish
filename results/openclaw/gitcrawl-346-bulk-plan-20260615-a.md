@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-346-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27525979752"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525979752"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-5"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.798Z"
+published_at: "2026-07-06T21:34:53.482Z"
 canonical: "#45314"
 canonical_issue: "#45314"
 canonical_pr: null
-actions_total: 3
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525979752](https://github.com/openclaw/clownfish/actions/runs/27525979752)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #45314
 
 ## Summary
 
-Plan only. #45314 remains the live canonical issue for the early-abort responsePrefix template interpolation bug. #45315 is the active related implementation candidate but is not merge-ready because review-bot findings remain open and checks include failures. #45454 is already closed historical context.
+Plan-mode classification only. #45314 remains the open canonical issue for the early abort response-prefix template bug. #45315 is a related open PR that appears to target the same issue, but it was provided as existing-overlap/read-only context and is not merge-ready because it is dirty with failing checks and unresolved review-bot comment evidence.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,13 +63,18 @@ Plan only. #45314 remains the live canonical issue for the early-abort responseP
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #45314 | keep_canonical | planned | canonical | The canonical issue is still open, hydrated, and best represents the root cause and user-visible failure. |
-| #45315 | keep_related | planned | related | This PR belongs to the canonical family but cannot be recommended for merge or fixed-by-candidate closure in this plan because review findings and failing checks remain. |
-| #45454 | keep_closed | skipped | superseded | Already-closed linked context must not receive a close action; it remains historical evidence for the canonical family. |
+| #45314 | keep_canonical | planned | canonical | The representative issue is still open, live, in scope, and remains the best canonical tracking thread. |
+| #45315 | keep_related | skipped | related | The PR is related evidence for the same root cause, but it is read-only existing-overlap context for this cluster and cannot be recommended for merge or fixed-by-candidate closeout under the job gates. |
 
 ## Needs Human
 

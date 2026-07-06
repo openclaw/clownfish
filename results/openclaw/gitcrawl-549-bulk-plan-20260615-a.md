@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-549-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526074233"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526074233"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-24"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:03.549Z"
+published_at: "2026-07-06T21:34:53.475Z"
 canonical: null
 canonical_issue: null
 canonical_pr: null
-actions_total: 3
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526074233](https://github.com/openclaw/clownfish/actions/runs/27526074233)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: unknown
 
 ## Summary
 
-Plan-mode classification only. The only actionable open candidate, #55563, is not a duplicate of the excluded existing-overlap canonical family #54669: it preserves distinct remaining work around the browser CLI syntax mismatch and partially addressed gateway doctor behavior. No GitHub mutations are planned.
+Read-only plan: #54669 is already closed and remains historical context only. #55563 is related to the same WSL2/browser-tabs documentation area but reports distinct regressions from the closed Chrome IPv6 portproxy issue, so it should not be closed as a duplicate and no live canonical is selected for this cluster.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,13 +63,18 @@ Plan-mode classification only. The only actionable open candidate, #55563, is no
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #55563 | keep_independent | planned | independent | Distinct remaining root cause and user-visible failure from the excluded overlap issue #54669. |
-| #54669 | keep_related | skipped | related | Context-only overlap ref; no mutation or actionable ownership in this cluster. |
-| #39407 | keep_closed | skipped | fixed_by_candidate | Already closed linked PR, retained only as historical context and contributor-credit evidence. |
+| #54669 | keep_closed | skipped |  | Already closed context item; no closure or other mutation should be planned. |
+| #55563 | keep_related | planned | related | Same WSL2/browser-tabs symptom and documentation area, but meaningfully different root causes and remaining work; keep it related rather than closing or making it the canonical for the Chrome IPv6 portproxy issue. |
 
 ## Needs Human
 

@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-553-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526078386"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526078386"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-26"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:03.551Z"
+published_at: "2026-07-06T21:34:53.477Z"
 canonical: "#83630"
 canonical_issue: null
 canonical_pr: "#83630"
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526078386](https://github.com/openclaw/clownfish/actions/runs/27526078386)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #83630
 
 ## Summary
 
-Plan-only classification: #83630 is the best live canonical item within the non-overlap actionable refs. It is a focused PR for the same doctor missing-transcript cleanup preview root cause tracked by excluded context issue #54877. No close, merge, label, comment, or fix action is planned because the job is plan mode and merge/fix/raise_pr are blocked.
+Plan-only classification: #83630 is the best live canonical within this worker's actionable scope. It is a small open PR that directly addresses the existing-overlap issue #54877 by adding --fix-missing to the doctor dry-run preview and updating focused doctor state-integrity coverage. No mutation, merge, fix PR, or closure is planned because the job blocks merge/fix/raise_pr and #54877 is excluded as existing-overlap context.
 
 ## Impact
 
@@ -62,11 +63,17 @@ Plan-only classification: #83630 is the best live canonical item within the non-
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #83630 | keep_canonical | planned | canonical | #83630 is the only live non-overlap actionable ref and is a focused candidate fix for the hydrated context issue, so it should remain the canonical path for this cluster. |
+| #83630 | keep_canonical | planned | canonical | Best actionable canonical PR for the cluster; keep it open for the existing owner/job to validate or merge. |
 
 ## Needs Human
 

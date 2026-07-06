@@ -2,14 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-381-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27525993826"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525993826"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-10"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.803Z"
+published_at: "2026-07-06T21:34:53.464Z"
 canonical: "#90019"
-canonical_issue: null
+canonical_issue: "#40088"
 canonical_pr: "#90019"
 actions_total: 2
 fix_executed: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525993826](https://github.com/openclaw/clownfish/actions/runs/27525993826)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #90019
 
 ## Summary
 
-Plan-only classification: #90019 is the best live canonical within this cluster's remaining actionable refs for the memory_search stale-index fallback path. #40088 is hydrated context and already owned by an existing overlap job, so it is not an actionable close target here. No merge, fix, or close mutation is planned because the job blocks merge/fix/raise_pr and the PR still has failing CI checks in the artifact.
+Plan-mode classification only. #90019 is the best live canonical candidate among the actionable refs because it directly targets the #40088 memory_search stale-index watcher failure. It is not merge-ready: the PR is dirty/unmergeable, has failing checks, and this job blocks merge/fix actions. #40088 remains read-only existing-overlap context owned by another job and should not be closed here.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan-only classification: #90019 is the best live canonical within this cluster'
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90019 | keep_canonical | planned | canonical | #90019 should remain the canonical actionable PR for this cluster, but no mutating follow-up is allowed in plan mode and merge is blocked by policy and failing checks. |
-| #40088 | keep_related | skipped | related | Context only; do not close, label, comment on, or otherwise mutate #40088 in this cluster. |
+| #90019 | keep_canonical | planned | canonical | Best live canonical candidate among the remaining open actionable refs, but not merge-ready and mutation/fix actions are blocked by the job. |
+| #40088 | keep_related | planned | related | Related canonical-family context owned by an existing job; keep it open here and let #90019 remain the actionable canonical candidate for this cluster. |
 
 ## Needs Human
 

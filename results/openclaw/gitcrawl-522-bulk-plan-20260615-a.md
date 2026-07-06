@@ -2,14 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-522-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526068635"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526068635"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-20"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.759Z"
-canonical: "#90677"
-canonical_issue: "#90677"
+published_at: "2026-07-06T21:34:53.472Z"
+canonical: null
+canonical_issue: null
 canonical_pr: null
 actions_total: 1
 fix_executed: 0
@@ -25,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526068635](https://github.com/openclaw/clownfish/actions/runs/27526068635)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #90677
+Canonical: unknown
 
 ## Summary
 
-Plan only: #90677 is a distinct Google Chat product/docs issue about Chat-app-authored messages not producing inbound events, not a duplicate of the excluded #58514 Space/DM classifier bug or linked PR #58993.
+Read-only plan: #90677 is not a duplicate of the excluded overlap context #58514. #58514 tracks human space/group messages being silently ignored while DMs work; #90677 tracks Google Chat not delivering app-authored bot-to-bot MESSAGE events and asks for documentation or an internal routing bridge. Because the only actionable candidate has a distinct root cause and product-scope request, keep it independent for this cluster and do not close anything.
 
 ## Impact
 
@@ -62,11 +63,17 @@ Plan only: #90677 is a distinct Google Chat product/docs issue about Chat-app-au
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #90677 | keep_canonical | planned | canonical | Keep #90677 open as the live canonical for this separate Google Chat bot-to-bot delivery limitation/product-decision family. Do not close, label, merge, or raise a fix PR in plan mode, and no duplicate closure is safe against #58514 because the root cause and requested resolution differ. |
+| #90677 | keep_independent | planned | independent | Different Google Chat/provider behavior and product scope from the existing-overlap context; no duplicate closeout or fix path is allowed in this plan job. |
 
 ## Needs Human
 

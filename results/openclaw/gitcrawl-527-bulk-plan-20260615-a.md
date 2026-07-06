@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-527-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526070127"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526070127"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-21"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.759Z"
+published_at: "2026-07-06T21:34:53.473Z"
 canonical: "#57443"
 canonical_issue: "#57443"
 canonical_pr: null
-actions_total: 3
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526070127](https://github.com/openclaw/clownfish/actions/runs/27526070127)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #57443
 
 ## Summary
 
-Plan-only classification: #57443 remains the live canonical issue for the BytePlus Ark patternProperties provider-compatibility bug. Linked closed issues are historical evidence only; no close, merge, fix, or PR action is planned.
+#57443 remains the live canonical issue for BytePlus Ark/doubao rejecting tool schemas that include patternProperties. #57480 is closed, unmerged, excluded as existing-overlap context, and should not receive any closure or merge action in this plan.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,13 +63,18 @@ Plan-only classification: #57443 remains the live canonical issue for the BytePl
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #57443 | keep_canonical | planned | canonical | #57443 is the best surviving live canonical for this root cause and should remain open; the job is read-only plan mode and fix/merge actions are blocked. |
-| #19860 | keep_closed | skipped | related | Already closed and provider scope differs; keep as related historical context, not an actionable duplicate target. |
-| #6540 | keep_closed | skipped | independent | Already closed and not the same root cause; keep as independent historical context. |
+| #57443 | keep_canonical | planned | canonical | The representative is still open and is the best hydrated live canonical for this cluster; there are no other open actionable candidates to replace it. |
+| #57480 | keep_closed | skipped | superseded | Already closed refs must not receive close actions; this PR is retained only as historical context for #57443. |
 
 ## Needs Human
 

@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-402-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526001951"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526001951"
-head_sha: "df80d4eec7f44faa70d7ec54ce187a7ddabe040a"
+run_id: "28824485477-1-14"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.805Z"
+published_at: "2026-07-06T21:34:53.468Z"
 canonical: "#91222"
 canonical_issue: null
 canonical_pr: "#91222"
-actions_total: 2
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526001951](https://github.com/openclaw/clownfish/actions/runs/27526001951)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #91222
 
 ## Summary
 
-Read-only plan: #91222 is the best remaining live canonical for the narrow Google Vertex retry/stale ADC recovery work. #61443 is already closed existing-overlap context for broader configurable provider retry work and should not receive a closure action.
+Plan-mode classification only. The excluded overlap PR #61443 is already closed and remains historical context. The only remaining open candidate, #91222, is the best live canonical for the narrower Google Vertex retry/stale-ADC recovery scope, but it is not merge-ready because Real behavior proof is failing and merge/fix actions are blocked by the job.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 2 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,12 +63,17 @@ Read-only plan: #91222 is the best remaining live canonical for the narrow Googl
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #61443 | keep_closed | skipped | superseded | Already closed refs must not receive close actions; #61443 is existing-overlap context, not an actionable live candidate in this cluster. |
-| #91222 | keep_canonical | planned | canonical | #91222 should remain open as the live canonical for the narrow Google Vertex retry/stale ADC recovery subcluster; it is related to the broader closed provider-retry work but has a distinct provider-specific scope and remaining proof blocker. |
+| #91222 | keep_canonical | planned | canonical | Only open actionable ref; related to retry reliability but narrower than the closed overlap PR, so keep it as the live canonical for this cluster scope rather than closing or merging it. |
 
 ## Needs Human
 

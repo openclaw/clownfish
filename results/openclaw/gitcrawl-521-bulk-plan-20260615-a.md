@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-521-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526067356"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526067356"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-19"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.759Z"
+published_at: "2026-07-06T21:34:53.471Z"
 canonical: "#58570"
 canonical_issue: "#58570"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526067356](https://github.com/openclaw/clownfish/actions/runs/27526067356)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #58570
 
 ## Summary
 
-Plan-only classification: keep #58570 as the live canonical observability issue. The only linked PR, #58640, is already closed and should remain historical context only; no close, merge, fix, label, or comment action is planned.
+Read-only plan: #58570 remains the open canonical issue for the allow:false dropped-message warning request. #58640 is already closed, unmerged historical context and should not receive a close, merge, or fix action in this job.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan-only classification: keep #58570 as the live canonical observability issue.
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #58570 | keep_canonical | planned | canonical | #58570 is the only open actionable candidate and remains the best canonical thread for the policy-denial logging request. |
-| #58640 | keep_closed | skipped | superseded | Already-closed refs must not receive closure actions; keep #58640 as historical superseded context for #58570. |
+| #58570 | keep_canonical | planned | canonical | #58570 is the only open actionable member and remains the best canonical thread for validation and follow-up. |
+| #58640 | keep_closed | skipped | related | Already-closed existing-overlap context is historical evidence only; no closure or merge action is valid. |
 
 ## Needs Human
 

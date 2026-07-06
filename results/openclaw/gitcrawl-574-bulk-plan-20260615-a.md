@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-574-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526085432"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526085432"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-28"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:03.553Z"
+published_at: "2026-07-06T21:34:53.478Z"
 canonical: "#51903"
 canonical_issue: "#51903"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526085432](https://github.com/openclaw/clownfish/actions/runs/27526085432)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #51903
 
 ## Summary
 
-Read-only plan. #51903 remains the best live canonical issue for the nodes describe schema/implementation mismatch. Hydrated linked PR #51926 is the same implementation lane but is not merge-ready because real behavior proof is failing, a maintainer noted it needs rebasing for Dependency Guard, and bot review/comment evidence still asks for proof before merge. No close, merge, or fix PR action is planned.
+#51903 remains the live canonical issue. #51926 is a related open PR for the same nodes describe mismatch, but it is an excluded overlap context ref and is not merge-ready because the hydrated preflight shows a failing Real behavior proof check and a behind branch.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Read-only plan. #51903 remains the best live canonical issue for the nodes descr
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #51903 | keep_canonical | planned | canonical | Canonical issue remains open, scoped, reproducible by source inspection per hydrated comments, and should stay open until the linked implementation path lands or is replaced. |
-| #51926 | keep_related | skipped | related | #51926 appears to be the active same-root-cause implementation path for #51903, but it is context-only for this job and is not merge-ready due failing proof/rebase requirements. |
+| #51903 | keep_canonical | planned | canonical | #51903 is the only actionable open candidate issue in the job and remains the best canonical thread for tracking validation and product decision. |
+| #51926 | keep_related | planned | related | #51926 is related to the canonical issue and may be a future fix path, but this plan-mode job should not close, merge, or repair it. |
 
 ## Needs Human
 

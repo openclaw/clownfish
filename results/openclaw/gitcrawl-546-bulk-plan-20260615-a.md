@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-546-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526071513"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526071513"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-22"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.759Z"
+published_at: "2026-07-06T21:34:53.474Z"
 canonical: "#54716"
 canonical_issue: "#54435"
 canonical_pr: "#54716"
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526071513](https://github.com/openclaw/clownfish/actions/runs/27526071513)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #54716
 
 ## Summary
 
-Plan only: keep #54716 as the live canonical fix candidate for the literal per-agent session store bug, but do not recommend merge or fixed-by-candidate closeout because the PR has failing checks and unresolved review-bot findings. Keep #54435 open as the overlapped canonical issue context owned by the existing job.
+Plan mode only. #54716 is the best live canonical within this worker's actionable scope because #54435 is hydrated but marked existing-overlap/read-only context. #54716 appears to address #54435's sessions.list missing-agent root cause, but merge and fixed-by-candidate closeout are blocked by job permissions and failing checks.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan only: keep #54716 as the live canonical fix candidate for the literal per-a
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #54435 | keep_canonical | planned | canonical | #54435 is the live issue-level canonical context, but it is excluded from this job's actionable refs and remains open until the fix lands. |
-| #54716 | keep_canonical | planned | canonical | #54716 is the best live canonical fix candidate from the remaining actionable refs, but it is not merge-ready and cannot be repaired or merged by this plan-mode job. |
+| #54716 | keep_canonical | planned | canonical | Keep #54716 as the actionable canonical PR for the remaining open ref, but do not merge or close anything in this read-only plan. |
+| #54435 | keep_related | skipped | related | Mentioned only to preserve the relationship and avoid taking over the existing-overlap issue; no mutation should be applied by this worker. |
 
 ## Needs Human
 

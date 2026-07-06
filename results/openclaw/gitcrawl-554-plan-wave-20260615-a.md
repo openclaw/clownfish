@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-554-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27526079675"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526079675"
-head_sha: "150815b50791d4135faf2d65f72f30e14c8a168b"
+run_id: "28824485477-1-27"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:33:03.551Z"
+published_at: "2026-07-06T21:34:53.477Z"
 canonical: "#54157"
 canonical_issue: "#54157"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526079675](https://github.com/openclaw/clownfish/actions/runs/27526079675)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #54157
 
 ## Summary
 
-Keep #54157 as the live canonical issue. The linked implementation PR #55913 is already closed and should not receive any closure mutation; it remains historical evidence that the prior fix path was not merge-ready.
+Plan-only classification: keep #54157 as the live canonical issue for the Doubao/BytePlus context caching cost bug. #55913 addressed the same root cause but is already closed, unmerged, dirty, failing proof/check gates, and not eligible for close, merge, or fix actions in this job.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Keep #54157 as the live canonical issue. The linked implementation PR #55913 is 
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #54157 | keep_canonical | planned | canonical | The issue is the only open surviving canonical item for the Doubao/BytePlus context caching pricing bug. |
-| #55913 | keep_closed | skipped | superseded | Already closed PR; retain as historical source-credit evidence and keep the canonical issue open for a future valid fix path. |
+| #54157 | keep_canonical | planned | canonical | Best surviving open item for the cluster root cause. |
+| #55913 | keep_closed | skipped | related | Historical same-root-cause fix attempt; already closed and not actionable in this read-only plan job. |
 
 ## Needs Human
 

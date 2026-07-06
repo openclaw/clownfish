@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-386-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27525997063"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525997063"
-head_sha: "df80d4eec7f44faa70d7ec54ce187a7ddabe040a"
+run_id: "28824485477-1-12"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:31:02.380Z"
+published_at: "2026-07-06T21:34:53.466Z"
 canonical: "#80396"
 canonical_issue: null
 canonical_pr: "#80396"
-actions_total: 1
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525997063](https://github.com/openclaw/clownfish/actions/runs/27525997063)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #80396
 
 ## Summary
 
-Plan-mode classification only. The excluded overlap issue #41966 is hydrated context and remains the underlying report in another job; the only actionable candidate in this cluster is #80396. #80396 is the best live canonical path for this scoped cluster, but merge/close/fix actions are blocked by job frontmatter and maintainer review remains the next step.
+Plan-mode classification only. #80396 is the best remaining live canonical candidate for the non-security media warning fix, but it is not merge-ready because it is behind main and has an unresolved member CHANGES_REQUESTED review. #41966 is hydrated as read-only existing-overlap context and should remain owned by its existing job.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,11 +63,18 @@ Plan-mode classification only. The excluded overlap issue #41966 is hydrated con
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #80396 | keep_canonical | planned | canonical | #80396 is the single remaining open candidate and the clearest canonical repair path for the fenced MEDIA warning issue within this cluster. No mutating action is planned because this is plan mode and merge/fix are blocked. |
+| #80396 | keep_canonical | planned | canonical | Best remaining open canonical candidate, but merge and repair are out of scope for this plan-mode job. |
+| #41966 | keep_related | skipped | related | Read-only existing-overlap context; preserve the existing job ownership while recognizing #80396 as the candidate fix in this cluster. |
 
 ## Needs Human
 

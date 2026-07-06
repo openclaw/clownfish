@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-109-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27525948970"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525948970"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-0"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:29:00.257Z"
+published_at: "2026-07-06T21:34:53.463Z"
 canonical: "#82572"
 canonical_issue: null
 canonical_pr: "#82572"
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525948970](https://github.com/openclaw/clownfish/actions/runs/27525948970)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #82572
 
 ## Summary
 
-Plan-mode classification only. #82572 is the best live non-security canonical PR for the gateway restart followup-queue persistence family. #63330 is quarantined as security-sensitive. Closed linked refs are historical context only.
+Read-only plan: keep #82572 as the best non-security live canonical PR from the remaining actionable refs, route security-sensitive #51623 to central security handling, and keep the excluded overlap/context refs non-mutating.
 
 ## Impact
 
@@ -62,15 +63,21 @@ Plan-mode classification only. #82572 is the best live non-security canonical PR
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #1 | keep_closed | skipped |  | Already closed and unrelated to the actionable queue persistence candidate. |
-| #2 | keep_closed | skipped |  | Already closed and independent of this cluster's actionable root cause. |
-| #3 | keep_closed | skipped |  | Already closed and independent of the followup-queue restart cluster. |
-| #63330 | route_security | planned | security_sensitive | This item is out of scope for Clownfish backlog cleanup and should be quarantined to central security handling. |
-| #82572 | keep_canonical | planned | canonical | Keep #82572 as the live non-security canonical PR for this cluster; do not merge or close anything in plan mode. |
+| #82572 | keep_canonical | planned | canonical | Best live non-security canonical candidate within this plan-mode cluster, but no merge or repair is planned because the job blocks merge, fix, and raise_pr. |
+| #51623 | route_security | planned | security_sensitive | Security-sensitive PR is out of ProjectClownfish backlog-cleanup scope and should be routed to central OpenClaw security handling. |
+| #51620 | keep_related | planned | related | Related existing-overlap context; do not close or relabel from this cluster. |
+| #55792 | keep_related | planned | related | Related but not a true duplicate or fixed-by-candidate closeout target for #82572. |
+| #52577 | keep_closed | skipped | related | Already closed historical context only. |
 
 ## Needs Human
 

@@ -2,15 +2,16 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-405-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526043263"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526043263"
-head_sha: "c7ad8e870b6f3caec4c09cae355087e2dab5e58d"
+run_id: "28824485477-1-15"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:31:02.382Z"
-canonical: "#91161"
+published_at: "2026-07-06T21:34:53.469Z"
+canonical: "#39476"
 canonical_issue: "#39476"
-canonical_pr: "#91161"
+canonical_pr: null
 actions_total: 1
 fix_executed: 0
 fix_failed: 0
@@ -25,17 +26,17 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526043263](https://github.com/openclaw/clownfish/actions/runs/27526043263)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
 Worker result: planned
 
-Canonical: #91161
+Canonical: #39476
 
 ## Summary
 
-Plan-only classification: #91161 is the best live canonical within the actionable refs for the A2A sessions_send reverse-call duplicate-message bug. It should remain open and unmerged until the failed Real behavior proof gate is resolved. No close, merge, label, comment, or fix PR action is planned.
+Read-only plan classification: #91161 is a focused PR for the #39476 A2A sessions_send duplicate-message report, but it is not merge-ready because the job blocks merge/fix actions and the PR has a failing Real behavior proof check plus a behind branch state. Keep it related to the existing-overlap canonical issue rather than closing or merging anything.
 
 ## Impact
 
@@ -62,11 +63,17 @@ Plan-only classification: #91161 is the best live canonical within the actionabl
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #91161 | keep_canonical | planned | canonical | #91161 is the only actionable open candidate and is the implementation path for the root cause, but merge is blocked by the failed Real behavior proof check and merge/fix actions are blocked by job frontmatter. |
+| #91161 | keep_related | planned | related | Same root-cause family as #39476, but failing proof and blocked merge/fix permissions make only non-mutating related classification safe. |
 
 ## Needs Human
 

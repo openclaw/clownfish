@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-327-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27525975085"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525975085"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-4"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.796Z"
+published_at: "2026-07-06T21:34:53.482Z"
 canonical: "#83458"
 canonical_issue: null
 canonical_pr: "#83458"
-actions_total: 8
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525975085](https://github.com/openclaw/clownfish/actions/runs/27525975085)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #83458
 
 ## Summary
 
-Read-only plan: original representative #48834 is already closed, so no close action is valid. #83458 is the best surviving open canonical for the narrow Feishu ACP topic conversation binding work, but merge is blocked by failed proof/check gates and merge is disallowed in this job. #55027 remains a related open issue for Feishu block streaming behavior, and #50943 is quarantined as security-sensitive.
+#48834 is already closed and should not receive any closure action. #83458 is the only open hydrated candidate and should become the live canonical for the narrower Feishu ACP topic conversation-binding work, but it is not merge-ready because required checks include Real behavior proof failure and other failed CI.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 8 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,18 +63,18 @@ Read-only plan: original representative #48834 is already closed, so no close ac
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #30663 | keep_closed | skipped | fixed_by_candidate | Already merged and closed; retain only as context. |
-| #40936 | keep_closed | skipped | superseded | Already closed and superseded by later landed/narrow follow-up work. |
-| #46819 | keep_closed | skipped | fixed_by_candidate | Merged historical canonical for broad Feishu ACP/session support. |
-| #48834 | keep_closed | skipped | superseded | The representative is no longer open; #83458 is the best live open PR for the remaining narrow ACP topic-binding slice, not a reason to reopen #48834. |
-| #50943 | route_security | planned | security_sensitive | Security-sensitive ref is out of ProjectClownfish backlog cleanup scope. |
-| #55027 | keep_related | planned | related | Same Feishu ACP/message delivery area, but distinct root cause and user-visible behavior. |
-| #58400 | keep_closed | skipped | related | Merged related infrastructure; no action required. |
-| #83458 | keep_canonical | planned | canonical | Best live canonical for the narrow ACP topic conversation binding slice, but not merge-ready under this plan job. |
+| #48834 | keep_closed | skipped | related | Already closed; preserve as historical context for the Feishu ACP/session-binding family, but do not attempt closure, merge, or replacement in plan mode. |
+| #83458 | keep_canonical | planned | canonical | Use #83458 as the live canonical for the remaining narrow ACP topic-binding subcluster. Keep it open for maintainer validation instead of closing it as a duplicate of the closed, broader #48834. |
 
 ## Needs Human
 

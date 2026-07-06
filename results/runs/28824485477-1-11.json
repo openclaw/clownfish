@@ -1,0 +1,58 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "gitcrawl-383-bulk-plan-20260615-a",
+  "mode": "plan",
+  "run_id": "28824485477-1-11",
+  "workflow_run_id": "28824485477",
+  "run_attempt": "1",
+  "matrix_index": "11",
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/28824485477",
+  "head_sha": "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-06T21:28:15Z",
+  "workflow_updated_at": "2026-07-06T21:31:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/stale/gitcrawl-383-bulk-plan-20260615-a.md",
+  "published_at": "2026-07-06T21:34:53.465Z",
+  "canonical": "#41744",
+  "canonical_issue": "#41744",
+  "canonical_pr": null,
+  "summary": "Plan-only classification: keep #41744 as the open non-security canonical issue for the Feishu read-image media-loss report. Quarantine #50359 because the preflight artifact marks it security_sensitive:true; do not merge, close, comment, label, or use it as a candidate fix in this cluster.",
+  "actions": [
+    {
+      "target": "#41744",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#41744",
+      "candidate_fix": null,
+      "reason": "#41744 is the only hydrated open non-security candidate and remains the best live canonical for this cluster."
+    },
+    {
+      "target": "#50359",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Security-sensitive hydrated PRs are out of ProjectClownfish cleanup scope and must be routed to central OpenClaw security handling without blocking the ordinary #41744 canonical classification."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "route_security": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {},
+  "apply_counts": {},
+  "needs_human": [
+    "#50359 is explicitly security_sensitive:true in the preflight artifact and should be handled by central OpenClaw security review."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}

@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-494-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27526063669"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526063669"
-head_sha: "c7ad8e870b6f3caec4c09cae355087e2dab5e58d"
+run_id: "28824485477-1-18"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.758Z"
+published_at: "2026-07-06T21:34:53.471Z"
 canonical: "#59130"
 canonical_issue: "#59130"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526063669](https://github.com/openclaw/clownfish/actions/runs/27526063669)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #59130
 
 ## Summary
 
-Read-only plan: keep #59130 as the live canonical issue. The linked PR #59141 is related and potentially relevant, but it is not merge-ready or a basis for closing #59130 because real behavior proof is failing and review-bot findings remain unresolved.
+Read-only plan: #59130 remains the live canonical issue. #59141 is a related open PR candidate and existing-overlap context, but merge/fix/fixed-by-candidate closeout are blocked by job permissions and its failing Real behavior proof check.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Read-only plan: keep #59130 as the live canonical issue. The linked PR #59141 is
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #59130 | keep_canonical | planned | canonical | #59130 remains the best canonical issue for this cluster and should stay open for product/design follow-up and validation. |
-| #59141 | keep_related | planned | related | #59141 is the linked candidate fix path, but this plan-mode job cannot merge or repair it, and its failing proof plus unresolved review findings mean it should not be used to close #59130. |
+| #59130 | keep_canonical | planned | canonical | #59130 is open, hydrated, non-security-sensitive, and remains the best canonical thread for the stale latest-query recall behavior. |
+| #59141 | keep_related | planned | related | #59141 is related to and plausibly a candidate fix for #59130, but it is existing-overlap context and cannot be recommended for merge or fixed-by-candidate closeout under this plan because the job blocks merge/fix and the PR has failing behavior-proof status. |
 
 ## Needs Human
 

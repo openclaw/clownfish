@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-383-bulk-plan-20260615-a"
 mode: "plan"
-run_id: "27525995591"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525995591"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-11"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.804Z"
+published_at: "2026-07-06T21:34:53.465Z"
 canonical: "#41744"
 canonical_issue: "#41744"
 canonical_pr: null
@@ -18,14 +19,14 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 0
+needs_human_count: 1
 ---
 
 # gitcrawl-383-bulk-plan-20260615-a
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525995591](https://github.com/openclaw/clownfish/actions/runs/27525995591)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #41744
 
 ## Summary
 
-#41744 remains the live canonical issue for the Feishu read-image media-loss bug. #50359 is a related open contributor fix attempt for the same root cause, but it is excluded as existing-overlap context and is not merge-ready because real-behavior proof checks are failing and the latest ClawSweeper review still requires proof before merge. No close, merge, label, or fix action is planned in this read-only plan job.
+Plan-only classification: keep #41744 as the open non-security canonical issue for the Feishu read-image media-loss report. Quarantine #50359 because the preflight artifact marks it security_sensitive:true; do not merge, close, comment, label, or use it as a candidate fix in this cluster.
 
 ## Impact
 
@@ -48,7 +49,7 @@ Canonical: #41744
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 0 |
+| Needs human | 1 |
 
 ## Fix Execution Actions
 
@@ -62,13 +63,19 @@ Canonical: #41744
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #41744 | keep_canonical | planned | canonical | The representative is open, hydrated, non-security, and still carries the clearest root-cause discussion and reproduction evidence for the cluster. |
-| #50359 | keep_related | planned | related | The PR is a plausible related fix path for the canonical issue, but it is not eligible for merge or fixed-by-candidate closeout in this plan because proof checks are failing and the job excludes existing-overlap refs from actionable mutations. |
+| #41744 | keep_canonical | planned | canonical | #41744 is the only hydrated open non-security candidate and remains the best live canonical for this cluster. |
+| #50359 | route_security | planned | security_sensitive | Security-sensitive hydrated PRs are out of ProjectClownfish cleanup scope and must be routed to central OpenClaw security handling without blocking the ordinary #41744 canonical classification. |
 
 ## Needs Human
 
-- none
+- #50359 is explicitly security_sensitive:true in the preflight artifact and should be handled by central OpenClaw security review.

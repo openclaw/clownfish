@@ -2,16 +2,17 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-422-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27526050858"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27526050858"
-head_sha: "c7ad8e870b6f3caec4c09cae355087e2dab5e58d"
+run_id: "28824485477-1-17"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:32:02.755Z"
+published_at: "2026-07-06T21:34:53.470Z"
 canonical: "#35406"
 canonical_issue: "#35406"
 canonical_pr: null
-actions_total: 4
+actions_total: 2
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27526050858](https://github.com/openclaw/clownfish/actions/runs/27526050858)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,13 +36,13 @@ Canonical: #35406
 
 ## Summary
 
-Plan-mode classification: #35406 remains the open canonical issue for the read-tool binary document/token-waste problem. #57600 is already closed and must not receive a closure action. The linked security-sensitive #57612 is quarantined only for central security handling. No merge, fix PR, label, comment, or close mutation is planned.
+Plan-only classification: #35406 remains the live canonical issue for binary document read handling. #57600 is historical closed PR context and should not receive a closure action.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 2 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -62,14 +63,18 @@ Plan-mode classification: #35406 remains the open canonical issue for the read-t
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #35406 | keep_canonical | planned | canonical | Best surviving live item for this cluster; keep open for maintainer product/fix follow-up. |
-| #35494 | keep_closed | skipped | superseded | Already closed; useful historical fix evidence, but no mutation is valid. |
-| #57600 | keep_closed | skipped | superseded | Already closed; no close action may be planned. The canonical issue remains #35406. |
-| #57612 | route_security | planned | security_sensitive | Quarantine this exact linked item for central OpenClaw security handling only. |
+| #35406 | keep_canonical | planned | canonical | #35406 is the only open hydrated item and best surviving canonical for the binary document read behavior family. |
+| #57600 | keep_closed | skipped | superseded | #57600 overlaps the canonical issue but is already closed and unmerged, so it is historical context only for this plan run. |
 
 ## Needs Human
 

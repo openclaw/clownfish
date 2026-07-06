@@ -2,12 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "gitcrawl-367-plan-wave-20260615-a"
 mode: "plan"
-run_id: "27525988573"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/27525988573"
-head_sha: "4574037aa1f27e59d5ea43eca0073b4c4dfc504c"
+run_id: "28824485477-1-9"
+workflow_run_id: "28824485477"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28824485477"
+head_sha: "6a77fbf951ba8b7b9a9969c9cfc421f0012c5e16"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-06-15T05:30:14.801Z"
+published_at: "2026-07-06T21:34:53.486Z"
 canonical: "#92777"
 canonical_issue: "#92777"
 canonical_pr: null
@@ -25,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/27525988573](https://github.com/openclaw/clownfish/actions/runs/27525988573)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28824485477](https://github.com/openclaw/clownfish/actions/runs/28824485477)
 
 Workflow conclusion: success
 
@@ -35,7 +36,7 @@ Canonical: #92777
 
 ## Summary
 
-Plan-mode classification only. #92777 remains the live canonical issue for the WSL2/Ubuntu TUI backspace-after-response report. #92818 is already closed and unmerged, so no closure, merge, or fix action is available or needed in this cluster.
+Plan-only classification complete: #92777 remains the live canonical issue for the WSL2/Ubuntu TUI backspace regression. #92818 is a closed, unmerged contributor PR that matches the same root cause and is historical evidence only; no close, merge, or fix action is planned.
 
 ## Impact
 
@@ -62,12 +63,18 @@ Plan-mode classification only. #92777 remains the live canonical issue for the W
 | --- | --- | --- | --- | --- |
 | _None_ |  |  |  |  |
 
+## Apply Audit
+
+| Attempt | Source | Target | Action | Status | Reason |
+| --- | --- | --- | --- | --- |
+| _None_ |  |  |  |  |  |
+
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #92777 | keep_canonical | planned | canonical | #92777 is the only open hydrated item and is the best surviving thread for validation and follow-up. |
-| #92818 | keep_closed | skipped | superseded | Already closed PRs must not receive close, merge, or fixed-by-candidate actions. |
+| #92777 | keep_canonical | planned | canonical | #92777 is the only open issue in the hydrated cluster and best surviving canonical for the reported TUI backspace root cause. |
+| #92818 | keep_closed | skipped | related | #92818 is related to the canonical issue and may preserve contributor context, but it is already closed and unmerged, so no mutation is valid in this plan. |
 
 ## Needs Human
 
