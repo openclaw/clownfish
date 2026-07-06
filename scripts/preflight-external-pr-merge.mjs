@@ -410,7 +410,9 @@ function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest })
     ...reviewComments.map((comment) => comment.body),
   ];
 
-  if (hasSecuritySensitiveText(texts)) blockers.push("security-sensitive signal in hydrated PR metadata or comments");
+  if (hasSecuritySensitiveText(texts.map(maskBenignApprovalSecurityTranscriptLines))) {
+    blockers.push("security-sensitive signal in hydrated PR metadata or comments");
+  }
   const blockedLabel = findHighRiskMergeLabel(pull.labels);
   if (blockedLabel) blockers.push(`PR has blocked live label: ${blockedLabel}`);
   if (String(pull.state ?? "").toLowerCase() !== "open") blockers.push(`PR is ${pull.state ?? "unknown"}`);
@@ -775,6 +777,29 @@ function checkTimestamp(check) {
 
 function checkName(check) {
   return String(check.name ?? check.context ?? "unknown check");
+}
+
+function maskBenignApprovalSecurityTranscriptLines(value) {
+  const lines = String(value ?? "").split(/\r?\n/);
+  let fence = null;
+
+  return lines
+    .map((line) => {
+      const marker = line.match(/^\s*(`{3,}|~{3,})/)?.[1];
+      if (marker) {
+        if (!fence) {
+          fence = marker[0];
+        } else if (marker[0] === fence) {
+          fence = null;
+        }
+        return line;
+      }
+      if (fence && /^\s*security:\s*(?:deny|allowlist|full)\s*$/i.test(line)) {
+        return "";
+      }
+      return line;
+    })
+    .join("\n");
 }
 
 function isReviewBot(review) {
