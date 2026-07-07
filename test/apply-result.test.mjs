@@ -11,6 +11,10 @@ const EXPECTED_HEAD_SHA = "a".repeat(40);
 const CHANGED_HEAD_SHA = "b".repeat(40);
 const CURRENT_MAIN_SHA = "c".repeat(40);
 const TEST_MERGE_SHA = "d".repeat(40);
+const REFRESHED_HEAD_SHA = "12".repeat(20);
+const REFRESHED_TEST_MERGE_SHA = "34".repeat(20);
+const REFRESHED_MERGE_TREE_SHA = "56".repeat(20);
+const MOVED_MAIN_SHA = "78".repeat(20);
 const SQUASH_COMMIT_SHA = "6".repeat(40);
 const SQUASH_TREE_SHA = "0".repeat(40);
 const BASE_TREE_SHA = "e".repeat(40);
@@ -678,7 +682,124 @@ test("apply-result blocks an external preflight when the effective diff changes"
   assert.equal(fs.existsSync(mergeStatePath), false);
 });
 
-test("apply-result blocks a stale GitHub test merge even when changed paths are disjoint", () => {
+test("apply-result safely refreshes and adopts a stale GitHub test merge", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    mergeBaseSha: "9".repeat(40),
+    branchRefresh: true,
+    maintainerCanModify: false,
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  assert.equal(report.actions[0].reviewed_head_sha, EXPECTED_HEAD_SHA);
+  assert.equal(report.actions[0].merge_head_sha, REFRESHED_HEAD_SHA);
+  assert.equal(report.actions[0].branch_refresh.status, "adopted");
+  assert.equal(report.actions[0].branch_refresh.method, "merge");
+  assert.equal(report.actions[0].branch_refresh.expected_old_head_sha, EXPECTED_HEAD_SHA);
+  assert.equal(report.actions[0].branch_refresh.refreshed_head_sha, REFRESHED_HEAD_SHA);
+  assert.equal(
+    report.actions[0].branch_refresh.refreshed_test_merge_sha,
+    REFRESHED_TEST_MERGE_SHA,
+  );
+  assert.equal(report.actions[0].exact_merge_check.head_sha, REFRESHED_TEST_MERGE_SHA);
+  const ghCalls = fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+  const updateArgs = ghCalls.find(
+    (args) =>
+      args[0] === "api" &&
+      args[1] === "repos/openclaw/openclaw/pulls/60063/update-branch",
+  );
+  assert.ok(updateArgs);
+  assert.equal(updateArgs.includes("--method"), true);
+  assert.equal(updateArgs[updateArgs.indexOf("--method") + 1], "PUT");
+  const inputPath = updateArgs[updateArgs.indexOf("--input") + 1];
+  assert.deepEqual(JSON.parse(fs.readFileSync(inputPath, "utf8")), {
+    expected_head_sha: EXPECTED_HEAD_SHA,
+  });
+  const mergeArgs = ghCalls.find((args) => args[0] === "pr" && args[1] === "merge");
+  assert.deepEqual(mergeArgs.slice(-3), [
+    "--squash",
+    "--match-head-commit",
+    REFRESHED_HEAD_SHA,
+  ]);
+});
+
+test("apply-result blocks stale test merge recovery for an unwritable branch", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    mergeBaseSha: "9".repeat(40),
+    branchRefresh: true,
+    maintainerCanModify: false,
+    headRepo: "contributor/openclaw",
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].retry_recommended, true);
+  assert.match(report.actions[0].reason, /branch is not writable/);
+  const ghCalls = fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+  assert.equal(ghCalls.some((args) => args[1]?.endsWith("/update-branch")), false);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
+test("apply-result blocks branch refresh when the effective diff changes", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
   const mergeStatePath = path.join(tmp, "merge-state");
@@ -687,6 +808,8 @@ test("apply-result blocks a stale GitHub test merge even when changed paths are 
     headSha: EXPECTED_HEAD_SHA,
     externalBinding: true,
     mergeBaseSha: "9".repeat(40),
+    branchRefresh: true,
+    refreshedMergeBlobSha: "3".repeat(40),
   });
 
   const jobPath = path.join(tmp, "job.md");
@@ -699,12 +822,57 @@ test("apply-result blocks a stale GitHub test merge even when changed paths are 
     dryRun: false,
     allowMerge: true,
     mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS: "0",
+    },
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
   assert.equal(report.actions[0].status, "blocked");
-  assert.match(report.actions[0].reason, /test merge commit is not based on the reviewed main SHA/);
+  assert.equal(report.actions[0].retry_recommended, true);
+  assert.equal(report.actions[0].reason, "effective merge diff changed after branch refresh");
+  assert.equal(report.actions[0].reviewed_head_sha, EXPECTED_HEAD_SHA);
+  assert.equal(report.actions[0].merge_head_sha, REFRESHED_HEAD_SHA);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
+test("apply-result blocks branch refresh when main moves", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    mergeBaseSha: "9".repeat(40),
+    branchRefresh: true,
+    mainAfterRefreshSha: MOVED_MAIN_SHA,
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].retry_recommended, true);
+  assert.equal(report.actions[0].reason, "main changed during stale test merge branch refresh");
+  assert.equal(report.actions[0].verified_main_sha, MOVED_MAIN_SHA);
   assert.equal(fs.existsSync(mergeStatePath), false);
 });
 
@@ -1406,6 +1574,14 @@ function writeReadyMergeGhStub(
     externalBinding = false,
     mergeBlobSha = MERGE_BLOB_SHA,
     mergeBaseSha = CURRENT_MAIN_SHA,
+    branchRefresh = false,
+    maintainerCanModify = true,
+    headRepo = "openclaw/openclaw",
+    headRef = "feature/stale-test-merge",
+    refreshedHeadSha = REFRESHED_HEAD_SHA,
+    refreshedTestMergeSha = REFRESHED_TEST_MERGE_SHA,
+    refreshedMergeBlobSha = mergeBlobSha,
+    mainAfterRefreshSha = CURRENT_MAIN_SHA,
     currentMainBlobSha = BASE_BLOB_SHA,
     reviewedBaseSha = CURRENT_MAIN_SHA,
     currentMainExtraPath = "src/other/unrelated.ts",
@@ -1428,8 +1604,10 @@ const merged = Boolean(process.env.MERGE_STATE && fs.existsSync(process.env.MERG
 const mergeViews = ${JSON.stringify(mergeViews)};
 const viewCountPath = ${JSON.stringify(viewCountPath)};
 const checkStatePath = ${JSON.stringify(path.join(binDir, "exact-merge-check.json"))};
+const branchRefreshStatePath = ${JSON.stringify(path.join(binDir, "branch-refresh-state"))};
 const externalBinding = ${JSON.stringify(externalBinding)};
 const reviewedBaseSha = ${JSON.stringify(reviewedBaseSha)};
+const branchRefreshed = () => fs.existsSync(branchRefreshStatePath);
 if (process.env.GH_CALL_LOG) fs.appendFileSync(process.env.GH_CALL_LOG, JSON.stringify(args) + "\\n");
 function write(value) {
   process.stdout.write(JSON.stringify(value));
@@ -1449,7 +1627,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     number: 60063,
     state: merged ? "closed" : "open",
     title: "streaming fix",
-    updated_at: ${JSON.stringify(issueUpdatedAt)},
+    updated_at: branchRefreshed() ? "2026-06-11T05:07:31Z" : ${JSON.stringify(issueUpdatedAt)},
     labels: ${JSON.stringify(labels)},
     author_association: "NONE",
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
@@ -1459,20 +1637,50 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     number: 60063,
     state: "open",
     draft: false,
-    updated_at: "2026-06-11T05:07:30Z",
+    updated_at: branchRefreshed() ? "2026-06-11T05:07:31Z" : "2026-06-11T05:07:30Z",
     labels: ${JSON.stringify(labels)},
     base: { ref: "main", sha: externalBinding ? ${JSON.stringify(CURRENT_MAIN_SHA)} : "current-main" },
-    head: { sha: ${JSON.stringify(headSha)} },
+    head: {
+      sha: branchRefreshed() ? ${JSON.stringify(refreshedHeadSha)} : ${JSON.stringify(headSha)},
+      ref: ${JSON.stringify(headRef)},
+      repo: { full_name: ${JSON.stringify(headRepo)} }
+    },
+    maintainer_can_modify: ${JSON.stringify(maintainerCanModify)},
     merged_at: merged ? "2026-06-11T05:09:00Z" : null,
     merge_commit_sha: externalBinding
-      ? (merged ? ${JSON.stringify(SQUASH_COMMIT_SHA)} : ${JSON.stringify(TEST_MERGE_SHA)})
+      ? (merged
+          ? ${JSON.stringify(SQUASH_COMMIT_SHA)}
+          : (branchRefreshed()
+              ? ${JSON.stringify(refreshedTestMergeSha)}
+              : ${JSON.stringify(TEST_MERGE_SHA)}))
       : (merged ? "c".repeat(40) : null)
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
   const comments = ${JSON.stringify(issueComments)};
   write(args.includes("--slurp") ? [comments] : comments);
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
-  write({ object: { sha: externalBinding ? ${JSON.stringify(CURRENT_MAIN_SHA)} : "current-main" } });
+  write({
+    object: {
+      sha: externalBinding
+        ? (branchRefreshed() ? ${JSON.stringify(mainAfterRefreshSha)} : ${JSON.stringify(CURRENT_MAIN_SHA)})
+        : "current-main"
+    }
+  });
+} else if (
+  externalBinding &&
+  ${JSON.stringify(branchRefresh)} &&
+  args[0] === "api" &&
+  args[1] === "repos/openclaw/openclaw/pulls/60063/update-branch" &&
+  args.includes("PUT")
+) {
+  const inputIndex = args.indexOf("--input");
+  const payload = JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8"));
+  if (payload.expected_head_sha !== ${JSON.stringify(headSha)}) {
+    process.stderr.write("expected_head_sha mismatch\\n");
+    process.exit(1);
+  }
+  fs.writeFileSync(branchRefreshStatePath, "refreshed");
+  write({ message: "Updating pull request branch.", url: "https://api.github.test/update-branch" });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/main") {
   write(${JSON.stringify(exactMergeRule)} ? [
     {
@@ -1485,7 +1693,14 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
       }
     }
   ] : []);
-} else if (externalBinding && args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/${TEST_MERGE_SHA}/check-runs?")) {
+} else if (
+  externalBinding &&
+  args[0] === "api" &&
+  (
+    args[1].startsWith("repos/openclaw/openclaw/commits/${TEST_MERGE_SHA}/check-runs?") ||
+    args[1].startsWith("repos/openclaw/openclaw/commits/${refreshedTestMergeSha}/check-runs?")
+  )
+) {
   const checks = checkRuns();
   write({ total_count: checks.length, check_runs: checks });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs" && args.includes("POST")) {
@@ -1525,6 +1740,23 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     tree: { sha: ${JSON.stringify(MERGE_TREE_SHA)} },
     parents: [{ sha: ${JSON.stringify(mergeBaseSha)} }, { sha: ${JSON.stringify(headSha)} }]
   });
+} else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/${refreshedHeadSha}") {
+  write({
+    sha: ${JSON.stringify(refreshedHeadSha)},
+    parents: [
+      { sha: ${JSON.stringify(headSha)} },
+      { sha: ${JSON.stringify(reviewedBaseSha)} }
+    ]
+  });
+} else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/${refreshedTestMergeSha}") {
+  write({
+    sha: ${JSON.stringify(refreshedTestMergeSha)},
+    tree: { sha: ${JSON.stringify(REFRESHED_MERGE_TREE_SHA)} },
+    parents: [
+      { sha: ${JSON.stringify(reviewedBaseSha)} },
+      { sha: ${JSON.stringify(refreshedHeadSha)} }
+    ]
+  });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/${SQUASH_COMMIT_SHA}") {
   write({
     sha: ${JSON.stringify(SQUASH_COMMIT_SHA)},
@@ -1557,6 +1789,14 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     truncated: false,
     tree: [
       { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(mergeBlobSha)} },
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+    ]
+  });
+} else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${REFRESHED_MERGE_TREE_SHA}?recursive=1") {
+  write({
+    truncated: false,
+    tree: [
+      { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(refreshedMergeBlobSha)} },
       { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
     ]
   });
