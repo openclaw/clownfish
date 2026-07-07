@@ -1335,7 +1335,9 @@ for (const [kind, body] of [
   });
 }
 
-function trustedReadyReviewComment() {
+function trustedReadyReviewComment({
+  nextStep = "No automated repair is needed; the remaining action is normal maintainer review.",
+} = {}) {
   return {
     author: { login: "clawsweeper[bot]" },
     authorAssociation: "CONTRIBUTOR",
@@ -1349,7 +1351,7 @@ function trustedReadyReviewComment() {
       "Result: ready for maintainer review.",
       "",
       "**Next step before merge**",
-      "- No automated repair is needed; the remaining action is normal maintainer review.",
+      `- ${nextStep}`,
       "",
       `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
       "<!-- clawsweeper-review item=123 -->",
@@ -1372,6 +1374,31 @@ test("external merge preflight accepts an explicit maintainer decision with an e
           "This is intentional hardening; the pnpm and npm user paths remain present, and Clownfish must still verify the current-main effective diff through the exact merge gate before landing.",
         ].join(" "),
         url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-maintainer-decision",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight accepts indicated-no-repair wording with a maintainer decision", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      trustedReadyReviewComment({
+        nextStep:
+          "No automated repair is indicated; maintainers should do normal review and exact-merge validation for the behind-but-mergeable head.",
+      }),
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        createdAt: "2026-07-07T02:02:09Z",
+        body: [
+          "Maintainer decision: accept the fail-closed port ownership behavior.",
+          "Malformed PID output is rejected, the fuser fallback preserves recovery where possible, and the stale-port wait remains bounded.",
+          "The compatibility and availability risk labels were false positives; no code repair is needed.",
+        ].join(" "),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-maintainer-decision-indicated",
       },
     ],
   });

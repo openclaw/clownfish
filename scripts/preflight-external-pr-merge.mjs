@@ -2573,7 +2573,7 @@ function hasClawSweeperReadyReviewSignal(body) {
   return (
     isClawSweeperMaintainerReviewHeader(firstLine) &&
     /result:\s*ready for maintainer review\./.test(body) &&
-    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is needed|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
       body,
     )
   );
@@ -3047,7 +3047,8 @@ function isAuthorObjectionComment(body) {
     .filter((line) => !/^\s*\*\*before this fix\*\*:/.test(line))
     .join("\n");
   return hasOpenIssueStatement(currentClaims) || hasInvertedProofEvidence(currentClaims) || [
-    /\b(?:pause|wait|hold)(?:\s+off)?\b/,
+    /(?:^|[.!?;]\s+|\n)\s*(?:please\s+)?(?:pause|wait|hold)(?:\s+off)?\b/,
+    /\b(?:let'?s|could we|can we|we should|we need to|i(?: would|'d) prefer to)\s+(?:pause|wait|hold)(?:\s+off)?\b/,
     /\b(?:not|isn't|aren't)\s+(?:ready|complete|fixed|resolved)\b/,
     /\b(?:incomplete|unfinished|still investigating|need more time|one more thought|worried|concerns?|unclear)\b/,
     /\b(?:haven't|hasn't|nothing was)\s+fixed\b/,
@@ -3099,12 +3100,16 @@ function hasInvertedProofEvidence(body) {
       ) {
         return false;
       }
+      const unresolvedClaims = line.replace(
+        /\b(?:invalid|malformed|unsupported)\b.{0,80}?\b(?:is|are|was|were)\s+(?:correctly\s+)?(?:dropped|ignored|rejected|skipped)\b/g,
+        "",
+      );
       return [
         /\b(?:expected|supported|valid)\b.{0,80}\b(?:disappears?|dropped|fails?|ignored|lost|missing|rejected|skipped)\b/,
         /\b(?:disappears?|drops?|ignores?|loses?|rejects?|skips?)\b.{0,80}\b(?:expected|supported|valid)\b/,
         /\b(?:invalid|malformed|unsupported)\b.{0,80}\b(?:accepted|allowed|creates?|processed|preserved|produces?)\b/,
         /\b(?:accepts?|allows?|creates?|processes?|preserves?|produces?)\b.{0,80}\b(?:invalid|malformed|unsupported)\b/,
-      ].some((pattern) => pattern.test(line));
+      ].some((pattern) => pattern.test(unresolvedClaims));
     });
 }
 
