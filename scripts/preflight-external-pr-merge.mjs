@@ -2406,6 +2406,16 @@ function isNonBlockingCommentEvidence(
   }
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
+  if (
+    isMaintainerDecisionApprovalComment({
+      association,
+      body: normalized,
+      view,
+      trustedAuthorProgressApprovalAt,
+    })
+  ) {
+    return true;
+  }
   if (isMaintainerProofOrStatusComment({ association, body })) return true;
   if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
@@ -2527,6 +2537,18 @@ function isMaintainerApprovalComment({ association, body }) {
     ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
     /^(?:lgtm|looks good(?: to me)?|approved|ship it|:\+1:|👍)[.! ]*$/.test(body)
   );
+}
+
+function isMaintainerDecisionApprovalComment({
+  association,
+  body,
+  view = null,
+  trustedAuthorProgressApprovalAt = null,
+}) {
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
+  if (!Number.isFinite(trustedAuthorProgressApprovalAt)) return false;
+  if (!/^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body)) return false;
+  return !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view });
 }
 
 function isMaintainerProofOrStatusComment({ association, body }) {

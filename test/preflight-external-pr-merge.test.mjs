@@ -1335,6 +1335,87 @@ for (const [kind, body] of [
   });
 }
 
+function trustedReadyReviewComment() {
+  return {
+    author: { login: "clawsweeper[bot]" },
+    authorAssociation: "CONTRIBUTOR",
+    isMinimized: false,
+    createdAt: "2026-07-07T01:40:00Z",
+    body: [
+      "Codex review: needs maintainer review before merge.",
+      "",
+      "**Review metrics:** none identified.",
+      "",
+      "Result: ready for maintainer review.",
+      "",
+      "**Next step before merge**",
+      "- No automated repair is needed; the remaining action is normal maintainer review.",
+      "",
+      `<!-- clawsweeper-verdict:needs-human item=123 sha=${"a".repeat(40)} confidence=high -->`,
+      "<!-- clawsweeper-review item=123 -->",
+    ].join("\n"),
+    url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-ready-review",
+  };
+}
+
+test("external merge preflight accepts an explicit maintainer decision with an exact-gate handoff", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      trustedReadyReviewComment(),
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        createdAt: "2026-07-07T01:48:12Z",
+        body: [
+          "Maintainer decision: accepting the system-before-user managed service PATH precedence.",
+          "This is intentional hardening; the pnpm and npm user paths remain present, and Clownfish must still verify the current-main effective diff through the exact merge gate before landing.",
+        ].join(" "),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-maintainer-decision",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight keeps requested changes in a maintainer decision blocking", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      trustedReadyReviewComment(),
+      {
+        author: { login: "maintainer" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        createdAt: "2026-07-07T01:48:12Z",
+        body: "Maintainer decision: accepting the direction, but please add a focused regression test before merge.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-maintainer-decision-change",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+test("external merge preflight requires a current-head ready review before accepting a maintainer decision", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "vincentkoc" },
+        authorAssociation: "MEMBER",
+        isMinimized: false,
+        createdAt: "2026-07-07T01:48:12Z",
+        body: "Maintainer decision: accepting the documented tradeoff.",
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-unbound-maintainer-decision",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
 test("external merge preflight tolerates ready ClawSweeper docs reviews without proof labels", () => {
   const fixture = makeFixture({
     pullLabels: [
