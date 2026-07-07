@@ -2,7 +2,7 @@
 repo: openclaw/openclaw
 cluster_id: exact-merge-wave-85238-20260707
 mode: autonomous
-expected_head_sha: d823cb61960aa275c0386171a476a56d28322487
+expected_head_sha: 16cfff03540a4e134126e737bfb3f5966d8a1286
 allowed_actions:
   - "merge"
 blocked_actions:
@@ -32,7 +32,7 @@ require_external_merge_preflight: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #85238 after the deterministic external preflight binds validation and review to its exact live head."
-notes: "Refreshed exact head: d823cb61960aa275c0386171a476a56d28322487. Maintainers rebased the editable contributor branch onto OpenClaw main 82106a18b3beaaff085ca3258a6f09cd19348d03 after its GitHub test-merge ref lagged the live base. Re-fetch live state and stop if the head or merge policy changes."
+notes: "Refreshed exact head: 16cfff03540a4e134126e737bfb3f5966d8a1286. Maintainers repaired the editable contributor branch after deterministic preflight found that filesystem-root service cwd incorrectly rejected trusted PNPM_HOME and NPM_CONFIG_PREFIX paths. Focused path-env tests and the changed-surface gate passed locally. Re-run the full deterministic external preflight and stop if the head or merge policy changes."
 ---
 
 # Exact Merge Wave: #85238
