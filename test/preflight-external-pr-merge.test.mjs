@@ -105,6 +105,22 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /clearInterval\(heartbeat\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
   assert.match(clusterWorkflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS \|\| '60000' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS \|\| '2' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_COMMITS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_COMMITS \|\| '20' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES \|\| '128' \}\}/,
+  );
   assert.equal((clusterWorkflow.match(/permission-checks: write/g) ?? []).length >= 2, true);
   assert.match(
     clusterWorkflow,
