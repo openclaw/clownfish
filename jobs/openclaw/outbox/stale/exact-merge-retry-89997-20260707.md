@@ -31,7 +31,7 @@ allow_merge: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #89997 after the deterministic external preflight binds validation and review to its exact live head."
-notes: "Refreshed after contributor update to exact head f3237b42d8faaab8cc0753d8268c6891bca94e90. One SDK-surface check also fails on current main; do not bypass checks, and stop if the head or merge policy changes."
+notes: "Merged externally by vincentkoc at 2026-07-07T00:55:50Z as squash commit ffa6ebda4cd048e7d6d60c803d15d995af7870e7. This retry was never dispatched; do not dispatch this archived job."
 ---
 
 # Exact Merge Retry: #89997
