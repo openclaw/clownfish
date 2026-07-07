@@ -202,7 +202,8 @@
           "bot_comments_status",
           "bot_comments_evidence",
           "codex_review",
-          "validation_commands"
+          "validation_commands",
+          "base_adoption_manifest"
         ],
         "additionalProperties": false,
         "properties": {
@@ -285,6 +286,91 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          },
+          "base_adoption_manifest": {
+            "type": ["object", "null"],
+            "required": [
+              "schema_version",
+              "policy",
+              "reviewed_base_sha",
+              "reviewed_head_sha",
+              "reviewed_synthetic_merge_sha",
+              "reviewed_merge_tree_sha",
+              "effective_diff_sha256",
+              "effective_diff_files",
+              "effective_paths",
+              "affected_areas",
+              "validation_gate",
+              "reviewed_paths",
+              "validation_controls",
+              "review_context"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer",
+                "const": 1
+              },
+              "policy": {
+                "type": "string",
+                "const": "bounded-fast-forward-v1"
+              },
+              "reviewed_base_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{40}$"
+              },
+              "reviewed_head_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{40}$"
+              },
+              "reviewed_synthetic_merge_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{40}$"
+              },
+              "reviewed_merge_tree_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{40}$"
+              },
+              "effective_diff_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{64}$"
+              },
+              "effective_diff_files": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "effective_paths": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "affected_areas": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "validation_gate": {
+                "type": "string",
+                "const": "pnpm check:changed"
+              },
+              "reviewed_paths": {
+                "$ref": "#/$defs/baseAdoptionBlobSnapshot"
+              },
+              "validation_controls": {
+                "$ref": "#/$defs/baseAdoptionBlobSnapshot"
+              },
+              "review_context": {
+                "$ref": "#/$defs/baseAdoptionBlobSnapshot"
+              }
             }
           }
         }
@@ -384,6 +470,49 @@
           }
         }
       ]
+    }
+  },
+  "$defs": {
+    "baseAdoptionBlobSnapshot": {
+      "type": "object",
+      "required": ["complete", "files", "sha256", "blobs"],
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        },
+        "files": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "blobs": {
+          "type": "array",
+          "maxItems": 2048,
+          "items": {
+            "type": "object",
+            "required": ["path", "reviewed_base_entry", "reviewed_result_entry"],
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_base_entry": {
+                "type": ["string", "null"],
+                "pattern": "^[0-7]{6}:[a-z]+:[0-9a-fA-F]{40}$"
+              },
+              "reviewed_result_entry": {
+                "type": ["string", "null"],
+                "pattern": "^[0-7]{6}:[a-z]+:[0-9a-fA-F]{40}$"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

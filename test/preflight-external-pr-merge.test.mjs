@@ -196,6 +196,26 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
   assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
   assert.equal(result.merge_preflight[0].effective_diff_files, 1);
+  assert.deepEqual(
+    {
+      schema_version: result.merge_preflight[0].base_adoption_manifest.schema_version,
+      policy: result.merge_preflight[0].base_adoption_manifest.policy,
+      reviewed_base_sha: result.merge_preflight[0].base_adoption_manifest.reviewed_base_sha,
+      reviewed_head_sha: result.merge_preflight[0].base_adoption_manifest.reviewed_head_sha,
+      effective_paths: result.merge_preflight[0].base_adoption_manifest.effective_paths,
+      validation_gate: result.merge_preflight[0].base_adoption_manifest.validation_gate,
+    },
+    {
+      schema_version: 1,
+      policy: "bounded-fast-forward-v1",
+      reviewed_base_sha: fixture.baseSha,
+      reviewed_head_sha: fixture.headSha,
+      effective_paths: ["src/effective.ts"],
+      validation_gate: "pnpm check:changed",
+    },
+  );
+  assert.equal(result.merge_preflight[0].base_adoption_manifest.reviewed_paths.complete, true);
+  assert.equal(result.merge_preflight[0].base_adoption_manifest.review_context.complete, true);
   assert.match(result.actions[0].evidence.join("\n"), /synthetic squash-result commit/);
 
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
@@ -560,6 +580,75 @@ test("external merge preflight reuses review across bounded disjoint main drift"
     encoding: "utf8",
   });
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
+});
+
+test("external merge preflight preserves the last clean review when moving main exhausts revalidations", () => {
+  const firstAdvancedMain = "9".repeat(40);
+  const stillMovingMain = "8".repeat(40);
+  const fixture = makeFixture({
+    refreshedMainShas: [firstAdvancedMain, stillMovingMain],
+  });
+  const { report, result } = runPreflightFixture(fixture, {
+    CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS: "1",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(report.reviewed_base_sha, firstAdvancedMain);
+  assert.equal(report.validated_main_sha, firstAdvancedMain);
+  assert.equal(report.current_main_sha, stillMovingMain);
+  assert.equal(report.apply_time_adoption_required, true);
+  assert.deepEqual(report.pending_apply_adoption, {
+    status: "required",
+    from_base_sha: firstAdvancedMain,
+    observed_main_sha: stillMovingMain,
+    drift_commit_count: 7,
+    drift_file_count: 1,
+    drift_paths_sha256: createHash("sha256").update("docs/main-drift.md").digest("hex"),
+    exhausted_revalidations: 1,
+  });
+  assert.equal(result.merge_preflight[0].reviewed_base_sha, firstAdvancedMain);
+  assert.equal(
+    result.merge_preflight[0].base_adoption_manifest.reviewed_base_sha,
+    firstAdvancedMain,
+  );
+  assert.match(result.actions[0].evidence.join("\n"), /apply must adopt from validated base/);
+  assert.equal(Number(fs.readFileSync(fixture.codexCountPath, "utf8")), 1);
+  assert.equal(
+    fs.readFileSync(fixture.pnpmCommandsPath, "utf8").match(/check:changed/g)?.length,
+    2,
+  );
+
+  const reviewed = spawnSync(process.execPath, ["scripts/review-results.mjs", fixture.runDir], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+  assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
+});
+
+test("external merge preflight hands bounded disjoint runtime drift to no-model adoption", () => {
+  const fixture = makeFixture({
+    refreshedMainSha: "9".repeat(40),
+    refreshedMainFiles: ["src/other/unrelated.ts"],
+  });
+  const { report, result } = runPreflightFixture(fixture, {
+    CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS: "0",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(report.apply_time_adoption_required, true);
+  assert.deepEqual(report.pending_apply_adoption, {
+    status: "required",
+    from_base_sha: fixture.baseSha,
+    observed_main_sha: "9".repeat(40),
+    drift_commit_count: 7,
+    drift_file_count: 1,
+    drift_paths_sha256: createHash("sha256")
+      .update("src/other/unrelated.ts")
+      .digest("hex"),
+    exhausted_revalidations: 0,
+  });
+  assert.equal(result.actions.length, 1);
+  assert.equal(result.merge_preflight[0].base_adoption_manifest.reviewed_base_sha, fixture.baseSha);
 });
 
 test("external merge preflight blocks main drift that overlaps the reviewed diff", () => {
@@ -2943,6 +3032,21 @@ test("external merge preflight blocks potentially truncated issue comment histor
   assert.match(report.reason, /comment history may be truncated/);
 });
 
+test("external merge preflight blocks potentially truncated inline review comment history", () => {
+  const fixture = makeFixture({
+    reviewComments: Array.from({ length: 100 }, (_, index) => ({
+      user: { login: `reviewer-${index}` },
+      body: "resolved inline review context",
+      path: "src/effective.ts",
+      line: 1,
+    })),
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /inline review comments; comment history may be truncated/);
+});
+
 test("external merge preflight blocks non-keyword human objections", () => {
   const fixture = makeFixture({
     issueComments: [
@@ -3266,6 +3370,7 @@ function makeFixture({
   rehydratedState = null,
   currentMainSha = null,
   refreshedMainSha = null,
+  refreshedMainShas = null,
   refreshedMainCommitCount = 7,
   refreshedMainFiles = ["docs/main-drift.md"],
   validationFailure = null,
@@ -3453,6 +3558,10 @@ const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const currentMain = ${JSON.stringify(currentMainSha)} || base;
 const refreshedMain = ${JSON.stringify(refreshedMainSha)} || currentMain;
+const mainSequence = [
+  currentMain,
+  ...(${JSON.stringify(refreshedMainShas)} || [refreshedMain]),
+];
 const refreshedMainCommitCount = ${JSON.stringify(refreshedMainCommitCount)};
 const refreshedMainFiles = ${JSON.stringify(refreshedMainFiles)};
 const mergeTree = ${JSON.stringify(mergeTreeSha)};
@@ -3460,9 +3569,14 @@ const synthetic = ${JSON.stringify(syntheticMergeSha)};
 const baseBlob = ${JSON.stringify(baseBlobSha)};
 const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const statePath = path.join(${JSON.stringify(root)}, "git-state");
-const refreshedMainPath = path.join(${JSON.stringify(root)}, "main-refreshed");
 const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count");
 const commandLog = ${JSON.stringify(gitCommandsPath)};
+function mainFetchCount() {
+  return fs.existsSync(mainFetchCountPath) ? Number(fs.readFileSync(mainFetchCountPath, "utf8")) : 0;
+}
+function currentMainRef() {
+  return mainSequence[Math.min(Math.max(mainFetchCount() - 1, 0), mainSequence.length - 1)];
+}
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
 if (
   process.env.GIT_ALLOW_PROTOCOL !== "https:ssh" ||
@@ -3485,19 +3599,16 @@ if (args[0] === "config" && args.includes("--local") && args.includes("--list") 
   process.exit(0);
 }
 if (args[0] === "rev-parse") {
-  if (args[1] === "origin/main") {
-    console.log(fs.existsSync(refreshedMainPath) ? refreshedMain : currentMain);
-  }
-  else if (args[1] === "HEAD^") console.log(fs.existsSync(refreshedMainPath) ? refreshedMain : currentMain);
+  if (args[1] === "origin/main") console.log(currentMainRef());
+  else if (args[1] === "HEAD^") console.log(currentMainRef());
   else if (args[1] === "HEAD^{tree}") console.log(mergeTree);
   else if (args[1] === "--is-shallow-repository") console.log("false");
   else console.log(state === "synthetic" ? synthetic : state === "main" ? currentMain : head);
   process.exit(0);
 }
 if (args[0] === "fetch" && args.some((arg) => arg === "main:refs/remotes/origin/main")) {
-  const count = fs.existsSync(mainFetchCountPath) ? Number(fs.readFileSync(mainFetchCountPath, "utf8")) : 0;
+  const count = mainFetchCount();
   fs.writeFileSync(mainFetchCountPath, String(count + 1));
-  if (count >= 1) fs.writeFileSync(refreshedMainPath, "refreshed");
   process.exit(0);
 }
 if (args[0] === "merge-base") {

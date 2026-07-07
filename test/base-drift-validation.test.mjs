@@ -22,15 +22,15 @@ function reusableDrift(overrides = {}) {
     validatedBaseIsAncestorOfCurrentBase: true,
     driftCommitCount: 2,
     branchFiles: ["src/reply/dedupe.ts", "src/reply/dedupe.test.ts"],
-    baseDriftFiles: ["docs/gateway.md"],
+    baseDriftFiles: ["src/infra/cost.ts"],
     branchAreas: ["src/reply"],
-    baseDriftAreas: ["docs"],
+    baseDriftAreas: ["src/infra"],
     evidenceComplete: true,
     ...overrides,
   });
 }
 
-test("accepts bounded irrelevant fast-forward base drift", () => {
+test("accepts bounded disjoint runtime drift with exact head equality", () => {
   const decision = reusableDrift();
 
   assert.equal(decision.status, "reused");
@@ -44,9 +44,9 @@ test("accepts bounded irrelevant fast-forward base drift", () => {
     base_fast_forward: true,
     drift_commit_count: 2,
     branch_changed_files: ["src/reply/dedupe.test.ts", "src/reply/dedupe.ts"],
-    base_drift_files: ["docs/gateway.md"],
+    base_drift_files: ["src/infra/cost.ts"],
     branch_areas: ["src/reply"],
-    base_drift_areas: ["docs"],
+    base_drift_areas: ["src/infra"],
     validation_control_files_changed: [],
     evidence_complete: true,
     bounds: {
