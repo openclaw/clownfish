@@ -3194,6 +3194,7 @@ function validationEnv() {
     "OPENCLAW_GH_TOKEN",
     "CLOWNFISH_GH_TOKEN",
     "CLOWNFISH_READ_GH_TOKEN",
+    "CLOWNFISH_CHECKS_GH_TOKEN",
     "CLOWNFISH_CODEX_GH_TOKEN",
   ]) {
     delete env[key];
@@ -3209,6 +3210,7 @@ function codexEnv() {
     "OPENCLAW_GH_TOKEN",
     "CLOWNFISH_GH_TOKEN",
     "CLOWNFISH_READ_GH_TOKEN",
+    "CLOWNFISH_CHECKS_GH_TOKEN",
     "CLOWNFISH_CODEX_GH_TOKEN",
   ]) {
     delete env[key];

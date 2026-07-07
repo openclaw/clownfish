@@ -587,6 +587,8 @@ jobs:
       - name: Run external merge preflights
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         timeout-minutes: 45
+        env:
+          CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
         run: |
           npm run run-external-merge-preflights -- "${{ needs.prepare.outputs.job }}" \
             --latest \
@@ -595,6 +597,8 @@ jobs:
 
       - name: Apply safe closure actions
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        env:
+          CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Post-flight finalize fix PRs
@@ -603,6 +607,8 @@ jobs:
 
       - name: Apply post-flight closeouts
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
+        env:
+          CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Tag Clownfish targets

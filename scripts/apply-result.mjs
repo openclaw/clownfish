@@ -608,6 +608,20 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
+  if (
+    externalMergeAction &&
+    !dryRun &&
+    process.env.CLOWNFISH_ALLOW_MERGE === "1" &&
+    !process.env.CLOWNFISH_CHECKS_GH_TOKEN
+  ) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "external merge requires CLOWNFISH_CHECKS_GH_TOKEN before branch refresh",
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+    };
+  }
   const effectiveDiffBinding = verifyExternalMergeBinding({
     result,
     action,
@@ -2163,7 +2177,7 @@ function prepareExactMergeCheck({
       },
     });
     try {
-      pending = ghJson([
+      pending = exactMergeGhJson([
         "api",
         `repos/${repo}/check-runs`,
         "--method",
@@ -2241,7 +2255,7 @@ function authorizeExactMergeCheck({
   });
   let authorized;
   try {
-    authorized = ghJson([
+    authorized = exactMergeGhJson([
       "api",
       `repos/${repo}/check-runs/${exactMergeCheck.id}`,
       "--method",
@@ -2367,7 +2381,7 @@ function revokeExactMergeCheck({ repo, exactMergeCheck }) {
       summary: "The authorization was not consumed by a verified merge.",
     },
   });
-  const revoked = ghJson([
+  const revoked = exactMergeGhJson([
     "api",
     `repos/${repo}/check-runs/${exactMergeCheck.id}`,
     "--method",
@@ -2977,17 +2991,26 @@ function ghJson(ghArgs) {
   return JSON.parse(stripAnsi(text) || "null");
 }
 
+function exactMergeGhJson(ghArgs) {
+  const token = process.env.CLOWNFISH_CHECKS_GH_TOKEN;
+  if (!token) {
+    throw new Error("exact-merge check mutation requires CLOWNFISH_CHECKS_GH_TOKEN");
+  }
+  const text = ghWithRetry(ghArgs, 6, githubCliEnv({ ghToken: token }));
+  return JSON.parse(stripAnsi(text) || "null");
+}
+
 function ghPaged(apiPath) {
   const pages = ghJson(["api", apiPath, "--paginate", "--slurp"]);
   if (!Array.isArray(pages)) return [];
   return pages.flatMap((page) => (Array.isArray(page) ? page : []));
 }
 
-function ghWithRetry(ghArgs, attempts = 6) {
+function ghWithRetry(ghArgs, attempts = 6, env = githubCliEnv()) {
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     try {
-      return ghOnce(ghArgs);
+      return ghOnce(ghArgs, env);
     } catch (error) {
       lastError = error;
       if (!shouldRetryGh(error) || attempt === attempts - 1) throw error;
@@ -2998,19 +3021,20 @@ function ghWithRetry(ghArgs, attempts = 6) {
   throw lastError;
 }
 
-function ghOnce(ghArgs) {
+function ghOnce(ghArgs, env = githubCliEnv()) {
   return execFileSync("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
-    env: githubCliEnv(),
+    env,
     maxBuffer: 64 * 1024 * 1024,
     stdio: ["ignore", "pipe", "pipe"],
   }).trim();
 }
 
-function githubCliEnv() {
+function githubCliEnv({ ghToken } = {}) {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
-  if (!env.GH_TOKEN && env.CLOWNFISH_GH_TOKEN) env.GH_TOKEN = env.CLOWNFISH_GH_TOKEN;
+  if (ghToken) env.GH_TOKEN = ghToken;
+  else if (!env.GH_TOKEN && env.CLOWNFISH_GH_TOKEN) env.GH_TOKEN = env.CLOWNFISH_GH_TOKEN;
   delete env.FORCE_COLOR;
   return env;
 }
