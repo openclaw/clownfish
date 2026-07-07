@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "exact-merge-retry-98505-20260707"
 mode: "autonomous"
-run_id: "28833489158"
-workflow_run_id: "28833489158"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28833489158"
-head_sha: "22b33cec2863790ff730ac70d5669207c0e7e739"
+run_id: "28834045575"
+workflow_run_id: "28834045575"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28834045575"
+head_sha: "f40d4a77418b8812727b78e05e0af459ebdd7e7e"
 workflow_conclusion: "success"
 result_status: "blocked"
-published_at: "2026-07-07T00:49:46.267Z"
+published_at: "2026-07-07T01:19:01.238Z"
 canonical: "https://github.com/openclaw/openclaw/pull/98505"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/98505"
@@ -17,8 +17,8 @@ fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
-apply_skipped: 1
+apply_blocked: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28833489158](https://github.com/openclaw/clownfish/actions/runs/28833489158)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28834045575](https://github.com/openclaw/clownfish/actions/runs/28834045575)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/98505
 
 ## Summary
 
-PR #98505 is the canonical merge target, but the merge action is blocked pending deterministic external exact-head preflight. The hydrated artifact shows the expected head 45ec9a485d7f17153edb5d1a243dd10f9f798606 and no security-sensitive item, but its live check rollup still had in-progress checks and this worker could not re-fetch live GitHub state because gh has no GH_TOKEN in this environment.
+PR #98505 remains the canonical merge target and its live head still matches the expected exact head 45ec9a485d7f17153edb5d1a243dd10f9f798606. I am blocking the merge action for deterministic external merge preflight because live main has advanced since the preflight artifact and this worker did not produce the required exact-head Codex /review plus validation bundle.
 
 ## Impact
 
@@ -47,8 +47,8 @@ PR #98505 is the canonical merge target, but the merge action is blocked pending
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply blocked | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
@@ -61,7 +61,7 @@ PR #98505 is the canonical merge target, but the merge action is blocked pending
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #98505 | merge_canonical | skipped | canonical | action status is blocked |
+| #98505 | merge_canonical | blocked | canonical | GitHub test merge commit is not based on the reviewed main SHA |
 
 ## Apply Audit
 
@@ -69,13 +69,14 @@ PR #98505 is the canonical merge target, but the merge action is blocked pending
 | --- | --- | --- | --- | --- |
 | 1 | apply | #98505 | merge_canonical | skipped | action status is blocked |
 | 2 | apply | #98505 | merge_canonical | skipped | action status is blocked |
+|  | external_merge_preflight | #98505 | merge_canonical | blocked | GitHub test merge commit is not based on the reviewed main SHA |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
 | #98505 | merge_canonical | blocked | canonical | external_merge_preflight_required |
-| #98371 | keep_closed | skipped | superseded | already_closed_context_ref |
+| #98371 | keep_closed | skipped | related | already_closed_historical_context |
 
 ## Needs Human
 
