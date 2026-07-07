@@ -36,7 +36,6 @@ on:
 permissions:
   actions: write
   contents: write
-  issues: read
   pull-requests: read
 
 concurrency:
@@ -64,7 +63,6 @@ jobs:
           owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
           permission-actions: write
           permission-contents: write
-          permission-issues: read
           permission-pull-requests: read
 
       - uses: actions/checkout@v5
@@ -94,6 +92,7 @@ jobs:
             --mode autonomous \
             --strategy remediation \
             --checks-success \
+            --refresh-stale-checks-success-branches \
             --sort recent \
             --limit "$LIMIT" \
             --batch-size "$BATCH_SIZE" \
