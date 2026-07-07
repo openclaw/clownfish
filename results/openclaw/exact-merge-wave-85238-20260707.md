@@ -2,15 +2,15 @@
 repo: "openclaw/openclaw"
 cluster_id: "exact-merge-wave-85238-20260707"
 mode: "autonomous"
-run_id: "28842227308"
-workflow_run_id: "28842227308"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28842227308"
-head_sha: "46d415d3981585248396f46ae79d6685aebaf7cf"
+run_id: "28842854867"
+workflow_run_id: "28842854867"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28842854867"
+head_sha: "98643d2397831e73f2e3dbcb503f0449a7a75206"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-07T04:49:28.466Z"
+published_at: "2026-07-07T05:11:33.429Z"
 canonical: "https://github.com/openclaw/openclaw/pull/85238"
-canonical_issue: null
+canonical_issue: "https://github.com/openclaw/openclaw/issues/80206"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/85238"
 actions_total: 1
 fix_executed: 0
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28842227308](https://github.com/openclaw/clownfish/actions/runs/28842227308)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28842854867](https://github.com/openclaw/clownfish/actions/runs/28842854867)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/85238
 
 ## Summary
 
-PR #85238 remains the canonical merge target at the expected head SHA. Because the job requires deterministic external merge preflight, this worker emits only a blocked exact-head merge action for the applicator/preflight runner and does not provide merge_preflight, comments, labels, fixes, closes, or adjacent cluster work.
+PR #85238 is the canonical merge target for this exact merge wave. The job requires deterministic external merge preflight, so the only merge action is blocked for the external runner to bind review, validation, authorization, and apply to exact head d823cb61960aa275c0386171a476a56d28322487.
 
 ## Impact
 

@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-85238-d823cb61960a"
 mode: "autonomous"
-run_id: "28842227308"
-workflow_run_id: "28842227308"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28842227308"
-head_sha: "46d415d3981585248396f46ae79d6685aebaf7cf"
+run_id: "28842854867"
+workflow_run_id: "28842854867"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/28842854867"
+head_sha: "98643d2397831e73f2e3dbcb503f0449a7a75206"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-07T04:49:28.455Z"
+published_at: "2026-07-07T05:11:33.418Z"
 canonical: "https://github.com/openclaw/openclaw/pull/85238"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/85238"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28842227308](https://github.com/openclaw/clownfish/actions/runs/28842227308)
+Run: [https://github.com/openclaw/clownfish/actions/runs/28842854867](https://github.com/openclaw/clownfish/actions/runs/28842854867)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/85238
 
 ## Summary
 
-External merge preflight blocked: PR has 1 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/85238#issuecomment-4899332553
+External merge preflight blocked: Codex /review did not pass: PR #85238 changes 6 files, LOC +258/-8. It adds pnpm 11/npm package-manager PATH dirs, blocks PNPM_HOME/NPM_CONFIG_PREFIX from workspace .env, and reorders Linux minimal service PATH so system dirs precede user dirs. Best-fix verdict: directionally acceptable, but not merge-ready because the new package-manager env-root filter drops valid roots when the process cwd is `/`.
 
 ## Impact
 
