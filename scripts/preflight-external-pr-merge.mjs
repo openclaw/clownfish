@@ -1310,7 +1310,9 @@ function assertBaseAdoptionManifest(manifest, { expectedHeadSha, adoptedBaseSha 
     manifest.effective_diff_files < 1 ||
     !Array.isArray(manifest.effective_paths) ||
     manifest.effective_paths.length !== manifest.effective_diff_files ||
+    !hasUniqueNonEmptyStrings(manifest.effective_paths) ||
     !Array.isArray(manifest.affected_areas) ||
+    !hasUniqueNonEmptyStrings(manifest.affected_areas) ||
     manifest.validation_gate !== "pnpm check:changed"
   ) {
     throw new Error("base adoption manifest effective diff evidence is incomplete");
@@ -1324,11 +1326,21 @@ function assertBaseAdoptionManifest(manifest, { expectedHeadSha, adoptedBaseSha 
       snapshot.files < 0 ||
       !/^[0-9a-f]{64}$/i.test(String(snapshot.sha256 ?? "")) ||
       !Array.isArray(snapshot.blobs) ||
-      snapshot.blobs.length !== snapshot.files
+      snapshot.blobs.length !== snapshot.files ||
+      snapshot.blobs.length > MAX_ADOPTION_MANIFEST_BLOBS ||
+      !hasUniqueNonEmptyStrings(snapshot.blobs.map((entry) => entry?.path), { allowEmpty: true })
     ) {
       throw new Error(`base adoption manifest ${key} snapshot is incomplete`);
     }
   }
+}
+
+function hasUniqueNonEmptyStrings(values, { allowEmpty = false } = {}) {
+  return (
+    (allowEmpty || values.length > 0) &&
+    values.every((value) => typeof value === "string" && value.length > 0) &&
+    new Set(values).size === values.length
+  );
 }
 
 function captureFreshAdoptionGithubState({
