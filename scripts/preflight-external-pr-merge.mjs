@@ -4,18 +4,25 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
-import { isValidationDriftControlFile } from "./base-drift-validation.mjs";
+import {
+  evaluateValidationBaseDrift,
+  isValidationDriftControlFile,
+} from "./base-drift-validation.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const PRE_AUTHORIZATION_MERGE_STATES = new Set(["UNSTABLE", "BLOCKED", "BEHIND"]);
 const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
+const EXACT_MERGE_CHECK_NAME = "clownfish/exact-merge";
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
 const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
 const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 20 * 60 * 1000);
 const FAILURE_REASON_MAX_CHARS = 4000;
 const FAILURE_STREAM_MAX_CHARS = 1800;
+const ADOPTION_MANIFEST_SCHEMA_VERSION = 1;
+const ADOPTION_POLICY = "bounded-fast-forward-v1";
+const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
@@ -23,6 +30,9 @@ const pullRequest = Number(args.pr ?? args["pull-request"]);
 const runDir = path.resolve(String(args["run-dir"] ?? path.join(repoRoot(), ".projectclownfish", "external-merge-preflight")));
 const targetDir = path.resolve(String(args["target-dir"] ?? path.join(runDir, "target")));
 const baseBranch = String(args["base-branch"] ?? "main");
+const adoptionManifestPath = args["adoption-manifest"]
+  ? path.resolve(String(args["adoption-manifest"]))
+  : null;
 
 if (!sourceJobPath || !Number.isInteger(pullRequest) || pullRequest < 1) {
   console.error("usage: node scripts/preflight-external-pr-merge.mjs <source-job.md> --pr <number> [--run-dir <path>]");
@@ -50,6 +60,59 @@ if (!sourceRefs.has(targetRef)) {
 }
 
 fs.mkdirSync(runDir, { recursive: true });
+
+if (args["adoption-state-only"]) {
+  const outputPath = path.resolve(
+    String(args.output ?? path.join(runDir, "base-adoption-state.json")),
+  );
+  let state;
+  try {
+    state = captureFreshAdoptionGithubState({
+      sourceJob,
+      pullRequest,
+      expectedHeadSha: String(args["expected-head-sha"] ?? "").toLowerCase(),
+      expectedTestMergeSha: String(args["test-merge-sha"] ?? "").toLowerCase(),
+      adoptedBaseSha: String(args["adopted-base-sha"] ?? "").toLowerCase(),
+    });
+  } catch (error) {
+    state = {
+      status: "blocked",
+      reason: redact(String(error?.message ?? error)),
+    };
+  }
+  writeJson(outputPath, state);
+  console.log(JSON.stringify(state, null, 2));
+  process.exit(0);
+}
+
+if (adoptionManifestPath) {
+  const outputPath = path.resolve(
+    String(args.output ?? path.join(runDir, "base-adoption-proof.json")),
+  );
+  let proof;
+  try {
+    proof = runBaseAdoptionValidation({
+      sourceJob,
+      pullRequest,
+      manifest: JSON.parse(fs.readFileSync(adoptionManifestPath, "utf8")),
+      adoptedBaseSha: String(args["adopted-base-sha"] ?? "").toLowerCase(),
+      expectedHeadSha: String(args["expected-head-sha"] ?? "").toLowerCase(),
+      expectedTestMergeSha: String(args["test-merge-sha"] ?? "").toLowerCase(),
+      targetDir,
+      baseBranch,
+    });
+  } catch (error) {
+    proof = {
+      schema_version: ADOPTION_MANIFEST_SCHEMA_VERSION,
+      policy: ADOPTION_POLICY,
+      status: "blocked",
+      reason: redact(String(error?.message ?? error)),
+    };
+  }
+  writeJson(outputPath, proof);
+  console.log(JSON.stringify(proof, null, 2));
+  process.exit(0);
+}
 
 let pull = null;
 let issue = null;
@@ -179,7 +242,7 @@ try {
   reviewContext.codexReviewedMergeTreeSha = codexReviewedMergeTreeSha;
   reviewContext.baseDriftProof = unchangedBaseDriftProof(codexReviewedBaseSha);
 
-  const maxBaseRevalidations = positiveInteger(
+  const maxBaseRevalidations = nonNegativeInteger(
     process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS,
     2,
   );
@@ -187,6 +250,7 @@ try {
   let refreshedIssue = null;
   let refreshedView = null;
   let verifiedMainSha = reviewContext.reviewedBaseSha;
+  let pendingApplyAdoption = null;
   for (let attempt = 0; attempt <= maxBaseRevalidations; attempt += 1) {
     refreshedPull = stage("rehydrate GitHub state after review", () =>
       ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]),
@@ -233,17 +297,6 @@ try {
       reviewContext.verifiedMergeTreeSha = reviewContext.mergeTreeSha;
       break;
     }
-    if (attempt === maxBaseRevalidations) {
-      writeBlockedArtifacts({
-        reason:
-          `origin/${baseBranch} kept changing after ${maxBaseRevalidations} base revalidation(s): ` +
-          `validated ${reviewContext.reviewedBaseSha}, current ${verifiedMainSha}`,
-        validationCommands,
-        codexReview,
-        currentMainSha: verifiedMainSha,
-      });
-      process.exit(0);
-    }
 
     const verifiedMergeContext = stage("verify effective diff against latest main", () =>
       computeEffectiveMergeContext({
@@ -252,11 +305,15 @@ try {
         exactHeadSha: reviewedHeadSha,
       }),
     );
-    if (verifiedMergeContext.effectiveDiffSha256 !== reviewContext.effectiveDiffSha256) {
+    if (
+      verifiedMergeContext.effectiveDiffFiles !== reviewContext.effectiveDiffFiles ||
+      verifiedMergeContext.effectiveDiffSha256 !== reviewContext.effectiveDiffSha256
+    ) {
       writeBlockedArtifacts({
         reason:
-          `effective merge diff changed while review was running: reviewed ${reviewContext.effectiveDiffSha256}, ` +
-          `current ${verifiedMergeContext.effectiveDiffSha256}`,
+          `effective merge diff changed while review was running: reviewed ` +
+          `${reviewContext.effectiveDiffFiles}/${reviewContext.effectiveDiffSha256}, current ` +
+          `${verifiedMergeContext.effectiveDiffFiles}/${verifiedMergeContext.effectiveDiffSha256}`,
         validationCommands,
         codexReview,
         currentMainSha: verifiedMainSha,
@@ -279,6 +336,58 @@ try {
         currentMainSha: verifiedMainSha,
       });
       process.exit(0);
+    }
+    if (attempt === maxBaseRevalidations) {
+      if (driftEligibility.requires_codex_rereview) {
+        writeBlockedArtifacts({
+          reason:
+            `origin/${baseBranch} kept changing after ${maxBaseRevalidations} base revalidation(s), ` +
+            `and the newest drift requires another Codex review: ${driftEligibility.codex_rereview_reasons.join(", ")}`,
+          validationCommands,
+          codexReview,
+          currentMainSha: verifiedMainSha,
+        });
+        process.exit(0);
+      }
+      const terminalAdoptionManifest = buildBaseAdoptionManifest({
+        targetDir,
+        reviewContext,
+        pull: refreshedPull,
+      });
+      const incompleteSnapshots = [
+        ["reviewed paths", terminalAdoptionManifest.reviewed_paths],
+        ["validation controls", terminalAdoptionManifest.validation_controls],
+        ["review context", terminalAdoptionManifest.review_context],
+      ]
+        .filter(([, snapshot]) => snapshot.complete !== true)
+        .map(([label]) => label);
+      if (
+        terminalAdoptionManifest.effective_diff_files < 1 ||
+        incompleteSnapshots.length > 0
+      ) {
+        writeBlockedArtifacts({
+          reason:
+            `origin/${baseBranch} kept changing after ${maxBaseRevalidations} base revalidation(s), ` +
+            `but the durable adoption manifest is incomplete: ` +
+            `${incompleteSnapshots.join(", ") || "empty effective diff"}`,
+          validationCommands,
+          codexReview,
+          currentMainSha: verifiedMainSha,
+        });
+        process.exit(0);
+      }
+      pendingApplyAdoption = {
+        status: "required",
+        from_base_sha: reviewContext.reviewedBaseSha,
+        observed_main_sha: verifiedMainSha,
+        drift_commit_count: driftEligibility.drift_commit_count,
+        drift_file_count: driftEligibility.drift_file_count,
+        drift_paths_sha256: driftEligibility.drift_paths_sha256,
+        exhausted_revalidations: maxBaseRevalidations,
+      };
+      reviewContext.verifiedMainSha = reviewContext.reviewedBaseSha;
+      reviewContext.verifiedMergeTreeSha = reviewContext.mergeTreeSha;
+      break;
     }
 
     const refreshedReviewContext = stage("prepare refreshed synthetic merge validation", () =>
@@ -372,7 +481,9 @@ try {
   pull = refreshedPull;
   issue = refreshedIssue;
   view = refreshedView;
-  const finalBaseDriftAllowed = verifiedMainSha !== pull.base.sha && canTolerateBaseDrift(view);
+  const validatedMainSha = reviewContext.reviewedBaseSha;
+  const observedMainSha = pendingApplyAdoption?.observed_main_sha ?? verifiedMainSha;
+  const finalBaseDriftAllowed = observedMainSha !== pull.base.sha && canTolerateBaseDrift(view);
   const rehydratedAt = new Date().toISOString();
   const result = buildMergeResult({
     sourceJob,
@@ -383,9 +494,11 @@ try {
     pullRequest,
     validationCommands,
     codexReview,
-    currentMainSha: verifiedMainSha,
+    currentMainSha: validatedMainSha,
+    observedMainSha,
     baseDriftAllowed: finalBaseDriftAllowed,
     reviewContext,
+    pendingApplyAdoption,
   });
   report = {
     ...report,
@@ -397,9 +510,12 @@ try {
     codex_reviewed_base_sha: reviewContext.codexReviewedBaseSha,
     codex_reviewed_synthetic_merge_sha: reviewContext.codexReviewedSyntheticMergeSha,
     codex_reviewed_merge_tree_sha: reviewContext.codexReviewedMergeTreeSha,
-    current_main_sha: verifiedMainSha,
+    current_main_sha: observedMainSha,
+    validated_main_sha: validatedMainSha,
     pull_request_base_sha: pull.base.sha,
     base_drift_allowed: finalBaseDriftAllowed,
+    apply_time_adoption_required: Boolean(pendingApplyAdoption),
+    pending_apply_adoption: pendingApplyAdoption,
     synthetic_merge_sha: reviewContext.syntheticMergeSha,
     synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
     verified_merge_tree_sha: reviewContext.verifiedMergeTreeSha,
@@ -618,12 +734,24 @@ function hasUnknownMergeability(view) {
   return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
 }
 
-function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest }) {
+function readOnlyBlockers({
+  sourceJob,
+  pull,
+  view,
+  issueComments,
+  pullRequest,
+  reviewComments: hydratedReviewComments = null,
+  threads: hydratedThreads = null,
+}) {
   const blockers = [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
-  const reviewComments = ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`]);
-  const threads = fetchReviewThreads({ repo: sourceJob.frontmatter.repo, pullRequest });
+  const reviewComments =
+    hydratedReviewComments ??
+    ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`]);
+  const threads =
+    hydratedThreads ??
+    fetchReviewThreads({ repo: sourceJob.frontmatter.repo, pullRequest });
   const texts = [
     pull.title,
     pull.body,
@@ -666,6 +794,7 @@ function readOnlyBlockers({ sourceJob, pull, view, issueComments, pullRequest })
   const unresolved = threads.nodes.filter((thread) => !thread.isResolved);
   if (unresolved.length > 0) blockers.push(`PR has ${unresolved.length} unresolved review thread(s)`);
   if (issueComments.length >= 100) blockers.push("PR has at least 100 top-level issue comments; comment history may be truncated");
+  if (reviewComments.length >= 100) blockers.push("PR has at least 100 inline review comments; comment history may be truncated");
   const actionableIssueComments = issueComments.filter(
     (comment, index) =>
       !isSupersededDependencyGuardNotice(comment, issueComments.slice(index + 1), { pull, view }) &&
@@ -962,6 +1091,10 @@ function verifyBoundedDisjointBaseDrift({
     drift_commit_count: driftCommitCount,
     drift_file_count: driftPaths.length,
     drift_paths_sha256: createHash("sha256").update(driftPaths.sort().join("\0")).digest("hex"),
+    drift_paths: driftPaths,
+    reviewed_areas: [...reviewedAreas].sort(),
+    drift_areas: driftAreas,
+    validation_control_files: controlFiles,
     requires_codex_rereview: controlFiles.length > 0 || overlappingAreas.length > 0,
     codex_rereview_reasons: [
       ...(controlFiles.length > 0 ? ["validation_control_file_drift"] : []),
@@ -1060,6 +1193,556 @@ function fingerprintTreeEntries(baseEntries, resultEntries) {
     changes,
     resultEntries,
   };
+}
+
+function buildBaseAdoptionManifest({ targetDir, reviewContext, pull }) {
+  const baseEntries = readGitTreeEntries({
+    cwd: targetDir,
+    treeish: reviewContext.reviewedBaseSha,
+  });
+  const resultEntries = reviewContext.expectedTreeEntries;
+  const effectivePaths = [...new Set(reviewContext.changedFiles ?? [])].sort();
+  const affectedAreas = affectedAreasForFiles(effectivePaths);
+  const effectivePathSet = new Set(effectivePaths);
+  const affectedAreaSet = new Set(affectedAreas);
+  return {
+    schema_version: ADOPTION_MANIFEST_SCHEMA_VERSION,
+    policy: ADOPTION_POLICY,
+    reviewed_base_sha: reviewContext.reviewedBaseSha,
+    reviewed_head_sha: String(pull.head.sha).toLowerCase(),
+    reviewed_synthetic_merge_sha: reviewContext.syntheticMergeSha,
+    reviewed_merge_tree_sha: reviewContext.mergeTreeSha,
+    effective_diff_sha256: reviewContext.effectiveDiffSha256,
+    effective_diff_files: reviewContext.effectiveDiffFiles,
+    effective_paths: effectivePaths,
+    affected_areas: affectedAreas,
+    validation_gate: "pnpm check:changed",
+    reviewed_paths: buildBlobSnapshot({
+      baseEntries,
+      resultEntries,
+      includePath: (filePath) => effectivePathSet.has(filePath),
+    }),
+    validation_controls: buildBlobSnapshot({
+      baseEntries,
+      resultEntries,
+      includePath: isValidationDriftControlFile,
+    }),
+    review_context: buildBlobSnapshot({
+      baseEntries,
+      resultEntries,
+      includePath: (filePath) => affectedAreaSet.has(affectedAreaForFile(filePath)),
+    }),
+  };
+}
+
+function buildBlobSnapshot({
+  baseEntries,
+  resultEntries,
+  includePath,
+  maxBlobs = MAX_ADOPTION_MANIFEST_BLOBS,
+}) {
+  const paths = [...new Set([...baseEntries.keys(), ...resultEntries.keys()])]
+    .filter(includePath)
+    .sort();
+  const blobs = paths.map((filePath) => ({
+    path: filePath,
+    reviewed_base_entry: baseEntries.get(filePath) ?? null,
+    reviewed_result_entry: resultEntries.get(filePath) ?? null,
+  }));
+  return {
+    complete: blobs.length <= maxBlobs,
+    files: blobs.length,
+    sha256: hashBlobSnapshot(blobs),
+    blobs: blobs.slice(0, maxBlobs),
+  };
+}
+
+function hashBlobSnapshot(blobs) {
+  return createHash("sha256")
+    .update(`${blobs.map((entry) => JSON.stringify(entry)).join("\n")}\n`)
+    .digest("hex");
+}
+
+function assertBlobSnapshotMatches(label, expected, actual) {
+  if (expected?.complete !== true) {
+    throw new Error(`${label} manifest is incomplete`);
+  }
+  if (
+    actual.complete !== true ||
+    expected.files !== actual.files ||
+    expected.sha256 !== actual.sha256 ||
+    JSON.stringify(expected.blobs) !== JSON.stringify(actual.blobs)
+  ) {
+    throw new Error(`${label} changed since the reviewed base`);
+  }
+}
+
+function assertBaseAdoptionManifest(manifest, { expectedHeadSha, adoptedBaseSha }) {
+  if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
+    throw new Error("base adoption manifest is missing");
+  }
+  if (
+    manifest.schema_version !== ADOPTION_MANIFEST_SCHEMA_VERSION ||
+    manifest.policy !== ADOPTION_POLICY
+  ) {
+    throw new Error("base adoption manifest version or policy is unsupported");
+  }
+  for (const [label, value] of [
+    ["reviewed base", manifest.reviewed_base_sha],
+    ["reviewed head", manifest.reviewed_head_sha],
+    ["reviewed synthetic merge", manifest.reviewed_synthetic_merge_sha],
+    ["reviewed merge tree", manifest.reviewed_merge_tree_sha],
+    ["adopted base", adoptedBaseSha],
+    ["expected head", expectedHeadSha],
+  ]) {
+    if (!/^[0-9a-f]{40}$/i.test(String(value ?? ""))) {
+      throw new Error(`${label} SHA is missing or invalid`);
+    }
+  }
+  if (String(manifest.reviewed_head_sha).toLowerCase() !== expectedHeadSha) {
+    throw new Error("base adoption manifest reviewed head does not match expected head");
+  }
+  if (!/^[0-9a-f]{64}$/i.test(String(manifest.effective_diff_sha256 ?? ""))) {
+    throw new Error("base adoption manifest effective diff fingerprint is invalid");
+  }
+  if (
+    !Number.isInteger(manifest.effective_diff_files) ||
+    manifest.effective_diff_files < 1 ||
+    !Array.isArray(manifest.effective_paths) ||
+    manifest.effective_paths.length !== manifest.effective_diff_files ||
+    !Array.isArray(manifest.affected_areas) ||
+    manifest.validation_gate !== "pnpm check:changed"
+  ) {
+    throw new Error("base adoption manifest effective diff evidence is incomplete");
+  }
+  for (const key of ["reviewed_paths", "validation_controls", "review_context"]) {
+    const snapshot = manifest[key];
+    if (
+      !snapshot ||
+      snapshot.complete !== true ||
+      !Number.isInteger(snapshot.files) ||
+      snapshot.files < 0 ||
+      !/^[0-9a-f]{64}$/i.test(String(snapshot.sha256 ?? "")) ||
+      !Array.isArray(snapshot.blobs) ||
+      snapshot.blobs.length !== snapshot.files
+    ) {
+      throw new Error(`base adoption manifest ${key} snapshot is incomplete`);
+    }
+  }
+}
+
+function captureFreshAdoptionGithubState({
+  sourceJob,
+  pullRequest,
+  expectedHeadSha,
+  expectedTestMergeSha,
+  adoptedBaseSha,
+}) {
+  for (const [label, value] of [
+    ["expected head", expectedHeadSha],
+    ["GitHub test merge", expectedTestMergeSha],
+    ["adopted base", adoptedBaseSha],
+  ]) {
+    if (!/^[0-9a-f]{40}$/i.test(String(value ?? ""))) {
+      throw new Error(`${label} SHA is missing or invalid`);
+    }
+  }
+  const pull = ghJson([
+    "api",
+    `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`,
+  ]);
+  const issue = ghJson([
+    "api",
+    `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`,
+  ]);
+  const issueComments = fetchIssueComments({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+  });
+  const reviewComments = ghJson([
+    "api",
+    `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`,
+  ]);
+  const threads = fetchReviewThreads({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+  });
+  const view = fetchSettledPullRequestView({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+  });
+  const blockers = [
+    ...(String(pull.head?.sha ?? "").toLowerCase() !== expectedHeadSha
+      ? ["PR head changed during apply-time adoption validation"]
+      : []),
+    ...(String(pull.merge_commit_sha ?? "").toLowerCase() !== expectedTestMergeSha
+      ? ["GitHub test merge changed during apply-time adoption validation"]
+      : []),
+    ...readOnlyBlockers({
+      sourceJob,
+      pull,
+      view,
+      issueComments,
+      pullRequest,
+      reviewComments,
+      threads,
+    }),
+  ];
+  const mainRef = ghJson([
+    "api",
+    `repos/${sourceJob.frontmatter.repo}/git/ref/heads/${baseBranch}`,
+  ]);
+  const currentMainSha = String(mainRef?.object?.sha ?? "").toLowerCase();
+  if (currentMainSha !== adoptedBaseSha) {
+    blockers.push(
+      `main changed during apply-time adoption validation: expected ${adoptedBaseSha}, current ${currentMainSha || "unknown"}`,
+    );
+  }
+  const testMerge = ghJson([
+    "api",
+    `repos/${sourceJob.frontmatter.repo}/git/commits/${expectedTestMergeSha}`,
+  ]);
+  const testMergeParents = testMerge.parents ?? [];
+  if (
+    testMergeParents.length !== 2 ||
+    String(testMergeParents[0]?.sha ?? "").toLowerCase() !== adoptedBaseSha ||
+    String(testMergeParents[1]?.sha ?? "").toLowerCase() !== expectedHeadSha
+  ) {
+    blockers.push("GitHub test merge is not bound to [adopted main, reviewed head]");
+  }
+  if (blockers.length > 0) {
+    throw new Error(blockers.join("; "));
+  }
+  const state = {
+    issue: {
+      state: issue.state ?? null,
+      title: issue.title ?? null,
+      body: issue.body ?? null,
+      updated_at: issue.updated_at ?? null,
+      locked: issue.locked ?? false,
+      labels: sortedStrings((issue.labels ?? []).map((label) => label?.name ?? label)),
+      assignees: sortedStrings((issue.assignees ?? []).map((assignee) => assignee?.login)),
+      milestone: issue.milestone?.number ?? null,
+    },
+    pull: {
+      state: pull.state ?? null,
+      draft: pull.draft ?? false,
+      title: pull.title ?? null,
+      body: pull.body ?? null,
+      updated_at: pull.updated_at ?? null,
+      base_ref: pull.base?.ref ?? null,
+      base_sha: String(pull.base?.sha ?? "").toLowerCase() || null,
+      head_ref: pull.head?.ref ?? null,
+      head_sha: String(pull.head?.sha ?? "").toLowerCase() || null,
+      head_repo: pull.head?.repo?.full_name ?? null,
+      merge_commit_sha: String(pull.merge_commit_sha ?? "").toLowerCase() || null,
+    },
+    view: {
+      mergeable: view.mergeable ?? null,
+      review_decision: view.reviewDecision ?? null,
+      reviews: sortedObjects((view.reviews ?? []).map(normalizeReviewState)),
+      checks: sortedObjects(
+        latestStatusChecks(view.statusCheckRollup ?? [])
+          .filter((check) => checkName(check) !== EXACT_MERGE_CHECK_NAME)
+          .map(normalizeCheckState),
+      ),
+    },
+    issue_comments: sortedObjects(issueComments.map(normalizeCommentState)),
+    review_comments: sortedObjects(reviewComments.map(normalizeReviewCommentState)),
+    review_threads: sortedObjects(
+      (threads.nodes ?? []).map((thread) => ({
+        is_resolved: thread?.isResolved === true,
+        path: thread?.path ?? null,
+        line: thread?.line ?? null,
+      })),
+    ),
+  };
+  return {
+    status: "clean",
+    reason: "fresh GitHub comments, reviews, metadata, checks, and risk state are clean",
+    github_state_sha256: createHash("sha256")
+      .update(JSON.stringify(state))
+      .digest("hex"),
+    issue_updated_at: issue.updated_at ?? null,
+    pull_updated_at: pull.updated_at ?? null,
+    test_merge_tree_sha: String(testMerge.tree?.sha ?? "").toLowerCase() || null,
+  };
+}
+
+function normalizeCommentState(comment) {
+  return {
+    author: comment?.author?.login ?? comment?.user?.login ?? null,
+    association: comment?.authorAssociation ?? comment?.author_association ?? null,
+    body: comment?.body ?? "",
+    created_at: comment?.createdAt ?? comment?.created_at ?? null,
+    updated_at: comment?.updatedAt ?? comment?.updated_at ?? null,
+    minimized: comment?.isMinimized === true,
+    minimized_reason: comment?.minimizedReason ?? null,
+    url: comment?.url ?? comment?.html_url ?? null,
+  };
+}
+
+function normalizeReviewCommentState(comment) {
+  return {
+    ...normalizeCommentState(comment),
+    path: comment?.path ?? null,
+    line: comment?.line ?? null,
+    commit_id: String(comment?.commit_id ?? "").toLowerCase() || null,
+  };
+}
+
+function normalizeReviewState(review) {
+  return {
+    ...normalizeCommentState(review),
+    state: review?.state ?? null,
+    commit_oid: String(review?.commit?.oid ?? review?.commit_id ?? "").toLowerCase() || null,
+    submitted_at: review?.submittedAt ?? review?.submitted_at ?? null,
+  };
+}
+
+function normalizeCheckState(check) {
+  return {
+    name: checkName(check),
+    workflow: check?.workflowName ?? null,
+    status: String(check?.status ?? check?.state ?? "").toUpperCase() || null,
+    conclusion: String(check?.conclusion ?? "").toUpperCase() || null,
+    started_at: check?.startedAt ?? check?.started_at ?? null,
+    completed_at: check?.completedAt ?? check?.completed_at ?? null,
+  };
+}
+
+function sortedStrings(values) {
+  return values
+    .map((value) => String(value ?? "").trim())
+    .filter(Boolean)
+    .sort();
+}
+
+function sortedObjects(values) {
+  return values.sort((left, right) =>
+    JSON.stringify(left).localeCompare(JSON.stringify(right)),
+  );
+}
+
+function runBaseAdoptionValidation({
+  sourceJob,
+  pullRequest,
+  manifest,
+  adoptedBaseSha,
+  expectedHeadSha,
+  expectedTestMergeSha,
+  targetDir,
+  baseBranch,
+}) {
+  assertBaseAdoptionManifest(manifest, { expectedHeadSha, adoptedBaseSha });
+  if (!/^[0-9a-f]{40}$/i.test(expectedTestMergeSha)) {
+    throw new Error("GitHub test merge SHA is missing or invalid");
+  }
+
+  checkoutExactPullHead({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+    expectedHeadSha,
+  });
+  const fetchedMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], {
+    cwd: targetDir,
+    env: gitIntegrityEnv(),
+  }).trim();
+  if (fetchedMainSha !== adoptedBaseSha) {
+    throw new Error(
+      `main changed before adoption validation: expected ${adoptedBaseSha}, current ${fetchedMainSha}`,
+    );
+  }
+
+  const reviewedMergeContext = computeEffectiveMergeContext({
+    targetDir,
+    baseSha: manifest.reviewed_base_sha,
+    exactHeadSha: expectedHeadSha,
+  });
+  if (
+    reviewedMergeContext.mergeTreeSha !== manifest.reviewed_merge_tree_sha ||
+    reviewedMergeContext.effectiveDiffFiles !== manifest.effective_diff_files ||
+    reviewedMergeContext.effectiveDiffSha256 !== manifest.effective_diff_sha256
+  ) {
+    throw new Error("reviewed synthetic merge no longer matches the adoption manifest");
+  }
+  const reviewedBaseEntries = readGitTreeEntries({
+    cwd: targetDir,
+    treeish: manifest.reviewed_base_sha,
+  });
+  verifyBaseAdoptionSnapshots({
+    manifest,
+    baseEntries: reviewedBaseEntries,
+    resultEntries: reviewedMergeContext.resultEntries,
+    phase: "reviewed",
+  });
+
+  const driftEligibility = verifyBoundedDisjointBaseDrift({
+    targetDir,
+    reviewedBaseSha: manifest.reviewed_base_sha,
+    currentBaseSha: adoptedBaseSha,
+    reviewedChangedFiles: manifest.effective_paths,
+  });
+  if (driftEligibility.status === "blocked") {
+    throw new Error(driftEligibility.reason);
+  }
+  const driftDecision = evaluateValidationBaseDrift({
+    validationCommands: [manifest.validation_gate],
+    validatedHeadSha: manifest.reviewed_head_sha,
+    currentHeadSha: expectedHeadSha,
+    validatedBaseSha: manifest.reviewed_base_sha,
+    currentBaseSha: adoptedBaseSha,
+    validatedBaseIsAncestorOfHead: true,
+    validatedBaseIsAncestorOfCurrentBase: true,
+    driftCommitCount: driftEligibility.drift_commit_count,
+    branchFiles: manifest.effective_paths,
+    baseDriftFiles: driftEligibility.drift_paths,
+    branchAreas: manifest.affected_areas,
+    baseDriftAreas: driftEligibility.drift_areas,
+    evidenceComplete: true,
+    maxCommits: positiveInteger(
+      process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_COMMITS,
+      20,
+    ),
+    maxFiles: positiveInteger(
+      process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES,
+      128,
+    ),
+  });
+  if (driftDecision.status !== "reused") {
+    throw new Error(`base adoption rejected: ${driftDecision.reason}`);
+  }
+  const adoptedReviewContext = prepareSyntheticMergeReview({
+    targetDir,
+    baseBranch,
+    currentMainSha: adoptedBaseSha,
+    exactHeadSha: expectedHeadSha,
+  });
+  if (
+    adoptedReviewContext.effectiveDiffFiles !== manifest.effective_diff_files ||
+    adoptedReviewContext.effectiveDiffSha256 !== manifest.effective_diff_sha256
+  ) {
+    throw new Error("effective merge fingerprint changed on adopted main");
+  }
+  const adoptedBaseEntries = readGitTreeEntries({
+    cwd: targetDir,
+    treeish: adoptedBaseSha,
+  });
+  verifyBaseAdoptionSnapshots({
+    manifest,
+    baseEntries: adoptedBaseEntries,
+    resultEntries: adoptedReviewContext.expectedTreeEntries,
+    phase: "adopted",
+  });
+
+  prepareTargetToolchain(targetDir);
+  adoptedReviewContext.integrityBaseline = verifySyntheticReviewCheckout({
+    targetDir,
+    expectedSnapshot: adoptedReviewContext.preToolchainSnapshot,
+    expectedEntries: adoptedReviewContext.expectedTreeEntries,
+    phase: "adopted target toolchain preparation",
+    allowToolchainGitConfigChange: true,
+  });
+  const validationCommands = runValidation({
+    targetDir,
+    reviewContext: adoptedReviewContext,
+  });
+  verifySyntheticReviewCheckout({
+    targetDir,
+    expectedSnapshot: adoptedReviewContext.integrityBaseline,
+    expectedEntries: adoptedReviewContext.expectedTreeEntries,
+    phase: "adopted target validation",
+  });
+
+  const githubState = captureFreshAdoptionGithubState({
+    sourceJob,
+    pullRequest,
+    expectedHeadSha,
+    expectedTestMergeSha,
+    adoptedBaseSha,
+  });
+  if (githubState.test_merge_tree_sha !== adoptedReviewContext.mergeTreeSha) {
+    throw new Error("GitHub test merge is not the validated [adopted main, reviewed head] merge");
+  }
+  const finalMainSha = refreshTargetMain({ targetDir, baseBranch });
+  if (finalMainSha !== adoptedBaseSha) {
+    throw new Error(
+      `main changed during apply-time adoption validation: expected ${adoptedBaseSha}, current ${finalMainSha}`,
+    );
+  }
+
+  const authorization = {
+    policy: ADOPTION_POLICY,
+    reviewed_base_sha: manifest.reviewed_base_sha,
+    adopted_base_sha: adoptedBaseSha,
+    reviewed_head_sha: expectedHeadSha,
+    test_merge_sha: expectedTestMergeSha,
+    test_merge_tree_sha: adoptedReviewContext.mergeTreeSha,
+    effective_diff_files: adoptedReviewContext.effectiveDiffFiles,
+    effective_diff_sha256: adoptedReviewContext.effectiveDiffSha256,
+    drift_commit_count: driftEligibility.drift_commit_count,
+    drift_file_count: driftEligibility.drift_file_count,
+    drift_paths_sha256: driftEligibility.drift_paths_sha256,
+    reviewed_paths_sha256: manifest.reviewed_paths.sha256,
+    validation_controls_sha256: manifest.validation_controls.sha256,
+    review_context_sha256: manifest.review_context.sha256,
+    validation_commands: validationCommands,
+    github_state_sha256: githubState.github_state_sha256,
+    issue_updated_at: githubState.issue_updated_at,
+    pull_updated_at: githubState.pull_updated_at,
+  };
+  return {
+    schema_version: ADOPTION_MANIFEST_SCHEMA_VERSION,
+    policy: ADOPTION_POLICY,
+    status: "adopted",
+    reason: "validated newer fast-forward main without another Codex review",
+    ...authorization,
+    authorization_sha256: createHash("sha256")
+      .update(JSON.stringify(authorization))
+      .digest("hex"),
+    synthetic_merge_sha: adoptedReviewContext.syntheticMergeSha,
+    drift_proof: driftDecision.proof,
+    context_proof: {
+      reviewed_paths_unchanged: true,
+      validation_controls_unchanged: true,
+      review_context_unchanged: true,
+    },
+    validated_at: new Date().toISOString(),
+  };
+}
+
+function verifyBaseAdoptionSnapshots({
+  manifest,
+  baseEntries,
+  resultEntries,
+  phase,
+}) {
+  const effectivePathSet = new Set(manifest.effective_paths);
+  const affectedAreaSet = new Set(manifest.affected_areas);
+  for (const [label, expected, includePath] of [
+    [
+      "reviewed paths",
+      manifest.reviewed_paths,
+      (filePath) => effectivePathSet.has(filePath),
+    ],
+    [
+      "validation controls",
+      manifest.validation_controls,
+      isValidationDriftControlFile,
+    ],
+    [
+      "review context",
+      manifest.review_context,
+      (filePath) => affectedAreaSet.has(affectedAreaForFile(filePath)),
+    ],
+  ]) {
+    const actual = buildBlobSnapshot({ baseEntries, resultEntries, includePath });
+    try {
+      assertBlobSnapshotMatches(label, expected, actual);
+    } catch (error) {
+      throw new Error(`${phase} ${String(error?.message ?? error)}`);
+    }
+  }
 }
 
 function verifySyntheticReviewCheckout({
@@ -1400,26 +2083,33 @@ function buildMergeResult({
   validationCommands,
   codexReview,
   currentMainSha,
+  observedMainSha,
   baseDriftAllowed,
   reviewContext,
+  pendingApplyAdoption,
 }) {
   const codexReviewedBaseSha = reviewContext.codexReviewedBaseSha ?? reviewContext.reviewedBaseSha;
   const codexReviewedSyntheticMergeSha =
     reviewContext.codexReviewedSyntheticMergeSha ?? reviewContext.syntheticMergeSha;
   const codexReviewedMergeTreeSha = reviewContext.codexReviewedMergeTreeSha ?? reviewContext.mergeTreeSha;
   const validationAndReviewSharedBase = codexReviewedBaseSha === reviewContext.reviewedBaseSha;
+  const baseAdoptionManifest = buildBaseAdoptionManifest({ targetDir, reviewContext, pull });
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
     validationAndReviewSharedBase
       ? `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${reviewContext.reviewedBaseSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`
       : `Codex review ran on synthetic squash-result commit ${codexReviewedSyntheticMergeSha} with origin/main ${codexReviewedBaseSha} as its parent and merge tree ${codexReviewedMergeTreeSha}; validation was rerun on synthetic commit ${reviewContext.syntheticMergeSha} with refreshed origin/main ${reviewContext.reviewedBaseSha}.`,
     `Review surface narrowed from ${reviewContext.rawDiffFiles} raw PR file(s) to ${reviewContext.effectiveDiffFiles} effective merge file(s).`,
-    `Effective blob delta ${reviewContext.effectiveDiffSha256} was unchanged after refreshing origin/main to ${reviewContext.verifiedMainSha}.`,
+    pendingApplyAdoption
+      ? `Effective blob delta ${reviewContext.effectiveDiffSha256} stayed unchanged through observed origin/main ${observedMainSha}; the last fully validated base ${reviewContext.reviewedBaseSha} was preserved for apply-time adoption.`
+      : `Effective blob delta ${reviewContext.effectiveDiffSha256} was unchanged after refreshing origin/main to ${reviewContext.verifiedMainSha}.`,
     reviewContext.baseDriftProof.drift_commit_count > 0
       ? `Base stabilization accepted ${reviewContext.baseDriftProof.drift_commit_count} bounded disjoint main commit(s) across ${reviewContext.baseDriftProof.drift_file_count} changed file(s), reran validation ${reviewContext.baseDriftProof.validation_reruns} time(s)${reviewContext.baseDriftProof.segments.some((segment) => segment.codex_rereview) ? " and Codex review" : ""}, then bound apply to ${reviewContext.reviewedBaseSha}.`
       : "Review base still matched current origin/main after review.",
     baseDriftAllowed
-      ? reviewContext.baseDriftProof.drift_commit_count > 0
+      ? pendingApplyAdoption
+        ? `PR base ${pull.base.sha} remained mergeable with clean latest checks while origin/main advanced to ${observedMainSha}; apply must adopt from validated base ${currentMainSha} without changing reviewed head ${pull.head.sha}.`
+        : reviewContext.baseDriftProof.drift_commit_count > 0
         ? `PR base ${pull.base.sha} remained mergeable with clean latest checks; the identical disjoint effective diff was validated against origin/main ${currentMainSha}.`
         : `PR base ${pull.base.sha} drifted from origin/main ${currentMainSha}; exact head remained mergeable with clean latest checks and validation ran against that origin/main snapshot.`
       : `PR base ${pull.base.sha} matched current origin/main ${currentMainSha} before validation.`,
@@ -1493,6 +2183,7 @@ function buildMergeResult({
           ],
         },
         validation_commands: validationCommands,
+        base_adoption_manifest: baseAdoptionManifest,
       },
     ],
     fix_artifact: null,

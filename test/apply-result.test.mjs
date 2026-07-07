@@ -22,8 +22,15 @@ const MERGE_TREE_SHA = "f".repeat(40);
 const CURRENT_MAIN_TREE_SHA = "8".repeat(40);
 const REVIEWED_BASE_SHA = "4".repeat(40);
 const REVIEWED_BASE_TREE_SHA = "5".repeat(40);
+const REVIEWED_MERGE_TREE_SHA = "ab".repeat(20);
 const BASE_BLOB_SHA = "1".repeat(40);
 const MERGE_BLOB_SHA = "2".repeat(40);
+const ADOPTION_BASE_CONTENT = "reviewed base content\n";
+const ADOPTION_MERGE_CONTENT = "reviewed merge content\n";
+const ADOPTION_DOC_CONTENT = "unrelated main documentation\n";
+const ADOPTION_BASE_BLOB_SHA = gitBlobSha(ADOPTION_BASE_CONTENT);
+const ADOPTION_MERGE_BLOB_SHA = gitBlobSha(ADOPTION_MERGE_CONTENT);
+const ADOPTION_DOC_BLOB_SHA = gitBlobSha(ADOPTION_DOC_CONTENT);
 const EFFECTIVE_DIFF_SHA256 = createHash("sha256")
   .update(
     `${JSON.stringify([
@@ -33,6 +40,22 @@ const EFFECTIVE_DIFF_SHA256 = createHash("sha256")
     ])}\n`,
   )
   .digest("hex");
+const ADOPTION_EFFECTIVE_DIFF_SHA256 = createHash("sha256")
+  .update(
+    `${JSON.stringify([
+      "src/cli/effective.ts",
+      `100644:blob:${ADOPTION_BASE_BLOB_SHA}`,
+      `100644:blob:${ADOPTION_MERGE_BLOB_SHA}`,
+    ])}\n`,
+  )
+  .digest("hex");
+
+function gitBlobSha(content) {
+  return createHash("sha1")
+    .update(`blob ${Buffer.byteLength(content)}\0`)
+    .update(content)
+    .digest("hex");
+}
 
 test("apply-result maps the applicator token into gh CLI auth", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "apply-result.mjs"), "utf8");
@@ -617,7 +640,17 @@ for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
     );
     const mergeIndex = ghCalls.findIndex((args) => args[0] === "pr" && args[1] === "merge");
     assert.ok(authorizationIndex >= 0);
-    assert.equal(mergeIndex, authorizationIndex + 1);
+    assert.ok(mergeIndex > authorizationIndex);
+    assert.equal(
+      ghCalls
+        .slice(authorizationIndex + 1, mergeIndex)
+        .some(
+          (args) =>
+            args[0] === "api" &&
+            args[1] === "repos/openclaw/openclaw/git/ref/heads/main",
+        ),
+      false,
+    );
   });
 }
 
@@ -951,6 +984,307 @@ test("apply-result blocks overlapping main drift since external review", () => {
   assert.equal(fs.existsSync(mergeStatePath), false);
 });
 
+test("apply-result adopts newer fast-forward main without updating the reviewed branch", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({
+      adoptionDriftPath: "src/other/unrelated.ts",
+      currentMainExtraPath: "src/other/unrelated.ts",
+    }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  assert.equal(report.actions[0].reviewed_head_sha, EXPECTED_HEAD_SHA);
+  assert.equal(report.actions[0].merge_head_sha, EXPECTED_HEAD_SHA);
+  assert.equal(report.actions[0].verified_main_sha, CURRENT_MAIN_SHA);
+  assert.equal(report.actions[0].base_adoption.status, "adopted");
+  assert.equal(report.actions[0].base_adoption.reviewed_base_sha, REVIEWED_BASE_SHA);
+  assert.equal(report.actions[0].base_adoption.adopted_base_sha, CURRENT_MAIN_SHA);
+  assert.equal(report.actions[0].base_adoption.test_merge_sha, TEST_MERGE_SHA);
+  assert.equal(report.actions[0].base_adoption.context_proof.review_context_unchanged, true);
+  assert.match(report.actions[0].base_adoption.github_state_sha256, /^[0-9a-f]{64}$/);
+  assert.match(report.actions[0].base_adoption.authorization_sha256, /^[0-9a-f]{64}$/);
+  const ghCalls = readCallLog(callLogPath);
+  assert.equal(ghCalls.some((args) => args[1]?.endsWith("/update-branch")), false);
+  const mergeArgs = ghCalls.find((args) => args[0] === "pr" && args[1] === "merge");
+  assert.deepEqual(mergeArgs.slice(-3), [
+    "--squash",
+    "--match-head-commit",
+    EXPECTED_HEAD_SHA,
+  ]);
+  assert.match(report.actions[0].exact_merge_check.external_id, /:adopt:[0-9a-f]{64}$/);
+});
+
+for (const rejection of [
+  {
+    name: "reviewed path overlap",
+    options: { adoptionDriftPath: "src/cli/effective.ts" },
+    reason: /changed reviewed path/,
+  },
+  {
+    name: "review context overlap",
+    options: { adoptionDriftPath: "src/cli/context.ts" },
+    reason: /overlapping_affected_areas/,
+  },
+  {
+    name: "validation control drift",
+    options: { adoptionDriftPath: "package.json" },
+    reason: /validation_control_file_drift/,
+  },
+  {
+    name: "nonlinear main movement",
+    options: { adoptionLinear: false },
+    reason: /changed non-linearly/,
+  },
+  {
+    name: "excessive main movement",
+    options: { adoptionDriftCommitCount: 21 },
+    reason: /bounded review-reuse window/,
+  },
+  {
+    name: "target-native validation failure",
+    options: { adoptionValidationFailure: true },
+    reason: /fixture adopted-main validation failure/,
+  },
+  {
+    name: "fresh actionable comment",
+    options: {
+      issueComments: [
+        {
+          user: { login: "reviewer" },
+          body: "Please do not merge this yet.",
+          created_at: "2026-06-11T05:08:00Z",
+          updated_at: "2026-06-11T05:08:00Z",
+        },
+      ],
+    },
+    reason: /actionable top-level issue comment/,
+  },
+  {
+    name: "fresh risk label",
+    options: { adoptionLabels: [{ name: "merge-risk: availability" }] },
+    reason: /blocked live label/,
+  },
+]) {
+  test(`apply-result rejects newer-main adoption for ${rejection.name}`, () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    const mergeStatePath = path.join(tmp, "merge-state");
+    fs.mkdirSync(binDir, { recursive: true });
+    writeReadyMergeGhStub(binDir, adoptionStubOptions(rejection.options));
+
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    fs.writeFileSync(jobPath, mergeJobMarkdown());
+    fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir, {
+      dryRun: false,
+      allowMerge: true,
+      mergeStatePath,
+      env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+    });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "blocked");
+    assert.match(report.actions[0].reason, rejection.reason);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+  });
+}
+
+test("apply-result rejects a changed effective fingerprint during newer-main adoption", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({ mergeBlobSha: "3".repeat(40) }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /effective merge diff changed/);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
+test("apply-result does not update the branch while waiting for an adopted test merge", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({ mergeBaseSha: REVIEWED_BASE_SHA }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    env: {
+      CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS: "1",
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /not based on the current main SHA/);
+  assert.equal(readCallLog(callLogPath).some((args) => args[1]?.endsWith("/update-branch")), false);
+});
+
+test("apply-result keeps the exact-merge check pending while final state validation catches main drift", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({ mainMovesAfterPendingCheck: true }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /main changed during apply-time adoption validation/);
+  assert.equal(report.actions[0].exact_merge_revocation.status, "revoked");
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
+test("apply-result keeps the exact-merge check pending while final state validation catches comment drift", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({
+      pendingCheckIssueComments: [
+        {
+          user: { login: "openclaw-clownfish[bot]" },
+          author_association: "CONTRIBUTOR",
+          body: "Clownfish is on the reef for this PR. I tagged `clownfish:automerge`.",
+          created_at: "2026-06-11T05:08:03Z",
+          updated_at: "2026-06-11T05:08:03Z",
+        },
+      ],
+    }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(
+    report.actions[0].reason,
+    "GitHub comments, reviews, metadata, or checks changed during exact-merge authorization",
+  );
+  assert.equal(report.actions[0].exact_merge_revocation.status, "revoked");
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
+test("apply-result rejects an adopted squash whose parent is not the authorized main", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({ squashParentSha: REVIEWED_BASE_SHA }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "actual squash commit is not based on the authorized main SHA");
+  assert.equal(fs.existsSync(mergeStatePath), true);
+});
+
 test("apply-result does not retry when GitHub reports merge ref movement", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -1189,6 +1523,120 @@ test("apply-result verifies an already-merged external preflight result", () => 
   assert.equal(report.actions[0].status, "executed");
   assert.equal(report.actions[0].merge_commit_sha, SQUASH_COMMIT_SHA);
   assert.equal(report.actions[0].effective_diff_sha256, EFFECTIVE_DIFF_SHA256);
+});
+
+test("apply-result restores adopted-base proof when replaying an already-merged result", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(mergeStatePath, "merged");
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({
+      adoptionDriftPath: "src/other/unrelated.ts",
+      currentMainExtraPath: "src/other/unrelated.ts",
+    }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  const proof = baseAdoptionProof();
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+  fs.writeFileSync(
+    reportPath,
+    `${JSON.stringify(
+      {
+        checkpoint: "base_adoption_verified",
+        actions: [
+          {
+            target: "#60063",
+            status: "authorizing",
+            reviewed_head_sha: EXPECTED_HEAD_SHA,
+            merge_head_sha: EXPECTED_HEAD_SHA,
+            effective_diff_sha256: ADOPTION_EFFECTIVE_DIFF_SHA256,
+            verified_main_sha: CURRENT_MAIN_SHA,
+            base_adoption: proof,
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  assert.equal(report.actions[0].merge_commit_sha, SQUASH_COMMIT_SHA);
+  assert.equal(report.actions[0].effective_diff_sha256, ADOPTION_EFFECTIVE_DIFF_SHA256);
+  assert.equal(report.actions[0].verified_main_sha, CURRENT_MAIN_SHA);
+  assert.equal(report.actions[0].base_adoption.authorization_sha256, proof.authorization_sha256);
+});
+
+test("apply-result rejects a tampered adopted-base replay checkpoint", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(mergeStatePath, "merged");
+  writeReadyMergeGhStub(
+    binDir,
+    adoptionStubOptions({
+      adoptionDriftPath: "src/other/unrelated.ts",
+      currentMainExtraPath: "src/other/unrelated.ts",
+    }),
+  );
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  const proof = { ...baseAdoptionProof(), authorization_sha256: "0".repeat(64) };
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(adoptionMergeResultJson(), null, 2)}\n`);
+  fs.writeFileSync(
+    reportPath,
+    `${JSON.stringify(
+      {
+        checkpoint: "base_adoption_verified",
+        actions: [
+          {
+            target: "#60063",
+            status: "authorizing",
+            reviewed_head_sha: EXPECTED_HEAD_SHA,
+            merge_head_sha: EXPECTED_HEAD_SHA,
+            effective_diff_sha256: ADOPTION_EFFECTIVE_DIFF_SHA256,
+            verified_main_sha: CURRENT_MAIN_SHA,
+            base_adoption: proof,
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(
+    report.actions[0].reason,
+    "actual squash commit is not based on the authorized main SHA",
+  );
 });
 
 test("apply-result rejects an already-merged replay with invalid review policy", () => {
@@ -1469,6 +1917,7 @@ function writeGhStub(
     ghPath,
     `#!/usr/bin/env node
 const fs = require("node:fs");
+const path = require("node:path");
 const args = process.argv.slice(2);
 if (process.env.GH_CALL_LOG) fs.appendFileSync(process.env.GH_CALL_LOG, JSON.stringify(args) + "\\n");
 function write(value) {
@@ -1591,20 +2040,46 @@ function writeReadyMergeGhStub(
     squashParentSha = CURRENT_MAIN_SHA,
     squashBlobSha = mergeBlobSha,
     exactMergeRule = true,
+    adoptionValidation = false,
+    adoptionDriftPath = "docs/main.md",
+    adoptionDriftCommitCount = 1,
+    adoptionLinear = true,
+    adoptionValidationFailure = false,
+    mainMovesAfterPendingCheck = false,
+    adoptionLabels = null,
+    pendingCheckIssueComments = null,
   },
 ) {
   const ghPath = path.join(binDir, "gh");
   const viewCountPath = path.join(binDir, "view-count");
+  const normalizeAdoptionComments = (comments) =>
+    comments.map((comment) => ({
+      author: { login: comment.user?.login ?? "reviewer" },
+      authorAssociation: comment.author_association ?? "NONE",
+      body: comment.body ?? "",
+      createdAt: comment.created_at ?? "2026-06-11T05:07:30Z",
+      updatedAt: comment.updated_at ?? comment.created_at ?? "2026-06-11T05:07:30Z",
+      isMinimized: false,
+      minimizedReason: null,
+      url: "https://github.test/comment",
+    }));
+  const adoptionIssueComments = normalizeAdoptionComments(issueComments);
+  const pendingCheckAdoptionIssueComments =
+    pendingCheckIssueComments == null
+      ? null
+      : normalizeAdoptionComments(pendingCheckIssueComments);
   fs.writeFileSync(
     ghPath,
     `#!/usr/bin/env node
 const fs = require("node:fs");
+const path = require("node:path");
 const args = process.argv.slice(2);
 const merged = Boolean(process.env.MERGE_STATE && fs.existsSync(process.env.MERGE_STATE));
 const mergeViews = ${JSON.stringify(mergeViews)};
 const viewCountPath = ${JSON.stringify(viewCountPath)};
 const checkStatePath = ${JSON.stringify(path.join(binDir, "exact-merge-check.json"))};
 const branchRefreshStatePath = ${JSON.stringify(path.join(binDir, "branch-refresh-state"))};
+const adoptionStatePath = ${JSON.stringify(path.join(binDir, "adoption-started"))};
 const externalBinding = ${JSON.stringify(externalBinding)};
 const reviewedBaseSha = ${JSON.stringify(reviewedBaseSha)};
 const branchRefreshed = () => fs.existsSync(branchRefreshStatePath);
@@ -1622,13 +2097,25 @@ function writeCheck(check) {
   checks.push(check);
   fs.writeFileSync(checkStatePath, JSON.stringify(checks));
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
+if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "clone") {
+  const target = args[3];
+  fs.mkdirSync(path.join(target, ".git"), { recursive: true });
+  fs.mkdirSync(path.join(target, "src", "cli"), { recursive: true });
+  fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ packageManager: "pnpm@10.33.0" }));
+  fs.writeFileSync(path.join(target, "src", "cli", "effective.ts"), ${JSON.stringify(ADOPTION_MERGE_CONTENT)});
+  const driftPath = ${JSON.stringify(adoptionDriftPath)};
+  if (driftPath && driftPath !== "src/cli/effective.ts" && driftPath !== "package.json") {
+    fs.mkdirSync(path.dirname(path.join(target, driftPath)), { recursive: true });
+    fs.writeFileSync(path.join(target, driftPath), ${JSON.stringify(ADOPTION_DOC_CONTENT)});
+  }
+  fs.writeFileSync(adoptionStatePath, "started");
+} else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   write({
     number: 60063,
     state: merged ? "closed" : "open",
     title: "streaming fix",
     updated_at: branchRefreshed() ? "2026-06-11T05:07:31Z" : ${JSON.stringify(issueUpdatedAt)},
-    labels: ${JSON.stringify(labels)},
+    labels: fs.existsSync(adoptionStatePath) && ${JSON.stringify(adoptionLabels)} ? ${JSON.stringify(adoptionLabels)} : ${JSON.stringify(labels)},
     author_association: "NONE",
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
@@ -1638,7 +2125,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     state: "open",
     draft: false,
     updated_at: branchRefreshed() ? "2026-06-11T05:07:31Z" : "2026-06-11T05:07:30Z",
-    labels: ${JSON.stringify(labels)},
+    labels: fs.existsSync(adoptionStatePath) && ${JSON.stringify(adoptionLabels)} ? ${JSON.stringify(adoptionLabels)} : ${JSON.stringify(labels)},
     base: { ref: "main", sha: externalBinding ? ${JSON.stringify(CURRENT_MAIN_SHA)} : "current-main" },
     head: {
       sha: branchRefreshed() ? ${JSON.stringify(refreshedHeadSha)} : ${JSON.stringify(headSha)},
@@ -1662,7 +2149,9 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   write({
     object: {
       sha: externalBinding
-        ? (branchRefreshed() ? ${JSON.stringify(mainAfterRefreshSha)} : ${JSON.stringify(CURRENT_MAIN_SHA)})
+        ? (${JSON.stringify(mainMovesAfterPendingCheck)} && checkRuns().some((check) => check.status === "in_progress")
+            ? ${JSON.stringify(MOVED_MAIN_SHA)}
+            : (branchRefreshed() ? ${JSON.stringify(mainAfterRefreshSha)} : ${JSON.stringify(CURRENT_MAIN_SHA)}))
         : "current-main"
     }
   });
@@ -1780,8 +2269,8 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   write({
     truncated: false,
     tree: [
-      { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(BASE_BLOB_SHA)} },
-      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+      { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_BASE_BLOB_SHA : BASE_BLOB_SHA)} },
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_DOC_BLOB_SHA : "7".repeat(40))} }
     ]
   });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${MERGE_TREE_SHA}?recursive=1") {
@@ -1789,7 +2278,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     truncated: false,
     tree: [
       { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(mergeBlobSha)} },
-      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_DOC_BLOB_SHA : "7".repeat(40))} }
     ]
   });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${REFRESHED_MERGE_TREE_SHA}?recursive=1") {
@@ -1797,7 +2286,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     truncated: false,
     tree: [
       { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(refreshedMergeBlobSha)} },
-      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_DOC_BLOB_SHA : "7".repeat(40))} }
     ]
   });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${SQUASH_TREE_SHA}?recursive=1") {
@@ -1805,7 +2294,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     truncated: false,
     tree: [
       { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(squashBlobSha)} },
-      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_DOC_BLOB_SHA : "7".repeat(40))} }
     ]
   });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${CURRENT_MAIN_TREE_SHA}?recursive=1") {
@@ -1813,16 +2302,28 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     truncated: false,
     tree: [
       { path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(currentMainBlobSha)} },
-      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: "7".repeat(40) }
+      { path: ${JSON.stringify(currentMainExtraPath)}, mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_DOC_BLOB_SHA : "7".repeat(40))} }
     ]
   });
 } else if (externalBinding && args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/${REVIEWED_BASE_TREE_SHA}?recursive=1") {
   write({
     truncated: false,
-    tree: [{ path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(BASE_BLOB_SHA)} }]
+    tree: [{ path: "src/cli/effective.ts", mode: "100644", type: "blob", sha: ${JSON.stringify(adoptionValidation ? ADOPTION_BASE_BLOB_SHA : BASE_BLOB_SHA)} }]
   });
 } else if (args[0] === "api" && args[1] === "graphql") {
-  write({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: [] } } } } });
+  const query = args.find((value) => value.startsWith("query=")) ?? "";
+  if (query.includes("comments(first: 100)")) {
+    const comments =
+      ${JSON.stringify(pendingCheckAdoptionIssueComments)} &&
+      checkRuns().some((check) => check.status === "in_progress")
+        ? ${JSON.stringify(pendingCheckAdoptionIssueComments)}
+        : ${JSON.stringify(adoptionIssueComments)};
+    write({ data: { repository: { pullRequest: { comments: { nodes: comments } } } } });
+  } else {
+    write({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: [] } } } } });
+  }
+} else if (args[0] === "api" && args[1].includes("/pulls/60063/comments")) {
+  write([]);
 } else if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
   const count = fs.existsSync(viewCountPath) ? Number(fs.readFileSync(viewCountPath, "utf8")) : 0;
   fs.writeFileSync(viewCountPath, String(count + 1));
@@ -1857,6 +2358,103 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
 `,
   );
   fs.chmodSync(ghPath, 0o755);
+  if (adoptionValidation) {
+    writeAdoptionValidationStubs(binDir, {
+      driftPath: adoptionDriftPath,
+      driftCommitCount: adoptionDriftCommitCount,
+      linear: adoptionLinear,
+      validationFailure: adoptionValidationFailure,
+    });
+  }
+}
+
+function writeAdoptionValidationStubs(
+  binDir,
+  { driftPath, driftCommitCount, linear, validationFailure },
+) {
+  const gitPath = path.join(binDir, "git");
+  const statePath = path.join(binDir, "adoption-git-state");
+  const adoptedSyntheticSha = "cd".repeat(20);
+  const reviewedSyntheticSha = "bc".repeat(20);
+  const extraEntry = `100644 blob ${ADOPTION_DOC_BLOB_SHA}\t${driftPath}\0`;
+  fs.writeFileSync(
+    gitPath,
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const args = process.argv.slice(2);
+const statePath = ${JSON.stringify(statePath)};
+const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "head";
+const setState = (value) => fs.writeFileSync(statePath, value);
+const baseEntry = ${JSON.stringify(`100644 blob ${ADOPTION_BASE_BLOB_SHA}\tsrc/cli/effective.ts\0`)};
+const mergeEntry = ${JSON.stringify(`100644 blob ${ADOPTION_MERGE_BLOB_SHA}\tsrc/cli/effective.ts\0`)};
+const extraEntry = ${JSON.stringify(extraEntry)};
+if (args[0] === "status") process.exit(0);
+if (args[0] === "config" && args.includes("--list") && args.includes("--null")) process.exit(0);
+if (args[0] === "fetch") process.exit(0);
+if (args[0] === "checkout") {
+  const target = args.at(-1);
+  setState(target === ${JSON.stringify(adoptedSyntheticSha)} ? "adopted" : target === ${JSON.stringify(reviewedSyntheticSha)} ? "reviewed" : "head");
+  process.exit(0);
+}
+if (args[0] === "rev-parse") {
+  if (args[1] === "origin/main") console.log(${JSON.stringify(CURRENT_MAIN_SHA)});
+  else if (args[1] === "--is-shallow-repository") console.log("false");
+  else if (args[1] === "HEAD^{tree}") console.log(${JSON.stringify(MERGE_TREE_SHA)});
+  else if (args[1] === "HEAD^") console.log(${JSON.stringify(CURRENT_MAIN_SHA)});
+  else console.log(state === "adopted" ? ${JSON.stringify(adoptedSyntheticSha)} : state === "reviewed" ? ${JSON.stringify(reviewedSyntheticSha)} : ${JSON.stringify(EXPECTED_HEAD_SHA)});
+  process.exit(0);
+}
+if (args[0] === "merge-base" && args[1] === "--is-ancestor") process.exit(${linear ? 0 : 1});
+if (args[0] === "merge-base") {
+  console.log(${JSON.stringify(REVIEWED_BASE_SHA)});
+  process.exit(0);
+}
+if (args[0] === "rev-list" && args[1] === "--count") {
+  console.log(${JSON.stringify(driftCommitCount)});
+  process.exit(0);
+}
+if (args[0] === "merge-tree" && args[1] === "--write-tree") {
+  console.log(args[2] === ${JSON.stringify(REVIEWED_BASE_SHA)} ? ${JSON.stringify(REVIEWED_MERGE_TREE_SHA)} : ${JSON.stringify(MERGE_TREE_SHA)});
+  process.exit(0);
+}
+if (args[0] === "commit-tree") {
+  console.log(args[1] === ${JSON.stringify(REVIEWED_MERGE_TREE_SHA)} ? ${JSON.stringify(reviewedSyntheticSha)} : ${JSON.stringify(adoptedSyntheticSha)});
+  process.exit(0);
+}
+if (args[0] === "ls-tree") {
+  const treeish = args.at(-1);
+  if (treeish === ${JSON.stringify(REVIEWED_BASE_SHA)}) process.stdout.write(baseEntry);
+  else if (treeish === ${JSON.stringify(REVIEWED_MERGE_TREE_SHA)}) process.stdout.write(mergeEntry);
+  else if (treeish === ${JSON.stringify(CURRENT_MAIN_SHA)}) process.stdout.write(baseEntry + extraEntry);
+  else if (treeish === ${JSON.stringify(MERGE_TREE_SHA)}) process.stdout.write(mergeEntry + extraEntry);
+  process.exit(0);
+}
+if (args[0] === "diff" && args[1] === "--name-only") {
+  if (args.includes("--diff-filter=U")) process.exit(0);
+  const separator = args.includes("-z") ? "\\0" : "\\n";
+  const range = args.find((value) => /^[0-9a-f]{40}\\.\\.[0-9a-f]{40}$/i.test(value));
+  const files = range ? [${JSON.stringify(driftPath)}] : ["src/cli/effective.ts"];
+  process.stdout.write(files.join(separator) + separator);
+  process.exit(0);
+}
+if (args[0] === "diff") process.exit(0);
+process.stderr.write("unexpected git command: " + args.join(" ") + "\\n");
+process.exit(1);
+`,
+  );
+  fs.chmodSync(gitPath, 0o755);
+  fs.writeFileSync(path.join(binDir, "corepack"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
+  fs.writeFileSync(
+    path.join(binDir, "pnpm"),
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+if (${JSON.stringify(validationFailure)} && args[0] === "check:changed") {
+  process.stderr.write("fixture adopted-main validation failure\\n");
+  process.exit(1);
+}
+`,
+    { mode: 0o755 },
+  );
 }
 
 function jobMarkdown({ allowUnmergedFixClose }) {
@@ -1952,7 +2550,12 @@ function resultJsonWithHydratedCandidate() {
   };
 }
 
-function mergeResultJson({ externalBinding = false, reviewedBaseSha = CURRENT_MAIN_SHA } = {}) {
+function mergeResultJson({
+  externalBinding = false,
+  reviewedBaseSha = CURRENT_MAIN_SHA,
+  effectiveDiffSha256 = EFFECTIVE_DIFF_SHA256,
+  baseAdoptionManifest = null,
+} = {}) {
   return {
     status: "planned",
     repo: "openclaw/openclaw",
@@ -1967,7 +2570,7 @@ function mergeResultJson({ externalBinding = false, reviewedBaseSha = CURRENT_MA
         status: "planned",
         classification: "fix_pr",
         idempotency_key: externalBinding
-          ? `external-merge-preflight:openclaw/openclaw#60063:${EXPECTED_HEAD_SHA}:${EFFECTIVE_DIFF_SHA256}`
+          ? `external-merge-preflight:openclaw/openclaw#60063:${EXPECTED_HEAD_SHA}:${effectiveDiffSha256}`
           : "openclaw/openclaw#60063:merge:stale-test",
         expected_head_sha: EXPECTED_HEAD_SHA,
       },
@@ -1979,7 +2582,7 @@ function mergeResultJson({ externalBinding = false, reviewedBaseSha = CURRENT_MA
           ? {
               reviewed_base_sha: reviewedBaseSha,
               reviewed_head_sha: EXPECTED_HEAD_SHA,
-              effective_diff_sha256: EFFECTIVE_DIFF_SHA256,
+              effective_diff_sha256: effectiveDiffSha256,
               effective_diff_files: 1,
             }
           : {}),
@@ -1996,7 +2599,122 @@ function mergeResultJson({ externalBinding = false, reviewedBaseSha = CURRENT_MA
           findings_addressed: true,
           evidence: ["Codex /review returned clean"],
         },
+        base_adoption_manifest: baseAdoptionManifest,
       },
     ],
   };
+}
+
+function baseAdoptionManifest() {
+  const reviewedPathBlobs = [
+    {
+      path: "src/cli/effective.ts",
+      reviewed_base_entry: `100644:blob:${ADOPTION_BASE_BLOB_SHA}`,
+      reviewed_result_entry: `100644:blob:${ADOPTION_MERGE_BLOB_SHA}`,
+    },
+  ];
+  return {
+    schema_version: 1,
+    policy: "bounded-fast-forward-v1",
+    reviewed_base_sha: REVIEWED_BASE_SHA,
+    reviewed_head_sha: EXPECTED_HEAD_SHA,
+    reviewed_synthetic_merge_sha: "bc".repeat(20),
+    reviewed_merge_tree_sha: REVIEWED_MERGE_TREE_SHA,
+    effective_diff_sha256: ADOPTION_EFFECTIVE_DIFF_SHA256,
+    effective_diff_files: 1,
+    effective_paths: ["src/cli/effective.ts"],
+    affected_areas: ["src/cli"],
+    validation_gate: "pnpm check:changed",
+    reviewed_paths: blobSnapshot(reviewedPathBlobs),
+    validation_controls: blobSnapshot([]),
+    review_context: blobSnapshot(reviewedPathBlobs),
+  };
+}
+
+function baseAdoptionProof() {
+  const manifest = baseAdoptionManifest();
+  const authorization = {
+    policy: manifest.policy,
+    reviewed_base_sha: REVIEWED_BASE_SHA,
+    adopted_base_sha: CURRENT_MAIN_SHA,
+    reviewed_head_sha: EXPECTED_HEAD_SHA,
+    test_merge_sha: TEST_MERGE_SHA,
+    test_merge_tree_sha: MERGE_TREE_SHA,
+    effective_diff_files: 1,
+    effective_diff_sha256: ADOPTION_EFFECTIVE_DIFF_SHA256,
+    drift_commit_count: 1,
+    drift_file_count: 1,
+    drift_paths_sha256: createHash("sha256")
+      .update("src/other/unrelated.ts")
+      .digest("hex"),
+    reviewed_paths_sha256: manifest.reviewed_paths.sha256,
+    validation_controls_sha256: manifest.validation_controls.sha256,
+    review_context_sha256: manifest.review_context.sha256,
+    validation_commands: ["pnpm check:changed"],
+    github_state_sha256: "9".repeat(64),
+    issue_updated_at: "2026-06-11T05:07:30Z",
+    pull_updated_at: "2026-06-11T05:07:30Z",
+  };
+  return {
+    schema_version: 1,
+    status: "adopted",
+    reason: "validated newer fast-forward main without another Codex review",
+    ...authorization,
+    authorization_sha256: createHash("sha256")
+      .update(JSON.stringify(authorization))
+      .digest("hex"),
+    synthetic_merge_sha: "cd".repeat(20),
+    drift_proof: { status: "reused" },
+    context_proof: {
+      reviewed_paths_unchanged: true,
+      validation_controls_unchanged: true,
+      review_context_unchanged: true,
+    },
+    validated_at: "2026-06-11T05:08:00Z",
+  };
+}
+
+function blobSnapshot(blobs) {
+  return {
+    complete: true,
+    files: blobs.length,
+    sha256: createHash("sha256")
+      .update(`${blobs.map((entry) => JSON.stringify(entry)).join("\n")}\n`)
+      .digest("hex"),
+    blobs,
+  };
+}
+
+function adoptionMergeResultJson() {
+  return mergeResultJson({
+    externalBinding: true,
+    reviewedBaseSha: REVIEWED_BASE_SHA,
+    effectiveDiffSha256: ADOPTION_EFFECTIVE_DIFF_SHA256,
+    baseAdoptionManifest: baseAdoptionManifest(),
+  });
+}
+
+function adoptionStubOptions(overrides = {}) {
+  return {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    reviewedBaseSha: REVIEWED_BASE_SHA,
+    mergeBaseSha: CURRENT_MAIN_SHA,
+    mergeBlobSha: ADOPTION_MERGE_BLOB_SHA,
+    currentMainBlobSha: ADOPTION_BASE_BLOB_SHA,
+    currentMainExtraPath: "docs/main.md",
+    squashParentSha: CURRENT_MAIN_SHA,
+    squashBlobSha: ADOPTION_MERGE_BLOB_SHA,
+    adoptionValidation: true,
+    ...overrides,
+  };
+}
+
+function readCallLog(callLogPath) {
+  return fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
 }
