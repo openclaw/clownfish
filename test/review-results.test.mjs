@@ -454,6 +454,75 @@ test("review-results rejects planned merges without a reviewed PR head SHA", () 
   assert.match(result.stdout, /merge action requires expected_head_sha as a 40-character Git SHA/);
 });
 
+test("review-results ignores worker-authored merge proof when deterministic external preflight is required", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [
+        {
+          target: "#1",
+          action: "merge_canonical",
+          status: "planned",
+          idempotency_key: "cluster-test:merge:1",
+          expected_head_sha: "7".repeat(40),
+          classification: "canonical",
+          target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z",
+          canonical: "#1",
+          duplicate_of: null,
+          candidate_fix: null,
+          comment: null,
+          evidence: ["Worker claims the PR is ready."],
+          reason: "Canonical PR is ready to merge.",
+        },
+      ],
+      merge_preflight: [validMergePreflight("#1")],
+    },
+    {
+      job: mergeJob({ requireExternalPreflight: true }),
+      plan: {
+        items: [
+          {
+            ref: "#1",
+            kind: "pull_request",
+            state: "open",
+            title: "fix: merge guard",
+            labels: ["proof: sufficient"],
+            updated_at: "2026-06-15T14:15:01Z",
+            security_sensitive: false,
+          },
+        ],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+  assert.match(result.stdout, /worker-authored merge_preflight is ignored/);
+});
+
+test("review-results accepts a blocked external preflight request for calibrated finalization", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      canonical_pr: "#1",
+      actions: [blockedMergeCandidate("#1")],
+      merge_preflight: [],
+    },
+    {
+      job: mergeJob({ requireExternalPreflight: true, calibrated: true }),
+      plan: {
+        items: [openPrItem("#1", "2026-06-27T16:00:00Z")],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.equal(result.status, 0, result.stdout || result.stderr);
+});
+
 test("review-results ignores empty security boundary item collections in mutating evidence", () => {
   const dir = makeResultDir(
     {
@@ -2256,7 +2325,7 @@ allow_fix_pr: false
 `;
 }
 
-function mergeJob() {
+function mergeJob({ requireExternalPreflight = false, calibrated = false } = {}) {
   return `---
 repo: openclaw/openclaw
 cluster_id: cluster-test
@@ -2266,6 +2335,8 @@ allowed_actions:
 blocked_actions:
   - force_push
 allow_merge: true
+require_external_merge_preflight: ${requireExternalPreflight ? "true" : "false"}
+${calibrated ? 'maintainer_calibration:\n  - "Require a planned fix or merge for an open canonical PR."' : ""}
 canonical:
   - "#1"
 candidates:

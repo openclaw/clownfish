@@ -1128,6 +1128,9 @@ function validateMergePolicy({ job, action }) {
   if (!job.frontmatter.allowed_actions.includes("merge")) return "job does not allow merge";
   if ((job.frontmatter.blocked_actions ?? []).includes("merge")) return "merge is blocked by job frontmatter";
   if (job.frontmatter.allow_merge !== true) return "merge requires allow_merge: true";
+  if (job.frontmatter.require_external_merge_preflight === true) {
+    return "merge must be applied by the deterministic external preflight";
+  }
   if (!["merge_candidate", "merge_canonical"].includes(String(action.action ?? ""))) {
     return "unsupported merge action";
   }

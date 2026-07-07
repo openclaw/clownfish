@@ -326,8 +326,14 @@ function reviewResult(resultPath) {
       failures,
     });
   }
+  const externalMergePreflightRequired = sourceJobPolicy?.require_external_merge_preflight === true;
   const plannedMergeActions = mergeActions.filter((action) => action.status === "planned");
-  if (plannedMergeActions.length > 0) {
+  if (externalMergePreflightRequired && mergeActions.length > 0) {
+    validateExternalMergePreflightRequests(mergeActions, failures);
+    if ((result.merge_preflight ?? []).length > 0) {
+      warnings.push("worker-authored merge_preflight is ignored because the source job requires deterministic external preflight");
+    }
+  } else if (plannedMergeActions.length > 0) {
     validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
   }
   validateCalibratedPrFinalization({
@@ -390,7 +396,10 @@ function validateCalibratedPrFinalization({ sourceJobPolicy, result, itemByRef, 
   const canonicalItem = itemByRef.get(canonicalPrRef);
   if (!canonicalItem || canonicalItem.kind !== "pull_request" || canonicalItem.state !== "open") return;
   const hasPlannedMerge = mergeActions.some(
-    (action) => normalizeRef(action.target) === canonicalPrRef && action.status === "planned",
+    (action) =>
+      normalizeRef(action.target) === canonicalPrRef &&
+      (action.status === "planned" ||
+        (sourceJobPolicy.require_external_merge_preflight === true && action.status === "blocked")),
   );
   const hasPlannedFix = fixActions.some((action) => ["planned"].includes(String(action.status ?? "")));
   if (hasPlannedMerge || hasPlannedFix) return;
@@ -688,6 +697,18 @@ function validateMergePreflight(mergePreflight, mergeActions, failures) {
   }
 }
 
+function validateExternalMergePreflightRequests(mergeActions, failures) {
+  for (const action of mergeActions) {
+    const target = normalizeRef(action.target);
+    if (!["planned", "blocked"].includes(String(action.status ?? ""))) {
+      failures.push(`${target} external merge preflight request status must be planned or blocked`);
+    }
+    if (!/^[0-9a-f]{40}$/i.test(String(action.expected_head_sha ?? ""))) {
+      failures.push(`${target} external merge preflight request requires expected_head_sha as a 40-character Git SHA`);
+    }
+  }
+}
+
 function isBlockedReplacementSourceCloseout(action, result) {
   if (action.action !== "close_superseded" || action.status !== "blocked") return false;
   if (result.fix_artifact?.repair_strategy !== "replace_uneditable_branch") return false;
@@ -897,6 +918,8 @@ function readSourceJobPolicySnapshot(plan) {
     !permissions.blocked_actions.every((action) => typeof action === "string") ||
     typeof permissions.allow_fix_pr !== "boolean" ||
     typeof permissions.allow_merge !== "boolean" ||
+    (permissions.require_external_merge_preflight !== undefined &&
+      typeof permissions.require_external_merge_preflight !== "boolean") ||
     !Array.isArray(permissions.maintainer_calibration) ||
     !permissions.maintainer_calibration.every((entry) => typeof entry === "string") ||
     (permissions.source !== undefined && permissions.source !== null && typeof permissions.source !== "string") ||

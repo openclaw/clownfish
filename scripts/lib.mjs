@@ -417,6 +417,7 @@ export function validateJob(job) {
     "allow_low_signal_pr_close",
     "allow_fix_pr",
     "allow_merge",
+    "require_external_merge_preflight",
     "allow_unmerged_fix_close",
     "allow_post_merge_close",
     "allow_broad_fix_artifacts",
@@ -450,6 +451,12 @@ export function validateJob(job) {
   }
   if (fm.expected_head_sha !== undefined && !/^[0-9a-f]{40}$/i.test(fm.expected_head_sha)) {
     errors.push("expected_head_sha must be a 40-character Git SHA");
+  }
+  if (
+    fm.require_external_merge_preflight === true &&
+    (!fm.allowed_actions?.includes("merge") || fm.allow_merge !== true)
+  ) {
+    errors.push("require_external_merge_preflight requires allowed_actions: merge and allow_merge: true");
   }
   if (fm.expected_head_sha !== undefined && fm.expected_head_shas !== undefined) {
     errors.push("expected_head_sha and expected_head_shas cannot both be set");

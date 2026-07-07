@@ -351,6 +351,33 @@ test("apply-result records primary GitHub rate limits as retryable blocks", () =
   assert.match(report.actions[0].reason, /GitHub rate limit/);
 });
 
+test("apply-result refuses worker-authored merge proof when deterministic external preflight is required", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, { headSha: EXPECTED_HEAD_SHA });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown({ requireExternalPreflight: true }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson(), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "merge must be applied by the deterministic external preflight");
+  assert.equal(fs.readFileSync(callLogPath, "utf8"), "");
+});
+
 test("apply-result tolerates stale PR base when exact head remains mergeable with clean checks", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -2642,7 +2669,7 @@ security_sensitive: false
 `;
 }
 
-function mergeJobMarkdown() {
+function mergeJobMarkdown({ requireExternalPreflight = false } = {}) {
   return `---
 repo: openclaw/openclaw
 cluster_id: stale-merge-test
@@ -2652,6 +2679,7 @@ allowed_actions:
 blocked_actions:
   - force_push
 allow_merge: true
+require_external_merge_preflight: ${requireExternalPreflight ? "true" : "false"}
 security_sensitive: false
 canonical:
   - "#60063"

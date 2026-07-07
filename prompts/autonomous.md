@@ -94,6 +94,7 @@ Merge and post-merge close:
 - Bot review comments count as required review comments. Greptile, Codex, Asile, CodeRabbit, Copilot, and similar automated reviewer findings must be addressed, proven non-actionable, or escalated.
 - Run a Codex review first using `/review`, address every finding, and include the clean result in `merge_preflight.codex_review`. Do not recommend merge from a stale or missing Codex review.
 - For every merge action, include `merge_preflight` for that target proving `security_status: "cleared"`, `comments_status: "resolved"`, `bot_comments_status: "resolved"`, a passed `/review`, addressed findings, validation commands, and concrete evidence.
+- If the job or plan sets `require_external_merge_preflight: true`, do not author or trust `merge_preflight`. Emit a blocked `merge_candidate` or `merge_canonical` action with reason `external_merge_preflight_required`, the exact live `expected_head_sha`, and concrete evidence. The deterministic runner owns review, validation, authorization, and apply.
 - If a PR appears otherwise merge-shaped but the only missing proof is deterministic exact-head validation and Codex `/review`, emit a blocked `merge_candidate` or `merge_canonical` action for that PR with reason `external_merge_preflight_required`, `target_kind: "pull_request"`, `classification: "canonical"`, `expected_head_sha`, `target_updated_at`, and concrete evidence. Do not include `merge_preflight` for blocked preflight requests. The executor will run the external merge preflight and guarded applicator.
 - After a canonical PR lands, reclassify duplicate closeout against the landed PR or commit instead of assuming the pre-merge plan is still valid.
 - Recommend `post_merge_close` only after a canonical fix is merged or already present on current `main`.
@@ -103,7 +104,7 @@ Required result shape:
 
 - `canonical`, `canonical_issue`, or `canonical_pr` with full URL when known.
 - Per-item action matrix in `actions`.
-- `merge_preflight` object for every merge action.
+- `merge_preflight` object for every planned merge action, except jobs requiring deterministic external preflight.
 - Evidence and command/result summary in action evidence.
 - `fix_artifact` object when a fix path is needed.
 - `needs_human` entries only for decisions that remain ambiguous after using the hydrated artifact. Missing permissions or failing checks should usually become blocked/non-mutating actions with exact evidence, not blanket cluster escalation.
