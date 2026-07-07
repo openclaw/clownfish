@@ -107,6 +107,10 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(clusterWorkflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
   assert.match(
     clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \|\| 'danger-full-access' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
     /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS \|\| '60000' \}\}/,
   );
   assert.match(
