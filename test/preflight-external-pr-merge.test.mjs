@@ -152,6 +152,91 @@ test("cluster worker chains blocked merge candidates through external preflight"
   );
 });
 
+test("external preflight job policy routes planned worker merges even with self-authored proof", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-route-"));
+  const binDir = path.join(root, "bin");
+  const runRoot = path.join(root, "run");
+  const jobPath = path.join(root, "job.md");
+  const resultPath = path.join(root, "result.json");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(binDir, "gh"),
+    "#!/bin/sh\necho 'fixture hydration failure' >&2\nexit 1\n",
+    { mode: 0o755 },
+  );
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: external-route-test
+mode: autonomous
+expected_head_sha: ${"a".repeat(40)}
+allowed_actions:
+  - merge
+blocked_actions:
+  - close
+candidates:
+  - "#123"
+allow_merge: true
+require_external_merge_preflight: true
+security_sensitive: false
+---
+
+# External route test
+`,
+  );
+  fs.writeFileSync(
+    resultPath,
+    `${JSON.stringify(
+      {
+        repo: "openclaw/openclaw",
+        cluster_id: "external-route-test",
+        actions: [
+          {
+            target: "#123",
+            action: "merge_canonical",
+            status: "planned",
+            expected_head_sha: "a".repeat(40),
+            reason: "worker-authored proof claims this is ready",
+          },
+        ],
+        merge_preflight: [{ target: "#123", security_status: "cleared" }],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/run-external-merge-preflights.mjs",
+      jobPath,
+      resultPath,
+      "--dry-run",
+      "--run-root",
+      runRoot,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS: "10000",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(path.join(runRoot, "external-merge-preflight-report.json"), "utf8"));
+  assert.equal(report.actions.length, 1);
+  assert.equal(report.actions[0].target, "#123");
+  assert.equal(report.actions[0].request_source, "job_policy");
+  assert.equal(report.actions[0].status, "blocked");
+});
+
 test("daily checks-success intake feeds guarded external merge preflights", () => {
   assert.match(intakeWorkflow, /cron: "17 7 \* \* \*"/);
   assert.match(intakeWorkflow, /CLOWNFISH_CHECKS_SUCCESS_PREFLIGHT_ENABLED == ''/);

@@ -105,6 +105,30 @@ candidates:
   ]);
 });
 
+test("validateJob requires merge permission for deterministic external preflight", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-external-preflight-"));
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: external-preflight-policy
+mode: autonomous
+allowed_actions:
+  - comment
+candidates:
+  - "#1"
+allow_merge: false
+require_external_merge_preflight: true
+---
+`,
+  );
+
+  assert.deepEqual(validateJob(parseJob(jobPath)), [
+    "require_external_merge_preflight requires allowed_actions: merge and allow_merge: true",
+  ]);
+});
+
 test("validateJob requires one expected_head_shas entry per candidate", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-heads-"));
   const jobPath = path.join(tmp, "job.md");

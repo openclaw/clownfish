@@ -83,10 +83,15 @@ console.log(JSON.stringify(report, null, 2));
 function findPreflightRequests(workerResult) {
   const seen = new Set();
   const out = [];
+  const requiredByJob = job.frontmatter.require_external_merge_preflight === true;
   for (const action of workerResult.actions ?? []) {
     if (!MERGE_ACTIONS.has(String(action.action ?? ""))) continue;
-    if (action.status !== "blocked") continue;
-    if (!wantsExternalMergePreflight(action)) continue;
+    if (requiredByJob) {
+      if (!["planned", "blocked"].includes(String(action.status ?? ""))) continue;
+    } else {
+      if (action.status !== "blocked") continue;
+      if (!wantsExternalMergePreflight(action)) continue;
+    }
     const number = parseIssueNumber(action.target);
     if (!number || seen.has(number)) continue;
     seen.add(number);
@@ -96,6 +101,7 @@ function findPreflightRequests(workerResult) {
       action: action.action,
       expected_head_sha: action.expected_head_sha ?? null,
       reason: action.reason ?? null,
+      request_source: requiredByJob ? "job_policy" : "action_reason",
     });
   }
   return out;

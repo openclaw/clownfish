@@ -28,6 +28,7 @@ security_sensitive: false
 allow_instant_close: false
 allow_fix_pr: false
 allow_merge: true
+require_external_merge_preflight: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #85238 after the deterministic external preflight binds validation and review to its exact live head."

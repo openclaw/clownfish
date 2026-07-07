@@ -106,6 +106,7 @@ canonical:
     blocked_actions: [],
     allow_fix_pr: false,
     allow_merge: false,
+    require_external_merge_preflight: false,
     maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
   });
   assert.equal(candidate.kind, "pull_request");

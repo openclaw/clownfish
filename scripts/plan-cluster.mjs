@@ -432,6 +432,7 @@ function buildFixArtifact(plan, job) {
       allow_low_signal_pr_close: job.frontmatter.allow_low_signal_pr_close === true,
       allow_fix_pr: job.frontmatter.allow_fix_pr === true,
       allow_merge: job.frontmatter.allow_merge === true,
+      require_external_merge_preflight: job.frontmatter.require_external_merge_preflight === true,
       allow_post_merge_close: job.frontmatter.allow_post_merge_close === true,
       require_fix_before_close: job.frontmatter.require_fix_before_close === true,
     },
@@ -459,7 +460,9 @@ function buildFixArtifact(plan, job) {
           : "Worker may identify canonical fixes but must not plan a fix PR.",
       merge:
         job.frontmatter.allow_merge === true
-          ? "Worker may recommend merge_canonical only after security is cleared, comments/review-bot findings are resolved, Codex /review has passed and findings are addressed, checks/review state/conflicts/changelog are clean, merge_preflight is populated, and expected_head_sha exactly matches the freshly hydrated canonical PR head SHA."
+          ? job.frontmatter.require_external_merge_preflight === true
+            ? "Worker must emit a blocked merge_candidate or merge_canonical request with reason external_merge_preflight_required and the exact freshly hydrated expected_head_sha. Do not populate merge_preflight; the deterministic external preflight owns validation, review, authorization, and apply."
+            : "Worker may recommend merge_canonical only after security is cleared, comments/review-bot findings are resolved, Codex /review has passed and findings are addressed, checks/review state/conflicts/changelog are clean, merge_preflight is populated, and expected_head_sha exactly matches the freshly hydrated canonical PR head SHA."
           : "Merge recommendations must stay non-mutating.",
       post_merge_close:
         job.frontmatter.allow_post_merge_close === true
@@ -480,7 +483,9 @@ function buildFixArtifact(plan, job) {
       "if an item is not a true duplicate, run a single-item review/check/decide path before needs_human",
       "fetch Greptile, Codex, Asile, CodeRabbit, Copilot, and similar review-bot comments for every canonical or candidate PR",
       "address each actionable review-bot finding or mark the item needs_human with the unresolved blocker",
-      "before any merge recommendation, include merge_preflight proving security clearance, resolved comments, resolved bot comments, passed Codex /review, addressed review findings, and validation commands; include expected_head_sha as the exact 40-character freshly hydrated PR head SHA, never derive it from idempotency_key",
+      job.frontmatter.require_external_merge_preflight === true
+        ? "for merge requests, omit worker-authored merge_preflight and emit a blocked external_merge_preflight_required action with expected_head_sha as the exact 40-character freshly hydrated PR head SHA"
+        : "before any merge recommendation, include merge_preflight proving security clearance, resolved comments, resolved bot comments, passed Codex /review, addressed review findings, and validation commands; include expected_head_sha as the exact 40-character freshly hydrated PR head SHA, never derive it from idempotency_key",
       "show canonical URL or explain needs_human",
       "use canonical/duplicate_of/candidate_fix refs only when those refs are hydrated preflight items; unhydrated PR refs found in comments belong in evidence or fix_artifact until hydrated",
       "include targeted tests and changelog plan for fix artifacts",
@@ -499,6 +504,7 @@ function snapshotSourceJobPolicy(job) {
     blocked_actions: [...(job.frontmatter.blocked_actions ?? [])],
     allow_fix_pr: job.frontmatter.allow_fix_pr === true,
     allow_merge: job.frontmatter.allow_merge === true,
+    require_external_merge_preflight: job.frontmatter.require_external_merge_preflight === true,
     maintainer_calibration: Array.isArray(job.frontmatter.maintainer_calibration)
       ? [...job.frontmatter.maintainer_calibration]
       : [],
