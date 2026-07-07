@@ -37,6 +37,8 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
     /const defaultCodexReviewSandbox = "read-only";/,
   );
   assert.match(script, /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \?\? defaultCodexReviewSandbox/);
+  assert.match(script, /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK === "1"/);
+  assert.match(script, /\["--enable", "use_legacy_landlock"\]/);
   assert.match(script, /--sandbox",\s*codexReviewSandbox/);
   assert.match(script, /--config\.enable-pre-post-scripts=false/);
   assert.match(script, /GIT_ALLOW_PROTOCOL: "https:ssh"/);
@@ -82,6 +84,14 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /permission-pull-requests: write/);
   assert.match(workflow, /permission-checks: write/);
   assert.match(workflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
+  assert.match(
+    workflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \|\| 'read-only' \}\}/,
+  );
+  assert.match(
+    workflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK \|\| '1' \}\}/,
+  );
 });
 
 test("cluster worker chains blocked merge candidates through external preflight", () => {
@@ -105,6 +115,30 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /clearInterval\(heartbeat\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
   assert.match(clusterWorkflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \|\| 'read-only' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK \|\| '1' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS \|\| '60000' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_BASE_REVALIDATIONS \|\| '2' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_COMMITS: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_COMMITS \|\| '20' \}\}/,
+  );
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES \|\| '128' \}\}/,
+  );
   assert.equal((clusterWorkflow.match(/permission-checks: write/g) ?? []).length >= 2, true);
   assert.match(
     clusterWorkflow,
@@ -196,6 +230,29 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
     encoding: "utf8",
   });
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
+});
+
+test("external merge preflight selects legacy Landlock without weakening read-only review", () => {
+  const fixture = makeFixture();
+  runPreflightFixture(fixture, {
+    CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK: "1",
+  });
+
+  const args = JSON.parse(fs.readFileSync(fixture.codexArgsPath, "utf8"));
+  assert.deepEqual(args.slice(0, 3), ["exec", "--enable", "use_legacy_landlock"]);
+  assert.equal(args[args.indexOf("--sandbox") + 1], "read-only");
+  assert.equal(args.includes("danger-full-access"), false);
+});
+
+test("external merge preflight can disable the legacy Landlock compatibility backend", () => {
+  const fixture = makeFixture();
+  runPreflightFixture(fixture, {
+    CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK: "0",
+  });
+
+  const args = JSON.parse(fs.readFileSync(fixture.codexArgsPath, "utf8"));
+  assert.equal(args.includes("use_legacy_landlock"), false);
+  assert.equal(args[args.indexOf("--sandbox") + 1], "read-only");
 });
 
 test("external merge preflight blocks when the source job pins a different head", () => {
@@ -3255,6 +3312,7 @@ function makeFixture({
   const gitCommandsPath = path.join(root, "git-commands.log");
   const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
   const codexPromptPath = path.join(root, "codex-prompt.txt");
+  const codexArgsPath = path.join(root, "codex-args.json");
   const codexCountPath = path.join(root, "codex-count");
   const gitConfigStatePath = path.join(root, "git-config-state");
   const gitIncludedConfigStatePath = path.join(root, "git-included-config-state");
@@ -3517,6 +3575,7 @@ if (failure && args[0] === "check:changed") {
     `#!/usr/bin/env node
 const fs = require("node:fs");
 const args = process.argv.slice(2);
+fs.writeFileSync(${JSON.stringify(codexArgsPath)}, JSON.stringify(args));
 const index = args.indexOf("--output-last-message");
 const countPath = ${JSON.stringify(codexCountPath)};
 const count = fs.existsSync(countPath) ? Number(fs.readFileSync(countPath, "utf8")) : 0;
@@ -3553,6 +3612,7 @@ if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
     baseSha,
     binDir,
     effectiveDiffSha256,
+    codexArgsPath,
     codexCountPath,
     codexPromptPath,
     gitCommandsPath,

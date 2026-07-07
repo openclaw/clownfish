@@ -1314,6 +1314,8 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
   const outputPath = path.join(runDir, "codex-review.json");
   const defaultCodexReviewSandbox = "read-only";
   const codexReviewSandbox = process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX ?? defaultCodexReviewSandbox;
+  const useLegacyLandlock =
+    process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_USE_LEGACY_LANDLOCK === "1";
   writeJson(schemaPath, {
     $schema: "https://json-schema.org/draft/2020-12/schema",
     type: "object",
@@ -1356,24 +1358,26 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     `Source job: ${sourceJob.relativePath}`,
   ].join("\n");
   fs.rmSync(outputPath, { force: true });
+  const codexArgs = [
+    "exec",
+    ...(useLegacyLandlock ? ["--enable", "use_legacy_landlock"] : []),
+    "--cd",
+    targetDir,
+    "--model",
+    String(process.env.CLOWNFISH_MODEL ?? "gpt-5.5"),
+    "--sandbox",
+    codexReviewSandbox,
+    "--output-schema",
+    schemaPath,
+    "--output-last-message",
+    outputPath,
+    "--ephemeral",
+    "--json",
+    "-",
+  ];
   run(
     "codex",
-    [
-      "exec",
-      "--cd",
-      targetDir,
-      "--model",
-      String(process.env.CLOWNFISH_MODEL ?? "gpt-5.5"),
-      "--sandbox",
-      codexReviewSandbox,
-      "--output-schema",
-      schemaPath,
-      "--output-last-message",
-      outputPath,
-      "--ephemeral",
-      "--json",
-      "-",
-    ],
+    codexArgs,
     {
       cwd: targetDir,
       input: prompt,
