@@ -54,6 +54,7 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /delete env\[key\]/);
   assert.match(script, /if \(process\.env\.GITHUB_ACTIONS === "true"\) \{\s*delete env\.OPENAI_API_KEY;\s*delete env\.CODEX_API_KEY;/s);
   assert.match(script, /function validationEnv\(\)[\s\S]*?"CLOWNFISH_READ_GH_TOKEN"/);
+  assert.equal((script.match(/"CLOWNFISH_CHECKS_GH_TOKEN"/g) ?? []).length, 2);
   assert.match(script, /function validationEnv\(\)[\s\S]*?\.\.\.gitIntegrityEnv\(\)/);
   assert.match(script, /function codexEnv\(\)[\s\S]*?gitIntegrityEnv\(\)/);
   assert.doesNotMatch(script, /pr", "merge"/);

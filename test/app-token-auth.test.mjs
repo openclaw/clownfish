@@ -416,6 +416,19 @@ test("cluster-worker snapshots write gates before the queued worker starts", () 
   assert.match(workflow, /CLOWNFISH_ALLOW_MERGE: \$\{\{ needs\.prepare\.outputs\.allow_merge \}\}/);
 });
 
+test("cluster-worker exports a dedicated App token for exact checks", () => {
+  const workflow = fs.readFileSync(path.join(repoRoot, ".github/workflows/cluster-worker.yml"), "utf8");
+
+  assert.equal(
+    (
+      workflow.match(
+        /CLOWNFISH_CHECKS_GH_TOKEN: \$\{\{ steps\.app_token\.outputs\.token \|\| steps\.workflow_app_token\.outputs\.token \}\}/g,
+      ) ?? []
+    ).length,
+    3,
+  );
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-app-auth-"));
   const inbox = path.join(root, "inbox");

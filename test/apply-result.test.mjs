@@ -654,6 +654,101 @@ for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
   });
 }
 
+test("apply-result uses the dedicated App token only for exact-check mutations", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const authLogPath = path.join(tmp, "gh-auth.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(authLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: {
+      GH_TOKEN: "write-token",
+      CLOWNFISH_CHECKS_GH_TOKEN: "checks-app-token",
+      GH_AUTH_LOG: authLogPath,
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed");
+  const calls = fs
+    .readFileSync(authLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+  const checkMutations = calls.filter(
+    ({ args }) =>
+      args[0] === "api" &&
+      args[1].startsWith("repos/openclaw/openclaw/check-runs") &&
+      (args.includes("POST") || args.includes("PATCH")),
+  );
+  assert.ok(checkMutations.length >= 2);
+  assert.equal(checkMutations.every(({ ghToken }) => ghToken === "checks-app-token"), true);
+  const mergeCall = calls.find(({ args }) => args[0] === "pr" && args[1] === "merge");
+  assert.equal(mergeCall?.ghToken, "write-token");
+});
+
+test("apply-result fails closed when the exact-check App token is missing", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    branchRefresh: true,
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_CHECKS_GH_TOKEN: "",
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /requires CLOWNFISH_CHECKS_GH_TOKEN/);
+  const mutationCalls = readCallLog(callLogPath).filter(
+    (args) =>
+      args[1]?.endsWith("/update-branch") ||
+      args[1]?.startsWith("repos/openclaw/openclaw/check-runs") ||
+      (args[0] === "pr" && args[1] === "merge"),
+  );
+  assert.deepEqual(mutationCalls, []);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
 test("apply-result blocks external merge when the strict exact-merge rule is missing", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -1212,8 +1307,10 @@ test("apply-result does not update the branch while waiting for an adopted test 
 test("apply-result keeps the exact-merge check pending while final state validation catches main drift", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
+  const authLogPath = path.join(tmp, "gh-auth.jsonl");
   const mergeStatePath = path.join(tmp, "merge-state");
   fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(authLogPath, "");
   writeReadyMergeGhStub(
     binDir,
     adoptionStubOptions({ mainMovesAfterPendingCheck: true }),
@@ -1229,7 +1326,12 @@ test("apply-result keeps the exact-merge check pending while final state validat
     dryRun: false,
     allowMerge: true,
     mergeStatePath,
-    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+    env: {
+      GH_TOKEN: "write-token",
+      CLOWNFISH_CHECKS_GH_TOKEN: "checks-app-token",
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      GH_AUTH_LOG: authLogPath,
+    },
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
@@ -1237,6 +1339,27 @@ test("apply-result keeps the exact-merge check pending while final state validat
   assert.equal(report.actions[0].status, "blocked");
   assert.match(report.actions[0].reason, /main changed during apply-time adoption validation/);
   assert.equal(report.actions[0].exact_merge_revocation.status, "revoked");
+  const checkMutations = fs
+    .readFileSync(authLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line))
+    .filter(
+      ({ args }) =>
+        args[0] === "api" &&
+        args[1].startsWith("repos/openclaw/openclaw/check-runs") &&
+        (args.includes("POST") || args.includes("PATCH")),
+    );
+  assert.ok(checkMutations.length >= 2);
+  assert.equal(checkMutations.every(({ ghToken }) => ghToken === "checks-app-token"), true);
+  const revocation = checkMutations.find(({ args }) => {
+    if (!args.includes("PATCH")) return false;
+    const inputIndex = args.indexOf("--input");
+    if (inputIndex < 0) return false;
+    return JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8")).conclusion === "failure";
+  });
+  assert.ok(revocation);
   assert.equal(fs.existsSync(mergeStatePath), false);
 });
 
@@ -1922,6 +2045,7 @@ function apply(jobPath, resultPath, reportPath, binDir, { dryRun = true, callLog
         PATH: `${binDir}${path.delimiter}${process.env.PATH}`,
         CLOWNFISH_ALLOW_EXECUTE: "1",
         CLOWNFISH_APP_ID: "3535277",
+        CLOWNFISH_CHECKS_GH_TOKEN: "checks-app-token",
         ...(callLogPath ? { GH_CALL_LOG: callLogPath } : {}),
         ...(allowMerge ? { CLOWNFISH_ALLOW_MERGE: "1" } : {}),
         ...(mergeStatePath ? { MERGE_STATE: mergeStatePath } : {}),
@@ -2113,6 +2237,12 @@ const externalBinding = ${JSON.stringify(externalBinding)};
 const reviewedBaseSha = ${JSON.stringify(reviewedBaseSha)};
 const branchRefreshed = () => fs.existsSync(branchRefreshStatePath);
 if (process.env.GH_CALL_LOG) fs.appendFileSync(process.env.GH_CALL_LOG, JSON.stringify(args) + "\\n");
+if (process.env.GH_AUTH_LOG) {
+  fs.appendFileSync(
+    process.env.GH_AUTH_LOG,
+    JSON.stringify({ args, ghToken: process.env.GH_TOKEN ?? null }) + "\\n",
+  );
+}
 function write(value) {
   process.stdout.write(JSON.stringify(value));
 }
