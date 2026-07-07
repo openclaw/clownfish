@@ -1,8 +1,8 @@
 ---
 repo: openclaw/openclaw
-cluster_id: exact-merge-wave-85238-20260706
+cluster_id: exact-merge-wave-85238-20260707
 mode: autonomous
-expected_head_sha: abd4e903c5f38c550aa7b9d1ab6c40bb9965f0c6
+expected_head_sha: 7ec70049e5278491c9842ab92c52e04044c82b56
 allowed_actions:
   - "merge"
 blocked_actions:
@@ -31,7 +31,7 @@ allow_merge: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #85238 after the deterministic external preflight binds validation and review to its exact live head."
-notes: "Prepared head: abd4e903c5f38c550aa7b9d1ab6c40bb9965f0c6. Re-fetch live state and stop if the head or merge policy changes."
+notes: "Refreshed exact head: 7ec70049e5278491c9842ab92c52e04044c82b56. Maintainers updated the contributor branch onto OpenClaw main c1b9e3622162483d544131f04ce7665f8ad169c6, recorded as the merge commit's second parent. Re-fetch live state and stop if the head or merge policy changes."
 ---
 
 # Exact Merge Wave: #85238
