@@ -1037,6 +1037,35 @@ test("apply-result adopts newer fast-forward main without updating the reviewed 
   assert.match(report.actions[0].exact_merge_check.external_id, /:adopt:[0-9a-f]{64}$/);
 });
 
+test("apply-result rejects duplicate base adoption manifest evidence", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeReadyMergeGhStub(binDir, adoptionStubOptions());
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  const mergeResult = adoptionMergeResultJson();
+  mergeResult.merge_preflight[0].base_adoption_manifest.affected_areas.push("src/cli");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResult, null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    mergeStatePath,
+    env: { CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0" },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /base adoption manifest effective diff evidence is incomplete/);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+});
+
 for (const rejection of [
   {
     name: "reviewed path overlap",

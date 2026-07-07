@@ -16,6 +16,15 @@ test("codex result schema requires every object property for strict response for
   assert.deepEqual(failures, []);
 });
 
+test("codex result schema avoids unsupported structured output keywords", () => {
+  const schema = JSON.parse(fs.readFileSync(path.join(repoRoot, "schemas/codex-result.schema.json"), "utf8"));
+  const failures = [];
+
+  visitUnsupportedKeywords(schema, "$", failures);
+
+  assert.deepEqual(failures, []);
+});
+
 test("strict schema guard covers definitions, nullable objects, and exact required keys", () => {
   const failures = [];
 
@@ -88,6 +97,25 @@ function visitStrictObjects(schema, schemaPath, failures) {
       value.forEach((nestedSchema, index) => {
         visitStrictObjects(nestedSchema, `${schemaPath}.${key}[${index}]`, failures);
       });
+    }
+  }
+}
+
+function visitUnsupportedKeywords(schema, schemaPath, failures) {
+  if (!schema || typeof schema !== "object") return;
+
+  if (Object.hasOwn(schema, "uniqueItems")) {
+    failures.push(`${schemaPath}: uniqueItems is not supported by OpenAI Structured Outputs`);
+  }
+
+  for (const [key, value] of Object.entries(schema)) {
+    if (!value || typeof value !== "object") continue;
+    if (Array.isArray(value)) {
+      value.forEach((nestedSchema, index) => {
+        visitUnsupportedKeywords(nestedSchema, `${schemaPath}.${key}[${index}]`, failures);
+      });
+    } else {
+      visitUnsupportedKeywords(value, `${schemaPath}.${key}`, failures);
     }
   }
 }
