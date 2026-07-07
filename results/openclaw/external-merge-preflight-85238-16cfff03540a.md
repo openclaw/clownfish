@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "exact-merge-wave-85238-20260707"
+cluster_id: "external-merge-preflight-85238-16cfff03540a"
 mode: "autonomous"
 run_id: "28844321378"
 workflow_run_id: "28844321378"
@@ -8,11 +8,11 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/28844321378"
 head_sha: "d23f3341efc2626820d7790091f996a500cb3686"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-07T05:50:11.644Z"
+published_at: "2026-07-07T05:50:11.634Z"
 canonical: "https://github.com/openclaw/openclaw/pull/85238"
-canonical_issue: "https://github.com/openclaw/openclaw/issues/80206"
+canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/85238"
-actions_total: 5
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
@@ -22,7 +22,7 @@ apply_skipped: 0
 needs_human_count: 0
 ---
 
-# exact-merge-wave-85238-20260707
+# external-merge-preflight-85238-16cfff03540a
 
 Repo: openclaw/openclaw
 
@@ -36,13 +36,13 @@ Canonical: https://github.com/openclaw/openclaw/pull/85238
 
 ## Summary
 
-PR #85238 is the canonical merge target, but the job requires deterministic external merge preflight bound to exact head 16cfff03540a4e134126e737bfb3f5966d8a1286, so the merge action is blocked for the external preflight/applicator. Linked security-sensitive issue #97992 is routed separately; no comments, labels, closes, fixes, or worker-authored merge preflight are planned.
+External merge preflight passed for #85238 at 16cfff03540a4e134126e737bfb3f5966d8a1286.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 5 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
@@ -67,19 +67,13 @@ PR #85238 is the canonical merge target, but the job requires deterministic exte
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | apply | #85238 | merge_canonical | skipped | action status is blocked |
-| 2 | apply | #85238 | merge_canonical | skipped | action status is blocked |
-|  | external_merge_preflight | #85238 | merge_canonical | executed | merged by projectclownfish |
+| 1 | apply | #85238 | merge_canonical | executed | merged by projectclownfish |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #85238 | merge_canonical | blocked | canonical | external_merge_preflight_required |
-| #80206 | keep_related | planned | fixed_by_candidate |  |
-| #80233 | keep_closed | skipped | superseded | already_closed |
-| #87556 | keep_closed | skipped | related | already_closed |
-| #97992 | route_security | planned | security_sensitive | central_security_only |
+| #85238 | merge_canonical | planned | canonical | Deterministic external merge preflight passed on the exact current head. |
 
 ## Needs Human
 
