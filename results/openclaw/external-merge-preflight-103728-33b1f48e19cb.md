@@ -1,28 +1,28 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "live-pr-inventory-20260711T101300-002"
+cluster_id: "external-merge-preflight-103728-33b1f48e19cb"
 mode: "autonomous"
 run_id: "29150185816"
 workflow_run_id: "29150185816"
 run_url: "https://github.com/openclaw/clownfish/actions/runs/29150185816"
 head_sha: "158a4730832b5f0bfafa32c8a6c135a438c787e5"
 workflow_conclusion: "success"
-result_status: "blocked"
-published_at: "2026-07-11T11:00:25.759Z"
+result_status: "planned"
+published_at: "2026-07-11T11:00:25.751Z"
 canonical: "https://github.com/openclaw/openclaw/pull/103728"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/103728"
-actions_total: 1
+actions_total: 0
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
-apply_skipped: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
-# live-pr-inventory-20260711T101300-002
+# external-merge-preflight-103728-33b1f48e19cb
 
 Repo: openclaw/openclaw
 
@@ -30,51 +30,50 @@ Run: [https://github.com/openclaw/clownfish/actions/runs/29150185816](https://gi
 
 Workflow conclusion: success
 
-Worker result: blocked
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/103728
 
 ## Summary
 
-PR #103728 is the canonical candidate for this shard and appears small, focused, non-security-sensitive, and otherwise merge-shaped, but it lacks a completed exact-head external merge preflight/Codex review on head 33b1f48e19cb4cf4b98bc83a1178826721f0eb16. Emit a blocked merge_candidate so the deterministic executor can re-fetch, rebase/validate if needed, run Codex /review, and apply the guarded merge path.
+External merge preflight blocked: security-sensitive signal in hydrated PR metadata or comments; PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/103728#issuecomment-4936469531, https://github.com/openclaw/openclaw/pull/103728#issuecomment-4945092364
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 1 |
+| Worker actions | 0 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
 
 | Action | Status | Target | Branch | Reason |
 | --- | --- | --- | --- | --- |
-| execute_fix | skipped |  |  | worker result status blocked is not executable |
+| _None_ |  |  |  |  |
 
 ## Apply Actions
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #103728 | merge_candidate | skipped | canonical | action status is blocked |
+| _None_ |  |  |  |  |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | apply | #103728 | merge_candidate | skipped | action status is blocked |
-| 2 | apply | #103728 | merge_candidate | skipped | action status is blocked |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #103728 | merge_candidate | blocked | canonical | external_merge_preflight_required |
+| _None_ |  |  |  |  |
 
 ## Needs Human
 
