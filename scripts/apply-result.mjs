@@ -1256,13 +1256,17 @@ function verifyExternalMergeBinding({
   const reviewedFingerprint = String(preflight.effective_diff_sha256).toLowerCase();
   const reviewedBaseSha = String(preflight.reviewed_base_sha).toLowerCase();
   const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS, 6);
+  const adoptionAttempts = Math.max(
+    attempts,
+    positiveInteger(process.env.CLOWNFISH_APPLY_ADOPTED_TEST_MERGE_ATTEMPTS, 30),
+  );
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS, 2000);
   let lastReason = "GitHub test merge ref was unavailable";
   let lastProblem = "unavailable";
   let staleTestMerge = null;
   let lastVerifiedMainSha = reviewedBaseSha;
 
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+  for (let attempt = 1; attempt <= adoptionAttempts; attempt += 1) {
     try {
       const verifiedMainSha = fetchBranchHeadSha(result.repo, "main");
       lastVerifiedMainSha = verifiedMainSha;
@@ -1398,7 +1402,10 @@ function verifyExternalMergeBinding({
       lastReason = `could not verify GitHub test merge commit: ${String(error?.message ?? error)}`;
       lastProblem = "error";
     }
-    if (attempt < attempts && delayMs > 0) sleepMs(delayMs);
+    const attemptLimit =
+      lastProblem === "awaiting_adopted_test_merge" ? adoptionAttempts : attempts;
+    if (attempt >= attemptLimit) break;
+    if (delayMs > 0) sleepMs(delayMs);
   }
 
   if (lastProblem === "stale_test_merge" && staleTestMerge && allowBranchRefresh) {
