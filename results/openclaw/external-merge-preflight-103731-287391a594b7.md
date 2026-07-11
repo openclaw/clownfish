@@ -2,22 +2,22 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-103731-287391a594b7"
 mode: "autonomous"
-run_id: "29149137884"
-workflow_run_id: "29149137884"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/29149137884"
-head_sha: "16dc534e73dc901ff77917dab2c8127b97788174"
-workflow_conclusion: "success"
+run_id: "29149621189"
+workflow_run_id: "29149621189"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/29149621189"
+head_sha: "969296c8bb625256ae88ee82eb208a5447a209df"
+workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-07-11T10:21:30.557Z"
+published_at: "2026-07-11T10:48:11.198Z"
 canonical: "https://github.com/openclaw/openclaw/pull/103731"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/103731"
-actions_total: 0
+actions_total: 1
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
-apply_blocked: 0
+apply_blocked: 1
 apply_skipped: 0
 needs_human_count: 0
 ---
@@ -26,9 +26,9 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/29149137884](https://github.com/openclaw/clownfish/actions/runs/29149137884)
+Run: [https://github.com/openclaw/clownfish/actions/runs/29149621189](https://github.com/openclaw/clownfish/actions/runs/29149621189)
 
-Workflow conclusion: success
+Workflow conclusion: failure
 
 Worker result: planned
 
@@ -36,18 +36,18 @@ Canonical: https://github.com/openclaw/openclaw/pull/103731
 
 ## Summary
 
-External merge preflight blocked: PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/103731#issuecomment-4936680686, https://github.com/openclaw/openclaw/pull/103731#issuecomment-4940699620
+External merge preflight passed for #103731 at 287391a594b7a2f5be0da4f0fabfe514d837c733.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 0 |
+| Worker actions | 1 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
-| Apply blocked | 0 |
+| Apply blocked | 1 |
 | Apply skipped | 0 |
 | Needs human | 0 |
 
@@ -61,19 +61,19 @@ External merge preflight blocked: PR has 2 actionable top-level issue comment(s)
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #103731 | merge_canonical | blocked | canonical | head, test merge, main, metadata, comments, checks, or risk changed during exact-merge authorization |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |  |
+| 1 | apply | #103731 | merge_canonical | blocked | head, test merge, main, metadata, comments, checks, or risk changed during exact-merge authorization |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| _None_ |  |  |  |  |
+| #103731 | merge_canonical | planned | canonical | Deterministic external merge preflight passed on the exact current head. |
 
 ## Needs Human
 
