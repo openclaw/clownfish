@@ -73,9 +73,18 @@ const model = String(args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5");
 const headPrefix = String(args["head-prefix"] ?? process.env.CLOWNFISH_HEAD_PREFIX ?? DEFAULT_HEAD_PREFIX);
 const label = String(args.label ?? process.env.CLOWNFISH_LABEL ?? DEFAULT_LABEL);
 const execute = Boolean(args.execute);
+const deferMerges = Boolean(args["defer-merges"]);
+const mergeOnly = Boolean(args["merge-only"]);
 const replayLegacyAutomerge = Boolean(args["replay-legacy-automerge"]);
 const writeReport = Boolean(args["write-report"] || execute);
 const waitForCapacity = Boolean(args["wait-for-capacity"]);
+const deferredMergeFile = path.resolve(
+  repoRoot(),
+  String(args["deferred-merge-file"] ?? ".projectclownfish/comment-router-deferred-merges.json"),
+);
+const mergeScopeFile = args["merge-scope-file"]
+  ? path.resolve(repoRoot(), String(args["merge-scope-file"]))
+  : null;
 const maxLiveWorkers = readMaxLiveWorkers(args);
 const maxComments = positiveInteger(args["max-comments"] ?? process.env.CLOWNFISH_COMMENT_MAX_COMMENTS ?? 100, "max-comments");
 const maxAutocloseTargets = positiveInteger(
@@ -120,6 +129,27 @@ const clownfishAuthors = commaSet(
 assertRepo(targetRepo, "repo");
 assertRepo(clownfishRepo, "clownfish-repo");
 assertRepo(clawsweeperRepo, "clawsweeper-repo");
+if (deferMerges && mergeOnly) {
+  throw new Error("--defer-merges and --merge-only are mutually exclusive");
+}
+if (mergeOnly && !execute) {
+  throw new Error("--merge-only requires --execute");
+}
+if (mergeOnly && requestedCommentIds.size === 0) {
+  throw new Error("--merge-only requires --comment-ids for exact replay scope");
+}
+if (mergeOnly && !args.since) {
+  throw new Error("--merge-only requires --since from the deferred replay scope");
+}
+if (mergeOnly && !mergeScopeFile) {
+  throw new Error("--merge-only requires --merge-scope-file for exact replay validation");
+}
+if (mergeScopeFile && !mergeOnly) {
+  throw new Error("--merge-scope-file requires --merge-only");
+}
+if (args["deferred-merge-file"] && !deferMerges) {
+  throw new Error("--deferred-merge-file requires --defer-merges");
+}
 if (replayLegacyAutomerge && requestedCommentIds.size === 0) {
   throw new Error("--replay-legacy-automerge requires --comment-ids for exact replay scope");
 }
@@ -134,6 +164,7 @@ const processedLegacyAutomergeReplays = new Set(
 );
 const plannedAutoRepairHeads = new Set();
 const collaboratorPermissionCache = new Map();
+const mergeScope = mergeOnly ? readMergeScope(mergeScopeFile) : null;
 const allComments = listRecentComments();
 const selectedComments = selectCommentsById(allComments, { ids: requestedCommentIds });
 if (selectedComments.missingIds.length > 0) {
@@ -143,10 +174,26 @@ if (selectedComments.missingIds.length > 0) {
   );
 }
 const comments = selectedComments.comments;
-const commandCandidates = selectCommandCandidates(comments, {
-  limit: maxComments,
-  parse: (comment) => parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots }),
-});
+const parseComment = (comment) =>
+  parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots });
+let commandCandidates;
+if (mergeOnly) {
+  commandCandidates = comments.map((comment) => ({ comment, parsed: parseComment(comment) }));
+  const invalid = commandCandidates.filter(({ parsed }) => !parsed || !MERGE_INTENTS.has(parsed.intent));
+  if (invalid.length > 0) {
+    throw new Error(
+      `--merge-only scope contains comments that are not direct merge intents: ${invalid
+        .map(({ comment }) => comment.id)
+        .join(", ")}`,
+    );
+  }
+  validateMergeReplayComments(mergeScope, commandCandidates);
+} else {
+  commandCandidates = selectCommandCandidates(comments, {
+    limit: maxComments,
+    parse: parseComment,
+  });
+}
 const commands = [];
 
 for (const { comment, parsed } of commandCandidates) {
@@ -176,13 +223,20 @@ for (const { comment, parsed } of commandCandidates) {
     status: "pending",
     actions: [],
   };
-  commands.push(classifyCommand(command));
+  commands.push(
+    execute && deferMerges && MERGE_INTENTS.has(command.intent)
+      ? classifyDeferredMerge(command)
+      : classifyCommand(command),
+  );
 }
 
 const actionable = commands.filter((command) => command.status === "ready");
+const deferredMergeCommands = commands.filter((command) => command.status === "deferred");
+const generatedAt = new Date().toISOString();
 const report = {
   status: execute ? "executed" : "dry_run",
-  generated_at: new Date().toISOString(),
+  mode: mergeOnly ? "merge_only" : deferMerges ? "route" : "all",
+  generated_at: generatedAt,
   repo: targetRepo,
   clownfish_repo: clownfishRepo,
   clawsweeper_repo: clawsweeperRepo,
@@ -195,6 +249,7 @@ const report = {
   scanned_comments: comments.length,
   commands_seen: commands.length,
   actionable: actionable.length,
+  deferred_merge_comments: deferredMergeCommands.length,
   trusted_bots: [...trustedBots],
   allowed_repository_permissions: [...allowedRepositoryPermissions],
   max_auto_repairs_per_head: maxAutoRepairsPerHead,
@@ -210,12 +265,51 @@ if (execute) {
       : assertLiveWorkerCapacity({ repo: clownfishRepo, workflow, requested: dispatchCount, maxLiveWorkers });
   }
   for (const command of actionable) executeCommand(command);
-  appendLedger(ledger, commands);
+  appendLedger(
+    ledger,
+    commands.filter((command) => command.status !== "deferred"),
+  );
   writeLedger(ledgerPath(), ledger);
 }
 
+if (deferMerges) {
+  writeDeferredMergeScope(deferredMergeFile, {
+    generatedAt,
+    commands: deferredMergeCommands,
+  });
+}
 if (writeReport) writeReportFile(repoRoot(), report);
 console.log(JSON.stringify(report, null, 2));
+
+function classifyDeferredMerge(command) {
+  if (command.trusted_bot) {
+    if (!trustedBots.has(String(command.author ?? "").toLowerCase())) {
+      return { ...command, status: "ignored", reason: "trusted automation author is not allowed" };
+    }
+  } else {
+    const authorization = resolveMaintainerCommandAuthorization(command);
+    command.author_repository_permission = authorization.repositoryPermission;
+    if (!authorization.allowed) {
+      return {
+        ...command,
+        status: "ignored",
+        reason: authorization.reason,
+      };
+    }
+  }
+  if (!command.issue_number) {
+    return { ...command, status: "ignored", reason: "could not resolve issue or PR number" };
+  }
+  if (command.comment_version_key && processedCommentVersions.has(command.comment_version_key)) {
+    return { ...command, status: "skipped", reason: "comment version already processed in ledger" };
+  }
+  return {
+    ...command,
+    status: "deferred",
+    reason: "direct merge intent deferred to the serialized merge replay job",
+    actions: [{ action: "merge", status: "deferred" }],
+  };
+}
 
 function classifyCommand(command) {
   if (command.trusted_bot) {
@@ -1293,6 +1387,104 @@ function hasLabel(target, name) {
 
 function ledgerPath() {
   return path.join(repoRoot(), "results", "comment-router.json");
+}
+
+function writeDeferredMergeScope(file, { generatedAt, commands: deferredCommands }) {
+  const scope = {
+    schema_version: 1,
+    generated_at: generatedAt,
+    repo: targetRepo,
+    clownfish_repo: clownfishRepo,
+    since,
+    execute,
+    mode: "merge_only",
+    comment_ids: deferredCommands.map((command) => command.comment_id),
+    comments: deferredCommands.map((command) => ({
+      comment_id: command.comment_id,
+      comment_version_key: command.comment_version_key,
+      comment_url: command.comment_url,
+      comment_created_at: command.comment_created_at,
+      comment_updated_at: command.comment_updated_at,
+      issue_number: command.issue_number,
+      intent: command.intent,
+      author: command.author,
+      expected_head_sha: command.expected_head_sha,
+      finding_id: command.finding_id,
+    })),
+  };
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(scope, null, 2)}\n`);
+}
+
+function readMergeScope(file) {
+  let scope;
+  try {
+    scope = JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new Error(`could not read deferred merge scope ${file}: ${error.message}`);
+  }
+  if (scope?.schema_version !== 1) throw new Error("deferred merge scope schema_version must be 1");
+  if (scope.mode !== "merge_only") throw new Error("deferred merge scope mode must be merge_only");
+  if (scope.execute !== true) throw new Error("deferred merge scope is not executable");
+  if (scope.repo !== targetRepo) throw new Error("deferred merge scope target repo changed");
+  if (scope.clownfish_repo !== clownfishRepo) throw new Error("deferred merge scope Clownfish repo changed");
+  if (scope.since !== since) throw new Error("deferred merge scope since changed");
+  if (!Array.isArray(scope.comment_ids) || !Array.isArray(scope.comments)) {
+    throw new Error("deferred merge scope is missing comment_ids or comments");
+  }
+  const scopedIds = scope.comment_ids.map(String);
+  const requestedIds = [...requestedCommentIds].map(String);
+  assertExactIdSet(scopedIds, requestedIds, "deferred merge scope comment IDs changed");
+  const detailIds = scope.comments.map((comment) => String(comment?.comment_id ?? ""));
+  assertExactIdSet(scopedIds, detailIds, "deferred merge scope comment details changed");
+  return scope;
+}
+
+function validateMergeReplayComments(scope, candidates) {
+  const scopedById = new Map(scope.comments.map((comment) => [String(comment.comment_id), comment]));
+  assertExactIdSet(
+    scope.comment_ids.map(String),
+    candidates.map(({ comment }) => String(comment.id)),
+    "deferred merge replay comment IDs changed",
+  );
+  for (const { comment, parsed } of candidates) {
+    const id = String(comment.id);
+    const scoped = scopedById.get(id);
+    const current = {
+      comment_version_key: commentVersionKey({
+        comment_id: id,
+        comment_updated_at: comment.updated_at,
+      }),
+      issue_number: issueNumberFromUrl(comment.issue_url),
+      intent: parsed.intent,
+      author: comment.user?.login ?? null,
+      expected_head_sha: parsed.expected_head_sha ?? null,
+    };
+    for (const field of [
+      "comment_version_key",
+      "issue_number",
+      "intent",
+      "author",
+      "expected_head_sha",
+    ]) {
+      if ((scoped?.[field] ?? null) !== current[field]) {
+        throw new Error(`deferred merge comment ${id} changed field ${field}`);
+      }
+    }
+  }
+}
+
+function assertExactIdSet(expected, actual, message) {
+  const expectedSet = new Set(expected);
+  const actualSet = new Set(actual);
+  if (
+    expectedSet.size !== expected.length ||
+    actualSet.size !== actual.length ||
+    expectedSet.size !== actualSet.size ||
+    [...expectedSet].some((id) => !actualSet.has(id))
+  ) {
+    throw new Error(message);
+  }
 }
 
 function idempotencyKey(parsed, issueNumber, commentId, commentUpdatedAt) {

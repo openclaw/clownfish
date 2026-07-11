@@ -105,10 +105,11 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /scripts\/review-results\.mjs/);
   assert.match(runnerScript, /CLOWNFISH_ALLOW_MERGE !== "1"/);
   assert.match(runnerScript, /scripts\/apply-result\.mjs/);
+  assert.match(runnerScript, /const phase = String\(args\.phase \?\? "all"\)/);
   assert.match(runnerScript, /const reviewedActions = await mapLimit\(requests, concurrency, runPreflightReview\)/);
   assert.match(
     runnerScript,
-    /for \(const action of reviewedActions\) \{\s*report\.actions\.push\(await applyReviewedPreflight\(action\)\);\s*\}/,
+    /for \(let index = 0; index < report\.actions\.length; index \+= 1\) \{[\s\S]*?await applyReviewedPreflight\(report\.actions\[index\]\)/,
   );
   assert.match(runnerScript, /const execFileAsync = promisify\(execFile\)/);
   assert.match(runnerScript, /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS/);
@@ -143,13 +144,112 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.equal((clusterWorkflow.match(/permission-checks: write/g) ?? []).length >= 2, true);
   assert.match(
     clusterWorkflow,
-    /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}"[\s\S]*?--max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"[\s\S]*?--concurrency "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY \|\| '3' \}\}"/,
+    /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}"[\s\S]*?--phase preflight[\s\S]*?--max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"[\s\S]*?--concurrency "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY \|\| '3' \}\}"/,
   );
-  assert.match(clusterWorkflow, /- name: Run external merge preflights[\s\S]*?- name: Apply safe closure actions/);
+  assert.match(
+    clusterWorkflow,
+    /- name: Apply reviewed external merge preflights[\s\S]*?--phase apply/,
+  );
   assert.match(
     clusterWorkflow,
     /- name: Tag Clownfish targets[\s\S]*?- name: Verify mutation integrity[\s\S]*?- name: Upload final worker artifacts/,
   );
+});
+
+test("external merge runner persists preflight for a reviewer-free sequential apply", () => {
+  const fixture = makeRunnerFixture();
+  try {
+    const liveEnv = {
+      ...fixture.env,
+      CLOWNFISH_ALLOW_EXECUTE: "1",
+      CLOWNFISH_ALLOW_MERGE: "1",
+    };
+    const preflight = runExternalMergeRunner(fixture, ["--phase", "preflight"], liveEnv);
+    assert.equal(preflight.status, 0, preflight.stderr || preflight.stdout);
+
+    const initialReport = JSON.parse(fs.readFileSync(fixture.reportPath, "utf8"));
+    assert.equal(initialReport.status, "passed");
+    assert.equal(initialReport.actions[0].status, "passed");
+    assert.ok(initialReport.preflight_completed_at);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+
+    writeExecutable(
+      fixture.codexPath,
+      `#!/usr/bin/env node
+require("node:fs").writeFileSync(${JSON.stringify(fixture.unexpectedReviewPath)}, "reviewer invoked during apply");
+process.exit(91);
+`,
+    );
+
+    const gatedApply = runExternalMergeRunner(
+      fixture,
+      ["--phase", "apply"],
+      { ...liveEnv, CLOWNFISH_ALLOW_MERGE: "0" },
+    );
+    assert.equal(gatedApply.status, 0, gatedApply.stderr || gatedApply.stdout);
+    let report = JSON.parse(fs.readFileSync(fixture.reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "passed");
+    assert.match(report.actions[0].reason, /merge gate disabled/);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+
+    const dryRunApply = runExternalMergeRunner(fixture, ["--phase", "apply", "--dry-run"], liveEnv);
+    assert.equal(dryRunApply.status, 0, dryRunApply.stderr || dryRunApply.stdout);
+    report = JSON.parse(fs.readFileSync(fixture.reportPath, "utf8"));
+    assert.equal(report.dry_run, true);
+    assert.equal(report.actions[0].status, "passed");
+    assert.match(report.actions[0].reason, /dry run/);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+
+    const apply = runExternalMergeRunner(fixture, ["--phase", "apply"], liveEnv);
+    assert.equal(apply.status, 0, apply.stderr || apply.stdout);
+    report = JSON.parse(fs.readFileSync(fixture.reportPath, "utf8"));
+    assert.equal(report.generated_at, initialReport.generated_at);
+    assert.equal(report.status, "executed", JSON.stringify(report, null, 2));
+    assert.equal(report.dry_run, false);
+    assert.equal(report.actions[0].status, "executed");
+    assert.equal(report.actions[0].apply_actions.length, 1);
+    assert.ok(report.apply_completed_at);
+    assert.equal(fs.existsSync(fixture.unexpectedReviewPath), false);
+    assert.deepEqual(fs.readFileSync(fixture.mergeLogPath, "utf8").trim().split("\n"), ["123"]);
+    const nestedApplyReportPath = path.join(
+      fixture.runRoot,
+      "external-merge-preflight-123",
+      "apply-report.json",
+    );
+    const nestedApplyReport = fs.readFileSync(nestedApplyReportPath, "utf8");
+
+    const secondApply = runExternalMergeRunner(fixture, ["--phase", "apply"], liveEnv);
+    assert.equal(secondApply.status, 0, secondApply.stderr || secondApply.stdout);
+    assert.equal(fs.readFileSync(nestedApplyReportPath, "utf8"), nestedApplyReport);
+    assert.deepEqual(fs.readFileSync(fixture.mergeLogPath, "utf8").trim().split("\n"), ["123"]);
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("external merge runner defaults to all while preserving dry-run", () => {
+  const fixture = makeRunnerFixture();
+  try {
+    const child = runExternalMergeRunner(
+      fixture,
+      ["--dry-run"],
+      {
+        ...fixture.env,
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_MERGE: "1",
+      },
+    );
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+
+    const report = JSON.parse(fs.readFileSync(fixture.reportPath, "utf8"));
+    assert.equal(report.status, "passed");
+    assert.equal(report.dry_run, true);
+    assert.equal(report.actions[0].status, "passed");
+    assert.match(report.actions[0].reason, /dry run; guarded applicator not invoked/);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  }
 });
 
 test("external preflight job policy routes planned worker merges even with self-authored proof", () => {
@@ -3600,6 +3700,85 @@ test("external merge preflight blocks merge-risk labels", () => {
   assert.match(report.reason, /blocked live label: merge-risk: availability/);
 });
 
+function makeRunnerFixture() {
+  const fixture = makeFixture({
+    statusCheckRollup: [
+      {
+        name: "fixture",
+        workflowName: "fixture",
+        status: "COMPLETED",
+        conclusion: "SUCCESS",
+        startedAt: "2026-06-19T00:00:00Z",
+        completedAt: "2026-06-19T00:00:01Z",
+      },
+    ],
+  });
+  const runRoot = path.join(fixture.root, "runner");
+  const resultPath = path.join(fixture.root, "runner-result.json");
+  const reportPath = path.join(runRoot, "external-merge-preflight-report.json");
+  const unexpectedReviewPath = path.join(fixture.root, "unexpected-review");
+  fs.writeFileSync(
+    resultPath,
+    `${JSON.stringify(
+      {
+        status: "planned",
+        repo: "openclaw/openclaw",
+        cluster_id: "fixture-source",
+        mode: "plan",
+        actions: [
+          {
+            target: "#123",
+            action: "merge_candidate",
+            status: "blocked",
+            reason: "external_merge_preflight_required",
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  return {
+    ...fixture,
+    runRoot,
+    resultPath,
+    reportPath,
+    unexpectedReviewPath,
+    env: {
+      ...process.env,
+      PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+      CLOWNFISH_ALLOWED_OWNER: "openclaw",
+      CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS: "1",
+      CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS: "0",
+      CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+      CLOWNFISH_APP_ID: "3535277",
+      CLOWNFISH_CHECKS_GH_TOKEN: "fixture-checks-token",
+      CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS: "10000",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    },
+  };
+}
+
+function runExternalMergeRunner(fixture, extraArgs, env) {
+  return spawnSync(
+    process.execPath,
+    [
+      "scripts/run-external-merge-preflights.mjs",
+      fixture.jobPath,
+      fixture.resultPath,
+      "--run-root",
+      fixture.runRoot,
+      ...extraArgs,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env,
+      timeout: 60_000,
+    },
+  );
+}
+
 function runPreflightFixture(fixture, extraEnv = {}) {
   const child = spawnSync(
     process.execPath,
@@ -3679,6 +3858,9 @@ function makeFixture({
   const mergeTreeSha = "c".repeat(40);
   const syntheticMergeSha = "d".repeat(40);
   const baseBlobSha = "e".repeat(40);
+  const squashCommitSha = "f".repeat(40);
+  const baseTreeSha = "1".repeat(40);
+  const squashTreeSha = "2".repeat(40);
   const effectiveContent = "fixture effective content\n";
   const mergeBlobSha = createHash("sha1")
     .update(`blob ${Buffer.byteLength(effectiveContent)}\0`)
@@ -3698,6 +3880,10 @@ function makeFixture({
   const codexPromptPath = path.join(root, "codex-prompt.txt");
   const codexArgsPath = path.join(root, "codex-args.json");
   const codexCountPath = path.join(root, "codex-count");
+  const codexPath = path.join(binDir, "codex");
+  const mergeLogPath = path.join(root, "merge.log");
+  const mergedStatePath = path.join(root, "merged");
+  const exactMergeCheckStatePath = path.join(root, "exact-merge-check.json");
   const gitConfigStatePath = path.join(root, "git-config-state");
   const gitIncludedConfigStatePath = path.join(root, "git-included-config-state");
   const finalIssueComments = rehydratedIssueComments ?? issueComments;
@@ -3763,7 +3949,29 @@ const path = require("node:path");
 const args = process.argv.slice(2);
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
+const baseTree = ${JSON.stringify(baseTreeSha)};
+const mergeTree = ${JSON.stringify(mergeTreeSha)};
+const testMerge = ${JSON.stringify(syntheticMergeSha)};
+const squashCommit = ${JSON.stringify(squashCommitSha)};
+const squashTree = ${JSON.stringify(squashTreeSha)};
+const baseBlob = ${JSON.stringify(baseBlobSha)};
+const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const mergeViews = ${JSON.stringify(mergeViews)};
+const mergedStatePath = ${JSON.stringify(mergedStatePath)};
+const mergeLogPath = ${JSON.stringify(mergeLogPath)};
+const exactMergeCheckStatePath = ${JSON.stringify(exactMergeCheckStatePath)};
+const isMerged = () => fs.existsSync(mergedStatePath);
+function write(value) {
+  process.stdout.write(JSON.stringify(value));
+}
+function exactMergeChecks() {
+  return fs.existsSync(exactMergeCheckStatePath)
+    ? JSON.parse(fs.readFileSync(exactMergeCheckStatePath, "utf8"))
+    : [];
+}
+function writeExactMergeCheck(check) {
+  fs.writeFileSync(exactMergeCheckStatePath, JSON.stringify([check]));
+}
 function nextValue(name, initial, refreshed) {
   const counterPath = path.join(${JSON.stringify(root)}, name);
   const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
@@ -3778,12 +3986,17 @@ if (args[0] === "repo" && args[1] === "clone") {
   fs.writeFileSync(path.join(target, "src", "effective.ts"), ${JSON.stringify(effectiveContent)});
   process.exit(0);
 }
+if (args[0] === "pr" && args[1] === "merge") {
+  fs.appendFileSync(mergeLogPath, "123\\n");
+  fs.writeFileSync(mergedStatePath, "merged");
+  process.exit(0);
+}
 if (args[0] === "pr" && args[1] === "view") {
   const counterPath = ${JSON.stringify(path.join(root, "pr-view-count"))};
   const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
   fs.writeFileSync(counterPath, String(count + 1));
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
-  console.log(JSON.stringify({ comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" }));
+  write({ baseRefName: "main", comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeCommit: { oid: isMerged() ? squashCommit : testMerge }, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", mergedAt: isMerged() ? "2026-06-19T00:10:00Z" : null, reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, state: isMerged() ? "MERGED" : "OPEN", statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
@@ -3802,7 +4015,93 @@ if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
-  console.log(${JSON.stringify(JSON.stringify(issueComments))});
+  const comments = ${JSON.stringify(issueComments)};
+  console.log(JSON.stringify(args.includes("--slurp") ? [comments] : comments));
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
+  write({ object: { sha: base } });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/main") {
+  write([
+    {
+      type: "required_status_checks",
+      parameters: {
+        strict_required_status_checks_policy: true,
+        required_status_checks: [
+          { context: "clownfish/exact-merge", integration_id: 3535277 },
+        ],
+      },
+    },
+  ]);
+  process.exit(0);
+}
+if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" + testMerge + "/check-runs?")) {
+  const checks = exactMergeChecks();
+  write({ total_count: checks.length, check_runs: checks });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs" && args.includes("POST")) {
+  const inputIndex = args.indexOf("--input");
+  const payload = JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8"));
+  const check = {
+    id: 4242,
+    name: payload.name,
+    head_sha: payload.head_sha,
+    external_id: payload.external_id,
+    status: payload.status,
+    conclusion: payload.conclusion ?? null,
+    app: { id: 3535277 },
+  };
+  writeExactMergeCheck(check);
+  write(check);
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs/4242" && args.includes("PATCH")) {
+  const inputIndex = args.indexOf("--input");
+  const payload = JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8"));
+  const previous = exactMergeChecks()[0];
+  const check = {
+    id: 4242,
+    name: payload.name,
+    head_sha: previous?.head_sha ?? testMerge,
+    external_id: previous?.external_id,
+    status: payload.status,
+    conclusion: payload.conclusion,
+    app: { id: 3535277 },
+  };
+  writeExactMergeCheck(check);
+  write(check);
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + testMerge) {
+  write({ sha: testMerge, tree: { sha: mergeTree }, parents: [{ sha: base }, { sha: head }] });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + squashCommit) {
+  write({ sha: squashCommit, tree: { sha: squashTree }, parents: [{ sha: base }] });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + base) {
+  write({ sha: base, tree: { sha: baseTree }, parents: [] });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/" + baseTree + "?recursive=1") {
+  write({
+    truncated: false,
+    tree: [{ path: "src/effective.ts", mode: "100644", type: "blob", sha: baseBlob }],
+  });
+  process.exit(0);
+}
+if (
+  args[0] === "api" &&
+  [mergeTree, squashTree].some((tree) => args[1] === "repos/openclaw/openclaw/git/trees/" + tree + "?recursive=1")
+) {
+  write({
+    truncated: false,
+    tree: [{ path: "src/effective.ts", mode: "100644", type: "blob", sha: mergeBlob }],
+  });
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/issues/123")) {
@@ -3811,7 +4110,7 @@ if (args[0] === "api" && args[1].endsWith("/issues/123")) {
     { state: "open", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)} },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalIssueUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)} },
   );
-  console.log(JSON.stringify({ ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
+  console.log(JSON.stringify({ number: 123, ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
@@ -3820,7 +4119,7 @@ if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
     { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
   );
-  console.log(JSON.stringify({ number: 123, ...pull, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } }));
+  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, merge_commit_sha: isMerged() ? squashCommit : testMerge, user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } });
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
@@ -3961,7 +4260,7 @@ if (failure && args[0] === "check:changed") {
 `,
   );
   writeExecutable(
-    path.join(binDir, "codex"),
+    codexPath,
     `#!/usr/bin/env node
 const fs = require("node:fs");
 const args = process.argv.slice(2);
@@ -4001,6 +4300,7 @@ if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
   return {
     baseSha,
     binDir,
+    codexPath,
     effectiveDiffSha256,
     codexArgsPath,
     codexCountPath,
@@ -4009,7 +4309,9 @@ if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
     headSha,
     jobPath,
     mergeTreeSha,
+    mergeLogPath,
     pnpmCommandsPath,
+    root,
     runDir,
     syntheticMergeSha,
   };
