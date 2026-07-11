@@ -724,15 +724,73 @@ test("execute-fix-artifact preserves requested focused validation ahead of chang
   assert.match(source, /if \(!strictTargetValidation && !preserveFocusedValidation && scripts\.has\("check:changed"\)\) \{/);
 });
 
-test("execute-fix-artifact checkpoints contributor repairs before slow validation", () => {
+test("execute-fix-artifact defers contributor pushes until validation and review pass", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
   const repairSource = source.slice(source.indexOf("function executeRepairBranch"), source.indexOf("function repairBranchPushArgs"));
+  const replacementSource = source.slice(
+    source.indexOf("function executeReplacementBranch"),
+    source.indexOf("function labelReplacementPullRequest"),
+  );
 
   assert.match(repairSource, /let expectedRemoteHeadSha = String\(pull\.head\?\.sha \?\? ""\);/);
-  assert.match(repairSource, /if \(!dryRun && rebased\) pushRepairCheckpoint\(\);/);
-  assert.match(repairSource, /pushCheckpoint: dryRun \? null : pushRepairCheckpoint/);
-  assert.match(repairSource, /if \(currentHead\(targetDir\) !== expectedRemoteHeadSha\) pushRepairCheckpoint\(\);/);
+  assert.doesNotMatch(repairSource, /pushCheckpoint: dryRun \? null : pushRepairCheckpoint/);
+  assert.doesNotMatch(repairSource, /if \(!dryRun && rebased\) pushRepairCheckpoint\(\);/);
+  assert.match(repairSource, /if \(dryRun\) \{[\s\S]*?\n  \}\n\n  pushRepairCheckpoint\(\);/);
+  assert.equal(replacementSource.match(/pushCheckpoint: pushReplacementCheckpoint/g)?.length, 2);
   assert.match(source, /function repairBranchPushArgs\(\{ pull, rebased, expectedHeadSha = pull\.head\?\.sha \}\)/);
+});
+
+test("execute-fix-artifact does not push a contributor repair when validation fails", () => {
+  const run = runContributorRepairPushOrderFixture({
+    clusterId: "contributor-validation-failure",
+    validationPasses: false,
+    reviewPasses: true,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.match(run.report.reason, /validation command failed/);
+  assert.equal(run.remoteHeadAfter, run.sourceHead);
+  assert.equal(run.stages.includes("branch_push_start"), false);
+});
+
+test("execute-fix-artifact does not push a contributor repair when Codex review fails", () => {
+  const run = runContributorRepairPushOrderFixture({
+    clusterId: "contributor-review-failure",
+    validationPasses: true,
+    reviewPasses: false,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.match(run.report.reason, /Codex \/review did not pass/);
+  assert.equal(run.remoteHeadAfter, run.sourceHead);
+  assert.equal(run.stages.includes("branch_push_start"), false);
+});
+
+test("execute-fix-artifact pushes a contributor repair once after successful validation and review", () => {
+  const run = runContributorRepairPushOrderFixture({
+    clusterId: "contributor-push-order-success",
+    validationPasses: true,
+    reviewPasses: true,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "pushed");
+  assert.equal(run.report.actions[0].status, "pushed");
+  assert.equal(run.remoteHeadAfter, run.report.actions[0].commit);
+  assert.notEqual(run.remoteHeadAfter, run.sourceHead);
+  assert.equal(run.stages.filter((stage) => stage === "branch_push_start").length, 1);
+  assert.equal(run.stages.filter((stage) => stage === "branch_push_complete").length, 1);
+
+  const validationIndex = run.stages.lastIndexOf("validation_complete");
+  const reviewIndex = run.stages.lastIndexOf("codex_review_complete");
+  const pushStartIndex = run.stages.indexOf("branch_push_start");
+  const pushCompleteIndex = run.stages.indexOf("branch_push_complete");
+  assert.ok(validationIndex >= 0);
+  assert.ok(reviewIndex > validationIndex);
+  assert.ok(pushStartIndex > reviewIndex);
+  assert.ok(pushCompleteIndex > pushStartIndex);
 });
 
 test("execute-fix-artifact defers a broad scope block only for explicit rebase-only repairs", () => {
@@ -1803,6 +1861,169 @@ process.exit(0);
   };
 }
 
+function runContributorRepairPushOrderFixture({ clusterId, validationPasses, reviewPasses }) {
+  const fixture = makeFixture();
+  const contributorBranch = `contributor-${clusterId}`;
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+
+  git(["checkout", "-b", contributorBranch, fixture.initialHead], { cwd: fixture.seedDir });
+  fs.appendFileSync(path.join(fixture.seedDir, "src", "app.js"), `\n// ${clusterId} source change\n`);
+  git(["add", "src/app.js"], { cwd: fixture.seedDir });
+  git(["commit", "-m", `fix: seed ${clusterId}`], { cwd: fixture.seedDir });
+  const sourceHead = git(["rev-parse", "HEAD"], { cwd: fixture.seedDir });
+  git(["push", "origin", `HEAD:refs/heads/${contributorBranch}`], { cwd: fixture.seedDir });
+  git(["push", "origin", "HEAD:refs/pull/1/head"], { cwd: fixture.seedDir });
+
+  git(["checkout", "main"], { cwd: fixture.seedDir });
+  fs.mkdirSync(path.join(fixture.seedDir, "docs"), { recursive: true });
+  fs.writeFileSync(path.join(fixture.seedDir, "docs", `${clusterId}.md`), "current main\n");
+  git(["add", "."], { cwd: fixture.seedDir });
+  git(["commit", "-m", `docs: advance main for ${clusterId}`], { cwd: fixture.seedDir });
+  git(["push", "origin", "HEAD:main"], { cwd: fixture.seedDir });
+
+  git(["config", `url.${fixture.originDir}.insteadOf`, "https://github.com/openclaw/openclaw.git"], {
+    cwd: fixture.targetDir,
+  });
+  fs.writeFileSync(
+    fixture.jobPath,
+    repairOnlyRiskJobFile(clusterId).replace(
+      "security_sensitive: false",
+      "security_sensitive: false\nrepair_strategy: repair_contributor_branch",
+    ),
+  );
+  const result = resultFile(clusterId);
+  result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+  result.fix_artifact.validation_commands = ["pnpm check:changed"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+
+  writeExecutable(
+    path.join(fixture.binDir, "gh"),
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+if (args[0] === "auth" && args[1] === "setup-git") process.exit(0);
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/1") {
+  console.log(JSON.stringify({
+    state: "open",
+    maintainer_can_modify: true,
+    labels: [],
+    head: {
+      sha: ${JSON.stringify(sourceHead)},
+      ref: ${JSON.stringify(contributorBranch)},
+      repo: { full_name: "openclaw/openclaw" }
+    }
+  }));
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "graphql") {
+  console.log(JSON.stringify({
+    data: {
+      repository: {
+        pullRequest: {
+          reviewThreads: {
+            pageInfo: { hasNextPage: false },
+            nodes: []
+          }
+        }
+      }
+    }
+  }));
+  process.exit(0);
+}
+console.error("unexpected gh call: " + args.join(" "));
+process.exit(2);
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "codex"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const args = process.argv.slice(2);
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : "";
+if (args.includes("--output-schema")) {
+  fs.writeFileSync(output, JSON.stringify({
+    status: ${JSON.stringify(reviewPasses ? "passed" : "blocked")},
+    summary: ${JSON.stringify(reviewPasses ? "fixture review passed" : "fixture review failed")},
+    findings: ${reviewPasses ? "[]" : '[{"summary":"fixture finding"}]'},
+    findings_addressed: ${reviewPasses ? "true" : "false"},
+    evidence: ["fixture review evidence"]
+  }));
+  process.exit(0);
+}
+const cd = args[args.indexOf("--cd") + 1];
+fs.appendFileSync(path.join(cd, "src", "app.js"), "\\n// executor repair edit\\n");
+if (output) fs.writeFileSync(output, "edited\\n");
+`,
+  );
+  writeExecutable(
+    path.join(fixture.binDir, "pnpm"),
+    `#!/usr/bin/env node
+if (process.argv.slice(2)[0] !== "check:changed") process.exit(0);
+if (${validationPasses ? "true" : "false"}) process.exit(0);
+console.error("fixture validation failed");
+process.exit(1);
+`,
+  );
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_CODEX_REVIEW_ATTEMPTS: "1",
+        CLOWNFISH_FIX_EDIT_ATTEMPTS: "1",
+        CLOWNFISH_FIX_STEP_TIMEOUT_MS: "120000",
+        CLOWNFISH_FIX_TIMEOUT_RESERVE_MS: "0",
+        CLOWNFISH_FIX_REPORT_RESERVE_MS: "0",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: "1",
+        CLOWNFISH_STREAM_VALIDATION_OUTPUT: "0",
+        CLOWNFISH_TARGET_VALIDATION_MODE: "strict",
+      },
+    },
+  );
+
+  const stages = String(child.stderr ?? "")
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .flatMap((line) => {
+      try {
+        const event = JSON.parse(line);
+        return event.event === "projectclownfish_fix_stage" ? [event.stage] : [];
+      } catch {
+        return [];
+      }
+    });
+  return {
+    fixture,
+    child,
+    report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
+    sourceHead,
+    remoteHeadAfter: git(["rev-parse", `refs/heads/${contributorBranch}`], { cwd: fixture.originDir }),
+    stages,
+  };
+}
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-exec-"));
   const binDir = path.join(root, "bin");
@@ -1849,6 +2070,7 @@ test "$2" = "94022"
     binDir,
     runDir,
     workDir,
+    seedDir,
     initialHead,
     originDir,
     targetDir,

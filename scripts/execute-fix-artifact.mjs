@@ -822,12 +822,11 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
   if (!sameRepoBranch && !dryRun) {
     assertRepairBranchWritable({ targetDir, pull, rebased });
   }
-  // A rebase is already a durable repair. Push it before slow toolchain and review work.
-  if (!dryRun && rebased) pushRepairCheckpoint();
   noteFixStage("target_toolchain_start");
   prepareTargetToolchain(targetDir);
   noteFixStage("target_toolchain_complete");
 
+  // Contributor branches stay local until validation and Codex review pass.
   let prep = editValidatePrepareMerge({
     fixArtifact,
     targetDir,
@@ -840,7 +839,6 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     allowReviewFixes: !rebaseOnly,
     refreshBaseBeforeReview: true,
     allowedFixFiles,
-    pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
   });
   let finalBaseRefresh = refreshValidatedBranchBase({
     targetDir,
@@ -861,7 +859,6 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
       allowReviewFixes: !rebaseOnly,
       refreshBaseBeforeReview: true,
       allowedFixFiles,
-      pushCheckpoint: dryRun ? null : pushRepairCheckpoint,
     });
     prep.checkpoint_commits = uniqueStrings([...priorCheckpointCommits, ...prep.checkpoint_commits]);
     finalBaseRefresh = refreshValidatedBranchBase({
@@ -897,7 +894,7 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     };
   }
 
-  if (currentHead(targetDir) !== expectedRemoteHeadSha) pushRepairCheckpoint();
+  pushRepairCheckpoint();
   noteFixProgress({
     ...branchProgress,
     rebased,
