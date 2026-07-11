@@ -1,0 +1,222 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "conflicting-branch-repair-97740-8aa5b6f9de05c84d50ae43377bb4e3577324e60f",
+  "mode": "autonomous",
+  "run_id": "29139561771",
+  "workflow_run_id": "29139561771",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29139561771",
+  "head_sha": "f2ddf90e6ad2db0077eb0c254f0ae52bc278360a",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-11T04:24:45Z",
+  "workflow_updated_at": "2026-07-11T04:55:43Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-97740-8aa5b6f9de05c84d50ae43377bb4e3577324e60f.md",
+  "published_at": "2026-07-11T04:56:23.575Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/97740",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/97069",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/97740",
+  "summary": "Plan repair for canonical PR #97740 only. The hydrated artifact shows #97740 is open, maintainer-editable, non-security-sensitive, exact head 8aa5b6f9de05c84d50ae43377bb4e3577324e60f, and blocked by the ClawSweeper finding that neutral exec wording was applied through a shared plugin approval helper. No GitHub mutations are proposed because comments, labels, closes, merges, and force-pushes are blocked for this job.",
+  "actions": [
+    {
+      "target": "#97069",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#97740",
+      "candidate_fix": "#97740",
+      "reason": null
+    },
+    {
+      "target": "#97077",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": "already_closed"
+    },
+    {
+      "target": "#97081",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": "already_closed"
+    },
+    {
+      "target": "#97106",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": "already_closed"
+    },
+    {
+      "target": "#97145",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": null
+    },
+    {
+      "target": "#97740",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch_required"
+    },
+    {
+      "target": "cluster:conflicting-branch-repair-97740-8aa5b6f9de05c84d50ae43377bb4e3577324e60f",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#97740",
+      "candidate_fix": null,
+      "reason": null
+    }
+  ],
+  "action_counts": {
+    "keep_related": 2,
+    "keep_closed": 3,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 3
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#97740",
+    "source_refs": [
+      "#97740",
+      "#97069",
+      "#97077",
+      "#97081",
+      "#97106",
+      "#97145"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair PR #97740 on the existing saju01 contributor branch by rebasing onto current main and addressing the exact ClawSweeper finding: the neutral exec-specific Allow Always unavailable wording must not leak through shared plugin approval rendering. Keep the PR bounded to the existing exec approval wording fix and do not broaden into the typed-reason approach used by other overlapping PRs.",
+    "pr_title": "fix(exec-approval): stop misattributing Allow Always unavailability to policy",
+    "pr_body": "## What Problem This Solves\n\nRepairs #97740 on the existing contributor branch for #97069. Redirected/non-persistable exec commands should not make the approval prompt falsely claim that the effective approval policy requires approval every time.\n\n## Why This Change Was Made\n\nClawSweeper found that the current PR uses neutral exec wording through a shared plugin approval helper. That helper is also used by plugin approvals, so the repair must keep exec approval wording truthful without changing plugin approval semantics or broadening the PR.\n\n## User Impact\n\nUsers keep the clearer exec approval prompt for non-persistable commands, while plugin approval prompts retain their existing policy-specific behavior.\n\n## Evidence\n\nPlanned executor validation: rebase #97740 onto current main, repair only the shared-helper leakage, run `pnpm check:changed`, run Codex `/review`, and push the maintainer-editable contributor branch. Existing hydrated evidence for the original head includes passing check-lint, build-artifacts, check-prod-types, check-test-types, checks-fast-bundled-protocol, Real behavior proof, and Mantis Telegram Desktop proof.",
+    "likely_files": [
+      "src/plugin-sdk/approval-reaction-runtime.ts",
+      "src/plugin-sdk/approval-reaction-runtime.test.ts",
+      "src/infra/exec-approval-reply.ts",
+      "src/infra/exec-approval-reply.test.ts",
+      "src/infra/exec-approval-forwarder.ts",
+      "src/gateway/server-methods/exec-approval.ts",
+      "ui/src/components/exec-approval.ts",
+      "ui/src/ui/views/exec-approval.test.ts",
+      "ui/src/i18n/locales/en.ts",
+      "ui/src/i18n/.i18n/raw-copy-baseline.json"
+    ],
+    "validation_commands": [
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/97740; preserve @saju01 as the PR author/source contributor.",
+      "Do not create a replacement PR in this job.",
+      "PR body should keep the original issue/fix context and mention that Clownfish only repaired the review blocker on the existing contributor branch."
+    ],
+    "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-97740-8aa5b6f9de05c84d50ae43377bb4e3577324e60f.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/97740",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "bbb3886dfdef260e72ac18a0b29f41ea85e419b3",
+      "checkpoint_commits": [
+        "139638389c7421157a3716261831d9c393e92256",
+        "6922240692541d4864a86b56fd4c11e6616e3755",
+        "bbb3886dfdef260e72ac18a0b29f41ea85e419b3"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#97740",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#97740",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
