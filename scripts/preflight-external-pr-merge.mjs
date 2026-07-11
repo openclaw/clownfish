@@ -2636,13 +2636,6 @@ function isClawSweeperReviewStartComment({ author, body, pull }) {
   const normalized = String(body ?? "").trim();
   if (!/^clawsweeper status: review started\.(?:\r?\n|$)/i.test(normalized)) return false;
   if (/<!--\s*clawsweeper-(?:verdict|action):/i.test(normalized)) return false;
-  const visibleBody = normalized.replace(/<!--[\s\S]*?-->/g, "").trim().toLowerCase();
-  if (
-    hasActionableClawSweeperReviewSignal(visibleBody) ||
-    hasSecuritySensitiveText([visibleBody])
-  ) {
-    return false;
-  }
 
   const statusOpeners =
     normalized.match(/<!--\s*clawsweeper-review-status:started\b/gi) ?? [];
@@ -2660,6 +2653,22 @@ function isClawSweeperReviewStartComment({ author, body, pull }) {
     statuses.length !== 1 ||
     leaseOpeners.length !== 1 ||
     leases.length !== 1
+  ) {
+    return false;
+  }
+  const statusEnd = statuses[0].index + statuses[0][0].length;
+  const leaseEnd = leases[0].index + leases[0][0].length;
+  if (
+    statuses[0].index >= leases[0].index ||
+    normalized.slice(statusEnd, leases[0].index).trim() ||
+    normalized.slice(leaseEnd).trim()
+  ) {
+    return false;
+  }
+  const visibleBody = normalized.slice(0, statuses[0].index).trim().toLowerCase();
+  if (
+    hasActionableClawSweeperReviewSignal(visibleBody) ||
+    hasSecuritySensitiveText([visibleBody])
   ) {
     return false;
   }

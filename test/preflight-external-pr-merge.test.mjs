@@ -1129,7 +1129,7 @@ test("external merge preflight ignores a stale ready review and exact-head ClawS
   assert.equal(result.actions[0]?.action, "merge_canonical");
 });
 
-for (const [name, startedAt, leaseExpiresAt, extraLine] of [
+for (const [name, startedAt, leaseExpiresAt, extraLine, trailingLine = ""] of [
   [
     "expired",
     "1999-12-31T23:30:00.000Z",
@@ -1140,6 +1140,13 @@ for (const [name, startedAt, leaseExpiresAt, extraLine] of [
     "contradictory",
     new Date(Date.now() - 60_000).toISOString(),
     new Date(Date.now() + 30 * 60_000).toISOString(),
+    "Do not merge; security issue remains.",
+  ],
+  [
+    "trailing contradictory",
+    new Date(Date.now() - 60_000).toISOString(),
+    new Date(Date.now() + 30 * 60_000).toISOString(),
+    "This placeholder means the worker is alive and reading the current context.",
     "Do not merge; security issue remains.",
   ],
 ]) {
@@ -1175,6 +1182,7 @@ for (const [name, startedAt, leaseExpiresAt, extraLine] of [
             "",
             `<!-- clawsweeper-review-status:started item=123 sha=${headSha} started_at=${startedAt} lease_expires_at=${leaseExpiresAt} v=1 -->`,
             "<!-- clawsweeper-review-lease item=123 -->",
+            trailingLine,
           ].join("\n"),
           url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-review-started-${name}`,
         },
