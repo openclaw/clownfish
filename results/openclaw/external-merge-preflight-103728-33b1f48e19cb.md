@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-103728-33b1f48e19cb"
 mode: "autonomous"
-run_id: "29150185816"
-workflow_run_id: "29150185816"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/29150185816"
-head_sha: "158a4730832b5f0bfafa32c8a6c135a438c787e5"
+run_id: "29150394730"
+workflow_run_id: "29150394730"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/29150394730"
+head_sha: "9c7c048d4744db2216b57677898991da636ebce5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-11T11:00:25.751Z"
+published_at: "2026-07-11T11:13:56.361Z"
 canonical: "https://github.com/openclaw/openclaw/pull/103728"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/103728"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/29150185816](https://github.com/openclaw/clownfish/actions/runs/29150185816)
+Run: [https://github.com/openclaw/clownfish/actions/runs/29150394730](https://github.com/openclaw/clownfish/actions/runs/29150394730)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/103728
 
 ## Summary
 
-External merge preflight blocked: security-sensitive signal in hydrated PR metadata or comments; PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/103728#issuecomment-4936469531, https://github.com/openclaw/openclaw/pull/103728#issuecomment-4945092364
+External merge preflight blocked: Codex /review did not pass: PR #103728 adds a manager-level blank-query fast path for the builtin memory manager, but the user-visible memory_search tool can still force a sync after that empty result. LOC: +50/-3 (3 files). Best-fix verdict: too narrow; the manager fix is plausible but incomplete for the main tool entry point.
 
 ## Impact
 
