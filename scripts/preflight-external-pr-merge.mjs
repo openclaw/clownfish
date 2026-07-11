@@ -752,6 +752,18 @@ function readOnlyBlockers({
   const blockers = [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
+  const hasExactHeadClawSweeperReviewStart = issueComments.some((comment) => {
+    const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
+    return isClawSweeperReviewStartComment({ author, body: comment.body, pull });
+  });
+  const isStaleIssueCommentCoveredByReviewStart = (comment) => {
+    if (!hasExactHeadClawSweeperReviewStart) return false;
+    const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
+    return (
+      isClawSweeperAuthor(author) &&
+      isStaleAutomationReviewComment({ author, body: comment.body, pull })
+    );
+  };
   const reviewComments =
     hydratedReviewComments ??
     ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`]);
@@ -765,6 +777,7 @@ function readOnlyBlockers({
     ...issueComments
       .filter(
         (comment) =>
+          !isStaleIssueCommentCoveredByReviewStart(comment) &&
           !isNonBlockingCommentEvidence(comment, {
             pull,
             view,
@@ -804,6 +817,7 @@ function readOnlyBlockers({
   const actionableIssueComments = issueComments.filter(
     (comment, index) =>
       !isSupersededDependencyGuardNotice(comment, issueComments.slice(index + 1), { pull, view }) &&
+      !isStaleIssueCommentCoveredByReviewStart(comment) &&
       isActionableCommentEvidence(comment, {
         pull,
         view,
@@ -2502,6 +2516,7 @@ function hasActionableApprovedReviewBody(body) {
 
 function isBenignAutomationComment({ author, body, pull, view }) {
   const currentReview = String(body).split(/<details>/, 1)[0];
+  if (isClawSweeperReviewStartComment({ author, body, pull })) return true;
   if (isClawSweeperAuthor(author) && hasClawSweeperReadyReviewSignal(currentReview)) {
     return isClawSweeperReadyReviewComment({ author, body, pull, view });
   }
@@ -2544,6 +2559,7 @@ function commentReviewShas(body) {
   const normalized = String(body ?? "").toLowerCase();
   const patterns = [
     /<!--\s*clawsweeper-(?:verdict|action):[^>]*\bsha=([0-9a-f]{40})\b[^>]*-->/g,
+    /<!--\s*clawsweeper-review-status:started[^>]*\bsha=([0-9a-f]{40})\b[^>]*-->/g,
     /\blast reviewed commit:\s*(?:https?:\/\/\S+\/commit\/)?([0-9a-f]{40})\b/g,
     /\breviewed against\s*(?:\[[^\]]+\]\()?https?:\/\/\S+\/commit\/([0-9a-f]{40})\)?/g,
   ];
@@ -2600,12 +2616,58 @@ function isClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
   return !hasActionableClawSweeperReviewSignal(currentReview, { view }) && hasClawSweeperReadyReviewSignal(currentReview);
 }
 
+function isClawSweeperReviewStartComment({ author, body, pull }) {
+  if (!isClawSweeperAuthor(author)) return false;
+  const normalized = String(body ?? "").trim();
+  if (!/^clawsweeper status: review started\.(?:\r?\n|$)/i.test(normalized)) return false;
+  if (/<!--\s*clawsweeper-(?:verdict|action):/i.test(normalized)) return false;
+
+  const statusOpeners =
+    normalized.match(/<!--\s*clawsweeper-review-status:started\b/gi) ?? [];
+  const statuses = [
+    ...normalized.matchAll(
+      /<!--\s*clawsweeper-review-status:started\s+([^>]*)-->/gi,
+    ),
+  ];
+  const leaseOpeners = normalized.match(/<!--\s*clawsweeper-review-lease\b/gi) ?? [];
+  const leases = [
+    ...normalized.matchAll(/<!--\s*clawsweeper-review-lease\s+([^>]*)-->/gi),
+  ];
+  if (
+    statusOpeners.length !== 1 ||
+    statuses.length !== 1 ||
+    leaseOpeners.length !== 1 ||
+    leases.length !== 1
+  ) {
+    return false;
+  }
+
+  const status = parseMarkerAttributes(statuses[0][1]);
+  const lease = parseMarkerAttributes(leases[0][1]);
+  if (!status || !lease) return false;
+
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  const pullNumber = String(pull?.number ?? "");
+  const startedAt = Date.parse(status.started_at ?? "");
+  const leaseExpiresAt = Date.parse(status.lease_expires_at ?? "");
+  return (
+    /^[0-9a-f]{40}$/.test(headSha) &&
+    status.item === pullNumber &&
+    status.sha?.toLowerCase() === headSha &&
+    status.v === "1" &&
+    lease.item === pullNumber &&
+    Number.isFinite(startedAt) &&
+    Number.isFinite(leaseExpiresAt) &&
+    leaseExpiresAt > startedAt
+  );
+}
+
 function hasClawSweeperReadyReviewSignal(body) {
   const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
   return (
     isClawSweeperMaintainerReviewHeader(firstLine) &&
     /result:\s*ready for maintainer review\./.test(body) &&
-    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no (?:clawsweeper |automated )?repair(?: or product decision)? remains|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
       body,
     )
   );
