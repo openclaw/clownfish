@@ -2790,11 +2790,15 @@ function isAuthorProofOrStatusComment(body) {
   const hasStatusLead = contentLines.some((line) =>
     [
       /^(?:rebas(?:ed|ing)|re-ran|reran|ran|verified|validated|updated|added|addressed|resolved|fixed|tested)\b/,
+      /^(?:branch|the branch|this branch)\s+(?:refreshed|rebased|updated)\b/,
+      /^(?:please\s+)?re-review current head\s+`?[0-9a-f]{7,40}`?\b/,
       /^(?:this|the (?:change|patch|pr))\s+(?:fixes|adds|updates|preserves|addresses)\b/,
     ].some((pattern) => pattern.test(line)),
   );
   const hasProofHeading = contentLines.some((line) =>
-    /^(?:real behavior proof|proof|validation|verification|test results|current status|status):?$/.test(line),
+    /^(?:real behavior proof|behavior proof follow-up(?: for the clawsweeper note)?|proof|validation|verification|test results|current status|status):?$/.test(
+      line,
+    ),
   );
   const hasRealBehaviorProofHeading = contentLines.some((line) => /^real behavior proof:?$/.test(line));
   const hasEvidenceDetail = lines.some(

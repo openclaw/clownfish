@@ -1178,6 +1178,67 @@ test("external merge preflight accepts the objection-loop control proof", () => 
   assert.equal(report.status, "passed", report.reason);
 });
 
+test("external merge preflight accepts author behavior proof follow-up comments", () => {
+  const fixture = makeFixture({
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Behavior proof follow-up for the ClawSweeper note:",
+          "",
+          "- Focused command: `node scripts/run-vitest.mjs src/plugins/document-extractors.runtime.test.ts`",
+          "- Result: passed locally, 1 test file / 5 tests.",
+          "- Regression assertion: an explicit empty allowlist resolves to no extractors.",
+          "- Scope: local document extractor resolver; no live service or key required.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight accepts author exact-head re-review status comments", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    pullUser: { login: "contributor" },
+    issueComments: [
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "@clawsweeper re-review",
+          "",
+          "Branch refreshed onto the merged CI baseline fix at upstream/main.",
+          "The review finding was addressed with shared resolver and regression proof.",
+          "",
+          `Latest head: ${headSha}`,
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-1",
+      },
+      {
+        author: { login: "contributor" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "@clawsweeper re-review",
+          "",
+          `Please re-review current head \`${headSha}\`.`,
+          "The PR evidence includes controlled proof showing the blank query returns before provider bootstrap.",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-2",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
 for (const objection of [
   "Known failure: valid listeners are skipped on Alpine.",
   "- Invalid listener records are accepted.",
