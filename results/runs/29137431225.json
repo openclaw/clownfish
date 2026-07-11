@@ -1,0 +1,184 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "pr-rebase-90942-20260711",
+  "mode": "autonomous",
+  "run_id": "29137431225",
+  "workflow_run_id": "29137431225",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29137431225",
+  "head_sha": "5f460cca197dadf082efb133426c0a2b7b6b9520",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-11T03:05:27Z",
+  "workflow_updated_at": "2026-07-11T03:16:04Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/pr-rebase-90942-20260711.md",
+  "published_at": "2026-07-11T03:16:40.563Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/90942",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/90941",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/90942",
+  "summary": "Planned a bounded repair of maintainer-editable contributor PR #90942. The only executable path is to rebase the existing branch onto current main, preserve the symlinked-launcher sandbox script lookup fix, resolve conflicts only if they appear, validate the changed surface, run Codex /review, and push the same contributor branch. No GitHub mutation was performed.",
+  "actions": [
+    {
+      "target": "#90942",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#90942",
+      "candidate_fix": null,
+      "reason": "Canonical contributor PR needs a branch refresh before any later exact-head finalization; merge is blocked by job permissions."
+    },
+    {
+      "target": "cluster:pr-rebase-90942-20260711",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#90942",
+      "candidate_fix": null,
+      "reason": "Build a repair-contributor-branch artifact for the deterministic executor."
+    },
+    {
+      "target": "#90941",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#90942",
+      "candidate_fix": "#90942",
+      "reason": "Related issue is covered by the canonical PR path but cannot be closed in this rebase-only job."
+    },
+    {
+      "target": "#90951",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#90942",
+      "candidate_fix": null,
+      "reason": "Keep the adjacent package-install product gap open and out of the rebase-only repair scope."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 2
+  },
+  "action_status_counts": {
+    "planned": 4
+  },
+  "fix_counts": {
+    "pushed": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#90942",
+    "source_refs": [
+      "#90942",
+      "#90941",
+      "#90951"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair existing maintainer-editable contributor PR #90942 by rebasing branch fix/doctor-sandbox-symlink-script-resolution onto current main feae1faf064354e14c385ac8bc0cc003be12a006. Preserve the narrow symlinked-launcher sandbox setup-script lookup fix, resolve only rebase conflicts, validate the changed surface, run Codex /review, and push the same contributor branch.",
+    "pr_title": "fix(doctor): follow symlinked launcher when locating sandbox setup scripts",
+    "pr_body": "What Problem This Solves\n- Refreshes #90942 so `openclaw doctor` can locate sandbox setup scripts when launched through a symlinked bin in source or linked-install layouts.\n\nWhy This Change Was Made\n- Current main still has the literal argv1 sandbox-script lookup, while the shared package-root resolver already follows symlinked launchers. The existing contributor fix should be preserved and rebased, not broadened.\n\nUser Impact\n- After the PR is finalized later, symlinked launcher layouts such as pnpm/npm link can use doctor sandbox image repair when the scripts exist in the checkout.\n\nEvidence\n- Rebase onto main feae1faf064354e14c385ac8bc0cc003be12a006.\n- Run `pnpm test src/commands/doctor-sandbox.test.ts src/infra/openclaw-root.test.ts` and `pnpm check:changed`.\n- Run Codex /review after the rebase and address any findings before handoff.",
+    "likely_files": [
+      "src/commands/doctor-sandbox.ts",
+      "src/commands/doctor-sandbox.test.ts",
+      "src/infra/openclaw-root.ts",
+      "src/infra/openclaw-root.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/commands/doctor-sandbox.test.ts src/infra/openclaw-root.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @sasan1200 and source PR https://github.com/openclaw/openclaw/pull/90942.",
+      "Do not open a replacement PR; repair the maintainer-editable contributor branch directly.",
+      "Keep #90951 out of this repair because it is the adjacent package-install setup-script shipping/product-decision gap, not the symlinked launcher bug."
+    ],
+    "source_job": "jobs/openclaw/inbox/pr-rebase-90942-20260711.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "pushed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "pushed",
+      "target": "https://github.com/openclaw/openclaw/pull/90942",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "d496da5a85f58a5b165ad1bd69937e2d36cb60f4",
+      "checkpoint_commits": [
+        "898183180f6b64a27f1b6e2fded19b28d7d87972",
+        "d496da5a85f58a5b165ad1bd69937e2d36cb60f4"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#90942",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#90942",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
