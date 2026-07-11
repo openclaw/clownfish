@@ -2115,6 +2115,67 @@ test("review-results rejects incomplete permission snapshots after source job re
   assert.match(result.stdout, /fix actions require source job permissions/);
 });
 
+test("review-results rejects a fix artifact that changes the source job repair strategy", () => {
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [plannedBuildFixArtifact()],
+      fix_artifact: validFixArtifact({ repair_strategy: "new_fix_pr" }),
+    },
+    {
+      job: fixEnabledJob().replace(
+        "allow_fix_pr: true",
+        "allow_fix_pr: true\nrepair_strategy: repair_contributor_branch",
+      ),
+      plan: {
+        items: [],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(
+    result.stdout,
+    /fix_artifact\.repair_strategy must match source job policy: expected repair_contributor_branch, found new_fix_pr/,
+  );
+});
+
+test("review-results rejects a pinned contributor repair targeting another PR", () => {
+  const expected = "a".repeat(40);
+  const dir = makeResultDir(
+    {
+      mode: "autonomous",
+      actions: [plannedBuildFixArtifact()],
+      fix_artifact: validFixArtifact({
+        repair_strategy: "repair_contributor_branch",
+        source_prs: ["https://github.com/openclaw/openclaw/pull/38830"],
+      }),
+    },
+    {
+      job: fixEnabledJob()
+        .replace(
+          "candidates:\n  - \"#38829\"",
+          `canonical:\n  - "#38829"\ncandidates:\n  - "#38829"\nexpected_head_shas:\n  - "#38829=${expected}"`,
+        )
+        .replace(
+          "allow_fix_pr: true",
+          "allow_fix_pr: true\nrepair_strategy: repair_contributor_branch",
+        ),
+      plan: {
+        items: [],
+      },
+    },
+  );
+
+  const result = review(dir);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /repair_contributor_branch source_prs must contain only the canonical PR #38829/);
+  assert.match(result.stdout, /repair_contributor_branch source_prs must exactly match expected_head_shas refs: #38829/);
+});
+
 test("review-results enforces calibrated canonical finalization after source job removal", () => {
   const dir = makeResultDir(
     {

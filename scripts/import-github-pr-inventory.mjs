@@ -70,7 +70,9 @@ const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeMergeRisk = Boolean(args["include-merge-risk-candidates"] ?? args.include_merge_risk_candidates);
 const repairOnlyMergeRiskInventory =
   strategy === "remediation" && includeMergeRisk && bucketFilter === "merge_risk_remediation";
-const batchSize = repairOnlyMergeRiskInventory ? 1 : requestedBatchSize;
+const conflictingBranchRepairInventory =
+  strategy === "remediation" && bucketFilter === "conflicting_branch_repair";
+const batchSize = repairOnlyMergeRiskInventory || conflictingBranchRepairInventory ? 1 : requestedBatchSize;
 const includeRefs = optionalRefsFile(args["include-refs-file"] ?? args.include_refs_file);
 const hydrateIncludeRefs = Boolean(args["hydrate-include-refs"] ?? args.hydrate_include_refs);
 const minScore = numberArg("min-score", 2);
@@ -117,6 +119,14 @@ if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-
 
 const existingRefs = skipExisting ? existingRefsForStrategy() : new Set();
 if (skipExisting) mergeRefs(existingRefs, existingPublishedResultRefs(existingResultsDir, repo, existingResultsActionPolicy));
+const existingConflictingRepairJobs =
+  conflictingBranchRepairInventory && !dryRun
+    ? conflictingRepairJobs([path.join(repoRoot(), "jobs", owner), outDir])
+    : new Map();
+const publishedConflictingRepairClusterIds =
+  conflictingBranchRepairInventory && !dryRun
+    ? publishedResultClusterIds(existingResultsDir, repo, "conflicting-branch-repair-")
+    : new Set();
 const checksSuccessAttempts =
   skipExisting && checksSuccessPreflight ? existingChecksSuccessAttempts(existingDir) : new Map();
 if (checksSuccessPreflight) checksSuccessMainSha = fetchChecksSuccessMainSha();
@@ -138,7 +148,7 @@ for (let index = 0; index < limitedCandidates.length; index += batchSize) {
 }
 
 if (!dryRun) fs.mkdirSync(outDir, { recursive: true });
-const generated = batches.map((batch, index) => writeJob(batch, index + 1));
+const generated = batches.map((batch, index) => writeJob(batch, index + 1)).filter(Boolean);
 
 const payload = sanitizeJsonValue({
   generated,
@@ -278,6 +288,8 @@ function fetchOpenPullRequestsFromSearch() {
   ];
   if (checksSuccessPreflight) {
     ghArgs.push("--base", "main", "--checks", "success");
+  } else if (conflictingBranchRepairInventory) {
+    ghArgs.push("--base", "main");
   } else if (strategy === "remediation") {
     ghArgs.push("--label", "status: 👀 ready for maintainer look", "--label", "proof: sufficient");
   }
@@ -562,28 +574,32 @@ function fetchOpenPullRequestsFromPrList() {
       remediationPrListSearchQuery(),
   );
   let pulls;
-  try {
-    pulls = ghJsonWithRetry(
-      [
-        "pr",
-        "list",
-        "--repo",
-        repo,
-        "--state",
-        "open",
-        "--search",
-        search,
-        "--limit",
-        String(searchLimit),
-        "--json",
-        prListFields(),
-      ],
-      { operation: "list open pull request inventory" },
-    );
-  } catch (error) {
-    if (!isRetryableGhError(error)) throw error;
-    console.error("list open pull request inventory failed after retries; falling back to search plus per-PR hydration");
+  if (conflictingBranchRepairInventory) {
     pulls = fetchOpenPullRequestsFromPrListFallback();
+  } else {
+    try {
+      pulls = ghJsonWithRetry(
+        [
+          "pr",
+          "list",
+          "--repo",
+          repo,
+          "--state",
+          "open",
+          "--search",
+          search,
+          "--limit",
+          String(searchLimit),
+          "--json",
+          prListFields(),
+        ],
+        { operation: "list open pull request inventory" },
+      );
+    } catch (error) {
+      if (!isRetryableGhError(error)) throw error;
+      console.error("list open pull request inventory failed after retries; falling back to search plus per-PR hydration");
+      pulls = fetchOpenPullRequestsFromPrListFallback();
+    }
   }
   if (!Array.isArray(pulls)) throw new Error("GitHub PR list returned a non-array payload");
   const normalized = pulls.map(normalizePrListPullRequest);
@@ -592,6 +608,7 @@ function fetchOpenPullRequestsFromPrList() {
       .filter((pull) => shouldRetryChecksSuccessPullRequest(pull))
       .filter(acceptHydratedChecksSuccessPullRequest);
   }
+  if (conflictingBranchRepairInventory) return normalized;
   return normalized.filter((pull) => !prListMergeBlocker(pull));
 }
 
@@ -608,7 +625,7 @@ function fetchOpenPullRequestsFromIncludedRefs() {
     }
     if (!hydrated) continue;
     const normalized = normalizePrListPullRequest(hydrated);
-    if (!checksSuccessPreflight && prListMergeBlocker(normalized)) continue;
+    if (!checksSuccessPreflight && !conflictingBranchRepairInventory && prListMergeBlocker(normalized)) continue;
     pulls.push(normalized);
     if (limit !== "all" && pulls.length >= limitForHydration) break;
   }
@@ -638,7 +655,8 @@ function fetchOpenPullRequestsFromPrListFallback() {
     }
     if (!hydrated) continue;
     const normalized = normalizePrListPullRequest(hydrated);
-    if (prListMergeBlocker(normalized)) continue;
+    if (!conflictingBranchRepairInventory && prListMergeBlocker(normalized)) continue;
+    if (conflictingBranchRepairInventory && !conflictingBranchRepairProfile(normalized)) continue;
     pulls.push(hydrated);
     if (limit !== "all" && pulls.length >= limitForHydration) break;
   }
@@ -692,6 +710,7 @@ function prListFields() {
 
 function remediationPrListSearchQuery() {
   if (strategy !== "remediation") return "state:open";
+  if (conflictingBranchRepairInventory) return "state:open base:main sort:updated-asc";
   if (checksSuccessPreflight) {
     return [
       "state:open",
@@ -764,8 +783,31 @@ function normalizePrListPullRequest(raw) {
     body: raw.body,
     labels: { nodes: arrayNodes(raw.labels, "name") },
     assignees: { nodes: arrayNodes(raw.assignees, "login") },
-    comments: { totalCount: commentCount(raw) },
+    comments: normalizeComments(raw.comments, raw.commentsCount),
     reviews: { totalCount: Number(raw.reviewsCount ?? raw.reviews?.totalCount ?? 0) },
+  };
+}
+
+function normalizeComments(value, explicitCount = null) {
+  const source = Array.isArray(value) ? value : Array.isArray(value?.nodes) ? value.nodes : [];
+  const nodes = source
+    .map((comment) => {
+      if (!comment || typeof comment !== "object") return null;
+      return {
+        author: {
+          login: asciiString(comment.author?.login ?? comment.user?.login ?? ""),
+        },
+        body: asciiString(comment.body ?? ""),
+        createdAt: nullableAscii(comment.createdAt ?? comment.created_at),
+        updatedAt: nullableAscii(comment.updatedAt ?? comment.updated_at),
+        url: nullableAscii(comment.url ?? comment.html_url),
+      };
+    })
+    .filter(Boolean);
+  const totalCount = Number(explicitCount ?? value?.totalCount ?? nodes.length);
+  return {
+    totalCount: Number.isFinite(totalCount) ? totalCount : nodes.length,
+    nodes,
   };
 }
 
@@ -857,7 +899,10 @@ function classifyCandidate(raw) {
   const authorAssociation = asciiString(raw.authorAssociation ?? "");
   const body = asciiString(raw.body ?? "");
   const files = Array.isArray(raw.files) ? raw.files.map(asciiString).filter(Boolean) : [];
-  const bucket = chooseBucket({ raw, title, labels, assignees, authorAssociation });
+  const repairProfile = conflictingBranchRepairInventory ? conflictingBranchRepairProfile(raw) : null;
+  const bucket = repairProfile
+    ? "conflicting_branch_repair"
+    : chooseBucket({ raw, title, labels, assignees, authorAssociation });
   const base = {
     number: Number(raw.number),
     ref: `#${raw.number}`,
@@ -880,8 +925,128 @@ function classifyCandidate(raw) {
     additions: Number(raw.additions ?? 0),
     deletions: Number(raw.deletions ?? 0),
     bucket,
+    repair_profile: repairProfile,
   };
   return strategy === "low-signal" ? classifyLowSignalCandidate(base, { raw, body }) : base;
+}
+
+function conflictingBranchRepairProfile(raw) {
+  const labels = labelNames(raw.labels);
+  if (raw.baseRefName !== "main") return null;
+  if (Boolean(raw.isDraft)) return null;
+  if (raw.maintainerCanModify !== true) return null;
+  if (hasExactSecuritySignal({ title: asciiString(raw.title ?? ""), labels })) return null;
+
+  const mergeable = String(raw.mergeable ?? "").toUpperCase();
+  const mergeStateStatus = String(raw.mergeStateStatus ?? "").toUpperCase();
+  if (mergeable !== "CONFLICTING" && mergeStateStatus !== "DIRTY") return null;
+
+  const headSha = normalizedGitSha(raw.headRefOid);
+  if (!headSha) return null;
+
+  const decisions = [];
+  for (const [index, comment] of (raw.comments?.nodes ?? []).entries()) {
+    const author = String(comment?.author?.login ?? comment?.user?.login ?? "").toLowerCase();
+    if (!["clawsweeper", "clawsweeper[bot]"].includes(author)) continue;
+    const body = String(comment?.body ?? "");
+    const markers = parseClawSweeperDecisionMarkers(body);
+    if (!markers) continue;
+    let profile = null;
+    if (
+      markers.some(
+        (marker) =>
+          markerMatchesPull(marker, raw, headSha) &&
+          ((marker.kind === "action" &&
+            ["fix-required", "repair-required", "address-review", "fix-ci"].includes(marker.action)) ||
+            (marker.kind === "verdict" &&
+              ["needs-changes", "changes-requested", "fix-required", "repair-required"].includes(marker.action))),
+      )
+    ) {
+      profile = "review_fix";
+    } else if (isExactHeadReadyReview({ body, markers, raw, headSha })) {
+      profile = "rebase_only";
+    }
+    if (!profile) continue;
+    const timestamp = Date.parse(comment?.updatedAt ?? comment?.updated_at ?? comment?.createdAt ?? comment?.created_at ?? "");
+    decisions.push({
+      profile,
+      timestamp: Number.isFinite(timestamp) ? timestamp : Number.NEGATIVE_INFINITY,
+      index,
+    });
+  }
+  decisions.sort((left, right) => left.timestamp - right.timestamp || left.index - right.index);
+  return decisions.at(-1)?.profile ?? null;
+}
+
+function parseClawSweeperDecisionMarkers(body) {
+  const text = String(body ?? "");
+  const openers = text.match(/<!--\s*clawsweeper-(?:action|verdict):/gi) ?? [];
+  const matches = [
+    ...text.matchAll(/<!--\s*clawsweeper-(action|verdict):\s*([a-z0-9_-]+)\s+([^>]*)-->/gi),
+  ];
+  if (openers.length !== matches.length) return null;
+
+  const markers = [];
+  for (const match of matches) {
+    const attrs = parseStrictMarkerAttributes(match[3]);
+    if (!attrs) return null;
+    markers.push({
+      kind: match[1].toLowerCase(),
+      action: match[2].toLowerCase(),
+      attrs,
+    });
+  }
+  return markers;
+}
+
+function parseStrictMarkerAttributes(input) {
+  const attrs = {};
+  const tokens = String(input ?? "").trim().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return null;
+  for (const token of tokens) {
+    const match = token.match(/^([a-z0-9_-]+)=([^\s=]+)$/i);
+    if (!match) return null;
+    const key = match[1].toLowerCase();
+    if (Object.hasOwn(attrs, key)) return null;
+    attrs[key] = match[2];
+  }
+  return attrs;
+}
+
+function markerMatchesPull(marker, raw, headSha) {
+  return (
+    marker.attrs.item === String(raw.number) &&
+    marker.attrs.sha?.toLowerCase() === headSha &&
+    marker.attrs.confidence === "high"
+  );
+}
+
+function isExactHeadReadyReview({ body, markers, raw, headSha }) {
+  if (markers.some((marker) => marker.kind === "action")) return false;
+  const verdicts = markers.filter((marker) => marker.kind === "verdict");
+  if (
+    verdicts.length !== 1 ||
+    verdicts[0].action !== "needs-human" ||
+    !markerMatchesPull(verdicts[0], raw, headSha)
+  ) {
+    return false;
+  }
+
+  const reviewOpeners = String(body).match(/<!--\s*clawsweeper-review(?=\s)/gi) ?? [];
+  const reviews = [...String(body).matchAll(/<!--\s*clawsweeper-review\s+([^>]*)-->/gi)];
+  if (reviewOpeners.length !== 1 || reviews.length !== 1) return false;
+  const reviewAttrs = parseStrictMarkerAttributes(reviews[0][1]);
+  if (!reviewAttrs || reviewAttrs.item !== String(raw.number)) return false;
+
+  const normalized = String(body).trim().toLowerCase();
+  const firstLine = normalized.split(/\r?\n/, 1)[0].trim();
+  return (
+    /^codex review:\s*needs maintainer review before merge\./.test(firstLine) &&
+    /result:\s*ready for maintainer review\./.test(normalized) &&
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
+      normalized,
+    )
+  );
 }
 
 function dedupeCandidates(candidates) {
@@ -1042,6 +1207,7 @@ function chooseBucket({ raw, title, labels, assignees, authorAssociation }) {
 }
 
 function writeJob(batch, index) {
+  if (conflictingBranchRepairInventory) return writeConflictingBranchRepairJob(batch, index);
   const now = new Date();
   const stamp = now.toISOString().replace(/[-:.]/g, "").slice(0, 15);
   const bucket = batch.every((item) => item.bucket === batch[0].bucket) ? batch[0].bucket : "mixed";
@@ -1182,6 +1348,95 @@ function writeJob(batch, index) {
   };
 }
 
+function writeConflictingBranchRepairJob(batch, index) {
+  if (batch.length !== 1) throw new Error("conflicting branch repair jobs must be singleton");
+  const candidate = batch[0];
+  const clusterId = `conflicting-branch-repair-${candidate.number}-${candidate.head_sha}`;
+  const existingJobPath = existingConflictingRepairJobs.get(clusterId);
+  if (!dryRun && existingJobPath) {
+    if (publishedConflictingRepairClusterIds.has(clusterId)) return null;
+    return {
+      path: path.relative(repoRoot(), existingJobPath),
+      cluster_id: clusterId,
+      bucket: "conflicting_branch_repair",
+      candidates: [candidate.ref],
+      retry: true,
+      dry_run: false,
+    };
+  }
+  const filePath = path.join(outDir, `${clusterId}.md`);
+  const rebaseOnly = candidate.repair_profile === "rebase_only";
+  const calibration = rebaseOnly
+    ? "Rebase the current maintainer-editable contributor branch onto current main, validate it, and run Codex /review. Preserve the existing contributor change and do not broaden the PR."
+    : "Repair the exact-current-head actionable ClawSweeper finding on the maintainer-editable contributor branch, rebase it onto current main, validate it, and run Codex /review without broadening the PR.";
+  const goal = rebaseOnly
+    ? "Rebase the existing maintainer-editable contributor branch onto current main. Preserve the current implementation, resolve only rebase conflicts, run changed-surface validation and Codex `/review`, then push the repaired contributor branch."
+    : "Address the exact-current-head actionable ClawSweeper finding on the existing maintainer-editable contributor branch. Keep the repair bounded to that finding, rebase onto current main, run changed-surface validation and Codex `/review`, then push the repaired contributor branch.";
+  const markdown = [
+    "---",
+    `repo: ${repo}`,
+    `cluster_id: ${clusterId}`,
+    `mode: ${mode}`,
+    "allowed_actions:",
+    ...yamlList(["fix", "raise_pr"]),
+    "blocked_actions:",
+    ...yamlList(["force_push", "bypass_checks", "comment", "label", "close", "merge"]),
+    "require_human_for:",
+    ...yamlList(["security_sensitive", "failing_checks", "unresolved_review_threads", "broad_code_delta"]),
+    "maintainer_calibration:",
+    ...yamlList([calibration]),
+    "canonical:",
+    ...yamlList([candidate.ref]),
+    "candidates:",
+    ...yamlList([candidate.ref]),
+    "cluster_refs:",
+    ...yamlList([candidate.ref]),
+    "expected_head_shas:",
+    ...yamlList([`${candidate.ref}=${candidate.head_sha}`]),
+    "allow_instant_close: false",
+    "allow_fix_pr: true",
+    "allow_merge: false",
+    "allow_post_merge_close: false",
+    "require_fix_before_close: false",
+    "repair_strategy: repair_contributor_branch",
+    ...(rebaseOnly ? ["rebase_only: true"] : []),
+    "security_policy: central_security_only",
+    "security_sensitive: false",
+    `canonical_hint: ${quoteYaml(
+      `${candidate.ref} is the sole canonical PR. Repair its maintainer-editable contributor branch against current main before any separate exact-head merge finalization.`,
+    )}`,
+    `notes: ${quoteYaml(
+      `Generated from live GitHub conflicting branch repair intake; profile=${candidate.repair_profile}; exact reviewed head=${candidate.head_sha}. Do not merge, close, label, comment, create a replacement PR, or expand scope.`,
+    )}`,
+    "---",
+    "",
+    `# Conflicting branch repair: ${candidate.ref}`,
+    "",
+    `Re-hydrate ${candidate.ref} and emit \`fix_needed\` plus a complete \`build_fix_artifact\` using \`repair_strategy: repair_contributor_branch\`.`,
+    "",
+    goal,
+    "",
+    "Do not merge, close, label, comment, create a replacement PR, or broaden the PR.",
+    "",
+    "## Inventory",
+    "",
+    ...candidateBlock(candidate),
+    "",
+  ].join("\n");
+
+  if (!dryRun) {
+    fs.writeFileSync(filePath, cleanGeneratedMarkdown(markdown));
+    existingConflictingRepairJobs.set(clusterId, filePath);
+  }
+  return {
+    path: path.relative(repoRoot(), filePath),
+    cluster_id: clusterId,
+    bucket: "conflicting_branch_repair",
+    candidates: [candidate.ref],
+    dry_run: dryRun,
+  };
+}
+
 function defaultBucketFor({ mode, strategy }) {
   if (checksSuccessPreflight) return "all";
   if (strategy === "remediation") return "ready_for_maintainer";
@@ -1194,6 +1449,7 @@ function candidateBlock(candidate) {
     `### ${candidate.ref} ${candidate.title}`,
     "",
     `- bucket: ${candidate.bucket}`,
+    ...(candidate.repair_profile ? [`- repair profile: ${candidate.repair_profile}`] : []),
     `- author: ${candidate.author || "unknown"}`,
     `- author association: ${candidate.author_association || "unknown"}`,
     `- draft: ${candidate.is_draft ? "yes" : "no"}`,
@@ -1214,6 +1470,41 @@ function existingMentionedRefs(roots) {
     for (const file of markdownJobFiles(root)) addStructuredJobRefs(refs, file);
   }
   return refs;
+}
+
+function conflictingRepairJobs(roots) {
+  const jobs = new Map();
+  const visited = new Set();
+  for (const root of roots) {
+    if (!fs.existsSync(root) || visited.has(root)) continue;
+    visited.add(root);
+    for (const file of markdownJobFiles(root)) {
+      try {
+        const clusterId = String(parseJob(file).frontmatter.cluster_id ?? "");
+        if (clusterId.startsWith("conflicting-branch-repair-") && !jobs.has(clusterId)) jobs.set(clusterId, file);
+      } catch {
+        // Non-job markdown does not participate in conflicting repair deduplication.
+      }
+    }
+  }
+  return jobs;
+}
+
+function publishedResultClusterIds(root, targetRepo, prefix) {
+  const clusterIds = new Set();
+  if (!fs.existsSync(root)) return clusterIds;
+  for (const entry of fs.readdirSync(root, { recursive: true })) {
+    const file = path.join(root, String(entry));
+    if (!file.endsWith(".md") || !fs.statSync(file).isFile()) continue;
+    const raw = fs.readFileSync(file, "utf8");
+    const frontmatter = raw.match(/^---\n([\s\S]*?)\n---\n?/);
+    if (!frontmatter) continue;
+    const parsed = parsePublishedResultFrontmatter(frontmatter[1]);
+    if (String(parsed.repo ?? "") !== targetRepo) continue;
+    const clusterId = String(parsed.cluster_id ?? "");
+    if (clusterId.startsWith(prefix)) clusterIds.add(clusterId);
+  }
+  return clusterIds;
 }
 
 function existingRefsForStrategy() {

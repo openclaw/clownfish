@@ -269,6 +269,119 @@ test("execute-fix-artifact permits ClawSweeper automerge labels only for the ado
   );
 });
 
+test("execute-fix-artifact blocks a contributor repair when the pinned head changed", () => {
+  const fixture = makeFixture();
+  const clusterId = "pinned-head-drift";
+  const expected = "a".repeat(40);
+  const live = "b".repeat(40);
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const ghLog = path.join(fixture.root, "gh.log");
+
+  fs.writeFileSync(
+    fixture.jobPath,
+    jobFile(clusterId).replace(
+      "security_sensitive: false",
+      `security_sensitive: false\nrepair_strategy: repair_contributor_branch\nexpected_head_shas:\n  - "#1=${expected}"`,
+    ),
+  );
+  const result = resultFile(clusterId);
+  result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/1"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  writeLiveTargetPolicyGhStub({ binDir: fixture.binDir, ghLog, labels: [], headSha: live });
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.equal(report.no_target_mutations, true);
+  assert.equal(report.actions[0].code, "expected_head_mismatch");
+  assert.match(report.reason, new RegExp(`expected ${expected}, found ${live}`));
+});
+
+test("execute-fix-artifact blocks a pinned contributor repair targeting another PR", () => {
+  const fixture = makeFixture();
+  const clusterId = "pinned-source-mismatch";
+  const expected = "a".repeat(40);
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+
+  fs.writeFileSync(
+    fixture.jobPath,
+    jobFile(clusterId)
+      .replace("canonical: []", 'canonical:\n  - "#1"')
+      .replace(
+        "security_sensitive: false",
+        `security_sensitive: false\nrepair_strategy: repair_contributor_branch\nexpected_head_shas:\n  - "#1=${expected}"`,
+      ),
+  );
+  const result = resultFile(clusterId);
+  result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
+  result.fix_artifact.repair_strategy = "repair_contributor_branch";
+  result.fix_artifact.source_prs = ["https://github.com/openclaw/openclaw/pull/2"];
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.status, "blocked");
+  assert.equal(report.no_target_mutations, true);
+  assert.equal(report.actions[0].code, "repair_source_mismatch");
+  assert.match(report.reason, /source must be canonical #1; received #2/);
+});
+
 test("execute-fix-artifact permits non-security merge-risk labels for the adopted automerge repair target", () => {
   const fixture = makeFixture();
   const clusterId = "live-target-policy-adopted-risk";
@@ -650,7 +763,7 @@ test("execute-fix-artifact makes rebase-only repair a no-generated-edit path", (
   assert.match(source, /if \(!allowReviewFixes \|\| reviewAttempts === maxReviewAttempts\) break;/);
   assert.match(
     source,
-    /if \(rebaseOnlyRepair\) \{\s*const reason = `rebase-only repair stopped: \$\{error\.message\}`;[\s\S]*?outcome = \{\s*\.{3}blockedFixOutcome\(error, fixArtifact\),\s*action: "repair_contributor_branch",/,
+    /if \(rebaseOnlyRepair \|\| requiredRepairStrategy === "repair_contributor_branch"\) \{[\s\S]*?`rebase-only repair stopped: \$\{error\.message\}`[\s\S]*?outcome = \{\s*\.{3}blockedFixOutcome\(error, fixArtifact\),\s*action: "repair_contributor_branch",/,
   );
   assert.match(source, /rebase-only repair does not resolve review threads/);
   assert.match(source, /if \(!rebaseOnly\) \{\s*const comment = repairContributorBranchComment/);
@@ -1792,7 +1905,7 @@ process.exit(child.status ?? 1);
   );
 }
 
-function writeLiveTargetPolicyGhStub({ binDir, ghLog, labels }) {
+function writeLiveTargetPolicyGhStub({ binDir, ghLog, labels, headSha = null }) {
   writeExecutable(
     path.join(binDir, "gh"),
     `#!/usr/bin/env node
@@ -1800,7 +1913,10 @@ const fs = require("node:fs");
 const args = process.argv.slice(2);
 fs.appendFileSync(${JSON.stringify(ghLog)}, args.join(" ") + "\\n");
 if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/1") {
-  console.log(JSON.stringify({ labels: ${JSON.stringify(labels)}.map((name) => ({ name })) }));
+  console.log(JSON.stringify({
+    labels: ${JSON.stringify(labels)}.map((name) => ({ name })),
+    head: ${JSON.stringify(headSha)} ? { sha: ${JSON.stringify(headSha)} } : undefined
+  }));
   process.exit(0);
 }
 console.error("unexpected gh call: " + args.join(" "));

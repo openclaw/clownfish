@@ -298,6 +298,113 @@ test("remediation inventory routes opted-in merge-risk candidates to repair-only
   assert.match(job, /Do not emit `merge_candidate`/);
 });
 
+test("remediation inventory emits exact-head singleton conflicting branch repair jobs", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, { includeConflictingBranchRepairPrList: true });
+
+  const result = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "conflicting_branch_repair",
+    "--batch-size",
+    "5",
+    "--skip-existing",
+    "false",
+    "--limit",
+    "all",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.deepEqual(
+    payload.candidates.map((candidate) => [candidate.ref, candidate.repair_profile]),
+    [
+      ["#130", "rebase_only"],
+      ["#131", "review_fix"],
+      ["#132", "review_fix"],
+      ["#138", "rebase_only"],
+    ],
+  );
+  assert.equal(payload.options.batch_size, 1);
+  assert.equal(payload.generated.length, 4);
+  assert.equal(payload.generated.every((item) => item.candidates.length === 1), true);
+
+  const rebaseJob = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+  assert.match(rebaseJob, /canonical:\n  - "#130"/);
+  assert.match(rebaseJob, /expected_head_shas:\n  - "#130=[0-9a-f]{40}"/);
+  assert.match(rebaseJob, /repair_strategy: repair_contributor_branch/);
+  assert.match(rebaseJob, /rebase_only: true/);
+  assert.match(rebaseJob, /maintainer_calibration:/);
+  assert.match(rebaseJob, /profile=rebase_only/);
+
+  const reviewFixJob = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[2].path)), "utf8");
+  assert.match(reviewFixJob, /canonical:\n  - "#132"/);
+  assert.doesNotMatch(reviewFixJob, /rebase_only: true/);
+  assert.match(reviewFixJob, /exact-current-head actionable ClawSweeper finding/);
+  assert.match(reviewFixJob, /profile=review_fix/);
+
+  const refs = new Set(payload.candidates.map((candidate) => candidate.ref));
+  for (const skipped of ["#133", "#134", "#135", "#136", "#137"]) {
+    assert.equal(refs.has(skipped), false, skipped);
+  }
+
+  const rerun = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "conflicting_branch_repair",
+    "--batch-size",
+    "5",
+    "--skip-existing",
+    "false",
+    "--limit",
+    "all",
+  );
+  assert.equal(rerun.status, 0, rerun.stderr || rerun.stdout);
+  const retryPayload = JSON.parse(rerun.stdout);
+  assert.equal(retryPayload.generated.length, 4);
+  assert.equal(retryPayload.generated.every((item) => item.retry === true), true);
+
+  for (const item of payload.generated) {
+    fs.writeFileSync(
+      path.join(fixture.results, `${item.cluster_id}.md`),
+      `---
+repo: "openclaw/openclaw"
+cluster_id: "${item.cluster_id}"
+mode: "autonomous"
+---
+`,
+    );
+  }
+  const completedRerun = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "conflicting_branch_repair",
+    "--batch-size",
+    "5",
+    "--skip-existing",
+    "false",
+    "--limit",
+    "all",
+  );
+  assert.equal(completedRerun.status, 0, completedRerun.stderr || completedRerun.stdout);
+  assert.equal(JSON.parse(completedRerun.stdout).generated.length, 0);
+});
+
 test("remediation inventory can hydrate only included refs", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { failPrList: true, includeRiskPrList: true });
@@ -1098,6 +1205,19 @@ function writeFakeGh(filePath, options = {}) {
     mergeable: "CONFLICTING",
     mergeStateStatus: "DIRTY",
   };
+  const conflictingRepairPulls = options.includeConflictingBranchRepairPrList
+    ? makeConflictingBranchRepairPulls(cleanPrListPull)
+    : [];
+  if (conflictingRepairPulls.length > 0) {
+    searchPulls.push(
+      ...conflictingRepairPulls.map((pull) => ({
+        ...pull,
+        labels: pull.labels,
+        assignees: pull.assignees,
+        commentsCount: pull.commentsCount,
+      })),
+    );
+  }
   if (options.includeChecksSuccessPreflight) {
     searchPulls.push(
       ...[
@@ -1132,6 +1252,7 @@ function writeFakeGh(filePath, options = {}) {
           conflictingChecksSuccessPull,
         ]
       : []),
+    ...conflictingRepairPulls,
     cleanPrListPull,
   ];
   fs.writeFileSync(
@@ -1219,6 +1340,110 @@ console.log(JSON.stringify(payload));
 `,
     { mode: 0o755 },
   );
+}
+
+function makeConflictingBranchRepairPulls(base) {
+  const pull = (number, overrides = {}) => {
+    const headSha = String.fromCharCode(97 + (number % 6)).repeat(40);
+    return {
+      ...base,
+      id: `PR_${number}`,
+      number,
+      title: `conflicting repair candidate ${number}`,
+      url: `https://github.com/openclaw/openclaw/pull/${number}`,
+      updatedAt: `2026-02-${String(number - 120).padStart(2, "0")}T00:00:00Z`,
+      headRefOid: headSha,
+      mergeable: "CONFLICTING",
+      mergeStateStatus: "DIRTY",
+      maintainerCanModify: true,
+      labels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
+      comments: [],
+      commentsCount: 0,
+      ...overrides,
+    };
+  };
+  const readyComment = (number, headSha) => ({
+    author: { login: "clawsweeper[bot]" },
+    body: [
+      "Codex review: needs maintainer review before merge.",
+      "",
+      "**Review metrics:** none identified.",
+      "Result: ready for maintainer review.",
+      "No ClawSweeper repair lane is needed; the remaining action is normal maintainer review.",
+      "",
+      `<!-- clawsweeper-verdict:needs-human item=${number} sha=${headSha} confidence=high -->`,
+      `<!-- clawsweeper-review item=${number} -->`,
+    ].join("\n"),
+  });
+  const fixComment = (number, headSha) => ({
+    author: { login: "clawsweeper[bot]" },
+    body: [
+      "Codex review: changes required before merge.",
+      `<!-- clawsweeper-verdict:needs-changes item=${number} sha=${headSha} confidence=high -->`,
+      `<!-- clawsweeper-action:fix-required item=${number} sha=${headSha} confidence=high finding=review-feedback -->`,
+      `<!-- clawsweeper-review item=${number} -->`,
+    ].join("\n"),
+  });
+
+  const ready = pull(130);
+  ready.comments = [readyComment(ready.number, ready.headRefOid)];
+  ready.commentsCount = ready.comments.length;
+
+  const actionable = pull(131);
+  actionable.comments = [fixComment(actionable.number, actionable.headRefOid)];
+  actionable.commentsCount = actionable.comments.length;
+
+  const both = pull(132);
+  both.comments = [
+    readyComment(both.number, both.headRefOid),
+    fixComment(both.number, both.headRefOid),
+  ];
+  both.commentsCount = both.comments.length;
+
+  const stale = pull(133);
+  stale.comments = [fixComment(stale.number, "f".repeat(40))];
+  stale.commentsCount = stale.comments.length;
+
+  const malformed = pull(134);
+  malformed.comments = [
+    {
+      author: { login: "clawsweeper[bot]" },
+      body: `<!-- clawsweeper-action:fix-required item=134 sha=${malformed.headRefOid} confidence=high confidence=low -->`,
+    },
+  ];
+  malformed.commentsCount = malformed.comments.length;
+
+  const unwritable = pull(135, { maintainerCanModify: false });
+  unwritable.comments = [readyComment(unwritable.number, unwritable.headRefOid)];
+  unwritable.commentsCount = unwritable.comments.length;
+
+  const needsHumanOnly = pull(136);
+  needsHumanOnly.comments = [
+    {
+      author: { login: "clawsweeper[bot]" },
+      body: `<!-- clawsweeper-verdict:needs-human item=136 sha=${needsHumanOnly.headRefOid} confidence=high -->`,
+    },
+  ];
+  needsHumanOnly.commentsCount = needsHumanOnly.comments.length;
+
+  const security = pull(137, { labels: [{ name: "security" }] });
+  security.comments = [fixComment(security.number, security.headRefOid)];
+  security.commentsCount = security.comments.length;
+
+  const supersededFinding = pull(138);
+  supersededFinding.comments = [
+    {
+      ...fixComment(supersededFinding.number, supersededFinding.headRefOid),
+      updatedAt: "2026-02-01T00:00:00Z",
+    },
+    {
+      ...readyComment(supersededFinding.number, supersededFinding.headRefOid),
+      updatedAt: "2026-02-02T00:00:00Z",
+    },
+  ];
+  supersededFinding.commentsCount = supersededFinding.comments.length;
+
+  return [ready, actionable, both, stale, malformed, unwritable, needsHumanOnly, security, supersededFinding];
 }
 
 function readFakeGhCalls(fixture) {

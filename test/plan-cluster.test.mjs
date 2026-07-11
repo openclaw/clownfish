@@ -107,6 +107,9 @@ canonical:
     allow_fix_pr: false,
     allow_merge: false,
     require_external_merge_preflight: false,
+    repair_strategy: null,
+    rebase_only: false,
+    expected_head_shas: [],
     maintainer_calibration: ["Require a planned fix or merge for an open canonical PR."],
   });
   assert.equal(candidate.kind, "pull_request");
@@ -151,4 +154,81 @@ security_signal_refs:
   const contextPlan = JSON.parse(fs.readFileSync(path.join(contextRunDir, "cluster-plan.json"), "utf8"));
   assert.deepEqual(contextPlan.scope.read_only_context_refs, ["#2"]);
   assert.ok(contextPlan.items.some((item) => item.ref === "#2"));
+});
+
+test("plan-cluster rejects a PR whose live head drifted after intake", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-plan-head-pin-"));
+  const binDir = path.join(tmp, "bin");
+  const runDir = path.join(tmp, "run");
+  fs.mkdirSync(binDir, { recursive: true });
+  const expected = "a".repeat(40);
+  const live = "b".repeat(40);
+
+  const ghPath = path.join(binDir, "gh");
+  fs.writeFileSync(
+    ghPath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+const apiPath = args[1];
+if (apiPath === "repos/openclaw/openclaw/branches/main") {
+  console.log(JSON.stringify({ commit: { sha: "abc123" }, _links: { html: "https://github.com/openclaw/openclaw/tree/main" } }));
+} else if (apiPath === "repos/openclaw/openclaw/issues/2") {
+  console.log(JSON.stringify({
+    state: "open",
+    title: "candidate pr",
+    html_url: "https://github.com/openclaw/openclaw/pull/2",
+    user: { login: "contributor" },
+    labels: [],
+    body: "candidate body",
+    comments: 0,
+    pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/2" }
+  }));
+} else if (apiPath === "repos/openclaw/openclaw/pulls/2") {
+  console.log(JSON.stringify({
+    state: "open",
+    draft: false,
+    merged: false,
+    base: { ref: "main" },
+    head: { ref: "fix", sha: ${JSON.stringify(live)}, repo: { full_name: "contributor/openclaw", owner: { login: "contributor" } } },
+    user: { login: "contributor" },
+    labels: [],
+    requested_reviewers: [],
+    requested_teams: []
+  }));
+} else {
+  console.log("[]");
+}
+`,
+  );
+  fs.chmodSync(ghPath, 0o755);
+
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: pinned-head
+mode: autonomous
+allowed_actions:
+  - fix
+candidates:
+  - "#2"
+expected_head_shas:
+  - "#2=${expected}"
+---
+`,
+  );
+
+  const result = spawnSync("node", ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir], {
+    cwd: repoRoot,
+    env: {
+      ...process.env,
+      PATH: `${binDir}${path.delimiter}${process.env.PATH}`,
+      CLOWNFISH_HYDRATE_COMMENTS: "0",
+    },
+    encoding: "utf8",
+  });
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, new RegExp(`#2 head changed after intake: expected ${expected}, found ${live}`));
 });

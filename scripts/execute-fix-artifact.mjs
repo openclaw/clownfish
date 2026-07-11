@@ -223,6 +223,19 @@ if (NON_EXECUTABLE_REPAIR_STRATEGIES.has(repairStrategy)) {
 
 const fixArtifact = validateFixArtifact(executableFixArtifact);
 installEmergencyFixReportHandlers({ report, resultPath, fixArtifact });
+const requiredRepairStrategy = String(job.frontmatter.repair_strategy ?? "");
+if (requiredRepairStrategy && fixArtifact.repair_strategy !== requiredRepairStrategy) {
+  report.status = "blocked";
+  report.reason = `source job requires repair_strategy=${requiredRepairStrategy}, received ${fixArtifact.repair_strategy}`;
+  report.actions.push({
+    action: "execute_fix",
+    status: "blocked",
+    repair_strategy: fixArtifact.repair_strategy,
+    reason: report.reason,
+  });
+  writeReport(report, resultPath);
+  process.exit(0);
+}
 const securityBlock = validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActions });
 if (securityBlock) {
   report.status = "skipped";
@@ -369,8 +382,10 @@ try {
         ensureCodexWritePreflight,
       });
     } catch (error) {
-      if (rebaseOnlyRepair) {
-        const reason = `rebase-only repair stopped: ${error.message}`;
+      if (rebaseOnlyRepair || requiredRepairStrategy === "repair_contributor_branch") {
+        const reason = rebaseOnlyRepair
+          ? `rebase-only repair stopped: ${error.message}`
+          : `required contributor-branch repair stopped: ${error.message}`;
         outcome = {
           ...blockedFixOutcome(error, fixArtifact),
           action: "repair_contributor_branch",
@@ -2558,18 +2573,54 @@ function mutableFixSourceRefs(fixArtifact) {
 }
 
 function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
-  if (job.frontmatter.mode !== "autonomous") return null;
   const adoptedAutomergeTarget = adoptedAutomergeRepairTarget(job);
 
   const sources =
     fixArtifact.repair_strategy === "repair_contributor_branch"
-      ? [firstSourcePullRequest(fixArtifact)]
+      ? (fixArtifact.source_prs ?? []).map(parsePullRequestUrl).filter((source) => source?.repo === result.repo)
       : fixArtifact.repair_strategy === "replace_uneditable_branch"
         ? supersededReplacementSources(fixArtifact).map(parsePullRequestUrl).filter(Boolean)
         : [];
+  const canonicalRefs = new Set((job.frontmatter.canonical ?? []).map(normalizeLocalRef).filter(Boolean));
+  const hasPinnedHeads =
+    (job.frontmatter.expected_head_shas ?? []).length > 0 ||
+    /^[0-9a-f]{40}$/i.test(job.frontmatter.expected_head_sha ?? "");
+
+  if (
+    job.frontmatter.repair_strategy === "repair_contributor_branch" &&
+    canonicalRefs.size === 1 &&
+    (sources.length !== 1 || !canonicalRefs.has(`#${sources[0]?.number}`))
+  ) {
+    const expectedRef = [...canonicalRefs][0];
+    const actualRefs = sources.map((source) => `#${source.number}`).join(", ") || "none";
+    return {
+      code: "repair_source_mismatch",
+      reason: `repair_contributor_branch source must be canonical ${expectedRef}; received ${actualRefs}`,
+      evidence: [`canonical=${expectedRef}`, `source_prs=${actualRefs}`],
+    };
+  }
 
   for (const source of sources) {
+    const expectedHeadSha = expectedHeadShaForSource(job, source.number);
+    if (hasPinnedHeads && !expectedHeadSha) {
+      return {
+        code: "expected_head_missing",
+        reason: `source PR #${source.number} is not pinned by the source job expected head policy`,
+        evidence: [`source_pr=#${source.number}`],
+      };
+    }
     const pull = fetchPullRequest(source.number);
+    if (expectedHeadSha) {
+      const liveHeadSha = String(pull.head?.sha ?? "").toLowerCase();
+      if (liveHeadSha !== expectedHeadSha) {
+        return {
+          code: "expected_head_mismatch",
+          reason: `source PR #${source.number} head changed after intake: expected ${expectedHeadSha}, found ${liveHeadSha || "missing"}`,
+          evidence: [`expected_head_sha=${expectedHeadSha}`, `live_head_sha=${liveHeadSha || "missing"}`],
+        };
+      }
+    }
+    if (job.frontmatter.mode !== "autonomous") continue;
     const labels = (pull.labels ?? []).map((label) => String(label?.name ?? label)).filter(Boolean);
     const normalizedLabels = labels.map((label) => label.toLowerCase());
     const isAdoptedAutomergeTarget = source.number === adoptedAutomergeTarget;
@@ -2592,6 +2643,19 @@ function validateLiveAutonomousTargetPolicy({ job, fixArtifact }) {
   }
 
   return null;
+}
+
+function expectedHeadShaForSource(job, number) {
+  const ref = `#${number}`;
+  for (const entry of job.frontmatter.expected_head_shas ?? []) {
+    const match = String(entry).match(/^(#[0-9]+)=([0-9a-f]{40})$/i);
+    if (match?.[1] === ref) return match[2].toLowerCase();
+  }
+  const candidates = (job.frontmatter.candidates ?? []).map((candidate) => normalizeLocalRef(candidate));
+  if (candidates.length === 1 && candidates[0] === ref && /^[0-9a-f]{40}$/i.test(job.frontmatter.expected_head_sha ?? "")) {
+    return String(job.frontmatter.expected_head_sha).toLowerCase();
+  }
+  return "";
 }
 
 function isRepairOnlyMergeRiskRemediationJob(job) {
