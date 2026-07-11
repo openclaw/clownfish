@@ -756,13 +756,15 @@ function readOnlyBlockers({
     const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
     return isClawSweeperReviewStartComment({ author, body: comment.body, pull });
   });
-  const isStaleIssueCommentCoveredByReviewStart = (comment) => {
+  const isStaleReadyCommentCoveredByReviewStart = (comment) => {
     if (!hasExactHeadClawSweeperReviewStart) return false;
     const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
-    return (
-      isClawSweeperAuthor(author) &&
-      isStaleAutomationReviewComment({ author, body: comment.body, pull })
-    );
+    return isStaleClawSweeperReadyReviewComment({
+      author,
+      body: comment.body,
+      pull,
+      view,
+    });
   };
   const reviewComments =
     hydratedReviewComments ??
@@ -777,7 +779,6 @@ function readOnlyBlockers({
     ...issueComments
       .filter(
         (comment) =>
-          !isStaleIssueCommentCoveredByReviewStart(comment) &&
           !isNonBlockingCommentEvidence(comment, {
             pull,
             view,
@@ -817,7 +818,7 @@ function readOnlyBlockers({
   const actionableIssueComments = issueComments.filter(
     (comment, index) =>
       !isSupersededDependencyGuardNotice(comment, issueComments.slice(index + 1), { pull, view }) &&
-      !isStaleIssueCommentCoveredByReviewStart(comment) &&
+      !isStaleReadyCommentCoveredByReviewStart(comment) &&
       isActionableCommentEvidence(comment, {
         pull,
         view,
@@ -2616,6 +2617,20 @@ function isClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
   return !hasActionableClawSweeperReviewSignal(currentReview, { view }) && hasClawSweeperReadyReviewSignal(currentReview);
 }
 
+function isStaleClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
+  if (!isClawSweeperAuthor(author)) return false;
+  const normalized = String(body ?? "").trim().toLowerCase();
+  const marker = parseClawSweeperReadyMarker({ body: normalized, pull });
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  if (!marker || !/^[0-9a-f]{40}$/.test(headSha) || marker.sha === headSha) return false;
+
+  const currentReview = normalized.split(/<details>/, 1)[0];
+  return (
+    !hasActionableClawSweeperReviewSignal(currentReview, { view }) &&
+    hasClawSweeperReadyReviewSignal(currentReview)
+  );
+}
+
 function isClawSweeperReviewStartComment({ author, body, pull }) {
   if (!isClawSweeperAuthor(author)) return false;
   const normalized = String(body ?? "").trim();
@@ -2818,31 +2833,39 @@ function isTrustedExactHeadReadyReviewComment(comment, { pull }) {
 }
 
 function hasExactHeadClawSweeperReadyMarker({ body, pull }) {
-  if (/<!--\s*clawsweeper-action:/i.test(body)) return false;
+  const marker = parseClawSweeperReadyMarker({ body, pull });
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  return Boolean(marker && /^[0-9a-f]{40}$/.test(headSha) && marker.sha === headSha);
+}
+
+function parseClawSweeperReadyMarker({ body, pull }) {
+  if (/<!--\s*clawsweeper-action:/i.test(body)) return null;
 
   const verdictOpeners = body.match(/<!--\s*clawsweeper-verdict:/gi) ?? [];
-  if (verdictOpeners.length !== 1) return false;
+  if (verdictOpeners.length !== 1) return null;
   const verdicts = [...body.matchAll(/<!--\s*clawsweeper-verdict:([a-z-]+)\s+([^>]*)-->/gi)];
-  if (verdicts.length !== 1 || verdicts[0][1].toLowerCase() !== "needs-human") return false;
+  if (verdicts.length !== 1 || verdicts[0][1].toLowerCase() !== "needs-human") return null;
 
   const attributes = parseMarkerAttributes(verdicts[0][2]);
-  if (!attributes) return false;
+  if (!attributes) return null;
   const reviewOpeners = body.match(/<!--\s*clawsweeper-review(?=\s)/gi) ?? [];
-  if (reviewOpeners.length !== 1) return false;
+  if (reviewOpeners.length !== 1) return null;
   const reviews = [...body.matchAll(/<!--\s*clawsweeper-review\s+([^>]*)-->/gi)];
-  if (reviews.length !== 1) return false;
+  if (reviews.length !== 1) return null;
   const reviewAttributes = parseMarkerAttributes(reviews[0][1]);
-  if (!reviewAttributes) return false;
+  if (!reviewAttributes) return null;
 
-  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   const pullNumber = String(pull?.number ?? "");
-  return (
-    /^[0-9a-f]{40}$/.test(headSha) &&
-    attributes.sha?.toLowerCase() === headSha &&
-    attributes.item === pullNumber &&
-    attributes.confidence === "high" &&
-    reviewAttributes.item === pullNumber
-  );
+  const reviewedHeadSha = String(attributes.sha ?? "").toLowerCase();
+  if (
+    !/^[0-9a-f]{40}$/.test(reviewedHeadSha) ||
+    attributes.item !== pullNumber ||
+    attributes.confidence !== "high" ||
+    reviewAttributes.item !== pullNumber
+  ) {
+    return null;
+  }
+  return { sha: reviewedHeadSha };
 }
 
 function parseMarkerAttributes(input) {
