@@ -1,0 +1,175 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "conflicting-branch-repair-85866-c217d0eda2b04f9d08915756a9eb92c48829cc72",
+  "mode": "autonomous",
+  "run_id": "29139558771",
+  "workflow_run_id": "29139558771",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29139558771",
+  "head_sha": "f2ddf90e6ad2db0077eb0c254f0ae52bc278360a",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-11T04:24:39Z",
+  "workflow_updated_at": "2026-07-11T04:42:55Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-85866-c217d0eda2b04f9d08915756a9eb92c48829cc72.md",
+  "published_at": "2026-07-11T04:43:29.724Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/85866",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/85867",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/85866",
+  "summary": "#85866 is the sole canonical repair target. The hydrated PR is open, maintainer-editable, at expected head c217d0eda2b04f9d08915756a9eb92c48829cc72, and blocked by a dirty/conflicting branch against current main fab69517b3d4ab4e94ec16f7744f2966769ee611. Emit a rebase-only repair artifact for the existing contributor branch; no merge, close, label, comment, or replacement PR is planned.",
+  "actions": [
+    {
+      "target": "#15614",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#85866",
+      "candidate_fix": null,
+      "reason": "already_closed_context_only"
+    },
+    {
+      "target": "#81889",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#85866",
+      "candidate_fix": "#85866",
+      "reason": "already_closed_context_only"
+    },
+    {
+      "target": "#83482",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "central_security_triage_only"
+    },
+    {
+      "target": "#85866",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#85866",
+      "candidate_fix": null,
+      "reason": "canonical_pr_conflicting_branch_repair"
+    },
+    {
+      "target": "#85867",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#85866",
+      "candidate_fix": "#85866",
+      "reason": "open_tracker_covered_by_canonical_pr_but_no_close_allowed"
+    },
+    {
+      "target": "#85868",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#85866",
+      "candidate_fix": null,
+      "reason": "adjacent_session_state_followup"
+    },
+    {
+      "target": "#86850",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": "#85866",
+      "candidate_fix": null,
+      "reason": "already_closed_context_only"
+    },
+    {
+      "target": "cluster:conflicting-branch-repair-85866-c217d0eda2b04f9d08915756a9eb92c48829cc72",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#85866",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch"
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 3,
+    "route_security": 1,
+    "fix_needed": 1,
+    "keep_related": 2,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 3,
+    "planned": 5
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#85866",
+    "source_refs": [
+      "#85866",
+      "#85867",
+      "#85868",
+      "#83482",
+      "#86850",
+      "#15614",
+      "#81889"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair canonical PR #85866 by rebasing VishalJ99's maintainer-editable branch codex/whatsapp-phone-code-login onto current main fab69517b3d4ab4e94ec16f7744f2966769ee611, preserving the existing WhatsApp phone-code login implementation and resolving only rebase conflicts.",
+    "pr_title": "[codex] Add WhatsApp phone-code login",
+    "pr_body": "Repair plan for #85866:\n\nWhat Problem This Solves\n- Keeps the existing WhatsApp phone-code login contribution moving by rebasing the maintainer-editable contributor branch onto current main.\n\nWhy This Change Was Made\n- The PR is open, has sufficient proof, and is blocked by a dirty/conflicting branch rather than a requested implementation rewrite.\n- Preserve @VishalJ99's current implementation and resolve only rebase conflicts, with special attention to extensions/whatsapp/src/login.coverage.test.ts where the artifact records a prior cross-PR conflict.\n\nUser Impact\n- Maintains the proposed headless/QR-unavailable WhatsApp phone-code login path without broadening the PR.\n\nEvidence\n- Current main is fab69517b3d4ab4e94ec16f7744f2966769ee611 and still has QR-only WhatsApp login docs/CLI behavior.\n- Expected PR head before repair: c217d0eda2b04f9d08915756a9eb92c48829cc72.\n- Required validation after rebase: focused WhatsApp/channel-auth tests, pnpm check:changed, and the executor-owned Codex /review preflight.",
+    "likely_files": [
+      "extensions/whatsapp/src/login.coverage.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/whatsapp/src/login.coverage.test.ts extensions/whatsapp/src/login.test.ts extensions/whatsapp/src/auth-store.test.ts extensions/whatsapp/src/login-qr.test.ts src/cli/channel-auth.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve contributor credit for @VishalJ99 and source PR https://github.com/openclaw/openclaw/pull/85866.",
+      "Keep the existing PR branch and implementation; this is not a replacement PR.",
+      "Do not include #83482 in repair lineage because it is explicitly security-routed in this run."
+    ],
+    "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-85866-c217d0eda2b04f9d08915756a9eb92c48829cc72.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#83482"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": "https://github.com/openclaw/openclaw/pull/85866",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "rebase-only repair stopped: validation command failed (pnpm check:changed): pnpm check:changed exited 1",
+      "commit": "24f18c05bee19d4fd7441732b678fc099191be1c",
+      "checkpoint_commits": [
+        "24f18c05bee19d4fd7441732b678fc099191be1c"
+      ],
+      "retry_recommended": true,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
